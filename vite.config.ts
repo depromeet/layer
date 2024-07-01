@@ -5,7 +5,12 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svgr()],
+  plugins: [
+    react({
+      jsxImportSource: "@emotion/react",
+    }),
+    svgr(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
