@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "axios": "^1.7.2",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
@@ -17,6 +19,8 @@
     "react-router-dom": "^6.24.0"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.24.7",
+    "@emotion/babel-plugin": "^11.11.0",
     "@types/node": "^20.12.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
