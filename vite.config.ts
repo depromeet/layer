@@ -8,6 +8,9 @@ export default defineConfig({
   plugins: [
     react({
       jsxImportSource: "@emotion/react",
+      babel: {
+        presets: ["jotai/babel/preset"],
+      },
     }),
     svgr(),
   ],
