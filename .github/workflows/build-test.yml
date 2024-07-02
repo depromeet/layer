@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - depromeet/layer:main
-  pull_request:
+  pull_request_target:
     branches:
       - main
       - depromeet/layer:main
