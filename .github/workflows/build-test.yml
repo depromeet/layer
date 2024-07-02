@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - depromeet/layer:main
   pull_request:
     branches:
       - main
+      - depromeet/layer:main
 
 jobs:
   build:
