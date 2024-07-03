@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/api";
 
+//FIXME: 응답 데이터 형식에 따라 수정
 type Response = {};
 
 const KaKaoRedirection = () => {
