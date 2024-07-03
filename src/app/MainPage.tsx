@@ -4,7 +4,7 @@ import { useAtom } from "jotai";
 import { messageAtom } from "@/store/messageAtom.tsx";
 
 function MainPage() {
-  const [message, setMessage] = useAtom(messageAtom);
+  const [message] = useAtom(messageAtom);
   return (
     <div>
       <span>welcome to layer 🎇</span>
