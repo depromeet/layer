@@ -9,7 +9,7 @@ const KaKaoRedirection = () => {
   useEffect(() => {
     // // FIXME: 백엔드 API에 따라 주소 수정 필요
     axios
-      .post(`${import.meta.env.REACT_APP_URL}kakaoLogin${code}`)
+      .post(`${import.meta.env.VITE_API_URL}kakaoLogin${code}`)
       .then((r) => {
         console.log(r.data);
         // FIXME: 받은걸 어디에 저장할지 논의 필요 (로그인 저장 방식에 따라 달리짐)
