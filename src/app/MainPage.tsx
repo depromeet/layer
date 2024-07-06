@@ -2,14 +2,22 @@
 import { useAtom } from "jotai";
 
 import { messageAtom } from "@/store/messageAtom.tsx";
+import Modal from "@/component/common/modal/Modal";
+import useModal from "@/hooks/useModal";
 
 function MainPage() {
   const [message] = useAtom(messageAtom);
+  const { open, close, isOpen } = useModal();
   return (
-    <div>
-      <span>welcome to layer 🎇</span>
-      <div>{message}</div>
-    </div>
+    <>
+      <div>
+        <span>welcome to layer 🎇</span>
+        <div onClick={open}>{message}</div>
+      </div>
+      <Modal onClose={close} isModalOpen={isOpen}>
+        <div>냠냠</div>
+      </Modal>
+    </>
   );
 }
 
