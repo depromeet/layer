@@ -6,6 +6,7 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({ curPage, lastPage }: ProgressBarProps) {
+    if (curPage > lastPage) curPage = lastPage;
     return (
         // FIXME: 추후 디자인 토큰 연동 후 컬러 값 변경
         <div css={css`
