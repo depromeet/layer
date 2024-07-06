@@ -18,7 +18,7 @@ export default function ProgressBar({ curPage, lastPage }: ProgressBarProps) {
         `}>
             <div css={css`
               position: absolute;
-              width: ${100 - (lastPage - curPage) * 10}%;
+              width: ${(curPage / lastPage) * 100}%;
               background-color: #608DFF;
               height: inherit;
               border-radius: ${lastPage === curPage ? `50px` : `50px 0 0 50px`};
