@@ -2,7 +2,7 @@ import loginLogo from "@/assets/imgs/loginLogo.svg";
 import { loginType } from "@/types/loginType";
 
 const LoginSpriteSvg = ({ type }: loginType) => (
-  <svg width="18px" height="18.33px">
+  <svg width="1.8rem" height="1.833rem">
     <use href={`${loginLogo}#${type}`} />
   </svg>
 );

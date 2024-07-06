@@ -13,12 +13,12 @@ const SocialLoginButton = ({ type, handler }: loginBtnType) => {
     <button
       css={css`
         width: 100%;
-        height: 48px;
-        border-radius: 8px;
+        height: 4.8rem;
+        border-radius: 0.8rem;
         background-color: ${backgroundColors[type]};
         text-align: center;
         position: relative;
-        border: ${type === "google" ? "1px solid rgba(0, 0, 0, 0.08)" : "none"};
+        border: ${type === "google" ? "0.01rem solid rgba(0, 0, 0, 0.08)" : "none"};
       `}
       onClick={() => {
         handler();
@@ -27,7 +27,7 @@ const SocialLoginButton = ({ type, handler }: loginBtnType) => {
       <div
         css={css`
           position: absolute;
-          left: 16px;
+          left: 1.6rem;
           top: 50%;
           transform: translateY(-50%);
         `}
