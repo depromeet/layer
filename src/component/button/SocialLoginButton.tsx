@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { loginBtnType } from "@/types/loginType";
-import LoginSpriteSvg from "./LoginSpriteSvg";
+import LoginSpriteSvg from "../Img/LoginSpriteSvg";
 
 // FIXME : 버튼 색 수정 필요
 const backgroundColors = {
