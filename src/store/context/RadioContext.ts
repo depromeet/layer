@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 type RadioContextState = {
+  radioName: string;
   selectedValue?: string;
   onChange?: (value: string) => void;
 };

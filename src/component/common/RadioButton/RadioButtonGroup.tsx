@@ -1,16 +1,15 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
-
-import Radio from "./Radio";
 
 import { RadioContext } from "@/store/context/RadioContext";
 
 type RadioButtonGroupProps = {
-  items: { value: string; text: string }[];
+  children: React.ReactNode;
+  selectedValue: string | undefined;
+  onChange: React.Dispatch<React.SetStateAction<string | undefined>>;
+  radioName: string;
 };
 
-const RadioButtonGroup = ({ items }: RadioButtonGroupProps) => {
-  const [selectedValue, setSelectedValue] = useState<string>();
+const RadioButtonGroup = ({ children, ...rest }: RadioButtonGroupProps) => {
   return (
     <div
       css={css`
@@ -19,11 +18,7 @@ const RadioButtonGroup = ({ items }: RadioButtonGroupProps) => {
         gap: 1rem;
       `}
     >
-      <RadioContext.Provider value={{ selectedValue, onChange: (val: string) => setSelectedValue(val) }}>
-        {items.map(({ value, text }) => {
-          return <Radio key={crypto.randomUUID()} value={value} text={text} />;
-        })}
-      </RadioContext.Provider>
+      <RadioContext.Provider value={rest}>{children}</RadioContext.Provider>
     </div>
   );
 };
