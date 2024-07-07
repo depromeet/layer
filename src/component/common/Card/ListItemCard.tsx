@@ -1,13 +1,13 @@
 import { css } from "@emotion/react";
 
 type ListItemCardProps = {
-  variant: "default" | "theme";
+  variant?: "default" | "theme";
   height?: string;
   borderRadius?: string;
   children: React.ReactNode;
 };
 
-const ListItemCard = ({ variant, height = "5rem", borderRadius = ".8rem", children }: ListItemCardProps) => {
+const ListItemCard = ({ variant = "default", height = "5rem", borderRadius = ".8rem", children }: ListItemCardProps) => {
   return (
     <div
       css={css`
@@ -18,7 +18,7 @@ const ListItemCard = ({ variant, height = "5rem", borderRadius = ".8rem", childr
         height: ${height};
         border-radius: ${borderRadius};
         color: ${variant === "default" ? "#212529" : "#fff"};
-       transition: 0.4s all;
+        transition: 0.4s all;
       `}
     >
       {children}
