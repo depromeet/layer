@@ -1,20 +1,31 @@
-import { useCallback, useState } from "react";
+import { modalState } from "@/store/modal/modalAtom";
+import { ModalType } from "@/types/modal";
+import { useAtom } from "jotai";
+import { useCallback } from "react";
 
 const useModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const open = useCallback(() => {
-    setIsOpen(true);
-  }, []);
+  const [modalDataState, setModalDataState] = useAtom(modalState);
 
   const close = useCallback(() => {
-    setIsOpen(false);
-  }, []);
+    setModalDataState({ ...modalDataState, isOpen: false });
+  }, [setModalDataState]);
+
+  const open = useCallback(
+    ({ content, title, callBack }: Omit<ModalType, "isOpen">) => {
+      setModalDataState({
+        isOpen: true,
+        title,
+        content,
+        callBack,
+      });
+    },
+    [setModalDataState],
+  );
 
   return {
     open,
     close,
-    isOpen,
+    modalDataState,
   };
 };
 

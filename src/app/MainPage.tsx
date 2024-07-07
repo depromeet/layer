@@ -7,16 +7,15 @@ import useModal from "@/hooks/useModal";
 
 function MainPage() {
   const [message] = useAtom(messageAtom);
-  const { open, close, isOpen } = useModal();
+  const { open } = useModal();
+
   return (
     <>
       <div>
         <span>welcome to layer 🎇</span>
-        <div onClick={open}>{message}</div>
+        <div onClick={() => open({ title: "냠냠", content: "쩝쩝", callBack: () => console.log("확인") })}>{message}</div>
       </div>
-      <Modal onClose={close} isModalOpen={isOpen}>
-        <div>냠냠</div>
-      </Modal>
+      <Modal />
     </>
   );
 }
