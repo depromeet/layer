@@ -13,6 +13,10 @@ export const backgroundColors: Record<keyof typeof loginTypeProvider, string> = 
 
 type loginProvider = keyof typeof loginTypeProvider;
 
+export type loginType = {
+  type: loginProvider;
+};
+
 export type loginBtnProps = {
   type: loginProvider;
   handler: () => void;
