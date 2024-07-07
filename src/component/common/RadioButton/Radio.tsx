@@ -8,6 +8,7 @@ type RadioProps = {
   value: string;
   text: string;
 };
+
 const Radio = ({ value, text }: RadioProps) => {
   const radioContext = useContext(RadioContext);
   return (
