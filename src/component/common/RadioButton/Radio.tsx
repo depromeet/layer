@@ -6,10 +6,10 @@ import { RadioContext } from "@/store/context/RadioContext";
 
 type RadioProps = {
   value: string;
-  text: string;
+  children: React.ReactNode;
 };
 
-const Radio = ({ value, text }: RadioProps) => {
+const Radio = ({ value, children }: RadioProps) => {
   const radioContext = useContext(RadioContext);
   return (
     <ListItemCard variant={radioContext?.selectedValue === value ? "theme" : "default"}>
@@ -24,10 +24,11 @@ const Radio = ({ value, text }: RadioProps) => {
           width: 100%;
         `}
       >
-        {text}
+        {children}
       </label>
       <input
         type="radio"
+        name={radioContext?.radioName}
         id={value}
         value={value}
         onChange={(e) => {
