@@ -30,7 +30,6 @@ const Radio = ({ value, text }: RadioProps) => {
         id={value}
         value={value}
         onChange={(e) => {
-          console.log(e.target.value);
           radioContext?.onChange && radioContext.onChange(e.target.value);
         }}
         css={css`
