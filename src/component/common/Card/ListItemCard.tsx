@@ -4,7 +4,7 @@ type ListItemCardProps = {
   variant: "default" | "theme";
   height?: string;
   borderRadius?: string;
-  children?: React.ReactNode;
+  children: React.ReactNode;
 };
 
 const ListItemCard = ({ variant, height = "5rem", borderRadius = ".8rem", children }: ListItemCardProps) => {
