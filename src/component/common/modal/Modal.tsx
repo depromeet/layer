@@ -16,19 +16,6 @@ function Modal({ onClose, isModalOpen, children }: Props) {
     document.body.style.overflow = isModalOpen ? "hidden" : "auto";
   }, [isModalOpen]);
 
-  // 모달 오픈 시 뒤로가기 방지 (고민중)
-  useEffect(() => {
-    const preventGoBack = () => {
-      history.go(1);
-      onClose();
-    };
-
-    history.pushState(null, "", location.href);
-    window.addEventListener("popstate", preventGoBack);
-
-    return () => window.removeEventListener("popstate", preventGoBack);
-  }, [onClose]);
-
   // 모달 영역 이외 클릭 시 모달 닫기
   useEffect(() => {
     const listener = (e: MouseEvent) => {
@@ -36,9 +23,9 @@ function Modal({ onClose, isModalOpen, children }: Props) {
         onClose();
       }
     };
-    window.addEventListener("mousedown", listener);
+    document.addEventListener("mousedown", listener);
     return () => {
-      window.removeEventListener("mousedown", listener);
+      document.removeEventListener("mousedown", listener);
     };
   }, [onClose, modalRef]);
 
