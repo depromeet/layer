@@ -1,11 +1,11 @@
 import ModalPortal from "@/component/common/modal/ModalPortal";
 import { css } from "@emotion/react";
-import { memo, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 interface Props {
   isModalOpen: boolean;
   onClose: () => void;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 function Modal({ onClose, isModalOpen, children }: Props) {
@@ -32,6 +32,7 @@ function Modal({ onClose, isModalOpen, children }: Props) {
   if (!isModalOpen) return null;
 
   return (
+    // FIXME: 추후 디자인 토큰 연동 후 컬러 값 변경
     <ModalPortal>
       <div
         css={css`
@@ -40,8 +41,8 @@ function Modal({ onClose, isModalOpen, children }: Props) {
           left: 0;
           right: 0;
           bottom: 0;
-          width: 100vw;
-          height: 100dvh;
+          width: 100%;
+          height: 100%;
           background-color: rgba(0, 0, 0, 0.4);
           display: flex;
           justify-content: center;
@@ -66,4 +67,4 @@ function Modal({ onClose, isModalOpen, children }: Props) {
   );
 }
 
-export default memo(Modal);
+export default Modal;
