@@ -1,12 +1,11 @@
 import ModalPortal from "@/component/common/modal/ModalPortal";
 import { css } from "@emotion/react";
-import { ReactNode, useEffect, useRef } from "react";
+import { PropsWithChildren, useEffect, useRef } from "react";
 
-type Props = {
+type Props = PropsWithChildren<{
   isModalOpen: boolean;
   onClose: () => void;
-  children?: ReactNode;
-};
+}>;
 
 function Modal({ onClose, isModalOpen, children }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
