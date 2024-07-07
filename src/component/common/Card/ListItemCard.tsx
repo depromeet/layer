@@ -18,6 +18,7 @@ const ListItemCard = ({ variant, height = "5rem", borderRadius = ".8rem", childr
         height: ${height};
         border-radius: ${borderRadius};
         color: ${variant === "default" ? "#212529" : "#fff"};
+       transition: 0.4s all;
       `}
     >
       {children}
