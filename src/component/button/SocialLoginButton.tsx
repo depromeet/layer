@@ -1,15 +1,8 @@
 import { css } from "@emotion/react";
-import { loginTypeProvider, loginBtnType } from "@/types/loginType";
+import { loginTypeProvider, loginBtnProps, backgroundColors } from "@/types/loginType";
 import LoginSpriteSvg from "../Img/LoginSpriteSvg";
 
-// FIXME : 버튼 색 수정 필요
-const backgroundColors: Record<keyof typeof loginTypeProvider, string> = {
-  kakao: "#ffe400",
-  google: "#FFFFFF",
-  apple: "red",
-};
-
-const SocialLoginButton = ({ type, handler }: loginBtnType) => {
+const SocialLoginButton = ({ type, handler }: loginBtnProps) => {
   return (
     <button
       css={css`
