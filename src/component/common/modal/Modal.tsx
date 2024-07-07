@@ -52,12 +52,12 @@ function Modal({ onClose, isModalOpen, children }: Props) {
         <div
           ref={modalRef}
           css={css`
-            padding: 20px;
-            min-width: 300px;
-            min-height: 100px;
+            padding: 2rem;
+            min-width: 30rem;
+            min-height: 10rem;
             background-color: #ffffff;
             border: 1px solid #cbcbcb;
-            border-radius: 10px;
+            border-radius: 1rem;
           `}
         >
           {children}
