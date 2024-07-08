@@ -18,7 +18,7 @@ function Modal() {
     return () => {
       document.removeEventListener("mousedown", listener);
     };
-  }, [close, modalRef]);
+  }, []);
 
   // 모달 오픈 시 스크롤 금지
   useEffect(() => {
