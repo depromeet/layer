@@ -5,6 +5,7 @@ export type ButtonProps = {
   colorSchema?: string;
   disabled?: boolean;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type">;
+
 export default function Button({ children, colorSchema = "primary", disabled = false, ...props }: PropsWithChildren<ButtonProps>) {
   return (
     <button
@@ -30,7 +31,7 @@ export default function Button({ children, colorSchema = "primary", disabled = f
           color: #868e96;
         `}
       
-      ${disabled &&
+        ${disabled &&
         css`
           background-color: #c8cccf;
           color: rgba(33, 37, 41, 0.7);
