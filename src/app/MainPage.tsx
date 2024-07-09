@@ -2,8 +2,9 @@
 import { useAtom } from "jotai";
 
 import { messageAtom } from "@/store/messageAtom.tsx";
-import Modal from "@/component/common/modal/Modal";
+import Modal from "@/component/common/Modal/Modal";
 import useModal from "@/hooks/useModal";
+import Icon from "@/component/common/Icon/Icon";
 
 function MainPage() {
   const [message] = useAtom(messageAtom);
@@ -15,6 +16,11 @@ function MainPage() {
         <span>welcome to layer 🎇</span>
         <div onClick={() => open({ title: "냠냠", content: "쩝쩝", callBack: () => console.log("확인") })}>{message}</div>
       </div>
+
+      <Icon icon="ic_back" color="red" size={5} onClick={() => console.log("클릭")} />
+      <Icon icon="ic_back" color={"rgba(0,0,0,0.6)"} size={2} />
+      <Icon icon="ic_back" color="#00ff00" size={4} />
+
       <Modal />
     </>
   );
