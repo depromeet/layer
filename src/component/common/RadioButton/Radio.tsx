@@ -22,6 +22,7 @@ const Radio = ({ value, children }: RadioProps) => {
           align-items: center;
           height: 100%;
           width: 100%;
+          cursor: pointer;
         `}
       >
         {children}
