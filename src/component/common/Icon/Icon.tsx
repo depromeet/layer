@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, memo } from "react";
 
 import * as icons from "@/assets/svgs";
 import { css } from "@emotion/react";
@@ -31,4 +31,4 @@ function icon({ icon, color = DEFAULT_ICON_COLOR, size = "0.2rem", onClick }: Pr
   );
 }
 
-export default icon;
+export default memo(icon);
