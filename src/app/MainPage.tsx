@@ -2,7 +2,7 @@
 import { useAtom } from "jotai";
 
 import { messageAtom } from "@/store/messageAtom.tsx";
-import Modal from "@/component/common/Modal/Modal";
+import Modal from "@/component/common/modal/Modal";
 import useModal from "@/hooks/useModal";
 import Icon from "@/component/common/Icon/Icon";
 
