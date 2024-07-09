@@ -15,7 +15,7 @@ const Back = () => {
   return (
     <IoChevronBack
       color="#868E96"
-      size="0.2rem"
+      size="20px"
       onClick={() => {
         navigate(-1);
       }}
