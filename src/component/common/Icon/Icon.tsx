@@ -1,4 +1,4 @@
-import { ReactElement, memo } from "react";
+import { memo } from "react";
 
 import * as icons from "@/assets/svgs";
 import { css } from "@emotion/react";
@@ -14,7 +14,7 @@ type Props = {
 
 const DEFAULT_ICON_COLOR = "#000000";
 
-function icon({ icon, color = DEFAULT_ICON_COLOR, size = "0.2rem", onClick }: Props): ReactElement {
+function icon({ icon, color = DEFAULT_ICON_COLOR, size = "0.2rem", onClick }: Props) {
   const SVGIcon = icons[icon];
   const widthRem = typeof size === "number" ? `${size}rem` : size;
 
