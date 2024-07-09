@@ -20,6 +20,7 @@ function MainPage() {
       <Icon icon="ic_back" color="red" size={5} onClick={() => console.log("클릭")} />
       <Icon icon="ic_back" color={"rgba(0,0,0,0.6)"} size={2} />
       <Icon icon="ic_back" color="#00ff00" size={4} />
+      <Icon icon="ic_check" color="black" size={4} />
 
       <Modal />
     </>
