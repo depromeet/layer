@@ -1,4 +1,4 @@
-import ModalPortal from "@/component/common/modal/ModalPortal";
+import ModalPortal from "@/component/common/Modal/ModalPortal";
 import useModal from "@/hooks/useModal";
 import { css } from "@emotion/react";
 import { useEffect, useRef } from "react";
