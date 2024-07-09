@@ -1,6 +1,6 @@
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import SocialLoginButton from "@/component/button/SocialLoginButton";
-import { kakaoLogin } from "./kakao/KakaoLogin";
+import { kakaoLogin } from "./kakao/kakaoLogin";
 import { googleLogin } from "./google/googleLogin";
 
 const Login = () => {
