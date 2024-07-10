@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-type UseCheckBoxReturn = [(value: string) => boolean, (value: string) => void, string[]];
+import { CheckBoxContextState } from "@/store/context/CheckBoxContext";
+
+type UseCheckBoxReturn = [CheckBoxContextState["isChecked"], CheckBoxContextState["onChange"], string[]];
 
 export const useCheckBox = (): UseCheckBoxReturn => {
   const [checkedStates, setCheckedStates] = useState<Record<string, boolean>>({});

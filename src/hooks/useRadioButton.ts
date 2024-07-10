@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-type UseRadioButtonReturn = [(value: string) => boolean, (value: string) => void, string | undefined];
+import { RadioContextState } from "@/store/context/RadioContext";
+
+type UseRadioButtonReturn = [RadioContextState["isChecked"], RadioContextState["onChange"], string | undefined];
 
 export const useRadioButton = (): UseRadioButtonReturn => {
   const [selectedValue, setSelectedValue] = useState<string>();

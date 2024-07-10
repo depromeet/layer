@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
-type CheckBoxContext = {
+export type CheckBoxContextState = {
   isChecked: (value: string) => boolean;
   onChange: (value: string) => void;
 };
 
-export const CheckBoxContext = createContext<CheckBoxContext | undefined>(undefined);
+export const CheckBoxContext = createContext<CheckBoxContextState | undefined>(undefined);

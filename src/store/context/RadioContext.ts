@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-type RadioContextState = {
+export type RadioContextState = {
   radioName: string;
   isChecked: (value: string) => boolean;
   onChange: (value: string) => void;

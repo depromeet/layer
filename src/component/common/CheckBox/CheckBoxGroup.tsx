@@ -1,12 +1,10 @@
 import { css } from "@emotion/react";
 
-import { CheckBoxContext } from "@/store/context/CheckBoxContext";
+import { CheckBoxContext, CheckBoxContextState } from "@/store/context/CheckBoxContext";
 
 type CheckBoxGroupProps = {
   children: React.ReactNode;
-  isChecked: (value: string) => boolean;
-  onChange: (value: string) => void;
-};
+} & CheckBoxContextState;
 
 const CheckBoxGroup = ({ children, ...rest }: CheckBoxGroupProps) => {
   return (
