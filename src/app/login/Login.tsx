@@ -1,11 +1,11 @@
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import SocialLoginButton from "@/component/button/SocialLoginButton";
+import SocialLoginButton from "@/component/Button/SocialLoginButton";
 import { kakaoLogin } from "./kakao/kakaoLogin";
 import { googleLogin } from "./google/googleLogin";
 
 const Login = () => {
   return (
-    <DefaultLayout title="떡잎마을 방법대" RightComp={<>Right Comp</>}>
+    <DefaultLayout appBarVisible={false}>
       <SocialLoginButton type="kakao" handler={kakaoLogin} />
       <SocialLoginButton type="google" handler={googleLogin} />
     </DefaultLayout>
