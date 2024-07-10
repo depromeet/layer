@@ -12,7 +12,7 @@ type RadioProps = {
 const Radio = ({ value, children }: RadioProps) => {
   const radioContext = useContext(RadioContext);
   return (
-    <ListItemCard variant={radioContext?.selectedValue === value ? "theme" : "default"}>
+    <ListItemCard variant={radioContext?.isChecked(value) ? "theme" : "default"}>
       <label
         htmlFor={value}
         css={css`

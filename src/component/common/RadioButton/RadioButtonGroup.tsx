@@ -4,8 +4,8 @@ import { RadioContext } from "@/store/context/RadioContext";
 
 type RadioButtonGroupProps = {
   children: React.ReactNode;
-  selectedValue: string | undefined;
-  onChange: React.Dispatch<React.SetStateAction<string | undefined>>;
+  isChecked: (value: string) => boolean;
+  onChange: (value: string) => void;
   radioName: string;
 };
 
