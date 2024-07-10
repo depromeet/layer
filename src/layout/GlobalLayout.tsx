@@ -17,7 +17,7 @@ export default function GlobalLayout() {
 
         display: flex;
         flex-direction: column;
-        background-color: #f1f3f5;
+        background-color: #ffffff;
       `}
     >
       <Outlet />
