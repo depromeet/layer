@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { IoChevronBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 export type AppBarProps = {
-  title?: React.ReactNode;
+  title?: string;
   appBarVisible?: boolean;
   LeftComp?: React.ReactNode;
   RightComp?: React.ReactNode;
