@@ -14,7 +14,7 @@ type Props = {
 
 const DEFAULT_ICON_COLOR = "#000000";
 
-function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "0.2rem", onClick }: Props) {
+function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "2rem", onClick }: Props) {
   const SVGIcon = icons[icon];
   const widthRem = typeof size === "number" ? `${size}rem` : size;
 
