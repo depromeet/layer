@@ -6,7 +6,7 @@ type RadioButtonGroupProps = {
   children: React.ReactNode;
 } & RadioContextState;
 
-const RadioButtonGroup = ({ children, ...rest }: RadioButtonGroupProps) => {
+const RadioButtonGroup = ({ children, ...props }: RadioButtonGroupProps) => {
   return (
     <div
       css={css`
@@ -15,7 +15,7 @@ const RadioButtonGroup = ({ children, ...rest }: RadioButtonGroupProps) => {
         gap: 1rem;
       `}
     >
-      <RadioContext.Provider value={rest}>{children}</RadioContext.Provider>
+      <RadioContext.Provider value={props}>{children}</RadioContext.Provider>
     </div>
   );
 };

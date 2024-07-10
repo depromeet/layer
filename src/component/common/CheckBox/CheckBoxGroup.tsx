@@ -6,7 +6,7 @@ type CheckBoxGroupProps = {
   children: React.ReactNode;
 } & CheckBoxContextState;
 
-const CheckBoxGroup = ({ children, ...rest }: CheckBoxGroupProps) => {
+const CheckBoxGroup = ({ children, ...props }: CheckBoxGroupProps) => {
   return (
     <div
       css={css`
@@ -15,7 +15,7 @@ const CheckBoxGroup = ({ children, ...rest }: CheckBoxGroupProps) => {
         gap: 1rem;
       `}
     >
-      <CheckBoxContext.Provider value={rest}>{children}</CheckBoxContext.Provider>
+      <CheckBoxContext.Provider value={props}>{children}</CheckBoxContext.Provider>
     </div>
   );
 };
