@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
-import { IoChevronBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import Icon from "../common/Icon/Icon";
+
 export type AppBarProps = {
   title?: string;
   appBarVisible?: boolean;
@@ -13,9 +14,8 @@ const Back = () => {
   const navigate = useNavigate();
 
   return (
-    <IoChevronBack
-      color="#868E96"
-      size="20px"
+    <Icon
+      icon="ic_back"
       onClick={() => {
         navigate(-1);
       }}
