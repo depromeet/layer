@@ -1,5 +1,5 @@
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import SocialLoginButton from "@/component/Button/SocialLoginButton";
+import SocialLoginButton from "@/component/button/SocialLoginButton";
 import { kakaoLogin } from "./kakao/kakaoLogin";
 import { googleLogin } from "./google/googleLogin";
 
