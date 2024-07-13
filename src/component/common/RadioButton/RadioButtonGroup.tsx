@@ -1,6 +1,13 @@
 import { css } from "@emotion/react";
+import { createContext } from "react";
 
-import { RadioContext, RadioContextState } from "@/store/context/RadioContext";
+export type RadioContextState = {
+  radioName: string;
+  isChecked: (value: string) => boolean;
+  onChange: (value: string) => void;
+};
+
+export const RadioContext = createContext<RadioContextState | undefined>(undefined);
 
 type RadioButtonGroupProps = {
   children: React.ReactNode;
