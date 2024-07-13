@@ -1,8 +1,9 @@
 import { css } from "@emotion/react";
 import { useContext } from "react";
 
+import { CheckBoxContext } from "./CheckBoxGroup";
+
 import ListItemCard from "@/component/common/Card/ListItemCard";
-import { CheckBoxContext } from "@/store/context/CheckBoxContext";
 
 type CheckBoxProps = {
   value: string;

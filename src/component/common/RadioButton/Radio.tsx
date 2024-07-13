@@ -1,8 +1,9 @@
 import { css } from "@emotion/react";
 import { useContext } from "react";
 
+import { RadioContext } from "./RadioButtonGroup";
+
 import ListItemCard from "@/component/common/Card/ListItemCard";
-import { RadioContext } from "@/store/context/RadioContext";
 
 type RadioProps = {
   value: string;
