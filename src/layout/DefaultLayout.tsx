@@ -3,7 +3,7 @@ import { Fragment, PropsWithChildren } from "react";
 import AppBar from "@/component/AppBar/AppBar";
 import { AppBarProps } from "@/component/AppBar/AppBar";
 
-type DefaultLayoutProps = PropsWithChildren & AppBarProps;
+type DefaultLayoutProps = PropsWithChildren<AppBarProps>;
 
 export function DefaultLayout({ children, title, appBarVisible, LeftComp, RightComp }: DefaultLayoutProps) {
   return (
