@@ -1,14 +1,16 @@
 import { css } from "@emotion/react";
 import { Fragment, PropsWithChildren } from "react";
-import AppBar from "@/component/AppBar/AppBar";
-import { AppBarProps } from "@/component/AppBar/AppBar";
+import AppBar from "@/component/common/appBar";
+import { AppBarProps } from "@/component/common/appBar";
 
-type DefaultLayoutProps = PropsWithChildren<AppBarProps>;
+type DefaultLayoutProps = PropsWithChildren<AppBarProps> & {
+  appBarVisible?: boolean;
+};
 
-export function DefaultLayout({ children, title, appBarVisible, LeftComp, RightComp }: DefaultLayoutProps) {
+export function DefaultLayout({ children, title, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
   return (
     <Fragment>
-      <AppBar title={title} appBarVisible={appBarVisible} LeftComp={LeftComp} RightComp={RightComp} />
+      {appBarVisible && <AppBar title={title} LeftComp={LeftComp} RightComp={RightComp} />}
       <main
         css={css`
           flex: 1 1 0;

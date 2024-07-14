@@ -1,10 +1,9 @@
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
-import Icon from "../common/Icon/Icon";
+import Icon from "../Icon/Icon";
 
 export type AppBarProps = {
   title?: string;
-  appBarVisible?: boolean;
   LeftComp?: React.ReactNode;
   RightComp?: React.ReactNode;
 };
@@ -24,11 +23,7 @@ const Back = () => {
 };
 
 //FIXME : 디자인 토큰에 따라 색깔 변경, 폰트 수정
-const AppBar = ({ title, appBarVisible = true, LeftComp = <Back />, RightComp = <div></div> }: AppBarProps) => {
-  if (!appBarVisible) {
-    return null;
-  }
-
+const AppBar = ({ title, LeftComp = <Back />, RightComp = <div></div> }: AppBarProps) => {
   return (
     <>
       <div
