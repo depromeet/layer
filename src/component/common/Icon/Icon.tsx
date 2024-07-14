@@ -1,7 +1,7 @@
-import { memo } from "react";
+import { css } from "@emotion/react";
+import { CSSProperties, memo } from "react";
 
 import * as icons from "@/assets/svgs";
-import { css } from "@emotion/react";
 
 type IconType = keyof typeof icons;
 
@@ -10,11 +10,13 @@ type Props = {
   color?: string;
   size?: string | number;
   onClick?: () => void;
+  style?: CSSProperties;
 };
 
 const DEFAULT_ICON_COLOR = "#000000";
 
-function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "0.2rem", onClick }: Props) {
+export const Icon = memo(function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "0.2rem", onClick, style }: Props) {
+  // eslint-disable-next-line import/namespace
   const SVGIcon = icons[icon];
   const widthRem = typeof size === "number" ? `${size}rem` : size;
 
@@ -27,8 +29,7 @@ function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "0.2rem", onClick }: Pr
         width: ${widthRem};
         height: auto;
       `}
+      style={style}
     />
   );
-}
-
-export default memo(Icon);
+});
