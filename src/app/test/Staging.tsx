@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 
+import { BottomSheet } from "@/component/BottomSheet";
 import Button from "@/component/Button/Button.tsx";
 import { ButtonProvider } from "@/component/Button/ButtonProvider.tsx";
 import CheckBox from "@/component/common/CheckBox/CheckBox";
 import CheckBoxGroup from "@/component/common/CheckBox/CheckBoxGroup";
 import Radio from "@/component/common/RadioButton/Radio";
 import RadioButtonGroup from "@/component/common/RadioButton/RadioButtonGroup";
+import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 import { useCheckBox } from "@/hooks/useCheckBox";
 import { useRadioButton } from "@/hooks/useRadioButton";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
@@ -13,6 +15,7 @@ import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 export default function Staging() {
   const [isRadioChecked, onChange, selectedValue] = useRadioButton();
   const [isCheckBoxChecked, toggle, selectedValues] = useCheckBox();
+  const { openBottomSheet, bottomSheetState } = useBottomSheet();
 
   useEffect(() => {
     console.log("라디오 버튼 선택 value:", selectedValue);
@@ -22,9 +25,13 @@ export default function Staging() {
     console.log("체크박스 선택 values:", selectedValues);
   }, [selectedValues]);
 
+  useEffect(() => {
+    console.log("현재 바텀 시트 상태: ", bottomSheetState);
+  }, [bottomSheetState]);
+
   return (
     <DefaultLayout>
-      <Button> 그냥 그저 그런 버튼 </Button>
+      <Button onClick={openBottomSheet}> 그냥 그저 그런 버튼 </Button>
       <Button colorSchema={"gray"}> 그냥 그저 그런 버튼 </Button>
       <Button colorSchema={"sky"}> 그냥 그저 그런 버튼 </Button>
       <Button colorSchema={"primary"}> 그냥 그저 그런 버튼 </Button>
@@ -53,6 +60,15 @@ export default function Staging() {
         <ButtonProvider.Gray>회색 버튼</ButtonProvider.Gray>
         <ButtonProvider.Primary disabled={true}>비활성화 버튼</ButtonProvider.Primary>
       </ButtonProvider>
+      <BottomSheet
+        title={"헬로우"}
+        contents={
+          <Fragment>
+            <p> 완전 이거 럭키비키자냐?</p>
+          </Fragment>
+        }
+        handler={true}
+      />
     </DefaultLayout>
   );
 }
