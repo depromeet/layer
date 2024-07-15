@@ -1,4 +1,4 @@
-import { SocialLoginButton } from "@/component/login/socialLoginButton";
+import { SocialLoginButton } from "@/component/login";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 
 export function LoginPage() {
