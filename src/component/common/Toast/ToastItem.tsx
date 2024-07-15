@@ -34,9 +34,7 @@ export function ToastItem({ type, content, id, duration = 3000 }: ToastType) {
   };
 
   const handleMouseLeave = () => {
-    if (duration) {
-      setIsPaused(false);
-    }
+    duration && setIsPaused(false);
   };
 
   const getIcon = () => {
