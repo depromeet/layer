@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { CSSProperties, memo } from "react";
+import { memo } from "react";
 
 import * as icons from "@/assets/svgs";
 
@@ -10,12 +10,11 @@ type Props = {
   color?: string;
   size?: string | number;
   onClick?: () => void;
-  style?: CSSProperties;
-};
+} & React.SVGProps<SVGSVGElement>;
 
 const DEFAULT_ICON_COLOR = "#000000";
 
-export const Icon = memo(function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "0.2rem", onClick, style }: Props) {
+export const Icon = memo(function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "0.2rem", onClick, ...props }: Props) {
   // eslint-disable-next-line import/namespace
   const SVGIcon = icons[icon];
   const widthRem = typeof size === "number" ? `${size}rem` : size;
@@ -29,7 +28,7 @@ export const Icon = memo(function Icon({ icon, color = DEFAULT_ICON_COLOR, size 
         width: ${widthRem};
         height: auto;
       `}
-      style={style}
+      {...props}
     />
   );
 });
