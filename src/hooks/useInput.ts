@@ -1,13 +1,11 @@
 import { useCallback, useState } from "react";
 
-type UseInputReturn = [string, (e: React.ChangeEvent<HTMLInputElement>) => void];
-
-export const useInput = (defaultValue?: string): UseInputReturn => {
+export const useInput = (defaultValue?: string) => {
   const [value, setValue] = useState(defaultValue || "");
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   }, []);
 
-  return [value, handleInputChange];
+  return [value, handleInputChange] as const;
 };
