@@ -1,9 +1,10 @@
-import ModalPortal from "@/component/common/modal/ModalPortal";
-import useModal from "@/hooks/useModal";
 import { css } from "@emotion/react";
 import { useEffect, useRef } from "react";
 
-function Modal() {
+import { Portal } from "@/component/common/Portal/Portal";
+import { useModal } from "@/hooks/useModal";
+
+export function Modal() {
   const { modalDataState, close } = useModal();
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -18,7 +19,7 @@ function Modal() {
     return () => {
       document.removeEventListener("mousedown", listener);
     };
-  }, []);
+  }, [close]);
 
   // 모달 오픈 시 스크롤 금지
   useEffect(() => {
@@ -30,7 +31,7 @@ function Modal() {
   return (
     // FIXME: 추후 디자인 토큰 연동 후 컬러 값 변경
     // FIXME: 추후 Modal 디자인 확정 시 Body 형태 변경
-    <ModalPortal>
+    <Portal id="modal-root">
       <div
         css={css`
           position: fixed;
@@ -62,8 +63,6 @@ function Modal() {
           <div onClick={modalDataState.callBack}>확인</div>
         </div>
       </div>
-    </ModalPortal>
+    </Portal>
   );
 }
-
-export default Modal;
