@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
-import Icon from "../Icon/Icon";
+
+import Icon from "@/component/common/Icon/Icon";
 
 export type AppBarProps = {
   title?: string;
@@ -9,9 +10,8 @@ export type AppBarProps = {
 };
 
 //FIXME: 색깔 디자인 토큰에 따라 변경
-const Back = () => {
+function Back() {
   const navigate = useNavigate();
-
   return (
     <Icon
       icon="ic_back"
@@ -20,10 +20,10 @@ const Back = () => {
       }}
     />
   );
-};
+}
 
 //FIXME : 디자인 토큰에 따라 색깔 변경, 폰트 수정
-const AppBar = ({ title, LeftComp = <Back />, RightComp = <div></div> }: AppBarProps) => {
+export function AppBar({ title, LeftComp = <Back />, RightComp = <div></div> }: AppBarProps) {
   return (
     <>
       <div
@@ -63,6 +63,4 @@ const AppBar = ({ title, LeftComp = <Back />, RightComp = <div></div> }: AppBarP
       />
     </>
   );
-};
-
-export default AppBar;
+}
