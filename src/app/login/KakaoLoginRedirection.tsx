@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { api } from "@/api";
 
 //FIXME: 응답 데이터 형식에 따라 수정
@@ -23,7 +24,7 @@ export const KaKaoRedirection = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  });
 
   // FIXME: 로그인 로딩 디자인 필요 및 이에 따른 코드 추가 개발 필요
   return <div>로그인 중입니다.</div>;
