@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
-import Button from "@/component/Button/Button.tsx";
-import { ButtonProvider } from "@/component/Button/ButtonProvider.tsx";
+import { Button, ButtonProvider } from "@/component/common/button";
 import CheckBox from "@/component/common/CheckBox/CheckBox";
 import CheckBoxGroup from "@/component/common/CheckBox/CheckBoxGroup";
 import { Input, InputLabelContainer, Label } from "@/component/common/Input";
