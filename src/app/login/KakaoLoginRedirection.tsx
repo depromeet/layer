@@ -6,7 +6,7 @@ import { api } from "@/api";
 //FIXME: 응답 데이터 형식에 따라 수정
 type KakaoLoginResponse = { data: string };
 
-export const KaKaoRedirection = () => {
+export function KaKaoRedirection() {
   const code = window.location.search;
   const navigate = useNavigate();
 
@@ -28,4 +28,4 @@ export const KaKaoRedirection = () => {
 
   // FIXME: 로그인 로딩 디자인 필요 및 이에 따른 코드 추가 개발 필요
   return <div>로그인 중입니다.</div>;
-};
+}
