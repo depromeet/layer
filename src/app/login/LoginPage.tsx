@@ -1,14 +1,13 @@
-import { DefaultLayout } from "@/layout/DefaultLayout";
-import SocialLoginButton from "@/component/button/SocialLoginButton";
 import { kakaoLogin } from "./kakao/kakaoLogin";
 import { googleLogin } from "./google/googleLogin";
+import { SocialLoginButton } from "@/component/login/socialLoginButton";
+import { DefaultLayout } from "@/layout/DefaultLayout";
 
-const Login = () => {
+export function LoginPage() {
   return (
     <DefaultLayout appBarVisible={false}>
       <SocialLoginButton type="kakao" handler={kakaoLogin} />
       <SocialLoginButton type="google" handler={googleLogin} />
     </DefaultLayout>
   );
-};
-export default Login;
+}

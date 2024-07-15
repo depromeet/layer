@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import { LoginPage } from "@/app/login/LoginPage";
 import MainPage from "@/app/MainPage.tsx"; /* FIXME - 실제 메인 페이지 작성 후 대체해주세요. */
-import Login from "@/app/login/Login";
 import Staging from "@/app/test/Staging.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 
@@ -17,7 +17,7 @@ const routerChildren = [
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <LoginPage />,
   },
 ];
 
