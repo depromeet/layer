@@ -10,7 +10,7 @@ type CheckBoxProps = {
   children: React.ReactNode;
 };
 
-const CheckBox = ({ value, children }: CheckBoxProps) => {
+export function CheckBox({ value, children }: CheckBoxProps) {
   const checkboxContext = useContext(CheckBoxContext);
   return (
     <ListItemCard variant={checkboxContext?.isChecked(value) ? "theme" : "default"}>
@@ -41,6 +41,4 @@ const CheckBox = ({ value, children }: CheckBoxProps) => {
       />
     </ListItemCard>
   );
-};
-
-export default CheckBox;
+}

@@ -10,7 +10,7 @@ type RadioProps = {
   children: React.ReactNode;
 };
 
-const Radio = ({ value, children }: RadioProps) => {
+export function Radio({ value, children }: RadioProps) {
   const radioContext = useContext(RadioContext);
   return (
     <ListItemCard variant={radioContext?.isChecked(value) ? "theme" : "default"}>
@@ -42,6 +42,4 @@ const Radio = ({ value, children }: RadioProps) => {
       />
     </ListItemCard>
   );
-};
-
-export default Radio;
+}

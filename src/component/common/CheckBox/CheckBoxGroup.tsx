@@ -8,11 +8,11 @@ export type CheckBoxContextState = {
 
 export const CheckBoxContext = createContext<CheckBoxContextState | undefined>(undefined);
 
-type CheckBoxGroupProps = {
+type CheckBoxProps = {
   children: React.ReactNode;
 } & CheckBoxContextState;
 
-const CheckBoxGroup = ({ children, ...props }: CheckBoxGroupProps) => {
+export function CheckBoxGroup({ children, ...props }: CheckBoxProps) {
   return (
     <div
       css={css`
@@ -24,6 +24,4 @@ const CheckBoxGroup = ({ children, ...props }: CheckBoxGroupProps) => {
       <CheckBoxContext.Provider value={props}>{children}</CheckBoxContext.Provider>
     </div>
   );
-};
-
-export default CheckBoxGroup;
+}
