@@ -8,7 +8,7 @@ type LabelProps = {
   styles?: Interpolation<Theme>;
 } & React.LabelHTMLAttributes<HTMLLabelElement>;
 
-export const Label = ({ id, children, order, styles }: LabelProps) => {
+export function Label({ id, children, order, styles }: LabelProps) {
   const inputContext = useContext(InputContext);
 
   return (
@@ -60,4 +60,4 @@ export const Label = ({ id, children, order, styles }: LabelProps) => {
       </span>
     </label>
   );
-};
+}
