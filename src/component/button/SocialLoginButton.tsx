@@ -1,8 +1,9 @@
 import { css } from "@emotion/react";
-import { loginTypeProvider, loginBtnProps, backgroundColors } from "@/types/loginType";
-import LoginSpriteSvg from "../Img/LoginSpriteSvg";
 
-const SocialLoginButton = ({ type, handler }: loginBtnProps) => {
+import { LoginSpriteSvg } from "@/component/login/loginSpriteSvg";
+import { loginTypeProvider, loginBtnProps, backgroundColors } from "@/types/loginType";
+
+export function SocialLoginButton({ type, handler }: loginBtnProps) {
   return (
     <button
       css={css`
@@ -31,6 +32,4 @@ const SocialLoginButton = ({ type, handler }: loginBtnProps) => {
       {loginTypeProvider[type]}로 로그인
     </button>
   );
-};
-
-export default SocialLoginButton;
+}

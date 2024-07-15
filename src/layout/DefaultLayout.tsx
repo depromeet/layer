@@ -1,15 +1,15 @@
 import { css } from "@emotion/react";
 import { Fragment, PropsWithChildren } from "react";
+import { AppBar, AppBarProps } from "@/component/common/appBar";
 
-export function DefaultLayout({ children }: PropsWithChildren) {
+type DefaultLayoutProps = PropsWithChildren<AppBarProps> & {
+  appBarVisible?: boolean;
+};
+
+export function DefaultLayout({ children, title, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
   return (
     <Fragment>
-      {/* FIXME: 헤더 컴포넌트 작업 시, 해당 헤더 엘리먼트 제거 */}
-      <header
-        css={css`
-          height: 4.6rem;
-        `}
-      />
+      {appBarVisible && <AppBar title={title} LeftComp={LeftComp} RightComp={RightComp} />}
       <main
         css={css`
           flex: 1 1 0;

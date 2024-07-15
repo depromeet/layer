@@ -1,15 +1,19 @@
 import { css } from "@emotion/react";
+import { createContext } from "react";
 
-import { RadioContext } from "@/store/context/RadioContext";
+export type RadioContextState = {
+  radioName: string;
+  isChecked: (value: string) => boolean;
+  onChange: (value: string) => void;
+};
+
+export const RadioContext = createContext<RadioContextState | undefined>(undefined);
 
 type RadioButtonGroupProps = {
   children: React.ReactNode;
-  selectedValue: string | undefined;
-  onChange: React.Dispatch<React.SetStateAction<string | undefined>>;
-  radioName: string;
-};
+} & RadioContextState;
 
-const RadioButtonGroup = ({ children, ...rest }: RadioButtonGroupProps) => {
+const RadioButtonGroup = ({ children, ...props }: RadioButtonGroupProps) => {
   return (
     <div
       css={css`
@@ -18,7 +22,7 @@ const RadioButtonGroup = ({ children, ...rest }: RadioButtonGroupProps) => {
         gap: 1rem;
       `}
     >
-      <RadioContext.Provider value={rest}>{children}</RadioContext.Provider>
+      <RadioContext.Provider value={props}>{children}</RadioContext.Provider>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
+import { memo } from "react";
 
 import * as icons from "@/assets/svgs";
-import { memo } from "react";
 
 type IconType = keyof typeof icons;
 
@@ -15,6 +15,7 @@ type Props = {
 const DEFAULT_ICON_COLOR = "#000000";
 
 function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "2rem", onClick, ...props }: Props) {
+  // eslint-disable-next-line import/namespace
   const SVGIcon = icons[icon];
   const widthRem = typeof size === "number" ? `${size}rem` : size;
 
