@@ -4,7 +4,7 @@ import { Portal } from "@/component/common/Portal/Portal";
 import { ToastItem } from "@/component/common/Toast/ToastItem";
 import { useToast } from "@/hooks/useToast";
 
-export function ToastList() {
+export function Toast() {
   const { toastDataState } = useToast();
 
   return (

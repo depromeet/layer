@@ -4,7 +4,7 @@ import { useAtom } from "jotai";
 import Button from "@/component/Button/Button";
 import { Icon } from "@/component/common/Icon/Icon";
 import { Modal } from "@/component/common/Modal/Modal";
-import { ToastList } from "@/component/common/Toast/ToastList";
+import { Toast } from "@/component/common/Toast/Toast";
 import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
 import { messageAtom } from "@/store/messageAtom.tsx";
@@ -32,7 +32,7 @@ function MainPage() {
       <Button onClick={() => toast.error("에러")}>Error Toast</Button>
 
       <Modal />
-      <ToastList />
+      <Toast />
     </>
   );
 }
