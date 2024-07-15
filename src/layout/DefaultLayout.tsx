@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 import { Fragment, PropsWithChildren } from "react";
-import AppBar from "@/component/common/appBar";
-import { AppBarProps } from "@/component/common/appBar";
+import { AppBar, AppBarProps } from "@/component/common/appBar";
 
 type DefaultLayoutProps = PropsWithChildren<AppBarProps> & {
   appBarVisible?: boolean;
