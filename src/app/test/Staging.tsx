@@ -4,15 +4,18 @@ import Button from "@/component/Button/Button.tsx";
 import { ButtonProvider } from "@/component/Button/ButtonProvider.tsx";
 import CheckBox from "@/component/common/CheckBox/CheckBox";
 import CheckBoxGroup from "@/component/common/CheckBox/CheckBoxGroup";
+import { Input, InputLabelContainer, Label } from "@/component/common/Input";
 import Radio from "@/component/common/RadioButton/Radio";
 import RadioButtonGroup from "@/component/common/RadioButton/RadioButtonGroup";
 import { useCheckBox } from "@/hooks/useCheckBox";
+import { useInput } from "@/hooks/useInput";
 import { useRadioButton } from "@/hooks/useRadioButton";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
 export default function Staging() {
   const [isRadioChecked, onChange, selectedValue] = useRadioButton();
   const [isCheckBoxChecked, toggle, selectedValues] = useCheckBox();
+  const [layerName, handleChangeName] = useInput();
 
   useEffect(() => {
     console.log("라디오 버튼 선택 value:", selectedValue);
@@ -46,6 +49,12 @@ export default function Staging() {
         <CheckBox value={"20"}>분기별</CheckBox>
         <CheckBox value={"30"}>프로젝트 끝난 후</CheckBox>
       </CheckBoxGroup>
+
+      <br />
+      <InputLabelContainer id={"retro"}>
+        <Label order={1}>회고 이름</Label>
+        <Input onChange={handleChangeName} value={layerName} />
+      </InputLabelContainer>
 
       <ButtonProvider>
         <ButtonProvider.Primary>기본 버튼</ButtonProvider.Primary>
