@@ -2,9 +2,11 @@ import { useEffect } from "react";
 
 import Button from "@/component/Button/Button.tsx";
 import { ButtonProvider } from "@/component/Button/ButtonProvider.tsx";
-import { CheckBox, CheckBoxGroup } from "@/component/common/checkBox";
+import { CheckBox } from "@/component/common/CheckBox/CheckBox";
+import { CheckBoxGroup } from "@/component/common/CheckBox/CheckBoxGroup";
 import { Input, InputLabelContainer, Label } from "@/component/common/input";
-import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
+import Radio from "@/component/common/RadioButton/Radio";
+import { RadioButtonGroup } from "@/component/common/RadioButton/RadioButtonGroup";
 import { useCheckBox } from "@/hooks/useCheckBox";
 import { useInput } from "@/hooks/useInput";
 import { useRadioButton } from "@/hooks/useRadioButton";
