@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 import { useRef, useState } from "react";
 
+import { Icon } from "@/component/common/Icon";
 import { useToast } from "@/hooks/useToast";
 import { ANIMATION } from "@/style/common/animation";
 import { toastMap } from "@/style/common/toast";
 import { ToastType } from "@/types/toast";
 import { collapseToast } from "@/util/toast/collapseToast";
-import Icon from "@/component/common/Icon/Icon";
 
 export function ToastItem({ type, content, id, duration = 3000 }: ToastType) {
   const { removeToast } = useToast();
