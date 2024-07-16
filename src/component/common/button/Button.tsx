@@ -6,7 +6,7 @@ export type ButtonProps = {
   disabled?: boolean;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type">;
 
-export default function Button({ children, colorSchema = "primary", disabled = false, ...props }: PropsWithChildren<ButtonProps>) {
+export function Button({ children, colorSchema = "primary", disabled = false, ...props }: PropsWithChildren<ButtonProps>) {
   return (
     <button
       css={css`

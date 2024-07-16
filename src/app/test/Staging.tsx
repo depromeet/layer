@@ -1,17 +1,11 @@
 import { Fragment, useEffect } from "react";
 
 import { BottomSheet } from "@/component/BottomSheet";
-import Button from "@/component/Button/Button.tsx";
-import { ButtonProvider } from "@/component/Button/ButtonProvider.tsx";
-import CheckBox from "@/component/common/CheckBox/CheckBox";
-import CheckBoxGroup from "@/component/common/CheckBox/CheckBoxGroup";
-import { Input, InputLabelContainer, Label } from "@/component/common/Input";
-import Radio from "@/component/common/RadioButton/Radio";
-import RadioButtonGroup from "@/component/common/RadioButton/RadioButtonGroup";
-import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
+import { Button, ButtonProvider } from "@/component/common/button";
 import { CheckBox, CheckBoxGroup } from "@/component/common/checkBox";
 import { Input, InputLabelContainer, Label } from "@/component/common/input";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
+import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 import { useCheckBox } from "@/hooks/useCheckBox";
 import { useInput } from "@/hooks/useInput";
 import { useRadioButton } from "@/hooks/useRadioButton";

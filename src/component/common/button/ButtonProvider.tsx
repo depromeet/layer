@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { Children, cloneElement, isValidElement, PropsWithChildren } from "react";
 
-import Button, { ButtonProps } from "@/component/Button/Button.tsx";
+import { Button, ButtonProps } from "@/component/common/button/Button.tsx";
 
 const Primary = ({ ...props }) => {
   return <Button colorSchema={"primary"} {...props} />;
