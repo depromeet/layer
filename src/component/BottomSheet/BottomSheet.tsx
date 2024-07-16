@@ -1,8 +1,9 @@
 import { css } from "@emotion/react";
-import { Fragment, ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 
 import { MIN_Y } from "@/component/BottomSheet/BottomSheetOption.ts";
 import { BottomSheetContent, BottomSheetHeader } from "@/component/BottomSheet/component";
+import { Portal } from "@/component/common/Portal/Portal.tsx";
 import { useBottomSheet, useSetBottomSheet } from "@/hooks/useBottomSheet.ts";
 
 export type BottomSheetType = {
@@ -22,7 +23,7 @@ export function BottomSheet({ title, contents, handler = false, sheetHeight = 34
   }, [bottomSheetState]);
 
   return (
-    <Fragment>
+    <Portal id={"bottom-sheet-root"}>
       <div
         css={css`
           position: fixed;
@@ -31,7 +32,6 @@ export function BottomSheet({ title, contents, handler = false, sheetHeight = 34
           top: 50%;
           left: 50%;
           transform: translate3d(-50%, -50%, 0);
-          z-index: 10000;
           background-color: ${bottomSheetState ? `rgba(24, 24, 24, 60%)` : `transparent`};
           transition: 0.4s all;
 
@@ -68,6 +68,6 @@ export function BottomSheet({ title, contents, handler = false, sheetHeight = 34
         <BottomSheetHeader title={title} handler={handler} />
         <BottomSheetContent ref={content}>{contents}</BottomSheetContent>
       </div>
-    </Fragment>
+    </Portal>
   );
 }
