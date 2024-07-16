@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Icon from "@/component/common/Icon/Icon";
+import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/home";
 import { DefaultLayout } from "@/layout/DefaultLayout";

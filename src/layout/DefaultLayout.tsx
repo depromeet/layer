@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
 
 import { AppBar, AppBarProps } from "@/component/common/appBar";
 
