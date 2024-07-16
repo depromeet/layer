@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
 import { BottomSheetType } from "@/component/BottomSheet/BottomSheet.tsx";
-import Icon from "@/component/common/Icon/Icon.tsx";
+import { Icon } from "@/component/common/Icon";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 
 export function BottomSheetHeader({ title, handler }: Pick<BottomSheetType, "title" | "handler">) {

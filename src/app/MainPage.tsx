@@ -1,7 +1,7 @@
 /*NOTE - 해당 파일은 루트 router를 위한 임시 페이지입니다. 실제 페이지 작성 후 지워주세요! */
 import { useAtom } from "jotai";
 
-import Button from "@/component/Button/Button";
+import { Button } from "@/component/common/button";
 import { Modal } from "@/component/common/Modal";
 import { Toast } from "@/component/common/Toast";
 import { useModal } from "@/hooks/useModal";
