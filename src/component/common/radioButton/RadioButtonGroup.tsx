@@ -13,7 +13,7 @@ type RadioButtonGroupProps = {
   children: React.ReactNode;
 } & RadioContextState;
 
-const RadioButtonGroup = ({ children, ...props }: RadioButtonGroupProps) => {
+export function RadioButtonGroup({ children, ...props }: RadioButtonGroupProps) {
   return (
     <div
       css={css`
@@ -25,6 +25,4 @@ const RadioButtonGroup = ({ children, ...props }: RadioButtonGroupProps) => {
       <RadioContext.Provider value={props}>{children}</RadioContext.Provider>
     </div>
   );
-};
-
-export default RadioButtonGroup;
+}
