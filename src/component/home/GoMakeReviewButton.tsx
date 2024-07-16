@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-import Icon from "@/component/common/Icon/Icon";
+import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 
 type GoMakeReviewButtonProps = {
