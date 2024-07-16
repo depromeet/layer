@@ -5,8 +5,8 @@ import { AppBar, AppBarProps } from "@/component/common/appBar";
 
 type DefaultLayoutProps = AppBarProps & {
   appBarVisible?: boolean;
-  children: ReactNode;
   theme?: string;
+  children: ReactNode;
 };
 
 export function DefaultLayout({ children, title, theme = "#FFFFFF", height, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
@@ -16,7 +16,7 @@ export function DefaultLayout({ children, title, theme = "#FFFFFF", height, appB
         background-color: ${theme};
       `}
     >
-      {appBarVisible && <AppBar title={title} height={height} LeftComp={LeftComp} RightComp={RightComp} />}
+      {appBarVisible && <AppBar title={title} theme={theme} height={height} LeftComp={LeftComp} RightComp={RightComp} />}
       <main
         css={css`
           flex: 1 1 0;
