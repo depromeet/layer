@@ -150,6 +150,13 @@ export const useSetBottomSheet = ({ handler, sheetHeight }: Pick<BottomSheetType
     sheet.current!.addEventListener("touchstart", handleTouchStart);
     sheet.current!.addEventListener("touchmove", handleTouchMove);
     sheet.current!.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      sheet.current!.removeEventListener("mousedown", handleMouseDown);
+      sheet.current!.removeEventListener("touchstart", handleTouchStart);
+      sheet.current!.removeEventListener("touchmove", handleTouchMove);
+      sheet.current!.removeEventListener("touchend", handleTouchEnd);
+    };
   }, []);
 
   useEffect(() => {
@@ -157,6 +164,8 @@ export const useSetBottomSheet = ({ handler, sheetHeight }: Pick<BottomSheetType
       metrics.current.isContentAreaTouched = true;
     };
     content.current!.addEventListener("touchstart", handleTouchStart);
+
+    return () => content.current!.removeEventListener("touchstart", handleTouchStart);
   }, []);
 
   useEffect(() => {
