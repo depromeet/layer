@@ -1,10 +1,10 @@
 import { css } from "@emotion/react";
-import { Fragment, PropsWithChildren } from "react";
-import AppBar from "@/component/common/appBar";
-import { AppBarProps } from "@/component/common/appBar";
+import { Fragment, ReactNode } from "react";
+import { AppBar, AppBarProps } from "@/component/common/appBar";
 
-type DefaultLayoutProps = PropsWithChildren<AppBarProps> & {
+type DefaultLayoutProps = AppBarProps & {
   appBarVisible?: boolean;
+  children: ReactNode;
 };
 
 export function DefaultLayout({ children, title, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
