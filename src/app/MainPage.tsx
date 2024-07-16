@@ -2,8 +2,8 @@
 import { useAtom } from "jotai";
 
 import Button from "@/component/Button/Button";
-import { Modal } from "@/component/common/Modal/Modal";
-import { Toast } from "@/component/common/Toast/Toast";
+import { Modal } from "@/component/common/Modal";
+import { Toast } from "@/component/common/Toast";
 import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
 import { messageAtom } from "@/store/messageAtom.tsx";

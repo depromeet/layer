@@ -14,7 +14,7 @@ type Props = {
 
 const DEFAULT_ICON_COLOR = "#000000";
 
-function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "2rem", onClick, ...props }: Props) {
+export const Icon = memo(function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "2rem", onClick, ...props }: Props) {
   // eslint-disable-next-line import/namespace
   const SVGIcon = icons[icon];
   const widthRem = typeof size === "number" ? `${size}rem` : size;
@@ -31,6 +31,4 @@ function Icon({ icon, color = DEFAULT_ICON_COLOR, size = "2rem", onClick, ...pro
       {...props}
     />
   );
-}
-
-export default memo(Icon);
+});
