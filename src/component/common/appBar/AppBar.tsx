@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 
-import Icon from "@/component/common/Icon/Icon";
+import { Icon } from "@/component/common/Icon";
 
 export type AppBarProps = {
   title?: string;

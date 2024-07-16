@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
-import { Portal } from "@/component/common/Portal/Portal";
-import { ToastItem } from "@/component/common/Toast/ToastItem";
+import { Portal } from "@/component/common/Portal";
+import { ToastItem } from "@/component/common/Toast";
 import { useToast } from "@/hooks/useToast";
 
 export function Toast() {

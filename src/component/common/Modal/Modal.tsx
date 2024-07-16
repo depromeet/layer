@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useEffect, useRef } from "react";
 
-import { Portal } from "@/component/common/Portal/Portal";
+import { Portal } from "@/component/common/Portal";
 import { useModal } from "@/hooks/useModal";
 
 export function Modal() {
