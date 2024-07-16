@@ -45,7 +45,7 @@ export function HomePage() {
           flex-direction: column;
           flex-wrap: nowrap;
           gap: 1.2rem;
-          margin-top: 1.4rem;
+          margin: 1.4rem 0;
         `}
       >
         {spaces

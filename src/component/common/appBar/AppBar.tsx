@@ -42,6 +42,7 @@ export function AppBar({ title, theme, height = "4.8rem", LeftComp = <Back />, R
           left: 50%;
           transform: translateX(-50%);
           box-sizing: border-box;
+          z-index: 99;
         `}
       >
         {LeftComp}
