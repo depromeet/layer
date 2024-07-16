@@ -1,9 +1,11 @@
-import { Fragment, useEffect } from "react";
+import { css } from "@emotion/react";
+import { Fragment, useEffect, useState } from "react";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { CheckBox, CheckBoxGroup } from "@/component/common/checkBox";
 import { Input, InputLabelContainer, Label } from "@/component/common/input";
+import { ProgressBar } from "@/component/common/ProgressBar";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 import { useCheckBox } from "@/hooks/useCheckBox";
@@ -15,6 +17,7 @@ export default function Staging() {
   const [isRadioChecked, onChange, selectedValue] = useRadioButton();
   const [isCheckBoxChecked, toggle, selectedValues] = useCheckBox();
   const { openBottomSheet, bottomSheetState } = useBottomSheet();
+  const [number, setNumber] = useState(0);
   const [layerName, handleChangeName] = useInput();
 
   useEffect(() => {
@@ -31,6 +34,15 @@ export default function Staging() {
 
   return (
     <DefaultLayout>
+      <ProgressBar
+        curPage={number}
+        lastPage={5}
+        css={css`
+          margin-bottom: 1rem;
+        `}
+      />
+      <Button onClick={() => setNumber(number + 1)}>업</Button>
+      <Button onClick={() => setNumber(number - 1)}>다운</Button>
       <Button onClick={openBottomSheet}> 그냥 그저 그런 버튼 </Button>
       <Button colorSchema={"gray"}> 그냥 그저 그런 버튼 </Button>
       <Button colorSchema={"sky"}> 그냥 그저 그런 버튼 </Button>
