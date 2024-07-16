@@ -14,11 +14,11 @@ import { useRadioButton } from "@/hooks/useRadioButton";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
 export default function Staging() {
-  const [isRadioChecked, onChange, selectedValue] = useRadioButton();
-  const [isCheckBoxChecked, toggle, selectedValues] = useCheckBox();
+  const { isChecked: isRadioChecked, onChange, selectedValue } = useRadioButton();
+  const { isChecked: isCheckBoxChecked, toggle, selectedValues } = useCheckBox();
   const { openBottomSheet, bottomSheetState } = useBottomSheet();
   const [number, setNumber] = useState(0);
-  const [layerName, handleChangeName] = useInput();
+  const { value: layerName, handleInputChange: handleChangeName } = useInput();
 
   useEffect(() => {
     console.log("라디오 버튼 선택 value:", selectedValue);
