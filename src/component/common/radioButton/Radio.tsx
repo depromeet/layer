@@ -1,19 +1,19 @@
 import { css } from "@emotion/react";
 import { useContext } from "react";
 
-import { CheckBoxContext } from "./CheckBoxGroup";
+import { RadioContext } from "./RadioButtonGroup";
 
 import ListItemCard from "@/component/common/Card/ListItemCard";
 
-type CheckBoxProps = {
+type RadioProps = {
   value: string;
   children: React.ReactNode;
 };
 
-const CheckBox = ({ value, children }: CheckBoxProps) => {
-  const checkboxContext = useContext(CheckBoxContext);
+export function Radio({ value, children }: RadioProps) {
+  const radioContext = useContext(RadioContext);
   return (
-    <ListItemCard variant={checkboxContext?.isChecked(value) ? "theme" : "default"}>
+    <ListItemCard variant={radioContext?.isChecked(value) ? "theme" : "default"}>
       <label
         htmlFor={value}
         css={css`
@@ -29,11 +29,12 @@ const CheckBox = ({ value, children }: CheckBoxProps) => {
         {children}
       </label>
       <input
-        type="checkbox"
+        type="radio"
+        name={radioContext?.radioName}
         id={value}
         value={value}
         onChange={(e) => {
-          checkboxContext?.onChange && checkboxContext.onChange(e.target.value);
+          radioContext?.onChange && radioContext.onChange(e.target.value);
         }}
         css={css`
           display: none;
@@ -41,6 +42,4 @@ const CheckBox = ({ value, children }: CheckBoxProps) => {
       />
     </ListItemCard>
   );
-};
-
-export default CheckBox;
+}
