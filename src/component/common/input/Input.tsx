@@ -34,7 +34,7 @@ export const Input = forwardRef(function ({ id, width = "100%", wordCount, ...pr
           {...props}
         />
         {/* FIXME - typography 컬러 넣기 !! */}
-        {wordCount && maxLength && <Typography variant="CAPTION">{`${value.length}/${maxLength}`}</Typography>}
+        {wordCount && maxLength && <Typography variant="CAPTION" color={"lightGrey"}>{`${value.length}/${maxLength}`}</Typography>}
       </div>
     </div>
   );
