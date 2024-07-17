@@ -35,8 +35,14 @@ button {
   background-color: transparent;
 }
 
-input {
+input,
+textarea {
   border: none;
   background-color: inherit;
   outline: none;
+  padding: 0;
+}
+
+textarea {
+  resize: none;
 }

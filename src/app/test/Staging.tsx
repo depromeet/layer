@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { CheckBox, CheckBoxGroup } from "@/component/common/checkBox";
-import { Input, InputLabelContainer, Label } from "@/component/common/input";
+import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
@@ -19,6 +19,7 @@ export default function Staging() {
   const { openBottomSheet, bottomSheetState } = useBottomSheet();
   const [number, setNumber] = useState(0);
   const { value: layerName, handleInputChange: handleChangeName } = useInput();
+  const { value: description, handleInputChange: handleChangeDescription } = useInput();
 
   useEffect(() => {
     console.log("라디오 버튼 선택 value:", selectedValue);
@@ -70,6 +71,11 @@ export default function Staging() {
       <InputLabelContainer id={"retro"}>
         <Label order={1}>회고 이름</Label>
         <Input onChange={handleChangeName} value={layerName} />
+      </InputLabelContainer>
+
+      <InputLabelContainer id={"description"}>
+        <Label>한 줄 설명</Label>
+        <TextArea onChange={handleChangeDescription} value={description} maxLength={20} wordCount />
       </InputLabelContainer>
 
       <ButtonProvider>
