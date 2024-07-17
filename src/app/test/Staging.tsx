@@ -70,12 +70,12 @@ export default function Staging() {
       <br />
       <InputLabelContainer id={"retro"}>
         <Label order={1}>회고 이름</Label>
-        <Input onChange={handleChangeName} value={layerName} maxLength={10} wordCount />
+        <Input onChange={handleChangeName} value={layerName} maxLength={10} count />
       </InputLabelContainer>
 
       <InputLabelContainer id={"description"}>
         <Label>한 줄 설명</Label>
-        <TextArea onChange={handleChangeDescription} value={description} maxLength={20} wordCount />
+        <TextArea onChange={handleChangeDescription} value={description} maxLength={20} count />
       </InputLabelContainer>
 
       <ButtonProvider>

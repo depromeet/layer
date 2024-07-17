@@ -9,10 +9,10 @@ type InputProps = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   width?: string;
-  wordCount?: boolean;
+  count?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export const Input = forwardRef(function ({ id, width = "100%", wordCount, ...props }: InputProps) {
+export const Input = forwardRef(function ({ id, width = "100%", count, ...props }: InputProps) {
   const { maxLength, value } = props;
   const inputContext = useContext(InputContext);
   return (
@@ -34,7 +34,7 @@ export const Input = forwardRef(function ({ id, width = "100%", wordCount, ...pr
           {...props}
         />
         {/* FIXME - typography 컬러 넣기 !! */}
-        {wordCount && maxLength && <Typography variant="CAPTION" color={"lightGrey"}>{`${value.length}/${maxLength}`}</Typography>}
+        {count && maxLength && <Typography variant="CAPTION" color={"lightGrey"}>{`${value.length}/${maxLength}`}</Typography>}
       </div>
     </div>
   );
