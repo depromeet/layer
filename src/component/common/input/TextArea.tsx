@@ -10,10 +10,10 @@ type TextAreaProps = {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   width?: string;
   height?: string;
-  wordCount?: boolean;
+  count?: boolean;
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export const TextArea = forwardRef(function ({ id, width = "100%", height = "4.8rem", wordCount, ...props }: TextAreaProps) {
+export const TextArea = forwardRef(function ({ id, width = "100%", height = "4.8rem", count, ...props }: TextAreaProps) {
   const { maxLength, value } = props;
   const textareaContext = useContext(InputContext);
   return (
@@ -36,7 +36,7 @@ export const TextArea = forwardRef(function ({ id, width = "100%", height = "4.8
           `}
           {...props}
         />
-        {wordCount && maxLength && (
+        {count && maxLength && (
           <div
             css={css`
               align-self: flex-end;
