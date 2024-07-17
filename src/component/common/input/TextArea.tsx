@@ -13,7 +13,7 @@ type TextAreaProps = {
   count?: boolean;
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export const TextArea = forwardRef(function ({ id, width = "100%", height = "4.8rem", count, ...props }: TextAreaProps) {
+export const TextArea = forwardRef(function ({ id, width = "100%", height = "8.4rem", count, ...props }: TextAreaProps) {
   const { maxLength, value } = props;
   const textareaContext = useContext(InputContext);
   return (
@@ -26,13 +26,14 @@ export const TextArea = forwardRef(function ({ id, width = "100%", height = "4.8
           padding: 1.6rem;
           display: flex;
           flex-direction: column;
+          height: ${height};
         `}
       >
         <textarea
           id={id || textareaContext?.id}
           css={css`
             width: 100%;
-            height: ${height};
+            height: 100%;
           `}
           {...props}
         />
