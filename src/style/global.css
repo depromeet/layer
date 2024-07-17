@@ -45,3 +45,14 @@ textarea {
 textarea {
   resize: none;
 }
+
+::-webkit-scrollbar {
+  border: none;
+  width: 0.8rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(231, 231, 231);
+  border-radius: 0.8rem;
+  border: 0.4rem solid transparent;
+}
