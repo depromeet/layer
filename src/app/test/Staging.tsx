@@ -70,7 +70,7 @@ export default function Staging() {
       <br />
       <InputLabelContainer id={"retro"}>
         <Label order={1}>회고 이름</Label>
-        <Input onChange={handleChangeName} value={layerName} />
+        <Input onChange={handleChangeName} value={layerName} maxLength={10} wordCount />
       </InputLabelContainer>
 
       <InputLabelContainer id={"description"}>
