@@ -23,10 +23,13 @@ export const useMultiStepForm = <T extends readonly string[]>({ stepNames }: Use
     setCurrentStepIndex((i) => i - 1);
   }, [currentStepIndex]);
 
-  return {
-    totalStepsCnt,
-    currentStep,
-    goNext,
-    goPrev,
-  };
+  return useMemo(
+    () => ({
+      totalStepsCnt,
+      currentStep,
+      goNext,
+      goPrev,
+    }),
+    [totalStepsCnt, currentStep, goNext, goPrev],
+  );
 };
