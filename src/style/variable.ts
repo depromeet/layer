@@ -105,6 +105,13 @@ export const DESIGN_SYSTEM_TEXT = {
 };
 
 export const DESIGN_SYSTEM_COLOR = {
+  themeBackground: {
+    dark: "#212529",
+    gray: "#F6F8FA",
+    default: "#FFFFFF",
+  },
+  darkGray: "#868e96",
+  darkGrayText: "#495057",
   inverseGrey50: "#202027",
   inverseGrey100: "#2c2c35",
   inverseGrey200: "#3c3c47",
@@ -115,7 +122,7 @@ export const DESIGN_SYSTEM_COLOR = {
   inverseGrey700: "#c3c3c6",
   inverseGrey800: "#e4e4e5",
   inverseGrey900: "#fff",
-  lightGrey: "#ced4da",
+  lightGrey: "#CED2DA",
   background: "#fff",
   darkBackground: "#17171c",
   greyBackground: "#f2f4f6",

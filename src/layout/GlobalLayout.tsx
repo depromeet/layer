@@ -12,12 +12,11 @@ export default function GlobalLayout() {
           0 0.1rem 0.3rem 0 rgb(0 0 0 / 0.1),
           0 0.1rem 0.2rem -0.1rem rgb(0 0 0 / 0.1);
         margin: 0 auto;
-        padding: 0 2rem;
+
         box-sizing: border-box;
 
         display: flex;
         flex-direction: column;
-        background-color: #ffffff;
       `}
     >
       <Outlet />
