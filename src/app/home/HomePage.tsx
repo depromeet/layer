@@ -28,7 +28,7 @@ export function HomePage() {
 
   return (
     <DefaultLayout
-      theme="#F6F8FA"
+      theme="gray"
       height="6.4rem"
       LeftComp={
         <Typography as="h1" variant="T4">
