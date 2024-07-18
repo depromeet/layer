@@ -8,3 +8,4 @@ export { default as ic_chart } from "./ic_chart.svg?react";
 export { default as ic_arrow_left } from "./ic_arrow_left.svg?react";
 
 export { default as basicProfile } from "./basicProfile.svg?react";
+export { default as ic_arrow_back } from "./ic_arrow_back.svg?react";
