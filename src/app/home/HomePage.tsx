@@ -1,112 +1,83 @@
+import { Outlet, Link, useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/home";
-import { DefaultLayout } from "@/layout/DefaultLayout";
-
-type ViewState = {
-  viewName: string;
-  selected: boolean;
-};
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export function HomePage() {
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [viewState, setViewState] = useState<ViewState[]>([
-    { viewName: "전체", selected: true },
-    { viewName: "개인", selected: false },
-    { viewName: "팀", selected: false },
-  ]);
-  const selectedView = viewState.find((view) => view.selected)?.viewName;
-
-  const goMakeReview = () => {
-    navigate("/review");
-  };
-
+  const getSelectedColor = (path: string): keyof typeof DESIGN_SYSTEM_COLOR => (location.pathname === path ? "lightGrey" : "black");
   return (
-    <DefaultLayout
-      theme="gray"
-      height="6.4rem"
-      LeftComp={
-        <Typography as="h1" variant="T4">
-          회고
-        </Typography>
-      }
-      RightComp={<Icon icon="basicProfile" size="3.2rem" />}
-    >
-      <ViewSelectTab viewState={viewState} setViewState={setViewState} />
-      <GoMakeReviewButton onClick={goMakeReview} />
-      <div
+    <div>
+      <Outlet />
+      <nav
         css={css`
+          width: 100%;
+          max-width: 48rem;
+          height: 8.4rem;
+          background-color: ${DESIGN_SYSTEM_COLOR.white};
+          position: fixed;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
           display: flex;
-          flex-direction: column;
-          flex-wrap: nowrap;
-          gap: 1.2rem;
-          margin: 1.4rem 0;
+          justify-content: space-between;
+          padding: 0.8rem;
         `}
       >
-        {spaces
-          .filter((space) => (selectedView === "전체" ? true : space.collaborationType === selectedView))
-          .map((space, idx) => (
-            <SpaceOverview key={idx} space={space} />
-          ))}
-      </div>
-    </DefaultLayout>
+        <Link
+          to="retrospect"
+          css={css`
+            width: 33%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+          `}
+        >
+          <Icon icon="ic_home" size="2.4rem" color={getSelectedColor("/home/retrospect")} />
+          <Typography variant="OVERLINE" color={getSelectedColor("/home/retrospect")}>
+            회고
+          </Typography>
+        </Link>
+
+        <Link
+          to="goals"
+          css={css`
+            width: 33%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+          `}
+        >
+          <Icon icon="ic_chart" size="2.4rem" color={getSelectedColor("/home/goals")} />
+          <Typography variant="OVERLINE" color={getSelectedColor("/home/goals")}>
+            Goals
+          </Typography>
+        </Link>
+
+        <Link
+          to="analysis"
+          css={css`
+            width: 33%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+          `}
+        >
+          <Icon icon="ic_barChart" size="2.4rem" color={getSelectedColor("/home/analysis")} />
+          <Typography variant="OVERLINE" color={getSelectedColor("/home/analysis")}>
+            Analysis
+          </Typography>
+        </Link>
+      </nav>
+    </div>
   );
 }
-
-//FIXME: API 연결시에 해당 데이터 삭제
-type Space = {
-  imgUrl: string;
-  spaceName: string;
-  introduction: string;
-  projectCategory: string;
-  collaborationType: string;
-  headCount: string;
-};
-
-const spaces: Space[] = [
-  {
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 A",
-    introduction: "이곳은 협업을 위한 작업 환경인 공간 A입니다.",
-    projectCategory: "협업",
-    collaborationType: "팀",
-    headCount: "10",
-  },
-  {
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 B",
-    introduction: "창의적인 사고를 위한 공간 B에 오신 것을 환영합니다.",
-    projectCategory: "디자인",
-    collaborationType: "개인",
-    headCount: "15",
-  },
-  {
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 C",
-    introduction: "혁신과 네트워킹의 중심지인 공간 C를 발견하세요.",
-    projectCategory: "IT개발",
-    collaborationType: "팀",
-    headCount: "8",
-  },
-  {
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 D",
-    introduction: "혁신과 네트워킹의 중심지인 공간 C를 발견하세요.",
-    projectCategory: "IT개발",
-    collaborationType: "팀",
-    headCount: "8",
-  },
-  {
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 E",
-    introduction: "혁신과 네트워킹의 중심지인 공간 C를 발견하세요.",
-    projectCategory: "IT개발",
-    collaborationType: "팀",
-    headCount: "8",
-  },
-];
