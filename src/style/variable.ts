@@ -112,6 +112,8 @@ export const DESIGN_SYSTEM_COLOR = {
   },
   darkGray: "#868e96",
   darkGrayText: "#495057",
+  theme: "#73a2ff",
+  theme2: "#5e94ff",
   inverseGrey50: "#202027",
   inverseGrey100: "#2c2c35",
   inverseGrey200: "#3c3c47",
