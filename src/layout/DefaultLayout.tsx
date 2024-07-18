@@ -1,25 +1,33 @@
 import { css } from "@emotion/react";
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
+
 import { AppBar, AppBarProps } from "@/component/common/appBar";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type DefaultLayoutProps = AppBarProps & {
   appBarVisible?: boolean;
   children: ReactNode;
 };
 
-export function DefaultLayout({ children, title, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
+export function DefaultLayout({ children, title, theme = "default", height, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
   return (
-    <Fragment>
-      {appBarVisible && <AppBar title={title} LeftComp={LeftComp} RightComp={RightComp} />}
+    <div
+      css={css`
+        background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
+      `}
+    >
+      {appBarVisible && <AppBar title={title} theme={theme} height={height} LeftComp={LeftComp} RightComp={RightComp} />}
       <main
         css={css`
           flex: 1 1 0;
           display: flex;
           flex-direction: column;
+          padding: 0 2rem;
+          min-height: calc(100vh - 4.8rem);
         `}
       >
         {children}
       </main>
-    </Fragment>
+    </div>
   );
 }
