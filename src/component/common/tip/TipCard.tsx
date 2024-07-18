@@ -3,11 +3,11 @@ import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-type TipBoxProps = {
+type TipCardProps = {
   message: string;
 };
 
-export function TipBox({ message }: TipBoxProps) {
+export function TipCard({ message }: TipCardProps) {
   return (
     <div
       css={css`
