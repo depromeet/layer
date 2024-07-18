@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { CheckBox, CheckBoxGroup } from "@/component/common/checkBox";
-import { Input, InputLabelContainer, Label } from "@/component/common/input";
+import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
@@ -14,11 +14,12 @@ import { useRadioButton } from "@/hooks/useRadioButton";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
 export default function Staging() {
-  const [isRadioChecked, onChange, selectedValue] = useRadioButton();
-  const [isCheckBoxChecked, toggle, selectedValues] = useCheckBox();
+  const { isChecked: isRadioChecked, onChange, selectedValue } = useRadioButton();
+  const { isChecked: isCheckBoxChecked, toggle, selectedValues } = useCheckBox();
   const { openBottomSheet, bottomSheetState } = useBottomSheet();
   const [number, setNumber] = useState(0);
-  const [layerName, handleChangeName] = useInput();
+  const { value: layerName, handleInputChange: handleChangeName } = useInput();
+  const { value: description, handleInputChange: handleChangeDescription } = useInput();
 
   useEffect(() => {
     console.log("라디오 버튼 선택 value:", selectedValue);
@@ -69,7 +70,12 @@ export default function Staging() {
       <br />
       <InputLabelContainer id={"retro"}>
         <Label order={1}>회고 이름</Label>
-        <Input onChange={handleChangeName} value={layerName} />
+        <Input onChange={handleChangeName} value={layerName} maxLength={10} count />
+      </InputLabelContainer>
+
+      <InputLabelContainer id={"description"}>
+        <Label>한 줄 설명</Label>
+        <TextArea onChange={handleChangeDescription} value={description} maxLength={20} count />
       </InputLabelContainer>
 
       <ButtonProvider>

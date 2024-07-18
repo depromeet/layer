@@ -34,8 +34,25 @@ button {
   user-select: none;
 }
 
-input {
+input,
+textarea {
   border: none;
   background-color: inherit;
   outline: none;
+  padding: 0;
+}
+
+textarea {
+  resize: none;
+}
+
+::-webkit-scrollbar {
+  border: none;
+  width: 0.8rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(231, 231, 231);
+  border-radius: 0.8rem;
+  border: 0.4rem solid transparent;
 }

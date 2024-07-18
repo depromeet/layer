@@ -5,5 +5,5 @@ export const useRadioButton = () => {
   const isChecked = (value: string) => selectedValue === value;
   const onChange = (value: string) => setSelectedValue(value);
 
-  return [isChecked, onChange, selectedValue] as const;
+  return { isChecked, onChange, selectedValue };
 };
