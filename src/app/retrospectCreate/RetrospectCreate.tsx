@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 import { Icon } from "@/component/common/Icon";
 import { ProgressBar } from "@/component/common/ProgressBar";
+import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate } from "@/component/retrospectCreate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
@@ -27,6 +28,7 @@ export function RetrospectCreate() {
   return (
     <DefaultLayout LeftComp={<Icon icon={"ic_arrow_back"} onClick={goPrev} />} theme={themeMap[currentStep]}>
       <ProgressBar curPage={currentStepNumber} lastPage={totalStepsCnt} />
+      <Spacing size={2.45} />
       <form>
         <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext }}>
           {currentStep === "mainInfo" && <MainInfo />}
