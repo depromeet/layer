@@ -5,7 +5,7 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type TipCardProps = {
   message: string;
-  styles: Interpolation<Theme>;
+  styles?: Interpolation<Theme>;
 };
 
 export function TipCard({ message, styles }: TipCardProps) {
