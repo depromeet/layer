@@ -5,10 +5,11 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type TipCardProps = {
   message: string;
+  header?: string;
   styles?: Interpolation<Theme>;
 };
 
-export function TipCard({ message, styles }: TipCardProps) {
+export function TipCard({ message, header = "TIP", styles }: TipCardProps) {
   return (
     <div
       css={[
@@ -25,7 +26,7 @@ export function TipCard({ message, styles }: TipCardProps) {
     >
       {/**FIXME - typography design token */}
       <Typography color={"theme2"} variant={"CAPTION"}>
-        TIP
+        {header}
       </Typography>
       <Typography color={"theme"} variant={"CAPTION"}>
         {message}
