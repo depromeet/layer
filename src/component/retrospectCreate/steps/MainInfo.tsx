@@ -40,8 +40,8 @@ export function MainInfo({ curPage }: MainInfoProps) {
       </div>
 
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={goNext} disabled={!(retroName && description)}>
-          시작하기
+        <ButtonProvider.Primary onClick={goNext} disabled={!retroName}>
+          다음
         </ButtonProvider.Primary>
       </ButtonProvider>
     </>
