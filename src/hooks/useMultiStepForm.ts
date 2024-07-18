@@ -1,13 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
 
 type UseMultiStepForm<T extends readonly string[]> = {
-  stepNames: T;
+  steps: T;
 };
 
-export const useMultiStepForm = <T extends readonly string[]>({ stepNames }: UseMultiStepForm<T>) => {
-  const totalStepsCnt = useMemo(() => stepNames.length, [stepNames]);
+export const useMultiStepForm = <T extends readonly string[]>({ steps }: UseMultiStepForm<T>) => {
+  const totalStepsCnt = useMemo(() => steps.length, [steps]);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const currentStep: T[number] = useMemo(() => stepNames[currentStepIndex], [currentStepIndex, stepNames]);
+  const currentStep: T[number] = useMemo(() => steps[currentStepIndex], [currentStepIndex, steps]);
 
   const goNext = useCallback(() => {
     if (currentStepIndex === totalStepsCnt) {
@@ -27,9 +27,10 @@ export const useMultiStepForm = <T extends readonly string[]>({ stepNames }: Use
     () => ({
       totalStepsCnt,
       currentStep,
+      currentStepNumber: currentStepIndex + 1,
       goNext,
       goPrev,
     }),
-    [totalStepsCnt, currentStep, goNext, goPrev],
+    [totalStepsCnt, currentStep, currentStepIndex, goNext, goPrev],
   );
 };
