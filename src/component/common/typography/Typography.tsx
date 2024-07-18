@@ -8,7 +8,7 @@ type TypographyProps = {
   as?: Extract<React.ElementType, TextTags>;
   variant?: keyof typeof DESIGN_SYSTEM_TEXT;
   color?: keyof typeof DESIGN_SYSTEM_COLOR;
-  children: React.ReactElement | string;
+  children: React.ReactNode;
 };
 
 // FIXME: 디자인 토큰에 따른 default 값 수정
