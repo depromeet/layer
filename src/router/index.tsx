@@ -9,6 +9,7 @@ import { KaKaoRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
 import MainPage from "@/app/MainPage.tsx"; /* FIXME - 실제 메인 페이지 작성 후 대체해주세요. */
+import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { CreateDonePage } from "@/app/space/CreateDonePage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
 import Staging from "@/app/test/Staging.tsx";
@@ -70,6 +71,11 @@ const routerChildren: RouteChildren[] = [
     ],
   },
   { path: "/api/auth/oauth2/kakao", element: <KaKaoRedirection />, auth: false },
+  {
+    path: "retrospect",
+    children: [{ path: "new", element: <RetrospectCreate /> }],
+    auth: true,
+  },
 ];
 
 const browserRouter = routerChildren.map(({ path, element, auth, children }) => {
