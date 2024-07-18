@@ -6,14 +6,10 @@ import { ProgressBar } from "@/component/common/ProgressBar";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 
 type DueDateProps = {
-  curPage: number;
+  // curPage: number;
 };
 
-export function DueDate({ curPage }: DueDateProps) {
+export function DueDate() {
   const retroContext = useContext(RetrospectCreateContext);
-  return (
-    <DefaultLayout LeftComp={<Icon icon={"ic_arrow_back"} onClick={retroContext.goPrev} />}>
-      <ProgressBar curPage={curPage} lastPage={retroContext.totalStepsCnt} />
-    </DefaultLayout>
-  );
+  return <>hi</>;
 }

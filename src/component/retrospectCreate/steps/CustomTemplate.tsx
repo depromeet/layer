@@ -1,19 +1,18 @@
 import { useContext } from "react";
 
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
-import { Icon } from "@/component/common/Icon";
-import { ProgressBar } from "@/component/common/ProgressBar";
-import { DefaultLayout } from "@/layout/DefaultLayout";
+import { Card } from "@/component/common/Card";
+import { Header } from "@/component/common/header";
+import { Typography } from "@/component/common/typography";
 
-type CustomTemplateProps = {
-  curPage: number;
-};
-
-export function CustomTemplate({ curPage }: CustomTemplateProps) {
+export function CustomTemplate() {
   const retroContext = useContext(RetrospectCreateContext);
   return (
-    <DefaultLayout LeftComp={<Icon icon={"ic_arrow_back"} onClick={retroContext.goPrev} />}>
-      <ProgressBar curPage={curPage} lastPage={retroContext.totalStepsCnt} />
-    </DefaultLayout>
+    <>
+      <Header title={"해당 템플릿으로\n수정 없이 회고를 진행할까요?"} contents={"질문을 추가하거나 뺄 수 있어요!"} />
+      <Card>
+        <Typography>빠르고 효율적인 회고</Typography>
+      </Card>
+    </>
   );
 }
