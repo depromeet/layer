@@ -7,3 +7,4 @@ export { default as ic_barChart } from "./ic_barChart.svg?react";
 export { default as ic_chart } from "./ic_chart.svg?react";
 
 export { default as basicProfile } from "./basicProfile.svg?react";
+export { default as ic_arrow_back } from "./ic_arrow_back.svg?react";
