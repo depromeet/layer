@@ -5,6 +5,7 @@ import { ProgressBar } from "@/component/common/ProgressBar";
 import { DueDate, MainInfo, CustomTemplate } from "@/component/retrospectCreate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type RetrospectCreateContextState = {
   totalStepsCnt: number;
@@ -15,9 +16,16 @@ export const RetrospectCreateContext = createContext<RetrospectCreateContextStat
 
 export function RetrospectCreate() {
   const steps = ["mainInfo", "customTemplate", "dueDate"] as const;
+  const themeMap: Record<(typeof steps)[number], keyof (typeof DESIGN_SYSTEM_COLOR)["themeBackground"]> = {
+    mainInfo: "default",
+    customTemplate: "gray",
+    dueDate: "default",
+  };
+
   const { currentStep, goNext, goPrev, totalStepsCnt, currentStepNumber } = useMultiStepForm({ steps });
+
   return (
-    <DefaultLayout LeftComp={<Icon icon={"ic_arrow_back"} onClick={goPrev} />}>
+    <DefaultLayout LeftComp={<Icon icon={"ic_arrow_back"} onClick={goPrev} />} theme={themeMap[currentStep]}>
       <ProgressBar curPage={currentStepNumber} lastPage={totalStepsCnt} />
       <form>
         <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext }}>
