@@ -22,7 +22,7 @@ export function HomePage() {
   ]);
   const selectedView = viewState.find((view) => view.selected)?.viewName;
 
-  const GoMakeReview = () => {
+  const goMakeReview = () => {
     navigate("/review");
   };
 
@@ -38,7 +38,7 @@ export function HomePage() {
       RightComp={<Icon icon="basicProfile" size="3.2rem" />}
     >
       <ViewSelectTab viewState={viewState} setViewState={setViewState} />
-      <GoMakeReviewButton onClick={GoMakeReview} />
+      <GoMakeReviewButton onClick={goMakeReview} />
       <div
         css={css`
           display: flex;
