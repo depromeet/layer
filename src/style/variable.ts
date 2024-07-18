@@ -105,6 +105,11 @@ export const DESIGN_SYSTEM_TEXT = {
 };
 
 export const DESIGN_SYSTEM_COLOR = {
+  themeBackground: {
+    dark: "#212529",
+    gray: "#F6F8FA",
+    default: "#FFFFFF",
+  },
   darkGray: "#868e96",
   darkGrayText: "#495057",
   inverseGrey50: "#202027",

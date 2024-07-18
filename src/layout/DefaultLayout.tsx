@@ -2,18 +2,18 @@ import { css } from "@emotion/react";
 import { ReactNode } from "react";
 
 import { AppBar, AppBarProps } from "@/component/common/appBar";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type DefaultLayoutProps = AppBarProps & {
   appBarVisible?: boolean;
-  theme?: string;
   children: ReactNode;
 };
 
-export function DefaultLayout({ children, title, theme = "#FFFFFF", height, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
+export function DefaultLayout({ children, title, theme = "default", height, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
   return (
     <div
       css={css`
-        background-color: ${theme};
+        background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
       `}
     >
       {appBarVisible && <AppBar title={title} theme={theme} height={height} LeftComp={LeftComp} RightComp={RightComp} />}

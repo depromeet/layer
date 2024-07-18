@@ -2,10 +2,11 @@ import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export type AppBarProps = {
   title?: string;
-  theme?: string;
+  theme: "dark" | "gray" | "default";
   height?: string;
   LeftComp?: React.ReactNode;
   RightComp?: React.ReactNode;
@@ -34,7 +35,7 @@ export function AppBar({ title, theme, height = "4.8rem", LeftComp = <Back />, R
           max-width: 48rem;
           height: ${height};
           padding: 0 2rem;
-          background-color: ${theme};
+          background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
           display: flex;
           justify-content: space-between;
           align-items: center;
