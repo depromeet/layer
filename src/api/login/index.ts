@@ -32,7 +32,7 @@ const getKakaoLoginResponse = async (code: string): Promise<KakaoLoginResponse |
 
     return response.data;
   } catch (err) {
-    console.error("카카오 토근 가져오기 실패", err);
+    console.error("카카오 토큰 가져오기 실패", err);
     return null;
   }
 };
