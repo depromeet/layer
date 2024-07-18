@@ -30,6 +30,11 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
           background-color: #f1f3f5;
           color: #868e96;
         `}
+        ${colorSchema === "white" &&
+        css`
+          background-color: #fff;
+          color: #212529;
+        `}
       
         ${disabled &&
         css`
