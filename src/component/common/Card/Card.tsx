@@ -15,7 +15,7 @@ const BORDER_RADIUS = {
   md: "1.2rem",
 } as const;
 
-export function Card({ width = "100%", height = "34rem", rounded = "sm", shadow = true, padding = "3rem", styles, children }: CardProps) {
+export function Card({ width = "100%", height = "34rem", rounded = "sm", shadow = true, padding = "2rem", styles, children }: CardProps) {
   return (
     <div
       css={[
