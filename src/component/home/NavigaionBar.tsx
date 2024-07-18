@@ -8,7 +8,7 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 export function NavigationBar() {
   const location = useLocation();
 
-  const getSelectedColor = (path: string): keyof typeof DESIGN_SYSTEM_COLOR => (location.pathname === path ? "lightGrey" : "black");
+  const getSelectedColor = (path: string): keyof typeof DESIGN_SYSTEM_COLOR => (location.pathname === path ? "black" : "lightGrey");
 
   return (
     <>
@@ -57,7 +57,7 @@ export function NavigationBar() {
         >
           <Icon icon="ic_chart" size="2.4rem" color={getSelectedColor("/home/goals")} />
           <Typography variant="OVERLINE" color={getSelectedColor("/home/goals")}>
-            Goals
+            실행 목표
           </Typography>
         </Link>
 
@@ -74,7 +74,7 @@ export function NavigationBar() {
         >
           <Icon icon="ic_barChart" size="2.4rem" color={getSelectedColor("/home/analysis")} />
           <Typography variant="OVERLINE" color={getSelectedColor("/home/analysis")}>
-            Analysis
+            분석
           </Typography>
         </Link>
       </nav>
