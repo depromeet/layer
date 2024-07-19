@@ -40,8 +40,7 @@ export function CustomTemplate() {
         </div>
         <QuestionList>
           {questions.map((question, index) => (
-            <QuestionListItem key={crypto.randomUUID()}>
-              <OrderLabel order={index + 1} />
+            <QuestionListItem key={crypto.randomUUID()} order={index + 1}>
               {question}
             </QuestionListItem>
           ))}

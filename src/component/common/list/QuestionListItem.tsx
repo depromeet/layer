@@ -1,13 +1,16 @@
 import { css } from "@emotion/react";
 
+import { Typography } from "@/component/common/typography";
+import { OrderLabel } from "@/component/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type QuestionListItemProps = {
   gap?: string;
+  order?: number;
   children: React.ReactNode;
 };
 
-export function QuestionListItem({ gap = "1.2rem", children }: QuestionListItemProps) {
+export function QuestionListItem({ gap = "1.2rem", order, children }: QuestionListItemProps) {
   return (
     <li
       css={css`
@@ -19,7 +22,10 @@ export function QuestionListItem({ gap = "1.2rem", children }: QuestionListItemP
         gap: ${gap};
       `}
     >
-      {children}
+      <OrderLabel order={order} />
+      <Typography variant="B2" color={"dark"}>
+        {children}
+      </Typography>
     </li>
   );
 }
