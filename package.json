@@ -18,6 +18,7 @@
     "framer-motion": "^11.2.13",
     "jotai": "^2.8.4",
     "jotai-devtools": "^0.10.0",
+    "js-cookie": "^3.0.5",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
