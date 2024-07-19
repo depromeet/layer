@@ -110,6 +110,7 @@ export const DESIGN_SYSTEM_COLOR = {
     gray: "#F6F8FA",
     default: "#FFFFFF",
   },
+  dark: "#212529",
   darkGray: "#868e96",
   darkGrayText: "#495057",
   theme: "#73a2ff",
