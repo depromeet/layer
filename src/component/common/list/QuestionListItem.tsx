@@ -8,9 +8,10 @@ type QuestionListItemProps = {
   gap?: string;
   order?: number;
   children: React.ReactNode;
+  RightComp?: React.ReactNode;
 };
 
-export function QuestionListItem({ gap = "1.2rem", order, children }: QuestionListItemProps) {
+export function QuestionListItem({ gap = "1.2rem", order, RightComp, children }: QuestionListItemProps) {
   return (
     <li
       css={css`
@@ -26,6 +27,7 @@ export function QuestionListItem({ gap = "1.2rem", order, children }: QuestionLi
       <Typography variant="B2" color={"dark"}>
         {children}
       </Typography>
+      {RightComp}
     </li>
   );
 }
