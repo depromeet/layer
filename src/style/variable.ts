@@ -102,7 +102,7 @@ export const DESIGN_SYSTEM_TEXT = {
     lineHeight: "1.6rem",
     letterSpacing: "-2%",
   },
-};
+} as const;
 
 export const DESIGN_SYSTEM_COLOR = {
   themeBackground: {
@@ -411,4 +411,4 @@ export const DESIGN_SYSTEM_COLOR = {
   darkThemeBackgroundLevel02: "#2c2c35",
   lightThemeHairlineBorder: "#e5e8eb",
   darkThemeHairlineBorder: "#3c3c47",
-};
+} as const;
