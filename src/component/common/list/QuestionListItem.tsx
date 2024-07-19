@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 
-import { Typography } from "@/component/common/typography";
 import { OrderLabel } from "@/component/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
