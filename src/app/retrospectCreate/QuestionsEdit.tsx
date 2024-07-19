@@ -30,7 +30,7 @@ function ShowDeleteButton({ showDelete, onClick }: { showDelete: boolean; onClic
 }
 
 export function QuestionsEdit() {
-  const { openBottomSheet } = useBottomSheet();
+  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [questions, setQuestions] = useAtom(questionsAtom);
   const [newQuestions, setNewQuestions] = useState([...questions]);
   const [showDelete, setShowDelete] = useState(false);
@@ -117,7 +117,7 @@ export function QuestionsEdit() {
         <ButtonProvider.Primary onClick={handleSaveQuestions}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      <BottomSheet contents={<AddQuestions />} handler={true} />
+      <BottomSheet contents={<AddQuestions onClose={closeBottomSheet} />} handler={true} sheetHeight={590} />
     </div>
   );
 }
