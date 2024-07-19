@@ -1,12 +1,13 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 
+import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { QuestionList, QuestionListItem } from "@/component/common/list";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { OrderLabel } from "@/component/retrospectCreate";
+import { AddListItemButton } from "@/component/retrospectCreate/AddListItemButton";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 
@@ -25,7 +26,7 @@ export function QuestionsEdit() {
           gap: 1.2rem;
         `}
       >
-        <Typography variant="B2" color={"dark"}>
+        <Typography variant="B2" color={"darkGray"}>
           필수 질문
         </Typography>
         <QuestionList>
@@ -38,12 +39,13 @@ export function QuestionsEdit() {
       <div
         css={css`
           margin-top: 3.2rem;
+          margin-bottom: 1.7rem;
           display: flex;
           flex-direction: column;
           gap: 1.2rem;
         `}
       >
-        <Typography variant="B2" color={"dark"}>
+        <Typography variant="B2" color={"darkGray"}>
           추가 질문
         </Typography>
         <QuestionList>
@@ -54,6 +56,10 @@ export function QuestionsEdit() {
           ))}
         </QuestionList>
       </div>
+      <AddListItemButton />
+      <ButtonProvider>
+        <ButtonProvider.Primary>완료</ButtonProvider.Primary>
+      </ButtonProvider>
     </DefaultLayout>
   );
 }
