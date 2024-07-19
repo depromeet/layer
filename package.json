@@ -28,6 +28,7 @@
     "@babel/preset-react": "^7.24.7",
     "@emotion/babel-plugin": "^11.11.0",
     "@tanstack/eslint-plugin-query": "^5.49.1",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.12.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
