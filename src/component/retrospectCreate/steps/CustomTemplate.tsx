@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { QuestionsEdit } from "@/app/retrospectCreate/QuestionsEdit";
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
@@ -22,6 +22,10 @@ export function CustomTemplate() {
   const retroContext = useContext(RetrospectCreateContext);
   const [questions, _] = useAtom(questionsAtom);
   const { isOpen, open } = useFullModal();
+
+  useEffect(() => {
+    console.log("questions", questions);
+  }, [questions]);
   return (
     <>
       <Header title={"해당 템플릿으로\n수정 없이 회고를 진행할까요?"} contents={"질문을 추가하거나 뺄 수 있어요!"} />
@@ -40,7 +44,7 @@ export function CustomTemplate() {
         </div>
         <QuestionList>
           {questions.map((question, index) => (
-            <QuestionListItem key={crypto.randomUUID()} order={index + 1}>
+            <QuestionListItem key={index} order={index + 1}>
               {question}
             </QuestionListItem>
           ))}
