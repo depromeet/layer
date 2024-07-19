@@ -34,6 +34,7 @@ export function BottomSheet({ title, contents, handler = false, sheetHeight = 34
           transform: translate3d(-50%, -50%, 0);
           background-color: ${bottomSheetState ? `rgba(24, 24, 24, 60%)` : `transparent`};
           transition: 0.4s all;
+          z-index: 10001;
 
           ${!bottomSheetState &&
           css`
