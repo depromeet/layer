@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { AppBar } from "@/component/common/appBar";
@@ -47,6 +47,10 @@ export function QuestionsEdit() {
   const handleSaveQuestions = () => {
     setQuestions(newQuestions);
   };
+
+  useEffect(() => {
+    setNewQuestions([...questions]);
+  }, [questions]);
   return (
     <div
       css={css`
