@@ -24,9 +24,7 @@ export function QuestionListItem({ gap = "1.2rem", order, RightComp, children }:
       `}
     >
       <OrderLabel order={order} />
-      <Typography variant="B2" color={"dark"}>
-        {children}
-      </Typography>
+      {children}
       {RightComp}
     </li>
   );

@@ -1,15 +1,20 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { BottomSheet } from "@/component/BottomSheet";
+import { AppBar } from "@/component/common/appBar";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { QuestionList, QuestionListItem } from "@/component/common/list";
+import { Modal } from "@/component/common/Modal";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { AddListItemButton } from "@/component/retrospectCreate/AddListItemButton";
-import { DeleteItemButton } from "@/component/retrospectCreate/DeleteItemButton";
+import { AddListItemButton, DeleteItemButton } from "@/component/retrospectCreate";
+import { useBottomSheet } from "@/hooks/useBottomSheet";
+import { useModal } from "@/hooks/useModal";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -27,16 +32,37 @@ function ShowDeleteButton({ showDelete, onClick }: { showDelete: boolean; onClic
 }
 
 export function QuestionsEdit() {
+  const { openBottomSheet } = useBottomSheet();
   const [questions, setQuestions] = useAtom(questionsAtom);
+  const [newQuestions, setNewQuestions] = useState([...questions]);
   const [showDelete, setShowDelete] = useState(false);
   const handleDeleteItem = (targetIndex: number) => {
-    setQuestions((prev) => prev.filter((_, i) => i !== targetIndex));
+    setNewQuestions((prev) => prev.filter((_, i) => i !== targetIndex));
+  };
+  const handleChangeQuestion = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    setNewQuestions((prev) => {
+      const updated = [...prev];
+      updated[index] = e.target.value;
+      return updated;
+    });
+  };
+  const handleSaveQuestions = () => {
+    setQuestions(newQuestions);
   };
   return (
-    <DefaultLayout
-      LeftComp={<Icon icon={"ic_quit"} />}
-      RightComp={<ShowDeleteButton onClick={() => setShowDelete((s) => !s)} showDelete={showDelete} />}
+    <div
+      css={css`
+        flex: 1 1 0;
+        display: flex;
+        flex-direction: column;
+        padding: 0 2rem;
+      `}
     >
+      <AppBar
+        theme="default"
+        LeftComp={<Icon icon={"ic_quit"} />}
+        RightComp={<ShowDeleteButton onClick={() => setShowDelete((s) => !s)} showDelete={showDelete} />}
+      />
       <Header title={"질문 리스트"} contents={"문항은 최대 10개까지 구성 가능해요"} />
       <div
         css={css`
@@ -50,8 +76,8 @@ export function QuestionsEdit() {
           필수 질문
         </Typography>
         <QuestionList>
-          {REQUIRED_QUESTIONS.map((question) => (
-            <QuestionListItem key={crypto.randomUUID()}>{question}</QuestionListItem>
+          {REQUIRED_QUESTIONS.map((question, index) => (
+            <QuestionListItem key={index}>{question}</QuestionListItem>
           ))}
         </QuestionList>
       </div>
@@ -69,22 +95,40 @@ export function QuestionsEdit() {
           추가 질문
         </Typography>
         <QuestionList>
-          {questions.map((question, index) => (
+          {newQuestions.map((question, index) => (
             <QuestionListItem
-              key={crypto.randomUUID()}
+              key={index}
               order={index + 1}
               RightComp={<Control index={index} showDelete={showDelete} handleDeleteItem={handleDeleteItem} />}
             >
-              {question}
+              <input
+                value={question}
+                onChange={(e) => handleChangeQuestion(e, index)}
+                css={css`
+                  width: 100%;
+                `}
+              />
             </QuestionListItem>
           ))}
         </QuestionList>
       </div>
-      <AddListItemButton />
+      <AddListItemButton onClick={openBottomSheet} />
+
+      <Modal />
       <ButtonProvider>
-        <ButtonProvider.Primary>완료</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={handleSaveQuestions}>완료</ButtonProvider.Primary>
       </ButtonProvider>
-    </DefaultLayout>
+
+      <BottomSheet
+        title={"헬로우"}
+        contents={
+          <>
+            <p> 완전 이거 럭키비키자냐?</p>
+          </>
+        }
+        handler={true}
+      />
+    </div>
   );
 }
 
@@ -108,6 +152,7 @@ function Control({ index, showDelete, handleDeleteItem, handleDragItem }: Contro
       css={css`
         margin-left: auto;
       `}
+      onDrag={handleDragItem} /* TODO - drag and drop으로 질문 리스트 순서 변경 */
     >
       <Icon icon="ic_handle" color={DESIGN_SYSTEM_COLOR.lightGrey3} size={"1.8rem"} />
     </div>
