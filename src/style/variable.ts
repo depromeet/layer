@@ -125,6 +125,7 @@ export const DESIGN_SYSTEM_COLOR = {
   inverseGrey700: "#c3c3c6",
   inverseGrey800: "#e4e4e5",
   inverseGrey900: "#fff",
+  grey: "#97daa",
   lightGrey: "#CED2DA",
   lightGrey2: "#f1f3f5",
   lightGrey3: "#d9d9d9",

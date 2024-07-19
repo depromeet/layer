@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { AppBar } from "@/component/common/appBar";
@@ -13,9 +12,8 @@ import { Modal } from "@/component/common/Modal";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { AddListItemButton, DeleteItemButton } from "@/component/retrospectCreate";
+import { AddQuestions } from "@/component/retrospectCreate/questionsEdit/AddQuestions";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
-import { useModal } from "@/hooks/useModal";
-import { DefaultLayout } from "@/layout/DefaultLayout";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
@@ -119,15 +117,7 @@ export function QuestionsEdit() {
         <ButtonProvider.Primary onClick={handleSaveQuestions}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      <BottomSheet
-        title={"헬로우"}
-        contents={
-          <>
-            <p> 완전 이거 럭키비키자냐?</p>
-          </>
-        }
-        handler={true}
-      />
+      <BottomSheet contents={<AddQuestions />} handler={true} />
     </div>
   );
 }
