@@ -29,7 +29,7 @@ export function RetrospectCreate() {
     <DefaultLayout LeftComp={<Icon icon={"ic_arrow_back"} onClick={goPrev} />} theme={themeMap[currentStep]}>
       <ProgressBar curPage={currentStepNumber} lastPage={totalStepsCnt} />
       <Spacing size={2.45} />
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext }}>
           {currentStep === "mainInfo" && <MainInfo />}
           {currentStep === "customTemplate" && <CustomTemplate />}
