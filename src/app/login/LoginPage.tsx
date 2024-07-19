@@ -1,11 +1,21 @@
 import { SocialLoginButton } from "@/component/login";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { css } from "@emotion/react";
+import { ButtonProvider } from "@/component/common/button";
 
 export function LoginPage() {
   return (
     <DefaultLayout appBarVisible={false}>
-      <SocialLoginButton type="kakao" handler={kakaoLogin} />
-      <SocialLoginButton type="google" handler={googleLogin} />
+      <ButtonProvider>
+        <SocialLoginButton type="kakao" handler={kakaoLogin} />
+        <div
+          css={css`
+            width: 100%;
+            height: 0.8rem;
+          `}
+        ></div>
+        <SocialLoginButton type="google" handler={googleLogin} />
+      </ButtonProvider>
     </DefaultLayout>
   );
 }
