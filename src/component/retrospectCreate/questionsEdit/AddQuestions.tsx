@@ -11,7 +11,7 @@ import { useCheckBox } from "@/hooks/useCheckBox";
 import { useTabs } from "@/hooks/useTabs";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 
-export function AddQuestions({ onClose }: { onClose: () => void }) {
+export function AddQuestions() {
   const { tabs, curTab, selectTab } = useTabs(["직접 작성", "추천 질문"] as const);
   const [_, setQuestions] = useAtom(questionsAtom);
   const [createdQuestion, setCreatedQuestion] = useState("");
@@ -21,13 +21,12 @@ export function AddQuestions({ onClose }: { onClose: () => void }) {
     setCreatedQuestion(e.target.value);
   };
 
-  const handleSave = () => {
-    if (createdQuestion) {
-      setQuestions((prev) => [...prev, createdQuestion, ...selectedValues]);
-    } else {
-      setQuestions((prev) => [...prev, ...selectedValues]);
-    }
-    onClose();
+  const handleCustomSave = () => {
+    setQuestions((prev) => [...prev, createdQuestion]);
+  };
+
+  const handleRecommendedSave = () => {
+    setQuestions((prev) => [...prev, ...selectedValues]);
   };
   return (
     <>
@@ -39,16 +38,19 @@ export function AddQuestions({ onClose }: { onClose: () => void }) {
           `}
         >
           <TextArea placeholder="질문을 작성해주세요." value={createdQuestion} onChange={handleCreateQuestion} maxLength={10} count />
+          <ButtonProvider>
+            <ButtonProvider.Primary onClick={handleCustomSave}>추가하기</ButtonProvider.Primary>
+          </ButtonProvider>
         </div>
       )}
       {curTab === "추천 질문" && (
         <div>
           <SelectRecommended checkBoxHandlers={{ isChecked, toggle }} />
+          <ButtonProvider>
+            <ButtonProvider.Primary onClick={handleRecommendedSave}>추가하기</ButtonProvider.Primary>
+          </ButtonProvider>
         </div>
       )}
-      <ButtonProvider>
-        <ButtonProvider.Primary onClick={handleSave}>추가하기</ButtonProvider.Primary>
-      </ButtonProvider>
     </>
   );
 }
