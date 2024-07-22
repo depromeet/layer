@@ -12,7 +12,7 @@ import { Modal } from "@/component/common/Modal";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { AddListItemButton, DeleteItemButton } from "@/component/retrospectCreate";
-import { AddQuestions } from "@/component/retrospectCreate/questionsEdit/AddQuestions";
+import { AddQuestionsBottomSheet } from "@/component/retrospectCreate/questionsList";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -29,7 +29,7 @@ function ShowDeleteButton({ showDelete, onClick }: { showDelete: boolean; onClic
   );
 }
 
-export function QuestionsEdit() {
+export function QuestionsList() {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [questions, setQuestions] = useAtom(questionsAtom);
   const [newQuestions, setNewQuestions] = useState([...questions]);
@@ -121,7 +121,7 @@ export function QuestionsEdit() {
         <ButtonProvider.Primary onClick={handleQuestionsSave}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      <BottomSheet contents={<AddQuestions />} handler={true} sheetHeight={590} />
+      <BottomSheet contents={<AddQuestionsBottomSheet />} handler={true} sheetHeight={590} />
     </div>
   );
 }

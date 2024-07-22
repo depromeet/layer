@@ -11,7 +11,7 @@ import { useCheckBox } from "@/hooks/useCheckBox";
 import { useTabs } from "@/hooks/useTabs";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 
-export function AddQuestions() {
+export function AddQuestionsBottomSheet() {
   const { tabs, curTab, selectTab } = useTabs(["직접 작성", "추천 질문"] as const);
   const [_, setQuestions] = useAtom(questionsAtom);
   const [createdQuestion, setCreatedQuestion] = useState("");

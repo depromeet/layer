@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { useContext } from "react";
 
-import { QuestionsEdit } from "@/app/retrospectCreate/QuestionsEdit";
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
 import { ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
@@ -12,6 +11,7 @@ import { FullModal } from "@/component/common/Modal/FullModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
+import { QuestionsList } from "@/component/retrospectCreate/questionsList";
 import { useFullModal } from "@/hooks/useFullModal";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 
@@ -67,7 +67,7 @@ export function CustomTemplate() {
       </ButtonProvider>
       {isOpen && (
         <FullModal>
-          <QuestionsEdit />
+          <QuestionsList />
         </FullModal>
       )}
     </div>
