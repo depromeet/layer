@@ -12,7 +12,7 @@ type InputProps = {
   count?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export const Input = forwardRef(function ({ id, width = "100%", count, ...props }: InputProps) {
+export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, width = "100%", count, ...props }, ref) {
   const { maxLength, value } = props;
   const inputContext = useContext(InputContext);
   return (
@@ -27,6 +27,7 @@ export const Input = forwardRef(function ({ id, width = "100%", count, ...props 
         `}
       >
         <input
+          ref={ref}
           id={id || inputContext?.id}
           css={css`
             width: 100%;
