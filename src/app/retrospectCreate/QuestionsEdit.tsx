@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { AppBar } from "@/component/common/appBar";
@@ -13,7 +13,6 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { AddListItemButton, DeleteItemButton } from "@/component/retrospectCreate";
 import { AddQuestions } from "@/component/retrospectCreate/questionsEdit/AddQuestions";
-import { EditedContext } from "@/component/retrospectCreate/steps/CustomTemplate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -48,11 +47,7 @@ export function QuestionsEdit() {
     });
   };
 
-  const editContext = useContext(EditedContext);
-
   const handleQuestionsSave = () => {
-    editContext?.setIsEdited(true);
-    editContext?.close();
     setQuestions(newQuestions);
   };
 

@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import { createContext } from "react";
 
 import { Icon } from "@/component/common/Icon";
@@ -24,12 +25,18 @@ export function RetrospectCreate() {
   };
 
   const { currentStep, goNext, goPrev, totalStepsCnt, currentStepNumber } = useMultiStepForm({ steps });
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {};
 
   return (
     <DefaultLayout LeftComp={<Icon icon={"ic_arrow_back"} onClick={goPrev} />} theme={themeMap[currentStep]}>
       <ProgressBar curPage={currentStepNumber} lastPage={totalStepsCnt} />
       <Spacing size={2.45} />
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        css={css`
+          flex: 1 1 0;
+        `}
+      >
         <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext }}>
           {currentStep === "mainInfo" && <MainInfo />}
           {currentStep === "customTemplate" && <CustomTemplate />}
