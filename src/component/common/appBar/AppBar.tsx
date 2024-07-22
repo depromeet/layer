@@ -13,20 +13,21 @@ export type AppBarProps = {
 };
 
 //FIXME: 색깔 디자인 토큰에 따라 변경
-function Back() {
+function Back({ theme }: { theme: "dark" | "gray" | "default" }) {
   const navigate = useNavigate();
   return (
     <Icon
-      icon="ic_back"
+      icon="ic_arrowLeft"
       onClick={() => {
         navigate(-1);
       }}
+      color={theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.black}
     />
   );
 }
 
 //FIXME : 디자인 토큰에 따라 색깔 변경, 폰트 수정
-export function AppBar({ title, theme = "default", height = "6.4rem", LeftComp = <Back />, RightComp = <div></div> }: AppBarProps) {
+export function AppBar({ title, theme = "default", height = "4.8rem", LeftComp = <Back theme={theme} />, RightComp = <div></div> }: AppBarProps) {
   return (
     <>
       <div
@@ -51,6 +52,7 @@ export function AppBar({ title, theme = "default", height = "6.4rem", LeftComp =
           css={css`
             position: relative;
             font-size: 1.8rem;
+            color: ${theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.black};
           `}
         >
           {title}

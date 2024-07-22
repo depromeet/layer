@@ -7,8 +7,7 @@ export { default as ic_user } from "./ic_user.svg?react";
 export { default as ic_home } from "./ic_home.svg?react";
 export { default as ic_barChart } from "./ic_barChart.svg?react";
 export { default as ic_chart } from "./ic_chart.svg?react";
-export { default as ic_arrow_left } from "./ic_arrow_left.svg?react";
-
+export { default as ic_arrowLeft } from "./ic_arrowLeft.svg?react";
 export { default as basicProfile } from "./basicProfile.svg?react";
 export { default as ic_arrow_back } from "./ic_arrow_back.svg?react";
 export { default as ic_delete } from "./ic_delete.svg?react";
