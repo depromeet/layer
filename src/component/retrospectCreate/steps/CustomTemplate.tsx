@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 import { QuestionsEdit } from "@/app/retrospectCreate/QuestionsEdit";
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
@@ -23,11 +23,14 @@ export function CustomTemplate() {
   const [questions, _] = useAtom(questionsAtom);
   const { isOpen, open } = useFullModal();
 
-  useEffect(() => {
-    console.log("questions", questions);
-  }, [questions]);
   return (
-    <>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        min-height: 100%;
+      `}
+    >
       <Header title={"해당 템플릿으로\n수정 없이 회고를 진행할까요?"} contents={"질문을 추가하거나 뺄 수 있어요!"} />
       <Spacing size={4.6} />
       <Card shadow>
@@ -38,7 +41,14 @@ export function CustomTemplate() {
             margin-bottom: 3rem;
           `}
         >
-          <Typography variant={"S1"}>빠르고 효율적인 회고</Typography>
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+            `}
+          >
+            <Typography variant={"S1"}>빠르고 효율적인 회고</Typography>
+          </div>
           <Spacing size={0.8} />
           <Tag>KPT회고</Tag>
         </div>
@@ -60,6 +70,6 @@ export function CustomTemplate() {
           <QuestionsEdit />
         </FullModal>
       )}
-    </>
+    </div>
   );
 }
