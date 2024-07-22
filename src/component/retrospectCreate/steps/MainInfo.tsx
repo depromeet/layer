@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { useAtom } from "jotai";
 import { useContext } from "react";
 
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
@@ -7,13 +8,22 @@ import { Header } from "@/component/common/header";
 import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
 import { TipCard } from "@/component/common/tip/TipCard";
 import { useInput } from "@/hooks/useInput";
+import { mainInfoAtom } from "@/store/retrospect/retrospectCreate";
 
 export function MainInfo() {
   const { goNext } = useContext(RetrospectCreateContext);
-  const { value: retroName, handleInputChange: handleNameChange } = useInput();
-  const { value: description, handleInputChange: handleDescriptionChange } = useInput();
+  const [mainInfo, setMainInfo] = useAtom(mainInfoAtom);
+  const { value: title, handleInputChange: handleNameChange } = useInput(mainInfo.title);
+  const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(mainInfo.introduction);
+
   return (
-    <>
+    <div
+      css={css`
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      `}
+    >
       <Header title={"회고의\n이름은 무엇인가요?"} />
       <div
         css={css`
@@ -25,13 +35,13 @@ export function MainInfo() {
       >
         <InputLabelContainer id="name">
           <Label>회고 명</Label>
-          <Input value={retroName} onChange={handleNameChange} maxLength={10} count />
+          <Input value={title} onChange={handleNameChange} maxLength={10} count />
         </InputLabelContainer>
 
         <div>
           <InputLabelContainer id="name">
             <Label>한 줄 설명</Label>
-            <TextArea value={description} onChange={handleDescriptionChange} maxLength={20} count />
+            <TextArea value={introduction} onChange={handleDescriptionChange} maxLength={20} count />
           </InputLabelContainer>
           <TipCard
             message="회고 설명 또는 진행 목표에 대해 적어도 좋아요 :)"
@@ -43,10 +53,10 @@ export function MainInfo() {
       </div>
 
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={goNext} disabled={!retroName}>
+        <ButtonProvider.Primary onClick={() => goNext(() => setMainInfo({ title, introduction }))} disabled={!title}>
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>
-    </>
+    </div>
   );
 }

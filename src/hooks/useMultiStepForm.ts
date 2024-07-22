@@ -9,12 +9,18 @@ export const useMultiStepForm = <T extends readonly string[]>({ steps }: UseMult
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const currentStep: T[number] = useMemo(() => steps[currentStepIndex], [currentStepIndex, steps]);
 
-  const goNext = useCallback(() => {
-    if (currentStepIndex === totalStepsCnt) {
-      return;
-    }
-    setCurrentStepIndex((i) => i + 1);
-  }, [currentStepIndex, totalStepsCnt]);
+  const goNext = useCallback(
+    (callback?: (args?: T) => void) => {
+      if (currentStepIndex === totalStepsCnt) {
+        return;
+      }
+      setCurrentStepIndex((i) => i + 1);
+      if (callback) {
+        callback();
+      }
+    },
+    [currentStepIndex, totalStepsCnt],
+  );
 
   const goPrev = useCallback(() => {
     if (currentStepIndex === 0) {
