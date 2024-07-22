@@ -84,6 +84,18 @@ export const DESIGN_SYSTEM_TEXT = {
     lineHeight: "2.2rem",
     letterSpacing: "-2%",
   },
+  B2_SEMIBOLD: {
+    fontWeight: "SemiBold",
+    fontSize: "1.4rem",
+    lineHeight: "2.2rem",
+    letterSpacing: "-2%",
+  },
+  B2_MEDIUM: {
+    fontWeight: "Medium",
+    fontSize: "1.4rem",
+    lineHeight: "2.2rem",
+    letterSpacing: "-2%",
+  },
   B2: {
     fontWeight: "Regular",
     fontSize: "1.4rem",
