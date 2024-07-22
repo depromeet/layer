@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { AppBar } from "@/component/common/appBar";
@@ -13,6 +13,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { AddListItemButton, DeleteItemButton } from "@/component/retrospectCreate";
 import { AddQuestions } from "@/component/retrospectCreate/questionsEdit/AddQuestions";
+import { EditedContext } from "@/component/retrospectCreate/steps/CustomTemplate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -33,28 +34,32 @@ export function QuestionsEdit() {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [questions, setQuestions] = useAtom(questionsAtom);
   const [newQuestions, setNewQuestions] = useState([...questions]);
+
   const [showDelete, setShowDelete] = useState(false);
   const handleDeleteItem = (targetIndex: number) => {
     setNewQuestions((prev) => prev.filter((_, i) => i !== targetIndex));
   };
-  const handleChangeQuestion = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+
+  const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     setNewQuestions((prev) => {
-      const updated = [...prev];
-      updated[index] = e.target.value;
-      return updated;
+      const newQuestions = [...prev];
+      newQuestions[index] = e.target.value;
+      return newQuestions;
     });
   };
-  const handleSaveQuestions = () => {
+
+  const editContext = useContext(EditedContext);
+
+  const handleQuestionsSave = () => {
+    editContext?.setIsEdited(true);
+    editContext?.close();
     setQuestions(newQuestions);
   };
 
-  useEffect(() => {
-    setNewQuestions([...questions]);
-  }, [questions]);
   return (
     <div
       css={css`
-        flex: 1 1 0;
+        min-height: 100%;
         display: flex;
         flex-direction: column;
         padding: 0 2rem;
@@ -105,9 +110,9 @@ export function QuestionsEdit() {
             >
               <input
                 value={question}
-                onChange={(e) => handleChangeQuestion(e, index)}
+                onChange={(e) => handleQuestionChange(e, index)}
                 css={css`
-                  width: 100%;
+                  flex-grow: 1;
                 `}
               />
             </QuestionListItem>
@@ -118,10 +123,10 @@ export function QuestionsEdit() {
 
       <Modal />
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={handleSaveQuestions}>완료</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={handleQuestionsSave}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      <BottomSheet contents={<AddQuestions onClose={closeBottomSheet} />} handler={true} sheetHeight={590} />
+      <BottomSheet contents={<AddQuestions />} handler={true} sheetHeight={590} />
     </div>
   );
 }

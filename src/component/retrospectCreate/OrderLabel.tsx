@@ -11,7 +11,7 @@ export function OrderLabel({ order }: OrderLabelProps) {
       css={css`
         width: 2rem;
         height: 2rem;
-        border-radius: 50%;
+        border-radius: 3rem;
         background-color: ${DESIGN_SYSTEM_COLOR["themeBackground"]["dark"]};
         display: flex;
         justify-content: center;
