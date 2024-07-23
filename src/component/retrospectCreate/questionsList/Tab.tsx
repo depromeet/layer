@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-export function Tab<T extends string>({ tabs, curTab, selectTab }: { tabs: T[]; curTab: T; selectTab: (tab: T) => void }) {
+export function Tab<T extends string>({ tabs, curTab, selectTab }: { tabs: readonly T[]; curTab: T; selectTab: (tab: T) => void }) {
   return (
     <div css={css``}>
       {tabs.map((tab, index) => {
