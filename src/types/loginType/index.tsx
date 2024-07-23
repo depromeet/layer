@@ -31,33 +31,32 @@ export type KakaoLoginResponse = {
   refresh_token_expires_in: number;
 };
 
-export type SignUpResponse = {
+export type AuthResponse = {
   memberId: number;
+  name: string;
+  email: string;
+  memberRole: "USER" | "ADMIN";
+  socialId: string;
+  socialType: string;
+  accessToken: string;
+  refreshToken: string;
+} | null;
+
+export type AuthApiReturn = {
+  status: number;
+  data: AuthResponse | null;
+};
+
+export type LoginKakaoResult =
+  | { status: "loginSuccess"; response: AuthResponse | null }
+  | { status: "signupNeed"; response: null }
+  | { status: "error"; response: null };
+
+export type MemberInfo = {
+  memberId: string;
   name: string;
   email: string;
   memberRole: string;
   socialId: string;
-  socialType: string;
-} | null;
-
-export type SignInReturn = {
-  status: number;
-  data: {
-    memberId: number;
-    accessToken: string;
-    refreshToken: string;
-    memberRole: "USER" | "ADMIN";
-  } | null;
+  socialType: "KAKAO" | "Google";
 };
-
-export type SignInResponse = {
-  memberId: number;
-  accessToken: string;
-  refreshToken: string;
-  memberRole: "USER" | "ADMIN";
-} | null;
-
-export type LoginKakaoResult =
-  | { status: "loginSuccess"; response: SignInResponse | null }
-  | { status: "signupSuccess"; response: SignUpResponse | null }
-  | { status: "error"; response: null };
