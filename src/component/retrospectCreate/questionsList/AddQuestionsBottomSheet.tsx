@@ -22,7 +22,7 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
   const { tabs, curTab, selectTab } = useTabs(["직접 작성", "추천 질문"] as const);
   const [_, setQuestions] = useAtom(questionsAtom);
   const { value: customQuestion, handleInputChange: handleCustomChange, resetInput } = useInput();
-  const { isChecked, toggle, selectedValues } = useCheckBox();
+  const { isChecked, toggle, selectedValues, resetChecked } = useCheckBox();
   const { tabs: categoryTabs, curTab: curCategoryTab, selectTab: selectCategoryTab } = useTabs(QUESTION_TYPES);
 
   const handleCustomSave = () => {
@@ -33,6 +33,7 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
 
   const handleRecommendedSave = () => {
     setQuestions((prev) => [...prev, ...selectedValues]);
+    resetChecked();
     onClose();
   };
 
@@ -85,7 +86,9 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
             </CheckBoxGroup>
           </div>
           <ButtonProvider>
-            <ButtonProvider.Primary onClick={handleRecommendedSave}>{`추가하기`}</ButtonProvider.Primary>
+            <ButtonProvider.Primary
+              onClick={handleRecommendedSave}
+            >{`추가하기${selectedValues.length > 0 ? " " + selectedValues.length : ""}`}</ButtonProvider.Primary>
           </ButtonProvider>
         </div>
       )}
