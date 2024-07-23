@@ -1,11 +1,10 @@
 import { useAtom } from "jotai";
+import Cookies from "js-cookie";
 import { Fragment, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 
-import { authAtom } from "@/store/auth/authAtom";
 import { fetchMemberInfo } from "@/api/login";
-import { MemberInfo } from "@/types/loginType";
+import { authAtom } from "@/store/auth/authAtom";
 
 type RequireLoginProps = {
   children: ReactNode;
@@ -23,7 +22,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
       console.log(accessToken);
       if (accessToken) {
         try {
-          const response = await fetchMemberInfo(accessToken);
+          const response = await fetchMemberInfo();
           setAuth({ isLogin: true, name: response.name, email: response.email, memberRole: response.memberRole });
         } catch (error) {
           console.error("Error fetching member info:", error);

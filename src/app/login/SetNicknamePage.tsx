@@ -30,12 +30,11 @@ export function SetNickNamePage() {
       navigate("/login");
     } else {
       const signUpResponse = await signUpWithToken(kakaoAccessToken, nickname);
-      console.log(signUpResponse);
-      if (signUpResponse && signUpResponse.status === 200) {
+      if (signUpResponse && signUpResponse.status === 201) {
         setAuthResponse(signUpResponse.data);
         navigate("/home/retrospect");
       } else {
-        console.error("/error");
+        navigate("/error");
       }
     }
   };

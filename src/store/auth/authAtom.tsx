@@ -1,4 +1,4 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
 type Auth = {
   isLogin: boolean;
@@ -7,7 +7,7 @@ type Auth = {
   memberRole: string;
 };
 
-export const authAtom = atom<Auth>({
+export const authAtom = atomWithStorage<Auth>("auth", {
   isLogin: false,
   name: "",
   email: "",
