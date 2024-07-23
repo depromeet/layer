@@ -38,14 +38,7 @@ export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) 
             margin-bottom: 3rem;
           `}
         >
-          <div
-            css={css`
-              display: flex;
-              justify-content: space-between;
-            `}
-          >
-            <Typography variant={"S1"}>빠르고 효율적인 회고</Typography>
-          </div>
+          <Typography variant={"S1"}>빠르고 효율적인 회고</Typography>
           <Spacing size={0.8} />
           <Tag>KPT회고</Tag>
         </div>
