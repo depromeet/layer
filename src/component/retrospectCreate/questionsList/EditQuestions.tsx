@@ -15,6 +15,7 @@ import { Typography } from "@/component/common/typography";
 import { AddListItemButton, DeleteItemButton } from "@/component/retrospectCreate";
 import { AddQuestionsBottomSheet } from "@/component/retrospectCreate/questionsList";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
+import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
@@ -28,7 +29,9 @@ function ShowDeleteButton({ showDelete, onClick }: { showDelete: boolean; onClic
   );
 }
 
-export function QuestionsList() {
+type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "goPrev">;
+
+export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [questions, setQuestions] = useAtom(questionsAtom);
   const [newQuestions, setNewQuestions] = useState([...questions]);
@@ -48,6 +51,7 @@ export function QuestionsList() {
 
   const handleQuestionsSave = () => {
     setQuestions(newQuestions);
+    goNext();
   };
 
   useEffect(() => {
@@ -65,7 +69,7 @@ export function QuestionsList() {
     >
       <AppBar
         theme="default"
-        LeftComp={<Icon icon={"ic_quit"} />}
+        LeftComp={<Icon icon={"ic_quit"} onClick={goPrev} />}
         RightComp={<ShowDeleteButton onClick={() => setShowDelete((s) => !s)} showDelete={showDelete} />}
       />
       <Header title={"질문 리스트"} contents={"문항은 최대 10개까지 구성 가능해요"} />
