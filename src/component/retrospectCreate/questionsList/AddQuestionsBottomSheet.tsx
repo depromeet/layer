@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 
 import { QuestionItemCheckbox } from "./QuestionItemCheckbox";
-import { QUESTION_TYPES, RECOMMENDED_QUESTIONS } from "./recommendedQuestions.const";
+import { QUESTION_TYPES, RECOMMENDED_QUESTIONS } from "./questions.const";
 import { Tab } from "./Tab";
 
 import { ButtonProvider } from "@/component/common/button";

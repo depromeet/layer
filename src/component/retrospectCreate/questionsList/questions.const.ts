@@ -1,3 +1,5 @@
+export const REQUIRED_QUESTIONS = ["진행상황에 대해 얼마나 만족하나요?", "목표했던 부분에 얼마나 달성했나요?"] as const;
+
 export const QUESTION_TYPES = ["팀워크", "의사소통", "문제해결", "시간관리", "목표설정", "자기계발", "목표달성"] as const;
 
 export const RECOMMENDED_QUESTIONS: Record<(typeof QUESTION_TYPES)[number], string[]> = {

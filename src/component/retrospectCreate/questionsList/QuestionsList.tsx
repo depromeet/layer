@@ -2,6 +2,8 @@ import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 
+import { REQUIRED_QUESTIONS } from "./questions.const";
+
 import { BottomSheet } from "@/component/BottomSheet";
 import { AppBar } from "@/component/common/appBar";
 import { ButtonProvider } from "@/component/common/button";
@@ -15,8 +17,6 @@ import { AddQuestionsBottomSheet } from "@/component/retrospectCreate/questionsL
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
-
-const REQUIRED_QUESTIONS = ["진행상황에 대해 얼마나 만족하나요?", "목표했던 부분에 얼마나 달성했나요?"];
 
 function ShowDeleteButton({ showDelete, onClick }: { showDelete: boolean; onClick: () => void }) {
   return (
