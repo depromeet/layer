@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { AppBar } from "@/component/common/appBar";
@@ -8,7 +8,6 @@ import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { QuestionList, QuestionListItem } from "@/component/common/list";
-import { Modal } from "@/component/common/Modal";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { AddListItemButton, DeleteItemButton } from "@/component/retrospectCreate";
@@ -50,6 +49,10 @@ export function QuestionsList() {
   const handleQuestionsSave = () => {
     setQuestions(newQuestions);
   };
+
+  useEffect(() => {
+    setNewQuestions([...questions]);
+  }, [questions]);
 
   return (
     <div
@@ -116,12 +119,11 @@ export function QuestionsList() {
       </div>
       <AddListItemButton onClick={openBottomSheet} />
 
-      <Modal />
       <ButtonProvider>
         <ButtonProvider.Primary onClick={handleQuestionsSave}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      <BottomSheet contents={<AddQuestionsBottomSheet />} handler={true} sheetHeight={590} />
+      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} handler={true} sheetHeight={590} />
     </div>
   );
 }
