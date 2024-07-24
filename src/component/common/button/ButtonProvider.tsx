@@ -40,6 +40,7 @@ export const ButtonProvider = ({ sort = "vertical", children, ...props }: PropsW
 
         padding: 4rem 0 2rem 0;
         margin-top: auto;
+        z-index: 10001;
       `}
     >
       {Children.map(children, (child) => {

@@ -18,6 +18,7 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
         padding: 1.4rem 0;
         border: none;
         font-size: 1.6rem;
+        font-weight: 500;
         cursor: pointer;
 
         // FIXME: 추후 디자인 토큰 나오면 세부 수정 진행 필요
@@ -29,6 +30,11 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
         css`
           background-color: #f1f3f5;
           color: #868e96;
+        `}
+        ${colorSchema === "white" &&
+        css`
+          color: #212529;
+          background-color: white;
         `}
       
         ${disabled &&

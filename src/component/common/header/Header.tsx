@@ -48,6 +48,7 @@ export function Header({ theme = "primary", title, contents }: HeaderProps) {
           display: flex;
           flex-direction: column;
           row-gap: 1.2rem;
+          margin-top: 2rem;
         `}
       >
         <div
@@ -71,7 +72,7 @@ export function Header({ theme = "primary", title, contents }: HeaderProps) {
           contents.split("\n").map((item) => (
             <div key={item}>
               {parseTextToJSX(item).map((contents, index) => (
-                <Typography key={index} variant={"B2"} color={themeSet[theme].contentsColor}>
+                <Typography key={index} variant={"B1"} color={themeSet[theme].contentsColor}>
                   {contents}
                 </Typography>
               ))}

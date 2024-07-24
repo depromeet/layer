@@ -19,11 +19,12 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
       {appBarVisible && <AppBar title={title} theme={theme} height={height} LeftComp={LeftComp} RightComp={RightComp} />}
       <main
         css={css`
+          position: relative;
           flex: 1 1 0;
           display: flex;
           flex-direction: column;
           padding: 0 2rem;
-          min-height: calc(100vh - 4.8rem);
+          min-height: calc(100dvh - ${height ?? `6.4rem`});
         `}
       >
         {children}

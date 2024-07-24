@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@egjs/react-flicking": "^4.11.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@tanstack/react-query": "^5.49.2",
@@ -20,8 +21,10 @@
     "jotai-devtools": "^0.10.0",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
+    "react-canvas-confetti": "1.4.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.24.0"
+    "react-router-dom": "^6.24.0",
+    "swiper": "^11.1.5"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.24.7",

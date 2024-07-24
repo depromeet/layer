@@ -25,6 +25,33 @@ export const ANIMATION = {
     }
     to {
         opacity: 1;
-    }
-  `,
+    }`,
+
+  FADE_UP: keyframes`
+      0% {
+          opacity: 40%;
+          transform: translate3d(0, 30%, 0);
+      }
+      50% {
+          opacity: 60%;
+          transform: translateZ(10);
+      }
+      70% {
+          opacity: 80%;
+          transform: translateZ(30);
+      }
+      100% {
+          opacity: 100%;
+          transform: translateZ(50);
+      }`,
+
+  FADE_IN_SCALE_UP: keyframes`
+      0% {
+        width: 40%;
+        opacity: 40%;
+      }
+      100% {
+        width: 100%;
+        opacity: 100%;  
+      }`,
 };
