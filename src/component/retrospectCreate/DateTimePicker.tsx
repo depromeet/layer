@@ -1,6 +1,7 @@
 import Calendar from "react-calendar";
 import type { CalendarProps } from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+
+import { Icon } from "@/component/common/Icon";
 
 type DateTimePickerProps = {
   // selected: Date;
@@ -8,5 +9,17 @@ type DateTimePickerProps = {
 } & CalendarProps;
 
 export function DateTimePicker({ ...props }: DateTimePickerProps) {
-  return <Calendar {...props} />;
+  return (
+    <div>
+      <main>
+        <Calendar
+          {...props}
+          calendarType={"gregory"}
+          formatDay={(_, date) => new Intl.DateTimeFormat("en", { day: "numeric" }).format(date)}
+          prevLabel={<Icon icon={"ic_prev_chevron"} style={{ cursor: "pointer" }} />}
+          nextLabel={<Icon icon={"ic_next_chevron"} style={{ cursor: "pointer" }} />}
+        />
+      </main>
+    </div>
+  );
 }
