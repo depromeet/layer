@@ -4,106 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  '@emotion/react':
-    specifier: ^11.11.4
-    version: 11.11.4(@types/react@18.3.2)(react@18.3.1)
-  '@emotion/styled':
-    specifier: ^11.11.5
-    version: 11.11.5(@emotion/react@11.11.4)(@types/react@18.3.2)(react@18.3.1)
-  '@tanstack/react-query':
-    specifier: ^5.49.2
-    version: 5.49.2(react@18.3.1)
-  '@tanstack/react-query-devtools':
-    specifier: ^5.49.2
-    version: 5.49.2(@tanstack/react-query@5.49.2)(react@18.3.1)
-  axios:
-    specifier: ^1.7.2
-    version: 1.7.2
-  framer-motion:
-    specifier: ^11.2.13
-    version: 11.2.13(react-dom@18.3.1)(react@18.3.1)
-  jotai:
-    specifier: ^2.8.4
-    version: 2.8.4(@types/react@18.3.2)(react@18.3.1)
-  jotai-devtools:
-    specifier: ^0.10.0
-    version: 0.10.0(@types/react@18.3.2)(react-dom@18.3.1)(react@18.3.1)(redux@5.0.1)
-  prettier:
-    specifier: ^3.2.5
-    version: 3.2.5
-  react:
-    specifier: ^18.2.0
-    version: 18.3.1
-  react-dom:
-    specifier: ^18.2.0
-    version: 18.3.1(react@18.3.1)
-  react-router-dom:
-    specifier: ^6.24.0
-    version: 6.24.0(react-dom@18.3.1)(react@18.3.1)
-
-devDependencies:
-  '@babel/preset-react':
-    specifier: ^7.24.7
-    version: 7.24.7(@babel/core@7.24.5)
-  '@emotion/babel-plugin':
-    specifier: ^11.11.0
-    version: 11.11.0
-  '@tanstack/eslint-plugin-query':
-    specifier: ^5.49.1
-    version: 5.49.1(eslint@8.57.0)(typescript@5.4.5)
-  '@types/node':
-    specifier: ^20.12.12
-    version: 20.12.12
-  '@types/react':
-    specifier: ^18.2.66
-    version: 18.3.2
-  '@types/react-dom':
-    specifier: ^18.2.22
-    version: 18.3.0
-  '@typescript-eslint/eslint-plugin':
-    specifier: ^7.2.0
-    version: 7.9.0(@typescript-eslint/parser@7.9.0)(eslint@8.57.0)(typescript@5.4.5)
-  '@typescript-eslint/parser':
-    specifier: ^7.2.0
-    version: 7.9.0(eslint@8.57.0)(typescript@5.4.5)
-  '@vitejs/plugin-react':
-    specifier: ^4.2.1
-    version: 4.2.1(vite@5.2.11)
-  '@vitejs/plugin-react-swc':
-    specifier: ^3.5.0
-    version: 3.6.0(vite@5.2.11)
-  eslint:
-    specifier: ^8.57.0
-    version: 8.57.0
-  eslint-config-prettier:
-    specifier: ^9.1.0
-    version: 9.1.0(eslint@8.57.0)
-  eslint-import-resolver-typescript:
-    specifier: ^3.6.1
-    version: 3.6.1(@typescript-eslint/parser@7.9.0)(eslint-plugin-import@2.29.1)(eslint@8.57.0)
-  eslint-plugin-import:
-    specifier: ^2.29.1
-    version: 2.29.1(@typescript-eslint/parser@7.9.0)(eslint-import-resolver-typescript@3.6.1)(eslint@8.57.0)
-  eslint-plugin-react:
-    specifier: ^7.34.1
-    version: 7.34.1(eslint@8.57.0)
-  eslint-plugin-react-hooks:
-    specifier: ^4.6.0
-    version: 4.6.2(eslint@8.57.0)
-  eslint-plugin-react-refresh:
-    specifier: ^0.4.6
-    version: 0.4.7(eslint@8.57.0)
-  typescript:
-    specifier: ^5.2.2
-    version: 5.4.5
-  vite:
-    specifier: ^5.2.0
-    version: 5.2.11(@types/node@20.12.12)
-  vite-plugin-svgr:
-    specifier: ^4.2.0
-    version: 4.2.0(typescript@5.4.5)(vite@5.2.11)
-=======
 importers:
 
   .:
@@ -123,6 +23,9 @@ importers:
       axios:
         specifier: ^1.7.2
         version: 1.7.2
+      framer-motion:
+        specifier: ^11.2.13
+        version: 11.3.12(@emotion/is-prop-valid@1.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       jotai:
         specifier: ^2.8.4
         version: 2.8.4(@types/react@18.3.2)(react@18.3.1)
@@ -135,6 +38,9 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.3.1
+      react-calendar:
+        specifier: ^5.0.0
+        version: 5.0.0(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
@@ -1114,6 +1020,9 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0
 
+  '@wojtekmaj/date-utils@1.5.1':
+    resolution: {integrity: sha512-+i7+JmNiE/3c9FKxzWFi2IjRJ+KzZl1QPu6QNrsgaa2MuBgXvUy4gA1TVzf/JMdIIloB76xSKikTWuyYAIVLww==}
+
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -1579,6 +1488,20 @@ packages:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
     engines: {node: '>= 6'}
 
+  framer-motion@11.3.12:
+    resolution: {integrity: sha512-ulc8EHFZpKIj+NAyJv+alLUEUIXZKOQnE+JHkGjfoIcxbZwV+CSvfOoACaOpAW4nVznFMF2y3r+ViUtPtP4qiw==}
+    peerDependencies:
+      '@emotion/is-prop-valid': '*'
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/is-prop-valid':
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+
   fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
@@ -1615,6 +1538,9 @@ packages:
 
   get-tsconfig@4.7.5:
     resolution: {integrity: sha512-ZCuZCnlqNzjb4QprAzXKdpp/gh6KTxSJuw3IBsPnV/7fV4NxC9ckB+vPTt8w7fJA0TaSD7c55BR47JD6MEDyDw==}
+
+  get-user-locale@2.3.2:
+    resolution: {integrity: sha512-O2GWvQkhnbDoWFUJfaBlDIKUEdND8ATpBXD6KXcbhxlfktyD/d8w6mkzM/IlQEqGZAMz/PW6j6Hv53BiigKLUQ==}
 
   glob-parent@5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
@@ -1926,6 +1852,14 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
+  map-age-cleaner@0.1.3:
+    resolution: {integrity: sha512-bJzx6nMoP6PDLPBFmg7+xRKeFZvFboMrGlxmNj9ClvX53KrmvM5bXFXEWjbz4cz1AFn+jWJ9z/DJSz7hrs0w3w==}
+    engines: {node: '>=6'}
+
+  mem@8.1.1:
+    resolution: {integrity: sha512-qFCFUDs7U3b8mBDPyz5EToEKoAkgCzqquIgi9nkkR9bixxOVOre+09lbuH7+9Kn2NFpm56M3GUWVbU2hQgdACA==}
+    engines: {node: '>=10'}
+
   merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -1941,6 +1875,10 @@ packages:
   mime-types@2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
+
+  mimic-fn@3.1.0:
+    resolution: {integrity: sha512-Ysbi9uYW9hFyfrThdDEQuykN4Ey6BuwPD2kpI5ES/nFTDn/98yxYNLZJcgUAKPT/mcrLLKaGzJR9YVxJrIdASQ==}
+    engines: {node: '>=8'}
 
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
@@ -2010,6 +1948,10 @@ packages:
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
+
+  p-defer@1.0.0:
+    resolution: {integrity: sha512-wB3wfAxZpk2AzOfUMJNL+d36xothRSyj8EXOa4f6GMqYDN9BJaaSISbsk+wS9abmnebVw95C2Kb5t85UmpCxuw==}
+    engines: {node: '>=4'}
 
   p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
@@ -2085,6 +2027,16 @@ packages:
 
   react-base16-styling@0.9.1:
     resolution: {integrity: sha512-1s0CY1zRBOQ5M3T61wetEpvQmsYSNtWEcdYzyZNxKa8t7oDvaOn9d21xrGezGAHFWLM7SHcktPuPTrvoqxSfKw==}
+
+  react-calendar@5.0.0:
+    resolution: {integrity: sha512-bHcE5e5f+VUKLd4R19BGkcSQLpuwjKBVG0fKz74cwPW5xDfNsReHdDbfd4z3mdjuUuZzVtw4Q920mkwK5/ZOEg==}
+    peerDependencies:
+      '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
 
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
@@ -2475,6 +2427,9 @@ packages:
         optional: true
       terser:
         optional: true
+
+  warning@4.0.3:
+    resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
 
   which-boxed-primitive@1.0.2:
     resolution: {integrity: sha512-bwZdv0AKLpplFY2KZRX6TvyuN7ojjr7lwkg6ml0roIy9YeuSr7JS372qlNW18UQYzgYK9ziGcerWqZOmEn9VNg==}
@@ -3451,6 +3406,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@wojtekmaj/date-utils@1.5.1': {}
+
   acorn-jsx@5.3.2(acorn@8.11.3):
     dependencies:
       acorn: 8.11.3
@@ -4103,28 +4060,14 @@ snapshots:
       combined-stream: 1.0.8
       mime-types: 2.1.35
 
-  /framer-motion@11.2.13(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-AyIeegfkXlkX1lWEudRYsJlC+0A59cE8oFK9IsN9bUQzxLwcvN3AEaYaznkELiWlHC7a0eD7pxsYQo7BC05S5A==}
-    peerDependencies:
-      '@emotion/is-prop-valid': '*'
-      react: ^18.0.0
-      react-dom: ^18.0.0
-    peerDependenciesMeta:
-      '@emotion/is-prop-valid':
-        optional: true
-      react:
-        optional: true
-      react-dom:
-        optional: true
+  framer-motion@11.3.12(@emotion/is-prop-valid@1.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
+      tslib: 2.6.2
+    optionalDependencies:
+      '@emotion/is-prop-valid': 1.2.2
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      tslib: 2.6.2
-    dev: false
 
-  /fs.realpath@1.0.0:
-    resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
-    dev: true
   fs.realpath@1.0.0: {}
 
   fsevents@2.3.3:
@@ -4162,6 +4105,10 @@ snapshots:
   get-tsconfig@4.7.5:
     dependencies:
       resolve-pkg-maps: 1.0.0
+
+  get-user-locale@2.3.2:
+    dependencies:
+      mem: 8.1.1
 
   glob-parent@5.1.2:
     dependencies:
@@ -4424,8 +4371,6 @@ snapshots:
     dependencies:
       chalk: 3.0.0
       diff-match-patch: 1.0.5
-    dev: false
-    bundledDependencies: []
 
   jsx-ast-utils@3.3.5:
     dependencies:
@@ -4465,6 +4410,15 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
+  map-age-cleaner@0.1.3:
+    dependencies:
+      p-defer: 1.0.0
+
+  mem@8.1.1:
+    dependencies:
+      map-age-cleaner: 0.1.3
+      mimic-fn: 3.1.0
+
   merge2@1.4.1: {}
 
   micromatch@4.0.5:
@@ -4477,6 +4431,8 @@ snapshots:
   mime-types@2.1.35:
     dependencies:
       mime-db: 1.52.0
+
+  mimic-fn@3.1.0: {}
 
   minimatch@3.1.2:
     dependencies:
@@ -4558,6 +4514,8 @@ snapshots:
       type-check: 0.4.0
       word-wrap: 1.2.5
 
+  p-defer@1.0.0: {}
+
   p-limit@3.1.0:
     dependencies:
       yocto-queue: 0.1.0
@@ -4624,6 +4582,17 @@ snapshots:
       color: 3.2.1
       csstype: 3.1.3
       lodash.curry: 4.1.1
+
+  react-calendar@5.0.0(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@wojtekmaj/date-utils': 1.5.1
+      clsx: 2.1.1
+      get-user-locale: 2.3.2
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      warning: 4.0.3
+    optionalDependencies:
+      '@types/react': 18.3.2
 
   react-dom@18.3.1(react@18.3.1):
     dependencies:
@@ -5039,6 +5008,10 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.12.12
       fsevents: 2.3.3
+
+  warning@4.0.3:
+    dependencies:
+      loose-envify: 1.4.0
 
   which-boxed-primitive@1.0.2:
     dependencies:

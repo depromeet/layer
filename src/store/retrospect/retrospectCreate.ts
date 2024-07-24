@@ -12,3 +12,8 @@ export const mainInfoAtom = atom<MainInfo>({
   title: "",
   introduction: "",
 });
+
+export const dueDateAtom = atom<{ date: Date; time: string }>({
+  date: new Date(),
+  time: "",
+});

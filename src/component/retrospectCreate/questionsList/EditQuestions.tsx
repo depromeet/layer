@@ -127,7 +127,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         <ButtonProvider.Primary onClick={handleQuestionsSave}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} handler={true} sheetHeight={590} />
+      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} handler={false} sheetHeight={590} />
     </div>
   );
 }
