@@ -26,7 +26,7 @@ export function SpaceCountView() {
           align-items: center;
         `}
       >
-        <Icon icon="ic_earth" size={2.8} />
+        <Icon icon="ic_earth" size={2.8} color="#6C9CFA" />
         <div
           css={css`
             display: flex;

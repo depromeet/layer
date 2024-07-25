@@ -4,3 +4,4 @@ export { CreateSpace } from "./create/CreateSpace";
 export { RetrospectBox } from "./RetrospectBox";
 export { SpaceCountView } from "./SpaceCountView";
 export { TeamGoalView } from "./TeamGoalView";
+export { CreateRetrospectiveSheet } from "./CreateRetrospectiveSheet";

@@ -4,7 +4,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 
 type RetrospectBoxProps = {
-  retrospectStatus: "PROCEEDING" | "COMPLETE";
+  retrospectStatus: "PROCEEDING" | "DONE";
 };
 
 const statusStyles = {
@@ -12,7 +12,7 @@ const statusStyles = {
     backgroundColor: "#f0f4fe",
     buttonColor: "#6c9cfa",
   },
-  COMPLETE: {
+  DONE: {
     backgroundColor: "#F5F7F9",
     buttonColor: "#C1C3C6",
   },
