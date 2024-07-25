@@ -12,3 +12,4 @@ export { default as ic_arrow_back } from "./ic_arrow_back.svg?react";
 export { default as ic_delete_pink } from "./ic_delete_pink.svg?react";
 export { default as ic_handle } from "./ic_handle.svg?react";
 export { default as ic_pencil } from "./ic_pencil.svg?react";
+export { default as ic_chevron_down } from "./ic_chevron_down.svg?react";

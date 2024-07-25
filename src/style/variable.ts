@@ -132,6 +132,7 @@ export const DESIGN_SYSTEM_COLOR = {
   lightGrey2: "#f1f3f5",
   lightGrey3: "#d9d9d9",
   lightGrey4: "#e9ecef",
+  lightGrey5: "#adb5bd",
   background: "#fff",
   darkBackground: "#17171c",
   greyBackground: "#f2f4f6",
