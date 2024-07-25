@@ -34,11 +34,10 @@ export function KaKaoRedirection() {
   useEffect(() => {
     if (data) {
       const { status, response } = data;
-      if (status === "loginSuccess") {
+      if (status === 200) {
         setAuthResponse(response);
         navigate("/home/retrospect");
-      } else if (status === "signupNeed") {
-        console.log("회원가입을 진행합니다.");
+      } else if (status === 404) {
         navigate("/setnickname");
       } else {
         navigate("/login");

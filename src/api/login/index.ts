@@ -54,23 +54,18 @@ export const signUpWithToken = async (accessToken: string, name: string): Promis
 
 // 가지고 있는 토큰과 닉네임을 통해 회원가입을 진행하는 함수
 const signInWithKakaoToken = async (): Promise<AuthApiReturn> => {
-  try {
-    const response = await api.post(
-      "api/auth/sign-in",
-      {
-        socialType: "KAKAO",
+  const response = await api.post(
+    "api/auth/sign-in",
+    {
+      socialType: "KAKAO",
+    },
+    {
+      headers: {
+        "X-Auth-Token": Cookies.get("kakaoAccessToken"),
       },
-      {
-        headers: {
-          "X-Auth-Token": Cookies.get("kakaoAccessToken"),
-        },
-      },
-    );
-    return response;
-  } catch (err) {
-    console.error("토큰을 통한 회원가입 실패", err);
-    return { status: 404, data: null };
-  }
+    },
+  );
+  return response;
 };
 
 export const loginKakao = async (code: string | null): Promise<LoginKakaoResult> => {
@@ -81,20 +76,14 @@ export const loginKakao = async (code: string | null): Promise<LoginKakaoResult>
         Cookies.set("kakaoAccessToken", kakaoLoginRespone.access_token);
         //로그인 먼저 시도
         const signInResponse = await signInWithKakaoToken();
-        //로그인 성공
-        if (signInResponse.status === 200) return { status: "loginSuccess", response: signInResponse.data };
-        // 로그인 실패(DB에 회원이 없음) => 회원 가입
-        else if (signInResponse.status === 404) {
-          return { status: "signupNeed", response: null };
-        }
-        return { status: "error", response: null };
+        return { status: signInResponse.status, response: signInResponse.data };
       }
     }
   } catch (error) {
     throw new Error("kakao Login failed");
   }
 
-  return { status: "error", response: null };
+  return { status: 400, response: null };
 };
 
 export const fetchMemberInfo = async (): Promise<MemberInfo> => {

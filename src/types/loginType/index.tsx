@@ -47,10 +47,7 @@ export type AuthApiReturn = {
   data: AuthResponse | null;
 };
 
-export type LoginKakaoResult =
-  | { status: "loginSuccess"; response: AuthResponse | null }
-  | { status: "signupNeed"; response: null }
-  | { status: "error"; response: null };
+export type LoginKakaoResult = { status: number; response: AuthResponse | null };
 
 export type MemberInfo = {
   memberId: string;

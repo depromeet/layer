@@ -64,12 +64,10 @@ const browserRouter = routerChildren.map(({ path, element, auth, children }) => 
   return {
     path,
     element: auth ? <RequireLoginLayout>{element}</RequireLoginLayout> : element,
-    children: children
-      ? children.map((child) => ({
-          path: child.path,
-          element: auth ? <RequireLoginLayout>{child.element}</RequireLoginLayout> : child.element,
-        }))
-      : undefined,
+    children: children?.map((child) => ({
+      path: child.path,
+      element: auth ? <RequireLoginLayout>{child.element}</RequireLoginLayout> : child.element,
+    })),
   };
 });
 

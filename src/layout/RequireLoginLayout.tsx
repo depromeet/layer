@@ -19,7 +19,6 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
       if (auth.isLogin) return;
 
       const accessToken = Cookies.get("accessToken");
-      console.log(accessToken);
       if (accessToken) {
         try {
           const response = await fetchMemberInfo();
