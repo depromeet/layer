@@ -12,6 +12,7 @@ export const useMultiStepForm = <T extends readonly string[]>({ steps, redirectP
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const currentStep: T[number] = useMemo(() => steps[currentStepIndex], [currentStepIndex, steps]);
 
+  console.log("currentStepIndex", currentStepIndex, "totalStepsCnt", totalStepsCnt);
   const goNext = useCallback(() => {
     if (currentStep === steps[totalStepsCnt - 1]) {
       if (redirectPath) {
