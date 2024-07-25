@@ -1,3 +1,3 @@
 export const PATHS = {
-  // questionsEdit: () => `/retrospect/questions`,
+  completeRetrospectCreate: () => `/retrospect/complete`,
 };
