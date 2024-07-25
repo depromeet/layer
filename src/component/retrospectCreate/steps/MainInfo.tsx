@@ -16,6 +16,11 @@ export function MainInfo() {
   const { value: title, handleInputChange: handleNameChange } = useInput(mainInfo.title);
   const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(mainInfo.introduction);
 
+  const handleDataSave = () => {
+    setMainInfo({ title, introduction });
+    goNext();
+  };
+
   return (
     <div
       css={css`
@@ -53,7 +58,7 @@ export function MainInfo() {
       </div>
 
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={() => goNext(() => setMainInfo({ title, introduction }))} disabled={!title}>
+        <ButtonProvider.Primary onClick={handleDataSave} disabled={!title}>
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>
