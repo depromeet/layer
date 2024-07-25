@@ -10,6 +10,7 @@ export { default as ic_folder } from "./ic_folder.svg?react";
 export { default as ic_earth } from "./ic_earth.svg?react";
 export { default as ic_team } from "./ic_team.svg?react";
 export { default as ic_after } from "./ic_after.svg?react";
+export { default as ic_writePen } from "./ic_writePen.svg?react";
 
 export { default as basicProfile } from "./basicProfile.svg?react";
 export { default as ic_arrow_back } from "./ic_arrow_back.svg?react";

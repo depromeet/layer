@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { css } from "@emotion/react";
 import { useParams } from "react-router-dom";
 
@@ -6,6 +7,9 @@ import { Typography } from "@/component/common/typography";
 import { SpaceCountView, RetrospectBox, TeamGoalView } from "@/component/space";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { Icon } from "@/component/common/Icon";
+import { useBottomSheet } from "@/hooks/useBottomSheet";
+import { BottomSheet } from "@/component/BottomSheet";
 
 type SpacePageProps = {
   id: number;
@@ -19,6 +23,7 @@ type SpacePageProps = {
 
 export function SpacePage() {
   const { spaceId } = useParams<{ spaceId: string }>();
+  const { openBottomSheet, bottomSheetState } = useBottomSheet();
 
   return (
     <DefaultLayout theme="dark" height="6.4rem" title="떡잎마을 방법대">
@@ -81,6 +86,35 @@ export function SpacePage() {
           <RetrospectBox retrospectStatus="COMPLETE" />
         </div>
       </div>
+      <button
+        onClick={openBottomSheet}
+        css={css`
+          width: 11.6rem;
+          height: 4.8rem;
+          background-color: #212529;
+          position: fixed;
+          bottom: 1.2rem;
+          right: 2.4rem;
+          border-radius: 3rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.7rem;
+        `}
+      >
+        <Icon icon="ic_writePen" />
+        <Typography color="white" variant="B2_SEMIBOLD">
+          회고 생성
+        </Typography>
+      </button>
+      <BottomSheet
+        contents={
+          <Fragment>
+            <p> 완전 이거 럭키비키자냐?</p>
+          </Fragment>
+        }
+        handler={true}
+      />
     </DefaultLayout>
   );
 }
