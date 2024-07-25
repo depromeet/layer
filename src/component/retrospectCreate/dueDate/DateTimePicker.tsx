@@ -33,7 +33,7 @@ export function DateTimePicker({ radioControl, ...props }: DateTimePickerProps) 
       <Spacing size={2.4} />
       <RadioButtonGroup isChecked={radioControl.isTimeChecked} onChange={radioControl.onTimeChange} radioName={"회고 마감 시간"}>
         {TIME.map((time, index) => (
-          <Radio key={index} value={curTab + time}>
+          <Radio key={index} value={`${curTab} ${time}`}>
             {time}
           </Radio>
         ))}
