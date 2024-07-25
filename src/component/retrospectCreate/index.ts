@@ -7,3 +7,5 @@ export { OrderLabel } from "./OrderLabel";
 
 export { AddListItemButton } from "./questionsList";
 export { DeleteItemButton } from "./questionsList";
+
+export { DateTimePicker } from "./dueDate/DateTimePicker";
