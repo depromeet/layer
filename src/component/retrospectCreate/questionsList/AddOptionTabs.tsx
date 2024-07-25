@@ -1,9 +1,12 @@
 import { css } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
+import { useTabs } from "@/hooks/useTabs";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-export function Tab<T extends string>({ tabs, curTab, selectTab }: { tabs: readonly T[]; curTab: T; selectTab: (tab: T) => void }) {
+type AddOptionTabsProps<T extends string> = ReturnType<typeof useTabs<T>>;
+
+export function AddOptionTabs<T extends string>({ tabs, curTab, selectTab }: AddOptionTabsProps<T>) {
   return (
     <div css={css``}>
       {tabs.map((tab, index) => {
