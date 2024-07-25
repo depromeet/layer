@@ -61,6 +61,7 @@ export function RetrospectViewPage() {
 
 //FIXME: API 연결시에 해당 데이터 삭제
 type Space = {
+  id: number;
   imgUrl: string;
   spaceName: string;
   introduction: string;
@@ -71,6 +72,7 @@ type Space = {
 
 const spaces: Space[] = [
   {
+    id: 1,
     imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
     spaceName: "공간 A",
     introduction: "이곳은 협업을 위한 작업 환경인 공간 A입니다.",
@@ -79,6 +81,7 @@ const spaces: Space[] = [
     headCount: "10",
   },
   {
+    id: 2,
     imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
     spaceName: "공간 B",
     introduction: "창의적인 사고를 위한 공간 B에 오신 것을 환영합니다.",
@@ -87,6 +90,7 @@ const spaces: Space[] = [
     headCount: "15",
   },
   {
+    id: 3,
     imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
     spaceName: "공간 C",
     introduction: "혁신과 네트워킹의 중심지인 공간 C를 발견하세요.",
@@ -95,6 +99,7 @@ const spaces: Space[] = [
     headCount: "8",
   },
   {
+    id: 4,
     imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
     spaceName: "공간 D",
     introduction: "혁신과 네트워킹의 중심지인 공간 C를 발견하세요.",
@@ -103,6 +108,7 @@ const spaces: Space[] = [
     headCount: "8",
   },
   {
+    id: 5,
     imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
     spaceName: "공간 E",
     introduction: "혁신과 네트워킹의 중심지인 공간 C를 발견하세요.",
