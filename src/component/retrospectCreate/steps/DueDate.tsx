@@ -5,16 +5,16 @@ import { BottomSheet } from "@/component/BottomSheet";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Spacing } from "@/component/common/Spacing";
-import { DateTimePicker } from "@/component/retrospectCreate/DateTimePicker";
+import { DateTimePicker } from "@/component/retrospectCreate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { dueDateAtom } from "@/store/retrospect/retrospectCreate";
 import { formatDateToString } from "@/utils/formatDate";
 
 export function DueDate() {
-  const [dueDate, setDueDate] = useAtom(dueDateAtom);
-  const { selectedDate, onSelectDate } = useDateTimePicker(dueDate.date);
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
+  const { onSelectDate, radioControl, selectedDate, selectedTime } = useDateTimePicker();
+  const [dueDate, setDueDate] = useAtom(dueDateAtom);
 
   const handleDateOpen = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault();
@@ -22,7 +22,10 @@ export function DueDate() {
   };
 
   const handleDateSave = () => {
-    setDueDate((prev) => ({ ...prev, date: selectedDate as Date }));
+    if (!selectedDate || !selectedTime) {
+      throw new Error("Undefined DateTime");
+    }
+    setDueDate({ time: selectedTime, date: selectedDate as Date });
     closeBottomSheet();
   };
 
@@ -45,9 +48,11 @@ export function DueDate() {
       <BottomSheet
         contents={
           <>
-            <DateTimePicker value={selectedDate} onChange={onSelectDate} />
+            <DateTimePicker value={selectedDate} onChange={onSelectDate} radioControl={radioControl} />
             <ButtonProvider>
-              <ButtonProvider.Primary onClick={handleDateSave}>설정하기</ButtonProvider.Primary>
+              <ButtonProvider.Primary onClick={handleDateSave} disabled={!selectedDate || !selectedTime}>
+                설정하기
+              </ButtonProvider.Primary>
             </ButtonProvider>
           </>
         }

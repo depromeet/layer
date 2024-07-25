@@ -2,18 +2,23 @@ import { css } from "@emotion/react";
 import Calendar from "react-calendar";
 import type { CalendarProps } from "react-calendar";
 
+import { TIME } from "./time.const";
+
 import { Divider } from "@/component/common/divider/Divider";
 import { Icon } from "@/component/common/Icon";
+import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
+import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { useTabs } from "@/hooks/useTabs";
 
 type DateTimePickerProps = {
-  // selected: Date;
-  // onChange: (newDate: Date) => void;
+  radioControl: ReturnType<typeof useDateTimePicker>["radioControl"];
 } & CalendarProps;
 
-export function DateTimePicker({ ...props }: DateTimePickerProps) {
+export function DateTimePicker({ radioControl, ...props }: DateTimePickerProps) {
   const { curTab, tabs, selectTab } = useTabs(["오전", "오후"] as const);
+
   return (
     <div>
       <Calendar
@@ -25,6 +30,14 @@ export function DateTimePicker({ ...props }: DateTimePickerProps) {
       />
       <Divider direction="horizontal" />
       <AmPmTabs tabs={tabs} curTab={curTab} selectTab={selectTab} />
+      <Spacing size={2.4} />
+      <RadioButtonGroup isChecked={radioControl.isTimeChecked} onChange={radioControl.onTimeChange} radioName={"회고 마감 시간"}>
+        {TIME.map((time, index) => (
+          <Radio key={index} value={curTab + time}>
+            {time}
+          </Radio>
+        ))}
+      </RadioButtonGroup>
     </div>
   );
 }
