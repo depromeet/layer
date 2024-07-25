@@ -1,15 +1,16 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { createContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
-import { DueDate, MainInfo, CustomTemplate } from "@/component/retrospectCreate";
+import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
+import { PATHS } from "@/config/paths";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { dueDateAtom, mainInfoAtom, questionsAtom } from "@/store/retrospect/retrospectCreate";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type RetrospectCreateContextState = {
   totalStepsCnt: number;
@@ -19,25 +20,43 @@ type RetrospectCreateContextState = {
 export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({ totalStepsCnt: 0, goNext: () => {} });
 
 export function RetrospectCreate() {
-  const steps = ["mainInfo", "customTemplate", "dueDate"] as const;
-  const themeMap: Record<(typeof steps)[number], keyof (typeof DESIGN_SYSTEM_COLOR)["themeBackground"]> = {
-    mainInfo: "default",
-    customTemplate: "gray",
-    dueDate: "default",
-  };
-  const [mainInfo] = useAtom(mainInfoAtom);
-  const [questions] = useAtom(questionsAtom);
+  const navigate = useNavigate();
+  const steps = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
+  const themeMap = {
+    start: {
+      background: "dark",
+      iconColor: "#fff",
+    },
+    mainInfo: {
+      background: "default",
+      iconColor: "#000",
+    },
+    customTemplate: {
+      background: "gray",
+      iconColor: "#000",
+    },
+    dueDate: {
+      background: "default",
+      iconColor: "#000",
+    },
+  } as const;
+
+  // const [mainInfo] = useAtom(mainInfoAtom);
+  // const [questions] = useAtom(questionsAtom);
   const [date] = useAtom(dueDateAtom);
 
-  const { currentStep, goNext, goPrev, totalStepsCnt, currentStepNumber } = useMultiStepForm({ steps });
+  const { currentStep, goNext, goPrev, totalStepsCnt, currentStepIndex } = useMultiStepForm({
+    steps,
+    redirectPath: PATHS.completeRetrospectCreate(),
+  });
 
-  const conditionalIncrementStep = () => {
+  const conditionalIncrementPage = () => {
     if (currentStep === "dueDate") {
       if (!date.date || !date.time) {
-        return currentStepNumber - 1;
+        return currentStepIndex;
       }
     }
-    return currentStepNumber;
+    return currentStepIndex;
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,9 +65,14 @@ export function RetrospectCreate() {
   };
 
   return (
-    <DefaultLayout LeftComp={<Icon icon={"ic_arrow_back"} onClick={goPrev} />} theme={themeMap[currentStep]}>
-      <ProgressBar curPage={conditionalIncrementStep()} lastPage={totalStepsCnt} />
-      <Spacing size={2.45} />
+    <DefaultLayout
+      LeftComp={
+        <Icon icon={"ic_arrow_back"} onClick={() => (currentStepIndex === 0 ? navigate(-1) : goPrev())} color={themeMap[currentStep]["iconColor"]} />
+      }
+      theme={themeMap[currentStep]["background"]}
+    >
+      {currentStep !== "start" && <ProgressBar curPage={conditionalIncrementPage()} lastPage={totalStepsCnt - 1} />}
+      <Spacing size={2.9} />
       <form
         onSubmit={handleSubmit}
         css={css`
@@ -56,6 +80,7 @@ export function RetrospectCreate() {
         `}
       >
         <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext }}>
+          {currentStep === "start" && <Start />}
           {currentStep === "mainInfo" && <MainInfo />}
           {currentStep === "customTemplate" && <CustomTemplate />}
           {currentStep === "dueDate" && <DueDate />}
