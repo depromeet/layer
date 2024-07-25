@@ -1,9 +1,9 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 
-import { QuestionItemCheckbox } from "./QuestionItemCheckbox";
 import { QUESTION_TYPES, RECOMMENDED_QUESTIONS } from "./questions.const";
-import { Tab } from "./Tab";
+
+import { QuestionItemCheckbox, AddOptionTabs } from ".";
 
 import { ButtonProvider } from "@/component/common/button";
 import { CheckBoxGroup } from "@/component/common/checkBox";
@@ -39,7 +39,7 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
 
   return (
     <>
-      <Tab tabs={tabs} curTab={curTab} selectTab={selectTab} />
+      <AddOptionTabs tabs={tabs} curTab={curTab} selectTab={selectTab} />
 
       {curTab === "직접 작성" && (
         <div
