@@ -2,8 +2,10 @@ import { css } from "@emotion/react";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { useNavigate } from "react-router-dom";
 
 type Space = {
+  id: number;
   imgUrl: string;
   spaceName: string;
   introduction: string;
@@ -18,10 +20,14 @@ type SpaceOverviewProps = {
 };
 export function SpaceOverview({
   key,
-  space: { imgUrl, spaceName, introduction, projectCategory, collaborationType, headCount },
+  space: { id, imgUrl, spaceName, introduction, projectCategory, collaborationType, headCount },
 }: SpaceOverviewProps) {
+  const navigate = useNavigate();
   return (
     <div
+      onClick={() => {
+        navigate(`/space/${id}`);
+      }}
       key={key}
       css={css`
         width: 100%;
