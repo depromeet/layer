@@ -1,6 +1,8 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
+import { useContext } from "react";
 
+import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
 import { BottomSheet } from "@/component/BottomSheet";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
@@ -11,11 +13,11 @@ import { DateTimePicker } from "@/component/retrospectCreate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { dueDateAtom } from "@/store/retrospect/retrospectCreate";
-import { formatDateToString } from "@/utils/formatDate";
 
 const DATE_INPUT_ID = "due-date";
 
 export function DueDate() {
+  const retrospectContext = useContext(RetrospectCreateContext);
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { onSelectDate, radioControl, selectedDate, selectedTime } = useDateTimePicker();
   const [dueDate, setDueDate] = useAtom(dueDateAtom);
@@ -34,7 +36,13 @@ export function DueDate() {
   };
 
   return (
-    <div>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      `}
+    >
       <Header title={"회고는\n언제까지 작성할까요?"} />
       <Spacing size={7.45} />
       <label
@@ -65,7 +73,6 @@ export function DueDate() {
         <Icon icon="ic_chevron_down" color="#171719" size={2.4} />
         <input
           id={DATE_INPUT_ID}
-          value={formatDateToString(dueDate.date)}
           type="date"
           onClick={handleDateOpen}
           css={css`
@@ -88,6 +95,11 @@ export function DueDate() {
         title=" " /**FIXME - 클로즈 아이콘 노출을 위한 임시 title */
         sheetHeight={675}
       />
+      <ButtonProvider>
+        <ButtonProvider.Primary onClick={retrospectContext.goNext} disabled={!selectedDate || !selectedTime}>
+          다음
+        </ButtonProvider.Primary>
+      </ButtonProvider>
     </div>
   );
 }

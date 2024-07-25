@@ -18,7 +18,7 @@ type ConfirmDefaultTemplateProps = {
 };
 
 export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) {
-  const retroContext = useContext(RetrospectCreateContext);
+  const { goNext } = useContext(RetrospectCreateContext);
   const [questions, _] = useAtom(questionsAtom);
 
   return (
@@ -53,7 +53,7 @@ export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) 
       </Card>
       <ButtonProvider sort={"horizontal"}>
         <ButtonProvider.Gray onClick={goEdit}>질문 수정</ButtonProvider.Gray>
-        <ButtonProvider.Primary onClick={retroContext.goNext}>이대로 작성</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={goNext}>이대로 작성</ButtonProvider.Primary>
       </ButtonProvider>
     </div>
   );
