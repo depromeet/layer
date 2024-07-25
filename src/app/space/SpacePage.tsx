@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { SpaceCountView, RetrospectBox, TeamGoalView } from "@/component/space";
+import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet } from "@/component/space";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { Icon } from "@/component/common/Icon";
@@ -69,7 +69,7 @@ export function SpacePage() {
             gap: 0.6rem;
           `}
         >
-          <Typography variant="B1_BOLD">진행중인 회고</Typography>
+          <Typography variant="B1_BOLD">완료된 회고</Typography>
           <Typography variant="B1_BOLD" color="darkGray">
             1
           </Typography>
@@ -82,8 +82,8 @@ export function SpacePage() {
             gap: 1rem;
           `}
         >
-          <RetrospectBox retrospectStatus="COMPLETE" />
-          <RetrospectBox retrospectStatus="COMPLETE" />
+          <RetrospectBox retrospectStatus="PROCEEDING" />
+          <RetrospectBox retrospectStatus="DONE" />
         </div>
       </div>
       <button
@@ -110,7 +110,7 @@ export function SpacePage() {
       <BottomSheet
         contents={
           <Fragment>
-            <p> 완전 이거 럭키비키자냐?</p>
+            <CreateRetrospectiveSheet teamName="떡잎마을방범대" />
           </Fragment>
         }
         handler={true}
