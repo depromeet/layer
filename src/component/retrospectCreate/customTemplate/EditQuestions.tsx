@@ -15,8 +15,7 @@ import { Icon } from "@/component/common/Icon";
 import { QuestionList, QuestionListItem } from "@/component/common/list";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { AddListItemButton } from "@/component/retrospectCreate";
-import { AddQuestionsBottomSheet } from "@/component/retrospectCreate/questionsList";
+import { AddQuestionsBottomSheet } from "@/component/retrospectCreate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
@@ -178,6 +177,25 @@ function ShowDeleteButton({ showDelete, onClick }: { showDelete: boolean; onClic
       <Typography variant="B1" color={!showDelete ? "darkGray" : "dark"}>
         {!showDelete ? "삭제" : "완료"}
       </Typography>
+    </button>
+  );
+}
+
+function AddListItemButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      css={css`
+        // FIXME - design token
+        background-color: #f1f6ff;
+        border-radius: 0.8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 4.8rem;
+      `}
+      onClick={onClick}
+    >
+      <Icon icon={"ic_plus"} size={"2.4rem"} color={DESIGN_SYSTEM_COLOR.theme} />
     </button>
   );
 }

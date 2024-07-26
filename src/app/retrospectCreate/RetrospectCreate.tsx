@@ -10,7 +10,7 @@ import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospect
 import { PATHS } from "@/config/paths";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { dueDateAtom, mainInfoAtom, questionsAtom } from "@/store/retrospect/retrospectCreate";
+import { dueDateAtom } from "@/store/retrospect/retrospectCreate";
 
 type RetrospectCreateContextState = {
   totalStepsCnt: number;
