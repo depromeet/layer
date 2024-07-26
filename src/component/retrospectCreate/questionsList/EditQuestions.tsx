@@ -15,7 +15,7 @@ import { Icon } from "@/component/common/Icon";
 import { QuestionList, QuestionListItem } from "@/component/common/list";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { AddListItemButton, DeleteItemButton } from "@/component/retrospectCreate";
+import { AddListItemButton } from "@/component/retrospectCreate";
 import { AddQuestionsBottomSheet } from "@/component/retrospectCreate/questionsList";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
@@ -140,7 +140,6 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         <ButtonProvider.Primary onClick={handleDataSave}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      {/**FIXME - 클로즈 버튼을 위한 임시 title 없애기 */}
       <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} sheetHeight={590} />
     </div>
   );
@@ -154,12 +153,14 @@ type ControlProps = {
 
 function Control({ index, showDelete, handleDeleteItem }: ControlProps) {
   return showDelete ? (
-    <DeleteItemButton
-      onClick={() => handleDeleteItem(index)}
-      styles={css`
+    <button
+      css={css`
         margin-left: auto;
       `}
-    />
+      onClick={() => handleDeleteItem(index)}
+    >
+      <Icon icon={"ic_delete_pink"} />
+    </button>
   ) : (
     <div
       css={css`
