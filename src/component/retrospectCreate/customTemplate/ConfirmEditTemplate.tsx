@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { AppBar } from "@/component/common/appBar";
 import { ButtonProvider } from "@/component/common/button";
@@ -23,8 +23,10 @@ type QuestionsListProps = {
 
 export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
   const [questions, _] = useAtom(questionsAtom);
+  //FIXME - 유저 이름 가져오기
   const { value: title, handleInputChange: handleTitleChange } = useInput(`${"디프만"}님의 커스텀 템플릿${2}`);
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const [showTooltip, setShowTooltip] = useState(true);
 
   return (
     <div
@@ -60,11 +62,13 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
               css={css`
                 font-size: 2rem;
                 font-weight: bold;
+                width: 100%;
               `}
             />
             <div
               css={css`
                 position: relative;
+                margin-left: 1rem;
               `}
             >
               <div
@@ -74,7 +78,7 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
                   right: -2.5rem;
                 `}
               >
-                <Tooltip message="커스텀된 회고의 이름을 수정할 수 있어요!" />
+                {showTooltip && <Tooltip message="커스텀된 회고의 이름을 수정할 수 있어요!" bounce />}
               </div>
               <Icon
                 icon="ic_pencil"
@@ -82,6 +86,7 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
                 color="#d9d9d9"
                 onClick={() => {
                   titleInputRef.current?.focus();
+                  setShowTooltip(false);
                 }}
               />
             </div>
