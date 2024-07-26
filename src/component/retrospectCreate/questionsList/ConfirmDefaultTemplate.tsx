@@ -44,9 +44,7 @@ export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) 
         </div>
         <QuestionList>
           {questions.map((question, index) => (
-            <QuestionListItem key={index} order={index + 1}>
-              {question}
-            </QuestionListItem>
+            <QuestionListItem key={index} order={index + 1} content={question} />
           ))}
         </QuestionList>
         <Spacing size={3} />
