@@ -4,6 +4,7 @@ import { forwardRef, useContext } from "react";
 import { InputContext } from "./InputLabelContainer";
 
 import { Typography } from "@/component/common/typography";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type TextAreaProps = {
   value: string;
@@ -33,8 +34,9 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           ref={ref}
           id={id || textareaContext?.id}
           css={css`
-            width: 100%;
-            height: 100%;
+            ::placeholder {
+              color: ${DESIGN_SYSTEM_COLOR.lightGrey5};
+            }
           `}
           {...props}
         />

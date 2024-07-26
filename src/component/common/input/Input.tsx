@@ -4,6 +4,7 @@ import { forwardRef, useContext } from "react";
 import { InputContext } from "./InputLabelContainer";
 
 import { Typography } from "@/component/common/typography";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type InputProps = {
   value: string;
@@ -30,7 +31,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           ref={ref}
           id={id || inputContext?.id}
           css={css`
-            width: 100%;
+            flex-grow: 1;
+            ::placeholder {
+              color: ${DESIGN_SYSTEM_COLOR.lightGrey5};
+            }
           `}
           {...props}
         />
