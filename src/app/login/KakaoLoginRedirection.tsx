@@ -1,31 +1,57 @@
+import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { api } from "@/api";
-
-//FIXME: 응답 데이터 형식에 따라 수정
-type KakaoLoginResponse = { data: string };
+import { loginKakao } from "@/api/login";
+import { authAtom } from "@/store/auth/authAtom";
+import { LoginKakaoResult, AuthResponse } from "@/types/loginType";
 
 export function KaKaoRedirection() {
-  const code = window.location.search;
+  const code = new URL(window.location.toString()).searchParams.get("code");
   const navigate = useNavigate();
+  const [, setAuth] = useAtom(authAtom);
 
-  useEffect(() => {
-    // FIXME: 백엔드 API에 따라 주소 수정 필요
-    api
-      .post(`kakaoLogin${code}`)
-      .then((data: KakaoLoginResponse) => {
-        // FIXME: 받은걸 어디에 저장할지 논의 필요 (로그인 저장 방식에 따라 달리짐)
-        // => 로그인 성공 시 로직 추가
-        // FIXME: 완료 후 이동 (프로세스에 따라 페이지 URL 변경)
-        console.log(data);
-        navigate("/test");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  function setAuthResponse(response: AuthResponse) {
+    if (response) {
+      Cookies.set("memberId", response.memberId.toString(), { expires: 7 });
+      Cookies.set("accessToken", response.accessToken, { expires: 7 });
+      Cookies.set("refreshToken", response.refreshToken, { expires: 7 });
+      setAuth({ isLogin: true, name: response.name, email: response.email, memberRole: response.memberRole });
+    }
+  }
+
+  const { isLoading, isError, data } = useQuery<LoginKakaoResult, Error>({
+    queryKey: ["auth", "kakao"],
+    queryFn: () => loginKakao(code),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    retry: false,
+    refetchInterval: false,
   });
 
-  // FIXME: 로그인 로딩 디자인 필요 및 이에 따른 코드 추가 개발 필요
+  useEffect(() => {
+    if (data) {
+      const { status, response } = data;
+      if (status === 200) {
+        setAuthResponse(response);
+        navigate("/home/retrospect");
+      } else if (status === 404) {
+        navigate("/setnickname");
+      } else {
+        navigate("/login");
+      }
+    }
+  }, [data, navigate]);
+
+  if (isLoading) {
+    return <div>로그인 중입니다...</div>;
+  }
+
+  if (isError) {
+    return <div>로그인 중 에러가 발생했습니다.</div>;
+  }
+
   return <div>로그인 중입니다.</div>;
 }
