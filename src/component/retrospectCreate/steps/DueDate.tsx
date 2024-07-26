@@ -83,6 +83,7 @@ export function DueDate() {
       <BottomSheet
         contents={
           <>
+            <Spacing size={2.2} />
             <DateTimePicker value={selectedDate} onChange={onSelectDate} radioControl={radioControl} />
             <ButtonProvider>
               <ButtonProvider.Primary onClick={handleDateSave} disabled={!selectedDate || !selectedTime}>
@@ -91,8 +92,6 @@ export function DueDate() {
             </ButtonProvider>
           </>
         }
-        handler={false}
-        title=" " /**FIXME - 클로즈 아이콘 노출을 위한 임시 title */
         sheetHeight={675}
       />
       <ButtonProvider>

@@ -141,7 +141,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
       </ButtonProvider>
 
       {/**FIXME - 클로즈 버튼을 위한 임시 title 없애기 */}
-      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} quitButton={true} sheetHeight={590} />
+      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} sheetHeight={590} />
     </div>
   );
 }

@@ -57,10 +57,15 @@
   display: none;
 }
 
-.react-calendar__navigation__prev-button,
+.react-calendar__navigation__prev-button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .react-calendar__navigation__next-button {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 
