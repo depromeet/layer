@@ -1,3 +1,4 @@
+import { Children, cloneElement, isValidElement } from "react";
 import { Draggable, DraggableProps } from "react-beautiful-dnd";
 
 type DragProps = {
@@ -7,10 +8,14 @@ type DragProps = {
 export function Drag({ children, ...props }: DragProps) {
   return (
     <Draggable {...props}>
-      {(provided) => {
+      {(provided, snapshot) => {
         return (
           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-            {children}
+            {Children.map(children, (child) => {
+              if (isValidElement(child)) {
+                return cloneElement(child, { ...snapshot });
+              }
+            })}
           </div>
         );
       }}
