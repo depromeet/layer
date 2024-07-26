@@ -113,11 +113,16 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
           <Drop droppableId="droppable">
             <QuestionList>
               {newQuestions.map((question, index) => (
-                <Drag key={index} index={index} draggableId={index.toString()}>
+                <Drag key={index} index={index} draggableId={index.toString()} isDragDisabled={showDelete}>
                   <QuestionListItem
                     key={index}
                     order={index + 1}
                     RightComp={<Control index={index} showDelete={showDelete} handleDeleteItem={handleDeleteItem} />}
+                    onDrag={(e) => {
+                      if (showDelete) {
+                        e.preventDefault();
+                      }
+                    }}
                   >
                     <input
                       value={question}
@@ -155,15 +160,18 @@ function Control({ index, showDelete, handleDeleteItem }: ControlProps) {
     <button
       css={css`
         margin-left: auto;
+        line-height: 0;
       `}
       onClick={() => handleDeleteItem(index)}
     >
-      <Icon icon={"ic_delete_pink"} />
+      {/**FIXME - design token */}
+      <Icon icon={"ic_delete"} color="#F85B81" />
     </button>
   ) : (
     <div
       css={css`
         margin-left: auto;
+        line-height: 0;
       `}
     >
       <Icon icon="ic_handle" color={DESIGN_SYSTEM_COLOR.lightGrey3} size={"1.8rem"} />
@@ -195,7 +203,7 @@ function AddListItemButton({ onClick }: { onClick: () => void }) {
       `}
       onClick={onClick}
     >
-      <Icon icon={"ic_plus"} size={"2.4rem"} color={DESIGN_SYSTEM_COLOR.theme} />
+      <Icon icon={"ic_plus_thin"} size={2.4} color={DESIGN_SYSTEM_COLOR.theme} />
     </button>
   );
 }
