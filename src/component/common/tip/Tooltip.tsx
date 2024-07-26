@@ -1,13 +1,15 @@
 import { css } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
+import { BOUNCE_SM } from "@/style/common/bounce";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type TooltipProps = {
   message: string;
+  bounce?: boolean;
 };
 
-export function Tooltip({ message }: TooltipProps) {
+export function Tooltip({ message, bounce }: TooltipProps) {
   return (
     <div
       css={css`
@@ -29,6 +31,10 @@ export function Tooltip({ message }: TooltipProps) {
           border-width: 0.7rem;
           margin-left: 7rem;
         }
+        ${bounce &&
+        css`
+          animation: ${BOUNCE_SM} 1.3s ease infinite;
+        `}
       `}
     >
       <Typography variant="CAPTION" color="white">
