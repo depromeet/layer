@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { DraggableStateSnapshot } from "react-beautiful-dnd";
 
 import { OrderLabel } from "@/component/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -8,9 +9,10 @@ type QuestionListItemProps = {
   order?: number;
   children: React.ReactNode;
   RightComp?: React.ReactNode;
-} & React.LiHTMLAttributes<HTMLLIElement>;
+} & React.LiHTMLAttributes<HTMLLIElement> &
+  Partial<DraggableStateSnapshot>;
 
-export function QuestionListItem({ gap = "1.2rem", order, RightComp, children }: QuestionListItemProps) {
+export function QuestionListItem({ gap = "1.2rem", order, RightComp, children, ...props }: QuestionListItemProps) {
   return (
     <li
       css={css`
@@ -20,6 +22,7 @@ export function QuestionListItem({ gap = "1.2rem", order, RightComp, children }:
         display: flex;
         align-items: center;
         gap: ${gap};
+        box-shadow: ${props.isDragging ? "0 .3rem .2rem rgba(0, 0, 0, 0.105)" : ""};
       `}
     >
       <OrderLabel order={order} />
