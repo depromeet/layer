@@ -22,15 +22,7 @@ import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { questionsAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-function ShowDeleteButton({ showDelete, onClick }: { showDelete: boolean; onClick: () => void }) {
-  return (
-    <button onClick={onClick}>
-      <Typography variant="B1" color={!showDelete ? "darkGray" : "dark"}>
-        {!showDelete ? "삭제" : "완료"}
-      </Typography>
-    </button>
-  );
-}
+const MAX_QUESTIONS_COUNT = 10;
 
 type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "goPrev">;
 
@@ -45,7 +37,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
     setNewQuestions((prev) => prev.filter((_, i) => i !== targetIndex));
   };
 
-  const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleQuestionInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     setNewQuestions((prev) => {
       const newQuestions = [...prev];
       newQuestions[index] = e.target.value;
@@ -58,10 +50,6 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
     goNext();
   };
 
-  useEffect(() => {
-    setNewQuestions([...questions]);
-  }, [questions]);
-
   const onDragEnd = ({ source, destination }: DropResult) => {
     setNewQuestions((prev) => {
       if (!destination) return prev;
@@ -72,6 +60,10 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
       return sortedQuestions;
     });
   };
+
+  useEffect(() => {
+    setNewQuestions([...questions]);
+  }, [questions]);
 
   return (
     <div
@@ -87,7 +79,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         LeftComp={<Icon icon={"ic_quit"} onClick={goPrev} />}
         RightComp={<ShowDeleteButton onClick={() => setShowDelete((s) => !s)} showDelete={showDelete} />}
       />
-      <Header title={"질문 리스트"} contents={"문항은 최대 10개까지 구성 가능해요"} />
+      <Header title={"질문 리스트"} contents={`문항은 최대 ${MAX_QUESTIONS_COUNT}개까지 구성 가능해요`} />
       <div
         css={css`
           margin-top: 3.2rem;
@@ -130,7 +122,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
                   >
                     <input
                       value={question}
-                      onChange={(e) => handleQuestionChange(e, index)}
+                      onChange={(e) => handleQuestionInputChange(e, index)}
                       css={css`
                         flex-grow: 1;
                       `}
@@ -142,14 +134,14 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
           </Drop>
         </DragDropContext>
       </div>
-      <AddListItemButton onClick={openBottomSheet} />
+      {newQuestions.length < MAX_QUESTIONS_COUNT && <AddListItemButton onClick={openBottomSheet} />}
 
       <ButtonProvider>
         <ButtonProvider.Primary onClick={handleDataSave}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
       {/**FIXME - 클로즈 버튼을 위한 임시 title 없애기 */}
-      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} handler={false} title={" "} sheetHeight={590} />
+      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} quitButton={true} sheetHeight={590} />
     </div>
   );
 }
@@ -158,10 +150,9 @@ type ControlProps = {
   index: number;
   showDelete: boolean;
   handleDeleteItem: (index: number) => void;
-  handleDragItem?: () => void;
 };
 
-function Control({ index, showDelete, handleDeleteItem, handleDragItem }: ControlProps) {
+function Control({ index, showDelete, handleDeleteItem }: ControlProps) {
   return showDelete ? (
     <DeleteItemButton
       onClick={() => handleDeleteItem(index)}
@@ -174,9 +165,18 @@ function Control({ index, showDelete, handleDeleteItem, handleDragItem }: Contro
       css={css`
         margin-left: auto;
       `}
-      onDrag={handleDragItem} /* TODO - drag and drop으로 질문 리스트 순서 변경 */
     >
       <Icon icon="ic_handle" color={DESIGN_SYSTEM_COLOR.lightGrey3} size={"1.8rem"} />
     </div>
+  );
+}
+
+function ShowDeleteButton({ showDelete, onClick }: { showDelete: boolean; onClick: () => void }) {
+  return (
+    <button onClick={onClick}>
+      <Typography variant="B1" color={!showDelete ? "darkGray" : "dark"}>
+        {!showDelete ? "삭제" : "완료"}
+      </Typography>
+    </button>
   );
 }
