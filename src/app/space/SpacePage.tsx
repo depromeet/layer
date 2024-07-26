@@ -1,15 +1,15 @@
-import { Fragment } from "react";
 import { css } from "@emotion/react";
+import { Fragment } from "react";
 import { useParams } from "react-router-dom";
 
+import { BottomSheet } from "@/component/BottomSheet";
+import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet } from "@/component/space";
+import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
-import { Icon } from "@/component/common/Icon";
-import { useBottomSheet } from "@/hooks/useBottomSheet";
-import { BottomSheet } from "@/component/BottomSheet";
 
 type SpacePageProps = {
   id: number;
@@ -23,7 +23,7 @@ type SpacePageProps = {
 
 export function SpacePage() {
   const { spaceId } = useParams<{ spaceId: string }>();
-  const { openBottomSheet, bottomSheetState } = useBottomSheet();
+  const { openBottomSheet } = useBottomSheet();
 
   return (
     <DefaultLayout theme="dark" height="6.4rem" title="떡잎마을 방법대">
