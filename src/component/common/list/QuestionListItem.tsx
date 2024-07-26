@@ -8,7 +8,7 @@ type QuestionListItemProps = {
   order?: number;
   children: React.ReactNode;
   RightComp?: React.ReactNode;
-};
+} & React.LiHTMLAttributes<HTMLLIElement>;
 
 export function QuestionListItem({ gap = "1.2rem", order, RightComp, children }: QuestionListItemProps) {
   return (
