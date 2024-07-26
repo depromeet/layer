@@ -28,7 +28,7 @@ export function CreateRetrospectiveSheet({ teamName }: Props) {
         css={css`
           width: 100%;
           display: flex;
-          justify-content: space-between;
+          justify-content: center;
           gap: 0.8rem;
         `}
       >

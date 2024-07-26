@@ -15,20 +15,16 @@ type Space = {
 };
 
 type SpaceOverviewProps = {
-  key: number;
   space: Space;
 };
-export function SpaceOverview({
-  key,
-  space: { id, imgUrl, spaceName, introduction, projectCategory, collaborationType, headCount },
-}: SpaceOverviewProps) {
+export function SpaceOverview({ space: { id, imgUrl, spaceName, introduction, projectCategory, collaborationType, headCount } }: SpaceOverviewProps) {
   const navigate = useNavigate();
   return (
     <div
       onClick={() => {
         navigate(`/space/${id}`);
       }}
-      key={key}
+      key={id}
       css={css`
         width: 100%;
         height: auto;
