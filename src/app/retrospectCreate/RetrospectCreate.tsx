@@ -11,6 +11,7 @@ import { PATHS } from "@/config/paths";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { dueDateAtom } from "@/store/retrospect/retrospectCreate";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type RetrospectCreateContextState = {
   totalStepsCnt: number;
@@ -25,19 +26,19 @@ export function RetrospectCreate() {
   const themeMap = {
     start: {
       background: "dark",
-      iconColor: "#fff",
+      iconColor: DESIGN_SYSTEM_COLOR.white,
     },
     mainInfo: {
       background: "default",
-      iconColor: "#000",
+      iconColor: DESIGN_SYSTEM_COLOR.black,
     },
     customTemplate: {
       background: "gray",
-      iconColor: "#000",
+      iconColor: DESIGN_SYSTEM_COLOR.black,
     },
     dueDate: {
       background: "default",
-      iconColor: "#000",
+      iconColor: DESIGN_SYSTEM_COLOR.black,
     },
   } as const;
 
@@ -53,7 +54,7 @@ export function RetrospectCreate() {
   const conditionalIncrementPage = () => {
     if (currentStep === "dueDate") {
       if (!date.date || !date.time) {
-        return currentStepIndex;
+        return currentStepIndex - 1;
       }
     }
     return currentStepIndex;
@@ -71,7 +72,13 @@ export function RetrospectCreate() {
       }
       theme={themeMap[currentStep]["background"]}
     >
-      {currentStep !== "start" && <ProgressBar curPage={conditionalIncrementPage()} lastPage={totalStepsCnt - 1} />}
+      <div
+        css={css`
+          visibility: ${currentStep === "start" ? "hidden" : "visible"};
+        `}
+      >
+        <ProgressBar curPage={conditionalIncrementPage()} lastPage={totalStepsCnt - 1} />
+      </div>
       <Spacing size={2.9} />
       <form
         onSubmit={handleSubmit}
