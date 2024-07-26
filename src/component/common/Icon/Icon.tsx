@@ -24,7 +24,7 @@ export const Icon = memo(function Icon({ icon, color = DEFAULT_ICON_COLOR, size 
       onClick={onClick}
       css={css`
         color: ${color};
-        cursor: ${onClick ? "pointer" : "default"};
+        cursor: ${onClick ? "pointer" : "inherit"};
         width: ${widthRem};
         height: auto;
       `}
