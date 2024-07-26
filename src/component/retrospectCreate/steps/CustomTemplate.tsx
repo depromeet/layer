@@ -2,8 +2,7 @@ import { useContext } from "react";
 
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
 import { FullModal } from "@/component/common/Modal/FullModal";
-import { ConfirmEditTemplate, EditQuestions } from "@/component/retrospectCreate/questionsList";
-import { ConfirmDefaultTemplate } from "@/component/retrospectCreate/questionsList/ConfirmDefaultTemplate";
+import { ConfirmEditTemplate, EditQuestions, ConfirmDefaultTemplate } from "@/component/retrospectCreate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 
 export function CustomTemplate() {

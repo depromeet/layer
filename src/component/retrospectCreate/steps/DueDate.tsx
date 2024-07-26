@@ -70,6 +70,7 @@ export function DueDate() {
             })} ${dueDate.time}`}
           </Typography>
         )}
+        {/**FIXME - design token */}
         <Icon icon="ic_chevron_down" color="#171719" size={2.4} />
         <input
           id={DATE_INPUT_ID}

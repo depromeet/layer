@@ -8,7 +8,7 @@ type AddOptionTabsProps<T extends string> = ReturnType<typeof useTabs<T>>;
 
 export function AddOptionTabs<T extends string>({ tabs, curTab, selectTab }: AddOptionTabsProps<T>) {
   return (
-    <div css={css``}>
+    <div>
       {tabs.map((tab, index) => {
         return (
           <button

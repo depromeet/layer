@@ -36,6 +36,7 @@ button {
   user-select: none;
   background-color: transparent;
   padding: 0;
+  cursor: pointer;
 }
 
 input,
