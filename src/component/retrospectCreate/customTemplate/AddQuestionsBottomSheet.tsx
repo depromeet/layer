@@ -44,6 +44,9 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
       {curTab === "직접 작성" && (
         <div
           css={css`
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             margin-top: 2.3rem;
           `}
         >
@@ -55,7 +58,13 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
       )}
 
       {curTab === "추천 질문" && (
-        <div>
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+          `}
+        >
           <div
             css={css`
               display: flex;
