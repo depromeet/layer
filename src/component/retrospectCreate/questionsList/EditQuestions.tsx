@@ -1,12 +1,15 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import { REQUIRED_QUESTIONS } from "./questions.const";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { AppBar } from "@/component/common/appBar";
 import { ButtonProvider } from "@/component/common/button";
+import { Drag } from "@/component/common/dragAndDrop/Drag";
+import { Drop } from "@/component/common/dragAndDrop/Drop";
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { QuestionList, QuestionListItem } from "@/component/common/list";
@@ -37,6 +40,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const [newQuestions, setNewQuestions] = useState([...questions]);
 
   const [showDelete, setShowDelete] = useState(false);
+
   const handleDeleteItem = (targetIndex: number) => {
     setNewQuestions((prev) => prev.filter((_, i) => i !== targetIndex));
   };
@@ -49,7 +53,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
     });
   };
 
-  const handleQuestionsSave = () => {
+  const handleDataSave = () => {
     setQuestions(newQuestions);
     goNext();
   };
@@ -57,6 +61,17 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   useEffect(() => {
     setNewQuestions([...questions]);
   }, [questions]);
+
+  const onDragEnd = ({ source, destination }: DropResult) => {
+    setNewQuestions((prev) => {
+      if (!destination) return prev;
+      const sortedQuestions = [...prev];
+      const draggedQuestion = prev[source.index];
+      sortedQuestions.splice(source.index, 1);
+      sortedQuestions.splice(destination.index, 0, draggedQuestion);
+      return sortedQuestions;
+    });
+  };
 
   return (
     <div
@@ -103,31 +118,38 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         <Typography variant="B2" color={"darkGray"}>
           추가 질문
         </Typography>
-        <QuestionList>
-          {newQuestions.map((question, index) => (
-            <QuestionListItem
-              key={index}
-              order={index + 1}
-              RightComp={<Control index={index} showDelete={showDelete} handleDeleteItem={handleDeleteItem} />}
-            >
-              <input
-                value={question}
-                onChange={(e) => handleQuestionChange(e, index)}
-                css={css`
-                  flex-grow: 1;
-                `}
-              />
-            </QuestionListItem>
-          ))}
-        </QuestionList>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Drop droppableId="droppable">
+            <QuestionList>
+              {newQuestions.map((question, index) => (
+                <Drag key={index} index={index} draggableId={index.toString()}>
+                  <QuestionListItem
+                    key={index}
+                    order={index + 1}
+                    RightComp={<Control index={index} showDelete={showDelete} handleDeleteItem={handleDeleteItem} />}
+                  >
+                    <input
+                      value={question}
+                      onChange={(e) => handleQuestionChange(e, index)}
+                      css={css`
+                        flex-grow: 1;
+                      `}
+                    />
+                  </QuestionListItem>
+                </Drag>
+              ))}
+            </QuestionList>
+          </Drop>
+        </DragDropContext>
       </div>
       <AddListItemButton onClick={openBottomSheet} />
 
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={handleQuestionsSave}>완료</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={handleDataSave}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} handler={false} sheetHeight={590} />
+      {/**FIXME - 클로즈 버튼을 위한 임시 title 없애기 */}
+      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} handler={false} title={" "} sheetHeight={590} />
     </div>
   );
 }
