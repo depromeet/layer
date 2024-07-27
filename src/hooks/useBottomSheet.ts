@@ -152,10 +152,10 @@ export const useSetBottomSheet = ({ handler, sheetHeight }: Pick<BottomSheetType
     sheet.current!.addEventListener("touchend", handleTouchEnd);
 
     return () => {
-      sheet.current!.removeEventListener("mousedown", handleMouseDown);
-      sheet.current!.removeEventListener("touchstart", handleTouchStart);
-      sheet.current!.removeEventListener("touchmove", handleTouchMove);
-      sheet.current!.removeEventListener("touchend", handleTouchEnd);
+      sheet.current?.removeEventListener("mousedown", handleMouseDown);
+      sheet.current?.removeEventListener("touchstart", handleTouchStart);
+      sheet.current?.removeEventListener("touchmove", handleTouchMove);
+      sheet.current?.removeEventListener("touchend", handleTouchEnd);
     };
   }, []);
 

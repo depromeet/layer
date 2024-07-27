@@ -1,0 +1,15 @@
+.swiper {
+  width: 100%;
+  overflow: visible;
+}
+
+.swiper-slide {
+  transition: 0.6s all;
+  display: flex;
+  align-items: center;
+}
+
+.swiper-slide-active #questions-contents {
+  font-weight: 600;
+  transition: 0.8s all;
+}
