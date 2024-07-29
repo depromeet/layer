@@ -72,7 +72,7 @@ export function ViewSelectTab({ viewState, setViewState }: ViewSelectTabProps) {
           `}
         >
           <Typography variant="S2" color={selected ? "black" : "grey500"}>
-            {viewName}
+            {viewName === "ALL" ? "전체" : viewName === "INDIVIDUAL" ? "개인" : "팀"}
           </Typography>
         </button>
       ))}
