@@ -75,7 +75,6 @@ export const loginKakao = async (code: string | null): Promise<LoginKakaoResult>
       if (kakaoLoginRespone) {
         Cookies.set("kakaoAccessToken", kakaoLoginRespone.access_token);
         //로그인 먼저 시도
-        console.log(kakaoLoginRespone.access_token);
         const signInResponse = await signInWithKakaoToken();
         return { status: signInResponse.status, response: signInResponse.data };
       }
