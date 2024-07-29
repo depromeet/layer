@@ -18,7 +18,7 @@ import { Typography } from "@/component/common/typography";
 import { AddQuestionsBottomSheet } from "@/component/retrospectCreate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { questionsAtom } from "@/store/retrospect/retrospectCreate";
+import { isQuestionEditedAtom, questionsAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 const MAX_QUESTIONS_COUNT = 10;
@@ -28,6 +28,7 @@ type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "
 export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [questions, setQuestions] = useAtom(questionsAtom);
+  const [_, setIsQuestionEdited] = useAtom(isQuestionEditedAtom);
   const [newQuestions, setNewQuestions] = useState([...questions]);
 
   const [showDelete, setShowDelete] = useState(false);
@@ -45,6 +46,9 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   };
 
   const handleDataSave = () => {
+    if (JSON.stringify(newQuestions) !== JSON.stringify(questions)) {
+      setIsQuestionEdited(true);
+    }
     setQuestions(newQuestions);
     goNext();
   };
