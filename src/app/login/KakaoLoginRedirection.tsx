@@ -31,8 +31,6 @@ export function KaKaoRedirection() {
     refetchInterval: false,
   });
 
-  console.log(data);
-
   useEffect(() => {
     if (data) {
       const { status, response } = data;
@@ -45,7 +43,7 @@ export function KaKaoRedirection() {
         navigate("/login");
       }
     }
-  }, [data, navigate, setAuthResponse]);
+  }, [data, navigate]);
 
   if (isLoading) {
     return <div>로그인 중입니다...</div>;
