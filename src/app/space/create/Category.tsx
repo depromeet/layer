@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { Fragment, useState } from "react";
 
 import { ButtonProvider } from "@/component/common/button";
