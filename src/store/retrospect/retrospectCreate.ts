@@ -20,3 +20,5 @@ export const dueDateAtom = atom<{ date: Date; time: string }>({
   date: new Date(),
   time: "",
 });
+
+export const templateTitleAtom = atom<string>("");

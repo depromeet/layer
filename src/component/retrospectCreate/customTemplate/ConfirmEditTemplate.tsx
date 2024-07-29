@@ -13,7 +13,7 @@ import { Tag } from "@/component/common/tag";
 import { Tooltip } from "@/component/common/tip";
 import { useInput } from "@/hooks/useInput";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { questionsAtom } from "@/store/retrospect/retrospectCreate";
+import { questionsAtom, templateTitleAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type QuestionsListProps = {
@@ -24,9 +24,15 @@ type QuestionsListProps = {
 export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
   const [questions, _] = useAtom(questionsAtom);
   //FIXME - 유저 이름 가져오기
-  const { value: title, handleInputChange: handleTitleChange } = useInput(`${"디프만"}님의 커스텀 템플릿${2}`);
+  const [templateTitle, setTemplateTitle] = useAtom(templateTitleAtom);
+  const { value: title, handleInputChange: handleTitleChange } = useInput(templateTitle ?? `${"디프만"}님의 커스텀 템플릿${2}`);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const [showTooltip, setShowTooltip] = useState(true);
+
+  const handleDataSave = () => {
+    setTemplateTitle(title);
+    goNext();
+  };
 
   return (
     <div
@@ -105,7 +111,7 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
       </Card>
       <ButtonProvider sort={"horizontal"}>
         <ButtonProvider.Gray onClick={goPrev}>질문 수정</ButtonProvider.Gray>
-        <ButtonProvider.Primary onClick={goNext}>이대로 작성</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={handleDataSave}>이대로 작성</ButtonProvider.Primary>
       </ButtonProvider>
     </div>
   );

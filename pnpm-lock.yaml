@@ -35,6 +35,9 @@ importers:
       jotai-devtools:
         specifier: ^0.10.0
         version: 0.10.0(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(redux@5.0.1)
+      js-cookie:
+        specifier: ^3.0.5
+        version: 3.0.5
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
@@ -63,6 +66,9 @@ importers:
       '@tanstack/eslint-plugin-query':
         specifier: ^5.49.1
         version: 5.49.1(eslint@8.57.0)(typescript@5.4.5)
+      '@types/js-cookie':
+        specifier: ^3.0.6
+        version: 3.0.6
       '@types/node':
         specifier: ^20.12.12
         version: 20.12.12
@@ -908,6 +914,9 @@ packages:
 
   '@types/hoist-non-react-statics@3.3.5':
     resolution: {integrity: sha512-SbcrWzkKBw2cdwRTwQAswfpB9g9LJWfjtUeW/jvNwbhC8cpmmNYVePa+ncbUe0rGTQ7G3Ff6mYUN2VMfLVr+Sg==}
+
+  '@types/js-cookie@3.0.6':
+    resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
@@ -1796,6 +1805,10 @@ packages:
         optional: true
       react:
         optional: true
+
+  js-cookie@3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -3307,6 +3320,8 @@ snapshots:
       '@types/react': 18.3.2
       hoist-non-react-statics: 3.3.2
 
+  '@types/js-cookie@3.0.6': {}
+
   '@types/json5@0.0.29': {}
 
   '@types/lodash@4.17.6': {}
@@ -4420,6 +4435,8 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.2
       react: 18.3.1
+
+  js-cookie@3.0.5: {}
 
   js-tokens@4.0.0: {}
 

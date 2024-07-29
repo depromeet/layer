@@ -5,4 +5,10 @@ export type MainInfo = {
 
 export type Questions = string[];
 
-export type RetrospectCreateReq = MainInfo & Questions;
+export type DueDate = string;
+
+export type RetrospectCreateReq = MainInfo & {
+  questions: Questions;
+  dueDate: DueDate;
+  templateTitle: string;
+};

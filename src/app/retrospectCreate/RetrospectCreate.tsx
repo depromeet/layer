@@ -8,10 +8,12 @@ import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
 import { PATHS } from "@/config/paths";
+import { usePostRetrospectCreate } from "@/hooks/api/retrospectCreate/usePostRetrospectCreate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { dueDateAtom } from "@/store/retrospect/retrospectCreate";
+import { dueDateAtom, mainInfoAtom, questionsAtom, templateTitleAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { combineDateTimeToISOString } from "@/utils/formatDate";
 
 type RetrospectCreateContextState = {
   totalStepsCnt: number;
@@ -42,9 +44,11 @@ export function RetrospectCreate() {
     },
   } as const;
 
-  // const [mainInfo] = useAtom(mainInfoAtom);
-  // const [questions] = useAtom(questionsAtom);
+  const [templateTitle] = useAtom(templateTitleAtom);
+  const [mainInfo] = useAtom(mainInfoAtom);
+  const [questions] = useAtom(questionsAtom);
   const [date] = useAtom(dueDateAtom);
+  const postRetrospectCreate = usePostRetrospectCreate();
 
   const { currentStep, goNext, goPrev, totalStepsCnt, currentStepIndex } = useMultiStepForm({
     steps,
@@ -63,6 +67,18 @@ export function RetrospectCreate() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     /*TODO - API 연동*/
+    const DUMMY_SPACE_ID = 0;
+    const isPm = date.time.split(" ")[0] === "오후";
+    const time = date.time.split(" ")[1];
+    postRetrospectCreate.mutate({
+      spaceId: DUMMY_SPACE_ID,
+      body: {
+        ...mainInfo,
+        questions,
+        dueDate: combineDateTimeToISOString(date.date, isPm, time),
+        templateTitle,
+      },
+    });
   };
 
   return (
