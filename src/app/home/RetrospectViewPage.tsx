@@ -1,11 +1,13 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { spaceFetch } from "@/api/Retrospect";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/home";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { Space } from "@/types/spaceType";
 
 type ViewState = {
   viewName: string;
@@ -15,16 +17,43 @@ type ViewState = {
 export function RetrospectViewPage() {
   const navigate = useNavigate();
 
+  const [spaces, setSpaces] = useState<Space[]>([]);
+  const [cursorId, setCursorId] = useState<number>(0);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
   const [viewState, setViewState] = useState<ViewState[]>([
-    { viewName: "전체", selected: true },
-    { viewName: "개인", selected: false },
-    { viewName: "팀", selected: false },
+    { viewName: "ALL", selected: true },
+    { viewName: "INDIVIDUAL", selected: false },
+    { viewName: "TEAM", selected: false },
   ]);
-  const selectedView = viewState.find((view) => view.selected)?.viewName;
+
+  const selectedView = viewState.find((view) => view.selected)?.viewName || "ALL";
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          spaceFetch(cursorId, selectedView, 0, setSpaces, setCursorId, setHasNextPage).catch((error) =>
+            console.error("데이터 받아오기 실패:", error),
+          );
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [hasNextPage, cursorId, selectedView],
+  );
 
   const goMakeReview = () => {
     navigate("/review");
   };
+
+  useEffect(() => {
+    setCursorId(0);
+    setHasNextPage(true);
+    setSpaces([]);
+    spaceFetch(0, selectedView, 0, setSpaces, setCursorId, setHasNextPage).catch((error) => console.error("데이터 가져오기 실패:", error));
+  }, [selectedView]);
 
   return (
     <DefaultLayout
@@ -50,70 +79,11 @@ export function RetrospectViewPage() {
         `}
       >
         {spaces
-          .filter((space) => (selectedView === "전체" ? true : space.collaborationType === selectedView))
+          .filter((space) => (selectedView === "ALL" ? true : space.category === selectedView))
           .map((space, idx) => (
-            <SpaceOverview key={idx} space={space} />
+            <SpaceOverview key={space.id} space={space} ref={spaces.length === idx + 1 ? lastElementRef : null} />
           ))}
       </div>
     </DefaultLayout>
   );
 }
-
-//FIXME: API 연결시에 해당 데이터 삭제
-type Space = {
-  id: number;
-  imgUrl: string;
-  spaceName: string;
-  introduction: string;
-  projectCategory: string;
-  collaborationType: string;
-  headCount: string;
-};
-
-const spaces: Space[] = [
-  {
-    id: 1,
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 A",
-    introduction: "이곳은 협업을 위한 작업 환경인 공간 A입니다.",
-    projectCategory: "협업",
-    collaborationType: "팀",
-    headCount: "10",
-  },
-  {
-    id: 2,
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 B",
-    introduction: "창의적인 사고를 위한 공간 B에 오신 것을 환영합니다.",
-    projectCategory: "디자인",
-    collaborationType: "개인",
-    headCount: "15",
-  },
-  {
-    id: 3,
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 C",
-    introduction: "혁신과 네트워킹의 중심지인 공간 C를 발견하세요.",
-    projectCategory: "IT개발",
-    collaborationType: "팀",
-    headCount: "8",
-  },
-  {
-    id: 4,
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 D",
-    introduction: "혁신과 네트워킹의 중심지인 공간 C를 발견하세요.",
-    projectCategory: "IT개발",
-    collaborationType: "팀",
-    headCount: "8",
-  },
-  {
-    id: 5,
-    imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyPkxMuo6NOHcNx-aO-wOo3eyVnB2oTq-ZwA&s",
-    spaceName: "공간 E",
-    introduction: "혁신과 네트워킹의 중심지인 공간 C를 발견하세요.",
-    projectCategory: "IT개발",
-    collaborationType: "팀",
-    headCount: "8",
-  },
-];
