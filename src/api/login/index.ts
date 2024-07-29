@@ -55,7 +55,7 @@ export const signUpWithToken = async (accessToken: string, name: string): Promis
 // 가지고 있는 토큰과 닉네임을 통해 회원가입을 진행하는 함수
 const signInWithKakaoToken = async (): Promise<AuthApiReturn> => {
   const response = await api.post(
-    "api/auth/sign-in",
+    "/api/auth/sign-in",
     {
       socialType: "KAKAO",
     },
@@ -75,12 +75,15 @@ export const loginKakao = async (code: string | null): Promise<LoginKakaoResult>
       if (kakaoLoginRespone) {
         Cookies.set("kakaoAccessToken", kakaoLoginRespone.access_token);
         //로그인 먼저 시도
+        console.log(kakaoLoginRespone.access_token);
         const signInResponse = await signInWithKakaoToken();
         return { status: signInResponse.status, response: signInResponse.data };
       }
     }
   } catch (error) {
-    throw new Error("kakao Login failed");
+    // console.log(error);
+    return { status: 404, response: null };
+    // throw new Error("kakao Login failed");
   }
 
   return { status: 400, response: null };
