@@ -131,7 +131,13 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
       }
       theme={spaceValue.step === 0 ? "dark" : "default"}
     >
-      {spaceValue.step !== 0 && <ProgressBar curPage={spaceValue.step} lastPage={LAST_PAGE} />}
+      <ProgressBar
+        curPage={spaceValue.step}
+        lastPage={LAST_PAGE}
+        css={css`
+          visibility: ${spaceValue.step === 0 ? "hidden" : "visible"};
+        `}
+      />
       {spaceValue.step === 0 && <Home onNext={handleNext} />}
       {spaceValue.step === 1 && <Category onNext={handleCategoryChange} />}
       {spaceValue.step === 2 && <Field onNext={handleFieldChange} />}
