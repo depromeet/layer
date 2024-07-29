@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type UseMultiStepForm<T extends readonly string[]> = {
@@ -29,6 +29,14 @@ export const useMultiStepForm = <T extends readonly string[]>({ steps, redirectP
     setCurrentStepIndex((i) => i - 1);
   }, [currentStepIndex]);
 
+  const goTo = useCallback(
+    (targetStep: T[number]) => {
+      const targetIndex = steps.indexOf(targetStep);
+      setCurrentStepIndex(targetIndex);
+    },
+    [steps, setCurrentStepIndex],
+  );
+
   return useMemo(
     () => ({
       totalStepsCnt,
@@ -36,7 +44,8 @@ export const useMultiStepForm = <T extends readonly string[]>({ steps, redirectP
       currentStepIndex,
       goNext,
       goPrev,
+      goTo,
     }),
-    [totalStepsCnt, currentStep, currentStepIndex, goNext, goPrev],
+    [totalStepsCnt, currentStep, currentStepIndex, goNext, goPrev, goTo],
   );
 };
