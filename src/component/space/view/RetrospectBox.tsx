@@ -25,7 +25,7 @@ const statusStyles = {
 };
 
 export function RetrospectBox({ retrospect }: { retrospect: RestrospectType }) {
-  const { retrospectId, title, introduction, isWrite, retrospectStatus, writeCount, totalCount } = retrospect;
+  const { retrospectId, title, introduction, retrospectStatus, writeCount, totalCount } = retrospect;
   const { backgroundColor, buttonColor } = statusStyles[retrospectStatus];
 
   return (
