@@ -17,7 +17,7 @@ function Back({ theme }: { theme: "dark" | "gray" | "default" }) {
   const navigate = useNavigate();
   return (
     <Icon
-      icon="ic_arrowLeft"
+      icon="ic_arrow_left"
       onClick={() => {
         navigate(-1);
       }}

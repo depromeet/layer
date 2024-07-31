@@ -12,7 +12,7 @@ type SpaceOverviewProps = {
 };
 
 const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
-  ({ space: { id, category, imgUrl, fieldList, name, introduction, formId, memberCount } }, ref) => {
+  ({ space: { id, category, bannerUrl, fieldList, name, introduction, formId, memberCount } }, ref) => {
     const navigate = useNavigate();
     return (
       <div
@@ -38,7 +38,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
           `}
         >
           <img
-            src={imgUrl}
+            src={bannerUrl}
             css={css`
               width: 4rem;
               height: 4rem;
@@ -53,7 +53,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
             height: 100%;
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 0.2rem;
           `}
         >
           <Typography variant="S2">{name}</Typography>
@@ -65,13 +65,16 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
               width: 100%;
               display: flex;
               justify-content: space-between;
-              margin-top: 0.6rem;
+              margin-top: 1.4rem;
             `}
           >
             <div
               css={css`
                 display: flex;
                 gap: 0.4rem;
+                width: 87%;
+                overflow-x: auto;
+                white-space: nowrap;
               `}
             >
               <TagBox tagName={category} />

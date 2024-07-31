@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { spaceRestrospectFetch } from "@/api/Retrospect";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
@@ -10,9 +11,8 @@ import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet }
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
-import { spaceRestrospectFetch } from "@/api/Retrospect";
 
-type SpacePageProps = {
+type SpaceViewPageProps = {
   id: number;
   category: string;
   field: string;
@@ -32,7 +32,7 @@ type RestrospectType = {
   totalCount: number;
 };
 
-export function SpacePage() {
+export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
   const [restrospectArr, setRestrospectArr] = useState<RestrospectType[]>([]);

@@ -5,6 +5,6 @@ export type Space = {
   name: string;
   introduction: string;
   formId: number;
-  imgUrl: string;
+  bannerUrl: string;
   memberCount: number;
 };

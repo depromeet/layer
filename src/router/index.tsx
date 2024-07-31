@@ -13,7 +13,7 @@ import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
 import { CreateDonePage } from "@/app/space/CreateDonePage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
-import { SpacePage } from "@/app/space/SpacePage";
+import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 import Staging from "@/app/test/Staging.tsx";
 import { RetrospectWriteCompletePage } from "@/app/write/RetrospectWriteCompletePage.tsx";
 import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
@@ -67,7 +67,7 @@ const routerChildren: RouteChildren[] = [
   },
   {
     path: "/space/:spaceId",
-    element: <SpacePage />,
+    element: <SpaceViewPage />,
     auth: true,
   },
   {
