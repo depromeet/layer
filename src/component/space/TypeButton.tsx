@@ -36,7 +36,7 @@ export function TypeButton({ isClicked = true, label, onClick }: TypeButtonProps
         <Icon
           icon="ic_human"
           size={4}
-          color={!isClicked ? "#6C9CFA" : "#f6f8fa"}
+          color={isClicked ? "#f6f8fa" : "#6C9CFA"}
           css={css`
             cursor: pointer;
           `}
