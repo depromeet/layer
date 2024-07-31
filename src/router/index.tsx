@@ -32,12 +32,12 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/write",
     element: <RetrospectWritePage />,
-    auth: false,
+    auth: true,
   },
   {
     path: "/write/complete",
     element: <RetrospectWriteCompletePage />,
-    auth: false,
+    auth: true,
   },
   {
     path: "/staging",
