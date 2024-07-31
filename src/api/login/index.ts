@@ -27,6 +27,7 @@ const getKakaoLoginResponse = async (code: string): Promise<KakaoLoginResponse |
   } catch (err) {
     console.error("카카오 토큰 가져오기 실패", err);
   }
+  return null;
 };
 
 // 가지고 있는 토큰과 닉네임을 통해 회원가입을 진행하는 코드

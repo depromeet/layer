@@ -4,30 +4,19 @@ import { Space } from "@/types/spaceType";
 type SpaceFetchResponse = {
   data: Space[];
   meta: {
-    nextCursorId: number;
     hasNextPage: boolean;
+    cursor: number;
   };
 };
 
 // 스페이스 정보 획득 함수
-export const spaceFetch = async (
-  cursorId: number,
-  category: string,
-  pageSize: number,
-  setSpaces: React.Dispatch<React.SetStateAction<Space[]>>,
-  setCursorId: React.Dispatch<React.SetStateAction<number>>,
-  setHasNextPage: React.Dispatch<React.SetStateAction<boolean>>,
-) => {
+export const spaceFetch = async (cursorId: number, category: string, pageSize: number) => {
+  const params = category !== "ALL" ? { cursorId: cursorId, category: category, pageSize: pageSize } : { cursorId: cursorId, pageSize: pageSize };
+
   const response = await api.get<SpaceFetchResponse>("/api/space/list", {
-    params: {
-      cursorId: cursorId,
-      category: category,
-      pageSize: pageSize,
-    },
+    params: params,
   });
-  setSpaces((prevSpaces) => [...prevSpaces, ...response.data.data]);
-  setCursorId(response.data.meta.nextCursorId);
-  setHasNextPage(response.data.meta.hasNextPage);
+  return response.data;
 };
 
 type RestrospectResponse = {
