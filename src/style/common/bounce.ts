@@ -1,6 +1,6 @@
 import { keyframes } from "@emotion/react";
 
-export const BOUNCE_MD = keyframes`
+export const BOUNCE = keyframes`
   from, 20%, 53%, 80%, to {
     transform: translate3d(0,0,0);
   }
