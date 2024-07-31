@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { forwardRef, useContext } from "react";
+import { forwardRef, useContext, useState } from "react";
 
 import { InputContext } from "./InputLabelContainer";
 
@@ -16,6 +16,7 @@ type TextAreaProps = {
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function ({ id, width = "100%", height = "8.4rem", count, ...props }, ref) {
   const { maxLength, value } = props;
+  const [isFocused, setIsFocused] = useState(false);
   const textareaContext = useContext(InputContext);
   return (
     <div
@@ -36,7 +37,18 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           ::placeholder {
             color: ${DESIGN_SYSTEM_COLOR.lightGrey5};
           }
+          width: ${width};
+          border: 1px solid;
+          border-color: ${isFocused ? DESIGN_SYSTEM_COLOR.theme3 : "#e3e6ea"}; // FIXME: 디자인 토큰 적용하기
+          border-radius: 0.8rem;
+          padding: 1.6rem;
+          display: flex;
+          flex-direction: column;
+          height: ${height};
+          transition: 0.2s all;
         `}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         {...props}
       />
       {count && maxLength && (
@@ -45,7 +57,10 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
             align-self: flex-end;
           `}
         >
-          <Typography variant="CAPTION" color={"lightGrey"}>{`${value.length}/${maxLength}`}</Typography>
+          <Typography variant="CAPTION" color={value.length ? "theme3" : "lightGrey"}>
+            {value.length}
+          </Typography>
+          <Typography variant="CAPTION" color={"lightGrey"}>{`/${maxLength}`}</Typography>
         </div>
       )}
     </div>
