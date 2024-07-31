@@ -1,26 +1,18 @@
 import { css } from "@emotion/react";
 import { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-import { spaceRestrospectFetch } from "@/api/Retrospect";
+import { spaceRestrospectFetch, spaceInfoFetch } from "@/api/Retrospect";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet } from "@/component/space";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
-
-type SpaceViewPageProps = {
-  id: number;
-  category: string;
-  field: string;
-  name: string;
-  introduction: string;
-  formId: number;
-  memberCount: number;
-};
+import { Space } from "@/types/spaceType";
 
 type RestrospectType = {
   retrospectId: number;
@@ -35,13 +27,32 @@ type RestrospectType = {
 export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
+  const naviagte = useNavigate();
+  const [layerCount, setLayerCount] = useState<number>(0);
+  const [spaceInfo, setSpaceInfo] = useState<Space>();
   const [restrospectArr, setRestrospectArr] = useState<RestrospectType[]>([]);
 
   useEffect(() => {
     if (spaceId) {
+      spaceInfoFetch(Number(spaceId))
+        .then((response) => {
+          setSpaceInfo(response);
+          console.log(spaceInfo);
+        })
+        .catch((error) => {
+          console.error(error);
+          naviagte(-1);
+        });
+
       spaceRestrospectFetch(Number(spaceId))
-        .then((response) => {})
-        .catch((error) => {});
+        .then(({ layerCount, retrospects }) => {
+          setLayerCount(layerCount);
+          setRestrospectArr(retrospects);
+        })
+        .catch((error) => {
+          console.error(error);
+          naviagte(-1);
+        });
     }
   }, [spaceId]);
 
@@ -49,49 +60,47 @@ export function SpaceViewPage() {
   const doneRetrospects = restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "DONE");
 
   return (
-    <DefaultLayout theme="dark" height="6.4rem" title="떡잎마을 방법대">
+    <DefaultLayout theme="dark" height="6.4rem" title={spaceInfo?.name}>
       <TeamGoalView />
       <Spacing size={1.1} />
-      <SpaceCountView />
+      <SpaceCountView memberCount={spaceInfo?.memberCount} layerCount={layerCount} />
       <Spacing size={2.4} />
       <div
         css={css`
           width: calc(100% + 4rem);
           transform: translateX(-2rem);
-          min-height: calc(100vh - 34rem);
+          min-height: calc(100vh - 32rem);
           background-color: ${DESIGN_SYSTEM_COLOR.white};
           padding: 2.2rem 2rem;
         `}
       >
-        {!proceedingRetrospects.length && !doneRetrospects.length && <>ss</>}
+        <>
+          <div
+            css={css`
+              display: flex;
+              gap: 0.6rem;
+            `}
+          >
+            <Typography variant="B1_BOLD">진행중인 회고</Typography>
+            <Typography variant="B1_BOLD" color="darkGray">
+              {proceedingRetrospects.length}
+            </Typography>
+          </div>
+          <Spacing size={1.6} />
+          {!proceedingRetrospects.length && !doneRetrospects.length && <EmptyRetrospect />}
 
-        {proceedingRetrospects.length !== 0 && (
-          <>
-            <div
-              css={css`
-                display: flex;
-                gap: 0.6rem;
-              `}
-            >
-              <Typography variant="B1_BOLD">진행중인 회고</Typography>
-              <Typography variant="B1_BOLD" color="darkGray">
-                {proceedingRetrospects.length}
-              </Typography>
-            </div>
-            <Spacing size={1.6} />
-            <div
-              css={css`
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-              `}
-            >
-              {proceedingRetrospects.map((retrospect) => (
-                <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />
-              ))}
-            </div>
-          </>
-        )}
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              gap: 1rem;
+            `}
+          >
+            {proceedingRetrospects.map((retrospect) => (
+              <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />
+            ))}
+          </div>
+        </>
 
         <Spacing size={2} />
 

@@ -21,21 +21,25 @@ export const spaceFetch = async (cursorId: number, category: string, pageSize: n
 
 type RestrospectResponse = {
   layerCount: number;
-  retrospects: [
-    {
-      retrospectId: number;
-      title: string;
-      introduction: string;
-      isWrite: boolean;
-      retrospectStatus: string;
-      writeCount: number;
-      totalCount: number;
-    },
-  ];
+  retrospects: {
+    retrospectId: number;
+    title: string;
+    introduction: string;
+    isWrite: boolean;
+    retrospectStatus: "PROCEEDING" | "DONE";
+    writeCount: number;
+    totalCount: number;
+  }[];
 };
 
 // space에 있는 회고록 획득 함수
 export const spaceRestrospectFetch = async (spaceId: number) => {
   const response = await api.get<RestrospectResponse>(`/space/${spaceId}/retrospect`);
-  console.log(response);
+  return response.data;
+};
+
+// spaceId에 따른 정보 얻는 함수
+export const spaceInfoFetch = async (spaceId: number) => {
+  const response = await api.get<Space>(`api/space/${spaceId}`);
+  return response.data;
 };

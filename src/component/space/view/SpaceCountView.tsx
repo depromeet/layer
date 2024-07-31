@@ -4,7 +4,12 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-export function SpaceCountView() {
+type SpaceCountViewProps = {
+  memberCount: number | undefined;
+  layerCount: number;
+};
+
+export function SpaceCountView({ memberCount, layerCount }: SpaceCountViewProps) {
   return (
     <div
       css={css`
@@ -35,7 +40,7 @@ export function SpaceCountView() {
           `}
         >
           <Typography variant="CAPTION">쌓인 회고</Typography>
-          <Typography variant="B2_SEMIBOLD">1개</Typography>
+          <Typography variant="B2_SEMIBOLD">{layerCount}개</Typography>
         </div>
       </div>
 
@@ -63,7 +68,7 @@ export function SpaceCountView() {
           `}
         >
           <Typography variant="CAPTION">팀원</Typography>
-          <Typography variant="B2_SEMIBOLD">11명</Typography>
+          <Typography variant="B2_SEMIBOLD">{memberCount}명</Typography>
         </div>
         <Icon icon="ic_after" size={1.6} />
       </div>
