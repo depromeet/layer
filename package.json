@@ -14,6 +14,7 @@
     "@emotion/styled": "^11.11.5",
     "@tanstack/react-query": "^5.49.2",
     "@tanstack/react-query-devtools": "^5.49.2",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "axios": "^1.7.2",
     "framer-motion": "^11.2.13",
     "jotai": "^2.8.4",
@@ -21,6 +22,8 @@
     "js-cookie": "^3.0.5",
     "prettier": "^3.2.5",
     "react": "^18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-calendar": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.24.0"
   },

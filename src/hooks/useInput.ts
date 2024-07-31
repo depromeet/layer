@@ -7,5 +7,9 @@ export const useInput = <T extends HTMLInputElement | HTMLTextAreaElement>(defau
     setValue(e.target.value);
   }, []);
 
-  return { value, handleInputChange };
+  const resetInput = useCallback(() => {
+    setValue("");
+  }, []);
+
+  return { value, handleInputChange, resetInput };
 };

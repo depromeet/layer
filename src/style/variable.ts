@@ -102,7 +102,7 @@ export const DESIGN_SYSTEM_TEXT = {
     lineHeight: "1.6rem",
     letterSpacing: "-2%",
   },
-};
+} as const;
 
 export const DESIGN_SYSTEM_COLOR = {
   themeBackground: {
@@ -110,10 +110,12 @@ export const DESIGN_SYSTEM_COLOR = {
     gray: "#F6F8FA",
     default: "#FFFFFF",
   },
+  dark: "#212529",
   darkGray: "#868e96",
   darkGrayText: "#495057",
   theme: "#73a2ff",
   theme2: "#5e94ff",
+  theme3: "#6c9cfa",
   inverseGrey50: "#202027",
   inverseGrey100: "#2c2c35",
   inverseGrey200: "#3c3c47",
@@ -124,7 +126,13 @@ export const DESIGN_SYSTEM_COLOR = {
   inverseGrey700: "#c3c3c6",
   inverseGrey800: "#e4e4e5",
   inverseGrey900: "#fff",
+  grey: "#97daa",
+  grey2: "#979daa",
   lightGrey: "#CED2DA",
+  lightGrey2: "#f1f3f5",
+  lightGrey3: "#d9d9d9",
+  lightGrey4: "#e9ecef",
+  lightGrey5: "#adb5bd",
   background: "#fff",
   darkBackground: "#17171c",
   greyBackground: "#f2f4f6",
@@ -409,4 +417,4 @@ export const DESIGN_SYSTEM_COLOR = {
   darkThemeBackgroundLevel02: "#2c2c35",
   lightThemeHairlineBorder: "#e5e8eb",
   darkThemeHairlineBorder: "#3c3c47",
-};
+} as const;

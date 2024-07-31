@@ -4,6 +4,7 @@ import { forwardRef, useContext } from "react";
 import { InputContext } from "./InputLabelContainer";
 
 import { Typography } from "@/component/common/typography";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type InputProps = {
   value: string;
@@ -12,7 +13,7 @@ type InputProps = {
   count?: boolean;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export const Input = forwardRef(function ({ id, width = "100%", count, ...props }: InputProps) {
+export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, width = "100%", count, ...props }, ref) {
   const { maxLength, value } = props;
   const inputContext = useContext(InputContext);
   return (
@@ -27,9 +28,13 @@ export const Input = forwardRef(function ({ id, width = "100%", count, ...props 
         `}
       >
         <input
+          ref={ref}
           id={id || inputContext?.id}
           css={css`
-            width: 100%;
+            flex-grow: 1;
+            ::placeholder {
+              color: ${DESIGN_SYSTEM_COLOR.lightGrey5};
+            }
           `}
           {...props}
         />

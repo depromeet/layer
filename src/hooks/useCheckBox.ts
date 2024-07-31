@@ -6,5 +6,8 @@ export const useCheckBox = () => {
   const toggle = (value: string) => setCheckedStates((prev) => ({ ...prev, [value]: !prev[value] }));
   const selectedValues = Object.keys(checkedStates).filter((key) => checkedStates[key]);
 
-  return { isChecked, toggle, selectedValues };
+  const resetChecked = () => {
+    setCheckedStates({});
+  };
+  return { isChecked, toggle, selectedValues, resetChecked };
 };
