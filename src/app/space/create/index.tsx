@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 import axios from "axios";
 import { useAtom } from "jotai";
-import { useResetAtom } from "jotai/utils";
 import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
