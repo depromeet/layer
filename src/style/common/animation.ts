@@ -30,7 +30,7 @@ export const ANIMATION = {
   FADE_UP: keyframes`
       0% {
           opacity: 40%;
-          transform: translate3d(0, 30%, 0);
+          transform: translate3d(0, 5%, 0);
       }
       50% {
           opacity: 60%;

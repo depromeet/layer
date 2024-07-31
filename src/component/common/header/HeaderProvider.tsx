@@ -16,9 +16,16 @@ export const parseTextToJSX = (text: string) => {
   const matches = text.matchAll(regex);
 
   return Array.from(matches).map((match, index) => {
+    console.log(match, index);
     if (match[1]) {
       return (
-        <span key={index} className="text-h3">
+        <span
+          key={index}
+          className="emphasis"
+          css={css`
+            font-weight: 500;
+          `}
+        >
           {match[1]}
         </span>
       );
@@ -40,7 +47,7 @@ export function HeaderProvider({ children, ...props }: PropsWithChildren) {
       css={css`
         display: flex;
         flex-direction: column;
-        row-gap: 1.2rem;
+        row-gap: 0.8rem;
       `}
     >
       {Children.map(children, (child) => {

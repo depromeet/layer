@@ -10,6 +10,6 @@
 }
 
 .swiper-slide-active #questions-contents {
-  font-weight: 600;
-  transition: 0.8s all;
+  font-weight: 500;
+  transition: 0.6s all;
 }

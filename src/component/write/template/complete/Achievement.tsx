@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 
 import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
+import { ACHIEVEMENT_COLOR } from "@/component/write/template/template.const.ts";
 
 type ProgressBarProps = {
   question: string;
@@ -83,7 +84,7 @@ export function CAchievementTemplate({ question, index: AchivementIdx = 0 }: Pro
               css={css`
                 position: absolute;
                 width: 100%;
-                background-color: ${isActive ? `rgba(108, 156, 250, 0.${5 + index})` : "transparent"};
+                background-color: ${isActive ? ACHIEVEMENT_COLOR[index] : "transparent"};
                 border-radius: inherit;
                 height: inherit;
                 transition: 0.4s all;

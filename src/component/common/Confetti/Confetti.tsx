@@ -39,7 +39,7 @@ export function Confetti({ style }: ConfettiProps) {
         ...opts,
         origin: { y: 0.8 },
         particleCount: Math.floor(200 * particleRatio),
-        colors: ["#93c6ff", "#fff4c8"],
+        colors: ["#D1CDFC", "#7067C6"],
       })
     );
   }, []);

@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import * as icons from "@/assets/svgs";
 import { Icon } from "@/component/common/Icon";
 import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
+import { SATISTFACTION_COLOR } from "@/component/write/template/template.const.ts";
 
 type IconType = keyof typeof icons;
 type SatisfactionProps = {
@@ -23,7 +24,7 @@ export function CSatisfactionTemplate({ question = "진행상황에 대해 얼�
               css={css`
                 circle,
                 ellipse {
-                  fill: ${SatisfactionIdx === index && "#6c9cfa"};
+                  fill: ${SatisfactionIdx === index && SATISTFACTION_COLOR[SatisfactionIdx]};
                   transition: 0.4s all;
                 }
               `}

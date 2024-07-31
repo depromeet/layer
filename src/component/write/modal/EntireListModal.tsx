@@ -1,16 +1,19 @@
 import { css } from "@emotion/react";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 
+import { AdvanceQuestionsNum, PhaseContext, QuestionData } from "@/app/write/RetrospectWritePage.tsx";
 import { Icon } from "@/component/common/Icon";
 import { ANIMATION } from "@/style/common/animation.ts";
 
 type EntireListProps = {
-  listData: string[];
+  listData: QuestionData[];
   onClose: () => void;
 };
 
-export function EntireListModal({ listData, onClose }: EntireListProps) {
+export function EntireListModal({ onClose }: EntireListProps) {
+  const { data, movePhase } = useContext(PhaseContext);
   const containerRef = useRef(null);
+
   return (
     <div
       css={css`
@@ -21,7 +24,7 @@ export function EntireListModal({ listData, onClose }: EntireListProps) {
         bottom: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(6, 8, 12, 0.22);
         display: flex;
         justify-content: center;
         padding: 1.1rem;
@@ -38,10 +41,10 @@ export function EntireListModal({ listData, onClose }: EntireListProps) {
           height: fit-content;
           max-width: 46rem;
           border-radius: 1.2rem;
-          background-color: white;
+          background-color: #f2f4f8;
           padding: 1.3rem 0;
           transition: 0.4s all;
-          animation: ${ANIMATION.FADE_IN_SCALE_UP} 0.4s ease-in-out;
+          animation: ${ANIMATION.FADE_UP} 0.4s ease-in-out;
         `}
       >
         <div
@@ -52,7 +55,6 @@ export function EntireListModal({ listData, onClose }: EntireListProps) {
             height: 2.5rem;
             width: 100%;
             justify-content: center;
-            display: flex;
             align-items: center;
           `}
         >
@@ -78,10 +80,11 @@ export function EntireListModal({ listData, onClose }: EntireListProps) {
             overflow-x: hidden;
           `}
         >
-          {listData.map((item, index) => {
+          {data.questions.map((item, index) => {
+            console.log(item);
             return (
               <div
-                key={index}
+                key={item.questionId}
                 css={css`
                   width: 100%;
                   padding: 1.4rem 2.8rem;
@@ -95,6 +98,10 @@ export function EntireListModal({ listData, onClose }: EntireListProps) {
                     background-color: rgba(108, 156, 250, 0.15);
                   }
                 `}
+                onClick={() => {
+                  movePhase(index);
+                  onClose();
+                }}
               >
                 <span
                   css={css`
@@ -106,10 +113,10 @@ export function EntireListModal({ listData, onClose }: EntireListProps) {
                     font-weight: 300;
                   `}
                 >
-                  {item}
+                  {index < AdvanceQuestionsNum ? `${item.question}` : `${index - (AdvanceQuestionsNum - 1)}. ${item.question}`}
                 </span>
                 <Icon
-                  icon={"ic_move_arrow"}
+                  icon={"ic_write_move_arrow"}
                   size={1.5}
                   css={css`
                     margin-left: auto;

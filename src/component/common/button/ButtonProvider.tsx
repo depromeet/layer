@@ -43,6 +43,18 @@ export const ButtonProvider = ({ sort = "vertical", children, ...props }: PropsW
         z-index: 10001;
       `}
     >
+      <div
+        css={css`
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          margin: 0 -2rem;
+          z-index: -1;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--parent-bg-color) 57.38%);
+        `}
+      />
       {Children.map(children, (child) => {
         if (isValidElement(child)) {
           return cloneElement(child, { ...props });

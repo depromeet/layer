@@ -18,6 +18,10 @@
     sans-serif;
 }
 
+:root {
+  --parent-bg-color: inherit;
+}
+
 html {
   font-size: 62.5%;
   height: -webkit-fill-available;

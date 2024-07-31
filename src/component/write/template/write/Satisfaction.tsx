@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 
 import * as icons from "@/assets/svgs";
 import { Icon } from "@/component/common/Icon";
+import { SATISTFACTION_COLOR } from "@/component/write/template/template.const.ts";
 import { ANIMATION } from "@/style/common/animation.ts";
 
 type IconType = keyof typeof icons;
@@ -30,7 +31,7 @@ export function WSatisfactionTemplate({ index: SatisfactionIdx, onClick, ...prop
               css={css`
                 circle,
                 ellipse {
-                  fill: ${SatisfactionIdx === index && "#6c9cfa"};
+                  fill: ${SatisfactionIdx === index && SATISTFACTION_COLOR[SatisfactionIdx]};
                   transition: 0.4s all;
                 }
 

@@ -1,5 +1,8 @@
 import { css } from "@emotion/react";
 
+import { AdvanceQuestionsNum } from "@/app/write/RetrospectWritePage.tsx";
+import { Icon } from "@/component/common/Icon";
+
 type QuestionItemProps = {
   index: number;
   contents: string;
@@ -30,13 +33,19 @@ export function QuestionItem({ index, contents }: QuestionItemProps) {
         `}
         id="questions-index"
       >
-        {index}
+        {index <= AdvanceQuestionsNum ? <Icon icon={"ic_essential_star"} size={1.3} /> : index}
       </div>
       <div
         css={css`
           color: #73a2ff;
           font-size: 1.6rem;
           font-weight: 300;
+          flex: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
         `}
         id="questions-contents"
       >

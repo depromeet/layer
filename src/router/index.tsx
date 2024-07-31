@@ -10,7 +10,8 @@ import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
 import MainPage from "@/app/MainPage.tsx"; /* FIXME - 실제 메인 페이지 작성 후 대체해주세요. */
 import Staging from "@/app/test/Staging.tsx";
-import { Main } from "@/app/write/main.tsx";
+import { RetrospectWriteCompletePage } from "@/app/write/RetrospectWriteCompletePage.tsx";
+import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
 
@@ -26,7 +27,13 @@ const routerChildren: RouteChildren[] = [
   },
   {
     path: "/write",
-    element: <Main />,
+    element: <RetrospectWritePage />,
+    auth: false,
+  },
+  {
+    path: "/write/complete",
+    element: <RetrospectWriteCompletePage />,
+    auth: false,
   },
   {
     path: "/staging",

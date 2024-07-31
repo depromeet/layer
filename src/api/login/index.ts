@@ -80,6 +80,7 @@ export const loginKakao = async (code: string | null): Promise<LoginKakaoResult>
       }
     }
   } catch (error) {
+    return { status: 404, response: null };
     throw new Error("kakao Login failed");
   }
 

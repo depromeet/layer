@@ -23,7 +23,7 @@ export function ItemsButton({ ...props }) {
     >
       <span
         css={css`
-          color: #7e7c7c;
+          color: #666b75;
           font-size: 1.6rem;
         `}
       >

@@ -1,11 +1,13 @@
 import { css } from "@emotion/react";
 
+import { ACHIEVEMENT_COLOR } from "@/component/write/template/template.const.ts";
+
 type ProgressBarProps = {
-  index: number;
+  answer: number;
   onClick: (index: number) => void;
 };
 
-export function WAchievementTemplate({ index: AchivementIdx = 0, onClick }: ProgressBarProps) {
+export function WAchievementTemplate({ answer: AchivementIdx = -1, onClick }: ProgressBarProps) {
   const segments = Array.from({ length: 5 }, (_, i) => i < AchivementIdx + 1);
   const defaultBorderStyle = css`
     border-radius: 0;
@@ -84,7 +86,7 @@ export function WAchievementTemplate({ index: AchivementIdx = 0, onClick }: Prog
               css={css`
                 position: absolute;
                 width: 100%;
-                background-color: ${isActive ? `rgba(108, 156, 250, 0.${5 + index})` : "transparent"};
+                background-color: ${isActive ? ACHIEVEMENT_COLOR[index] : "transparent"};
                 border-radius: inherit;
                 height: inherit;
                 transition: 0.4s all;
@@ -94,7 +96,8 @@ export function WAchievementTemplate({ index: AchivementIdx = 0, onClick }: Prog
           <span
             id="percent"
             css={css`
-              color: ${index === AchivementIdx && "#212529"};
+              color: ${index === AchivementIdx && "#6C9CFA"};
+              font-weight: ${index === AchivementIdx && 500};
               transition: 0.4s all;
             `}
           >
