@@ -46,12 +46,12 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/create",
     element: <CreateSpacePage />,
-    auth: false,
+    auth: true,
   },
   {
     path: "/space/create/done",
     element: <CreateDonePage />,
-    auth: false,
+    auth: true,
   },
   {
     path: "/space/:spaceId",
