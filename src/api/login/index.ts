@@ -26,7 +26,6 @@ const getKakaoLoginResponse = async (code: string): Promise<KakaoLoginResponse |
     return response.data;
   } catch (err) {
     console.error("카카오 토큰 가져오기 실패", err);
-    return null;
   }
 };
 
@@ -80,9 +79,7 @@ export const loginKakao = async (code: string | null): Promise<LoginKakaoResult>
       }
     }
   } catch (error) {
-    // console.log(error);
     return { status: 404, response: null };
-    // throw new Error("kakao Login failed");
   }
 
   return { status: 400, response: null };
