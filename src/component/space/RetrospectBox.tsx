@@ -3,8 +3,14 @@ import { css } from "@emotion/react";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 
-type RetrospectBoxProps = {
+type RestrospectType = {
+  retrospectId: number;
+  title: string;
+  introduction: string;
+  isWrite: boolean;
   retrospectStatus: "PROCEEDING" | "DONE";
+  writeCount: number;
+  totalCount: number;
 };
 
 const statusStyles = {
@@ -18,11 +24,13 @@ const statusStyles = {
   },
 };
 
-export function RetrospectBox({ retrospectStatus }: RetrospectBoxProps) {
+export function RetrospectBox({ retrospect }: { retrospect: RestrospectType }) {
+  const { retrospectId, title, introduction, isWrite, retrospectStatus, writeCount, totalCount } = retrospect;
   const { backgroundColor, buttonColor } = statusStyles[retrospectStatus];
 
   return (
     <div
+      key={retrospectId}
       css={css`
         width: 100%;
         height: 13.8rem;
@@ -38,20 +46,20 @@ export function RetrospectBox({ retrospectStatus }: RetrospectBoxProps) {
           justify-content: space-between;
         `}
       >
-        <Typography variant="B1_BOLD">중간발표 이후 회고</Typography>
+        <Typography variant="B1_BOLD">{title}</Typography>
         <div>
           <Typography variant="B2_SEMIBOLD" color="blue700">
-            1
+            {writeCount}
           </Typography>
           <Typography variant="B2_SEMIBOLD" color="grey800">
             {" "}
-            / 10
+            / {totalCount}
           </Typography>
         </div>
       </div>
       <Spacing size={0.3} />
       <Typography variant="B2_SEMIBOLD" color="darkGray">
-        방향성 체크 및 팀 내 개선점 구축
+        {introduction}
       </Typography>
       <Spacing size={1.6} />
       <button

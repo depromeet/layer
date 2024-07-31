@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
@@ -10,6 +10,7 @@ import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet }
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { spaceRestrospectFetch } from "@/api/Retrospect";
 
 type SpacePageProps = {
   id: number;
@@ -21,9 +22,31 @@ type SpacePageProps = {
   memberCount: number;
 };
 
+type RestrospectType = {
+  retrospectId: number;
+  title: string;
+  introduction: string;
+  isWrite: boolean;
+  retrospectStatus: "PROCEEDING" | "DONE";
+  writeCount: number;
+  totalCount: number;
+};
+
 export function SpacePage() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
+  const [restrospectArr, setRestrospectArr] = useState<RestrospectType[]>([]);
+
+  useEffect(() => {
+    if (spaceId) {
+      spaceRestrospectFetch(Number(spaceId))
+        .then((response) => {})
+        .catch((error) => {});
+    }
+  }, [spaceId]);
+
+  const proceedingRetrospects = restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING");
+  const doneRetrospects = restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "DONE");
 
   return (
     <DefaultLayout theme="dark" height="6.4rem" title="떡잎마을 방법대">
@@ -35,46 +58,58 @@ export function SpacePage() {
         css={css`
           width: calc(100% + 4rem);
           transform: translateX(-2rem);
-          height: fit-content;
+          min-height: calc(100vh - 34rem);
           background-color: ${DESIGN_SYSTEM_COLOR.white};
           padding: 2.2rem 2rem;
         `}
       >
-        <div
-          css={css`
-            display: flex;
-            gap: 0.6rem;
-          `}
-        >
-          <Typography variant="B1_BOLD">진행중인 회고</Typography>
-          <Typography variant="B1_BOLD" color="darkGray">
-            1
-          </Typography>
-        </div>
-        <Spacing size={1.6} />
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-          `}
-        >
-          <RetrospectBox retrospectStatus="PROCEEDING" />
-          <RetrospectBox retrospectStatus="PROCEEDING" />
-        </div>
+        {!proceedingRetrospects.length && !doneRetrospects.length && <>ss</>}
+
+        {proceedingRetrospects.length !== 0 && (
+          <>
+            <div
+              css={css`
+                display: flex;
+                gap: 0.6rem;
+              `}
+            >
+              <Typography variant="B1_BOLD">진행중인 회고</Typography>
+              <Typography variant="B1_BOLD" color="darkGray">
+                {proceedingRetrospects.length}
+              </Typography>
+            </div>
+            <Spacing size={1.6} />
+            <div
+              css={css`
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+              `}
+            >
+              {proceedingRetrospects.map((retrospect) => (
+                <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />
+              ))}
+            </div>
+          </>
+        )}
+
         <Spacing size={2} />
-        <div
-          css={css`
-            display: flex;
-            gap: 0.6rem;
-          `}
-        >
-          <Typography variant="B1_BOLD">완료된 회고</Typography>
-          <Typography variant="B1_BOLD" color="darkGray">
-            1
-          </Typography>
-        </div>
-        <Spacing size={1.6} />
+
+        {doneRetrospects.length !== 0 && (
+          <div
+            css={css`
+              display: flex;
+              gap: 0.6rem;
+            `}
+          >
+            <Typography variant="B1_BOLD">완료된 회고</Typography>
+            <Typography variant="B1_BOLD" color="darkGray">
+              {doneRetrospects.length}
+            </Typography>
+            <Spacing size={1.6} />
+          </div>
+        )}
+
         <div
           css={css`
             display: flex;
@@ -82,8 +117,9 @@ export function SpacePage() {
             gap: 1rem;
           `}
         >
-          <RetrospectBox retrospectStatus="PROCEEDING" />
-          <RetrospectBox retrospectStatus="DONE" />
+          {doneRetrospects.map((retrospect) => (
+            <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />
+          ))}
         </div>
       </div>
       <button
