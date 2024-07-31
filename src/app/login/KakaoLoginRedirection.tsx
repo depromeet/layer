@@ -37,7 +37,7 @@ export function KaKaoRedirection() {
       if (status === 200) {
         setAuthResponse(response);
         navigate("/home/retrospect");
-      } else if (status === 404) {
+      } else if (status === 400) {
         navigate("/setnickname");
       } else {
         navigate("/login");

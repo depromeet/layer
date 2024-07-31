@@ -80,10 +80,9 @@ export const loginKakao = async (code: string | null): Promise<LoginKakaoResult>
       }
     }
   } catch (error) {
-    return { status: 404, response: null };
+    return { status: 400, response: null };
   }
-
-  return { status: 400, response: null };
+  return { status: 404, response: null };
 };
 
 export const fetchMemberInfo = async (): Promise<MemberInfo> => {

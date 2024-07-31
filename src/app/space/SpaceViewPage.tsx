@@ -7,8 +7,8 @@ import { BottomSheet } from "@/component/BottomSheet";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet } from "@/component/space";
+import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -37,7 +37,6 @@ export function SpaceViewPage() {
       spaceInfoFetch(Number(spaceId))
         .then((response) => {
           setSpaceInfo(response);
-          console.log(spaceInfo);
         })
         .catch((error) => {
           console.error(error);
@@ -74,33 +73,31 @@ export function SpaceViewPage() {
           padding: 2.2rem 2rem;
         `}
       >
-        <>
-          <div
-            css={css`
-              display: flex;
-              gap: 0.6rem;
-            `}
-          >
-            <Typography variant="B1_BOLD">진행중인 회고</Typography>
-            <Typography variant="B1_BOLD" color="darkGray">
-              {proceedingRetrospects.length}
-            </Typography>
-          </div>
-          <Spacing size={1.6} />
-          {!proceedingRetrospects.length && !doneRetrospects.length && <EmptyRetrospect />}
+        <div
+          css={css`
+            display: flex;
+            gap: 0.6rem;
+          `}
+        >
+          <Typography variant="B1_BOLD">진행중인 회고</Typography>
+          <Typography variant="B1_BOLD" color="darkGray">
+            {proceedingRetrospects.length}
+          </Typography>
+        </div>
+        <Spacing size={1.6} />
+        {!proceedingRetrospects.length && !doneRetrospects.length && <EmptyRetrospect />}
 
-          <div
-            css={css`
-              display: flex;
-              flex-direction: column;
-              gap: 1rem;
-            `}
-          >
-            {proceedingRetrospects.map((retrospect) => (
-              <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />
-            ))}
-          </div>
-        </>
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+          `}
+        >
+          {proceedingRetrospects.map((retrospect) => (
+            <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />
+          ))}
+        </div>
 
         <Spacing size={2} />
 
