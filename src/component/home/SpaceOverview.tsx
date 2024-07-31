@@ -12,7 +12,7 @@ type SpaceOverviewProps = {
 };
 
 const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
-  ({ space: { id, category, bannerUrl, fieldList, name, introduction, formId, memberCount } }, ref) => {
+  ({ space: { id, category, bannerUrl, fieldList, name, introduction, memberCount } }, ref) => {
     const navigate = useNavigate();
     return (
       <div
