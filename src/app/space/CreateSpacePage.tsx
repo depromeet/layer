@@ -1,4 +1,4 @@
-import { CreateSpace } from "@/app/space/create";
+import { CreateSpace } from "@/component/space";
 import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
 
 export function CreateSpacePage() {
