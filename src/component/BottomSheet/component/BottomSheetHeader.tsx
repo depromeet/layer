@@ -3,21 +3,21 @@ import { css } from "@emotion/react";
 import { BottomSheetType } from "@/component/BottomSheet/BottomSheet.tsx";
 import { Icon } from "@/component/common/Icon";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-export function BottomSheetHeader({ title, handler }: Pick<BottomSheetType, "title" | "handler">) {
+export function BottomSheetHeader({ title, handler, quitButton }: Pick<BottomSheetType, "title" | "handler" | "quitButton">) {
   const { closeBottomSheet } = useBottomSheet();
 
-  if (!title && !handler) return;
+  if (!title && !handler && !quitButton) return;
   return (
     <div
       css={css`
         position: relative;
+        display: flex;
         ${title &&
         css`
           border-top-left-radius: 1.2rem;
           border-bottom-right-radius: 1.2rem;
-          padding-top: 1.2rem;
-          padding-bottom: 1.4rem;
         `}
       `}
     >
@@ -33,6 +33,8 @@ export function BottomSheetHeader({ title, handler }: Pick<BottomSheetType, "tit
             border-radius: 5rem;
             background-color: rgba(60, 60, 67, 0.3);
             margin: auto;
+            margin-top: 1.2rem;
+            margin-bottom: 1.4rem;
             cursor: ns-resize;
           `}
         />
@@ -56,9 +58,17 @@ export function BottomSheetHeader({ title, handler }: Pick<BottomSheetType, "tit
           >
             {title}
           </span>
-          {/* FIXME: 아이콘 영역 */}
-          <Icon icon={"ic_quit"} size={2.4} onClick={closeBottomSheet} />
         </div>
+      )}
+      {quitButton && (
+        <button
+          onClick={closeBottomSheet}
+          css={css`
+            margin-left: auto;
+          `}
+        >
+          <Icon icon={"ic_quit"} size={2.4} color={DESIGN_SYSTEM_COLOR.dark} />
+        </button>
       )}
     </div>
   );

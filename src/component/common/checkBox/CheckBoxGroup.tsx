@@ -10,15 +10,16 @@ export const CheckBoxContext = createContext<CheckBoxContextState | undefined>(u
 
 type CheckBoxGroupProps = {
   children: React.ReactNode;
+  gap?: number;
 } & CheckBoxContextState;
 
-export function CheckBoxGroup({ children, ...props }: CheckBoxGroupProps) {
+export function CheckBoxGroup({ children, gap = 1, ...props }: CheckBoxGroupProps) {
   return (
     <div
       css={css`
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: ${gap}rem;
       `}
     >
       <CheckBoxContext.Provider value={props}>{children}</CheckBoxContext.Provider>

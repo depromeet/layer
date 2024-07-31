@@ -37,7 +37,7 @@ export function GoMakeReviewButton({ onClick }: GoMakeReviewButtonProps) {
           `}
           onClick={onClick}
         >
-          <Icon icon="ic_plus" size="1.6rem" />
+          <Icon icon="ic_plus" size="1.6rem" color="#7C848C" />
         </button>
         <Typography variant="B2" color="darkGray">
           회고 스페이스 생성

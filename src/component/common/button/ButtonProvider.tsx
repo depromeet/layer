@@ -21,6 +21,10 @@ const Gray = ({ ...props }) => {
   return <Button colorSchema={"gray"} {...props} />;
 };
 
+const White = ({ ...props }) => {
+  return <Button colorSchema={"white"} {...props} />;
+};
+
 export const ButtonProvider = ({ sort = "vertical", children, ...props }: PropsWithChildren<ButtonProviderProps>) => {
   return (
     <div
@@ -67,3 +71,4 @@ export const ButtonProvider = ({ sort = "vertical", children, ...props }: PropsW
 ButtonProvider.Primary = Primary;
 ButtonProvider.Gray = Gray;
 ButtonProvider.Sky = Sky;
+ButtonProvider.White = White;

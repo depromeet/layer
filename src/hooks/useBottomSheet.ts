@@ -96,7 +96,7 @@ export const useSetBottomSheet = ({ handler, sheetHeight }: Pick<BottomSheetType
         if (nextSheetY >= MAX_Y) nextSheetY = MAX_Y;
         if (Math.abs(nextSheetY - MAX_Y) > (sheetHeight as number)) return;
 
-        sheet.current!.style.setProperty("transform", `translate3d(-50%, ${nextSheetY - MAX_Y}px, 0)`);
+        sheet.current?.style.setProperty("transform", `translate3d(-50%, ${nextSheetY - MAX_Y}px, 0)`);
       } else {
         document.body.style.overflowY = "hidden";
       }
@@ -113,12 +113,12 @@ export const useSetBottomSheet = ({ handler, sheetHeight }: Pick<BottomSheetType
           if (method === "touch") {
             if (content.current!.scrollTop !== 0 && content.current!.contains(<Node>e.target)) return;
           }
-          sheet.current!.style.setProperty("transform", "translate3d(-50%, 0, 0)");
+          sheet.current?.style.setProperty("transform", "translate3d(-50%, 0, 0)");
           closeBottomSheet();
         }
 
         if (touchMove.movingDirection === "up") {
-          sheet.current!.style.setProperty("transform", `translate3d(-50%, -${sheetHeight}px, 0)`);
+          sheet.current?.style.setProperty("transform", `translate3d(-50%, -${sheetHeight}px, 0)`);
         }
       }
       metrics.current = {
@@ -146,10 +146,10 @@ export const useSetBottomSheet = ({ handler, sheetHeight }: Pick<BottomSheetType
     const handleTouchMove = (e: TouchEvent) => handleMove(e, "touch");
     const handleTouchEnd = (e: TouchEvent) => handleEnd(e, "touch");
 
-    sheet.current!.addEventListener("mousedown", handleMouseDown);
-    sheet.current!.addEventListener("touchstart", handleTouchStart);
-    sheet.current!.addEventListener("touchmove", handleTouchMove);
-    sheet.current!.addEventListener("touchend", handleTouchEnd);
+    sheet.current?.addEventListener("mousedown", handleMouseDown);
+    sheet.current?.addEventListener("touchstart", handleTouchStart);
+    sheet.current?.addEventListener("touchmove", handleTouchMove);
+    sheet.current?.addEventListener("touchend", handleTouchEnd);
 
     return () => {
       sheet.current?.removeEventListener("mousedown", handleMouseDown);
@@ -163,9 +163,9 @@ export const useSetBottomSheet = ({ handler, sheetHeight }: Pick<BottomSheetType
     const handleTouchStart = () => {
       metrics.current.isContentAreaTouched = true;
     };
-    content.current!.addEventListener("touchstart", handleTouchStart);
+    content.current?.addEventListener("touchstart", handleTouchStart);
 
-    return () => content.current!.removeEventListener("touchstart", handleTouchStart);
+    return () => content.current?.removeEventListener("touchstart", handleTouchStart);
   }, []);
 
   useEffect(() => {

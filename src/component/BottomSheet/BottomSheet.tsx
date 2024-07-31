@@ -9,11 +9,12 @@ import { useBottomSheet, useSetBottomSheet } from "@/hooks/useBottomSheet.ts";
 export type BottomSheetType = {
   title?: string;
   contents: ReactElement;
-  handler: boolean;
+  handler?: boolean;
+  quitButton?: boolean;
   sheetHeight?: number;
 };
 
-export function BottomSheet({ title, contents, handler = false, sheetHeight = 349 }: BottomSheetType) {
+export function BottomSheet({ title, contents, handler = false, quitButton = true, sheetHeight = 349 }: BottomSheetType) {
   const { sheet, content } = useSetBottomSheet({ handler, sheetHeight });
   const { bottomSheetState } = useBottomSheet();
   const [height, _] = useState(sheetHeight);
@@ -34,6 +35,7 @@ export function BottomSheet({ title, contents, handler = false, sheetHeight = 34
           transform: translate3d(-50%, -50%, 0);
           background-color: ${bottomSheetState ? `rgba(24, 24, 24, 60%)` : `transparent`};
           transition: 0.4s all;
+          z-index: 10001;
 
           ${!bottomSheetState &&
           css`
@@ -58,14 +60,14 @@ export function BottomSheet({ title, contents, handler = false, sheetHeight = 34
           box-shadow: 0 4rem 4rem rgba(0, 0, 0, 0.25);
           transition: transform 200ms ease-out;
           z-index: 10001;
-          padding: 3rem 3rem 3.3rem 3rem;
+          padding: 2rem;
           box-sizing: border-box;
           background-color: #fff;
           height: ${height}px;
           transform: translate3d(-50%, ${bottomSheetState ? `-${height}px` : `0%`}, 0);
         `}
       >
-        <BottomSheetHeader title={title} handler={handler} />
+        <BottomSheetHeader title={title} handler={handler} quitButton={quitButton} />
         <BottomSheetContent ref={content}>{contents}</BottomSheetContent>
       </div>
     </Portal>
