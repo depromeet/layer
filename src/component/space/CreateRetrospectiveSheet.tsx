@@ -4,7 +4,7 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 
 type Props = {
-  teamName: string;
+  teamName: string | undefined;
 };
 
 export function CreateRetrospectiveSheet({ teamName }: Props) {
@@ -42,10 +42,18 @@ export function CreateRetrospectiveSheet({ teamName }: Props) {
             align-items: center;
             gap: 1.6rem;
             padding: 3.65rem 0;
+            &:hover {
+              background-color: rgba(108, 156, 250, 1);
+              span {
+                color: white;
+              }
+            }
           `}
         >
-          <Icon icon="ic_cylinder" size={4.8} />
-          <Typography variant="B1_BOLD">추천받기</Typography>
+          <Icon icon="ic_stars" size={4.8} />
+          <Typography as="span" variant="B1_BOLD" color="black">
+            추천받기
+          </Typography>
         </button>
         <button
           css={css`
@@ -57,9 +65,15 @@ export function CreateRetrospectiveSheet({ teamName }: Props) {
             align-items: center;
             gap: 1.6rem;
             padding: 3.65rem 0;
+            &:hover {
+              background-color: rgba(108, 156, 250, 1);
+              span {
+                color: white;
+              }
+            }
           `}
         >
-          <Icon icon="ic_earth" size={4.8} color="#8C81F7" />
+          <Icon icon="ic_list" size={4.8} color="#8C81F7" />
           <Typography variant="B1_BOLD">리스트보기</Typography>
         </button>
       </div>

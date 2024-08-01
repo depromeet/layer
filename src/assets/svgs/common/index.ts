@@ -23,3 +23,5 @@ export { default as ic_pencil } from "./ic_pencil.svg?react";
 export { default as ic_chevron_down } from "./ic_chevron_down.svg?react";
 export { default as ic_plus_thin } from "./ic_plus_thin.svg?react";
 export { default as ic_clock } from "./ic_clock.svg?react";
+export { default as ic_list } from "./ic_list.svg?react";
+export { default as ic_stars } from "./ic_stars.svg?react";

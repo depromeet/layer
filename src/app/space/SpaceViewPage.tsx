@@ -152,7 +152,7 @@ export function SpaceViewPage() {
       <BottomSheet
         contents={
           <Fragment>
-            <CreateRetrospectiveSheet teamName="떡잎마을방범대" />
+            <CreateRetrospectiveSheet teamName={spaceInfo?.name} />
           </Fragment>
         }
         handler={true}
