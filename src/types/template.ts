@@ -1,6 +1,6 @@
-import { QuestionType } from "./retrospectCreate";
+import { RetrospectType } from "./write";
 
 export type CustomTemplateRes = {
   title: string;
-  questions: { questionContent: string; questionType: QuestionType }[];
+  questions: { questionContent: string; questionType: RetrospectType }[];
 };

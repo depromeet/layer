@@ -1,11 +1,11 @@
-export type QuestionType = "plain_text" | "range" | "number" | "combobox" | "card" | "markdown";
+import { RetrospectType } from "../write";
 
 export type MainInfo = {
   title: string;
   introduction?: string;
 };
 
-export type Questions = { questionType: QuestionType; questionContent: string }[];
+export type Questions = { questionType: RetrospectType; questionContent: string }[];
 
 export type RetrospectCreateReq = {
   title: string;
