@@ -13,7 +13,7 @@ import { Tag } from "@/component/common/tag";
 import { Tooltip } from "@/component/common/tip";
 import { useInput } from "@/hooks/useInput";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { questionsAtom, templateTitleAtom } from "@/store/retrospect/retrospectCreate";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type QuestionsListProps = {
@@ -22,15 +22,14 @@ type QuestionsListProps = {
 };
 
 export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
-  const [questions, _] = useAtom(questionsAtom);
+  const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   //FIXME - 유저 이름 가져오기
-  const [templateTitle, setTemplateTitle] = useAtom(templateTitleAtom);
-  const { value: title, handleInputChange: handleTitleChange } = useInput(templateTitle ?? `${"디프만"}님의 커스텀 템플릿${2}`);
+  const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName ?? `${"디프만"}님의 커스텀 템플릿${2}`);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const [showTooltip, setShowTooltip] = useState(true);
 
   const handleDataSave = () => {
-    setTemplateTitle(title);
+    setRetroCreateData((prev) => ({ ...prev, title }));
     goNext();
   };
 
@@ -101,9 +100,9 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
           <Tag>KPT회고</Tag>
         </div>
         <QuestionList>
-          {questions.map((question, index) => (
+          {retroCreateData.questions.map(({ questionContent }, index) => (
             <QuestionListItem key={index} order={index + 1}>
-              {question}
+              {questionContent}
             </QuestionListItem>
           ))}
         </QuestionList>

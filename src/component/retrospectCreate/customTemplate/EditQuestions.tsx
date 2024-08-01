@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import { REQUIRED_QUESTIONS } from "./questions.const";
@@ -17,8 +17,9 @@ import { Typography } from "@/component/common/typography";
 import { AddQuestionsBottomSheet } from "@/component/retrospectCreate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { isQuestionEditedAtom, questionsAtom } from "@/store/retrospect/retrospectCreate";
+import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { Questions } from "@/types/retrospectCreate";
 
 const MAX_QUESTIONS_COUNT = 10;
 
@@ -26,7 +27,8 @@ type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "
 
 export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
-  const [questions, setQuestions] = useAtom(questionsAtom);
+  const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const questions = useMemo(() => retroCreateData.questions.map(({ questionContent }) => questionContent), [retroCreateData]);
   const [_, setIsQuestionEdited] = useAtom(isQuestionEditedAtom);
   const [newQuestions, setNewQuestions] = useState([...questions]);
 
@@ -47,8 +49,13 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const handleDataSave = () => {
     if (JSON.stringify(newQuestions) !== JSON.stringify(questions)) {
       setIsQuestionEdited(true);
+      setRetroCreateData((prev) => ({ ...prev, isNewForm: true }));
     }
-    setQuestions(newQuestions);
+    const formattedQuestions: Questions = newQuestions.map((question) => ({
+      questionType: "plain_text",
+      questionContent: question,
+    }));
+    setRetroCreateData((prev) => ({ ...prev, questions: [...prev.questions, ...formattedQuestions] }));
     goNext();
   };
 

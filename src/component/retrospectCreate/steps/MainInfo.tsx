@@ -8,16 +8,16 @@ import { Header } from "@/component/common/header";
 import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
 import { TipCard } from "@/component/common/tip/TipCard";
 import { useInput } from "@/hooks/useInput";
-import { mainInfoAtom } from "@/store/retrospect/retrospectCreate";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
 export function MainInfo() {
   const { goNext } = useContext(RetrospectCreateContext);
-  const [mainInfo, setMainInfo] = useAtom(mainInfoAtom);
-  const { value: title, handleInputChange: handleNameChange } = useInput(mainInfo.title);
-  const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(mainInfo.introduction);
+  const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const { value: title, handleInputChange: handleNameChange } = useInput(retroCreateData.title);
+  const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(retroCreateData.introduction);
 
   const handleDataSave = () => {
-    setMainInfo({ title, introduction });
+    setRetroCreateData((prev) => ({ ...prev, title, introduction }));
     goNext();
   };
 

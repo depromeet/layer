@@ -9,12 +9,14 @@ import { isQuestionEditedAtom } from "@/store/retrospect/retrospectCreate";
 
 export function CustomTemplate() {
   const retroContext = useContext(RetrospectCreateContext);
-  const { currentStep, goNext, goPrev, goTo } = useMultiStepForm({ steps: ["confirmDefaultTemplate", "editQuestions", "confirmTemplate"] as const });
+  const { currentStep, goNext, goPrev, goTo } = useMultiStepForm({
+    steps: ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const,
+  });
   const [isQuestionEdited, _] = useAtom(isQuestionEditedAtom);
 
   useEffect(() => {
     if (isQuestionEdited) {
-      goTo("confirmTemplate");
+      goTo("confirmEditTemplate");
     }
   }, []);
 
@@ -29,13 +31,13 @@ export function CustomTemplate() {
               if (!isQuestionEdited) {
                 goPrev();
               } else {
-                goTo("confirmTemplate");
+                goTo("confirmEditTemplate");
               }
             }}
           />
         </FullModal>
       )}
-      {currentStep === "confirmTemplate" && (
+      {currentStep === "confirmEditTemplate" && (
         <FullModal>
           <ConfirmEditTemplate goNext={retroContext.goNext} goPrev={goPrev} />
         </FullModal>

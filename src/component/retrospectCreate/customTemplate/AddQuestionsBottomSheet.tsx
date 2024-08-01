@@ -11,8 +11,9 @@ import { Input } from "@/component/common/input";
 import { useCheckBox } from "@/hooks/useCheckBox";
 import { useInput } from "@/hooks/useInput";
 import { useTabs } from "@/hooks/useTabs";
-import { questionsAtom } from "@/store/retrospect/retrospectCreate";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { Questions } from "@/types/retrospectCreate";
 
 type AddQuestionsBottomSheetProps = {
   onClose: () => void;
@@ -20,19 +21,38 @@ type AddQuestionsBottomSheetProps = {
 
 export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProps) {
   const { tabs, curTab, selectTab } = useTabs(["직접 작성", "추천 질문"] as const);
-  const [_, setQuestions] = useAtom(questionsAtom);
+  const [_, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { value: customQuestion, handleInputChange: handleCustomChange, resetInput } = useInput();
   const { isChecked, toggle, selectedValues, resetChecked } = useCheckBox();
   const { tabs: categoryTabs, curTab: curCategoryTab, selectTab: selectCategoryTab } = useTabs(QUESTION_TYPES);
 
   const handleCustomSave = () => {
-    setQuestions((prev) => [...prev, customQuestion]);
+    setRetroCreateData((prev) => ({
+      ...prev,
+      questions: [
+        ...prev.questions,
+        {
+          questionType: "plain_text",
+          questionContent: customQuestion,
+        },
+      ],
+    }));
     resetInput();
     onClose();
   };
 
   const handleRecommendedSave = () => {
-    setQuestions((prev) => [...prev, ...selectedValues]);
+    //NOTE - 추후 추가할 수 있는 질문 타입이 plain_text 이외로도 생길 경우 수정이 필요합니다.
+    const formattedQuestions: Questions = selectedValues.map((question) => ({
+      questionType: "plain_text",
+      questionContent: question,
+    }));
+
+    setRetroCreateData((prev) => ({
+      ...prev,
+      questions: [...prev.questions, ...formattedQuestions],
+    }));
+
     resetChecked();
     onClose();
   };

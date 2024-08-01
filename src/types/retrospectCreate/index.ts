@@ -1,14 +1,18 @@
+export type QuestionType = "plain_text" | "range" | "number" | "combobox" | "card" | "markdown";
+
 export type MainInfo = {
   title: string;
   introduction?: string;
 };
 
-export type Questions = string[];
+export type Questions = { questionType: QuestionType; questionContent: string }[];
 
-export type DueDate = string;
-
-export type RetrospectCreateReq = MainInfo & {
+export type RetrospectCreateReq = {
+  title: string;
+  introduction?: string;
   questions: Questions;
-  dueDate: DueDate;
-  templateTitle: string;
+  deadline: string;
+  isNewForm: boolean;
+  formName: string;
+  formIntroduction: string;
 };

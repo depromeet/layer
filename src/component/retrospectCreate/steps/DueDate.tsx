@@ -12,7 +12,8 @@ import { Typography } from "@/component/common/typography";
 import { DateTimePicker } from "@/component/retrospectCreate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
-import { dueDateAtom } from "@/store/retrospect/retrospectCreate";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { combineDateTimeToISOString, formatDateToString } from "@/utils/formatDate";
 
 const DATE_INPUT_ID = "due-date";
 
@@ -20,7 +21,7 @@ export function DueDate() {
   const retrospectContext = useContext(RetrospectCreateContext);
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { onSelectDate, radioControl, selectedDate, selectedTime } = useDateTimePicker();
-  const [dueDate, setDueDate] = useAtom(dueDateAtom);
+  const [_, setRetroCreateData] = useAtom(retrospectCreateAtom);
 
   const handleDateOpen = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault();
@@ -31,7 +32,8 @@ export function DueDate() {
     if (!selectedDate || !selectedTime) {
       throw new Error("Undefined DateTime");
     }
-    setDueDate({ time: selectedTime, date: selectedDate as Date });
+    const deadlineISOString = combineDateTimeToISOString(selectedDate as Date, Number(selectedTime.split(":")[0]) >= 12, selectedTime);
+    setRetroCreateData((prev) => ({ ...prev, deadline: deadlineISOString }));
     closeBottomSheet();
   };
 
@@ -57,17 +59,13 @@ export function DueDate() {
           cursor: pointer;
         `}
       >
-        {!(dueDate.date && dueDate.time) ? (
+        {!(selectedDate && selectedTime) ? (
           <Typography color="lightGrey5" variant="B1">
             회고 마감일을 선택해주세요
           </Typography>
         ) : (
           <Typography color="darkGrayText" variant="B1">
-            {`${dueDate.date.toLocaleDateString("ko-KR", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })} ${dueDate.time}`}
+            {`${formatDateToString(selectedDate as Date, ".")} ${selectedTime}`}
           </Typography>
         )}
         {/**FIXME - design token */}
@@ -96,7 +94,7 @@ export function DueDate() {
         sheetHeight={675}
       />
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={retrospectContext.goNext} disabled={!selectedDate || !selectedTime}>
+        <ButtonProvider.Primary onClick={retrospectContext.goNext} disabled={!selectedDate || !selectedTime} type="submit">
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>

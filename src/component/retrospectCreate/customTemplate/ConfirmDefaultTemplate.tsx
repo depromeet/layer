@@ -11,7 +11,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { questionsAtom } from "@/store/retrospect/retrospectCreate";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
 type ConfirmDefaultTemplateProps = {
   goEdit: ReturnType<typeof useMultiStepForm>["goNext"];
@@ -19,7 +19,7 @@ type ConfirmDefaultTemplateProps = {
 
 export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) {
   const { goNext } = useContext(RetrospectCreateContext);
-  const [questions, _] = useAtom(questionsAtom);
+  const [retroCreateData, _] = useAtom(retrospectCreateAtom);
 
   return (
     <div
@@ -43,8 +43,8 @@ export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) 
           <Tag>KPT회고</Tag>
         </div>
         <QuestionList>
-          {questions.map((question, index) => (
-            <QuestionListItem key={index} order={index + 1} content={question} />
+          {retroCreateData.questions.map(({ questionContent }, index) => (
+            <QuestionListItem key={index} order={index + 1} content={questionContent} />
           ))}
         </QuestionList>
         <Spacing size={3} />
