@@ -37,6 +37,7 @@ export function CustomTemplate({ templateId }: CustomTemplateProps) {
   const [, setRetroCreateData] = useAtom(retrospectCreateAtom);
 
   useEffect(() => {
+    console.log(templateId); //FIXME - prevent temporarily unused variable
     if (isQuestionEdited) {
       goTo("confirmEditTemplate");
     }
