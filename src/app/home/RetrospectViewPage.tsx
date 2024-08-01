@@ -1,14 +1,14 @@
 import { css } from "@emotion/react";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { spaceFetch } from "@/api/Retrospect";
 import { Icon } from "@/component/common/Icon";
+import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/home";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { Space } from "@/types/spaceType";
-import { Spacing } from "@/component/common/Spacing";
 
 type ViewState = {
   viewName: string;
@@ -17,11 +17,6 @@ type ViewState = {
 
 export function RetrospectViewPage() {
   const navigate = useNavigate();
-
-  const [spaces, setSpaces] = useState<Space[]>([]);
-  const [cursorId, setCursorId] = useState<number>(0);
-  const [hasNextPage, setHasNextPage] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
   const [viewState, setViewState] = useState<ViewState[]>([
     { viewName: "ALL", selected: true },
     { viewName: "INDIVIDUAL", selected: false },
@@ -32,52 +27,29 @@ export function RetrospectViewPage() {
 
   const observer = useRef<IntersectionObserver | null>(null);
 
-  const fetchMoreSpaces = useCallback(() => {
-    if (loading || !hasNextPage) return;
-
-    setLoading(true);
-    spaceFetch(cursorId, selectedView, 5)
-      .then(({ data, meta }) => {
-        setSpaces((prevSpaces) => [...prevSpaces, ...data]);
-        setCursorId(meta.cursor);
-        setHasNextPage(meta.hasNextPage);
-      })
-      .catch((error) => console.error("데이터 받아오기 실패:", error))
-      .finally(() => setLoading(false));
-  }, [cursorId, selectedView, loading, hasNextPage]);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ["spaces", selectedView],
+    queryFn: ({ pageParam = 0 }) => spaceFetch(pageParam, selectedView, 5),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => (lastPage.meta.hasNextPage ? lastPage.meta.cursor : undefined),
+  });
 
   const lastElementRef = useCallback(
     (node: HTMLDivElement | null) => {
       if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && !loading && hasNextPage) {
-          fetchMoreSpaces();
+      observer.current = new IntersectionObserver(async (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          await fetchNextPage();
         }
       });
       if (node) observer.current.observe(node);
     },
-    [fetchMoreSpaces, loading, hasNextPage],
+    [fetchNextPage, hasNextPage, isFetchingNextPage],
   );
 
   const goMakeReview = () => {
     navigate("/space/create");
   };
-
-  useEffect(() => {
-    setCursorId(0);
-    setHasNextPage(true);
-    setSpaces([]);
-
-    setLoading(true);
-    spaceFetch(0, selectedView, 5)
-      .then((data) => {
-        setSpaces(data.data);
-        setCursorId(data.meta.cursor);
-        setHasNextPage(data.meta.hasNextPage);
-      })
-      .catch((error) => console.error("데이터 가져오기 실패:", error))
-      .finally(() => setLoading(false));
-  }, [selectedView]);
 
   return (
     <DefaultLayout
@@ -93,6 +65,7 @@ export function RetrospectViewPage() {
       <ViewSelectTab viewState={viewState} setViewState={setViewState} />
       <Spacing size={3.6} />
       <GoMakeReviewButton onClick={goMakeReview} />
+
       <div
         css={css`
           display: flex;
@@ -103,10 +76,11 @@ export function RetrospectViewPage() {
           margin-bottom: 10rem;
         `}
       >
-        {spaces
+        {data?.pages
+          .flatMap((page) => page.data)
           .filter((space) => (selectedView === "ALL" ? true : space.category === selectedView))
           .map((space, idx) => (
-            <SpaceOverview key={space.id} space={space} ref={spaces.length === idx + 1 ? lastElementRef : null} />
+            <SpaceOverview key={space.id} space={space} ref={data.pages.flatMap((page) => page.data).length === idx + 1 ? lastElementRef : null} />
           ))}
       </div>
     </DefaultLayout>
