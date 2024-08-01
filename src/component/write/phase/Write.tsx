@@ -78,18 +78,20 @@ export function Write() {
   return (
     <Fragment>
       {isEntireModalOpen && (
-        <Portal id={"question-list-root"}>
+        <Portal id="modal-root">
           <EntireListModal listData={data.questions} onClose={() => handleModalClose("entire")} />
         </Portal>
       )}
       {isTemporarySaveModalOpen && (
-        <TemporarySaveModal
-          title={"회고 작성을 멈출까요?"}
-          content={"작성중인 회고는 임시저장 되어요"}
-          listData={data.questions}
-          confirm={() => handleModalClose("temporary-save")}
-          quit={() => handleModalClose("temporary-save")}
-        />
+        <Portal id="modal-root">
+          <TemporarySaveModal
+            title={"회고 작성을 멈출까요?"}
+            content={"작성중인 회고는 임시저장 되어요"}
+            listData={data.questions}
+            confirm={() => handleModalClose("temporary-save")}
+            quit={() => handleModalClose("temporary-save")}
+          />
+        </Portal>
       )}
       <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />
       <DefaultLayout
