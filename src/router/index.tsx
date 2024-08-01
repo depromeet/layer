@@ -42,20 +42,15 @@ const routerChildren: RouteChildren[] = [
     element: <SetNickNamePage />,
     auth: false,
   },
-
   {
     path: "/space/create",
-    children: [
-      {
-        path: "",
-        element: <CreateSpacePage />,
-      },
-      {
-        path: "done",
-        element: <CreateDonePage />,
-      },
-    ],
-    auth: false,
+    element: <CreateSpacePage />,
+    auth: true,
+  },
+  {
+    path: "/space/create/done",
+    element: <CreateDonePage />,
+    auth: true,
   },
   {
     path: "/home",
