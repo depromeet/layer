@@ -94,7 +94,7 @@ export function DueDate() {
         sheetHeight={675}
       />
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={retrospectContext.goNext} disabled={!selectedDate || !selectedTime} type="submit">
+        <ButtonProvider.Primary onClick={retrospectContext.goNext} disabled={!selectedDate || !selectedTime}>
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>

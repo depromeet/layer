@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { createContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { ProgressBar } from "@/component/common/ProgressBar";
@@ -9,6 +9,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
 import { PATHS } from "@/config/paths";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
+import { useGetSpace } from "@/hooks/api/space/useGetSpace";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
@@ -22,7 +23,17 @@ type RetrospectCreateContextState = {
 export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({ totalStepsCnt: 0, goNext: () => {} });
 
 export function RetrospectCreate() {
+  //FIXME - location state type 분리하기
+  const locationState = useLocation().state as { spaceId: number };
   const navigate = useNavigate();
+  const {
+    data: { formId },
+  } = useGetSpace(locationState.spaceId);
+
+  if (!locationState.spaceId) {
+    throw new Error("location으로부터 spaceId를 읽을 수 없습니다.");
+  }
+
   const steps = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
   const themeMap = {
     start: {
@@ -46,9 +57,18 @@ export function RetrospectCreate() {
   const [retroCreateData, _] = useAtom(retrospectCreateAtom);
   const postRetrospectCreate = usePostRetrospectCreate();
 
+  const handleSubmit = () => {
+    const { spaceId } = locationState;
+    postRetrospectCreate.mutate({
+      spaceId,
+      body: { ...retroCreateData },
+    });
+  };
+
   const { currentStep, goNext, goPrev, totalStepsCnt, currentStepIndex } = useMultiStepForm({
     steps,
     redirectPath: PATHS.completeRetrospectCreate(),
+    handleSubmit,
   });
 
   const conditionalIncrementPage = () => {
@@ -58,15 +78,6 @@ export function RetrospectCreate() {
       }
     }
     return currentStepIndex;
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const DUMMY_SPACE_ID = 0;
-    postRetrospectCreate.mutate({
-      spaceId: DUMMY_SPACE_ID,
-      body: retroCreateData,
-    });
   };
 
   return (
@@ -84,19 +95,18 @@ export function RetrospectCreate() {
         <ProgressBar curPage={conditionalIncrementPage()} lastPage={totalStepsCnt - 1} />
       </div>
       <Spacing size={2.9} />
-      <form
-        onSubmit={handleSubmit}
-        css={css`
-          flex: 1 1 0;
-        `}
-      >
-        <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext }}>
+      <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext }}>
+        <form
+          css={css`
+            flex: 1 1 0;
+          `}
+        >
           {currentStep === "start" && <Start />}
           {currentStep === "mainInfo" && <MainInfo />}
-          {currentStep === "customTemplate" && <CustomTemplate />}
+          {currentStep === "customTemplate" && <CustomTemplate templateId={formId} />}
           {currentStep === "dueDate" && <DueDate />}
-        </RetrospectCreateContext.Provider>
-      </form>
+        </form>
+      </RetrospectCreateContext.Provider>
     </DefaultLayout>
   );
 }

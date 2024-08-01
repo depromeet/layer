@@ -14,10 +14,11 @@ import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
 type ConfirmDefaultTemplateProps = {
+  title: string;
   goEdit: ReturnType<typeof useMultiStepForm>["goNext"];
 };
 
-export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) {
+export function ConfirmDefaultTemplate({ title, goEdit }: ConfirmDefaultTemplateProps) {
   const { goNext } = useContext(RetrospectCreateContext);
   const [retroCreateData, _] = useAtom(retrospectCreateAtom);
 
@@ -38,8 +39,9 @@ export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) 
             margin-bottom: 3rem;
           `}
         >
-          <Typography variant={"S1"}>빠르고 효율적인 회고</Typography>
+          <Typography variant={"S1"}>{title}</Typography>
           <Spacing size={0.8} />
+          {/**FIXME - 태그 데이터 반영하기 */}
           <Tag>KPT회고</Tag>
         </div>
         <QuestionList>
