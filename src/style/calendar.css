@@ -1,55 +1,7 @@
-.react-calendar {
-  max-width: 100%;
-  background: inherit;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.125em;
-}
-.react-calendar--doubleView {
-  width: 700px;
-}
-
-.react-calendar--doubleView .react-calendar__viewContainer {
-  display: flex;
-  margin: -0.5em;
-}
-
-.react-calendar--doubleView .react-calendar__viewContainer > * {
-  width: 50%;
-  margin: 0.5em;
-}
-
-.react-calendar,
-.react-calendar *,
-.react-calendar *:before,
-.react-calendar *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.react-calendar button {
-  margin: 0;
-  border: 0;
-  outline: none;
-}
-
-.react-calendar button:enabled:hover {
-  cursor: pointer;
-}
-
 .react-calendar__navigation {
   display: flex;
-  height: 44px;
+  height: 2.75em;
   margin-bottom: 1em;
-}
-
-.react-calendar__navigation button {
-  min-width: 44px;
-  background: none;
-}
-
-.react-calendar__navigation button:disabled {
-  background-color: #f0f0f0;
 }
 
 .react-calendar__navigation__prev2-button,

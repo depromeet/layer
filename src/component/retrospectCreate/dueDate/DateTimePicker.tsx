@@ -4,7 +4,7 @@ import type { CalendarProps } from "react-calendar";
 
 import { TIME } from "./time.const";
 
-import { Divider } from "@/component/common/divider/Divider";
+import { Divider } from "@/component/common/divider";
 import { Icon } from "@/component/common/Icon";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { Spacing } from "@/component/common/Spacing";

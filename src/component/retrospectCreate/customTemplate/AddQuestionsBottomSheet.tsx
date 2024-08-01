@@ -38,15 +38,21 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
   };
 
   return (
-    <>
+    <div
+      css={css`
+        height: inherit;
+        display: flex;
+        flex-direction: column;
+      `}
+    >
       <AddOptionTabs tabs={tabs} curTab={curTab} selectTab={selectTab} />
 
       {curTab === "직접 작성" && (
         <div
           css={css`
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            height: 100%;
             margin-top: 2.3rem;
           `}
         >
@@ -60,13 +66,15 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
       {curTab === "추천 질문" && (
         <div
           css={css`
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            overflow: hidden;
           `}
         >
           <div
             css={css`
+              flex-shrink: 0;
               display: flex;
               overflow-x: auto;
               gap: 0.8rem;
@@ -82,6 +90,7 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
           <div
             css={css`
               padding: 1.6rem 0;
+              overflow: auto;
             `}
           >
             <CheckBoxGroup isChecked={isChecked} onChange={toggle} gap={4}>
@@ -101,7 +110,7 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
           </ButtonProvider>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

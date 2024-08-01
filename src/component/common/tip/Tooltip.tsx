@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
-import { BOUNCE_MD } from "@/style/common/bounce";
+import { BOUNCE } from "@/style/common/bounce";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type TooltipProps = {
@@ -33,7 +33,7 @@ export function Tooltip({ message, bounce }: TooltipProps) {
         }
         ${bounce &&
         css`
-          animation: ${BOUNCE_MD} 1.3s ease infinite;
+          animation: ${BOUNCE} 1.3s ease infinite;
         `}
       `}
     >

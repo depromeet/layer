@@ -3,7 +3,7 @@ import { memo } from "react";
 
 import * as icons from "@/assets/svgs";
 
-type IconType = keyof typeof icons;
+export type IconType = keyof typeof icons;
 
 type Props = {
   icon: IconType;
