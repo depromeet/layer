@@ -22,17 +22,17 @@ export default function Staging() {
   const { value: layerName, handleInputChange: handleChangeName } = useInput();
   const { value: description, handleInputChange: handleChangeDescription } = useInput();
 
-  useEffect(() => {
-    console.log("라디오 버튼 선택 value:", selectedValue);
-  }, [selectedValue]);
+  // useEffect(() => {
+  //   console.log("라디오 버튼 선택 value:", selectedValue);
+  // }, [selectedValue]);
 
-  useEffect(() => {
-    console.log("체크박스 선택 values:", selectedValues);
-  }, [selectedValues]);
+  // useEffect(() => {
+  //   console.log("체크박스 선택 values:", selectedValues);
+  // }, [selectedValues]);
 
-  useEffect(() => {
-    console.log("현재 바텀 시트 상태: ", bottomSheetState);
-  }, [bottomSheetState]);
+  // useEffect(() => {
+  //   console.log("현재 바텀 시트 상태: ", bottomSheetState);
+  // }, [bottomSheetState]);
 
   const navigate = useNavigate();
 
@@ -73,7 +73,7 @@ export default function Staging() {
       <br />
       <InputLabelContainer id={"retro"}>
         <Label order={1}>회고 이름</Label>
-        <Input onChange={handleChangeName} value={layerName} maxLength={10} count />
+        <Input onChange={handleChangeName} value={layerName} maxLength={10} count validation="EXCLUDE_SPECIAL_CHARS" />
       </InputLabelContainer>
 
       <InputLabelContainer id={"description"}>

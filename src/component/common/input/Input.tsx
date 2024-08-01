@@ -2,21 +2,49 @@ import { css } from "@emotion/react";
 import { forwardRef, useContext, useState } from "react";
 
 import { InputContext } from "./InputLabelContainer";
+import { validations } from "./validation.const";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type InputProps = {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   width?: string;
   count?: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // onValidate?: (e: React.ChangeEvent<HTMLInputElement>, validation: keyof typeof validations) => void;
+  validation?: keyof typeof validations;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, width = "100%", count, ...props }, ref) {
+export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, width = "100%", count, validation, onChange, ...props }, ref) {
   const { maxLength, value } = props;
   const [isFocused, setIsFocused] = useState(false);
   const inputContext = useContext(InputContext);
+
+  const onInputValidate = (e: React.ChangeEvent<HTMLInputElement>, validation: keyof typeof validations) => {
+    if (!e.target.value) return;
+
+    let errorMsg = "";
+    if (validation === "EXCLUDE_SPECIAL_CHARS" && validations["EXCLUDE_SPECIAL_CHARS"].test(e.target.value)) {
+      errorMsg = "특수문자는 입력이 불가해요";
+    }
+    setError((prev) => ({ ...prev, errorMsg }));
+  };
+
+  const [error, setError] = useState<{
+    isRequired: boolean;
+    validation: keyof typeof validations;
+    errorMsg: string;
+    onInputValidate: typeof onInputValidate;
+  }>({
+    isRequired: false,
+    validation: "EXCLUDE_SPECIAL_CHARS",
+    errorMsg: "",
+    onInputValidate,
+  });
+
+  console.log("error.errorMsg", error.errorMsg);
+
   return (
     <div>
       <div
@@ -41,6 +69,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           `}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          onChange={(e) => {
+            onChange(e);
+            if (!validation) return;
+            onInputValidate(e, validation);
+          }}
           {...props}
         />
         {/* FIXME - typography 컬러 넣기 !! */}
@@ -53,6 +86,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           </>
         )}
       </div>
+      {error.errorMsg && (
+        <div
+          css={css`
+            margin-top: 0.8rem;
+          `}
+        >
+          <Typography color="red400" variant="B2">
+            {`*${error.errorMsg}`}
+          </Typography>
+        </div>
+      )}
     </div>
   );
 });
