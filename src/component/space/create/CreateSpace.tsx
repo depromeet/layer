@@ -26,6 +26,14 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
   const navigate = useNavigate();
   const [spaceValue, setSpaceValue] = useAtom(spaceState);
 
+  useEffect(() => {
+    if (spaceValue.step === LAST_PAGE + 1) {
+      onSubmit({
+        ...spaceValue,
+      });
+    }
+  }, [onSubmit, spaceValue]);
+
   const handleNext = () => {
     setSpaceValue((prevValues) => ({
       ...prevValues,
@@ -73,11 +81,8 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
       setSpaceValue((prevValues) => ({
         ...prevValues,
         imgUrl: imageUrl,
+        step: prevValues.step + 1,
       }));
-
-      onSubmit({
-        ...spaceValue,
-      });
     } catch (error) {
       console.log(error);
     }
