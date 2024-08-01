@@ -32,7 +32,7 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
         ...spaceValue,
       });
     }
-  }, [onSubmit, spaceValue]);
+  }, [spaceValue]);
 
   const handleNext = () => {
     setSpaceValue((prevValues) => ({

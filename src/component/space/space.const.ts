@@ -17,3 +17,13 @@ export const fieldMap: {
 };
 
 export const defaultImgUrl = "https://layer-bucket.kr.object.ncloudstorage.com/SPACE/12/5c781710-551e-444e-a977-73256ca2b07d";
+
+export const SATISTFACTION_COLOR = {
+  0: "#6C9CFA",
+  1: "#A7C4FC",
+  2: "#BAB3FA",
+  3: "#8C81F7",
+  4: "#6C9CFA",
+} as const;
+
+const a = SATISTFACTION_COLOR[0];
