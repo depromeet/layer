@@ -14,6 +14,8 @@ import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreat
 import { CreateDonePage } from "@/app/space/CreateDonePage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
 import Staging from "@/app/test/Staging.tsx";
+import { RetrospectWriteCompletePage } from "@/app/write/RetrospectWriteCompletePage.tsx";
+import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
 
@@ -26,6 +28,16 @@ const routerChildren: RouteChildren[] = [
     path: "/",
     element: <MainPage />,
     auth: false,
+  },
+  {
+    path: "/write",
+    element: <RetrospectWritePage />,
+    auth: true,
+  },
+  {
+    path: "/write/complete",
+    element: <RetrospectWriteCompletePage />,
+    auth: true,
   },
   {
     path: "/staging",
