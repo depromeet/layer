@@ -6,9 +6,9 @@ import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Spacing } from "@/component/common/Spacing";
 import { FieldButton } from "@/component/space/FieldButton";
+import { fieldArr, fieldMap } from "@/component/space/space.const";
 import { spaceState } from "@/store/space/spaceAtom";
 import { FieldType, SpaceValue } from "@/types/space";
-import { fieldArr, fieldMap } from "@/component/space/field.const";
 
 export function Field({ onNext }: { onNext: (categoryValues: Pick<SpaceValue, "field">) => void }) {
   const { field } = useAtomValue(spaceState);
