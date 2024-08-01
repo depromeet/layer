@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { useRef } from "react";
 
 import { QuestionData } from "@/app/write/RetrospectWritePage.tsx";
-import { Button } from "@/component/common/button";
+import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";
 import { ANIMATION } from "@/style/common/animation.ts";
 
@@ -27,7 +27,7 @@ export function TemporarySaveModal({ confirm, quit, title = "회고 작성을 �
         bottom: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(6, 8, 12, 0.72);
         display: flex;
         justify-content: center;
         text-align: center;
@@ -86,17 +86,21 @@ export function TemporarySaveModal({ confirm, quit, title = "회고 작성을 �
           <div
             css={css`
               width: 100%;
-              display: flex;
-              align-items: center;
-              column-gap: 0.8rem;
             `}
           >
-            <Button colorSchema={"gray"} onClick={() => quit()}>
-              취소
-            </Button>
-            <Button colorSchema={"primary"} onClick={() => confirm()}>
-              나가기
-            </Button>
+            <ButtonProvider
+              sort={"horizontal"}
+              onlyContainerStyle={css`
+                padding: 0;
+              `}
+            >
+              <Button colorSchema={"gray"} onClick={() => quit()}>
+                취소
+              </Button>
+              <Button colorSchema={"primary"} onClick={() => confirm()}>
+                나가기
+              </Button>
+            </ButtonProvider>
           </div>
         </div>
       </div>

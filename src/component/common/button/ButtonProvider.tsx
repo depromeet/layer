@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, Interpolation, Theme } from "@emotion/react";
 import { Children, cloneElement, isValidElement, PropsWithChildren } from "react";
 
 import { Button, ButtonProps } from "@/component/common/button/Button.tsx";
@@ -7,6 +7,7 @@ type SortSet = "vertical" | "horizontal";
 
 type ButtonProviderProps = {
   sort?: SortSet;
+  onlyContainerStyle?: Interpolation<Theme>;
 } & ButtonProps;
 
 const Primary = ({ ...props }) => {
@@ -25,27 +26,30 @@ const White = ({ ...props }) => {
   return <Button colorSchema={"white"} {...props} />;
 };
 
-export const ButtonProvider = ({ sort = "vertical", children, ...props }: PropsWithChildren<ButtonProviderProps>) => {
+export const ButtonProvider = ({ sort = "vertical", children, onlyContainerStyle, ...props }: PropsWithChildren<ButtonProviderProps>) => {
   return (
     <div
-      css={css`
-        display: flex;
-        ${sort === "horizontal"
-          ? css`
-              align-items: center;
-              column-gap: 1.7rem;
-            `
-          : css`
-              flex-direction: column;
-              row-gap: 0.6rem;
-            `}
-        position: sticky;
-        bottom: 0;
+      css={[
+        css`
+          display: flex;
+          ${sort === "horizontal"
+            ? css`
+                align-items: center;
+                column-gap: 1.7rem;
+              `
+            : css`
+                flex-direction: column;
+                row-gap: 0.6rem;
+              `}
+          position: sticky;
+          bottom: 0;
 
-        padding: 4rem 0 2rem 0;
-        margin-top: auto;
-        z-index: 10001;
-      `}
+          padding: 4rem 0 2rem 0;
+          margin-top: auto;
+          z-index: 10001;
+        `,
+        onlyContainerStyle,
+      ]}
     >
       <div
         css={css`

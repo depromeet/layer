@@ -16,7 +16,6 @@ export const parseTextToJSX = (text: string) => {
   const matches = text.matchAll(regex);
 
   return Array.from(matches).map((match, index) => {
-    console.log(match, index);
     if (match[1]) {
       return (
         <span
