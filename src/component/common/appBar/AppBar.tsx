@@ -5,7 +5,7 @@ import { Icon } from "@/component/common/Icon";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export type AppBarProps = {
-  title?: string;
+  title?: React.ReactNode;
   theme?: "dark" | "gray" | "default";
   height?: string;
   LeftComp?: React.ReactNode;
@@ -35,7 +35,7 @@ export function AppBar({ title, theme = "default", height = "4.8rem", LeftComp =
           width: 100%;
           max-width: 48rem;
           height: ${height};
-          padding: 0 2rem;
+          padding: 1.1rem 2rem;
           background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
           display: flex;
           justify-content: space-between;
@@ -50,9 +50,7 @@ export function AppBar({ title, theme = "default", height = "4.8rem", LeftComp =
         {LeftComp}
         <div
           css={css`
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
             font-size: 1.8rem;
             color: ${theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.black};
           `}

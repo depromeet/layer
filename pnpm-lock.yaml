@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@egjs/react-flicking':
+        specifier: ^4.11.3
+        version: 4.11.4
       '@emotion/react':
         specifier: ^11.11.4
         version: 11.11.4(@types/react@18.3.2)(react@18.3.1)
@@ -28,7 +31,7 @@ importers:
         version: 1.7.2
       framer-motion:
         specifier: ^11.2.13
-        version: 11.3.2(@emotion/is-prop-valid@1.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 11.3.21(@emotion/is-prop-valid@1.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       jotai:
         specifier: ^2.8.4
         version: 2.8.4(@types/react@18.3.2)(react@18.3.1)
@@ -47,15 +50,24 @@ importers:
       react-beautiful-dnd:
         specifier: ^13.1.1
         version: 13.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-beforeunload:
+        specifier: ^2.6.0
+        version: 2.6.0(react@18.3.1)
       react-calendar:
         specifier: ^5.0.0
         version: 5.0.0(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-canvas-confetti:
+        specifier: 1.4.0
+        version: 1.4.0(react@18.3.1)
       react-dom:
         specifier: ^18.2.0
         version: 18.3.1(react@18.3.1)
       react-router-dom:
         specifier: ^6.24.0
         version: 6.24.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      swiper:
+        specifier: ^11.1.5
+        version: 11.1.9
     devDependencies:
       '@babel/preset-react':
         specifier: ^7.24.7
@@ -75,6 +87,9 @@ importers:
       '@types/react':
         specifier: ^18.2.66
         version: 18.3.2
+      '@types/react-beforeunload':
+        specifier: ^2.1.5
+        version: 2.1.5
       '@types/react-dom':
         specifier: ^18.2.22
         version: 18.3.0
@@ -338,6 +353,33 @@ packages:
   '@babel/types@7.24.7':
     resolution: {integrity: sha512-XEFXSlxiG5td2EJRe8vOmRbaXVgfcBlszKujvVmWIK/UpywWljQCfzAv3RQCGujWQ1RD4YYWEAqDXfuJiy8f5Q==}
     engines: {node: '>=6.9.0'}
+
+  '@cfcs/core@0.0.24':
+    resolution: {integrity: sha512-feB38qu+eDk0Pggh/yR7gjaNmvUYA2uCxHP3Pz2MLE4LZ/9jPdtu8bzCSI47yTEhWyZCF5Pk698hdz8IN2mTjA==}
+
+  '@cfcs/core@0.1.0':
+    resolution: {integrity: sha512-kvYX0RpL45XTHJ5sW7teNbKeAa7pK3nNqaJPoFfZDPTIBJOkTtRD3QhkBG+O3Hu69a8xeMoPvF6y/RtJ6JUOdA==}
+
+  '@egjs/agent@2.4.3':
+    resolution: {integrity: sha512-XvksSENe8wPeFlEVouvrOhKdx8HMniJ3by7sro2uPF3M6QqWwjzVcmvwoPtdjiX8O1lfRoLhQMp1a7NGlVTdIA==}
+
+  '@egjs/axes@3.9.1':
+    resolution: {integrity: sha512-vaqUe/boRDk/A4TjiPtMv+lf7c4Q2jTER/Hw4I61NiJUyPftlZjaP4cteBCQejFyZmzimmA2W0cLmYZHTjBY8A==}
+
+  '@egjs/component@3.0.5':
+    resolution: {integrity: sha512-cLcGizTrrUNA2EYE3MBmEDt2tQv1joVP1Q3oDisZ5nw0MZDx2kcgEXM+/kZpfa/PAkFvYVhRUZwytIQWoN3V/w==}
+
+  '@egjs/flicking@4.11.4':
+    resolution: {integrity: sha512-ZQxJS0C9lZ/PcMfM7vo9KQW4tvmi+e+9HIxRstRCo2DGy0nJ6LklZt0b+POf6O9Ak0qZwDeHCGp6AhrDu9EPNA==}
+
+  '@egjs/imready@1.4.1':
+    resolution: {integrity: sha512-JIOBs4lB7FYdsKi5uvz2j3SObX8eShtZjtqlOH41tm185aJOQZwiKBK8+V4MxzG4X6DqVhpdN8UcuVwBbElfsg==}
+
+  '@egjs/list-differ@1.0.1':
+    resolution: {integrity: sha512-OTFTDQcWS+1ZREOdCWuk5hCBgYO4OsD30lXcOCyVOAjXMhgL5rBRDnt/otb6Nz8CzU0L/igdcaQBDLWc4t9gvg==}
+
+  '@egjs/react-flicking@4.11.4':
+    resolution: {integrity: sha512-ljwWndz9GxsepFrG5hAt55zTwLNG/GUUnfAcPiwKDYTxeXSamPUGAFPlvwsxBz7lNBRKPR8CseCTG9mzSZ1+sQ==}
 
   '@emotion/babel-plugin@11.11.0':
     resolution: {integrity: sha512-m4HEDZleaaCH+XgDDsPF15Ht6wTLsgDTeR3WYj9Q/k76JtWhrJjcP4+/XlG8LGT/Rol9qUfOIztXeA84ATpqPQ==}
@@ -909,6 +951,9 @@ packages:
   '@types/base16@1.0.5':
     resolution: {integrity: sha512-OzOWrTluG9cwqidEzC/Q6FAmIPcnZfm8BFRlIx0+UIUqnuAmi5OS88O0RpT3Yz6qdmqObvUhasrbNsCofE4W9A==}
 
+  '@types/canvas-confetti@1.6.0':
+    resolution: {integrity: sha512-Yq6rIccwcco0TLD5SMUrIM7Fk7Fe/C0jmNRxJJCLtAF6gebDkPuUjK5EHedxecm69Pi/aA+It39Ux4OHmFhjRw==}
+
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
@@ -935,6 +980,9 @@ packages:
 
   '@types/react-beautiful-dnd@13.1.8':
     resolution: {integrity: sha512-E3TyFsro9pQuK4r8S/OL6G99eq7p8v29sX0PM7oT8Z+PJfZvSQTx4zTQbUJ+QZXioAF0e7TGBEcA1XhYhCweyQ==}
+
+  '@types/react-beforeunload@2.1.5':
+    resolution: {integrity: sha512-xrczkBsJ26lidA/Y/Oln0lYgux79KUkpomaOdnQFPRV9Sx1Mgx53RkYsgZ234HG1ZMKGCmzpk7jO5T4h3bmjvg==}
 
   '@types/react-dom@18.3.0':
     resolution: {integrity: sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==}
@@ -1162,6 +1210,9 @@ packages:
 
   caniuse-lite@1.0.30001620:
     resolution: {integrity: sha512-WJvYsOjd1/BYUY6SNGUosK9DUidBPDTnOARHp3fSmFO1ekdxaY6nKRttEVrfMmYi80ctS0kz1wiWmm14fVc3ew==}
+
+  canvas-confetti@1.6.0:
+    resolution: {integrity: sha512-ej+w/m8Jzpv9Z7W7uJZer14Ke8P2ogsjg4ZMGIuq4iqUOqY2Jq8BNW42iGmNfRwREaaEfFIczLuZZiEVSYNHAA==}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -1515,8 +1566,8 @@ packages:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
     engines: {node: '>= 6'}
 
-  framer-motion@11.3.2:
-    resolution: {integrity: sha512-RgjSzrNFZmedWcvmW4MMc84A7UcoY37jocadE3Mbg3o+UMofodfyeNnYD/HR15UhP22/bb5KOebNhYOj4mYkpQ==}
+  framer-motion@11.3.21:
+    resolution: {integrity: sha512-D+hfIsvzV8eL/iycld4K+tKlg2Q2LdwnrcBEohtGw3cG1AIuNYATbT5RUqIM1ndsAk+EfGhoSGf0UaiFodc5Tw==}
     peerDependencies:
       '@emotion/is-prop-valid': '*'
       react: ^18.0.0
@@ -2071,6 +2122,11 @@ packages:
       react: ^16.8.5 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.5 || ^17.0.0 || ^18.0.0
 
+  react-beforeunload@2.6.0:
+    resolution: {integrity: sha512-aKrGaRNc7fZQlDnmSYrXu4cbz9QEPhScA4A2mLxhjcULDy4VILLyLhSEjg2goIw3o5LQ1zss44kmQh5LXWYGCw==}
+    peerDependencies:
+      react: ^16.8.0 || 17 || 18
+
   react-calendar@5.0.0:
     resolution: {integrity: sha512-bHcE5e5f+VUKLd4R19BGkcSQLpuwjKBVG0fKz74cwPW5xDfNsReHdDbfd4z3mdjuUuZzVtw4Q920mkwK5/ZOEg==}
     peerDependencies:
@@ -2080,6 +2136,11 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  react-canvas-confetti@1.4.0:
+    resolution: {integrity: sha512-ByBdSsNGUxlcJuOqSgbZw1VWNNO3b7njTmnuM1Y36mvwdCkCRs8rLkRAjn6MQK96LgWcfDVhr6ZT5olm2w8Zwg==}
+    peerDependencies:
+      react: '*'
 
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
@@ -2334,6 +2395,10 @@ packages:
 
   svg-parser@2.0.4:
     resolution: {integrity: sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==}
+
+  swiper@11.1.9:
+    resolution: {integrity: sha512-rflu8zvfGa3x1v/aeSufk4zRJffhOQowyvtJlp46sUBnOqAuk1Rdv5Ldj0AWWBV595iZ+ZMk7VB35ZRtRUomtA==}
+    engines: {node: '>= 4.7.0'}
 
   tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
@@ -2818,6 +2883,44 @@ snapshots:
       '@babel/helper-string-parser': 7.24.7
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
+
+  '@cfcs/core@0.0.24':
+    dependencies:
+      '@egjs/component': 3.0.5
+
+  '@cfcs/core@0.1.0':
+    dependencies:
+      '@egjs/component': 3.0.5
+
+  '@egjs/agent@2.4.3': {}
+
+  '@egjs/axes@3.9.1':
+    dependencies:
+      '@cfcs/core': 0.1.0
+      '@egjs/agent': 2.4.3
+      '@egjs/component': 3.0.5
+
+  '@egjs/component@3.0.5': {}
+
+  '@egjs/flicking@4.11.4':
+    dependencies:
+      '@egjs/axes': 3.9.1
+      '@egjs/component': 3.0.5
+      '@egjs/imready': 1.4.1
+      '@egjs/list-differ': 1.0.1
+
+  '@egjs/imready@1.4.1':
+    dependencies:
+      '@cfcs/core': 0.0.24
+      '@egjs/component': 3.0.5
+
+  '@egjs/list-differ@1.0.1': {}
+
+  '@egjs/react-flicking@4.11.4':
+    dependencies:
+      '@egjs/component': 3.0.5
+      '@egjs/flicking': 4.11.4
+      '@egjs/list-differ': 1.0.1
 
   '@emotion/babel-plugin@11.11.0':
     dependencies:
@@ -3313,6 +3416,8 @@ snapshots:
 
   '@types/base16@1.0.5': {}
 
+  '@types/canvas-confetti@1.6.0': {}
+
   '@types/estree@1.0.5': {}
 
   '@types/hoist-non-react-statics@3.3.5':
@@ -3335,6 +3440,10 @@ snapshots:
   '@types/prop-types@15.7.12': {}
 
   '@types/react-beautiful-dnd@13.1.8':
+    dependencies:
+      '@types/react': 18.3.2
+
+  '@types/react-beforeunload@2.1.5':
     dependencies:
       '@types/react': 18.3.2
 
@@ -3651,6 +3760,8 @@ snapshots:
   camelcase@6.3.0: {}
 
   caniuse-lite@1.0.30001620: {}
+
+  canvas-confetti@1.6.0: {}
 
   chalk@2.4.2:
     dependencies:
@@ -4151,7 +4262,7 @@ snapshots:
       combined-stream: 1.0.8
       mime-types: 2.1.35
 
-  framer-motion@11.3.2(@emotion/is-prop-valid@1.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  framer-motion@11.3.21(@emotion/is-prop-valid@1.2.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       tslib: 2.6.2
     optionalDependencies:
@@ -4694,6 +4805,10 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
+  react-beforeunload@2.6.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+
   react-calendar@5.0.0(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@wojtekmaj/date-utils': 1.5.1
@@ -4704,6 +4819,12 @@ snapshots:
       warning: 4.0.3
     optionalDependencies:
       '@types/react': 18.3.2
+
+  react-canvas-confetti@1.4.0(react@18.3.1):
+    dependencies:
+      '@types/canvas-confetti': 1.6.0
+      canvas-confetti: 1.6.0
+      react: 18.3.1
 
   react-dom@18.3.1(react@18.3.1):
     dependencies:
@@ -4999,6 +5120,8 @@ snapshots:
   supports-preserve-symlinks-flag@1.0.0: {}
 
   svg-parser@2.0.4: {}
+
+  swiper@11.1.9: {}
 
   tabbable@6.2.0: {}
 

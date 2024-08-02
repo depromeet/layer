@@ -15,6 +15,8 @@ import { CreateDonePage } from "@/app/space/CreateDonePage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
 import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 import Staging from "@/app/test/Staging.tsx";
+import { RetrospectWriteCompletePage } from "@/app/write/RetrospectWriteCompletePage.tsx";
+import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
 
@@ -27,6 +29,16 @@ const routerChildren: RouteChildren[] = [
     path: "/",
     element: <MainPage />,
     auth: false,
+  },
+  {
+    path: "/write",
+    element: <RetrospectWritePage />,
+    auth: true,
+  },
+  {
+    path: "/write/complete",
+    element: <RetrospectWriteCompletePage />,
+    auth: true,
   },
   {
     path: "/staging",
@@ -79,11 +91,13 @@ const routerChildren: RouteChildren[] = [
   },
   { path: "/api/auth/oauth2/kakao", element: <KaKaoRedirection />, auth: false },
   {
-    path: "retrospect",
-    children: [
-      { path: "new", element: <RetrospectCreate /> },
-      { path: "complete", element: <RetrospectCreateComplete /> },
-    ],
+    path: "/retrospect/new",
+    element: <RetrospectCreate />,
+    auth: true,
+  },
+  {
+    path: "/retrospect/complete",
+    element: <RetrospectCreateComplete />,
     auth: true,
   },
 ];

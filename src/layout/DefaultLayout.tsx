@@ -13,17 +13,19 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
   return (
     <div
       css={css`
-        background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
+        --parent-bg-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
+        background-color: var(--parent-bg-color);
       `}
     >
       {appBarVisible && <AppBar title={title} theme={theme} height={height} LeftComp={LeftComp} RightComp={RightComp} />}
       <main
         css={css`
+          position: relative;
           flex: 1 1 0;
           display: flex;
           flex-direction: column;
           padding: 0 2rem;
-          min-height: calc(100vh - 4.8rem);
+          min-height: calc(100dvh - ${height ?? `6.4rem`});
         `}
       >
         {children}

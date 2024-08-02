@@ -14,6 +14,16 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { Space } from "@/types/spaceType";
 
+type SpaceViewPageProps = {
+  id: number;
+  category: string;
+  field: string;
+  name: string;
+  introduction: string;
+  formId: number;
+  memberCount: number;
+};
+
 type RestrospectType = {
   retrospectId: number;
   title: string;

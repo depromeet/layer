@@ -1,5 +1,7 @@
 export { default as ic_back } from "./ic_back.svg?react";
+export { default as ic_back_white } from "./ic_back_white.svg?react";
 export { default as ic_check } from "./ic_check.svg?react";
+export { default as ic_arrow } from "./ic_more_arrow.svg?react";
 export { default as ic_plus } from "./ic_plus.svg?react";
 export { default as ic_user } from "./ic_user.svg?react";
 export { default as ic_home } from "./ic_home.svg?react";
@@ -21,3 +23,7 @@ export { default as ic_pencil } from "./ic_pencil.svg?react";
 export { default as ic_chevron_down } from "./ic_chevron_down.svg?react";
 export { default as ic_plus_thin } from "./ic_plus_thin.svg?react";
 export { default as ic_clock } from "./ic_clock.svg?react";
+export { default as ic_list } from "./ic_list.svg?react";
+export { default as ic_stars } from "./ic_stars.svg?react";
+export { default as ic_file } from "./ic_file.svg?react";
+export { default as ic_3point } from "./ic_3point.svg?react";

@@ -1,4 +1,4 @@
-import { fieldArr } from "@/component/space/field.const";
+import { fieldArr } from "@/component/space/space.const";
 
 export type FieldType = (typeof fieldArr)[number];
 

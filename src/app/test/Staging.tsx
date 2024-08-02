@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { Fragment, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
@@ -32,6 +33,8 @@ export default function Staging() {
   useEffect(() => {
     console.log("현재 바텀 시트 상태: ", bottomSheetState);
   }, [bottomSheetState]);
+
+  const navigate = useNavigate();
 
   return (
     <DefaultLayout>
@@ -78,12 +81,6 @@ export default function Staging() {
         <TextArea onChange={handleChangeDescription} value={description} maxLength={20} count />
       </InputLabelContainer>
 
-      <ButtonProvider>
-        <ButtonProvider.Primary>기본 버튼</ButtonProvider.Primary>
-        <ButtonProvider.Sky>하늘색 버튼</ButtonProvider.Sky>
-        <ButtonProvider.Gray>회색 버튼</ButtonProvider.Gray>
-        <ButtonProvider.Primary disabled={true}>비활성화 버튼</ButtonProvider.Primary>
-      </ButtonProvider>
       <BottomSheet
         title={"헬로우"}
         contents={
@@ -93,6 +90,13 @@ export default function Staging() {
         }
         handler={true}
       />
+
+      <ButtonProvider>
+        <ButtonProvider.Primary onClick={() => navigate(-1)}>기본 버튼</ButtonProvider.Primary>
+        <ButtonProvider.Sky>하늘색 버튼</ButtonProvider.Sky>
+        <ButtonProvider.Gray>회색 버튼</ButtonProvider.Gray>
+        <ButtonProvider.Primary disabled={true}>비활성화 버튼</ButtonProvider.Primary>
+      </ButtonProvider>
     </DefaultLayout>
   );
 }
