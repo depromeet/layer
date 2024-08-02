@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 
-type RestrospectType = {
+type RestrospectBoxType = {
   retrospectId: number;
   title: string;
   introduction: string;
@@ -24,7 +24,7 @@ const statusStyles = {
   },
 };
 
-export function RetrospectBox({ retrospect }: { retrospect: RestrospectType }) {
+export function RetrospectBox({ retrospect }: { retrospect: RestrospectBoxType }) {
   const { retrospectId, title, introduction, retrospectStatus, writeCount, totalCount } = retrospect;
   const { backgroundColor, buttonColor } = statusStyles[retrospectStatus];
 
