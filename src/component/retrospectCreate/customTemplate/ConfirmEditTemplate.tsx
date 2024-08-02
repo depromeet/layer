@@ -29,7 +29,7 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
   const [showTooltip, setShowTooltip] = useState(true);
 
   const handleDataSave = () => {
-    setRetroCreateData((prev) => ({ ...prev, title }));
+    setRetroCreateData((prev) => ({ ...prev, formName: title }));
     goNext();
   };
 
