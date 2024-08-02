@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { createContext } from "react";
+import { createContext, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
@@ -18,9 +18,10 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 type RetrospectCreateContextState = {
   totalStepsCnt: number;
   goNext: ReturnType<typeof useMultiStepForm>["goNext"];
+  goPrev: ReturnType<typeof useMultiStepForm>["goPrev"];
 };
 
-export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({ totalStepsCnt: 0, goNext: () => {} });
+export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({ totalStepsCnt: 0, goNext: () => {}, goPrev: () => {} });
 
 export function RetrospectCreate() {
   const themeMap = {
@@ -70,14 +71,10 @@ export function RetrospectCreate() {
     handleSubmit,
   });
 
-  const conditionalIncrementPage = () => {
-    if (currentStep === "dueDate") {
-      if (!retroCreateData.deadline) {
-        return currentStepIndex - 1;
-      }
-    }
-    return currentStepIndex;
-  };
+  const conditionalStepIndex = useMemo(
+    () => (currentStep === "dueDate" && !retroCreateData.deadline ? currentStepIndex - 1 : currentStepIndex),
+    [currentStep, retroCreateData.deadline],
+  );
 
   return (
     <DefaultLayout
@@ -91,10 +88,10 @@ export function RetrospectCreate() {
           visibility: ${currentStep === "start" ? "hidden" : "visible"};
         `}
       >
-        <ProgressBar curPage={conditionalIncrementPage()} lastPage={totalStepsCnt - 1} />
+        <ProgressBar curPage={conditionalStepIndex} lastPage={totalStepsCnt - 1} />
       </div>
       <Spacing size={2.9} />
-      <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext }}>
+      <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext, goPrev }}>
         <form
           css={css`
             flex: 1 1 0;
