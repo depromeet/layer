@@ -9,6 +9,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet } from "@/component/space";
 import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
+import { SpaceAppBarRightComp } from "@/component/space/view/SpaceAppBarRightComp";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -59,7 +60,7 @@ export function SpaceViewPage() {
   const doneRetrospects = restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "DONE");
 
   return (
-    <DefaultLayout theme="dark" height="6.4rem" title={spaceInfo?.name}>
+    <DefaultLayout theme="dark" height="6.4rem" title={spaceInfo?.name} RightComp={<SpaceAppBarRightComp spaceId={spaceId} />}>
       <TeamGoalView />
       <Spacing size={1.1} />
       <SpaceCountView memberCount={spaceInfo?.memberCount} layerCount={layerCount} />
