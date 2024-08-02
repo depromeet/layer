@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import { useAtom } from "jotai";
 import { useContext } from "react";
 
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
@@ -11,7 +10,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { TemplateContext } from "../steps/CustomTemplate";
 
 type ConfirmDefaultTemplateProps = {
   title: string;
@@ -20,7 +19,7 @@ type ConfirmDefaultTemplateProps = {
 
 export function ConfirmDefaultTemplate({ title, goEdit }: ConfirmDefaultTemplateProps) {
   const { goNext } = useContext(RetrospectCreateContext);
-  const [retroCreateData, _] = useAtom(retrospectCreateAtom);
+  const { questions } = useContext(TemplateContext);
 
   return (
     <div
@@ -45,7 +44,7 @@ export function ConfirmDefaultTemplate({ title, goEdit }: ConfirmDefaultTemplate
           <Tag>KPT회고</Tag>
         </div>
         <QuestionList>
-          {retroCreateData.questions.map(({ questionContent }, index) => (
+          {questions.map(({ questionContent }, index) => (
             <QuestionListItem key={index} order={index + 1} content={questionContent} />
           ))}
         </QuestionList>

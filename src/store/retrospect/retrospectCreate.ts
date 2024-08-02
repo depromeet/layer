@@ -17,6 +17,6 @@ export const retrospectCreateAtom = atom<RetrospectCreateReq>({
   questions: [],
   deadline: new Date().toISOString(),
   isNewForm: false,
-  formName: "",
-  formIntroduction: "",
+  formName: undefined,
+  formIntroduction: undefined,
 });

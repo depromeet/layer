@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import { REQUIRED_QUESTIONS } from "./questions.const";
@@ -20,6 +20,7 @@ import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { Questions } from "@/types/retrospectCreate";
+import { TemplateContext } from "../steps/CustomTemplate";
 
 const MAX_QUESTIONS_COUNT = 10;
 
@@ -28,9 +29,12 @@ type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "
 export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
-  const questions = useMemo(() => retroCreateData.questions.map(({ questionContent }) => questionContent), [retroCreateData]);
+  const questions = useMemo(
+    () => (retroCreateData.questions.length === 0 ? useContext(TemplateContext).questions : retroCreateData.questions),
+    [retroCreateData, TemplateContext],
+  );
   const [_, setIsQuestionEdited] = useAtom(isQuestionEditedAtom);
-  const [newQuestions, setNewQuestions] = useState([...questions]);
+  const [newQuestions, setNewQuestions] = useState<Questions>(JSON.parse(JSON.stringify(questions)));
 
   const [showDelete, setShowDelete] = useState(false);
 
@@ -40,8 +44,11 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
 
   const handleQuestionInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     setNewQuestions((prev) => {
-      const newQuestions = [...prev];
-      newQuestions[index] = e.target.value;
+      const newQuestions: Questions = [...prev];
+      newQuestions[index] = {
+        questionType: "plain_text",
+        questionContent: e.target.value,
+      };
       return newQuestions;
     });
   };
@@ -51,11 +58,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
       setIsQuestionEdited(true);
       setRetroCreateData((prev) => ({ ...prev, isNewForm: true }));
     }
-    const formattedQuestions: Questions = newQuestions.map((question) => ({
-      questionType: "plain_text",
-      questionContent: question,
-    }));
-    setRetroCreateData((prev) => ({ ...prev, questions: [...prev.questions, ...formattedQuestions] }));
+    setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
     goNext();
   };
 
@@ -71,7 +74,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   };
 
   useEffect(() => {
-    setNewQuestions([...questions]);
+    setNewQuestions(questions);
   }, [questions]);
 
   return (
@@ -122,7 +125,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         <DragDropContext onDragEnd={onDragEnd}>
           <Drop droppableId="droppable">
             <QuestionList>
-              {newQuestions.map((question, index) => (
+              {newQuestions.map(({ questionContent: question }, index) => (
                 <Drag key={index} index={index} draggableId={index.toString()} isDragDisabled={showDelete}>
                   <QuestionListItem
                     key={index}

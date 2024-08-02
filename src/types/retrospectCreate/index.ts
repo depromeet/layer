@@ -13,6 +13,6 @@ export type RetrospectCreateReq = {
   questions: Questions;
   deadline: string;
   isNewForm: boolean;
-  formName: string;
-  formIntroduction: string;
+  formName?: string;
+  formIntroduction?: string;
 };

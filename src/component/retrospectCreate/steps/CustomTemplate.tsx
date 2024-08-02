@@ -1,13 +1,14 @@
 import { useAtom } from "jotai";
-import { useContext, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
 import { FullModal } from "@/component/common/Modal/FullModal";
 import { ConfirmEditTemplate, EditQuestions, ConfirmDefaultTemplate } from "@/component/retrospectCreate";
 // import { useGetCustomTemplate } from "@/hooks/api/template/useGetCustomTemplate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { isQuestionEditedAtom } from "@/store/retrospect/retrospectCreate";
 import { Questions } from "@/types/retrospectCreate";
+import { CustomTemplateRes } from "@/types/template";
 
 type CustomTemplateProps = {
   templateId: number;
@@ -25,6 +26,13 @@ const DUMMY_QUESTIONS: Questions = [
   },
 ];
 
+const DUMMY_FORMNAME = "디프만님의 커스텀 회고";
+
+export const TemplateContext = createContext<CustomTemplateRes>({
+  title: "",
+  questions: [],
+});
+
 export function CustomTemplate({ templateId }: CustomTemplateProps) {
   // const {
   //   data: { title, questions },
@@ -34,23 +42,17 @@ export function CustomTemplate({ templateId }: CustomTemplateProps) {
     steps: ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const,
   });
   const [isQuestionEdited, _] = useAtom(isQuestionEditedAtom);
-  const [, setRetroCreateData] = useAtom(retrospectCreateAtom);
 
   useEffect(() => {
     console.log(templateId); //FIXME - prevent temporarily unused variable
     if (isQuestionEdited) {
       goTo("confirmEditTemplate");
     }
-    // setRetroCreateData((prev) => ({...prev, questions}))
-    setRetroCreateData((prev) => ({
-      ...prev,
-      questions: DUMMY_QUESTIONS,
-    }));
   }, []);
 
   return (
-    <>
-      {currentStep === "confirmDefaultTemplate" && <ConfirmDefaultTemplate title={"임시 타이틀"} goEdit={goNext} />}
+    <TemplateContext.Provider value={{ title: DUMMY_FORMNAME, questions: DUMMY_QUESTIONS }}>
+      {currentStep === "confirmDefaultTemplate" && <ConfirmDefaultTemplate title={DUMMY_FORMNAME} goEdit={goNext} />}
       {currentStep === "editQuestions" && (
         <FullModal>
           <EditQuestions
@@ -70,6 +72,6 @@ export function CustomTemplate({ templateId }: CustomTemplateProps) {
           <ConfirmEditTemplate goNext={retroContext.goNext} goPrev={goPrev} />
         </FullModal>
       )}
-    </>
+    </TemplateContext.Provider>
   );
 }
