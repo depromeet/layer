@@ -64,6 +64,7 @@ export function SpaceViewPage() {
   const proceedingRetrospects = restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING");
   const doneRetrospects = restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "DONE");
 
+  console.log(proceedingRetrospects, doneRetrospects);
   // 스페이스 삭제 버튼 함수
   const handleDeleteFun = async () => {
     await retrospectDelete(spaceId)

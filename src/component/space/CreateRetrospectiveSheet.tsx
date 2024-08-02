@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
@@ -8,6 +9,7 @@ type Props = {
 };
 
 export function CreateRetrospectiveSheet({ teamName }: Props) {
+  const navigate = useNavigate();
   return (
     <div
       css={css`
@@ -33,6 +35,9 @@ export function CreateRetrospectiveSheet({ teamName }: Props) {
         `}
       >
         <button
+          onClick={() => {
+            navigate("/retrospect/new");
+          }}
           css={css`
             width: 16.3rem;
             background-color: #f6f8fa;
@@ -56,6 +61,10 @@ export function CreateRetrospectiveSheet({ teamName }: Props) {
           </Typography>
         </button>
         <button
+          onClick={() => {
+            //커스텀 템플릿 URL로 변경
+            navigate("/retrospect/custom");
+          }}
           css={css`
             width: 16.3rem;
             background-color: #f6f8fa;
