@@ -97,7 +97,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         `}
       >
         <Typography variant="B2" color={"darkGray"}>
-          필수 질문
+          사전 질문
         </Typography>
         <QuestionList>
           {REQUIRED_QUESTIONS.map(({ questionContent }, index) => (
