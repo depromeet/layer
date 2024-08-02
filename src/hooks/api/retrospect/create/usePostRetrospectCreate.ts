@@ -8,22 +8,23 @@ import { RetrospectCreateReq } from "@/types/retrospectCreate";
 
 type PostRetrospect = { spaceId: number; body: RetrospectCreateReq };
 
-const postRetrospect = async ({ spaceId, body }: PostRetrospect): Promise<AxiosResponse<{ retrospectId: number }>> => {
-  const data = await api.post(`/space/${spaceId}/retrospect`, body, {
-    headers: {
-      Authorization: Cookies.get("accessToken"),
-    },
-  });
-  return data;
-};
-
-export const usePostRetrospectCreate = () => {
+export const usePostRetrospectCreate = (spaceId: number) => {
   const navigate = useNavigate();
+
+  const postRetrospect = async ({ spaceId, body }: PostRetrospect): Promise<AxiosResponse<{ retrospectId: number }>> => {
+    const data = await api.post(`/space/${spaceId}/retrospect`, body, {
+      headers: {
+        Authorization: Cookies.get("accessToken"),
+      },
+    });
+    return data;
+  };
+
   return useMutation({
     mutationFn: postRetrospect,
     onSuccess: ({ data: { retrospectId } }) => {
       navigate(`/write`, {
-        state: { retrospectId },
+        state: { retrospectId, spaceId },
       });
     },
   });

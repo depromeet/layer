@@ -23,18 +23,6 @@ type RetrospectCreateContextState = {
 export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({ totalStepsCnt: 0, goNext: () => {} });
 
 export function RetrospectCreate() {
-  //FIXME - location state type 분리하기
-  const locationState = useLocation().state as { spaceId: number };
-  const navigate = useNavigate();
-  const {
-    data: { formId },
-  } = useGetSpace(locationState.spaceId);
-
-  if (!locationState.spaceId) {
-    throw new Error("location으로부터 spaceId를 읽을 수 없습니다.");
-  }
-
-  const steps = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
   const themeMap = {
     start: {
       background: "dark",
@@ -54,11 +42,22 @@ export function RetrospectCreate() {
     },
   } as const;
 
+  const navigate = useNavigate();
+  const locationState = useLocation().state as { spaceId: number };
+  const { spaceId } = locationState;
+  if (!spaceId) {
+    throw new Error("location으로부터 spaceId를 읽을 수 없습니다.");
+  }
+  const {
+    data: { formId },
+  } = useGetSpace(spaceId);
+
   const [retroCreateData, _] = useAtom(retrospectCreateAtom);
-  const postRetrospectCreate = usePostRetrospectCreate();
+  const postRetrospectCreate = usePostRetrospectCreate(spaceId);
+
+  const steps = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
 
   const handleSubmit = () => {
-    const { spaceId } = locationState;
     postRetrospectCreate.mutate({
       spaceId,
       body: { ...retroCreateData },
