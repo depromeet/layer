@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 
 import { QUESTION_TYPES, RECOMMENDED_QUESTIONS } from "./questions.const";
 
@@ -21,7 +21,7 @@ type AddQuestionsBottomSheetProps = {
 
 export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProps) {
   const { tabs, curTab, selectTab } = useTabs(["직접 작성", "추천 질문"] as const);
-  const [_, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const setRetroCreateData = useSetAtom(retrospectCreateAtom);
   const { value: customQuestion, handleInputChange: handleCustomChange, resetInput } = useInput();
   const { isChecked, toggle, selectedValues, resetChecked } = useCheckBox();
   const { tabs: categoryTabs, curTab: curCategoryTab, selectTab: selectCategoryTab } = useTabs(QUESTION_TYPES);

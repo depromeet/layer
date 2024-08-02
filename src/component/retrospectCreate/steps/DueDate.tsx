@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { useContext } from "react";
 
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
@@ -21,7 +21,7 @@ export function DueDate() {
   const retrospectContext = useContext(RetrospectCreateContext);
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { onSelectDate, radioControl, selectedDate, selectedTime } = useDateTimePicker();
-  const [_, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const setRetroCreateData = useSetAtom(retrospectCreateAtom);
 
   const handleDateOpen = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault();

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 
 import { AppBar } from "@/component/common/appBar";
 import { ButtonProvider } from "@/component/common/button";
@@ -15,6 +15,7 @@ import { useInput } from "@/hooks/useInput";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
 
 type QuestionsListProps = {
   goNext: ReturnType<typeof useMultiStepForm>["goNext"];
@@ -22,6 +23,7 @@ type QuestionsListProps = {
 };
 
 export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
+  const retroCreateContext = useContext(RetrospectCreateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   //FIXME - 유저 이름 가져오기
   const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName ?? `${"디프만"}님의 커스텀 템플릿${2}`);
@@ -44,7 +46,7 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
       `}
     >
       <Spacing size={2.3} />
-      <AppBar theme="gray" LeftComp={<Icon icon={"ic_arrow_back"} onClick={goPrev} />} />
+      <AppBar theme="gray" LeftComp={<Icon icon={"ic_arrow_back"} onClick={retroCreateContext.goPrev} />} />
       <Header title={"수정된 해당 템플릿으로\n진행하시겠어요?"} contents={"다음 회고에서도 해당 템플릿으로 제공해드릴게요!"} />
       <Spacing size={5.3} />
       <Card shadow>

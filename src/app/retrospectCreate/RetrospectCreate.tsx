@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { createContext, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -53,7 +53,7 @@ export function RetrospectCreate() {
     data: { formId },
   } = useGetSpace(spaceId);
 
-  const [retroCreateData, _] = useAtom(retrospectCreateAtom);
+  const retroCreateData = useAtomValue(retrospectCreateAtom);
   const postRetrospectCreate = usePostRetrospectCreate(spaceId);
 
   const steps = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
