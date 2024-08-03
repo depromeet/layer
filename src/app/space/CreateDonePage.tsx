@@ -27,14 +27,14 @@ export function CreateDonePage() {
       const timer = setTimeout(() => {
         setAnimate(true);
       }, 3000);
-      return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
+      return () => clearTimeout(timer);
     }
   }, [data]);
 
   const handleShareKakao = () => {
     shareKakao(
       `${window.location.protocol}//${window.location.host}/space/join/${hashedSpaceId}`,
-      `${"이동훈"} 님이 스페이스에 초대했습니다.`,
+      `${"이동훈"} 님이 스페이스에 초대했습니다.`, // FIXME 수정 예정
       "어서오세용~!!",
     );
   };
@@ -92,7 +92,7 @@ export function CreateDonePage() {
         `}
       >
         <img
-          src={MessImage}
+          src={"https://kr.object.ncloudstorage.com/layer-bucket/%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4%201.png"}
           css={css`
             width: ${animate ? "18rem" : "23rem"};
             transition: all 0.5s ease;

@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import ClockImgage from "@/assets/imgs/clock.png";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
@@ -48,7 +47,7 @@ export function CreateNextPage() {
         `}
       >
         <img
-          src={ClockImgage}
+          src={"https://kr.object.ncloudstorage.com/layer-bucket/%ED%9A%8C%EA%B3%A0%20%EC%B6%94%EC%B2%9C%201.png"}
           css={css`
             width: 20rem;
             transition: all 0.5s ease;
