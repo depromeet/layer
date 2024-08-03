@@ -75,12 +75,12 @@ const routerChildren: RouteChildren[] = [
     auth: true,
   },
   {
-    path: "/space/create/done/:id",
+    path: "/space/create/done",
     element: <CreateDonePage />,
     auth: true,
   },
   {
-    path: "/space/create/next/:id",
+    path: "/space/create/next",
     element: <CreateNextPage />,
     auth: true,
   },
