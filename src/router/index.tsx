@@ -18,7 +18,6 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
-import {HomePage} from "@/app/home/HomePage.tsx";
 
 type RouteChildren = {
   auth: boolean;
