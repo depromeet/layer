@@ -6,10 +6,10 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type SpaceCountViewProps = {
   memberCount: number | undefined;
-  layerCount: number | undefined;
+  mainTemplate: string | undefined;
 };
 
-export function SpaceCountView({ memberCount, layerCount }: SpaceCountViewProps) {
+export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProps) {
   return (
     <div
       css={css`
@@ -31,7 +31,7 @@ export function SpaceCountView({ memberCount, layerCount }: SpaceCountViewProps)
           align-items: center;
         `}
       >
-        <Icon icon="ic_earth" size={2.8} color="#6C9CFA" />
+        <Icon icon="ic_template" size={2.8} color="#6C9CFA" />
         <div
           css={css`
             display: flex;
@@ -39,8 +39,10 @@ export function SpaceCountView({ memberCount, layerCount }: SpaceCountViewProps)
             gap: 0.2rem;
           `}
         >
-          <Typography variant="CAPTION">쌓인 회고</Typography>
-          <Typography variant="B2_SEMIBOLD">{layerCount}개</Typography>
+          <Typography variant="CAPTION" color="grey800">
+            대표 템플릿
+          </Typography>
+          <Typography variant="B2_SEMIBOLD">{mainTemplate ? mainTemplate : "-"}</Typography>
         </div>
       </div>
 
@@ -57,7 +59,7 @@ export function SpaceCountView({ memberCount, layerCount }: SpaceCountViewProps)
           align-items: center;
         `}
       >
-        <Icon icon="ic_team" size={2.9} />
+        <Icon icon="ic_twoMan" size={2.8} />
         <div
           css={css`
             display: flex;
@@ -67,7 +69,9 @@ export function SpaceCountView({ memberCount, layerCount }: SpaceCountViewProps)
             margin-right: 1rem;
           `}
         >
-          <Typography variant="CAPTION">팀원</Typography>
+          <Typography variant="CAPTION" color="grey800">
+            팀원
+          </Typography>
           <Typography variant="B2_SEMIBOLD">{memberCount}명</Typography>
         </div>
         <Icon icon="ic_after" size={1.6} />

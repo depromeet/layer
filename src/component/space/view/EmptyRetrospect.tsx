@@ -14,15 +14,15 @@ export function EmptyRetrospect() {
         margin-top: 5rem;
       `}
     >
-      <Icon icon="ic_clock" size={6.3} />
+      <Icon icon="ic_clock" size={7.2} />
       <div
         css={css`
           width: 100%;
           text-align: center;
-          margin-top: 1.6rem;
+          margin-top: 0.8rem;
         `}
       >
-        <Typography as="p" color="darkGray">
+        <Typography color="darkGray">
           진행중인 회고가 비어있어요 <br />
           회고를 작성해 보세요!
         </Typography>
