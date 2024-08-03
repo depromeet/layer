@@ -25,6 +25,7 @@ export function RadioButtonGroup({ children, styles, gap = 0.8, direction = "row
           display: flex;
           flex-direction: ${direction};
           gap: ${gap}rem;
+          overflow: auto;
         `,
         styles,
       ]}
