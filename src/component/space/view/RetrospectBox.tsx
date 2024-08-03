@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { NavigateOptions, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
@@ -18,26 +19,17 @@ type RestrospectBoxType = {
 const statusStyles = {
   PROCEEDING: {
     backgroundColor: DESIGN_SYSTEM_COLOR.blue50,
-    buttonColor: DESIGN_SYSTEM_COLOR.blue600,
   },
   DONE: {
     backgroundColor: DESIGN_SYSTEM_COLOR.grey100,
-    buttonColor: DESIGN_SYSTEM_COLOR.grey900,
   },
 };
 
-export function RetrospectBox({ retrospect }: { retrospect: RestrospectBoxType }) {
+export function RetrospectBox({ spaceId, retrospect }: { spaceId: string; retrospect: RestrospectBoxType }) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const optionsRef = useRef<HTMLDivElement | null>(null);
   const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount } = retrospect;
-  const { backgroundColor, buttonColor } = statusStyles[retrospectStatus];
-
-  let buttonText = "회고 작성";
-  if (retrospectStatus === "DONE") {
-    buttonText = "분석 확인";
-  } else if (isWrite) {
-    buttonText = "회고 수정";
-  }
+  const { backgroundColor } = statusStyles[retrospectStatus];
 
   const toggleOptionsVisibility = () => {
     setIsOptionsVisible((prev) => !prev);
@@ -253,26 +245,90 @@ export function RetrospectBox({ retrospect }: { retrospect: RestrospectBoxType }
             / {totalCount}
           </Typography>
         </div>
-        <button
-          css={css`
-            width: auto;
-            height: 4rem;
-            background-color: ${buttonColor};
-            border-radius: 0.8rem;
-            padding: 1rem 2.4rem;
-          `}
-        >
-          <Typography
-            variant="B2_SEMIBOLD"
-            color="white"
-            style={css`
-              white-space: nowrap;
-            `}
-          >
-            {buttonText}
-          </Typography>
-        </button>
+        <RetrospectButton
+          status={retrospectStatus === "PROCEEDING" && isWrite ? "HAS_WRITING" : retrospectStatus}
+          retrospectId={retrospectId}
+          spaceId={spaceId}
+        />
       </div>
     </div>
+  );
+}
+
+type RetrospectButtonProps = {
+  status: "PROCEEDING" | "DONE" | "HAS_WRITING";
+  retrospectId?: number;
+  spaceId?: string;
+};
+
+function RetrospectButton({ status, retrospectId, spaceId }: RetrospectButtonProps) {
+  const navigate = useNavigate();
+  const { color, route, text } = useMemo<{ text: string; route: readonly [string, NavigateOptions]; color: string }>(() => {
+    return {
+      DONE: {
+        text: "분석 확인",
+        route: [
+          "/분석",
+          {
+            state: {
+              retrospectId,
+              spaceId,
+            },
+          },
+        ] as const,
+        color: DESIGN_SYSTEM_COLOR.grey900,
+      },
+      HAS_WRITING: {
+        route: [
+          `/write`,
+          {
+            state: {
+              retrospectId,
+              spaceId,
+            },
+          },
+        ] as const,
+        color: DESIGN_SYSTEM_COLOR.blue600,
+        text: "회고 작성",
+      },
+      PROCEEDING: {
+        route: [
+          `/edit`,
+          {
+            state: {
+              retrospectId,
+              spaceId,
+            },
+          },
+        ] as const,
+        color: DESIGN_SYSTEM_COLOR.blue600,
+        text: "회고 수정",
+      },
+    }[status];
+  }, [retrospectId, spaceId, status]);
+  const handleNavigate = () => {
+    navigate(...route);
+  };
+  return (
+    <button
+      onClick={handleNavigate}
+      css={css`
+        width: auto;
+        height: 4rem;
+        background-color: ${color};
+        border-radius: 0.8rem;
+        padding: 1rem 2.4rem;
+      `}
+    >
+      <Typography
+        variant="B2_SEMIBOLD"
+        color="white"
+        style={css`
+          white-space: nowrap;
+        `}
+      >
+        {text}
+      </Typography>
+    </button>
   );
 }

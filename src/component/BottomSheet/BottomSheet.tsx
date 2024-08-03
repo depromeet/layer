@@ -19,6 +19,8 @@ export function BottomSheet({ title, contents, handler = false, quitButton = tru
   const { bottomSheetState } = useBottomSheet();
   const [height, _] = useState(sheetHeight);
 
+  console.log(contents);
+
   useEffect(() => {
     sheet.current!.style.setProperty("transform", ``);
   }, [bottomSheetState]);

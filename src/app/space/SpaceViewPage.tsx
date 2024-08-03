@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useQueries } from "@tanstack/react-query";
-import { Fragment, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Fragment, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Icon } from "@/component/common/Icon";
@@ -9,52 +9,27 @@ import { MidModal } from "@/component/common/Modal/MidModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Toast } from "@/component/common/Toast";
 import { Typography } from "@/component/common/typography";
-import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet } from "@/component/space";
+import { SpaceCountView, RetrospectBox, ActionItemListView, CreateRetrospectiveSheet } from "@/component/space";
 import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceAppBarRightComp } from "@/component/space/view/SpaceAppBarRightComp";
+import { useApiGetTeamActionItemList } from "@/hooks/api/actionItem/useApiGetTeamActionItemList";
 import { useGetSpaceAndRetrospect } from "@/hooks/api/retrospect/useSpaceRetrospects";
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
 import { useApiGetSpaceInfo } from "@/hooks/api/space/useApiGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
-import { Space } from "@/types/spaceType";
-
-type RestrospectType = {
-  retrospectId: number;
-  title: string;
-  introduction: string;
-  isWrite: boolean;
-  retrospectStatus: "PROCEEDING" | "DONE";
-  writeCount: number;
-  totalCount: number;
-};
 
 export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
-  const navigate = useNavigate();
-  const [layerCount] = useState<number | undefined>(0);
-  const [spaceInfo, setSpaceInfo] = useState<Space>();
-  const [restrospectArr, setRestrospectArr] = useState<RestrospectType[] | undefined>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const { mutate: deleteSpace } = useApiDeleteSpace();
+  const [isVisiableBottomSheet, setIsVisiableBottomSheet] = useState<boolean>(false);
 
-  const [getRetrospects, getSpaceInfo] = useQueries({
-    queries: [useGetSpaceAndRetrospect(spaceId), useApiGetSpaceInfo(spaceId)],
+  const [{ data: restrospectArr }, { data: spaceInfo }, { data: teamActionList }] = useQueries({
+    queries: [useGetSpaceAndRetrospect(spaceId), useApiGetSpaceInfo(spaceId), useApiGetTeamActionItemList(spaceId)],
   });
-
-  useEffect(() => {
-    if (getSpaceInfo.isSuccess && getRetrospects.isSuccess) {
-      setSpaceInfo(getSpaceInfo.data);
-      setRestrospectArr(getRetrospects.data?.retrospects);
-      console.log(restrospectArr);
-      console.log(spaceInfo);
-    } else if (getSpaceInfo.isError || getRetrospects.isError) {
-      navigate(-1);
-    }
-  }, [getRetrospects, getSpaceInfo, navigate]);
 
   const proceedingRetrospects = restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING");
   const doneRetrospects = restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "DONE");
@@ -72,6 +47,11 @@ export function SpaceViewPage() {
     setIsModalVisible(false);
   };
 
+  const clickWrite = () => {
+    setIsVisiableBottomSheet(true);
+    openBottomSheet();
+  };
+
   return (
     <DefaultLayout
       theme="dark"
@@ -79,7 +59,7 @@ export function SpaceViewPage() {
       title={spaceInfo?.name}
       RightComp={<SpaceAppBarRightComp spaceId={spaceId} onDeleteClick={handleOpenModal} isTooltipVisible={restrospectArr?.length == 0} />}
     >
-      <TeamGoalView />
+      <ActionItemListView teamActionList={teamActionList} />
       <Spacing size={1.1} />
       <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
       <Spacing size={2.4} />
@@ -113,7 +93,7 @@ export function SpaceViewPage() {
             gap: 1rem;
           `}
         >
-          {proceedingRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />)}
+          {proceedingRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} spaceId={spaceId} retrospect={retrospect} />)}
         </div>
 
         <Spacing size={2} />
@@ -143,7 +123,7 @@ export function SpaceViewPage() {
         </div>
       </div>
       <button
-        onClick={openBottomSheet}
+        onClick={clickWrite}
         css={css`
           width: 11.6rem;
           height: 4.8rem;
@@ -163,14 +143,17 @@ export function SpaceViewPage() {
           회고 생성
         </Typography>
       </button>
-      <BottomSheet
-        contents={
-          <Fragment>
-            <CreateRetrospectiveSheet teamName={spaceInfo?.name} />
-          </Fragment>
-        }
-        handler={true}
-      />
+      {isVisiableBottomSheet && (
+        <BottomSheet
+          contents={
+            <Fragment>
+              <CreateRetrospectiveSheet teamName={spaceInfo?.name} />
+            </Fragment>
+          }
+          handler={true}
+        />
+      )}
+
       {isModalVisible && (
         <MidModal
           title="스페이스를 삭제하시겠어요?"
