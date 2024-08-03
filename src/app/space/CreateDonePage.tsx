@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { Fragment, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import MessImage from "@/assets/imgs/mess.png";
 import { ButtonProvider, IconButton } from "@/component/common/button";
@@ -15,11 +15,12 @@ import { shareKakao } from "@/utils/kakao/sharedKakaoLink";
 
 export function CreateDonePage() {
   const navigate = useNavigate();
-  const { id } = useParams() as { id: string };
-  const { data } = useApiGetSpace(id);
+  const { spaceId } = useLocation().state as { spaceId: string };
+  const { data } = useApiGetSpace(spaceId);
   const [animate, setAnimate] = useState(data?.category === ProjectType.Individual);
   const { toast } = useToast();
-  const spaceId = window.btoa(id);
+
+  const hashedSpaceId = window.btoa(spaceId);
 
   useEffect(() => {
     if (data && data.category === ProjectType.Team) {
@@ -32,7 +33,7 @@ export function CreateDonePage() {
 
   const handleShareKakao = () => {
     shareKakao(
-      `${window.location.protocol}//${window.location.host}/space/join/${spaceId}`,
+      `${window.location.protocol}//${window.location.host}/space/join/${hashedSpaceId}`,
       `${"이동훈"} 님이 스페이스에 초대했습니다.`,
       "어서오세용~!!",
     );
@@ -40,7 +41,7 @@ export function CreateDonePage() {
 
   const handleCopyClipBoard = async () => {
     try {
-      await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${spaceId}`);
+      await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${hashedSpaceId}`);
       toast.success("복사 성공!!");
       navigate("/space/create");
     } catch (e) {
@@ -131,7 +132,7 @@ export function CreateDonePage() {
       <ButtonProvider>
         <ButtonProvider.Primary
           disabled={data?.category === ProjectType.Individual ? false : !animate}
-          onClick={() => navigate(`/space/create/next/${id}`)}
+          onClick={() => navigate(`/space/create/next`, { state: { spaceId } })}
         >
           다음
         </ButtonProvider.Primary>

@@ -20,14 +20,22 @@
     sans-serif;
 }
 
+:root {
+  --parent-bg-color: inherit;
+}
+
 html {
   font-size: 62.5%;
+  height: -webkit-fill-available;
 }
 
 body {
   font-size: 1.5rem;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 button {

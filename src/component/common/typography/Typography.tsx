@@ -4,7 +4,7 @@ import { DESIGN_SYSTEM_TEXT, DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type TextTags = "span" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "strong" | "em" | "small" | "q" | "u";
 
-type TypographyProps = {
+export type TypographyProps = {
   as?: Extract<React.ElementType, TextTags>;
   variant?: keyof typeof DESIGN_SYSTEM_TEXT;
   color?: keyof typeof DESIGN_SYSTEM_COLOR;

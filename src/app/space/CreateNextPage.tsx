@@ -1,20 +1,21 @@
 import { css } from "@emotion/react";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import ClockImgage from "@/assets/imgs/clock.png";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
+import { PATHS } from "@/config/paths";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { ProjectType } from "@/types/space";
 
 export function CreateNextPage() {
   const navigate = useNavigate();
-  const { id } = useParams() as { id: string };
-  const { data, error, isError } = useApiGetSpace(id);
+  const { spaceId } = useLocation().state as { spaceId: string };
+  const { data, error, isError } = useApiGetSpace(spaceId);
 
   useEffect(() => {
     if (isError) {
@@ -56,7 +57,7 @@ export function CreateNextPage() {
         />
       </div>
       <ButtonProvider>
-        <ButtonProvider.Primary>회고 템플릿 추천 받기</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={() => navigate(PATHS.retrospectCreate(), { state: spaceId })}>회고 템플릿 추천 받기</ButtonProvider.Primary>
         <div css={laterTextStyles}>다음에 하기</div>
       </ButtonProvider>
     </DefaultLayout>

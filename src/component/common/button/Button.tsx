@@ -10,7 +10,7 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
   return (
     <button
       css={css`
-        border-radius: 0.6rem;
+        border-radius: 1.2rem;
         color: white;
         background-color: #212529;
         width: 100%;
@@ -18,7 +18,9 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
         padding: 1.4rem 0;
         border: none;
         font-size: 1.6rem;
+        font-weight: 500;
         cursor: pointer;
+        transition: 0.4s all;
 
         // FIXME: 추후 디자인 토큰 나오면 세부 수정 진행 필요
         ${colorSchema === "sky" &&
@@ -27,8 +29,13 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
         `}
         ${colorSchema === "gray" &&
         css`
-          background-color: #f1f3f5;
-          color: #868e96;
+          background-color: #dfe3ea;
+          color: #454952;
+        `}
+        ${colorSchema === "white" &&
+        css`
+          color: #212529;
+          background-color: white;
         `}
         ${colorSchema === "white" &&
         css`
@@ -38,9 +45,9 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
       
         ${disabled &&
         css`
-          background-color: #c8cccf;
-          color: rgba(33, 37, 41, 0.7);
-          cursor: default;
+          background-color: #edf0f4;
+          color: #a9afbb;
+          cursor: not-allowed;
         `}
       `}
       {...props}
