@@ -36,7 +36,7 @@ export function KaKaoRedirection() {
       const { status, response } = data;
       if (status === 200) {
         setAuthResponse(response);
-        navigate("/home/retrospect");
+        navigate("/");
       } else if (status === 400) {
         navigate("/setnickname");
       } else {
