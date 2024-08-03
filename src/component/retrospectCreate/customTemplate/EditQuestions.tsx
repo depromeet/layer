@@ -56,11 +56,9 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   };
 
   const handleDataSave = () => {
-    if (JSON.stringify(newQuestions) !== JSON.stringify(originalQuestions)) {
-      setIsQuestionEdited(true);
-      setRetroCreateData((prev) => ({ ...prev, isNewForm: true }));
-    }
-    setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
+    const isEdited = JSON.stringify(newQuestions) !== JSON.stringify(originalQuestions);
+    setIsQuestionEdited(isEdited);
+    setRetroCreateData((prev) => ({ ...prev, isNewForm: isEdited, questions: newQuestions }));
     goNext();
   };
 

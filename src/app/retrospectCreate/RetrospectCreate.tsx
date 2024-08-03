@@ -44,7 +44,7 @@ export function RetrospectCreate() {
 
   const navigate = useNavigate();
   const locationState = useLocation().state as { spaceId: number; templateId: number };
-  const { spaceId } = locationState;
+  const { spaceId, templateId } = locationState;
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const postRetrospectCreate = usePostRetrospectCreate(spaceId);
@@ -55,7 +55,7 @@ export function RetrospectCreate() {
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
     postRetrospectCreate.mutate({
       spaceId,
-      body: { ...retroCreateData, questions: questionsWithRequired },
+      body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateId },
     });
   };
 
