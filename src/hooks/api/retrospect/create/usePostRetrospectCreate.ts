@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
+import { PATHS } from "@/config/paths";
 import { RetrospectCreateReq } from "@/types/retrospectCreate";
 
 type PostRetrospect = { spaceId: number; body: RetrospectCreateReq };
@@ -19,7 +20,7 @@ export const usePostRetrospectCreate = (spaceId: number) => {
   return useMutation({
     mutationFn: postRetrospect,
     onSuccess: ({ retrospectId }) => {
-      navigate(`/write`, {
+      navigate(PATHS.completeRetrospectCreate(), {
         state: { retrospectId, spaceId },
       });
     },

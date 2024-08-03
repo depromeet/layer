@@ -6,12 +6,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Icon } from "@/component/common/Icon";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
-import { Toast } from "@/component/common/Toast";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
-import { PATHS } from "@/config/paths";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -46,16 +43,7 @@ export function RetrospectCreate() {
 
   const navigate = useNavigate();
   const locationState = useLocation().state as { spaceId: number; templateId: number };
-  const { spaceId, templateId } = locationState;
-  const { toast } = useToast();
-  if (!spaceId) {
-    toast.error("스페이스 정보를 찾을 수 없습니다.");
-    navigate(PATHS.retrospectView());
-  }
-  if (!templateId) {
-    toast.error("템플릿을 먼저 선택해주세요.");
-    navigate(PATHS.space(spaceId));
-  }
+  const { spaceId } = locationState;
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const postRetrospectCreate = usePostRetrospectCreate(spaceId);
@@ -71,7 +59,6 @@ export function RetrospectCreate() {
 
   const { currentStep, goNext, goPrev, totalStepsCnt, currentStepIndex } = useMultiStepForm({
     steps,
-    redirectPath: PATHS.completeRetrospectCreate(),
     handleSubmit,
   });
 
@@ -82,7 +69,6 @@ export function RetrospectCreate() {
 
   return (
     <>
-      <Toast />
       <DefaultLayout
         LeftComp={
           <Icon
@@ -109,7 +95,8 @@ export function RetrospectCreate() {
           >
             {currentStep === "start" && <Start />}
             {currentStep === "mainInfo" && <MainInfo />}
-            {currentStep === "customTemplate" && <CustomTemplate templateId={templateId} />}
+            {/* FIXME - 템플릿 추천/리스트 연결 후  templateId 전달하기*/}
+            {currentStep === "customTemplate" && <CustomTemplate templateId={10001} />}
             {currentStep === "dueDate" && <DueDate />}
           </form>
         </RetrospectCreateContext.Provider>
