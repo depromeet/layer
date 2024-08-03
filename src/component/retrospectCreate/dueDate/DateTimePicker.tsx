@@ -11,6 +11,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { useTabs } from "@/hooks/useTabs";
+import { formatTime12to24 } from "@/utils/formatDate";
 
 type DateTimePickerProps = {
   radioControl: ReturnType<typeof useDateTimePicker>["radioControl"];
@@ -33,7 +34,7 @@ export function DateTimePicker({ radioControl, ...props }: DateTimePickerProps) 
       <Spacing size={2.4} />
       <RadioButtonGroup isChecked={radioControl.isTimeChecked} onChange={radioControl.onTimeChange} radioName={"회고 마감 시간"}>
         {TIME.map((time, index) => (
-          <Radio key={index} value={`${curTab} ${time}`}>
+          <Radio key={index} value={formatTime12to24(time, curTab === "오후")}>
             {time}
           </Radio>
         ))}

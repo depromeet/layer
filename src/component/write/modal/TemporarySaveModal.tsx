@@ -30,7 +30,7 @@ export function TemporarySaveModal({ confirm, quit, title = "회고 작성을 �
         justify-content: center;
         text-align: center;
         box-sizing: border-box;
-        z-index: 99999;
+        z-index: 10001;
       `}
       ref={containerRef}
       onClick={(e) => {

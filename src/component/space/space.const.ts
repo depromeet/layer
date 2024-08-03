@@ -15,3 +15,5 @@ export const fieldMap: {
   RESEARCH: "연구",
   ETC: "기타",
 };
+
+export const defaultImgUrl = "https://layer-bucket.kr.object.ncloudstorage.com/SPACE/12/5c781710-551e-444e-a977-73256ca2b07d";

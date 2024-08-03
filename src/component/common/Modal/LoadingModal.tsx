@@ -11,7 +11,7 @@ type LoadingModalProps = {
 
 export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }: LoadingModalProps) {
   return (
-    <Portal id={"modal-root"}>
+    <Portal id={"loading-modal-root"}>
       <div
         css={css`
           position: absolute;
@@ -27,7 +27,7 @@ export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index: 10001;
+          z-index: 10002;
           animation: ${ANIMATION.FADE_IN} 0.6s ease-in-out;
         `}
       >

@@ -1,8 +1,9 @@
 import { createContext, Fragment, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { Prepare, Write } from "@/component/write/phase";
-import { useGetQuestions } from "@/hooks/write/useGetQuestions.ts";
+import { useGetQuestions } from "@/hooks/api/write/useGetQuestions.ts";
 import { RetrospectType } from "@/types/write";
 
 export type QuestionData = {
@@ -18,17 +19,19 @@ export type QuestionData = {
 type PhaseContextProps = {
   data: QuestionData;
   phase: number;
-  totalPhase: number;
   movePhase: (phase: number) => void;
   incrementPhase: () => void;
   decrementPhase: () => void;
+  spaceId: number;
+  retrospectId: number;
 };
 
 export const AdvanceQuestionsNum = 2;
 export const PhaseContext = createContext<PhaseContextProps>({
   data: { isTemporarySaved: false, questions: [] },
   phase: 1,
-  totalPhase: 1,
+  spaceId: -1,
+  retrospectId: -1,
   movePhase: () => {},
   incrementPhase: () => {},
   decrementPhase: () => {},
@@ -44,8 +47,11 @@ function adjustOrder(data: QuestionData): QuestionData {
 }
 
 export function RetrospectWritePage() {
+  const location = useLocation();
+  const { spaceId, retrospectId } = location.state as { spaceId: number; retrospectId: number };
   const [phase, setPhase] = useState(-1);
-  const { data, isLoading } = useGetQuestions({ spaceId: 184, retrospectId: 16 });
+
+  const { data, isLoading } = useGetQuestions({ spaceId: spaceId, retrospectId: retrospectId });
   const defaultData: QuestionData = { isTemporarySaved: false, questions: [] };
   const [adjustedData, setAdjustedData] = useState<QuestionData>();
 
@@ -69,7 +75,7 @@ export function RetrospectWritePage() {
   return (
     <Fragment>
       {isLoading && <LoadingModal purpose={"회고 작성을 위한 데이터를 가져오고 있어요"} />}
-      <PhaseContext.Provider value={{ data: adjustedData ?? defaultData, phase, totalPhase: 5, movePhase, incrementPhase, decrementPhase }}>
+      <PhaseContext.Provider value={{ data: adjustedData ?? defaultData, phase, movePhase, incrementPhase, decrementPhase, spaceId, retrospectId }}>
         {phase >= 0 ? <Write /> : <Prepare />}
       </PhaseContext.Provider>
     </Fragment>

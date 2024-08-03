@@ -1,18 +1,33 @@
 import { css, keyframes } from "@emotion/react";
 import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { CompleteCheck, CompleteTitle } from "@/assets/imgs/template";
 import confetti from "@/assets/lottie/template/confetti.json";
 import { HeaderProvider } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 import { ANIMATION } from "@/style/common/animation.ts";
 
+type UserInfoType = {
+  isLogin: boolean;
+  name: string;
+  email: string;
+  memberRole: string;
+};
+
 export function RetrospectWriteCompletePage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { spaceId, retrospectId } = location.state as { spaceId: number; retrospectId: number };
+
   const [isAnimation, setAnimation] = useState(false);
+  const [userInfo, _] = useState(() => {
+    const storedUserInfo = localStorage.getItem("auth");
+    return storedUserInfo ? (JSON.parse(storedUserInfo) as UserInfoType) : null;
+  });
   const CARD_ANIMATION = {
     FIRST_CARD: keyframes`
       from {
@@ -33,7 +48,6 @@ export function RetrospectWriteCompletePage() {
   };
 
   useEffect(() => {
-    // 데이터를 로드하는 예시
     const timer = setTimeout(() => {
       setAnimation(true);
     }, 700);
@@ -42,10 +56,27 @@ export function RetrospectWriteCompletePage() {
   }, []);
 
   return (
-    <DefaultLayout theme={"transparent"} LeftComp={<Icon icon={"ic_arrow_left"} size={1.4} onClick={() => navigate("/write")} />}>
+    <DefaultLayout
+      theme={"transparent"}
+      LeftComp={
+        <Icon
+          icon={"ic_arrow_left"}
+          size={1.4}
+          onClick={() =>
+            navigate("/write", {
+              state: {
+                spaceId: spaceId,
+                retrospectId: retrospectId,
+              },
+            })
+          }
+        />
+      }
+    >
+      {!userInfo && <LoadingModal />}
       <HeaderProvider>
         {/*  FIXME: 추후 API 연동 후 닉네임 값이 들어와야해요 */}
-        <HeaderProvider.Subject contents={`디프만님의\n회고 작성이 완료되었어요!`} />
+        <HeaderProvider.Subject contents={`${userInfo ? userInfo.name : null}님의\n회고 작성이 완료되었어요!`} />
       </HeaderProvider>
       <div
         css={css`
@@ -54,18 +85,6 @@ export function RetrospectWriteCompletePage() {
           height: 100%;
         `}
       >
-        {/*<img*/}
-        {/*  src={temp}*/}
-        {/*  css={css`*/}
-        {/*    position: absolute;*/}
-        {/*    top: 45%;*/}
-        {/*    left: 50%;*/}
-        {/*    transform: translate(-50%, -50%);*/}
-        {/*    width: 80%;*/}
-        {/*    height: auto;*/}
-        {/*    animation: ${ANIMATION.FADE_IN} 0.8s ease-in-out;*/}
-        {/*  `}*/}
-        {/*/>*/}
         <div
           css={css`
             width: 40%;

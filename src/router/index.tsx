@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-dom";
 
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
@@ -57,12 +56,12 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/create",
     element: <CreateSpacePage />,
-    auth: false,
+    auth: true,
   },
   {
     path: "/space/create/done",
     element: <CreateDonePage />,
-    auth: false,
+    auth: true,
   },
   {
     path: "/home",
@@ -85,11 +84,13 @@ const routerChildren: RouteChildren[] = [
   },
   { path: "/api/auth/oauth2/kakao", element: <KaKaoRedirection />, auth: false },
   {
-    path: "retrospect",
-    children: [
-      { path: "new", element: <RetrospectCreate /> },
-      { path: "complete", element: <RetrospectCreateComplete /> },
-    ],
+    path: "/retrospect/new",
+    element: <RetrospectCreate />,
+    auth: true,
+  },
+  {
+    path: "/retrospect/complete",
+    element: <RetrospectCreateComplete />,
     auth: true,
   },
 ];
@@ -109,7 +110,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <GlobalLayout />,
-    errorElement: <Fragment />,
     children: browserRouter,
   },
 ]);

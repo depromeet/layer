@@ -27,7 +27,7 @@ export function WDescriptiveTemplate({ answer, onChange }: DescriptiveTemplatePr
           overflow-y: auto;
           white-space: pre-line;
         `}
-        value={answer}
+        value={answer || ""}
         onChange={onChange}
       />
     </div>
