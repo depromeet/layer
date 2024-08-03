@@ -2,14 +2,15 @@ import { css } from "@emotion/react";
 
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
+import { categoryMap } from "@/component/space/space.const";
 
 type CategoryButtonProps = {
   isClicked?: boolean;
-  label: string;
+  category: (typeof categoryMap)[keyof typeof categoryMap];
   onClick: () => void;
 };
 
-export function CategoryButton({ isClicked = true, label, onClick }: CategoryButtonProps) {
+export function CategoryButton({ isClicked = true, category, onClick }: CategoryButtonProps) {
   return (
     <div
       onClick={onClick}
@@ -34,7 +35,7 @@ export function CategoryButton({ isClicked = true, label, onClick }: CategoryBut
         `}
       >
         <Icon
-          icon="ic_human"
+          icon={isClicked ? category.icon_white : category.icon_color}
           size={4}
           color={isClicked ? "#f6f8fa" : "#6C9CFA"}
           css={css`
@@ -42,7 +43,7 @@ export function CategoryButton({ isClicked = true, label, onClick }: CategoryBut
           `}
         />
         <Spacing size={2} />
-        <div>{label}</div>
+        <div>{category.name}</div>
       </div>
     </div>
   );

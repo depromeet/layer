@@ -5,9 +5,10 @@ import { Fragment, useState } from "react";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Spacing } from "@/component/common/Spacing";
+import { CategoryButton } from "@/component/space";
+import { categoryMap } from "@/component/space/space.const";
 import { spaceState } from "@/store/space/spaceAtom";
 import { ProjectType, SpaceValue } from "@/types/space";
-import { CategoryButton } from "@/component/space";
 
 export function Category({ onNext }: { onNext: (typeValues: Pick<SpaceValue, "category">) => void }) {
   const { category } = useAtomValue(spaceState);
@@ -28,12 +29,16 @@ export function Category({ onNext }: { onNext: (typeValues: Pick<SpaceValue, "ca
         `}
       >
         <CategoryButton
-          label="개인 프로젝트"
+          category={categoryMap[ProjectType.Individual]}
           onClick={() => handleButtonClick(ProjectType.Individual)}
           isClicked={selectedCategory === ProjectType.Individual}
         />
         <Spacing size={0.8} direction="horizontal" />
-        <CategoryButton label="팀 프로젝트" onClick={() => handleButtonClick(ProjectType.Team)} isClicked={selectedCategory === ProjectType.Team} />
+        <CategoryButton
+          category={categoryMap[ProjectType.Team]}
+          onClick={() => handleButtonClick(ProjectType.Team)}
+          isClicked={selectedCategory === ProjectType.Team}
+        />
       </div>
       <ButtonProvider>
         <ButtonProvider.Primary
