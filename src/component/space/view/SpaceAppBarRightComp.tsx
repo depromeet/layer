@@ -1,6 +1,6 @@
-import { css, keyframes } from "@emotion/react";
+import { css } from "@emotion/react";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
@@ -53,7 +53,9 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible 
         `}
       >
         <div css={{ position: "relative" }}>
-          <Icon icon="ic_plus" color="white" size={1.8} />
+          <Link to="/retrospect/new">
+            <Icon icon="ic_plus" color="white" size={1.8} />
+          </Link>
           {isTooltipVisible && (
             <div
               css={css`

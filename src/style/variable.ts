@@ -159,7 +159,7 @@ export const DESIGN_SYSTEM_COLOR = {
   grey200: "#e5e8eb",
   grey300: "#d1d6db",
   grey400: "#b0b8c1",
-  grey500: "#8b95a1",
+  grey500: "rgba(169, 175, 187, 1)",
   grey600: "#6b7684",
   grey700: "#4e5968",
   grey800: "#333d4b",
