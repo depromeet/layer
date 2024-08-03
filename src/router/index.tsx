@@ -12,7 +12,9 @@ import MainPage from "@/app/MainPage.tsx"; /* FIXME - 실제 메인 페이지 �
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
 import { CreateDonePage } from "@/app/space/CreateDonePage";
+import { CreateNextPage } from "@/app/space/CreateNextPage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
+import { JoinSpacePage } from "@/app/space/JoinSpacePage";
 import Staging from "@/app/test/Staging.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
@@ -48,9 +50,19 @@ const routerChildren: RouteChildren[] = [
     auth: true,
   },
   {
-    path: "/space/create/done",
+    path: "/space/create/done/:id",
     element: <CreateDonePage />,
     auth: true,
+  },
+  {
+    path: "/space/create/next/:id",
+    element: <CreateNextPage />,
+    auth: true,
+  },
+  {
+    path: "/space/join/:id",
+    element: <JoinSpacePage />,
+    auth: false,
   },
   {
     path: "/home",
