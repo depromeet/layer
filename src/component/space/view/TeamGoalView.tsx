@@ -33,10 +33,27 @@ export function TeamGoalView() {
         </Typography>
       </div>
       <Spacing size={1.0} />
-      <Icon icon="ic_folder" size="5.7rem" />
-      <Spacing size={1.9} />
-      <Typography variant="CAPTION" color="darkGray">
-        회고 완료 후 실행목표를 설정해보세요.
+      <div
+        css={css`
+          width: 4rem;
+          height: 4rem;
+          background-color: ${DESIGN_SYSTEM_COLOR.grey200};
+          border-radius: 0.8rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        `}
+      >
+        <Icon
+          icon="ic_plus"
+          size="1.5rem"
+          color="rgba(169, 175, 187, 1);
+"
+        />
+      </div>
+      <Spacing size={1.6} />
+      <Typography variant="B2_MEDIUM" color="darkGray">
+        실행목표를 설정해보세요.
       </Typography>
     </div>
   );

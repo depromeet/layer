@@ -34,7 +34,7 @@ export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
   const navigate = useNavigate();
-  const [layerCount, setLayerCount] = useState<number | undefined>(0);
+  const [layerCount] = useState<number | undefined>(0);
   const [spaceInfo, setSpaceInfo] = useState<Space>();
   const [restrospectArr, setRestrospectArr] = useState<RestrospectType[] | undefined>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -48,8 +48,9 @@ export function SpaceViewPage() {
   useEffect(() => {
     if (getSpaceInfo.isSuccess && getRetrospects.isSuccess) {
       setSpaceInfo(getSpaceInfo.data);
-      setLayerCount(getRetrospects.data?.layerCount);
       setRestrospectArr(getRetrospects.data?.retrospects);
+      console.log(restrospectArr);
+      console.log(spaceInfo);
     } else if (getSpaceInfo.isError || getRetrospects.isError) {
       navigate(-1);
     }
@@ -76,11 +77,11 @@ export function SpaceViewPage() {
       theme="dark"
       height="6.4rem"
       title={spaceInfo?.name}
-      RightComp={<SpaceAppBarRightComp spaceId={spaceId} onDeleteClick={handleOpenModal} />} // 모달 열기 핸들러 전달
+      RightComp={<SpaceAppBarRightComp spaceId={spaceId} onDeleteClick={handleOpenModal} isTooltipVisible={restrospectArr?.length == 0} />}
     >
       <TeamGoalView />
       <Spacing size={1.1} />
-      <SpaceCountView memberCount={spaceInfo?.memberCount} layerCount={layerCount} />
+      <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
       <Spacing size={2.4} />
       <div
         css={css`
@@ -128,10 +129,9 @@ export function SpaceViewPage() {
             <Typography variant="B1_BOLD" color="darkGray">
               {doneRetrospects?.length}
             </Typography>
-            <Spacing size={1.6} />
           </div>
         )}
-
+        <Spacing size={1.6} />
         <div
           css={css`
             display: flex;
