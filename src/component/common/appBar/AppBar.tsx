@@ -13,7 +13,7 @@ export type AppBarProps = {
 };
 
 //FIXME: 색깔 디자인 토큰에 따라 변경
-function Back({ theme }: { theme: "dark" | "gray" | "default" }) {
+function Back({ theme }: { theme: "dark" | "gray" | "default" | "transparent" }) {
   const navigate = useNavigate();
   return (
     <Icon
