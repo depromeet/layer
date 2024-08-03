@@ -9,7 +9,7 @@ export { default as ic_earth_white } from "./ic_earth_white.svg?react";
 export { default as ic_education_color } from "./ic_education_color.svg?react";
 export { default as ic_education_white } from "./ic_education_white.svg?react";
 export { default as ic_flask_color } from "./ic_flask_color.svg?react";
-export { default as ic_flask_white } from "./ic_developement_white.svg?react";
+export { default as ic_flask_white } from "./ic_flask_white.svg?react";
 export { default as ic_human_color } from "./ic_human_color.svg?react";
 export { default as ic_human_white } from "./ic_human_white.svg?react";
 export { default as ic_irRegular_color } from "./ic_irRegular_color.svg?react";
