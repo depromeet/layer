@@ -10,14 +10,16 @@ export const Portal = ({ id, children }: Props) => {
   const el = document.getElementById(`${id}`) as HTMLElement;
 
   useEffect(() => {
-    if (children) {
-      document.body.style.overflow = "hidden";
-    }
+    if (id === "modal-root") {
+      if (children) {
+        document.body.style.overflow = "hidden";
+      }
 
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [children]);
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [id, children]);
 
   return createPortal(children, el);
 };
