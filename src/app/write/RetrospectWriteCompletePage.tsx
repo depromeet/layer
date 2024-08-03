@@ -3,7 +3,7 @@ import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { CompleteCheck, CompleteTitle } from "@/assets/imgs/template";
+import { CompleteCheck, CompleteIcon } from "@/assets/imgs/template";
 import confetti from "@/assets/lottie/template/confetti.json";
 import { HeaderProvider } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
@@ -131,7 +131,12 @@ export function RetrospectWriteCompletePage() {
             }
           `}
         >
-          <div id="card-1">
+          <div
+            id="card-1"
+            css={css`
+              position: relative;
+            `}
+          >
             <CompleteCheck
               css={css`
                 position: absolute;
@@ -141,16 +146,30 @@ export function RetrospectWriteCompletePage() {
                 height: auto;
               `}
             />
-            <CompleteTitle
+            <CompleteIcon
               css={css`
                 position: absolute;
-                top: 50%;
+                top: 45%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 width: 70%;
                 height: auto;
               `}
             />
+            <span
+              css={css`
+                color: white;
+                font-size: 2.2rem;
+                font-weight: 400;
+                position: absolute;
+                bottom: 8%;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+              `}
+            >
+              {userInfo ? userInfo.name : null}님의 회고
+            </span>
           </div>
           <div id="card-2"></div>
           <div id="card-3"></div>

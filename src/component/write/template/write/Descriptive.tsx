@@ -26,6 +26,10 @@ export function WDescriptiveTemplate({ answer, onChange }: DescriptiveTemplatePr
           height: 41.8rem;
           overflow-y: auto;
           white-space: pre-line;
+
+          &::placeholder {
+            color: #a9afbb;
+          }
         `}
         value={answer || ""}
         onChange={onChange}

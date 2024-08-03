@@ -18,6 +18,7 @@ export function ResultContainer({ question, children, ...props }: PropsWithChild
         box-shadow: 0 3.886px 11.657px 0 rgba(33, 37, 41, 0.04);
         font-size: 1.6rem;
         color: #212529;
+        background: white;
       `}
       {...props}
     >
