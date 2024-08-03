@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { ButtonProvider } from "@/component/common/button";
@@ -14,13 +13,7 @@ import { ProjectType } from "@/types/space";
 export function CreateNextPage() {
   const navigate = useNavigate();
   const { spaceId } = useLocation().state as { spaceId: string };
-  const { data, error, isError } = useApiGetSpace(spaceId);
-
-  useEffect(() => {
-    if (isError) {
-      console.log(error);
-    }
-  }, [error, isError]);
+  const { data } = useApiGetSpace(spaceId);
 
   if (!data) return null;
 
