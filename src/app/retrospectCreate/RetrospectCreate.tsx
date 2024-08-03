@@ -52,7 +52,7 @@ export function RetrospectCreate() {
   const steps = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
 
   const handleSubmit = () => {
-    const questionsWithRequired = retroCreateData.questions.concat(REQUIRED_QUESTIONS);
+    const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
     postRetrospectCreate.mutate({
       spaceId,
       body: { ...retroCreateData, questions: questionsWithRequired },
