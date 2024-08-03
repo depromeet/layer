@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useAtom, useSetAtom } from "jotai";
+import { useContext, useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 
 import { REQUIRED_QUESTIONS } from "./questions.const";
@@ -15,6 +15,7 @@ import { QuestionList, QuestionListItem } from "@/component/common/list";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { AddQuestionsBottomSheet } from "@/component/retrospectCreate";
+import { TemplateContext } from "@/component/retrospectCreate/steps/CustomTemplate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
@@ -28,14 +29,19 @@ type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "
 export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const { questions: originalQuestions } = useContext(TemplateContext);
   const questions = retroCreateData.questions;
-  const [_, setIsQuestionEdited] = useAtom(isQuestionEditedAtom);
+  const setIsQuestionEdited = useSetAtom(isQuestionEditedAtom);
   const [newQuestions, setNewQuestions] = useState<Questions>(questions);
 
   const [showDelete, setShowDelete] = useState(false);
 
   const handleDeleteItem = (targetIndex: number) => {
     setNewQuestions((prev) => prev.filter((_, i) => i !== targetIndex));
+  };
+
+  const handleDeleteConfirm = () => {
+    setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
   };
 
   const handleQuestionInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -50,11 +56,9 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   };
 
   const handleDataSave = () => {
-    if (JSON.stringify(newQuestions) !== JSON.stringify(questions)) {
-      setIsQuestionEdited(true);
-      setRetroCreateData((prev) => ({ ...prev, isNewForm: true }));
-    }
-    setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
+    const isEdited = JSON.stringify(newQuestions) !== JSON.stringify(originalQuestions);
+    setIsQuestionEdited(isEdited);
+    setRetroCreateData((prev) => ({ ...prev, isNewForm: isEdited, questions: newQuestions }));
     goNext();
   };
 
@@ -82,11 +86,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         padding: 0 2rem;
       `}
     >
-      <AppBar
-        theme="default"
-        LeftComp={<Icon icon={"ic_quit"} onClick={goPrev} />}
-        RightComp={<ShowDeleteButton onClick={() => setShowDelete((s) => !s)} showDelete={showDelete} />}
-      />
+      <AppBar theme="default" LeftComp={<Icon icon={"ic_quit"} onClick={goPrev} />} />
       <Header title={"질문 리스트"} contents={`문항은 최대 ${MAX_QUESTIONS_COUNT}개까지 구성 가능해요`} />
       <div
         css={css`
@@ -115,9 +115,22 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
           gap: 1.2rem;
         `}
       >
-        <Typography variant="B2" color={"darkGray"}>
-          추가 질문
-        </Typography>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+          `}
+        >
+          <Typography variant="B2" color={"darkGray"}>
+            메인 질문
+          </Typography>
+          <ShowDeleteButton
+            onToggle={() => setShowDelete((s) => !s)}
+            onCancel={() => setShowDelete(false)}
+            showDelete={showDelete}
+            onDelete={handleDeleteConfirm}
+          />
+        </div>
         <DragDropContext onDragEnd={onDragEnd}>
           <Drop droppableId="droppable">
             <QuestionList>
@@ -188,13 +201,50 @@ function Control({ index, showDelete, handleDeleteItem }: ControlProps) {
   );
 }
 
-function ShowDeleteButton({ showDelete, onClick }: { showDelete: boolean; onClick: () => void }) {
+function ShowDeleteButton({
+  showDelete,
+  onToggle,
+  onCancel,
+  onDelete,
+}: {
+  showDelete: boolean;
+  onToggle: () => void;
+  onCancel: () => void;
+  onDelete: () => void;
+}) {
   return (
-    <button onClick={onClick}>
-      <Typography variant="B1" color={!showDelete ? "darkGray" : "dark"}>
-        {!showDelete ? "삭제" : "완료"}
-      </Typography>
-    </button>
+    <>
+      {!showDelete ? (
+        <button onClick={onToggle}>
+          <Typography variant="B1" color={"darkGray"}>
+            삭제
+          </Typography>
+        </button>
+      ) : (
+        <div
+          css={css`
+            display: flex;
+            gap: 1rem;
+          `}
+        >
+          <button onClick={onCancel}>
+            <Typography variant="B1" color={"darkGray"}>
+              취소
+            </Typography>
+          </button>
+          <button
+            onClick={() => {
+              onToggle();
+              onDelete();
+            }}
+          >
+            <Typography variant="B1" color={"dark"}>
+              완료
+            </Typography>
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 
