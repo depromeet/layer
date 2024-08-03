@@ -84,6 +84,17 @@ export const DESIGN_SYSTEM_TEXT = {
     lineHeight: "2.2rem",
     letterSpacing: "-2%",
   },
+  B2_SEMIBOLD: {
+    fontWeight: "SemiBold",
+    fontSize: "1.4rem",
+    letterSpacing: "-2%",
+  },
+  B2_MEDIUM: {
+    fontWeight: "Medium",
+    fontSize: "1.4rem",
+    lineHeight: "2.2rem",
+    letterSpacing: "-2%",
+  },
   B2: {
     fontWeight: "Regular",
     fontSize: "1.4rem",
@@ -93,7 +104,6 @@ export const DESIGN_SYSTEM_TEXT = {
   CAPTION: {
     fontWeight: "Regular",
     fontSize: "1.2rem",
-    lineHeight: "1.8rem",
     letterSpacing: "-2%",
   },
   OVERLINE: {
@@ -417,4 +427,5 @@ export const DESIGN_SYSTEM_COLOR = {
   darkThemeBackgroundLevel02: "#2c2c35",
   lightThemeHairlineBorder: "#e5e8eb",
   darkThemeHairlineBorder: "#3c3c47",
+  skyBlue: "#F0F4FE",
 } as const;
