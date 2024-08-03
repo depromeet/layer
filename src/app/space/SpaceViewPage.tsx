@@ -119,7 +119,7 @@ export function SpaceViewPage() {
             gap: 1rem;
           `}
         >
-          {doneRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />)}
+          {doneRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} spaceId={spaceId} />)}
         </div>
       </div>
       <button
