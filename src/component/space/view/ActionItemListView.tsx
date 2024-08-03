@@ -77,7 +77,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
       </div>
 
       <Spacing size={1.0} />
-      {teamActionList && teamActionList.length === 0 && (
+      {teamActionList && teamActionList.length !== 0 && (
         <>
           <div
             css={css`

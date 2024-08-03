@@ -25,7 +25,7 @@ const statusStyles = {
   },
 };
 
-export function RetrospectBox({ spaceId, retrospect }: { spaceId: string; retrospect: RestrospectBoxType }) {
+export function RetrospectBox({ spaceId, retrospect }: { spaceId: string | undefined; retrospect: RestrospectBoxType }) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const optionsRef = useRef<HTMLDivElement | null>(null);
   const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount } = retrospect;
