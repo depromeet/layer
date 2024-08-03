@@ -1,13 +1,12 @@
 import { css } from "@emotion/react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useState, useRef, useCallback } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { spaceFetch } from "@/api/Retrospect";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/home";
+import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 
 type ViewState = {
@@ -25,27 +24,7 @@ export function RetrospectViewPage() {
 
   const selectedView = viewState.find((view) => view.selected)?.viewName || "ALL";
 
-  const observer = useRef<IntersectionObserver | null>(null);
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ["spaces", selectedView],
-    queryFn: ({ pageParam = 0 }) => spaceFetch(pageParam, selectedView, 5),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => (lastPage.meta.hasNextPage ? lastPage.meta.cursor : undefined),
-  });
-
-  const lastElementRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver(async (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          await fetchNextPage();
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [fetchNextPage, hasNextPage, isFetchingNextPage],
-  );
+  const { data, lastElementRef } = useApiGetSpaceList(selectedView);
 
   const goMakeReview = () => {
     navigate("/space/create");
