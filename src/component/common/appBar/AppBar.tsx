@@ -50,9 +50,12 @@ export function AppBar({ title, theme = "default", height = "4.8rem", LeftComp =
         {LeftComp}
         <div
           css={css`
-            position: relative;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 1.8rem;
             color: ${theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.black};
+            text-align: center;
           `}
         >
           {title}
