@@ -9,8 +9,8 @@ import { QuestionList, QuestionListItem } from "@/component/common/list";
 import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
+import { TemplateContext } from "@/component/retrospectCreate/steps/CustomTemplate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { TemplateContext } from "../steps/CustomTemplate";
 
 type ConfirmDefaultTemplateProps = {
   title: string;
