@@ -46,7 +46,7 @@ export const ButtonProvider = ({ sort = "vertical", children, onlyContainerStyle
 
           padding: 4rem 0 2rem 0;
           margin-top: auto;
-          z-index: 10001;
+          z-index: 10000;
         `,
         onlyContainerStyle,
       ]}
