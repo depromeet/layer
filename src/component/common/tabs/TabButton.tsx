@@ -10,7 +10,7 @@ export function TabButton<T extends string>({ tab, curTab, selectTab }: TabProps
     <button
       onClick={() => selectTab(tab)}
       css={css`
-        width: 50%;
+        flex-grow: 1;
         color: ${tab === curTab ? DESIGN_SYSTEM_COLOR.dark : DESIGN_SYSTEM_COLOR.lightGrey};
         padding: 1rem;
         border-bottom: ${tab === curTab ? `0.2rem solid ${DESIGN_SYSTEM_COLOR.dark}` : "none"};
