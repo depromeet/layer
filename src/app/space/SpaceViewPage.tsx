@@ -1,9 +1,8 @@
 import { css } from "@emotion/react";
+import { useQueries } from "@tanstack/react-query";
 import { Fragment, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { spaceRestrospectFetch, spaceInfoFetch } from "@/api/Retrospect";
-import { retrospectDelete } from "@/api/space";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Icon } from "@/component/common/Icon";
 import { MidModal } from "@/component/common/Modal/MidModal";
@@ -13,8 +12,10 @@ import { Typography } from "@/component/common/typography";
 import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet } from "@/component/space";
 import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceAppBarRightComp } from "@/component/space/view/SpaceAppBarRightComp";
+import { useGetSpaceAndRetrospect } from "@/hooks/api/retrospect/useSpaceRetrospects";
+import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
+import { useApiGetSpaceInfo } from "@/hooks/api/space/useApiGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
-import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { Space } from "@/types/spaceType";
@@ -33,47 +34,32 @@ export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
   const navigate = useNavigate();
-  const [layerCount, setLayerCount] = useState<number>(0);
+  const [layerCount, setLayerCount] = useState<number | undefined>(0);
   const [spaceInfo, setSpaceInfo] = useState<Space>();
-  const [restrospectArr, setRestrospectArr] = useState<RestrospectType[]>([]);
+  const [restrospectArr, setRestrospectArr] = useState<RestrospectType[] | undefined>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { toast } = useToast();
+
+  const { mutate: deleteSpace } = useApiDeleteSpace();
+
+  const [getRetrospects, getSpaceInfo] = useQueries({
+    queries: [useGetSpaceAndRetrospect(spaceId), useApiGetSpaceInfo(spaceId)],
+  });
 
   useEffect(() => {
-    if (spaceId) {
-      spaceInfoFetch(Number(spaceId))
-        .then((response) => {
-          setSpaceInfo(response);
-        })
-        .catch((error) => {
-          console.error(error);
-          navigate(-1);
-        });
-
-      spaceRestrospectFetch(Number(spaceId))
-        .then(({ layerCount, retrospects }) => {
-          setLayerCount(layerCount);
-          setRestrospectArr(retrospects);
-        })
-        .catch((error) => {
-          console.error(error);
-          navigate(-1);
-        });
+    if (getSpaceInfo.isSuccess && getRetrospects.isSuccess) {
+      setSpaceInfo(getSpaceInfo.data);
+      setLayerCount(getRetrospects.data?.layerCount);
+      setRestrospectArr(getRetrospects.data?.retrospects);
+    } else if (getSpaceInfo.isError || getRetrospects.isError) {
+      navigate(-1);
     }
-  }, [spaceId]);
+  }, [getRetrospects, getSpaceInfo, navigate]);
 
-  const proceedingRetrospects = restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING");
-  const doneRetrospects = restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "DONE");
+  const proceedingRetrospects = restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING");
+  const doneRetrospects = restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "DONE");
 
-  const handleDeleteFun = async () => {
-    await retrospectDelete(spaceId)
-      .then(() => {
-        navigate("/home/retrospect");
-      })
-      .catch((err) => {
-        console.error("삭제 실패:", err);
-        toast.error("스페이스 삭제에 실패하였습니다.");
-      });
+  const handleDeleteFun = () => {
+    deleteSpace(spaceId as string);
     setIsModalVisible(false);
   };
 
@@ -113,11 +99,11 @@ export function SpaceViewPage() {
         >
           <Typography variant="B1_BOLD">진행중인 회고</Typography>
           <Typography variant="B1_BOLD" color="darkGray">
-            {proceedingRetrospects.length}
+            {proceedingRetrospects?.length}
           </Typography>
         </div>
         <Spacing size={1.6} />
-        {!proceedingRetrospects.length && !doneRetrospects.length && <EmptyRetrospect />}
+        {!proceedingRetrospects?.length && !doneRetrospects?.length && <EmptyRetrospect />}
 
         <div
           css={css`
@@ -126,14 +112,12 @@ export function SpaceViewPage() {
             gap: 1rem;
           `}
         >
-          {proceedingRetrospects.map((retrospect) => (
-            <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />
-          ))}
+          {proceedingRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />)}
         </div>
 
         <Spacing size={2} />
 
-        {doneRetrospects.length !== 0 && (
+        {doneRetrospects?.length !== 0 && (
           <div
             css={css`
               display: flex;
@@ -142,7 +126,7 @@ export function SpaceViewPage() {
           >
             <Typography variant="B1_BOLD">완료된 회고</Typography>
             <Typography variant="B1_BOLD" color="darkGray">
-              {doneRetrospects.length}
+              {doneRetrospects?.length}
             </Typography>
             <Spacing size={1.6} />
           </div>
@@ -155,9 +139,7 @@ export function SpaceViewPage() {
             gap: 1rem;
           `}
         >
-          {doneRetrospects.map((retrospect) => (
-            <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />
-          ))}
+          {doneRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />)}
         </div>
       </div>
       <button

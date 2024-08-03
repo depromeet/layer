@@ -6,7 +6,7 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type SpaceCountViewProps = {
   memberCount: number | undefined;
-  layerCount: number;
+  layerCount: number | undefined;
 };
 
 export function SpaceCountView({ memberCount, layerCount }: SpaceCountViewProps) {
