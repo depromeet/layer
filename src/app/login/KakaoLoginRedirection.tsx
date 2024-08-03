@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { loginKakao } from "@/api/login";
+import { PATHS } from "@/config/paths.ts";
 import { authAtom } from "@/store/auth/authAtom";
 import { LoginKakaoResult, AuthResponse } from "@/types/loginType";
 
@@ -36,7 +37,7 @@ export function KaKaoRedirection() {
       const { status, response } = data;
       if (status === 200) {
         setAuthResponse(response);
-        navigate("/home/retrospect");
+        navigate("/");
       } else if (status === 400) {
         navigate("/setnickname");
       } else {
