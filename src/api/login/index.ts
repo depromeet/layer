@@ -26,8 +26,8 @@ const getKakaoLoginResponse = async (code: string): Promise<KakaoLoginResponse |
     return response.data;
   } catch (err) {
     console.error("카카오 토큰 가져오기 실패", err);
-    return null;
   }
+  return null;
 };
 
 // 가지고 있는 토큰과 닉네임을 통해 회원가입을 진행하는 코드
@@ -80,11 +80,9 @@ export const loginKakao = async (code: string | null): Promise<LoginKakaoResult>
       }
     }
   } catch (error) {
-    return { status: 404, response: null };
-    // throw new Error("kakao Login failed");
+    return { status: 400, response: null };
   }
-
-  return { status: 400, response: null };
+  return { status: 404, response: null };
 };
 
 export const fetchMemberInfo = async (): Promise<MemberInfo> => {

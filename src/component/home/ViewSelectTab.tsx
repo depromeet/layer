@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { Dispatch, SetStateAction } from "react";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 import { Typography } from "@/component/common/typography";
 
@@ -47,36 +48,43 @@ export function ViewSelectTab({ viewState, setViewState }: ViewSelectTabProps) {
   return (
     <div
       css={css`
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-        width: 13.89rem;
-        height: 4rem;
+        width: 100%;
+        position: fixed;
+        background-color: ${DESIGN_SYSTEM_COLOR.themeBackground.gray};
       `}
     >
-      {viewState.map(({ viewName, selected }, i) => (
-        <button
-          key={i}
-          onClick={() => clickViewTab(i)}
-          css={css`
-            width: 3.93rem;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            position: relative;
-            white-space: nowrap;
-            margin-right: ${i < viewState.length - 1 ? "1.2rem" : "0"};
-          `}
-        >
-          <Typography variant="S2" color={selected ? "black" : "grey500"}>
-            {viewName}
-          </Typography>
-        </button>
-      ))}
-      <UnderBar position={selectedIndex} />
+      <div
+        css={css`
+          display: flex;
+          justify-content: space-between;
+          width: 13.89rem;
+          height: 4rem;
+        `}
+      >
+        {viewState.map(({ viewName, selected }, i) => (
+          <button
+            key={i}
+            onClick={() => clickViewTab(i)}
+            css={css`
+              width: 3.93rem;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              position: relative;
+              white-space: nowrap;
+              margin-right: ${i < viewState.length - 1 ? "1.2rem" : "0"};
+            `}
+          >
+            <Typography variant="S2" color={selected ? "black" : "grey500"}>
+              {viewName === "ALL" ? "전체" : viewName === "INDIVIDUAL" ? "개인" : "팀"}
+            </Typography>
+          </button>
+        ))}
+        <UnderBar position={selectedIndex} />
+      </div>
     </div>
   );
 }

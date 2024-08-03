@@ -9,17 +9,18 @@ export type TypographyProps = {
   variant?: keyof typeof DESIGN_SYSTEM_TEXT;
   color?: keyof typeof DESIGN_SYSTEM_COLOR;
   children: React.ReactNode;
+  style?: ReturnType<typeof css>;
 };
 
 // FIXME: 디자인 토큰에 따른 default 값 수정
-export function Typography({ as: Component = "span", variant = "B1", color = "black", children, ...props }: TypographyProps) {
+export function Typography({ as: Component = "span", variant = "B1", color = "black", style, children }: TypographyProps) {
   return (
     <Component
       css={css`
         ${DESIGN_SYSTEM_TEXT[variant]}
         color: ${DESIGN_SYSTEM_COLOR[color]};
+        ${style}
       `}
-      {...props}
     >
       {children}
     </Component>

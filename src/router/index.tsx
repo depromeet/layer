@@ -2,20 +2,20 @@ import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-d
 
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
-import { HomePage } from "@/app/home/HomePage";
 import { RetrospectViewPage } from "@/app/home/RetrospectViewPage";
 import { KaKaoRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
-import MainPage from "@/app/MainPage.tsx"; /* FIXME - 실제 메인 페이지 작성 후 대체해주세요. */
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
 import { CreateDonePage } from "@/app/space/CreateDonePage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
+import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 import Staging from "@/app/test/Staging.tsx";
 import { RetrospectWriteCompletePage } from "@/app/write/RetrospectWriteCompletePage.tsx";
 import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
+import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
 
 type RouteChildren = {
@@ -25,8 +25,22 @@ type RouteChildren = {
 const routerChildren: RouteChildren[] = [
   {
     path: "/",
-    element: <MainPage />,
-    auth: false,
+    element: <HomeLayout />,
+    children: [
+      {
+        path: "",
+        element: <RetrospectViewPage />,
+      },
+      {
+        path: "analysis",
+        element: <AnalysisViewPage />,
+      },
+      {
+        path: "goals",
+        element: <GoalViewPage />,
+      },
+    ],
+    auth: true,
   },
   {
     path: "/write",
@@ -61,6 +75,11 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/create/done",
     element: <CreateDonePage />,
+    auth: true,
+  },
+  {
+    path: "/space/:spaceId",
+    element: <SpaceViewPage />,
     auth: true,
   },
   {

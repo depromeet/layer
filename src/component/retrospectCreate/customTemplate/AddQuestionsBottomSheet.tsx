@@ -30,7 +30,7 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
     setRetroCreateData((prev) => ({
       ...prev,
       questions: [
-        ...JSON.parse(JSON.stringify(prev.questions)),
+        ...prev.questions,
         {
           questionType: "plain_text",
           questionContent: customQuestion,

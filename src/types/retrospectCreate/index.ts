@@ -1,4 +1,4 @@
-import { RetrospectType } from "../write";
+import { RetrospectType } from "@/types/write";
 
 export type MainInfo = {
   title: string;
@@ -15,4 +15,5 @@ export type RetrospectCreateReq = {
   isNewForm: boolean;
   formName?: string;
   formIntroduction?: string;
+  curFormId?: number;
 };
