@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
@@ -7,6 +7,8 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 
 export function RetrospectCreateComplete() {
   const navigate = useNavigate();
+  const locationState = useLocation().state as { spaceId: number; retrospectId: number };
+  const { spaceId, retrospectId } = locationState;
   return (
     <DefaultLayout>
       <Spacing size={2.9} />
@@ -15,7 +17,9 @@ export function RetrospectCreateComplete() {
         <ButtonProvider.Gray onClick={() => navigate(-1)}>끝내기</ButtonProvider.Gray>
         <ButtonProvider.Primary
           onClick={() => {
-            /**TODO - 해당 템플릿을 가지고 회고 작성 페이지로 이동 */
+            navigate("/write", {
+              state: { spaceId, retrospectId },
+            });
           }}
         >
           작성하기

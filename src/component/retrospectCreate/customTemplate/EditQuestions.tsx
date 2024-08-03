@@ -17,8 +17,9 @@ import { Typography } from "@/component/common/typography";
 import { AddQuestionsBottomSheet } from "@/component/retrospectCreate";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { isQuestionEditedAtom, questionsAtom } from "@/store/retrospect/retrospectCreate";
+import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { Questions } from "@/types/retrospectCreate";
 
 const MAX_QUESTIONS_COUNT = 10;
 
@@ -26,9 +27,10 @@ type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "
 
 export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
-  const [questions, setQuestions] = useAtom(questionsAtom);
+  const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const questions = retroCreateData.questions;
   const [_, setIsQuestionEdited] = useAtom(isQuestionEditedAtom);
-  const [newQuestions, setNewQuestions] = useState([...questions]);
+  const [newQuestions, setNewQuestions] = useState<Questions>(questions);
 
   const [showDelete, setShowDelete] = useState(false);
 
@@ -38,8 +40,11 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
 
   const handleQuestionInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     setNewQuestions((prev) => {
-      const newQuestions = [...prev];
-      newQuestions[index] = e.target.value;
+      const newQuestions: Questions = [...prev];
+      newQuestions[index] = {
+        questionType: "plain_text",
+        questionContent: e.target.value,
+      };
       return newQuestions;
     });
   };
@@ -47,8 +52,9 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const handleDataSave = () => {
     if (JSON.stringify(newQuestions) !== JSON.stringify(questions)) {
       setIsQuestionEdited(true);
+      setRetroCreateData((prev) => ({ ...prev, isNewForm: true }));
     }
-    setQuestions(newQuestions);
+    setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
     goNext();
   };
 
@@ -64,7 +70,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   };
 
   useEffect(() => {
-    setNewQuestions([...questions]);
+    setNewQuestions(questions);
   }, [questions]);
 
   return (
@@ -115,7 +121,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         <DragDropContext onDragEnd={onDragEnd}>
           <Drop droppableId="droppable">
             <QuestionList>
-              {newQuestions.map((question, index) => (
+              {newQuestions.map(({ questionContent: question }, index) => (
                 <Drag key={index} index={index} draggableId={index.toString()} isDragDisabled={showDelete}>
                   <QuestionListItem
                     key={index}
