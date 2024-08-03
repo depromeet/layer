@@ -49,7 +49,9 @@ export function CreateNextPage() {
         />
       </div>
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={() => navigate(PATHS.retrospectCreate(), { state: spaceId })}>회고 템플릿 추천 받기</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={() => navigate(PATHS.retrospectCreate(), { state: { spaceId } })}>
+          회고 템플릿 추천 받기
+        </ButtonProvider.Primary>
         <div css={laterTextStyles}>다음에 하기</div>
       </ButtonProvider>
     </DefaultLayout>
