@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export function NavigationBar() {
@@ -28,7 +29,7 @@ export function NavigationBar() {
         `}
       >
         <Link
-          to="retrospect"
+          to={PATHS.home()}
           css={css`
             width: 33%;
             display: flex;
@@ -38,14 +39,14 @@ export function NavigationBar() {
             text-decoration: none;
           `}
         >
-          <Icon icon="ic_home" size="2.4rem" color={getSelectedColor("/home/retrospect")} />
-          <Typography variant="OVERLINE" color={getSelectedColor("/home/retrospect")}>
+          <Icon icon="ic_home" size="2.4rem" color={getSelectedColor(PATHS.home())} />
+          <Typography variant="OVERLINE" color={getSelectedColor(PATHS.home())}>
             회고
           </Typography>
         </Link>
 
         <Link
-          to="goals"
+          to={PATHS.goals()}
           css={css`
             width: 33%;
             display: flex;
@@ -55,14 +56,14 @@ export function NavigationBar() {
             text-decoration: none;
           `}
         >
-          <Icon icon="ic_chart" size="2.4rem" color={getSelectedColor("/home/goals")} />
-          <Typography variant="OVERLINE" color={getSelectedColor("/home/goals")}>
+          <Icon icon="ic_chart" size="2.4rem" color={getSelectedColor(PATHS.goals())} />
+          <Typography variant="OVERLINE" color={getSelectedColor(PATHS.goals())}>
             실행 목표
           </Typography>
         </Link>
 
         <Link
-          to="analysis"
+          to={PATHS.analysis()}
           css={css`
             width: 33%;
             display: flex;
@@ -72,8 +73,8 @@ export function NavigationBar() {
             text-decoration: none;
           `}
         >
-          <Icon icon="ic_barChart" size="2.4rem" color={getSelectedColor("/home/analysis")} />
-          <Typography variant="OVERLINE" color={getSelectedColor("/home/analysis")}>
+          <Icon icon="ic_barChart" size="2.4rem" color={getSelectedColor(PATHS.analysis())} />
+          <Typography variant="OVERLINE" color={getSelectedColor(PATHS.analysis())}>
             분석
           </Typography>
         </Link>
