@@ -16,11 +16,6 @@ export function CreateNextPage() {
   const { spaceId } = useLocation().state as { spaceId: string };
   const { data, error, isError } = useApiGetSpace(spaceId);
 
-  useEffect(() => {
-    if (isError) {
-      console.log(error);
-    }
-  }, [error, isError]);
 
   if (!data) return null;
 
