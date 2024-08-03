@@ -59,7 +59,7 @@ export function CreateDonePage() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => navigate("/space/create")}
+          onClick={() => navigate(-1)}
         />
       }
     >

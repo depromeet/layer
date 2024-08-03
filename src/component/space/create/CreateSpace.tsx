@@ -88,22 +88,13 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
   };
 
   const handleBack = useCallback(() => {
-    spaceValue.step > 0 &&
-      setSpaceValue((prevValues) => ({
-        ...prevValues,
-        step: prevValues.step - 1,
-      }));
-  }, [setSpaceValue, spaceValue.step]);
-
-  // 뒤로 가기 감지
-  useEffect(() => {
-    history.pushState(null, "", location.href);
-    window.addEventListener("popstate", handleBack);
-
-    return () => {
-      window.removeEventListener("popstate", handleBack);
-    };
-  }, [handleBack]);
+    spaceValue.step > 0
+      ? setSpaceValue((prevValues) => ({
+          ...prevValues,
+          step: prevValues.step - 1,
+        }))
+      : navigate(-1);
+  }, [navigate, setSpaceValue, spaceValue.step]);
 
   return (
     <DefaultLayout
@@ -115,7 +106,7 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => navigate(-1)}
+          onClick={handleBack}
         />
       }
       theme={spaceValue.step === 0 ? "dark" : "default"}
