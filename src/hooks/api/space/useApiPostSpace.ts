@@ -7,12 +7,12 @@ import { spaceState } from "@/store/space/spaceAtom";
 import { SpaceValue } from "@/types/space";
 
 export const useApiPostSpace = () => {
-  const resetSpaceValue = useResetAtom(spaceState);
   const navigate = useNavigate();
+  const resetSpaceValue = useResetAtom(spaceState);
 
   const postSpace = async (formData: SpaceValue) => {
     const { imgUrl, category, field, name, introduction } = formData;
-    const res = await api.post(`/api/space`, {
+    const res = await api.post<{ spaceId: number }>(`/api/space`, {
       bannerUrl: imgUrl,
       category,
       fieldList: field,
@@ -24,8 +24,10 @@ export const useApiPostSpace = () => {
 
   return useMutation({
     mutationFn: (formData: SpaceValue) => postSpace(formData),
-    onSuccess: () => {
-      navigate("/space/create/done");
+    onSuccess: (data) => {
+      console.log(data);
+      const spaceId = data.data.spaceId;
+      navigate(`/space/create/done/${spaceId}`);
       resetSpaceValue();
     },
     onError: (error) => {
