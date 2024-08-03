@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 import { toastState } from "@/store/toast/toastAtom";
 import { ToastType } from "@/types/toast";
-import { getRandomID } from "@/util/etc";
+import { getRandomID } from "@/utils/etc";
 
 export const useToast = () => {
   const [toastDataState, setToastDataState] = useAtom(toastState);

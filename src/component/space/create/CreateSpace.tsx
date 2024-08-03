@@ -25,7 +25,6 @@ const LAST_PAGE = 4;
 export function CreateSpace({ onSubmit }: CreateSpaceProps) {
   const navigate = useNavigate();
   const [spaceValue, setSpaceValue] = useAtom(spaceState);
-
   useEffect(() => {
     if (spaceValue.step === LAST_PAGE + 1) {
       onSubmit({

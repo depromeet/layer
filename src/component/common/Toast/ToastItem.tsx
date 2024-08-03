@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/useToast";
 import { ANIMATION } from "@/style/common/animation";
 import { toastMap } from "@/style/common/toast";
 import { ToastType } from "@/types/toast";
-import { collapseToast } from "@/util/toast/collapseToast";
+import { collapseToast } from "@/utils/toast/collapseToast";
 
 export function ToastItem({ type, content, id, duration = 3000 }: ToastType) {
   const { removeToast } = useToast();

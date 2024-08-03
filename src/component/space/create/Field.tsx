@@ -38,7 +38,7 @@ export function Field({ onNext }: { onNext: (categoryValues: Pick<SpaceValue, "f
         `}
       >
         {fieldArr.map((item) => (
-          <FieldButton key={item} label={fieldMap[item]} onClick={() => handleButtonClick(item)} isChecked={checkedField.includes(item)} />
+          <FieldButton key={item} field={fieldMap[item]} onClick={() => handleButtonClick(item)} isChecked={checkedField.includes(item)} />
         ))}
       </div>
       <ButtonProvider>

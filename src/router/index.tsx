@@ -10,8 +10,9 @@ import { SetNickNamePage } from "@/app/login/SetNicknamePage";
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
 import { CreateDonePage } from "@/app/space/CreateDonePage";
+import { CreateNextPage } from "@/app/space/CreateNextPage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
-import { SpaceViewPage } from "@/app/space/SpaceViewPage";
+import { JoinSpacePage } from "@/app/space/JoinSpacePage";
 import Staging from "@/app/test/Staging.tsx";
 import { RetrospectWriteCompletePage } from "@/app/write/RetrospectWriteCompletePage.tsx";
 import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
@@ -79,28 +80,14 @@ const routerChildren: RouteChildren[] = [
     auth: true,
   },
   {
-    path: "/space/:spaceId",
-    element: <SpaceViewPage />,
+    path: "/space/create/next",
+    element: <CreateNextPage />,
     auth: true,
   },
   {
-    path: "/home",
-    element: <HomePage />,
-    auth: true,
-    children: [
-      {
-        path: "analysis",
-        element: <AnalysisViewPage />,
-      },
-      {
-        path: "goals",
-        element: <GoalViewPage />,
-      },
-      {
-        path: "retrospect",
-        element: <RetrospectViewPage />,
-      },
-    ],
+    path: "/space/join/:id",
+    element: <JoinSpacePage />,
+    auth: false,
   },
   { path: "/api/auth/oauth2/kakao", element: <KaKaoRedirection />, auth: false },
   {

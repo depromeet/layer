@@ -6,6 +6,7 @@ import ReactDOM from "react-dom/client";
 
 import { Routers } from "./router";
 
+import { Toast } from "@/component/common/Toast";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         {/* <DevTools /> */}
         <Routers />
+        <Toast />
       </QueryClientProvider>
     </Suspense>
   </React.StrictMode>,
