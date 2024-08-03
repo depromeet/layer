@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { ChangeEvent, Fragment, useContext, useState } from "react";
+import { ChangeEvent, Fragment, useContext, useEffect, useState } from "react";
 import { Beforeunload } from "react-beforeunload";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import { AdvanceQuestionsNum, PhaseContext } from "@/app/write/RetrospectWritePa
 import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { Portal } from "@/component/common/Portal";
 import { ItemsButton } from "@/component/write/ItemsButton";
 import { EntireListModal } from "@/component/write/modal/EntireListModal";
@@ -15,35 +16,51 @@ import { Confirm } from "@/component/write/phase/Confirm";
 import { WAchievementTemplate } from "@/component/write/template/write/Achievement";
 import { WDescriptiveTemplate } from "@/component/write/template/write/Descriptive";
 import { WSatisfactionTemplate } from "@/component/write/template/write/Satisfaction";
+import { useGetTemporaryQuestions } from "@/hooks/api/write/useGetTemporaryQuestions.ts";
+import { useWriteQuestions } from "@/hooks/api/write/useWriteQuestions.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
 export type Answer = {
   questionId: number;
   questionType: string;
-  answer: string;
+  answerContent: string;
 };
 
 export function Write() {
-  const navigate = useNavigate();
-  const { data, incrementPhase, decrementPhase, phase, movePhase } = useContext(PhaseContext);
-  const [answers, setAnswers] = useState<Answer[]>(
-    data.questions.map((question) => ({
-      questionId: question.order,
-      questionType: question.questionType,
-      answer: "",
-    })),
-  );
+  const { data, incrementPhase, decrementPhase, phase, movePhase, spaceId, retrospectId } = useContext(PhaseContext);
   const [satisfyIdx, setSatistfyIdx] = useState(-1);
   const [archievementIdx, setArchievementIdx] = useState(-1);
   const [isEntireModalOpen, setEntireModalOpen] = useState(false);
   const [isTemporarySaveModalOpen, setTemporarySaveModalOpen] = useState(false);
   const [isAnswerFilled, setIsAnswerFilled] = useState(false);
   const isComplete = data?.questions.length === phase;
+  const navigate = useNavigate();
+  const { mutate, isPending } = useWriteQuestions();
+  const { data: temporaryData, isLoading, isSuccess } = useGetTemporaryQuestions({ spaceId: spaceId, retrospectId: retrospectId });
+  const [answers, setAnswers] = useState<Answer[]>(
+    data.questions.map((question) => ({
+      questionId: question.questionId,
+      questionType: question.questionType,
+      answerContent: "",
+    })),
+  );
+
+  useEffect(() => {
+    if (isSuccess && temporaryData) {
+      setAnswers(
+        temporaryData.answers.map((question) => ({
+          questionId: question.questionId,
+          questionType: question.questionType,
+          answerContent: question.answerContent,
+        })),
+      );
+    }
+  }, [isLoading, isSuccess]);
 
   const updateAnswer = (questionId: number, newValue: string) => {
     setAnswers((prevAnswers) => {
-      const updatedAnswers = prevAnswers.map((answer) => (answer.questionId === questionId ? { ...answer, answer: newValue } : answer));
-      const allFilled = updatedAnswers.every((answer) => answer.answer !== "");
+      const updatedAnswers = prevAnswers.map((answer, index) => (index === questionId ? { ...answer, answerContent: newValue } : answer));
+      const allFilled = updatedAnswers.every((answer) => answer.answerContent !== "");
       setIsAnswerFilled(allFilled);
       return updatedAnswers;
     });
@@ -70,16 +87,13 @@ export function Write() {
     }
   };
 
-  // FIXME: 모달 컴포넌트 개발하기
-  // useEffect(() => {
-  //   console.log(answers);
-  // }, [phase]);
-
   return (
     <Fragment>
+      {isLoading && <LoadingModal />}
+      {isPending && <LoadingModal purpose={"데이터를 저장하고 있어요"} />}
       {isEntireModalOpen && (
         <Portal id="modal-root">
-          <EntireListModal listData={data.questions} onClose={() => handleModalClose("entire")} />
+          <EntireListModal onClose={() => handleModalClose("entire")} />
         </Portal>
       )}
       {isTemporarySaveModalOpen && (
@@ -87,9 +101,20 @@ export function Write() {
           <TemporarySaveModal
             title={"회고 작성을 멈출까요?"}
             content={"작성중인 회고는 임시저장 되어요"}
-            listData={data.questions}
-            confirm={() => handleModalClose("temporary-save")}
-            quit={() => handleModalClose("temporary-save")}
+            confirm={() => {
+              mutate(
+                { data: answers, isTemporarySave: true, spaceId: spaceId, retrospectId: retrospectId },
+                {
+                  onSuccess: () => {
+                    handleModalClose("temporary-save");
+                    navigate("/home");
+                  },
+                },
+              );
+            }}
+            quit={() => {
+              handleModalClose("temporary-save");
+            }}
           />
         </Portal>
       )}
@@ -100,10 +125,11 @@ export function Write() {
           isComplete ? (
             <span
               css={css`
-                color: rgba(33, 37, 41, 0.7);
+                color: #6c9cfa;
                 font-size: 1.6rem;
+                cursor: pointer;
               `}
-              onClick={() => movePhase(data.questions.length)}
+              onClick={() => movePhase(0)}
             >
               답변수정
             </span>
@@ -192,7 +218,7 @@ export function Write() {
                         <Fragment>
                           <HeaderProvider>
                             <HeaderProvider.Description
-                              contents={`{${phase - (AdvanceQuestionsNum - 1)}}/${data.questions.length - AdvanceQuestionsNum}`}
+                              contents={`{${item.order - (AdvanceQuestionsNum - 1)}}/${data.questions.length - AdvanceQuestionsNum}`}
                               css={css`
                                 color: #7e7c7c;
                                 font-weight: 500;
@@ -206,9 +232,12 @@ export function Write() {
                             />
                             <HeaderProvider.Subject contents={item.question} />
                           </HeaderProvider>
-                          <WDescriptiveTemplate answer={answers[item.questionId].answer} onChange={(e) => handleChange(e)} />
+                          <WDescriptiveTemplate answer={answers[item.order].answerContent} onChange={(e) => handleChange(e)} />
                         </Fragment>
                       ),
+                      combobox: null,
+                      card: null,
+                      markdown: null,
                     }[item.questionType]
                   }
                 </Fragment>
@@ -234,8 +263,25 @@ export function Write() {
 
         <ButtonProvider sort={"horizontal"}>
           {isComplete ? (
-            <Button colorSchema={"primary"} onClick={() => navigate("/write/complete")}>
-              완료
+            <Button
+              colorSchema={"primary"}
+              onClick={() =>
+                mutate(
+                  { data: answers, isTemporarySave: false, spaceId: spaceId, retrospectId: retrospectId },
+                  {
+                    onSuccess: () => {
+                      navigate("/write/complete", {
+                        state: {
+                          spaceId: spaceId,
+                          retrospectId: retrospectId,
+                        },
+                      });
+                    },
+                  },
+                )
+              }
+            >
+              저장하기
             </Button>
           ) : (
             <Fragment>

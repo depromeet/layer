@@ -1,12 +1,11 @@
 import { css } from "@emotion/react";
 import { useContext, useRef } from "react";
 
-import { AdvanceQuestionsNum, PhaseContext, QuestionData } from "@/app/write/RetrospectWritePage.tsx";
+import { AdvanceQuestionsNum, PhaseContext } from "@/app/write/RetrospectWritePage.tsx";
 import { Icon } from "@/component/common/Icon";
 import { ANIMATION } from "@/style/common/animation.ts";
 
 type EntireListProps = {
-  listData: QuestionData[];
   onClose: () => void;
 };
 

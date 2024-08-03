@@ -118,6 +118,7 @@ export const DESIGN_SYSTEM_COLOR = {
   themeBackground: {
     dark: "#212529",
     gray: "#F6F8FA",
+    transparent: "transparent",
     default: "#FFFFFF",
   },
   dark: "#212529",

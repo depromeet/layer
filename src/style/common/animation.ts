@@ -26,6 +26,16 @@ export const ANIMATION = {
     to {
         opacity: 1;
     }`,
+  ZOOM_IN: keyframes`
+    0% {
+      opacity: 0.3;
+      transform: scale(0.95);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  `,
 
   FADE_UP: keyframes`
       0% {

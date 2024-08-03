@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-dom";
 
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
@@ -19,6 +18,7 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
+import {HomePage} from "@/app/home/HomePage.tsx";
 
 type RouteChildren = {
   auth: boolean;
@@ -117,7 +117,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <GlobalLayout />,
-    errorElement: <Fragment />,
     children: browserRouter,
   },
 ]);

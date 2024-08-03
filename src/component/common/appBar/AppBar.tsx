@@ -6,14 +6,14 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export type AppBarProps = {
   title?: React.ReactNode;
-  theme?: "dark" | "gray" | "default";
+  theme?: "dark" | "gray" | "transparent" | "default";
   height?: string;
   LeftComp?: React.ReactNode;
   RightComp?: React.ReactNode;
 };
 
 //FIXME: 색깔 디자인 토큰에 따라 변경
-function Back({ theme }: { theme: "dark" | "gray" | "default" }) {
+function Back({ theme }: { theme: "dark" | "gray" | "default" | "transparent" }) {
   const navigate = useNavigate();
   return (
     <Icon

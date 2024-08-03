@@ -1,13 +1,11 @@
 import { css } from "@emotion/react";
 import { useRef } from "react";
 
-import { QuestionData } from "@/app/write/RetrospectWritePage.tsx";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";
 import { ANIMATION } from "@/style/common/animation.ts";
 
 type EntireListProps = {
-  listData: QuestionData[];
   confirm: () => void;
   quit: () => void;
   title: string;
@@ -32,7 +30,7 @@ export function TemporarySaveModal({ confirm, quit, title = "회고 작성을 �
         justify-content: center;
         text-align: center;
         box-sizing: border-box;
-        z-index: 99999;
+        z-index: 10001;
       `}
       ref={containerRef}
       onClick={(e) => {

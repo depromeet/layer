@@ -33,7 +33,7 @@ export function QuestionItem({ index, contents }: QuestionItemProps) {
         `}
         id="questions-index"
       >
-        {index <= AdvanceQuestionsNum ? <Icon icon={"ic_essential_star"} size={1.3} /> : index}
+        {index <= AdvanceQuestionsNum ? <Icon icon={"ic_essential_star"} size={1.3} /> : index - 2}
       </div>
       <div
         css={css`
