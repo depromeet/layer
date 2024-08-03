@@ -1,14 +1,54 @@
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { ButtonProvider } from "@/component/common/button";
+import MessImage from "@/assets/imgs/mess.png";
+import { ButtonProvider, IconButton } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
+import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { ProjectType } from "@/types/space";
+import { shareKakao } from "@/utils/kakao/sharedKakaoLink";
 
 export function CreateDonePage() {
   const navigate = useNavigate();
+  const { id } = useParams() as { id: string };
+  const { data } = useApiGetSpace(id);
+  const [animate, setAnimate] = useState(data?.category === ProjectType.Individual);
+  const { toast } = useToast();
+  const spaceId = window.btoa(id);
+
+  useEffect(() => {
+    if (data && data.category === ProjectType.Team) {
+      const timer = setTimeout(() => {
+        setAnimate(true);
+      }, 3000);
+      return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
+    }
+  }, [data]);
+
+  const handleShareKakao = () => {
+    shareKakao(
+      `${window.location.protocol}//${window.location.host}/space/join/${spaceId}`,
+      `${"이동훈"} 님이 스페이스에 초대했습니다.`,
+      "어서오세용~!!",
+    );
+  };
+
+  const handleCopyClipBoard = async () => {
+    try {
+      await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${spaceId}`);
+      toast.success("복사 성공!!");
+      navigate("/space/create");
+    } catch (e) {
+      alert("failed");
+    }
+  };
+
+  if (!data) return null; // FIXME: 로딩화면
 
   return (
     <DefaultLayout
@@ -24,26 +64,78 @@ export function CreateDonePage() {
       }
     >
       <Spacing size={2.4} />
-      <Typography variant="S3" color="grey400">
+      <span
+        css={css`
+          font-size: ${animate ? "1.6rem" : "2.4rem"};
+          font-weight: bold;
+          color: ${animate ? "#A9AFBB" : "#000000"};
+          transition: all 0.5s ease;
+          line-height: 3.2rem;
+        `}
+      >
         스페이스 생성 완료!
-      </Typography>
-      <Spacing size={0.6} />
-      <Typography variant="T4">{`어울리는 회고 템플릿을\n찾아볼까요?`}</Typography>
+      </span>
+      <Typography
+        variant="T4"
+        css={css`
+          opacity: ${animate ? 1 : 0};
+          transition: all 0.5s ease;
+          white-space: pre-wrap;
+        `}
+      >{`어울리는 회고 템플릿을\n찾아볼까요?`}</Typography>
+      <Spacing size={4} />
+      <div
+        css={css`
+          text-align: center;
+          height: 27.6rem;
+        `}
+      >
+        <img
+          src={MessImage}
+          css={css`
+            width: ${animate ? "18rem" : "23rem"};
+            transition: all 0.5s ease;
+            height: auto;
+          `}
+        />
+      </div>
+      {data.category === ProjectType.Team && (
+        <Fragment>
+          <IconButton
+            onClick={handleShareKakao}
+            icon="ic_kakao"
+            css={css`
+              background-color: #ffe400;
+              color: #000000;
+              opacity: ${animate ? 1 : 0};
+              transition: all 0.5s ease;
+            `}
+          >
+            카카오톡 전달
+          </IconButton>
+          <Spacing size={0.8} />
+          <IconButton
+            onClick={handleCopyClipBoard}
+            icon="ic_copy"
+            css={css`
+              background-color: #f1f3f5;
+              color: #000000;
+              opacity: ${animate ? 1 : 0};
+              transition: all 0.5s ease;
+            `}
+          >
+            초대링크 복사
+          </IconButton>
+        </Fragment>
+      )}
       <ButtonProvider>
-        <ButtonProvider.Primary>회고 템플릿 추천 받기</ButtonProvider.Primary>
-        <div css={laterTextStyles}>다음에 하기</div>
+        <ButtonProvider.Primary
+          disabled={data?.category === ProjectType.Individual ? false : !animate}
+          onClick={() => navigate(`/space/create/next/${id}`)}
+        >
+          다음
+        </ButtonProvider.Primary>
       </ButtonProvider>
     </DefaultLayout>
   );
 }
-
-// 이름 바꾸기
-const laterTextStyles = css`
-  font-size: 1.6rem;
-  padding: 1.6rem 1.4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  font-weight: 500;
-`;
