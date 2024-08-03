@@ -15,6 +15,8 @@ import { Confirm } from "@/component/write/phase/Confirm";
 import { WAchievementTemplate } from "@/component/write/template/write/Achievement";
 import { WDescriptiveTemplate } from "@/component/write/template/write/Descriptive";
 import { WSatisfactionTemplate } from "@/component/write/template/write/Satisfaction";
+import { useGetTemporaryQuestions } from "@/hooks/write/useGetTemporaryQuestions.ts";
+import { useWriteQuestions } from "@/hooks/write/useWriteQuestions.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
 export type Answer = {
@@ -24,11 +26,10 @@ export type Answer = {
 };
 
 export function Write() {
-  const navigate = useNavigate();
   const { data, incrementPhase, decrementPhase, phase, movePhase } = useContext(PhaseContext);
   const [answers, setAnswers] = useState<Answer[]>(
     data.questions.map((question) => ({
-      questionId: question.order,
+      questionId: question.questionId,
       questionType: question.questionType,
       answer: "",
     })),
@@ -39,10 +40,14 @@ export function Write() {
   const [isTemporarySaveModalOpen, setTemporarySaveModalOpen] = useState(false);
   const [isAnswerFilled, setIsAnswerFilled] = useState(false);
   const isComplete = data?.questions.length === phase;
+  const { mutate } = useWriteQuestions();
+  const { data: temporaryData } = useGetTemporaryQuestions({ spaceId: 184, retrospectId: 16 });
+  console.log(temporaryData);
 
   const updateAnswer = (questionId: number, newValue: string) => {
     setAnswers((prevAnswers) => {
-      const updatedAnswers = prevAnswers.map((answer) => (answer.questionId === questionId ? { ...answer, answer: newValue } : answer));
+      console.log(answers, questionId, prevAnswers);
+      const updatedAnswers = prevAnswers.map((answer, index) => (index === questionId ? { ...answer, answer: newValue } : answer));
       const allFilled = updatedAnswers.every((answer) => answer.answer !== "");
       setIsAnswerFilled(allFilled);
       return updatedAnswers;
@@ -79,7 +84,7 @@ export function Write() {
     <Fragment>
       {isEntireModalOpen && (
         <Portal id="modal-root">
-          <EntireListModal listData={data.questions} onClose={() => handleModalClose("entire")} />
+          <EntireListModal onClose={() => handleModalClose("entire")} />
         </Portal>
       )}
       {isTemporarySaveModalOpen && (
@@ -87,7 +92,6 @@ export function Write() {
           <TemporarySaveModal
             title={"회고 작성을 멈출까요?"}
             content={"작성중인 회고는 임시저장 되어요"}
-            listData={data.questions}
             confirm={() => handleModalClose("temporary-save")}
             quit={() => handleModalClose("temporary-save")}
           />
@@ -100,10 +104,11 @@ export function Write() {
           isComplete ? (
             <span
               css={css`
-                color: rgba(33, 37, 41, 0.7);
+                color: #6c9cfa;
                 font-size: 1.6rem;
+                cursor: pointer;
               `}
-              onClick={() => movePhase(data.questions.length)}
+              onClick={() => movePhase(0)}
             >
               답변수정
             </span>
@@ -192,7 +197,7 @@ export function Write() {
                         <Fragment>
                           <HeaderProvider>
                             <HeaderProvider.Description
-                              contents={`{${phase - (AdvanceQuestionsNum - 1)}}/${data.questions.length - AdvanceQuestionsNum}`}
+                              contents={`{${item.order - (AdvanceQuestionsNum - 1)}}/${data.questions.length - AdvanceQuestionsNum}`}
                               css={css`
                                 color: #7e7c7c;
                                 font-weight: 500;
@@ -206,9 +211,12 @@ export function Write() {
                             />
                             <HeaderProvider.Subject contents={item.question} />
                           </HeaderProvider>
-                          <WDescriptiveTemplate answer={answers[item.questionId].answer} onChange={(e) => handleChange(e)} />
+                          <WDescriptiveTemplate answer={answers[item.order].answer} onChange={(e) => handleChange(e)} />
                         </Fragment>
                       ),
+                      combobox: null,
+                      card: null,
+                      markdown: null,
                     }[item.questionType]
                   }
                 </Fragment>
@@ -234,8 +242,8 @@ export function Write() {
 
         <ButtonProvider sort={"horizontal"}>
           {isComplete ? (
-            <Button colorSchema={"primary"} onClick={() => navigate("/write/complete")}>
-              완료
+            <Button colorSchema={"primary"} onClick={() => mutate({ data: answers, isTemporarySave: true, spaceId: 184, retrospectId: 16 })}>
+              저장하기
             </Button>
           ) : (
             <Fragment>

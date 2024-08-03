@@ -18,7 +18,7 @@ export function Prepare() {
 
   return (
     <DefaultLayout theme={"dark"} LeftComp={<Icon icon={"ic_back_white"} />}>
-      <Header title={`회고를\n작성해볼까요?`} contents={`총 ${data.questions.length}개의 질문으로 구성되어있어요`} theme={"white"} />
+      <Header title={`회고를\n작성해볼까요?`} contents={`총 ${data ? data.questions.length : 0}개의 질문으로 구성되어있어요`} theme={"white"} />
       <div
         id="container"
         css={css`
@@ -78,7 +78,7 @@ export function Prepare() {
           >
             {data?.questions.map((item) => {
               return (
-                <SwiperSlide key={item.order + 1}>
+                <SwiperSlide key={item.order}>
                   <QuestionItem index={item.order + 1} contents={item.question} />
                 </SwiperSlide>
               );

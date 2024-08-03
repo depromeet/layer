@@ -19,9 +19,12 @@ export function Confirm({ answers }: CompleteProps) {
           <Fragment key={item.order}>
             {
               {
-                number: <CSatisfactionTemplate question={item.question} index={parseInt(answers[item.questionId].answer)} />,
-                range: <CAchievementTemplate question={item.question} index={parseInt(answers[item.questionId].answer)} />,
-                plain_text: <CDescriptiveTemplate question={item.question} answer={answers[item.questionId].answer} />,
+                number: <CSatisfactionTemplate question={item.question} index={parseInt(answers[item.order].answer)} />,
+                range: <CAchievementTemplate question={item.question} index={parseInt(answers[item.order].answer)} />,
+                plain_text: <CDescriptiveTemplate question={item.question} answer={answers[item.order].answer} />,
+                combobox: null,
+                card: null,
+                markdown: null,
               }[item.questionType]
             }
           </Fragment>

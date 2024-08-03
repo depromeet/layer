@@ -6,7 +6,7 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export type AppBarProps = {
   title?: React.ReactNode;
-  theme?: "dark" | "gray" | "default";
+  theme?: "dark" | "gray" | "transparent" | "default";
   height?: string;
   LeftComp?: React.ReactNode;
   RightComp?: React.ReactNode;
