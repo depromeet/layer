@@ -26,7 +26,7 @@ export function CreateNextPage() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => navigate("/space/create")}
+          onClick={() => navigate(-1)}
         />
       }
     >
