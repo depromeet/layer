@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
 import { useResetAtom } from "jotai/utils";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +10,7 @@ export const useApiPostSpace = () => {
   const navigate = useNavigate();
   const resetSpaceValue = useResetAtom(spaceState);
 
-  const postSpace = async (formData: SpaceValue): Promise<AxiosResponse<{ spaceId: number }>> => {
+  const postSpace = async (formData: SpaceValue) => {
     const { imgUrl, category, field, name, introduction } = formData;
     const res = await api.post<{ spaceId: number }>(`/api/space`, {
       bannerUrl: imgUrl,
@@ -20,15 +19,13 @@ export const useApiPostSpace = () => {
       name,
       introduction,
     });
-    return res;
+    return res.data;
   };
 
   return useMutation({
     mutationFn: (formData: SpaceValue) => postSpace(formData),
-    onSuccess: (data) => {
-      console.log(data);
-      const spaceId = data.data.spaceId;
-      navigate(`/space/create/done/${spaceId}`);
+    onSuccess: ({ spaceId }) => {
+      navigate(`/space/create/done`, { state: { spaceId } });
       resetSpaceValue();
     },
     onError: (error) => {

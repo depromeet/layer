@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { Fragment, useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import MessImage from "@/assets/imgs/mess.png";
 import { ButtonProvider, IconButton } from "@/component/common/button";

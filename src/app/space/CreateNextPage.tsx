@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import ClockImgage from "@/assets/imgs/clock.png";
 import { ButtonProvider } from "@/component/common/button";
