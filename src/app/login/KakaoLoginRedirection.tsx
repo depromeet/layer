@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { loginKakao } from "@/api/login";
-import { PATHS } from "@/config/paths.ts";
 import { authAtom } from "@/store/auth/authAtom";
 import { LoginKakaoResult, AuthResponse } from "@/types/loginType";
 
