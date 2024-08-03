@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRef, useCallback } from "react";
+
 import { api } from "@/api";
 import { Space } from "@/types/spaceType";
 
