@@ -100,8 +100,8 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
           필수 질문
         </Typography>
         <QuestionList>
-          {REQUIRED_QUESTIONS.map((question, index) => (
-            <QuestionListItem key={index} content={question} />
+          {REQUIRED_QUESTIONS.map(({ questionContent }, index) => (
+            <QuestionListItem key={index} content={questionContent} />
           ))}
         </QuestionList>
       </div>

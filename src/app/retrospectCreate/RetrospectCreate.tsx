@@ -7,6 +7,7 @@ import { Icon } from "@/component/common/Icon";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
+import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
@@ -51,9 +52,10 @@ export function RetrospectCreate() {
   const steps = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
 
   const handleSubmit = () => {
+    const questionsWithRequired = retroCreateData.questions.concat(REQUIRED_QUESTIONS);
     postRetrospectCreate.mutate({
       spaceId,
-      body: { ...retroCreateData },
+      body: { ...retroCreateData, questions: questionsWithRequired },
     });
   };
 
