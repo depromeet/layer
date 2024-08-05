@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { CompleteCheck, CompleteIcon } from "@/assets/imgs/template";
 import confetti from "@/assets/lottie/template/confetti.json";
+import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
@@ -61,7 +62,6 @@ export function RetrospectWriteCompletePage() {
       LeftComp={
         <Icon
           icon={"ic_arrow_left"}
-          size={1.4}
           onClick={() =>
             navigate("/write", {
               state: {
@@ -89,7 +89,7 @@ export function RetrospectWriteCompletePage() {
           css={css`
             width: 40%;
             height: auto;
-            aspect-ratio: 4 / 5.5;
+            aspect-ratio: 4 / 5;
 
             display: flex;
             align-items: center;
@@ -111,7 +111,7 @@ export function RetrospectWriteCompletePage() {
             }
 
             div:nth-of-type(1) {
-              background-color: #2c3648;
+              background-color: #243753;
               z-index: 3;
               position: relative;
             }
@@ -140,36 +140,46 @@ export function RetrospectWriteCompletePage() {
             <CompleteCheck
               css={css`
                 position: absolute;
-                top: -7%;
-                right: -7%;
-                width: 25%;
+                top: -10%;
+                right: -10%;
+                width: 30%;
                 height: auto;
+                z-index: 4;
               `}
             />
-            <CompleteIcon
+            <div
               css={css`
                 position: absolute;
                 top: 45%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                width: 70%;
-                height: auto;
-              `}
-            />
-            <span
-              css={css`
-                color: white;
-                font-size: 2.2rem;
-                font-weight: 400;
-                position: absolute;
-                bottom: 8%;
                 width: 100%;
+
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
+                align-items: center;
+                row-gap: 2rem;
               `}
             >
-              {userInfo ? userInfo.name : null}님의 회고
-            </span>
+              <CompleteIcon
+                css={css`
+                  width: 55%;
+                  height: auto;
+                `}
+              />
+              <span
+                css={css`
+                  color: white;
+                  font-size: 1.7rem;
+                  font-weight: 500;
+                  display: flex;
+                  justify-content: center;
+                `}
+              >
+                {userInfo ? userInfo.name : null}님의 회고
+              </span>
+            </div>
           </div>
           <div id="card-2"></div>
           <div id="card-3"></div>
@@ -192,6 +202,9 @@ export function RetrospectWriteCompletePage() {
           />
         )}
       </div>
+      <ButtonProvider>
+        <Button onClick={() => navigate("/")}> 완료 </Button>
+      </ButtonProvider>
     </DefaultLayout>
   );
 }

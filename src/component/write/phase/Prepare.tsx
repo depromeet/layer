@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -15,9 +16,10 @@ import "@/style/swiper/swiper.css";
 
 export function Prepare() {
   const { incrementPhase, data } = useContext(PhaseContext);
+  const navigate = useNavigate();
 
   return (
-    <DefaultLayout theme={"dark"} LeftComp={<Icon icon={"ic_back_white"} />}>
+    <DefaultLayout theme={"dark"} LeftComp={<Icon icon={"ic_back_white"} onClick={() => navigate(-1)} />}>
       <Header title={`회고를\n작성해볼까요?`} contents={`총 ${data ? data.questions.length : 0}개의 질문으로 구성되어있어요`} theme={"white"} />
       <div
         id="container"

@@ -17,8 +17,8 @@ export const useGetTemporaryQuestions = ({ spaceId, retrospectId }: { spaceId: n
   };
 
   return useQuery({
-    queryKey: ["temporaryQuestion"],
+    queryKey: ["temporaryQuestion", spaceId, retrospectId],
     queryFn: () => getTemporaryQuestions(),
-    enabled: false,
+    retry: 1,
   });
 };

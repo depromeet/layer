@@ -27,7 +27,7 @@ function Back({ theme }: { theme: "dark" | "gray" | "default" | "transparent" })
 }
 
 //FIXME : 디자인 토큰에 따라 색깔 변경, 폰트 수정
-export function AppBar({ title, theme = "default", height = "4.8rem", LeftComp = <Back theme={theme} />, RightComp = <div></div> }: AppBarProps) {
+export function AppBar({ title, theme = "default", height = "5.8rem", LeftComp = <Back theme={theme} />, RightComp = <div></div> }: AppBarProps) {
   return (
     <>
       <div

@@ -25,7 +25,7 @@ export const useGetQuestions = ({ spaceId, retrospectId }: { spaceId: number; re
   };
 
   return useQuery({
-    queryKey: ["questions"],
+    queryKey: ["questions", spaceId, retrospectId],
     queryFn: () => getQuestions(),
   });
 };
