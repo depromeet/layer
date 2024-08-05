@@ -14,7 +14,7 @@ export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }
     <Portal id={"loading-modal-root"}>
       <div
         css={css`
-          position: absolute;
+          position: fixed;
           top: 0;
           left: 0;
           right: 0;
@@ -27,7 +27,7 @@ export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index: 10002;
+          z-index: 99999;
           animation: ${ANIMATION.FADE_IN} 0.6s ease-in-out;
         `}
       >

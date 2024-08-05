@@ -93,7 +93,7 @@ export function Write() {
       {isPending && <LoadingModal purpose={"데이터를 저장하고 있어요"} />}
       {isEntireModalOpen && (
         <Portal id="modal-root">
-          <EntireListModal onClose={() => handleModalClose("entire")} />
+          <EntireListModal onClose={() => handleModalClose("entire")} answers={answers} />
         </Portal>
       )}
       {isTemporarySaveModalOpen && (
@@ -120,6 +120,7 @@ export function Write() {
       )}
       <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />
       <DefaultLayout
+        theme={isComplete ? "gray" : "default"}
         title={isComplete ? null : <ItemsButton onClick={() => setEntireModalOpen(true)} />}
         RightComp={
           isComplete ? (
@@ -288,8 +289,8 @@ export function Write() {
               <Button colorSchema={"gray"} onClick={decrementPhase} disabled={phase === 0}>
                 이전
               </Button>
-              <Button colorSchema={"primary"} onClick={incrementPhase} disabled={phase === data.questions.length - 1}>
-                다음
+              <Button colorSchema={"primary"} onClick={incrementPhase} disabled={phase === data.questions.length - 1 && !isAnswerFilled}>
+                {phase === data.questions.length - 1 ? "완료" : "다음"}
               </Button>
             </Fragment>
           )}

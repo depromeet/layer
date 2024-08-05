@@ -25,7 +25,7 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
           display: flex;
           flex-direction: column;
           padding: 0 2rem;
-          min-height: calc(100dvh - ${height ?? `6.4rem`});
+          min-height: calc(100dvh - ${height ?? `4.8rem`});
         `}
       >
         {children}

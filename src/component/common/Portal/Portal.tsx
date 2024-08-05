@@ -8,9 +8,10 @@ type Props = {
 
 export const Portal = ({ id, children }: Props) => {
   const el = document.getElementById(`${id}`) as HTMLElement;
+  const rootIdList = ["modal-root", "loading-modal-root"];
 
   useEffect(() => {
-    if (id === "modal-root") {
+    if (rootIdList.includes(id)) {
       if (children) {
         document.body.style.overflow = "hidden";
       }

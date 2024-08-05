@@ -3,13 +3,15 @@ import { useContext, useRef } from "react";
 
 import { AdvanceQuestionsNum, PhaseContext } from "@/app/write/RetrospectWritePage.tsx";
 import { Icon } from "@/component/common/Icon";
+import { Answer } from "@/component/write/phase/Write.tsx";
 import { ANIMATION } from "@/style/common/animation.ts";
 
 type EntireListProps = {
   onClose: () => void;
+  answers: Answer[];
 };
 
-export function EntireListModal({ onClose }: EntireListProps) {
+export function EntireListModal({ onClose, answers }: EntireListProps) {
   const { data, movePhase } = useContext(PhaseContext);
   const containerRef = useRef(null);
 
@@ -26,7 +28,7 @@ export function EntireListModal({ onClose }: EntireListProps) {
         background-color: rgba(6, 8, 12, 0.22);
         display: flex;
         justify-content: center;
-        padding: 1.1rem;
+        padding: 1.1rem 2rem;
         z-index: 99999;
       `}
       ref={containerRef}
@@ -38,7 +40,7 @@ export function EntireListModal({ onClose }: EntireListProps) {
         css={css`
           width: 100%;
           height: fit-content;
-          max-width: 46rem;
+          max-width: 33.5rem;
           border-radius: 1.2rem;
           background-color: #f2f4f8;
           padding: 1.3rem 0;
@@ -69,7 +71,13 @@ export function EntireListModal({ onClose }: EntireListProps) {
           >
             질문 전체보기
           </span>
-          <Icon icon={"ic_arrow"} size={1.2} />
+          <Icon
+            icon={"ic_arrow"}
+            size={1.2}
+            css={css`
+              transform: rotate(180deg);
+            `}
+          />
         </div>
         <div
           css={css`
@@ -80,7 +88,6 @@ export function EntireListModal({ onClose }: EntireListProps) {
           `}
         >
           {data.questions.map((item, index) => {
-            console.log(item);
             return (
               <div
                 key={item.questionId}
@@ -88,7 +95,6 @@ export function EntireListModal({ onClose }: EntireListProps) {
                   width: 100%;
                   padding: 1.4rem 2.8rem;
                   display: flex;
-                  justify-content: center;
                   align-items: center;
                   transition: 0.4s all;
                   cursor: pointer;
@@ -110,17 +116,45 @@ export function EntireListModal({ onClose }: EntireListProps) {
                     -webkit-line-clamp: 1;
                     -webkit-box-orient: vertical;
                     font-weight: 300;
+                    font-variant-numeric: tabular-nums;
+                    transition: 0.4s all;
+
+                    span {
+                      ${!answers[index].answerContent
+                        ? css`
+                            color: #8b909c;
+                          `
+                        : css`
+                            font-weight: 400;
+                          `}
+                    }
                   `}
                 >
-                  {index < AdvanceQuestionsNum ? `${item.question}` : `${index - (AdvanceQuestionsNum - 1)}. ${item.question}`}
+                  {index < AdvanceQuestionsNum ? (
+                    <div
+                      css={css`
+                        display: flex;
+                        align-items: center;
+                        column-gap: 0.7rem;
+                        color: ${!answers[index] && ""};
+                      `}
+                    >
+                      <span
+                        css={css`
+                          position: relative;
+                          top: 0.2rem;
+                        `}
+                      >
+                        *
+                      </span>
+                      <span>{item.question}</span>
+                    </div>
+                  ) : (
+                    <span>
+                      {index - (AdvanceQuestionsNum - 1)}. {item.question}
+                    </span>
+                  )}
                 </span>
-                <Icon
-                  icon={"ic_write_move_arrow"}
-                  size={1.5}
-                  css={css`
-                    margin-left: auto;
-                  `}
-                />
               </div>
             );
           })}
