@@ -19,6 +19,7 @@ export function WDescriptiveTemplate({ answer, onChange }: DescriptiveTemplatePr
       {/*  FIXME: SPACE 컴포넌트 넣기 */}
       <textarea
         placeholder={PLACEHOLDER}
+        id="textfield"
         css={css`
           line-height: 2;
           font-size: 1.5rem;

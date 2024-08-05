@@ -12,13 +12,13 @@ type QuestionResponseType = {
 
 export const useGetTemporaryQuestions = ({ spaceId, retrospectId }: { spaceId: number; retrospectId: number }) => {
   const getTemporaryQuestions = () => {
-    const res = api.get(`/space/${spaceId}/retrospect/${retrospectId}/answer/temp`).then((res) => res.data as QuestionResponseType);
+    const res = api.get<QuestionResponseType>(`/space/${spaceId}/retrospect/${retrospectId}/answer/temp`).then((res) => res.data);
     return res;
   };
 
   return useQuery({
-    queryKey: ["temporaryQuestion"],
+    queryKey: ["temporaryQuestion", spaceId, retrospectId],
     queryFn: () => getTemporaryQuestions(),
-    enabled: false,
+    retry: 1,
   });
 };

@@ -32,7 +32,7 @@ export function SetNickNamePage() {
       const signUpResponse = await signUpWithToken(kakaoAccessToken, nickname);
       if (signUpResponse && signUpResponse.status === 201) {
         setAuthResponse(signUpResponse.data);
-        navigate("/home/retrospect");
+        navigate("/");
       } else {
         navigate("/error");
       }

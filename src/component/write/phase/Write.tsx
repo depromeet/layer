@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { ChangeEvent, Fragment, useContext, useEffect, useState } from "react";
+import { ChangeEvent, Fragment, useContext, useEffect, useRef, useState } from "react";
 import { Beforeunload } from "react-beforeunload";
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +16,7 @@ import { Confirm } from "@/component/write/phase/Confirm";
 import { WAchievementTemplate } from "@/component/write/template/write/Achievement";
 import { WDescriptiveTemplate } from "@/component/write/template/write/Descriptive";
 import { WSatisfactionTemplate } from "@/component/write/template/write/Satisfaction";
+import { useGetAnswers } from "@/hooks/api/write/useGetAnswers.ts";
 import { useGetTemporaryQuestions } from "@/hooks/api/write/useGetTemporaryQuestions.ts";
 import { useWriteQuestions } from "@/hooks/api/write/useWriteQuestions.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
@@ -27,16 +28,18 @@ export type Answer = {
 };
 
 export function Write() {
+  /** Util */
+  const navigate = useNavigate();
+
+  /** Write Local State */
   const { data, incrementPhase, decrementPhase, phase, movePhase, spaceId, retrospectId } = useContext(PhaseContext);
-  const [satisfyIdx, setSatistfyIdx] = useState(-1);
-  const [archievementIdx, setArchievementIdx] = useState(-1);
+  // const [satisfyIdx, setSatistfyIdx] = useState(-1);
+  // const [archievementIdx, setArchievementIdx] = useState(-1);
   const [isEntireModalOpen, setEntireModalOpen] = useState(false);
   const [isTemporarySaveModalOpen, setTemporarySaveModalOpen] = useState(false);
   const [isAnswerFilled, setIsAnswerFilled] = useState(false);
   const isComplete = data?.questions.length === phase;
-  const navigate = useNavigate();
-  const { mutate, isPending } = useWriteQuestions();
-  const { data: temporaryData, isLoading, isSuccess } = useGetTemporaryQuestions({ spaceId: spaceId, retrospectId: retrospectId });
+  const editMode = useRef("POST");
   const [answers, setAnswers] = useState<Answer[]>(
     data.questions.map((question) => ({
       questionId: question.questionId,
@@ -45,8 +48,22 @@ export function Write() {
     })),
   );
 
+  /** Data Fetching */
+  const { mutate, isPending } = useWriteQuestions();
+  const {
+    data: temporaryData,
+    isLoading: temporaryDataLoading,
+    isSuccess: temporaryDataSuccess,
+  } = useGetTemporaryQuestions({ spaceId: spaceId, retrospectId: retrospectId });
+  const {
+    data: answerData,
+    isLoading: answerDataLoading,
+    isSuccess: answerDataSuccess,
+  } = useGetAnswers({ spaceId: spaceId, retrospectId: retrospectId });
+
+  /** Data patching if you have temporary data */
   useEffect(() => {
-    if (isSuccess && temporaryData) {
+    if (temporaryDataSuccess && temporaryData) {
       setAnswers(
         temporaryData.answers.map((question) => ({
           questionId: question.questionId,
@@ -55,7 +72,25 @@ export function Write() {
         })),
       );
     }
-  }, [isLoading, isSuccess]);
+  }, [temporaryDataLoading, temporaryDataSuccess]);
+
+  useEffect(() => {
+    if (answerDataSuccess && answerData) {
+      editMode.current = "EDIT";
+      setAnswers(
+        answerData.answers.map((question) => ({
+          questionId: question.questionId,
+          questionType: question.questionType,
+          answerContent: question.answerContent,
+        })),
+      );
+    }
+  }, [answerDataLoading, answerDataSuccess]);
+
+  useEffect(() => {
+    const allFilled = answers.every((answer) => answer.answerContent !== "");
+    setIsAnswerFilled(allFilled);
+  }, [answers]);
 
   const updateAnswer = (questionId: number, newValue: string) => {
     setAnswers((prevAnswers) => {
@@ -66,8 +101,7 @@ export function Write() {
     });
   };
 
-  const handleClick = (index: number, setIndex: (index: number) => void) => {
-    setIndex(index);
+  const handleClick = (index: number) => {
     updateAnswer(phase, String(index));
   };
 
@@ -75,8 +109,8 @@ export function Write() {
     updateAnswer(phase, e.target.value);
   };
 
-  const handleClickSatistfy = (index: number) => handleClick(index, setSatistfyIdx);
-  const handleClickAchivement = (index: number) => handleClick(index, setArchievementIdx);
+  const handleClickSatistfy = (index: number) => handleClick(index);
+  const handleClickAchivement = (index: number) => handleClick(index);
   const handleModalClose = (type: string) => {
     if (type === "entire") {
       setEntireModalOpen(false);
@@ -89,7 +123,7 @@ export function Write() {
 
   return (
     <Fragment>
-      {isLoading && <LoadingModal />}
+      {(temporaryDataLoading || answerDataLoading) && <LoadingModal />}
       {isPending && <LoadingModal purpose={"데이터를 저장하고 있어요"} />}
       {isEntireModalOpen && (
         <Portal id="modal-root">
@@ -107,7 +141,7 @@ export function Write() {
                 {
                   onSuccess: () => {
                     handleModalClose("temporary-save");
-                    navigate("/home");
+                    navigate("/");
                   },
                 },
               );
@@ -187,7 +221,7 @@ export function Write() {
                               transform: translate(-50%, -50%);
                             `}
                           >
-                            <WSatisfactionTemplate index={satisfyIdx} onClick={handleClickSatistfy} />
+                            <WSatisfactionTemplate index={parseInt(answers[item.order].answerContent)} onClick={handleClickSatistfy} />
                           </div>
                         </Fragment>
                       ),
@@ -211,7 +245,7 @@ export function Write() {
                               width: 100%;
                             `}
                           >
-                            <WAchievementTemplate answer={archievementIdx} onClick={handleClickAchivement} />
+                            <WAchievementTemplate answer={parseInt(answers[item.order].answerContent)} onClick={handleClickAchivement} />
                           </div>
                         </Fragment>
                       ),
@@ -268,7 +302,7 @@ export function Write() {
               colorSchema={"primary"}
               onClick={() =>
                 mutate(
-                  { data: answers, isTemporarySave: false, spaceId: spaceId, retrospectId: retrospectId },
+                  { data: answers, isTemporarySave: false, spaceId: spaceId, retrospectId: retrospectId, method: editMode.current },
                   {
                     onSuccess: () => {
                       navigate("/write/complete", {
