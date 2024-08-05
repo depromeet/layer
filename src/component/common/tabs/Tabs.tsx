@@ -17,6 +17,8 @@ export function Tabs<T extends string>({ tabs, curTab, selectTab, TabComp, fullW
         containerStyles,
         css`
           display: ${fullWidth ? "flex" : "block"};
+          position: sticky;
+          top: 0;
         `,
       ]}
     >

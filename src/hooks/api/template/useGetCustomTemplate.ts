@@ -5,8 +5,8 @@ import { CustomTemplateRes } from "@/types/template";
 
 export const useGetCustomTemplate = (formId: number) => {
   const getCustomTemplate = async (): Promise<CustomTemplateRes> => {
-    const res = await api.get(`/form/${formId}`);
-    return res.data as CustomTemplateRes;
+    const { data } = await api.get<CustomTemplateRes>(`/form/${formId}`);
+    return data;
   };
 
   return useSuspenseQuery({
