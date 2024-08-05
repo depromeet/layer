@@ -12,11 +12,11 @@ type AnswerResponseType = {
 export const useGetAnswers = ({ spaceId, retrospectId }: { spaceId: number; retrospectId: number }) => {
   const getQuestions = () => {
     const res = api
-      .get(
+      .get<AnswerResponseType>(
         `/space/${spaceId}/retrospect/${retrospectId}/answer/written
 `,
       )
-      .then((res) => res.data as AnswerResponseType);
+      .then((res) => res.data);
     return res;
   };
 

@@ -16,11 +16,11 @@ type GetQuetionsResponse = {
 export const useGetQuestions = ({ spaceId, retrospectId }: { spaceId: number; retrospectId: number }) => {
   const getQuestions = () => {
     const res = api
-      .get(
+      .get<GetQuetionsResponse>(
         `/space/${spaceId}/retrospect/${retrospectId}/question
 `,
       )
-      .then((res) => res.data as GetQuetionsResponse);
+      .then((res) => res.data);
     return res;
   };
 
