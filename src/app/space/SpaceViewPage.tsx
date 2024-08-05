@@ -27,12 +27,19 @@ export function SpaceViewPage() {
   const { mutate: deleteSpace } = useApiDeleteSpace();
   const [isVisiableBottomSheet, setIsVisiableBottomSheet] = useState<boolean>(false);
 
-  const [{ data: restrospectArr }, { data: spaceInfo }, { data: teamActionList }] = useQueries({
+  const [{ data: restrospectArr, refetch: refetchRetrospects }, { data: spaceInfo }, { data: teamActionList }] = useQueries({
     queries: [useGetSpaceAndRetrospect(spaceId), useApiGetSpaceInfo(spaceId), useApiGetTeamActionItemList(spaceId)],
   });
 
-  const proceedingRetrospects = restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING");
-  const doneRetrospects = restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "DONE");
+  const [proceedingRetrospects, setProceedingRetrospects] = useState(
+    restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [],
+  );
+  const [doneRetrospects, setDoneRetrospects] = useState(restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "DONE") || []);
+
+  const handleDeleteRetrospect = (retrospectId: number) => {
+    setProceedingRetrospects((prev) => prev.filter((item) => item.retrospectId !== retrospectId));
+    setDoneRetrospects((prev) => prev.filter((item) => item.retrospectId !== retrospectId));
+  };
 
   const handleDeleteFun = () => {
     deleteSpace(spaceId as string);
@@ -59,7 +66,7 @@ export function SpaceViewPage() {
       title={spaceInfo?.name}
       RightComp={<SpaceAppBarRightComp spaceId={spaceId} onDeleteClick={handleOpenModal} isTooltipVisible={restrospectArr?.length == 0} />}
     >
-      <ActionItemListView teamActionList={teamActionList} />
+      <ActionItemListView teamActionList={teamActionList?.teamActionItemList || []} />
       <Spacing size={1.1} />
       <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
       <Spacing size={2.4} />
@@ -93,7 +100,9 @@ export function SpaceViewPage() {
             gap: 1rem;
           `}
         >
-          {proceedingRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} spaceId={spaceId} retrospect={retrospect} />)}
+          {proceedingRetrospects?.map((retrospect) => (
+            <RetrospectBox key={retrospect.retrospectId} spaceId={spaceId} retrospect={retrospect} onDelete={handleDeleteRetrospect} />
+          ))}
         </div>
 
         <Spacing size={2} />
@@ -119,7 +128,9 @@ export function SpaceViewPage() {
             gap: 1rem;
           `}
         >
-          {doneRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} spaceId={spaceId} />)}
+          {doneRetrospects?.map((retrospect) => (
+            <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} spaceId={spaceId} onDelete={handleDeleteRetrospect} />
+          ))}
         </div>
       </div>
       <button

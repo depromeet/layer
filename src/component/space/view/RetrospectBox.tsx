@@ -1,9 +1,12 @@
 import { css } from "@emotion/react";
-import { useState, useEffect, useRef, useMemo } from "react";
-import { NavigateOptions, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+
+import { RetrospectButton } from "./RetrospectButton";
+import { RetrospectOptions } from "./RetrospectOptions";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type RestrospectBoxType = {
@@ -25,11 +28,38 @@ const statusStyles = {
   },
 };
 
-export function RetrospectBox({ spaceId, retrospect }: { spaceId: string | undefined; retrospect: RestrospectBoxType }) {
+export function RetrospectBox({
+  spaceId,
+  retrospect,
+  onDelete,
+}: {
+  spaceId: string | undefined;
+  retrospect: RestrospectBoxType;
+  onDelete: (retrospectId: number) => void;
+}) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
-  const optionsRef = useRef<HTMLDivElement | null>(null);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const optionsRef = useRef<HTMLDivElement | null>(null); // optionsRef 선언
   const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount } = retrospect;
   const { backgroundColor } = statusStyles[retrospectStatus];
+
+  const { mutate: retrospectDelete } = useApiDeleteRetrospect();
+
+  const removeBtnClickFun = () => {
+    retrospectDelete(
+      { spaceId: spaceId, retrospectId: String(retrospectId) },
+      {
+        onSuccess: () => {
+          setIsDeleted(true);
+          onDelete(retrospectId);
+        },
+      },
+    );
+  };
+
+  const modifyBtnClickFun = () => {
+    console.log("준비중");
+  };
 
   const toggleOptionsVisibility = () => {
     setIsOptionsVisible((prev) => !prev);
@@ -53,6 +83,10 @@ export function RetrospectBox({ spaceId, retrospect }: { spaceId: string | undef
     };
   }, [isOptionsVisible]);
 
+  if (isDeleted) {
+    return null;
+  }
+
   return (
     <div
       key={retrospectId}
@@ -65,6 +99,8 @@ export function RetrospectBox({ spaceId, retrospect }: { spaceId: string | undef
         display: flex;
         flex-direction: column;
         gap: 0.4rem;
+        transition: opacity 0.3s ease-out;
+        opacity: ${isDeleted ? 0 : 1};
       `}
     >
       <div
@@ -107,71 +143,13 @@ export function RetrospectBox({ spaceId, retrospect }: { spaceId: string | undef
             </Typography>
           )}
 
-          <div css={{ position: "relative" }}>
-            <Icon icon="ic_more" onClick={toggleOptionsVisibility} />
-            {isOptionsVisible && (
-              <div
-                ref={optionsRef}
-                css={css`
-                  position: absolute;
-                  top: 100%;
-                  right: 0;
-                  background-color: white;
-                  border-radius: 1.2rem;
-                  z-index: 10;
-                  width: 16.5rem;
-                  height: 9.2rem;
-
-                  box-shadow: 0px 4px 12px 0px rgba(6, 8, 12, 0.12);
-                `}
-              >
-                <button
-                  onClick={() => {
-                    // 여기에 회고 삭제 로직을 추가
-                  }}
-                  css={css`
-                    display: block;
-                    height: 4.6rem;
-                    width: 100%;
-                    text-align: left;
-                    cursor: pointer;
-                  `}
-                >
-                  <Typography
-                    variant="B2_SEMIBOLD"
-                    color="red500"
-                    css={css`
-                      margin-left: 2rem;
-                    `}
-                  >
-                    회고 삭제
-                  </Typography>
-                </button>
-                <button
-                  onClick={() => {
-                    // 여기에 회고 수정 로직을 추가
-                  }}
-                  css={css`
-                    display: block;
-                    width: 100%;
-                    height: 4.6rem;
-                    text-align: left;
-                    cursor: pointer;
-                  `}
-                >
-                  <Typography
-                    variant="B2_SEMIBOLD"
-                    color="grey800"
-                    css={css`
-                      margin-left: 2rem;
-                    `}
-                  >
-                    회고 수정
-                  </Typography>
-                </button>
-              </div>
-            )}
-          </div>
+          <RetrospectOptions
+            isOptionsVisible={isOptionsVisible}
+            toggleOptionsVisibility={toggleOptionsVisibility}
+            removeBtnClickFun={removeBtnClickFun}
+            modifyBtnClickFun={modifyBtnClickFun}
+            optionsRef={optionsRef}
+          />
         </div>
       </div>
       {introduction && (
@@ -252,83 +230,5 @@ export function RetrospectBox({ spaceId, retrospect }: { spaceId: string | undef
         />
       </div>
     </div>
-  );
-}
-
-type RetrospectButtonProps = {
-  status: "PROCEEDING" | "DONE" | "HAS_WRITING";
-  retrospectId?: number;
-  spaceId?: string;
-};
-
-function RetrospectButton({ status, retrospectId, spaceId }: RetrospectButtonProps) {
-  const navigate = useNavigate();
-  const { color, route, text } = useMemo<{ text: string; route: readonly [string, NavigateOptions]; color: string }>(() => {
-    return {
-      DONE: {
-        text: "분석 확인",
-        route: [
-          "/분석",
-          {
-            state: {
-              retrospectId,
-              spaceId,
-            },
-          },
-        ] as const,
-        color: DESIGN_SYSTEM_COLOR.grey900,
-      },
-      HAS_WRITING: {
-        route: [
-          `/write`,
-          {
-            state: {
-              retrospectId,
-              spaceId,
-            },
-          },
-        ] as const,
-        color: DESIGN_SYSTEM_COLOR.blue600,
-        text: "회고 작성",
-      },
-      PROCEEDING: {
-        route: [
-          `/edit`,
-          {
-            state: {
-              retrospectId,
-              spaceId,
-            },
-          },
-        ] as const,
-        color: DESIGN_SYSTEM_COLOR.blue600,
-        text: "회고 수정",
-      },
-    }[status];
-  }, [retrospectId, spaceId, status]);
-  const handleNavigate = () => {
-    navigate(...route);
-  };
-  return (
-    <button
-      onClick={handleNavigate}
-      css={css`
-        width: auto;
-        height: 4rem;
-        background-color: ${color};
-        border-radius: 0.8rem;
-        padding: 1rem 2.4rem;
-      `}
-    >
-      <Typography
-        variant="B2_SEMIBOLD"
-        color="white"
-        style={css`
-          white-space: nowrap;
-        `}
-      >
-        {text}
-      </Typography>
-    </button>
   );
 }
