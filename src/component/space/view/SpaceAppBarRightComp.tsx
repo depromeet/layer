@@ -1,4 +1,5 @@
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -11,6 +12,18 @@ type RightCompProps = {
   onDeleteClick: () => void;
   isTooltipVisible: boolean;
 };
+
+const slideUpDown = keyframes`
+  0% {
+    transform: translateY(-0.5rem);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-0.5rem);
+  }
+`;
 
 export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible }: RightCompProps) {
   const [isBoxVisible, setIsBoxVisible] = useState(false);
@@ -57,11 +70,15 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible 
             <Icon icon="ic_plus" color="white" size={1.8} />
           </Link>
           {isTooltipVisible && (
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.3 }}
               css={css`
                 position: absolute;
                 top: 160%;
-                left: -360%;
+                right: -60%;
                 transform: translateX(-50%);
                 background-color: ${DESIGN_SYSTEM_COLOR.blue600};
                 padding: 1rem;
@@ -70,6 +87,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible 
                 white-space: nowrap;
                 vertical-align: center;
                 text-align: center;
+                animation: ${slideUpDown} 3s infinite;
 
                 ::after {
                   content: "";
@@ -85,56 +103,62 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible 
               <Typography variant="CAPTION" color="white">
                 아이콘을 눌러 회고를 생성해보세요!
               </Typography>
-            </div>
+            </motion.div>
           )}
         </div>
         <Icon icon="ic_3point" size={2} onClick={toggleBoxVisibility} />
-        {isBoxVisible && (
-          <div
-            ref={boxRef}
-            css={css`
-              position: absolute;
-              top: 150%;
-              right: 0rem;
-              background-color: white;
-              border: 1px solid #ccc;
-              border-radius: 1rem;
-              box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
-              z-index: 99;
-              width: 16.5rem;
-              height: 9.2rem;
-              padding: 0.3rem 2rem;
-            `}
-          >
-            <button
-              onClick={handleModifyFun}
+        <AnimatePresence>
+          {isBoxVisible && (
+            <motion.div
+              ref={boxRef}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.3 }}
               css={css`
-                display: block;
-                width: 100%;
-                padding: 1.3rem 0;
-                text-align: left;
+                position: absolute;
+                top: 150%;
+                right: 50%;
+                background-color: white;
+                border: 1px solid #ccc;
+                border-radius: 1rem;
+                box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
+                z-index: 99;
+                width: 16.5rem;
+                height: 9.2rem;
+                padding: 0.3rem 2rem;
               `}
             >
-              <Typography variant="B2_SEMIBOLD">스페이스 수정</Typography>
-            </button>
-            <button
-              onClick={() => {
-                toggleBoxVisibility();
-                onDeleteClick();
-              }}
-              css={css`
-                display: block;
-                width: 100%;
-                padding: 1.3rem 0;
-                text-align: left;
-              `}
-            >
-              <Typography variant="B2_SEMIBOLD" color="red600">
-                스페이스 삭제
-              </Typography>
-            </button>
-          </div>
-        )}
+              <button
+                onClick={handleModifyFun}
+                css={css`
+                  display: block;
+                  width: 100%;
+                  padding: 1.3rem 0;
+                  text-align: left;
+                `}
+              >
+                <Typography variant="B2_SEMIBOLD">스페이스 수정</Typography>
+              </button>
+              <button
+                onClick={() => {
+                  toggleBoxVisibility();
+                  onDeleteClick();
+                }}
+                css={css`
+                  display: block;
+                  width: 100%;
+                  padding: 1.3rem 0;
+                  text-align: left;
+                `}
+              >
+                <Typography variant="B2_SEMIBOLD" color="red600">
+                  스페이스 삭제
+                </Typography>
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </>
   );
