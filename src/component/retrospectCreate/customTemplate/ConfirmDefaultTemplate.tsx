@@ -28,7 +28,7 @@ export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) 
         height: 100%;
       `}
     >
-      <Header title={"해당 템플릿으로\n수정 없이 회고를 진행할까요?"} contents={"질문을 추가하거나 뺄 수 있어요!"} />
+      <Header title={"해당 질문들로\n회고를 진행할까요?"} contents={"템플릿을 기반으로 질문을 커스텀할 수 있어요"} />
       <Spacing size={6.5} />
 
       <Card
