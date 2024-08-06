@@ -39,6 +39,8 @@ export function TemporarySaveModal({ confirm, quit, title = "회고 작성을 �
     >
       <div
         css={css`
+          display: table;
+          margin: auto;
           width: 100%;
           height: fit-content;
           max-width: 46rem;
