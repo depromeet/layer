@@ -29,8 +29,7 @@ export function FullModal({ children }: FullModalProps) {
             height: 100dvh;
             width: 48rem;
             overflow-y: auto;
-            --parent-bg-color: #fff;
-            background-color: var(--parent-bg-color);
+            background-color: #fff;
           `}
         >
           {children}

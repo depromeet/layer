@@ -25,7 +25,7 @@ export function DateTimePicker({ radioControl, value: dateValue, ...props }: Dat
     if (dateValue) {
       timePickerRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [dateValue, timePickerRef]);
+  }, [dateValue]);
 
   return (
     <div>
