@@ -1,9 +1,9 @@
 import { css } from "@emotion/react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
 import { RetrospectButton } from "./RetrospectButton";
 import { RetrospectOptions } from "./RetrospectOptions";
+
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
