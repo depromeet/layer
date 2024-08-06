@@ -1,9 +1,9 @@
 import { css } from "@emotion/react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
 import { RetrospectButton } from "./RetrospectButton";
 import { RetrospectOptions } from "./RetrospectOptions";
-
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
@@ -51,7 +51,7 @@ export function RetrospectBox({
       {
         onSuccess: () => {
           setIsDeleted(true);
-          onDelete(retrospectId);
+          onDelete(retrospectId); // 삭제 후 부모 컴포넌트에 알림
         },
       },
     );

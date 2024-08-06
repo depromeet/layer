@@ -55,130 +55,132 @@ export function SpaceViewPage() {
   };
 
   const handleOpenBottomSheet = () => {
-    setIsVisiableBottomSheet(true);
-    openBottomSheet();
-  };
+    const clickWrite = () => {
+      setIsVisiableBottomSheet(true);
+      openBottomSheet();
+    };
 
-  // const handleCloseBottomSheet = () => {
-  //   setIsVisiableBottomSheet(false);
-  //   closeBottomSheet();
-  // };
+    // const handleCloseBottomSheet = () => {
+    //   setIsVisiableBottomSheet(false);
+    //   closeBottomSheet();
+    // };
 
-  return (
-    <DefaultLayout
-      theme="dark"
-      height="6.4rem"
-      title={spaceInfo?.name}
-      RightComp={<SpaceAppBarRightComp spaceId={spaceId} onDeleteClick={handleOpenModal} isTooltipVisible={restrospectArr?.length == 0} />}
-    >
-      <ActionItemListView teamActionList={teamActionList?.teamActionItemList || []} />
-      <Spacing size={1.1} />
-      <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
-      <Spacing size={2.4} />
-      <div
-        css={css`
-          width: calc(100% + 4rem);
-          transform: translateX(-2rem);
-          min-height: calc(100vh - 32rem);
-          background-color: ${DESIGN_SYSTEM_COLOR.white};
-          padding: 2.2rem 2rem;
-        `}
+    return (
+      <DefaultLayout
+        theme="dark"
+        height="6.4rem"
+        title={spaceInfo?.name}
+        RightComp={<SpaceAppBarRightComp spaceId={spaceId} onDeleteClick={handleOpenModal} isTooltipVisible={restrospectArr?.length == 0} />}
       >
+        <ActionItemListView teamActionList={teamActionList?.teamActionItemList || []} />
+        <Spacing size={1.1} />
+        <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
+        <Spacing size={2.4} />
         <div
           css={css`
-            display: flex;
-            gap: 0.6rem;
+            width: calc(100% + 4rem);
+            transform: translateX(-2rem);
+            min-height: calc(100vh - 32rem);
+            background-color: ${DESIGN_SYSTEM_COLOR.white};
+            padding: 2.2rem 2rem;
           `}
         >
-          <Typography variant="B1_BOLD">진행중인 회고</Typography>
-          <Typography variant="B1_BOLD" color="darkGray">
-            {proceedingRetrospects?.length}
-          </Typography>
-        </div>
-        <Spacing size={1.6} />
-        {!proceedingRetrospects?.length && <EmptyRetrospect />}
-
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-          `}
-        >
-          {proceedingRetrospects?.map((retrospect) => (
-            <RetrospectBox key={retrospect.retrospectId} spaceId={spaceId} retrospect={retrospect} onDelete={handleDeleteRetrospect} />
-          ))}
-        </div>
-
-        <Spacing size={2} />
-
-        {doneRetrospects?.length !== 0 && (
           <div
             css={css`
               display: flex;
               gap: 0.6rem;
             `}
           >
-            <Typography variant="B1_BOLD">완료된 회고</Typography>
+            <Typography variant="B1_BOLD">진행중인 회고</Typography>
             <Typography variant="B1_BOLD" color="darkGray">
-              {doneRetrospects?.length}
+              {proceedingRetrospects?.length}
             </Typography>
           </div>
-        )}
-        <Spacing size={1.6} />
-        <div
+          <Spacing size={1.6} />
+          {!proceedingRetrospects?.length && <EmptyRetrospect />}
+
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              gap: 1rem;
+            `}
+          >
+            {proceedingRetrospects?.map((retrospect) => (
+              <RetrospectBox key={retrospect.retrospectId} spaceId={spaceId} retrospect={retrospect} onDelete={handleDeleteRetrospect} />
+            ))}
+          </div>
+
+          <Spacing size={2} />
+
+          {doneRetrospects?.length !== 0 && (
+            <div
+              css={css`
+                display: flex;
+                gap: 0.6rem;
+              `}
+            >
+              <Typography variant="B1_BOLD">완료된 회고</Typography>
+              <Typography variant="B1_BOLD" color="darkGray">
+                {doneRetrospects?.length}
+              </Typography>
+            </div>
+          )}
+          <Spacing size={1.6} />
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              gap: 1rem;
+            `}
+          >
+            {doneRetrospects?.map((retrospect) => (
+              <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} spaceId={spaceId} onDelete={handleDeleteRetrospect} />
+            ))}
+          </div>
+        </div>
+        <button
+          onClick={handleOpenBottomSheet}
           css={css`
+            width: 11.6rem;
+            height: 4.8rem;
+            background-color: #212529;
+            position: fixed;
+            bottom: 1.2rem;
+            right: 2.4rem;
+            border-radius: 3rem;
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
           `}
         >
-          {doneRetrospects?.map((retrospect) => (
-            <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} spaceId={spaceId} onDelete={handleDeleteRetrospect} />
-          ))}
-        </div>
-      </div>
-      <button
-        onClick={handleOpenBottomSheet}
-        css={css`
-          width: 11.6rem;
-          height: 4.8rem;
-          background-color: #212529;
-          position: fixed;
-          bottom: 1.2rem;
-          right: 2.4rem;
-          border-radius: 3rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.7rem;
-        `}
-      >
-        <Icon icon="ic_writePen" />
-        <Typography color="white" variant="B2_SEMIBOLD">
-          회고 생성
-        </Typography>
-      </button>
-      {isVisiableBottomSheet && (
-        <BottomSheet
-          contents={
-            <Fragment>
-              <CreateRetrospectiveSheet teamName={spaceInfo?.name} />
-            </Fragment>
-          }
-          handler={true}
-        />
-      )}
+          <Icon icon="ic_writePen" />
+          <Typography color="white" variant="B2_SEMIBOLD">
+            회고 생성
+          </Typography>
+        </button>
+        {isVisiableBottomSheet && (
+          <BottomSheet
+            contents={
+              <Fragment>
+                <CreateRetrospectiveSheet teamName={spaceInfo?.name} />
+              </Fragment>
+            }
+            handler={true}
+          />
+        )}
 
-      {isModalVisible && (
-        <MidModal
-          title="스페이스를 삭제하시겠어요?"
-          content="스페이스를 다시 되돌릴 수 없어요"
-          leftFun={handleCloseModal}
-          rightFun={handleDeleteFun}
-        />
-      )}
-      <Toast />
-    </DefaultLayout>
-  );
+        {isModalVisible && (
+          <MidModal
+            title="스페이스를 삭제하시겠어요?"
+            content="스페이스를 다시 되돌릴 수 없어요"
+            leftFun={handleCloseModal}
+            rightFun={handleDeleteFun}
+          />
+        )}
+        <Toast />
+      </DefaultLayout>
+    );
+  };
 }
