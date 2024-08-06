@@ -146,11 +146,11 @@ export function Write() {
                     {
                       onSuccess: () => {
                         handleModalClose("temporary-save");
+                        navigate("/");
                       },
                     },
                   )
-                : handleModalClose("temporary-save");
-              navigate("/");
+                : (handleModalClose("temporary-save"), navigate("/"));
             }}
             quit={() => {
               handleModalClose("temporary-save");
