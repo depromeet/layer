@@ -60,13 +60,13 @@ export function DueDate() {
           cursor: pointer;
         `}
       >
-        {!(selectedDate && selectedTime) ? (
+        {!selectedDate ? (
           <Typography color="lightGrey5" variant="B1">
             회고 마감일을 선택해주세요
           </Typography>
         ) : (
           <Typography color="darkGrayText" variant="B1">
-            {`${formatDateToString(selectedDate as Date, ".")} ${selectedTime}`}
+            {`${formatDateToString(selectedDate as Date, ".")} ${selectedTime ?? ""}`}
           </Typography>
         )}
         {/**FIXME - design token */}
