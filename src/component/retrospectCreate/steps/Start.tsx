@@ -28,6 +28,7 @@ export function Start({ onQuitPage }: StartProps) {
             margin-top: 9.8rem;
           `}
         >
+          {/**FIXME - lottie로 대체하기 */}
           <Icon icon={"ic_notebook"} size={20.4} />
         </div>
         <ButtonProvider>
