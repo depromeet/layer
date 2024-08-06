@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue } from "jotai";
 import { createContext, useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
 import { FullModal } from "@/component/common/Modal/FullModal";
