@@ -91,6 +91,7 @@ export function TemporarySaveModal({ confirm, quit, title = "회고 작성을 �
               onlyContainerStyle={css`
                 padding: 0;
               `}
+              gradient={false}
             >
               <Button colorSchema={"gray"} onClick={() => quit()}>
                 취소

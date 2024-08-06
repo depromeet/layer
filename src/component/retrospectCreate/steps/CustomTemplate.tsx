@@ -1,5 +1,6 @@
 import { useAtom, useAtomValue } from "jotai";
 import { createContext, useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
 import { FullModal } from "@/component/common/Modal/FullModal";
@@ -9,10 +10,6 @@ import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { CustomTemplateRes } from "@/types/template";
 
-type CustomTemplateProps = {
-  templateId: number;
-};
-
 const DUMMY_FORMNAME = "디프만님의 커스텀 회고";
 
 export const TemplateContext = createContext<CustomTemplateRes>({
@@ -21,7 +18,9 @@ export const TemplateContext = createContext<CustomTemplateRes>({
   questions: [],
 });
 
-export function CustomTemplate({ templateId }: CustomTemplateProps) {
+export function CustomTemplate() {
+  const locationState = useLocation().state as { templateId: number };
+  const { templateId } = locationState;
   const {
     data: { title, tags, questions },
   } = useGetCustomTemplate(templateId);

@@ -1,17 +1,21 @@
 import { css } from "@emotion/react";
-import { useAtomValue } from "jotai";
-import { createContext, useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useAtom, useAtomValue } from "jotai";
+import { createContext, useMemo, useState } from "react";
+import { Beforeunload } from "react-beforeunload";
+import { useLocation } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
+import { Portal } from "@/component/common/Portal";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
 import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
+import { TemporarySaveModal } from "@/component/write/modal";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { temporaryTemplateAtom } from "@/store/templateAtom";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type RetrospectCreateContextState = {
@@ -20,7 +24,11 @@ type RetrospectCreateContextState = {
   goPrev: ReturnType<typeof useMultiStepForm>["goPrev"];
 };
 
-export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({ totalStepsCnt: 0, goNext: () => {}, goPrev: () => {} });
+export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({
+  totalStepsCnt: 0,
+  goNext: () => {},
+  goPrev: () => {},
+});
 
 export function RetrospectCreate() {
   const themeMap = {
@@ -42,9 +50,10 @@ export function RetrospectCreate() {
     },
   } as const;
 
-  const navigate = useNavigate();
-  const locationState = useLocation().state as { spaceId: number; templateId: number };
+  const locationState = useLocation().state as { spaceId: number; templateId: string };
   const { spaceId } = locationState;
+  const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
+  const [, setTemporaryTemplateAtom] = useAtom(temporaryTemplateAtom);
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const postRetrospectCreate = usePostRetrospectCreate(spaceId);
@@ -75,7 +84,13 @@ export function RetrospectCreate() {
         LeftComp={
           <Icon
             icon={"ic_arrow_back"}
-            onClick={() => (currentStepIndex === 0 ? navigate(-1) : goPrev())}
+            onClick={
+              currentStepIndex === 0
+                ? () => {
+                    setIsTemporarySaveModalOpen(true);
+                  }
+                : () => goPrev()
+            }
             color={themeMap[currentStep]["iconColor"]}
           />
         }
@@ -98,14 +113,31 @@ export function RetrospectCreate() {
               e.preventDefault();
             }}
           >
-            {currentStep === "start" && <Start />}
+            {currentStep === "start" && <Start onQuitPage={() => setIsTemporarySaveModalOpen(true)} />}
             {currentStep === "mainInfo" && <MainInfo />}
-            {/* FIXME - 템플릿 추천/리스트 연결 후  templateId 전달하기*/}
-            {currentStep === "customTemplate" && <CustomTemplate templateId={10001} />}
+            {currentStep === "customTemplate" && <CustomTemplate />}
             {currentStep === "dueDate" && <DueDate />}
           </form>
         </RetrospectCreateContext.Provider>
       </DefaultLayout>
+      <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />
+      {isTemporarySaveModalOpen && (
+        <Portal id="modal-root">
+          <TemporarySaveModal
+            title="회고 진행을 중단하시겠어요?"
+            content="선택한 템플릿은 임시저장되어요"
+            confirm={() => {
+              setIsTemporarySaveModalOpen(false);
+              /**FIXME - dummy template id */
+              setTemporaryTemplateAtom((prev) => ({ ...prev, templateId: 10001 }));
+              /**TODO - 스페이스 상세 페이지로 이동 */
+            }}
+            quit={() => {
+              setIsTemporarySaveModalOpen(false);
+            }}
+          />
+        </Portal>
+      )}
     </>
   );
 }

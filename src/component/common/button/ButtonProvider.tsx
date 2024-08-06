@@ -8,6 +8,7 @@ type SortSet = "vertical" | "horizontal";
 type ButtonProviderProps = {
   sort?: SortSet;
   onlyContainerStyle?: Interpolation<Theme>;
+  gradient?: boolean;
 } & ButtonProps;
 
 const Primary = ({ ...props }) => {
@@ -26,7 +27,13 @@ const White = ({ ...props }) => {
   return <Button colorSchema={"white"} {...props} />;
 };
 
-export const ButtonProvider = ({ sort = "vertical", children, onlyContainerStyle, ...props }: PropsWithChildren<ButtonProviderProps>) => {
+export const ButtonProvider = ({
+  sort = "vertical",
+  children,
+  onlyContainerStyle,
+  gradient = true,
+  ...props
+}: PropsWithChildren<ButtonProviderProps>) => {
   return (
     <div
       css={[
@@ -51,18 +58,20 @@ export const ButtonProvider = ({ sort = "vertical", children, onlyContainerStyle
         onlyContainerStyle,
       ]}
     >
-      <div
-        css={css`
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          margin: 0 -2rem;
-          z-index: -1;
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--parent-bg-color) 57.38%);
-        `}
-      />
+      {gradient && (
+        <div
+          css={css`
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: 0 -2rem;
+            z-index: -1;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--parent-bg-color) 57.38%);
+          `}
+        />
+      )}
       {Children.map(children, (child) => {
         if (isValidElement(child)) {
           return cloneElement(child, { ...props });
