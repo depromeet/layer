@@ -135,6 +135,7 @@ export function Write() {
       )}
       {isTemporarySaveModalOpen && (
         <Portal id="modal-root">
+          {/* FIXME: 디자인 팀에 모달 문구 전달 후, 수정 예정 */}
           <TemporarySaveModal
             title={"회고 작성을 멈출까요?"}
             content={modalMode.current === "TEMP_SAVED" ? "작성중인 회고는 임시저장 되어요" : "중요한 정보라면 변경 사항을 저장해주세요"}
@@ -145,11 +146,11 @@ export function Write() {
                     {
                       onSuccess: () => {
                         handleModalClose("temporary-save");
-                        navigate("/");
                       },
                     },
                   )
                 : handleModalClose("temporary-save");
+              navigate("/");
             }}
             quit={() => {
               handleModalClose("temporary-save");
