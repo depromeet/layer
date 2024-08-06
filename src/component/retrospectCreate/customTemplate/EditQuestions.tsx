@@ -160,8 +160,8 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
             </QuestionList>
           </Drop>
         </DragDropContext>
+        {newQuestions.length < MAX_QUESTIONS_COUNT && <AddListItemButton onClick={openBottomSheet} />}
       </div>
-      {newQuestions.length < MAX_QUESTIONS_COUNT && <AddListItemButton onClick={openBottomSheet} />}
 
       <ButtonProvider>
         <ButtonProvider.Primary onClick={onNext}>완료</ButtonProvider.Primary>
@@ -270,7 +270,7 @@ function AddListItemButton({ onClick }: { onClick: () => void }) {
       css={css`
         // FIXME - design token
         background-color: #f1f6ff;
-        border-radius: 0.8rem;
+        border-radius: 1.2rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -278,7 +278,7 @@ function AddListItemButton({ onClick }: { onClick: () => void }) {
       `}
       onClick={onClick}
     >
-      <Icon icon={"ic_plus_thin"} size={2.4} color={DESIGN_SYSTEM_COLOR.theme} />
+      <Icon icon={"ic_plus_thin"} size={1.8} color={DESIGN_SYSTEM_COLOR.theme} />
     </button>
   );
 }
