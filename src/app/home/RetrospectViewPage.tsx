@@ -6,6 +6,7 @@ import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/home";
+import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 
@@ -24,7 +25,7 @@ export function RetrospectViewPage() {
 
   const selectedView = viewState.find((view) => view.selected)?.viewName || "ALL";
 
-  const { data: spaceList, lastElementRef } = useApiGetSpaceList(selectedView);
+  const { data: spaceList, lastElementRef, isLoading, isFetchingNextPage } = useApiGetSpaceList(selectedView);
 
   const goMakeReview = () => {
     navigate("/space/create");
@@ -65,7 +66,11 @@ export function RetrospectViewPage() {
               ref={spaceList.pages.flatMap((page) => page.data).length === idx + 1 ? lastElementRef : null}
             />
           ))}
+
+        {isFetchingNextPage && <LoadingSpinner />}
       </div>
+
+      {isLoading && <LoadingSpinner />}
     </DefaultLayout>
   );
 }

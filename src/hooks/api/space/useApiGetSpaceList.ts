@@ -24,7 +24,7 @@ export const spaceFetch = async (cursorId: number, category: string, pageSize: n
 export const useApiGetSpaceList = (selectedView: string) => {
   const observer = useRef<IntersectionObserver | null>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<SpaceFetchResponse>({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery<SpaceFetchResponse>({
     queryKey: ["spaces", selectedView],
     queryFn: ({ queryKey, pageParam = 0 }) => {
       const [, category] = queryKey;
@@ -50,5 +50,7 @@ export const useApiGetSpaceList = (selectedView: string) => {
   return {
     data,
     lastElementRef,
+    isFetchingNextPage,
+    isLoading,
   };
 };
