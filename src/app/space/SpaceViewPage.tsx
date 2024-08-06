@@ -42,9 +42,6 @@ export function SpaceViewPage() {
 
   const isLoading = isLoadingRestrospects || isLoadingSpaceInfo || isLoadingTeamActionList;
 
-  if (isLoading) {
-    return <LoadingModal />;
-  }
   const handleDeleteRetrospect = (retrospectId: number) => {
     setProceedingRetrospects((prev) => prev.filter((item) => item.retrospectId !== retrospectId));
     setDoneRetrospects((prev) => prev.filter((item) => item.retrospectId !== retrospectId));
@@ -68,6 +65,9 @@ export function SpaceViewPage() {
     openBottomSheet();
   };
 
+  if (isLoading) {
+    return <LoadingModal />;
+  }
   return (
     <DefaultLayout
       theme="dark"
@@ -153,7 +153,7 @@ export function SpaceViewPage() {
         <BottomSheet
           contents={
             <Fragment>
-              <CreateRetrospectiveSheet teamName={spaceInfo?.name} />
+              <CreateRetrospectiveSheet spaceId={spaceId} teamName={spaceInfo?.name} />
             </Fragment>
           }
           handler={true}

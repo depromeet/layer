@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useState, Fragment } from "react";
+import { useEffect, useState, Fragment } from "react";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button } from "@/component/common/button";
@@ -28,6 +28,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [textValue, setTextValue] = useState("");
   const { mutate: postActionItem } = useApiPostActionItem();
+
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextValue(e.target.value);
   };
