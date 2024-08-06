@@ -2,8 +2,6 @@ import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { useContext, useRef, useState } from "react";
 
-import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
-import { AppBar } from "@/component/common/appBar";
 import { ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
 import { Header } from "@/component/common/header";
@@ -12,10 +10,11 @@ import { QuestionList, QuestionListItem } from "@/component/common/list";
 import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
 import { Tooltip } from "@/component/common/tip";
+import { TemplateContext } from "@/component/retrospectCreate/steps/CustomTemplate";
 import { useInput } from "@/hooks/useInput";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
+import { useToast } from "@/hooks/useToast";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type QuestionsListProps = {
   goNext: ReturnType<typeof useMultiStepForm>["goNext"];
@@ -23,15 +22,19 @@ type QuestionsListProps = {
 };
 
 export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
-  const retroCreateContext = useContext(RetrospectCreateContext);
+  const { tag } = useContext(TemplateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
-  //FIXME - 유저 이름 가져오기
-  const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName ?? `${"디프만"}님의 커스텀 템플릿${2}`);
+  const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const [showTooltip, setShowTooltip] = useState(true);
+  const { toast } = useToast();
 
   const handleDataSave = () => {
     setRetroCreateData((prev) => ({ ...prev, formName: title }));
+  };
+
+  const onNext = () => {
+    handleDataSave();
     goNext();
   };
 
@@ -40,53 +43,68 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
       css={css`
         display: flex;
         flex-direction: column;
-        min-height: 100%;
-        padding: 0 2rem;
-        background-color: ${DESIGN_SYSTEM_COLOR["themeBackground"]["gray"]};
+        height: 100%;
       `}
     >
-      <Spacing size={2.3} />
-      <AppBar theme="gray" LeftComp={<Icon icon={"ic_arrow_back"} onClick={retroCreateContext.goPrev} />} />
       <Header title={"수정된 해당 템플릿으로\n진행하시겠어요?"} contents={"다음 회고에서도 해당 템플릿으로 제공해드릴게요!"} />
-      <Spacing size={5.3} />
-      <Card shadow>
+      <Spacing size={6.5} />
+      <Card
+        shadow
+        css={css`
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+        `}
+      >
         <div
           css={css`
-            padding: 1rem;
-            margin-bottom: 3rem;
+            position: absolute;
+            top: 18rem;
+            right: 2rem;
+          `}
+        >
+          {showTooltip && <Tooltip message="커스텀된 템플릿의 이름을 수정할 수 있어요!" bounce />}
+        </div>
+        <div
+          css={css`
+            position: relative;
           `}
         >
           <div
             css={css`
               display: flex;
-              justify-content: space-between;
+              flex-direction: column;
+              gap: 1.2rem;
+              position: relative;
+              background-color: transparent;
+              z-index: 10;
             `}
           >
-            <input
-              ref={titleInputRef}
-              value={title}
-              onChange={handleTitleChange}
-              css={css`
-                font-size: 2rem;
-                font-weight: bold;
-                width: 100%;
-              `}
-            />
             <div
               css={css`
-                position: relative;
-                margin-left: 1rem;
+                display: flex;
               `}
             >
-              <div
+              <input
+                ref={titleInputRef}
+                value={title}
+                onChange={(e) => {
+                  handleTitleChange(e);
+                  setShowTooltip(false);
+                }}
                 css={css`
-                  position: absolute;
-                  top: -6rem;
-                  right: -2.5rem;
+                  font-size: 2rem;
+                  font-weight: bold;
+                  width: 100%;
+                  margin-right: 1rem;
                 `}
-              >
-                {showTooltip && <Tooltip message="커스텀된 회고의 이름을 수정할 수 있어요!" bounce />}
-              </div>
+                onBlur={() => {
+                  if (title !== retroCreateData.formName) {
+                    handleDataSave();
+                    toast.success("이름 수정이 완료되었어요!");
+                  }
+                }}
+              />
               <Icon
                 icon="ic_pencil"
                 size={2.4}
@@ -97,22 +115,42 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
                 }}
               />
             </div>
+            <Tag>{tag}</Tag>
           </div>
-          <Spacing size={0.8} />
-          <Tag>KPT회고</Tag>
+          <div
+            css={css`
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              margin: -1.2rem;
+              z-index: 9;
+              background: linear-gradient(to bottom, #fff 95%, transparent 100%);
+            `}
+          />
         </div>
-        <QuestionList>
-          {retroCreateData.questions.map(({ questionContent }, index) => (
-            <QuestionListItem key={index} order={index + 1}>
-              {questionContent}
-            </QuestionListItem>
-          ))}
-        </QuestionList>
-        <Spacing size={3} />
+        <div
+          css={css`
+            max-height: 100%;
+            overflow-y: auto;
+            margin-bottom: -2rem;
+            padding: 1.2rem 0;
+            padding-bottom: 2rem;
+          `}
+        >
+          <QuestionList>
+            {retroCreateData.questions.map(({ questionContent }, index) => (
+              <QuestionListItem key={index} order={index + 1}>
+                {questionContent}
+              </QuestionListItem>
+            ))}
+          </QuestionList>
+        </div>
       </Card>
       <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Gray onClick={goPrev}>질문 수정</ButtonProvider.Gray>
-        <ButtonProvider.Primary onClick={handleDataSave}>이대로 작성</ButtonProvider.Primary>
+        <ButtonProvider.Gray onClick={goPrev}>템플릿 수정</ButtonProvider.Gray>
+        <ButtonProvider.Primary onClick={onNext}>다음</ButtonProvider.Primary>
       </ButtonProvider>
     </div>
   );

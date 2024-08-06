@@ -94,18 +94,38 @@ export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProp
         >
           <div
             css={css`
-              flex-shrink: 0;
-              display: flex;
-              overflow-x: auto;
-              gap: 0.8rem;
-              margin: 2.3rem 0;
+              position: relative;
             `}
           >
-            {categoryTabs.map((tab, index) => (
-              <CategoryButton key={index} state={tab === curCategoryTab ? "selected" : "default"} onClick={() => selectCategoryTab(tab)}>
-                {tab}
-              </CategoryButton>
-            ))}
+            <div
+              css={css`
+                z-index: 10;
+                flex-shrink: 0;
+                display: flex;
+                overflow-x: auto;
+                gap: 0.8rem;
+                margin: 2rem 0;
+                position: sticky;
+              `}
+            >
+              {categoryTabs.map((tab, index) => (
+                <CategoryButton key={index} state={tab === curCategoryTab ? "selected" : "default"} onClick={() => selectCategoryTab(tab)}>
+                  {tab}
+                </CategoryButton>
+              ))}
+            </div>
+            <div
+              css={css`
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: -0.8rem;
+                z-index: 9;
+                background: linear-gradient(to bottom, #fff 95%, transparent 100%);
+              `}
+            />
           </div>
           <div
             css={css`
@@ -143,7 +163,7 @@ function CategoryButton({ children, state = "default", ...props }: CategoryButto
   return (
     <button
       css={css`
-        background-color: ${state === "selected" ? DESIGN_SYSTEM_COLOR.dark : DESIGN_SYSTEM_COLOR.lightGrey2};
+        background-color: ${state === "selected" ? DESIGN_SYSTEM_COLOR.greyOpacity800 : DESIGN_SYSTEM_COLOR.lightGrey2};
         color: ${state === "selected" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.darkGrayText};
         padding: 1.2rem 1.6rem;
         border-radius: 0.8rem;

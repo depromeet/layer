@@ -13,42 +13,78 @@ import { TemplateContext } from "@/component/retrospectCreate/steps/CustomTempla
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 
 type ConfirmDefaultTemplateProps = {
-  title: string;
   goEdit: ReturnType<typeof useMultiStepForm>["goNext"];
 };
 
-export function ConfirmDefaultTemplate({ title, goEdit }: ConfirmDefaultTemplateProps) {
+export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) {
   const { goNext } = useContext(RetrospectCreateContext);
-  const { questions } = useContext(TemplateContext);
+  const { title, tag, questions: originalQuestions } = useContext(TemplateContext);
 
   return (
     <div
       css={css`
         display: flex;
         flex-direction: column;
-        min-height: 100%;
+        height: 100%;
       `}
     >
       <Header title={"해당 템플릿으로\n수정 없이 회고를 진행할까요?"} contents={"질문을 추가하거나 뺄 수 있어요!"} />
-      <Spacing size={4.6} />
-      <Card shadow>
+      <Spacing size={6.5} />
+
+      <Card
+        shadow
+        css={css`
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+        `}
+      >
         <div
           css={css`
-            padding: 1rem;
-            margin-bottom: 3rem;
+            position: relative;
           `}
         >
-          <Typography variant={"S1"}>{title}</Typography>
-          <Spacing size={0.8} />
-          {/**FIXME - 태그 데이터 반영하기 */}
-          <Tag>KPT회고</Tag>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              gap: 1.2rem;
+              position: relative;
+              background-color: transparent;
+              z-index: 10;
+            `}
+          >
+            <Typography variant={"S1"}>{title}</Typography>
+            <Tag>{tag}</Tag>
+          </div>
+          <div
+            css={css`
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              margin: -1.2rem;
+              z-index: 9;
+              background: linear-gradient(to bottom, #fff 95%, transparent 100%);
+            `}
+          />
         </div>
-        <QuestionList>
-          {questions.map(({ questionContent }, index) => (
-            <QuestionListItem key={index} order={index + 1} content={questionContent} />
-          ))}
-        </QuestionList>
-        <Spacing size={3} />
+        <div
+          css={css`
+            max-height: 100%;
+            overflow-y: auto;
+            margin-bottom: -2rem;
+            padding: 1.2rem 0;
+            padding-bottom: 2rem;
+          `}
+        >
+          <QuestionList>
+            {originalQuestions.map(({ questionContent }, index) => (
+              <QuestionListItem key={index} order={index + 1} content={questionContent} />
+            ))}
+          </QuestionList>
+        </div>
       </Card>
       <ButtonProvider sort={"horizontal"}>
         <ButtonProvider.Gray onClick={goEdit}>질문 수정</ButtonProvider.Gray>

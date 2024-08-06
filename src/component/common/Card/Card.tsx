@@ -1,4 +1,4 @@
-import { css, Interpolation, Theme } from "@emotion/react";
+import { css } from "@emotion/react";
 
 type CardProps = {
   width?: string;
@@ -6,7 +6,6 @@ type CardProps = {
   shadow?: boolean;
   padding?: string;
   children: React.ReactNode;
-  styles?: Interpolation<Theme>;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const BORDER_RADIUS = {
@@ -14,7 +13,7 @@ const BORDER_RADIUS = {
   md: "1.2rem",
 } as const;
 
-export function Card({ width = "100%", rounded = "sm", shadow = true, padding = "2rem", styles, children }: CardProps) {
+export function Card({ width = "100%", rounded = "sm", shadow = true, padding = "2rem", children, ...props }: CardProps) {
   return (
     <div
       css={[
@@ -25,8 +24,8 @@ export function Card({ width = "100%", rounded = "sm", shadow = true, padding = 
           box-shadow: ${shadow ? "0 .4rem 1.2rem rgba(0 0 0 / 4%)" : "none"};
           padding: ${padding};
         `,
-        styles,
       ]}
+      {...props}
     >
       {children}
     </div>

@@ -58,7 +58,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const handleDataSave = () => {
     const isEdited = JSON.stringify(newQuestions) !== JSON.stringify(originalQuestions);
     setIsQuestionEdited(isEdited);
-    setRetroCreateData((prev) => ({ ...prev, isNewForm: isEdited, questions: newQuestions }));
+    setRetroCreateData((prev) => ({ ...prev, isNewForm: isEdited, questions: newQuestions, formName: `커스텀 템플릿` }));
     goNext();
   };
 

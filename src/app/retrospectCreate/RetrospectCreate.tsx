@@ -108,6 +108,7 @@ export function RetrospectCreate() {
           <form
             css={css`
               flex: 1 1 0;
+              overflow: hidden;
             `}
             onSubmit={(e) => {
               e.preventDefault();

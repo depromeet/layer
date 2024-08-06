@@ -10,20 +10,18 @@ import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { CustomTemplateRes } from "@/types/template";
 
-const DUMMY_FORMNAME = "디프만님의 커스텀 회고";
-
 export const TemplateContext = createContext<CustomTemplateRes>({
   title: "",
-  tags: [],
+  tag: "",
   questions: [],
 });
 
 export function CustomTemplate() {
   const locationState = useLocation().state as { templateId: number };
-  const { templateId } = locationState;
+  // const { templateId } = locationState;
   const {
-    data: { title, tags, questions },
-  } = useGetCustomTemplate(templateId);
+    data: { title, tag, questions },
+  } = useGetCustomTemplate(10001); //FIXME - dummy template id
   const retroContext = useContext(RetrospectCreateContext);
   const { currentStep, goNext, goPrev, goTo } = useMultiStepForm({
     steps: ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const,
@@ -43,8 +41,8 @@ export function CustomTemplate() {
   }, []);
 
   return (
-    <TemplateContext.Provider value={{ title: DUMMY_FORMNAME, tags, questions }}>
-      {currentStep === "confirmDefaultTemplate" && <ConfirmDefaultTemplate title={title} goEdit={goNext} />}
+    <TemplateContext.Provider value={{ title, tag, questions }}>
+      {currentStep === "confirmDefaultTemplate" && <ConfirmDefaultTemplate goEdit={goNext} />}
       {currentStep === "editQuestions" && (
         <FullModal>
           <EditQuestions
@@ -59,11 +57,7 @@ export function CustomTemplate() {
           />
         </FullModal>
       )}
-      {currentStep === "confirmEditTemplate" && (
-        <FullModal>
-          <ConfirmEditTemplate goNext={retroContext.goNext} goPrev={goPrev} />
-        </FullModal>
-      )}
+      {currentStep === "confirmEditTemplate" && <ConfirmEditTemplate goNext={retroContext.goNext} goPrev={goPrev} />}
     </TemplateContext.Provider>
   );
 }
