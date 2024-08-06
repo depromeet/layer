@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useEffect, useState, Fragment } from "react";
+import { useState, Fragment } from "react";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button } from "@/component/common/button";
@@ -7,7 +7,6 @@ import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
-import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { ActionItemType } from "@/types/actionItem";
 
@@ -25,7 +24,7 @@ type PostActionItemProps = {
 };
 
 export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
-  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [textValue, setTextValue] = useState("");
   const { mutate: postActionItem } = useApiPostActionItem();
 
@@ -38,9 +37,12 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
       return;
     }
     postActionItem({ retrospectId: retrospectId, content: actionItemContent });
-
     setTextValue("");
-    closeBottomSheet();
+    setIsBottomSheetVisible(false);
+  };
+
+  const handleOpenBottomSheet = () => {
+    setIsBottomSheetVisible(true);
   };
 
   return (
@@ -75,7 +77,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
       {teamActionList && teamActionList.length === 0 && (
         <>
           <button
-            onClick={openBottomSheet}
+            onClick={handleOpenBottomSheet}
             css={css`
               width: 4rem;
               height: 4rem;
@@ -110,57 +112,60 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
             ))}
 
             {Array.from({ length: 3 - teamActionList.length }).map((_, index) => (
-              <div key={`plus-${index}`} onClick={openBottomSheet}>
+              <div key={`plus-${index}`} onClick={handleOpenBottomSheet}>
                 <PlusActionItem />
               </div>
             ))}
           </div>
         </>
       )}
-      <BottomSheet
-        sheetHeight={300}
-        contents={
-          <Fragment>
-            <div
-              css={css`
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 2.5rem;
-              `}
-            >
-              <Typography variant="S1">실행 목표 추가</Typography>
-              <textarea
-                placeholder="Text"
-                value={textValue}
-                onChange={handleTextChange}
+
+      {isBottomSheetVisible && (
+        <BottomSheet
+          sheetHeight={300}
+          contents={
+            <Fragment>
+              <div
                 css={css`
-                  width: 100%;
-                  height: 8.1rem;
-                  border: 1px solid ${DESIGN_SYSTEM_COLOR.grey300};
-                  border-radius: 1.2rem;
-                  padding: 1.4rem 1.6rem;
-                  font-size: 1.4rem;
-                  resize: none;
-                  &:focus {
-                    border-color: ${DESIGN_SYSTEM_COLOR.blue600};
-                    outline: none;
-                  }
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 2.5rem;
                 `}
-              />
-              <Button
-                colorSchema="black"
-                onClick={() => {
-                  handleAddActionItem({ retrospectId: "100", actionItemContent: textValue });
-                }}
               >
-                추가하기
-              </Button>
-            </div>
-          </Fragment>
-        }
-        handler={true}
-      />
+                <Typography variant="S1">실행 목표 추가</Typography>
+                <textarea
+                  placeholder="Text"
+                  value={textValue}
+                  onChange={handleTextChange}
+                  css={css`
+                    width: 100%;
+                    height: 8.1rem;
+                    border: 1px solid ${DESIGN_SYSTEM_COLOR.grey300};
+                    border-radius: 1.2rem;
+                    padding: 1.4rem 1.6rem;
+                    font-size: 1.4rem;
+                    resize: none;
+                    &:focus {
+                      border-color: ${DESIGN_SYSTEM_COLOR.blue600};
+                      outline: none;
+                    }
+                  `}
+                />
+                <Button
+                  colorSchema="black"
+                  onClick={() => {
+                    handleAddActionItem({ retrospectId: "100", actionItemContent: textValue });
+                  }}
+                >
+                  추가하기
+                </Button>
+              </div>
+            </Fragment>
+          }
+          handler={true}
+        />
+      )}
     </div>
   );
 }
