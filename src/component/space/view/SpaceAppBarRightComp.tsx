@@ -1,7 +1,7 @@
 import { css, keyframes } from "@emotion/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
@@ -11,6 +11,7 @@ type RightCompProps = {
   spaceId: string | undefined;
   onDeleteClick: () => void;
   isTooltipVisible: boolean;
+  handleOpenBottomSheet: () => void;
 };
 
 const slideUpDown = keyframes`
@@ -25,7 +26,7 @@ const slideUpDown = keyframes`
   }
 `;
 
-export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible }: RightCompProps) {
+export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible, handleOpenBottomSheet }: RightCompProps) {
   const [isBoxVisible, setIsBoxVisible] = useState(false);
   const boxRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
@@ -66,9 +67,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible 
         `}
       >
         <div css={{ position: "relative" }}>
-          <Link to="/retrospect/new">
-            <Icon icon="ic_plus" color="white" size={1.8} />
-          </Link>
+          <Icon icon="ic_plus" color="white" size={1.8} onClick={handleOpenBottomSheet} />
           {isTooltipVisible && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -118,7 +117,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible 
               css={css`
                 position: absolute;
                 top: 150%;
-                right: 50%;
+                right: 0%;
                 background-color: white;
                 border: 1px solid #ccc;
                 border-radius: 1rem;
