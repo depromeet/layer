@@ -24,7 +24,7 @@ export function RetrospectViewPage() {
 
   const selectedView = viewState.find((view) => view.selected)?.viewName || "ALL";
 
-  const { data, lastElementRef } = useApiGetSpaceList(selectedView);
+  const { data: spaceList, lastElementRef } = useApiGetSpaceList(selectedView);
 
   const goMakeReview = () => {
     navigate("/space/create");
@@ -55,11 +55,15 @@ export function RetrospectViewPage() {
           margin-bottom: 10rem;
         `}
       >
-        {data?.pages
+        {spaceList?.pages
           .flatMap((page) => page.data)
           .filter((space) => (selectedView === "ALL" ? true : space.category === selectedView))
           .map((space, idx) => (
-            <SpaceOverview key={space.id} space={space} ref={data.pages.flatMap((page) => page.data).length === idx + 1 ? lastElementRef : null} />
+            <SpaceOverview
+              key={space.id}
+              space={space}
+              ref={spaceList.pages.flatMap((page) => page.data).length === idx + 1 ? lastElementRef : null}
+            />
           ))}
       </div>
     </DefaultLayout>
