@@ -22,12 +22,12 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
-  const { openBottomSheet } = useBottomSheet();
+  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { mutate: deleteSpace } = useApiDeleteSpace();
   const [isVisiableBottomSheet, setIsVisiableBottomSheet] = useState<boolean>(false);
 
-  const [{ data: restrospectArr, refetch: refetchRetrospects }, { data: spaceInfo }, { data: teamActionList }] = useQueries({
+  const [{ data: restrospectArr }, { data: spaceInfo }, { data: teamActionList }] = useQueries({
     queries: [useGetSpaceAndRetrospect(spaceId), useApiGetSpaceInfo(spaceId), useApiGetTeamActionItemList(spaceId)],
   });
 
@@ -54,10 +54,15 @@ export function SpaceViewPage() {
     setIsModalVisible(false);
   };
 
-  const clickWrite = () => {
+  const handleOpenBottomSheet = () => {
     setIsVisiableBottomSheet(true);
     openBottomSheet();
   };
+
+  // const handleCloseBottomSheet = () => {
+  //   setIsVisiableBottomSheet(false);
+  //   closeBottomSheet();
+  // };
 
   return (
     <DefaultLayout
@@ -91,7 +96,7 @@ export function SpaceViewPage() {
           </Typography>
         </div>
         <Spacing size={1.6} />
-        {!proceedingRetrospects?.length && !doneRetrospects?.length && <EmptyRetrospect />}
+        {!proceedingRetrospects?.length && <EmptyRetrospect />}
 
         <div
           css={css`
@@ -134,7 +139,7 @@ export function SpaceViewPage() {
         </div>
       </div>
       <button
-        onClick={clickWrite}
+        onClick={handleOpenBottomSheet}
         css={css`
           width: 11.6rem;
           height: 4.8rem;

@@ -28,7 +28,6 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const [textValue, setTextValue] = useState("");
   const { mutate: postActionItem } = useApiPostActionItem();
-  console.log(teamActionList);
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextValue(e.target.value);
   };
@@ -74,7 +73,8 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
 
       {teamActionList && teamActionList.length === 0 && (
         <>
-          <div
+          <button
+            onClick={openBottomSheet}
             css={css`
               width: 4rem;
               height: 4rem;
@@ -85,8 +85,8 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
               align-items: center;
             `}
           >
-            <Icon onClick={openBottomSheet} icon="ic_plus" size="1.5rem" color="rgba(169, 175, 187, 1)" />
-          </div>
+            <Icon icon="ic_plus" size="1.5rem" color="rgba(169, 175, 187, 1)" />
+          </button>
           <Spacing size={1.6} />
           <Typography variant="B2_MEDIUM" color="darkGray">
             실행목표를 설정해보세요.
@@ -114,52 +114,52 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
               </div>
             ))}
           </div>
-          <BottomSheet
-            sheetHeight={300}
-            contents={
-              <Fragment>
-                <div
-                  css={css`
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 2.5rem;
-                  `}
-                >
-                  <Typography variant="S1">실행 목표 추가</Typography>
-                  <textarea
-                    placeholder="Text"
-                    value={textValue}
-                    onChange={handleTextChange}
-                    css={css`
-                      width: 100%;
-                      height: 8.1rem;
-                      border: 1px solid ${DESIGN_SYSTEM_COLOR.grey300};
-                      border-radius: 1.2rem;
-                      padding: 1.4rem 1.6rem;
-                      font-size: 1.4rem;
-                      resize: none;
-                      &:focus {
-                        border-color: ${DESIGN_SYSTEM_COLOR.blue600};
-                        outline: none;
-                      }
-                    `}
-                  />
-                  <Button
-                    colorSchema="black"
-                    onClick={() => {
-                      handleAddActionItem({ retrospectId: "100", actionItemContent: textValue });
-                    }}
-                  >
-                    추가하기
-                  </Button>
-                </div>
-              </Fragment>
-            }
-            handler={true}
-          />
         </>
       )}
+      <BottomSheet
+        sheetHeight={300}
+        contents={
+          <Fragment>
+            <div
+              css={css`
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2.5rem;
+              `}
+            >
+              <Typography variant="S1">실행 목표 추가</Typography>
+              <textarea
+                placeholder="Text"
+                value={textValue}
+                onChange={handleTextChange}
+                css={css`
+                  width: 100%;
+                  height: 8.1rem;
+                  border: 1px solid ${DESIGN_SYSTEM_COLOR.grey300};
+                  border-radius: 1.2rem;
+                  padding: 1.4rem 1.6rem;
+                  font-size: 1.4rem;
+                  resize: none;
+                  &:focus {
+                    border-color: ${DESIGN_SYSTEM_COLOR.blue600};
+                    outline: none;
+                  }
+                `}
+              />
+              <Button
+                colorSchema="black"
+                onClick={() => {
+                  handleAddActionItem({ retrospectId: "100", actionItemContent: textValue });
+                }}
+              >
+                추가하기
+              </Button>
+            </div>
+          </Fragment>
+        }
+        handler={true}
+      />
     </div>
   );
 }
