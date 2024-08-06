@@ -28,10 +28,20 @@ export const combineDateTimeToISOString = (date: Date, isPm: boolean, time: stri
     throw new Error("time은 00:00 형태의 string으로 전달되어야 합니다.");
   }
 
-  const [hours, minutes] = formatTime12to24(time, isPm).split(":").map(Number);
+  const [hours, minutes, seconds = 0] = formatTime12to24(time, isPm).split(":").map(Number);
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
 
-  return new Date(year, month, day, hours, minutes).toISOString();
+  const dateTime = new Date(year, month, day, hours, minutes, seconds);
+  const offset = new Date().getTimezoneOffset() * 60000;
+  return new Date(dateTime.getTime() - offset).toISOString();
+};
+
+export const isBeforeToday = (date: Date) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
+
+  return date.getTime() < today.getTime();
 };

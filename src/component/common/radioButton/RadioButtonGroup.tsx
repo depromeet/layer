@@ -1,5 +1,5 @@
 import { css, Interpolation, Theme } from "@emotion/react";
-import { createContext } from "react";
+import { createContext, forwardRef } from "react";
 
 export type RadioContextState = {
   radioName: string;
@@ -17,9 +17,13 @@ type RadioButtonGroupProps = {
   styles?: Interpolation<Theme>;
 } & RadioContextState;
 
-export function RadioButtonGroup({ children, styles, gap = 0.8, direction = "row", ...props }: RadioButtonGroupProps) {
+export const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(function (
+  { children, styles, gap = 0.8, direction = "row", ...props },
+  ref,
+) {
   return (
     <div
+      ref={ref}
       css={[
         css`
           display: flex;
@@ -33,4 +37,6 @@ export function RadioButtonGroup({ children, styles, gap = 0.8, direction = "row
       <RadioContext.Provider value={props}>{children}</RadioContext.Provider>
     </div>
   );
-}
+});
+
+RadioButtonGroup.displayName = "RadioButtonGroup";
