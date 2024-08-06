@@ -33,6 +33,7 @@ export function QuestionItemCheckbox({ value, children }: QuestionItemCheckboxPr
       <label
         htmlFor={value}
         css={css`
+          flex-shrink: 0;
           width: 2rem;
           height: 2rem;
           border-radius: 0.4rem;

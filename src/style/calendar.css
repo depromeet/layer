@@ -25,7 +25,7 @@
   text-align: center;
   text-transform: uppercase;
   font: inherit;
-  font-size: 0.9375em;
+  font-size: 1em;
   font-weight: 500;
   color: #929fab;
 }
@@ -35,18 +35,17 @@
   background: none;
   text-align: center;
   font: inherit;
-  font-size: 0.9375em;
+  font-size: 1em;
   border-radius: 50%;
   width: 100%;
   aspect-ratio: 1;
   color: #495057;
-  font-size: 0.9375em;
   font-weight: 500;
 }
 
 .react-calendar__tile:disabled {
-  background-color: #f0f0f0;
-  color: #ababab;
+  color: #cdcdcd;
+  cursor: default;
 }
 
 .react-calendar__month-view__days {
@@ -79,7 +78,8 @@
 }
 
 .react-calendar__tile--now {
-  border: 1px solid #6c9cfa !important;
+  /* border: 1px solid #6c9cfa !important; */
+  color: #6c9cfa;
 }
 
 .react-calendar__tile--now:enabled:hover,

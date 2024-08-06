@@ -6,6 +6,7 @@ interface SpacingProps {
 }
 
 export const Spacing = styled.div<SpacingProps>`
+  flex-shrink: 0;
   ${({ size, direction = "vertical" }) =>
     direction === "vertical"
       ? `

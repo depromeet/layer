@@ -2,6 +2,6 @@ import { Questions } from "./retrospectCreate";
 
 export type CustomTemplateRes = {
   title: string;
-  tags: string[];
+  tag: string;
   questions: Questions;
 };

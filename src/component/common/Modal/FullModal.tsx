@@ -28,8 +28,8 @@ export function FullModal({ children }: FullModalProps) {
           css={css`
             height: 100dvh;
             width: 48rem;
-            background-color: #ffffff;
             overflow-y: auto;
+            background-color: #fff;
           `}
         >
           {children}

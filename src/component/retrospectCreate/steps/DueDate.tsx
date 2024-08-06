@@ -29,10 +29,11 @@ export function DueDate() {
   };
 
   const handleDateSave = () => {
-    if (!selectedDate || !selectedTime) {
+    if (!selectedDate) {
       throw new Error("Undefined DateTime");
     }
-    const deadlineISOString = combineDateTimeToISOString(selectedDate as Date, Number(selectedTime.split(":")[0]) >= 12, selectedTime);
+    const time = selectedTime ?? "23:59:00";
+    const deadlineISOString = combineDateTimeToISOString(selectedDate as Date, Number(time.split(":")[0]) >= 12, time);
     setRetroCreateData((prev) => ({ ...prev, deadline: deadlineISOString }));
     closeBottomSheet();
   };
@@ -46,7 +47,7 @@ export function DueDate() {
       `}
     >
       <Header title={"회고는\n언제까지 작성할까요?"} />
-      <Spacing size={7.45} />
+      <Spacing size={4} />
       <label
         htmlFor={DATE_INPUT_ID}
         css={css`
@@ -69,7 +70,7 @@ export function DueDate() {
           </Typography>
         )}
         {/**FIXME - design token */}
-        <Icon icon="ic_chevron_down" color="#171719" size={2.4} />
+        <Icon icon="ic_calendar" color="#666B75" size={2.4} />
         <input
           id={DATE_INPUT_ID}
           type="date"
@@ -81,26 +82,32 @@ export function DueDate() {
       </label>
       <BottomSheet
         contents={
-          <>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+            `}
+          >
             <Spacing size={2.2} />
             <DateTimePicker value={selectedDate} onChange={onSelectDate} radioControl={radioControl} />
             <ButtonProvider
-              onlyContainerStyle={css`
-                div:nth-of-type(1) {
-                  margin: 0;
-                }
-              `}
+            // onlyContainerStyle={css`
+            //   div:nth-of-type(1) {
+            //     margin: 0;
+            //   }
+            // `}
             >
-              <ButtonProvider.Primary onClick={handleDateSave} disabled={!selectedDate || !selectedTime}>
+              <ButtonProvider.Primary onClick={handleDateSave} disabled={!selectedDate}>
                 설정하기
               </ButtonProvider.Primary>
             </ButtonProvider>
-          </>
+          </div>
         }
-        sheetHeight={675}
+        sheetHeight={670}
       />
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={retrospectContext.goNext} disabled={!selectedDate || !selectedTime}>
+        <ButtonProvider.Primary onClick={retrospectContext.goNext} disabled={!selectedDate}>
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>
