@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import { useSetAtom } from "jotai";
 
 import { QUESTION_TYPES, RECOMMENDED_QUESTIONS } from "./questions.const";
 
@@ -9,50 +8,30 @@ import { ButtonProvider } from "@/component/common/button";
 import { CheckBoxGroup } from "@/component/common/checkBox";
 import { Input } from "@/component/common/input";
 import { useCheckBox } from "@/hooks/useCheckBox";
+import { useEditQuestions } from "@/hooks/useEditQuestions";
 import { useInput } from "@/hooks/useInput";
 import { useTabs } from "@/hooks/useTabs";
-import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
-import { Questions } from "@/types/retrospectCreate";
 
 type AddQuestionsBottomSheetProps = {
   onClose: () => void;
+  handleAddQuestions: ReturnType<typeof useEditQuestions>["handleAddQuestions"];
 };
 
-export function AddQuestionsBottomSheet({ onClose }: AddQuestionsBottomSheetProps) {
+export function AddQuestionsBottomSheet({ onClose, handleAddQuestions }: AddQuestionsBottomSheetProps) {
   const { tabs, curTab, selectTab } = useTabs(["직접 작성", "추천 질문"] as const);
-  const setRetroCreateData = useSetAtom(retrospectCreateAtom);
   const { value: customQuestion, handleInputChange: handleCustomChange, resetInput } = useInput();
   const { isChecked, toggle, selectedValues, resetChecked } = useCheckBox();
   const { tabs: categoryTabs, curTab: curCategoryTab, selectTab: selectCategoryTab } = useTabs(QUESTION_TYPES);
 
   const handleCustomSave = () => {
-    setRetroCreateData((prev) => ({
-      ...prev,
-      questions: [
-        ...prev.questions,
-        {
-          questionType: "plain_text",
-          questionContent: customQuestion,
-        },
-      ],
-    }));
+    handleAddQuestions([customQuestion]);
     resetInput();
     onClose();
   };
 
   const handleRecommendedSave = () => {
-    //NOTE - 추후 추가할 수 있는 질문 타입이 plain_text 이외로도 생길 경우 수정이 필요합니다.
-    const formattedQuestions: Questions = selectedValues.map((question) => ({
-      questionType: "plain_text",
-      questionContent: question,
-    }));
-
-    setRetroCreateData((prev) => ({
-      ...prev,
-      questions: [...prev.questions, ...formattedQuestions],
-    }));
-
+    handleAddQuestions(selectedValues);
     resetChecked();
     onClose();
   };

@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
-import { useAtom, useSetAtom } from "jotai";
-import { useContext, useState } from "react";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { useSetAtom } from "jotai";
+import { useState } from "react";
+import { DragDropContext } from "react-beautiful-dnd";
 
 import { REQUIRED_QUESTIONS } from "./questions.const";
 
@@ -16,77 +16,42 @@ import { Portal } from "@/component/common/Portal";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { AddQuestionsBottomSheet } from "@/component/retrospectCreate";
-import { TemplateContext } from "@/component/retrospectCreate/steps/CustomTemplate";
 import { TemporarySaveModal } from "@/component/write/modal";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
+import { useEditQuestions } from "@/hooks/useEditQuestions";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { useToast } from "@/hooks/useToast";
 import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
-import { Questions } from "@/types/retrospectCreate";
 
 const MAX_QUESTIONS_COUNT = 10;
 
 type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "goPrev">;
 
 export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
-  const { toast } = useToast();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
-  const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
-  const { questions: originalQuestions } = useContext(TemplateContext);
-  const editedQuestions = retroCreateData.questions;
+  const {
+    newQuestions,
+    initialQuestions,
+    showDelete,
+    toggleDelete,
+    isTemporarilyDeleted,
+    handleQuestionInputChange,
+    handleInputChangeConfirm,
+    handleDeleteCancel,
+    handleDeleteConfirm,
+    handleDeleteItemTemporarily,
+    handleDragEnd,
+    handleAddQuestions,
+  } = useEditQuestions();
+
+  const setRetroCreateData = useSetAtom(retrospectCreateAtom);
   const setIsQuestionEdited = useSetAtom(isQuestionEditedAtom);
 
   const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
-  const [newQuestions, setNewQuestions] = useState<Questions>(editedQuestions);
-  const [temporarilyDeletedIndexes, setTemporarilyDeletedIndexes] = useState<number[]>([]);
-  const [isInputChanged, setIsInputChanged] = useState(false);
-
-  const [showDelete, setShowDelete] = useState(false);
-
-  const handleDeleteItemTemporarily = (targetIndex: number) => {
-    setTemporarilyDeletedIndexes((prev) => [...prev, targetIndex]);
-  };
-
-  const handleDeleteConfirm = () => {
-    setNewQuestions((prev) => prev.filter((_, i) => !temporarilyDeletedIndexes.includes(i)));
-    setTemporarilyDeletedIndexes([]);
-    toast.success("삭제가 완료되었어요!");
-  };
-
-  const handleDeleteCancel = () => {
-    setShowDelete(false);
-    setTemporarilyDeletedIndexes([]);
-  };
-
-  const handleQuestionInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    setNewQuestions((prev) => {
-      const newQuestions: Questions = [...prev];
-      newQuestions[index] = {
-        questionType: "plain_text",
-        questionContent: e.target.value,
-      };
-      return newQuestions;
-    });
-    if (!isInputChanged) {
-      setIsInputChanged(true);
-    }
-  };
-
-  const handleDragEnd = ({ source, destination }: DropResult) => {
-    setNewQuestions((prev) => {
-      if (!destination) return prev;
-      const sortedQuestions = [...prev];
-      const draggedQuestion = prev[source.index];
-      sortedQuestions.splice(source.index, 1);
-      sortedQuestions.splice(destination.index, 0, draggedQuestion);
-      return sortedQuestions;
-    });
-  };
 
   const saveData = () => {
-    const isEdited = JSON.stringify(newQuestions) !== JSON.stringify(editedQuestions);
+    const isEdited = JSON.stringify(newQuestions) !== JSON.stringify(initialQuestions);
     setIsQuestionEdited(isEdited);
     setRetroCreateData((prev) => ({ ...prev, isNewForm: isEdited, questions: newQuestions, formName: `커스텀 템플릿` }));
   };
@@ -111,7 +76,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
           <Icon
             icon={"ic_quit"}
             onClick={() => {
-              if (JSON.stringify(newQuestions) !== JSON.stringify(editedQuestions)) {
+              if (JSON.stringify(newQuestions) !== JSON.stringify(initialQuestions)) {
                 setIsTemporarySaveModalOpen(true);
                 return;
               }
@@ -157,12 +122,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
           <Typography variant="B2" color={"darkGray"}>
             메인 질문
           </Typography>
-          <ShowDeleteButton
-            onToggle={() => setShowDelete((s) => !s)}
-            onCancel={handleDeleteCancel}
-            showDelete={showDelete}
-            onDelete={handleDeleteConfirm}
-          />
+          <ShowDeleteButton onToggle={toggleDelete} onCancel={handleDeleteCancel} showDelete={showDelete} onDelete={handleDeleteConfirm} />
         </div>
         <DragDropContext onDragEnd={handleDragEnd}>
           <Drop droppableId="droppable">
@@ -171,7 +131,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
                 <div
                   key={index}
                   css={css`
-                    display: ${temporarilyDeletedIndexes.includes(index) ? "none" : "block"};
+                    display: ${isTemporarilyDeleted(index) ? "none" : "block"};
                   `}
                 >
                   <Drag index={index} draggableId={index.toString()} isDragDisabled={showDelete}>
@@ -191,12 +151,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
                         css={css`
                           flex-grow: 1;
                         `}
-                        onBlur={() => {
-                          if (isInputChanged) {
-                            toast.success("수정이 완료되었어요!");
-                          }
-                          setIsInputChanged(false);
-                        }}
+                        onBlur={handleInputChangeConfirm}
                       />
                     </QuestionListItem>
                   </Drag>
@@ -212,7 +167,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         <ButtonProvider.Primary onClick={onNext}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} />} sheetHeight={590} />
+      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} handleAddQuestions={handleAddQuestions} />} sheetHeight={590} />
       {isTemporarySaveModalOpen && (
         <Portal id="modal-root">
           <TemporarySaveModal
