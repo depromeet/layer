@@ -17,7 +17,7 @@ export const TemplateContext = createContext<CustomTemplateRes>({
 });
 
 export function CustomTemplate() {
-  const locationState = useLocation().state as { templateId: number };
+  // const locationState = useLocation().state as { templateId: number };
   // const { templateId } = locationState;
   const {
     data: { title, tag, questions },
