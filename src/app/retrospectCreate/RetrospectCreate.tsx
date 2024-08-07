@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom, useAtomValue } from "jotai";
+import { useResetAtom } from "jotai/utils";
 import { createContext, useCallback, useMemo, useState } from "react";
 import { Beforeunload } from "react-beforeunload";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -60,6 +61,7 @@ export function RetrospectCreate() {
   const [, setTemporaryTemplateAtom] = useAtom(temporaryTemplateAtom);
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
+  const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
   const postRetrospectCreate = usePostRetrospectCreate(spaceId);
 
   const handleSubmit = () => {
@@ -68,6 +70,7 @@ export function RetrospectCreate() {
       spaceId,
       body: { ...retroCreateData, questions: questionsWithRequired, curFormId: 10001 },
     });
+    resetRetroCreateData();
   };
 
   const pageState = useMultiStepForm({
@@ -103,6 +106,7 @@ export function RetrospectCreate() {
     setIsTemporarySaveModalOpen(false);
     /**FIXME - dummy template id */
     setTemporaryTemplateAtom((prev) => ({ ...prev, templateId: 10001 }));
+    resetRetroCreateData();
     navigate(PATHS.spaceDetail(spaceId.toString()));
   }, []);
 
