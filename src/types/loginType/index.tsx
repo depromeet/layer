@@ -41,12 +41,10 @@ export type AuthResponse = {
   accessToken: string;
   refreshToken: string;
 } | null;
-
 export type AuthApiReturn = {
   status: number;
-  data: AuthResponse | null;
+  data: AuthResponse;
 };
-
 export type LoginKakaoResult = { status: number; response: AuthResponse | null };
 
 export type MemberInfo = {
@@ -55,5 +53,9 @@ export type MemberInfo = {
   email: string;
   memberRole: string;
   socialId: string;
+  socialType: "KAKAO" | "Google";
+};
+
+export type LoginKindType = {
   socialType: "KAKAO" | "Google";
 };
