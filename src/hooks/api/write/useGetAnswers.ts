@@ -21,7 +21,7 @@ export const useGetAnswers = ({ spaceId, retrospectId }: { spaceId: number; retr
   };
 
   return useQuery({
-    queryKey: ["answers"],
+    queryKey: ["answers", spaceId, retrospectId],
     queryFn: () => getQuestions(),
     retry: 1,
   });
