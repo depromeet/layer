@@ -82,10 +82,8 @@ export function RetrospectViewPage() {
             />
           ))}
 
-        {isFetchingNextPage && <LoadingSpinner />}
+        {isLoading && <LoadingSpinner />}
       </div>
-
-      {isLoading && <LoadingSpinner />}
     </DefaultLayout>
   );
 }

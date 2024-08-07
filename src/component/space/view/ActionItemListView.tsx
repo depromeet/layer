@@ -4,9 +4,11 @@ import { useState, Fragment } from "react";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
+import { TextArea } from "@/component/common/input";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
+import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { ActionItemType } from "@/types/actionItem";
 
@@ -27,7 +29,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
   const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [textValue, setTextValue] = useState("");
   const { mutate: postActionItem } = useApiPostActionItem();
-
+  const { openBottomSheet } = useBottomSheet();
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTextValue(e.target.value);
   };
@@ -42,6 +44,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
   };
 
   const handleOpenBottomSheet = () => {
+    openBottomSheet();
     setIsBottomSheetVisible(true);
   };
 
@@ -119,7 +122,6 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
           </div>
         </>
       )}
-
       {isBottomSheetVisible && (
         <BottomSheet
           sheetHeight={300}
@@ -134,24 +136,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
                 `}
               >
                 <Typography variant="S1">실행 목표 추가</Typography>
-                <textarea
-                  placeholder="Text"
-                  value={textValue}
-                  onChange={handleTextChange}
-                  css={css`
-                    width: 100%;
-                    height: 8.1rem;
-                    border: 1px solid ${DESIGN_SYSTEM_COLOR.grey300};
-                    border-radius: 1.2rem;
-                    padding: 1.4rem 1.6rem;
-                    font-size: 1.4rem;
-                    resize: none;
-                    &:focus {
-                      border-color: ${DESIGN_SYSTEM_COLOR.blue600};
-                      outline: none;
-                    }
-                  `}
-                />
+                <TextArea value={textValue} placeholder="Text" onChange={handleTextChange} />
                 <Button
                   colorSchema="black"
                   onClick={() => {

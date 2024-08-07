@@ -18,38 +18,36 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
   const { maxLength, value } = props;
   const textareaContext = useContext(InputContext);
   return (
-    <div>
-      <div
+    <div
+      css={css`
+        width: ${width};
+        border: 1px solid ${"#e3e6ea"}; // FIXME: 디자인 토큰 적용하기
+        border-radius: 0.8rem;
+        padding: 1.6rem;
+        display: flex;
+        flex-direction: column;
+        height: ${height};
+      `}
+    >
+      <textarea
+        ref={ref}
+        id={id || textareaContext?.id}
         css={css`
-          width: ${width};
-          border: 1px solid ${"#e3e6ea"}; // FIXME: 디자인 토큰 적용하기
-          border-radius: 0.8rem;
-          padding: 1.6rem;
-          display: flex;
-          flex-direction: column;
-          height: ${height};
+          ::placeholder {
+            color: ${DESIGN_SYSTEM_COLOR.lightGrey5};
+          }
         `}
-      >
-        <textarea
-          ref={ref}
-          id={id || textareaContext?.id}
+        {...props}
+      />
+      {count && maxLength && (
+        <div
           css={css`
-            ::placeholder {
-              color: ${DESIGN_SYSTEM_COLOR.lightGrey5};
-            }
+            align-self: flex-end;
           `}
-          {...props}
-        />
-        {count && maxLength && (
-          <div
-            css={css`
-              align-self: flex-end;
-            `}
-          >
-            <Typography variant="CAPTION" color={"lightGrey"}>{`${value.length}/${maxLength}`}</Typography>
-          </div>
-        )}
-      </div>
+        >
+          <Typography variant="CAPTION" color={"lightGrey"}>{`${value.length}/${maxLength}`}</Typography>
+        </div>
+      )}
     </div>
   );
 });
