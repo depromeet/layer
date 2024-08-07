@@ -12,10 +12,10 @@ import { Typography } from "@/component/common/typography";
 import { SpaceCountView, RetrospectBox, ActionItemListView, CreateRetrospectiveSheet } from "@/component/space";
 import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceAppBarRightComp } from "@/component/space/view/SpaceAppBarRightComp";
-import { useApiGetTeamActionItemList } from "@/hooks/api/actionItem/useApiGetTeamActionItemList";
-import { useGetSpaceAndRetrospect } from "@/hooks/api/retrospect/useSpaceRetrospects";
+import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useApiOptionsGetTeamActionItemList";
+import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
-import { useApiGetSpaceInfo } from "@/hooks/api/space/useApiGetSpaceInfo";
+import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -32,7 +32,7 @@ export function SpaceViewPage() {
     { data: spaceInfo, isLoading: isLoadingSpaceInfo },
     { data: teamActionList, isLoading: isLoadingTeamActionList },
   ] = useQueries({
-    queries: [useGetSpaceAndRetrospect(spaceId), useApiGetSpaceInfo(spaceId), useApiGetTeamActionItemList(spaceId)],
+    queries: [useApiOptionsGetRetrospects(spaceId), useApiOptionsGetSpaceInfo(spaceId), useApiOptionsGetTeamActionItemList(spaceId)],
   });
 
   const [proceedingRetrospects, setProceedingRetrospects] = useState(

@@ -8,7 +8,7 @@ const spaceInfoFetch = async (spaceId: string | undefined) => {
   return response.data;
 };
 
-export const useApiGetSpaceInfo = (spaceId?: string): UseQueryOptions<Space, Error, Space, [string, string]> => ({
+export const useApiOptionsGetSpaceInfo = (spaceId?: string): UseQueryOptions<Space, Error, Space, [string, string]> => ({
   queryKey: ["getSpaceInfo", spaceId!],
   queryFn: () => spaceInfoFetch(spaceId),
   enabled: !!spaceId,

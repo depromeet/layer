@@ -20,7 +20,7 @@ const spaceRestrospectFetch = async (spaceId: string | undefined) => {
   return response.data;
 };
 
-export const useGetSpaceAndRetrospect = (
+export const useApiOptionsGetRetrospects = (
   spaceId?: string,
 ): UseQueryOptions<RestrospectResponse, Error, RestrospectResponse["retrospects"], [string]> => ({
   queryKey: [spaceId!],

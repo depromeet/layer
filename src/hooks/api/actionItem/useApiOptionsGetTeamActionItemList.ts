@@ -8,7 +8,9 @@ const getTeamActionItemList = async (spaceId: string | undefined) => {
   return response.data;
 };
 
-export const useApiGetTeamActionItemList = (spaceId?: string): UseQueryOptions<TeamActionItemType, Error, TeamActionItemType, [string, string]> => ({
+export const useApiOptionsGetTeamActionItemList = (
+  spaceId?: string,
+): UseQueryOptions<TeamActionItemType, Error, TeamActionItemType, [string, string]> => ({
   queryKey: ["getTeamActionItemList", spaceId!],
   queryFn: () => getTeamActionItemList(spaceId),
   select(data) {
