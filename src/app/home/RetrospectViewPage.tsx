@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
@@ -25,7 +25,22 @@ export function RetrospectViewPage() {
 
   const selectedView = viewState.find((view) => view.selected)?.viewName || "ALL";
 
-  const { data: spaceList, lastElementRef, isLoading, isFetchingNextPage } = useApiGetSpaceList(selectedView);
+  const { data: spaceList, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useApiGetSpaceList(selectedView);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const lastElementRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver(async (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          await fetchNextPage();
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage],
+  );
 
   const goMakeReview = () => {
     navigate("/space/create");
