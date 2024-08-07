@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { loginKakao } from "@/api/login";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { authAtom } from "@/store/auth/authAtom";
 import { LoginKakaoResult, AuthResponse } from "@/types/loginType";
 
@@ -46,12 +47,20 @@ export function KaKaoRedirection() {
   }, [data, navigate]);
 
   if (isLoading) {
-    return <div>로그인 중입니다...</div>;
+    return (
+      <div>
+        <LoadingModal />
+      </div>
+    );
   }
 
   if (isError) {
     return <div>로그인 중 에러가 발생했습니다.</div>;
   }
 
-  return <div>로그인 중입니다.</div>;
+  return (
+    <div>
+      <LoadingModal />
+    </div>
+  );
 }
