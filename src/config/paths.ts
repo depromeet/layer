@@ -1,4 +1,6 @@
 export const PATHS = {
+  login: () => `/login`,
+  setNickName: () => `/setNickName`,
   home: () => `/`,
   goals: () => `/goals`,
   analysis: () => `/analysis`,
