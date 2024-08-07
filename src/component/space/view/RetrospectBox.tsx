@@ -51,7 +51,7 @@ export function RetrospectBox({
       {
         onSuccess: () => {
           setIsDeleted(true);
-          onDelete(retrospectId); // 삭제 후 부모 컴포넌트에 알림
+          onDelete(retrospectId);
         },
       },
     );
