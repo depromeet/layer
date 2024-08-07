@@ -1,60 +1,32 @@
-import { useQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
-import Cookies from "js-cookie";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-import { loginKakao } from "@/api/login";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
-import { authAtom } from "@/store/auth/authAtom";
-import { LoginKakaoResult, AuthResponse } from "@/types/loginType";
+import { usePostKakaoToken } from "@/hooks/api/login/usePostKakaoToken";
+import { usePostSignIn } from "@/hooks/api/login/usePostSignIn";
 
 export function KaKaoRedirection() {
   const code = new URL(window.location.toString()).searchParams.get("code");
-  const navigate = useNavigate();
-  const [, setAuth] = useAtom(authAtom);
+  const [hasFetchedToken, setHasFetchedToken] = useState(false);
 
-  function setAuthResponse(response: AuthResponse) {
-    if (response) {
-      Cookies.set("memberId", response.memberId.toString(), { expires: 7 });
-      Cookies.set("accessToken", response.accessToken, { expires: 7 });
-      Cookies.set("refreshToken", response.refreshToken, { expires: 7 });
-      setAuth({ isLogin: true, name: response.name, email: response.email, memberRole: response.memberRole });
-    }
-  }
-
-  const { isLoading, isError, data } = useQuery<LoginKakaoResult, Error>({
-    queryKey: ["auth", "kakao"],
-    queryFn: () => loginKakao(code),
-    staleTime: Infinity,
-    gcTime: Infinity,
-    retry: false,
-    refetchInterval: false,
-  });
+  const { mutate: fetchKakaoToken, data: kakaoLoginResponse, isSuccess: isKakaoSuccess } = usePostKakaoToken();
+  const { mutate: postSignIn, isError: isLoginError } = usePostSignIn();
 
   useEffect(() => {
-    if (data) {
-      const { status, response } = data;
-      if (status === 200) {
-        setAuthResponse(response);
-        navigate("/");
-      } else if (status === 400) {
-        navigate("/setnickname");
-      } else {
-        navigate("/login");
-      }
+    if (code && !hasFetchedToken) {
+      fetchKakaoToken(code);
+      setHasFetchedToken(true);
     }
-  }, [data, navigate]);
+  }, [code, fetchKakaoToken, hasFetchedToken]);
 
-  if (isLoading) {
-    return (
-      <div>
-        <LoadingModal />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (isKakaoSuccess && kakaoLoginResponse) {
+      console.log("tlfd");
 
-  if (isError) {
+      postSignIn({ socialType: "KAKAO" });
+    }
+  }, [isKakaoSuccess, kakaoLoginResponse, postSignIn]);
+
+  if (isLoginError) {
     return <div>로그인 중 에러가 발생했습니다.</div>;
   }
 
