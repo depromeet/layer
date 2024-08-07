@@ -2,10 +2,14 @@ import { SocialLoginButton } from "@/component/login";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { css } from "@emotion/react";
 import { ButtonProvider } from "@/component/common/button";
+import { LoginCarousel } from "@/component/login/LoginCarousel";
+import { Spacing } from "@/component/common/Spacing";
 
 export function LoginPage() {
   return (
     <DefaultLayout appBarVisible={false}>
+      <Spacing size={6} />
+      <LoginCarousel />
       <ButtonProvider>
         <SocialLoginButton type="kakao" handler={kakaoLogin} />
         <div
