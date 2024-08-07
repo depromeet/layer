@@ -85,16 +85,19 @@ export function RetrospectCreate() {
   );
 
   const conditionalGoPrev = useCallback(() => {
-    if (pageState.currentStep === "start") {
+    const { currentStep, goPrev } = pageState;
+    const { currentStep: customCurrentStep, goPrev: customGoPrev } = customState;
+
+    if (currentStep === "start") {
       setIsTemporarySaveModalOpen(true);
       return;
     }
-    if (pageState.currentStep === "customTemplate" && customState.currentStep === "confirmEditTemplate") {
-      customState.goPrev();
+    if (currentStep === "customTemplate" && customCurrentStep === "confirmEditTemplate") {
+      customGoPrev();
       return;
     }
-    pageState.goPrev();
-  }, [pageState.currentStep, customState.currentStep]);
+    goPrev();
+  }, [pageState, customState]);
 
   const quitPage = useCallback(() => {
     setIsTemporarySaveModalOpen(false);
