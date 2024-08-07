@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 import { useAtom, useAtomValue } from "jotai";
-import { createContext, useMemo, useState } from "react";
+import { createContext, useCallback, useMemo, useState } from "react";
 import { Beforeunload } from "react-beforeunload";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Portal } from "@/component/common/Portal";
@@ -11,6 +11,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
 import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
 import { TemporarySaveModal } from "@/component/write/modal";
+import { PATHS } from "@/config/paths";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
@@ -18,19 +19,22 @@ import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { temporaryTemplateAtom } from "@/store/templateAtom";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-type RetrospectCreateContextState = {
-  totalStepsCnt: number;
-  goNext: ReturnType<typeof useMultiStepForm>["goNext"];
-  goPrev: ReturnType<typeof useMultiStepForm>["goPrev"];
-};
+const PAGE_STEPS = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
+const CUSTOM_TEMPLATE_STEPS = ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const;
 
-export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({
-  totalStepsCnt: 0,
-  goNext: () => {},
-  goPrev: () => {},
-});
+type UseMultiStepFormContextState<T extends (typeof CUSTOM_TEMPLATE_STEPS)[number] | (typeof PAGE_STEPS)[number]> = ReturnType<
+  typeof useMultiStepForm<T>
+>;
+
+type RetrospectCreateContextState = UseMultiStepFormContextState<(typeof PAGE_STEPS)[number]>;
+type CustomTemplateContextState = UseMultiStepFormContextState<(typeof CUSTOM_TEMPLATE_STEPS)[number]>;
+
+export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({} as RetrospectCreateContextState);
+
+export const CustomTemplateContext = createContext<CustomTemplateContextState>({} as CustomTemplateContextState);
 
 export function RetrospectCreate() {
+  const navigate = useNavigate();
   const themeMap = {
     start: {
       background: "dark",
@@ -58,8 +62,6 @@ export function RetrospectCreate() {
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const postRetrospectCreate = usePostRetrospectCreate(spaceId);
 
-  const steps = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
-
   const handleSubmit = () => {
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
     postRetrospectCreate.mutate({
@@ -68,43 +70,54 @@ export function RetrospectCreate() {
     });
   };
 
-  const { currentStep, goNext, goPrev, totalStepsCnt, currentStepIndex } = useMultiStepForm({
-    steps,
+  const pageState = useMultiStepForm({
+    steps: PAGE_STEPS,
     handleSubmit,
   });
 
+  const customState = useMultiStepForm({
+    steps: CUSTOM_TEMPLATE_STEPS,
+  });
+
   const conditionalStepIndex = useMemo(
-    () => (currentStep === "dueDate" && !retroCreateData.deadline ? currentStepIndex - 1 : currentStepIndex),
-    [currentStep, retroCreateData.deadline],
+    () => (pageState.currentStep === "dueDate" && !retroCreateData.deadline ? pageState.currentStepIndex - 1 : pageState.currentStepIndex),
+    [pageState.currentStep, retroCreateData.deadline],
   );
+
+  const conditionalGoPrev = useCallback(() => {
+    if (pageState.currentStep === "start") {
+      setIsTemporarySaveModalOpen(true);
+      return;
+    }
+    if (pageState.currentStep === "customTemplate" && customState.currentStep === "confirmEditTemplate") {
+      customState.goPrev();
+      return;
+    }
+    pageState.goPrev();
+  }, [pageState.currentStep, customState.currentStep]);
+
+  const quitPage = useCallback(() => {
+    setIsTemporarySaveModalOpen(false);
+    /**FIXME - dummy template id */
+    setTemporaryTemplateAtom((prev) => ({ ...prev, templateId: 10001 }));
+    navigate(PATHS.spaceDetail(spaceId.toString()));
+  }, []);
 
   return (
     <>
       <DefaultLayout
-        LeftComp={
-          <Icon
-            icon={"ic_arrow_back"}
-            onClick={
-              currentStepIndex === 0
-                ? () => {
-                    setIsTemporarySaveModalOpen(true);
-                  }
-                : () => goPrev()
-            }
-            color={themeMap[currentStep]["iconColor"]}
-          />
-        }
-        theme={themeMap[currentStep]["background"]}
+        LeftComp={<Icon icon={"ic_arrow_back"} onClick={conditionalGoPrev} color={themeMap[pageState.currentStep]["iconColor"]} />}
+        theme={themeMap[pageState.currentStep]["background"]}
       >
         <div
           css={css`
-            visibility: ${currentStep === "start" ? "hidden" : "visible"};
+            visibility: ${pageState.currentStep === "start" ? "hidden" : "visible"};
           `}
         >
-          <ProgressBar curPage={conditionalStepIndex} lastPage={totalStepsCnt - 1} />
+          <ProgressBar curPage={conditionalStepIndex} lastPage={pageState.totalStepsCnt - 1} />
         </div>
         <Spacing size={2.9} />
-        <RetrospectCreateContext.Provider value={{ totalStepsCnt, goNext, goPrev }}>
+        <RetrospectCreateContext.Provider value={pageState}>
           <form
             css={css`
               flex: 1 1 0;
@@ -114,10 +127,14 @@ export function RetrospectCreate() {
               e.preventDefault();
             }}
           >
-            {currentStep === "start" && <Start onQuitPage={() => setIsTemporarySaveModalOpen(true)} />}
-            {currentStep === "mainInfo" && <MainInfo />}
-            {currentStep === "customTemplate" && <CustomTemplate />}
-            {currentStep === "dueDate" && <DueDate />}
+            {pageState.currentStep === "start" && <Start onQuitPage={quitPage} />}
+            {pageState.currentStep === "mainInfo" && <MainInfo />}
+            {pageState.currentStep === "customTemplate" && (
+              <CustomTemplateContext.Provider value={customState}>
+                <CustomTemplate />
+              </CustomTemplateContext.Provider>
+            )}
+            {pageState.currentStep === "dueDate" && <DueDate />}
           </form>
         </RetrospectCreateContext.Provider>
       </DefaultLayout>
@@ -127,12 +144,7 @@ export function RetrospectCreate() {
           <TemporarySaveModal
             title="회고 진행을 중단하시겠어요?"
             content="선택한 템플릿은 임시저장되어요"
-            confirm={() => {
-              setIsTemporarySaveModalOpen(false);
-              /**FIXME - dummy template id */
-              setTemporaryTemplateAtom((prev) => ({ ...prev, templateId: 10001 }));
-              /**TODO - 스페이스 상세 페이지로 이동 */
-            }}
+            confirm={quitPage}
             quit={() => {
               setIsTemporarySaveModalOpen(false);
             }}
