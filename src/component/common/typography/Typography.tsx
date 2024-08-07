@@ -11,7 +11,6 @@ export type TypographyProps = {
   children: React.ReactNode;
 } & Omit<React.HTMLAttributes<HTMLElement>, "color" | "as" | "variant">;
 
-// FIXME: 디자인 토큰에 따른 default 값 수정
 export function Typography({ as: Component = "span", variant = "B1", color = "black", children, ...props }: TypographyProps) {
   return (
     <Component

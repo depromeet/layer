@@ -3,5 +3,5 @@ export { FieldButton } from "./FieldButton";
 export { CreateSpace } from "./create/CreateSpace";
 export { RetrospectBox } from "./view/RetrospectBox";
 export { SpaceCountView } from "./view/SpaceCountView";
-export { TeamGoalView } from "./view/TeamGoalView";
+export { ActionItemListView } from "./view/ActionItemListView";
 export { CreateRetrospectiveSheet } from "./CreateRetrospectiveSheet";
