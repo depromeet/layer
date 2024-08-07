@@ -27,19 +27,21 @@ export type Answer = {
   answerContent: string;
 };
 
+type ModalModeType = "TEMP_SAVED" | "ALREADY_SAVED";
+type EditModeType = "EDIT" | "POST";
+
 export function Write() {
   /** Util */
   const navigate = useNavigate();
 
   /** Write Local State */
   const { data, incrementPhase, decrementPhase, phase, movePhase, spaceId, retrospectId } = useContext(PhaseContext);
-  // const [satisfyIdx, setSatistfyIdx] = useState(-1);
-  // const [archievementIdx, setArchievementIdx] = useState(-1);
   const [isEntireModalOpen, setEntireModalOpen] = useState(false);
   const [isTemporarySaveModalOpen, setTemporarySaveModalOpen] = useState(false);
   const [isAnswerFilled, setIsAnswerFilled] = useState(false);
   const isComplete = data?.questions.length === phase;
-  const editMode = useRef("POST");
+  const editMode = useRef<EditModeType>("POST");
+  const modalMode = useRef<ModalModeType>("TEMP_SAVED");
   const [answers, setAnswers] = useState<Answer[]>(
     data.questions.map((question) => ({
       questionId: question.questionId,
@@ -77,6 +79,7 @@ export function Write() {
   useEffect(() => {
     if (answerDataSuccess && answerData) {
       editMode.current = "EDIT";
+      modalMode.current = "ALREADY_SAVED";
       setAnswers(
         answerData.answers.map((question) => ({
           questionId: question.questionId,
@@ -132,19 +135,22 @@ export function Write() {
       )}
       {isTemporarySaveModalOpen && (
         <Portal id="modal-root">
+          {/* FIXME: 디자인 팀에 모달 문구 전달 후, 수정 예정 */}
           <TemporarySaveModal
             title={"회고 작성을 멈출까요?"}
-            content={"작성중인 회고는 임시저장 되어요"}
+            content={modalMode.current === "TEMP_SAVED" ? "작성중인 회고는 임시저장 되어요" : "중요한 정보라면 변경 사항을 저장해주세요"}
             confirm={() => {
-              mutate(
-                { data: answers, isTemporarySave: true, spaceId: spaceId, retrospectId: retrospectId },
-                {
-                  onSuccess: () => {
-                    handleModalClose("temporary-save");
-                    navigate("/");
-                  },
-                },
-              );
+              modalMode.current === "TEMP_SAVED"
+                ? mutate(
+                    { data: answers, isTemporarySave: true, spaceId: spaceId, retrospectId: retrospectId },
+                    {
+                      onSuccess: () => {
+                        handleModalClose("temporary-save");
+                        navigate("/");
+                      },
+                    },
+                  )
+                : (handleModalClose("temporary-save"), navigate("/"));
             }}
             quit={() => {
               handleModalClose("temporary-save");
