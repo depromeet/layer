@@ -1,9 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { PATHS } from "@/config/paths";
 import { useToast } from "@/hooks/useToast";
+import { authAtom } from "@/store/auth/authAtom";
 import { AuthResponse, SocialLoginKind } from "@/types/loginType";
 
 type PostSignUp = {
@@ -15,6 +18,7 @@ type PostSignUp = {
 export const usePostSignUp = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [, setAuth] = useAtom(authAtom);
   const signUpWithToken = async ({ accessToken, name, socialType }: PostSignUp): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>(
       "/api/auth/sign-up",
@@ -33,7 +37,13 @@ export const usePostSignUp = () => {
 
   return useMutation<AuthResponse, unknown, PostSignUp>({
     mutationFn: signUpWithToken,
-    onSuccess: () => {
+    onSuccess: (data: AuthResponse) => {
+      if (data) {
+        Cookies.set("memberId", data.memberId.toString(), { expires: 7 });
+        Cookies.set("accessToken", data.accessToken, { expires: 7 });
+        Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
+        setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole });
+      }
       toast.success("Layer에 온걸 환영해요!");
       navigate(PATHS.home());
     },

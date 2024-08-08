@@ -1,5 +1,3 @@
-import { css } from "@emotion/react";
-
 import { ButtonProvider } from "@/component/common/button";
 import { Spacing } from "@/component/common/Spacing";
 import { SocialLoginButton } from "@/component/login";
@@ -13,12 +11,6 @@ export function LoginPage() {
       <LoginCarousel />
       <ButtonProvider>
         <SocialLoginButton type="kakao" handler={kakaoLogin} />
-        <div
-          css={css`
-            width: 100%;
-            height: 0.8rem;
-          `}
-        ></div>
         <SocialLoginButton type="google" handler={googleLogin} />
       </ButtonProvider>
     </DefaultLayout>
