@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 import { LoginSpriteSvg } from "./LoginSpriteSvg";
 
-import { loginTypeProvider, loginBtnProps, backgroundColors } from "@/types/loginType";
+import { loginBtnProps, backgroundColors } from "@/types/loginType";
 
 export function SocialLoginButton({ type, handler }: loginBtnProps) {
   return (
