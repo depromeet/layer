@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 import { LoginSpriteSvg } from "./LoginSpriteSvg";
 
-import { loginTypeProvider, loginBtnProps, backgroundColors } from "@/types/loginType";
+import { loginBtnProps, backgroundColors } from "@/types/loginType";
 
 export function SocialLoginButton({ type, handler }: loginBtnProps) {
   return (
@@ -30,7 +30,8 @@ export function SocialLoginButton({ type, handler }: loginBtnProps) {
       >
         <LoginSpriteSvg type={type} />
       </div>
-      {loginTypeProvider[type]}로 로그인
+      {type === "kakao" && "카카오로 로그인"}
+      {type === "google" && "구글 계정으로 로그인"}
     </button>
   );
 }

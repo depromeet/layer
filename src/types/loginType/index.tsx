@@ -31,6 +31,14 @@ export type KakaoLoginResponse = {
   refresh_token_expires_in: number;
 };
 
+export type GoogleLoginResponse = {
+  access_token: string;
+  expires_in: number;
+  scope: string;
+  token_type: string;
+  id_token?: string;
+};
+
 export type AuthResponse = {
   memberId: number;
   name: string;
@@ -44,9 +52,8 @@ export type AuthResponse = {
 
 export type AuthApiReturn = {
   status: number;
-  data: AuthResponse | null;
+  data: AuthResponse;
 };
-
 export type LoginKakaoResult = { status: number; response: AuthResponse | null };
 
 export type MemberInfo = {
@@ -55,5 +62,11 @@ export type MemberInfo = {
   email: string;
   memberRole: string;
   socialId: string;
-  socialType: "KAKAO" | "Google";
+  socialType: SocialLoginKind;
 };
+
+export type LoginKindType = {
+  socialType: "kakao" | "google";
+};
+
+export type SocialLoginKind = "kakao" | "google";
