@@ -1,4 +1,4 @@
-export const DESIGN_SYSTEM_TEXT = {
+export const DESIGN_TOKEN_TEXT = {
   heading24Bold: {
     fontSize: "2.4rem",
     fontWeight: "700",
@@ -71,7 +71,7 @@ export const DESIGN_SYSTEM_TEXT = {
   },
 } as const;
 
-export const DESIGN_SYSTEM_COLOR = {
+export const DESIGN_TOKEN_COLOR = {
   gray: {
     "00": "#FFFFF",
     "100": "#F2F4F8",
