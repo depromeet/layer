@@ -1,14 +1,9 @@
-//FIXME: 팀 디자인 토큰 나오는대로 수정 필요
+//FIXME - 디자인 토큰 전체 적용 후 삭제 예정
+
 export const DESIGN_SYSTEM_TEXT = {
-  E1: {
-    fontWeight: "Bold",
-    fontSize: "9.6rem",
-    lineHeight: "12rem",
-    letterSpacing: "-2%",
-  },
   E2: {
-    fontWeight: "Bold",
     fontSize: "6rem",
+    fontWeight: "Bold",
     lineHeight: "8rem",
     letterSpacing: "-2%",
   },
@@ -122,7 +117,7 @@ export const DESIGN_SYSTEM_COLOR = {
     default: "#FFFFFF",
   },
   dark: "#212529",
-  darkGray: "#868e96",
+  darkGray: "#868E96",
   darkGrayText: "#495057",
   theme: "#73a2ff",
   theme2: "#5e94ff",
