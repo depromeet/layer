@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { forwardRef, useContext, useState } from "react";
 
 import { InputContext } from "./InputLabelContainer";
-import { validations } from "./validation.const";
+import { patterns } from "./patterns.const";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -12,38 +12,30 @@ type InputProps = {
   width?: string;
   count?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  // onValidate?: (e: React.ChangeEvent<HTMLInputElement>, validation: keyof typeof validations) => void;
-  validation?: keyof typeof validations;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+  validations?: (keyof typeof patterns)[];
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "pattern">;
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, width = "100%", count, validation, onChange, ...props }, ref) {
+export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, width = "100%", count, validations, onChange, ...props }, ref) {
   const { maxLength, value } = props;
   const [isFocused, setIsFocused] = useState(false);
   const inputContext = useContext(InputContext);
+  const [errorMsg, setErrorMsg] = useState<string>();
 
-  const onInputValidate = (e: React.ChangeEvent<HTMLInputElement>, validation: keyof typeof validations) => {
-    if (!e.target.value) return;
-
-    let errorMsg = "";
-    if (validation === "EXCLUDE_SPECIAL_CHARS" && validations["EXCLUDE_SPECIAL_CHARS"].test(e.target.value)) {
-      errorMsg = "특수문자는 입력이 불가해요";
+  const onInputValidate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!validations) return;
+    for (let i = 0; i < validations.length; i++) {
+      const validation = validations[i];
+      const pattern = new RegExp(patterns[validation]["pattern"], "g");
+      const isValid = pattern.test(e.target.value);
+      if (isValid) {
+        setErrorMsg(undefined);
+        return;
+      } else {
+        setErrorMsg(patterns[validation]["errorMsg"]);
+        return;
+      }
     }
-    setError((prev) => ({ ...prev, errorMsg }));
   };
-
-  const [error, setError] = useState<{
-    isRequired: boolean;
-    validation: keyof typeof validations;
-    errorMsg: string;
-    onInputValidate: typeof onInputValidate;
-  }>({
-    isRequired: false,
-    validation: "EXCLUDE_SPECIAL_CHARS",
-    errorMsg: "",
-    onInputValidate,
-  });
-
-  console.log("error.errorMsg", error.errorMsg);
 
   return (
     <div>
@@ -71,8 +63,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           onBlur={() => setIsFocused(false)}
           onChange={(e) => {
             onChange(e);
-            if (!validation) return;
-            onInputValidate(e, validation);
+            if (validations && validations.length > 0) {
+              onInputValidate(e);
+            }
           }}
           {...props}
         />
@@ -86,14 +79,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           </>
         )}
       </div>
-      {error.errorMsg && (
+      {errorMsg && (
         <div
           css={css`
             margin-top: 0.8rem;
           `}
         >
           <Typography color="red400" variant="B2">
-            {`*${error.errorMsg}`}
+            {`*${errorMsg}`}
           </Typography>
         </div>
       )}

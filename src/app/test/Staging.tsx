@@ -73,7 +73,7 @@ export default function Staging() {
       <br />
       <InputLabelContainer id={"retro"}>
         <Label order={1}>회고 이름</Label>
-        <Input onChange={handleChangeName} value={layerName} maxLength={10} count validation="EXCLUDE_SPECIAL_CHARS" />
+        <Input onChange={handleChangeName} value={layerName} maxLength={10} count validations={["NO_SPECIAL_CHARS", "ONLY_KO"]} />
       </InputLabelContainer>
 
       <InputLabelContainer id={"description"}>
