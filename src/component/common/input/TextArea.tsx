@@ -22,12 +22,14 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
     <div
       css={css`
         width: ${width};
-        border: 1px solid ${"#e3e6ea"}; // FIXME: 디자인 토큰 적용하기
+        border: 1px solid;
+        border-color: ${isFocused ? DESIGN_SYSTEM_COLOR.theme3 : "#e3e6ea"}; // FIXME: 디자인 토큰 적용하기
         border-radius: 0.8rem;
         padding: 1.6rem;
         display: flex;
         flex-direction: column;
         height: ${height};
+        transition: 0.2s all;
       `}
     >
       <textarea
@@ -37,15 +39,8 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           ::placeholder {
             color: ${DESIGN_SYSTEM_COLOR.lightGrey5};
           }
-          width: ${width};
-          border: 1px solid;
-          border-color: ${isFocused ? DESIGN_SYSTEM_COLOR.theme3 : "#e3e6ea"}; // FIXME: 디자인 토큰 적용하기
-          border-radius: 0.8rem;
-          padding: 1.6rem;
-          display: flex;
-          flex-direction: column;
-          height: ${height};
-          transition: 0.2s all;
+          flex-shrink: 0;
+          flex-grow: 1;
         `}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
