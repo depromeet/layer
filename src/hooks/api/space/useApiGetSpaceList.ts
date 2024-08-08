@@ -1,5 +1,4 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useRef, useCallback } from "react";
 
 import { api } from "@/api";
 import { Space } from "@/types/spaceType";
@@ -22,9 +21,7 @@ export const spaceFetch = async (cursorId: number, category: string, pageSize: n
 };
 
 export const useApiGetSpaceList = (selectedView: string) => {
-  const observer = useRef<IntersectionObserver | null>(null);
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery<SpaceFetchResponse>({
+  return useInfiniteQuery<SpaceFetchResponse>({
     queryKey: ["spaces", selectedView],
     queryFn: ({ queryKey, pageParam = 0 }) => {
       const [, category] = queryKey;
@@ -33,22 +30,4 @@ export const useApiGetSpaceList = (selectedView: string) => {
     initialPageParam: 0,
     getNextPageParam: (lastPage) => (lastPage.meta.hasNextPage ? lastPage.meta.cursor : undefined),
   });
-
-  const lastElementRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver(async (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          await fetchNextPage();
-        }
-      });
-      if (node) observer.current.observe(node);
-    },
-    [fetchNextPage, hasNextPage, isFetchingNextPage],
-  );
-
-  return {
-    data,
-    lastElementRef,
-  };
 };

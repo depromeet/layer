@@ -1,14 +1,9 @@
-//FIXME: 팀 디자인 토큰 나오는대로 수정 필요
+//FIXME - 디자인 토큰 전체 적용 후 삭제 예정
+
 export const DESIGN_SYSTEM_TEXT = {
-  E1: {
-    fontWeight: "Bold",
-    fontSize: "9.6rem",
-    lineHeight: "12rem",
-    letterSpacing: "-2%",
-  },
   E2: {
-    fontWeight: "Bold",
     fontSize: "6rem",
+    fontWeight: "Bold",
     lineHeight: "8rem",
     letterSpacing: "-2%",
   },
@@ -122,7 +117,7 @@ export const DESIGN_SYSTEM_COLOR = {
     default: "#FFFFFF",
   },
   dark: "#212529",
-  darkGray: "#868e96",
+  darkGray: "#868E96",
   darkGrayText: "#495057",
   theme: "#73a2ff",
   theme2: "#5e94ff",
@@ -161,7 +156,7 @@ export const DESIGN_SYSTEM_COLOR = {
   grey200: "#e5e8eb",
   grey300: "#d1d6db",
   grey400: "#b0b8c1",
-  grey500: "#8b95a1",
+  grey500: "rgba(169, 175, 187, 1)",
   grey600: "#6b7684",
   grey700: "#4e5968",
   grey800: "#333d4b",
@@ -177,13 +172,13 @@ export const DESIGN_SYSTEM_COLOR = {
   greyOpacity800: "rgba(0, 12, 30, 0.8)",
   greyOpacity900: "rgba(2, 9, 19, 0.91)",
   white: "#fff",
-  blue50: "#e8f3ff",
+  blue50: "rgba(241, 246, 255, 1)",
   blue100: "#c9e2ff",
   blue200: "#90c2ff",
   blue300: "#64a8ff",
   blue400: "#4593fc",
   blue500: "#3182f6",
-  blue600: "#2272eb",
+  blue600: "rgba(108, 156, 250, 1)",
   blue700: "#1b64da",
   blue800: "#1957c2",
   blue900: "#194aa6",

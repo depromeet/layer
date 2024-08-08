@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths";
 
 type Props = {
   teamName: string | undefined;
+  spaceId: string | undefined;
 };
 
-export function CreateRetrospectiveSheet({ teamName }: Props) {
+export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
   const navigate = useNavigate();
   return (
     <div
@@ -62,8 +64,7 @@ export function CreateRetrospectiveSheet({ teamName }: Props) {
         </button>
         <button
           onClick={() => {
-            //커스텀 템플릿 URL로 변경
-            navigate("/retrospect/custom");
+            if (spaceId) navigate(PATHS.template(spaceId));
           }}
           css={css`
             width: 16.3rem;

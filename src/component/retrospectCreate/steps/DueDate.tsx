@@ -69,8 +69,7 @@ export function DueDate() {
             {`${formatDateToString(selectedDate as Date, ".")} ${selectedTime ?? ""}`}
           </Typography>
         )}
-        {/**FIXME - design token */}
-        <Icon icon="ic_calendar" color="#666B75" size={2.4} />
+        <Icon icon="ic_calendar" color={!selectedDate ? "#666B75" : "#454952"} size={2} />
         <input
           id={DATE_INPUT_ID}
           type="date"

@@ -1,62 +1,51 @@
 import { css } from "@emotion/react";
 import { useQueries } from "@tanstack/react-query";
-import { Fragment, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Fragment, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
-import { Icon } from "@/component/common/Icon";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { MidModal } from "@/component/common/Modal/MidModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Toast } from "@/component/common/Toast";
 import { Typography } from "@/component/common/typography";
-import { SpaceCountView, RetrospectBox, TeamGoalView, CreateRetrospectiveSheet } from "@/component/space";
+import { SpaceCountView, RetrospectBox, ActionItemListView, CreateRetrospectiveSheet } from "@/component/space";
 import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceAppBarRightComp } from "@/component/space/view/SpaceAppBarRightComp";
-import { useGetSpaceAndRetrospect } from "@/hooks/api/retrospect/useSpaceRetrospects";
+import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useApiOptionsGetTeamActionItemList";
+import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
-import { useApiGetSpaceInfo } from "@/hooks/api/space/useApiGetSpaceInfo";
+import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
-import { Space } from "@/types/spaceType";
-
-type RestrospectType = {
-  retrospectId: number;
-  title: string;
-  introduction: string;
-  isWrite: boolean;
-  retrospectStatus: "PROCEEDING" | "DONE";
-  writeCount: number;
-  totalCount: number;
-};
 
 export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
-  const navigate = useNavigate();
-  const [layerCount, setLayerCount] = useState<number | undefined>(0);
-  const [spaceInfo, setSpaceInfo] = useState<Space>();
-  const [restrospectArr, setRestrospectArr] = useState<RestrospectType[] | undefined>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const { mutate: deleteSpace } = useApiDeleteSpace();
+  const [isVisiableBottomSheet, setIsVisiableBottomSheet] = useState<boolean>(false);
 
-  const [getRetrospects, getSpaceInfo] = useQueries({
-    queries: [useGetSpaceAndRetrospect(spaceId), useApiGetSpaceInfo(spaceId)],
+  const [
+    { data: restrospectArr, isLoading: isLoadingRestrospects },
+    { data: spaceInfo, isLoading: isLoadingSpaceInfo },
+    { data: teamActionList, isLoading: isLoadingTeamActionList },
+  ] = useQueries({
+    queries: [useApiOptionsGetRetrospects(spaceId), useApiOptionsGetSpaceInfo(spaceId), useApiOptionsGetTeamActionItemList(spaceId)],
   });
 
-  useEffect(() => {
-    if (getSpaceInfo.isSuccess && getRetrospects.isSuccess) {
-      setSpaceInfo(getSpaceInfo.data);
-      setLayerCount(getRetrospects.data?.layerCount);
-      setRestrospectArr(getRetrospects.data?.retrospects);
-    } else if (getSpaceInfo.isError || getRetrospects.isError) {
-      navigate(-1);
-    }
-  }, [getRetrospects, getSpaceInfo, navigate]);
+  const [proceedingRetrospects, setProceedingRetrospects] = useState(
+    restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [],
+  );
+  const [doneRetrospects, setDoneRetrospects] = useState(restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "DONE") || []);
 
-  const proceedingRetrospects = restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING");
-  const doneRetrospects = restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "DONE");
+  const isLoading = isLoadingRestrospects || isLoadingSpaceInfo || isLoadingTeamActionList;
+
+  const handleDeleteRetrospect = (retrospectId: number) => {
+    setProceedingRetrospects((prev) => prev.filter((item) => item.retrospectId !== retrospectId));
+    setDoneRetrospects((prev) => prev.filter((item) => item.retrospectId !== retrospectId));
+  };
 
   const handleDeleteFun = () => {
     deleteSpace(spaceId as string);
@@ -71,16 +60,31 @@ export function SpaceViewPage() {
     setIsModalVisible(false);
   };
 
+  const handleOpenBottomSheet = () => {
+    setIsVisiableBottomSheet(true);
+    openBottomSheet();
+  };
+
+  if (isLoading) {
+    return <LoadingModal />;
+  }
   return (
     <DefaultLayout
       theme="dark"
       height="6.4rem"
       title={spaceInfo?.name}
-      RightComp={<SpaceAppBarRightComp spaceId={spaceId} onDeleteClick={handleOpenModal} />} // 모달 열기 핸들러 전달
+      RightComp={
+        <SpaceAppBarRightComp
+          spaceId={spaceId}
+          onDeleteClick={handleOpenModal}
+          isTooltipVisible={restrospectArr?.length == 0}
+          handleOpenBottomSheet={handleOpenBottomSheet}
+        />
+      }
     >
-      <TeamGoalView />
+      <ActionItemListView teamActionList={teamActionList?.teamActionItemList || []} />
       <Spacing size={1.1} />
-      <SpaceCountView memberCount={spaceInfo?.memberCount} layerCount={layerCount} />
+      <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
       <Spacing size={2.4} />
       <div
         css={css`
@@ -103,7 +107,7 @@ export function SpaceViewPage() {
           </Typography>
         </div>
         <Spacing size={1.6} />
-        {!proceedingRetrospects?.length && !doneRetrospects?.length && <EmptyRetrospect />}
+        {!proceedingRetrospects?.length && <EmptyRetrospect />}
 
         <div
           css={css`
@@ -112,7 +116,9 @@ export function SpaceViewPage() {
             gap: 1rem;
           `}
         >
-          {proceedingRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />)}
+          {proceedingRetrospects?.map((retrospect) => (
+            <RetrospectBox key={retrospect.retrospectId} spaceId={spaceId} retrospect={retrospect} onDelete={handleDeleteRetrospect} />
+          ))}
         </div>
 
         <Spacing size={2} />
@@ -128,10 +134,9 @@ export function SpaceViewPage() {
             <Typography variant="B1_BOLD" color="darkGray">
               {doneRetrospects?.length}
             </Typography>
-            <Spacing size={1.6} />
           </div>
         )}
-
+        <Spacing size={1.6} />
         <div
           css={css`
             display: flex;
@@ -139,38 +144,22 @@ export function SpaceViewPage() {
             gap: 1rem;
           `}
         >
-          {doneRetrospects?.map((retrospect) => <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} />)}
+          {doneRetrospects?.map((retrospect) => (
+            <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} spaceId={spaceId} onDelete={handleDeleteRetrospect} />
+          ))}
         </div>
       </div>
-      <button
-        onClick={openBottomSheet}
-        css={css`
-          width: 11.6rem;
-          height: 4.8rem;
-          background-color: #212529;
-          position: fixed;
-          bottom: 1.2rem;
-          right: 2.4rem;
-          border-radius: 3rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.7rem;
-        `}
-      >
-        <Icon icon="ic_writePen" />
-        <Typography color="white" variant="B2_SEMIBOLD">
-          회고 생성
-        </Typography>
-      </button>
-      <BottomSheet
-        contents={
-          <Fragment>
-            <CreateRetrospectiveSheet teamName={spaceInfo?.name} />
-          </Fragment>
-        }
-        handler={true}
-      />
+      {isVisiableBottomSheet && (
+        <BottomSheet
+          contents={
+            <Fragment>
+              <CreateRetrospectiveSheet spaceId={spaceId} teamName={spaceInfo?.name} />
+            </Fragment>
+          }
+          handler={true}
+        />
+      )}
+
       {isModalVisible && (
         <MidModal
           title="스페이스를 삭제하시겠어요?"

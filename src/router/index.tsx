@@ -19,6 +19,7 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
+import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 
 type RouteChildren = {
   auth: boolean;
@@ -100,6 +101,11 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/retrospect/complete",
     element: <RetrospectCreateComplete />,
+    auth: true,
+  },
+  {
+    path: "/space/:spaceId",
+    element: <SpaceViewPage />,
     auth: true,
   },
 ];

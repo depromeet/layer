@@ -68,6 +68,9 @@ dependencies:
   swiper:
     specifier: ^11.1.5
     version: 11.1.5
+  vite-plugin-sitemap:
+    specifier: ^0.7.1
+    version: 0.7.1
 
 devDependencies:
   '@babel/preset-react':
@@ -4606,6 +4609,10 @@ packages:
       detect-node-es: 1.1.0
       react: 18.3.1
       tslib: 2.6.2
+    dev: false
+
+  /vite-plugin-sitemap@0.7.1:
+    resolution: {integrity: sha512-4NRTkiWytLuAmcikckrLcLl9iYA20+5v6l8XshcOrzxH1WR8H0O3S6sTQYfjMrE8su/LG6Y0cTodvOdcOIxaLw==}
     dev: false
 
   /vite-plugin-svgr@4.2.0(typescript@5.4.5)(vite@5.2.11):
