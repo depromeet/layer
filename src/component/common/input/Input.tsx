@@ -1,10 +1,11 @@
 import { css } from "@emotion/react";
-import { forwardRef, useContext, useMemo, useState } from "react";
+import { forwardRef, useContext, useEffect, useMemo, useState } from "react";
 
 import { InputContext } from "./InputLabelContainer";
 import { patterns } from "./patterns.const";
 
 import { Typography } from "@/component/common/typography";
+import { useValidation } from "@/hooks/useValidation";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type InputProps = {
@@ -19,28 +20,16 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
   const { maxLength, value } = props;
   const [isFocused, setIsFocused] = useState(false);
   const inputContext = useContext(InputContext);
-  const [errorMsg, setErrorMsg] = useState<string>();
-
-  const onInputValidate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!validations) return;
-    for (let i = 0; i < validations.length; i++) {
-      const validation = validations[i];
-      const pattern = new RegExp(patterns[validation]["pattern"], "g");
-      const isValid = pattern.test(e.target.value);
-      if (isValid) {
-        setErrorMsg(undefined);
-        return;
-      } else {
-        setErrorMsg(patterns[validation]["errorMsg"]);
-        return;
-      }
-    }
-  };
+  const { errorMsg, onInputValidate } = useValidation({ validations, maxLength });
 
   const combinedPattern = useMemo(
     () => (validations ? validations.map((validation) => patterns[validation]["pattern"].source).join("|") : undefined),
     [validations],
   );
+
+  useEffect(() => {
+    console.log(errorMsg);
+  }, [errorMsg]);
 
   return (
     <div>
@@ -69,9 +58,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           onBlur={() => setIsFocused(false)}
           onChange={(e) => {
             onChange(e);
-            if (validations && validations.length > 0) {
-              onInputValidate(e);
-            }
+            onInputValidate(e);
           }}
           pattern={combinedPattern}
           {...props}

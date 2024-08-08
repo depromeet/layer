@@ -5,6 +5,7 @@ import { InputContext } from "./InputLabelContainer";
 import { patterns } from "./patterns.const";
 
 import { Typography } from "@/component/common/typography";
+import { useValidation } from "@/hooks/useValidation";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type TextAreaProps = {
@@ -23,23 +24,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
   const { maxLength, value } = props;
   const [isFocused, setIsFocused] = useState(false);
   const textareaContext = useContext(InputContext);
-  const [errorMsg, setErrorMsg] = useState<string>();
-
-  const onInputValidate = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (!validations) return;
-    for (let i = 0; i < validations.length; i++) {
-      const validation = validations[i];
-      const pattern = new RegExp(patterns[validation]["pattern"], "g");
-      const isValid = pattern.test(e.target.value);
-      if (isValid) {
-        setErrorMsg(undefined);
-        return;
-      } else {
-        setErrorMsg(patterns[validation]["errorMsg"]);
-        return;
-      }
-    }
-  };
+  const { errorMsg, onInputValidate } = useValidation({ validations, maxLength });
 
   return (
     <div>
@@ -70,9 +55,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           onBlur={() => setIsFocused(false)}
           onChange={(e) => {
             onChange(e);
-            if (validations && validations.length > 0) {
-              onInputValidate(e);
-            }
+            onInputValidate(e);
           }}
           {...props}
         />
