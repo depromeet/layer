@@ -4,8 +4,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { ButtonProvider, IconButton } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import { useApiGetUser } from "@/hooks/api/auth/useApiGetUser";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
@@ -15,25 +17,26 @@ import { shareKakao } from "@/utils/kakao/sharedKakaoLink";
 export function CreateDonePage() {
   const navigate = useNavigate();
   const { spaceId } = useLocation().state as { spaceId: string };
-  const { data } = useApiGetSpace(spaceId);
-  const [animate, setAnimate] = useState(data?.category === ProjectType.Individual);
+  const { data: spaceData, isLoading } = useApiGetSpace(spaceId);
+  const [animate, setAnimate] = useState(spaceData?.category === ProjectType.Individual);
+  const { data: userData } = useApiGetUser();
   const { toast } = useToast();
 
   const hashedSpaceId = window.btoa(spaceId);
 
   useEffect(() => {
-    if (data && data.category === ProjectType.Team) {
+    if (spaceData && spaceData.category === ProjectType.Team) {
       const timer = setTimeout(() => {
         setAnimate(true);
-      }, 3000);
+      }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [data]);
+  }, [spaceData]);
 
   const handleShareKakao = () => {
     shareKakao(
       `${window.location.protocol}//${window.location.host}/space/join/${hashedSpaceId}`,
-      `${"이동훈"} 님이 스페이스에 초대했습니다.`, // FIXME 수정 예정
+      `${userData.name}님이 스페이스에 초대했습니다.`,
       "어서오세용~!!",
     );
   };
@@ -42,13 +45,10 @@ export function CreateDonePage() {
     try {
       await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${hashedSpaceId}`);
       toast.success("복사 성공!!");
-      navigate("/space/create");
     } catch (e) {
       alert("failed");
     }
   };
-
-  if (!data) return null; // FIXME: 로딩화면
 
   return (
     <DefaultLayout
@@ -81,6 +81,7 @@ export function CreateDonePage() {
           opacity: ${animate ? 1 : 0};
           transition: all 0.5s ease;
           white-space: pre-wrap;
+          transition-delay: 0.5s;
         `}
       >{`어울리는 회고 템플릿을\n찾아볼까요?`}</Typography>
       <Spacing size={4} />
@@ -96,10 +97,11 @@ export function CreateDonePage() {
             width: ${animate ? "18rem" : "23rem"};
             transition: all 0.5s ease;
             height: auto;
+            margin-bottom: 4rem;
           `}
         />
       </div>
-      {data.category === ProjectType.Team && (
+      {spaceData && spaceData.category === ProjectType.Team && (
         <Fragment>
           <IconButton
             onClick={handleShareKakao}
@@ -109,6 +111,7 @@ export function CreateDonePage() {
               color: #000000;
               opacity: ${animate ? 1 : 0};
               transition: all 0.5s ease;
+              transition-delay: 0.5s;
             `}
           >
             카카오톡 전달
@@ -122,6 +125,7 @@ export function CreateDonePage() {
               color: #000000;
               opacity: ${animate ? 1 : 0};
               transition: all 0.5s ease;
+              transition-delay: 0.5s;
             `}
           >
             초대링크 복사
@@ -130,7 +134,7 @@ export function CreateDonePage() {
       )}
       <ButtonProvider>
         <ButtonProvider.Primary
-          disabled={data?.category === ProjectType.Individual ? false : !animate}
+          disabled={spaceData?.category === ProjectType.Individual ? false : !animate}
           onClick={() => navigate(`/space/create/next`, { state: { spaceId } })}
         >
           다음
