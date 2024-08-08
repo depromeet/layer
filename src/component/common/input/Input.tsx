@@ -33,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
         css={css`
           width: ${width};
           border: 1px solid;
-          border-color: ${isFocused ? DESIGN_TOKEN_COLOR["blue.600"] : DESIGN_TOKEN_COLOR["gray.300"]};
+          border-color: ${isFocused ? DESIGN_TOKEN_COLOR["blue600"] : DESIGN_TOKEN_COLOR["gray300"]};
           border-radius: 0.8rem;
           padding: 1.6rem;
           display: flex;
@@ -47,7 +47,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           css={css`
             flex-grow: 1;
             ::placeholder {
-              color: ${DESIGN_TOKEN_COLOR["gray.500"]};
+              color: ${DESIGN_TOKEN_COLOR["gray500"]};
             }
           `}
           onFocus={() => setIsFocused(true)}
@@ -61,10 +61,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
         />
         {count && maxLength && (
           <>
-            <Typography variant={"body12Medium"} color={value.length ? "blue.600" : "gray.500"}>
+            <Typography variant={"body12Medium"} color={value.length ? "blue600" : "gray500"}>
               {value.length}
             </Typography>
-            <Typography variant={"body12Medium"} color={"gray.500"}>{`/${maxLength}`}</Typography>
+            <Typography variant={"body12Medium"} color={"gray500"}>{`/${maxLength}`}</Typography>
           </>
         )}
       </div>
@@ -74,7 +74,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
             margin-top: 0.8rem;
           `}
         >
-          <Typography color={"red.400"} variant={"body14Medium"}>
+          <Typography color={"red400"} variant={"body14Medium"}>
             {`*${errorMsg}`}
           </Typography>
         </div>
