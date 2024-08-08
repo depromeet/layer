@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { forwardRef, useContext, useEffect, useMemo, useState } from "react";
+import { forwardRef, useContext, useMemo, useState } from "react";
 
 import { InputContext } from "./InputLabelContainer";
 import { patterns } from "./patterns.const";
@@ -26,10 +26,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
     () => (validations ? validations.map((validation) => patterns[validation]["pattern"].source).join("|") : undefined),
     [validations],
   );
-
-  useEffect(() => {
-    console.log(errorMsg);
-  }, [errorMsg]);
 
   return (
     <div>
