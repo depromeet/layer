@@ -20,11 +20,11 @@ export const usePostSignIn = () => {
   const [, setAuth] = useAtom(authAtom);
 
   const signInWithToken = async ({ socialType }: LoginKindType): Promise<AuthResponse> => {
-    const tokenKey = socialType === "KAKAO" ? "kakaoAccessToken" : "googleAccessToken";
+    const tokenKey = `${socialType}AccessToken`;
     const response = await api.post<AuthResponse>(
       "/api/auth/sign-in",
       {
-        socialType: socialType,
+        socialType: socialType.toUpperCase(),
       },
       {
         headers: {
@@ -35,7 +35,7 @@ export const usePostSignIn = () => {
     return response.data;
   };
 
-  return useMutation({
+  return useMutation<AuthResponse, ErrorType, LoginKindType>({
     mutationFn: signInWithToken,
     onSuccess: (data: AuthResponse) => {
       if (data) {
@@ -48,9 +48,9 @@ export const usePostSignIn = () => {
       toast.success("어서오세요!");
       navigate(PATHS.home());
     },
-    onError: (error: ErrorType) => {
-      if (error.status == 400) {
-        navigate(PATHS.setNickName());
+    onError: (error: ErrorType, variables: LoginKindType) => {
+      if (error.status === 400) {
+        navigate(PATHS.setNickName(variables.socialType));
       } else {
         toast.error("로그인에 실패했습니다. 다시 시도해주세요.");
         navigate(PATHS.login());

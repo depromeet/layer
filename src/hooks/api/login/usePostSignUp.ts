@@ -4,21 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { api } from "@/api";
 import { PATHS } from "@/config/paths";
 import { useToast } from "@/hooks/useToast";
-import { AuthResponse } from "@/types/loginType";
+import { AuthResponse, SocialLoginKind } from "@/types/loginType";
 
 type PostSignUp = {
   accessToken: string;
   name: string;
+  socialType: SocialLoginKind | undefined;
 };
 
 export const usePostSignUp = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const signUpWithToken = async ({ accessToken, name }: PostSignUp): Promise<AuthResponse> => {
+  const signUpWithToken = async ({ accessToken, name, socialType }: PostSignUp): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>(
       "/api/auth/sign-up",
       {
-        socialType: "KAKAO",
+        socialType: socialType?.toUpperCase(),
         name: name,
       },
       {

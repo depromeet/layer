@@ -1,28 +1,28 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
-import { usePostKakaoToken } from "@/hooks/api/login/usePostKakaoToken";
+import { usePostGoogleToken } from "@/hooks/api/login/usePostGoogleToken";
 import { usePostSignIn } from "@/hooks/api/login/usePostSignIn";
 
-export function KakaoLoginRedirection() {
+export function GoogleLoginRedirection() {
   const code = new URL(window.location.toString()).searchParams.get("code");
   const [hasFetchedToken, setHasFetchedToken] = useState(false);
 
-  const { mutate: fetchKakaoToken, data: kakaoLoginResponse, isSuccess: isKakaoSuccess } = usePostKakaoToken();
+  const { mutate: fetchGoogleToken, data: googleLoginResponse, isSuccess: isGoogleSuccess } = usePostGoogleToken();
   const { mutate: postSignIn, isError: isLoginError } = usePostSignIn();
 
   useEffect(() => {
     if (code && !hasFetchedToken) {
-      fetchKakaoToken(code);
+      fetchGoogleToken(code);
       setHasFetchedToken(true);
     }
-  }, [code, fetchKakaoToken, hasFetchedToken]);
+  }, [code, fetchGoogleToken, hasFetchedToken]);
 
   useEffect(() => {
-    if (isKakaoSuccess && kakaoLoginResponse) {
-      postSignIn({ socialType: "kakao" });
+    if (isGoogleSuccess && googleLoginResponse) {
+      postSignIn({ socialType: "google" });
     }
-  }, [isKakaoSuccess, kakaoLoginResponse, postSignIn]);
+  }, [isGoogleSuccess, googleLoginResponse, postSignIn]);
 
   if (isLoginError) {
     return <div>로그인 중 에러가 발생했습니다.</div>;
