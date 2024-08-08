@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { forwardRef, useContext, useState } from "react";
+import { forwardRef, useContext, useMemo, useState } from "react";
 
 import { InputContext } from "./InputLabelContainer";
 import { patterns } from "./patterns.const";
@@ -37,6 +37,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
     }
   };
 
+  const combinedPattern = useMemo(
+    () => (validations ? validations.map((validation) => patterns[validation]["pattern"].source).join("|") : undefined),
+    [validations],
+  );
+
   return (
     <div>
       <div
@@ -52,6 +57,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
       >
         <input
           ref={ref}
+          type="text"
           id={id || inputContext?.id}
           css={css`
             flex-grow: 1;
@@ -67,6 +73,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
               onInputValidate(e);
             }
           }}
+          pattern={combinedPattern}
           {...props}
         />
         {/* FIXME - typography 컬러 넣기 !! */}
