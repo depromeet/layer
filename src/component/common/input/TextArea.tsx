@@ -6,7 +6,7 @@ import { patterns } from "./patterns.const";
 
 import { Typography } from "@/component/common/typography";
 import { useValidation } from "@/hooks/useValidation";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type TextAreaProps = {
   value: string;
@@ -32,7 +32,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
         css={css`
           width: ${width};
           border: 1px solid;
-          border-color: ${isFocused ? DESIGN_SYSTEM_COLOR.theme3 : "#e3e6ea"}; // FIXME: 디자인 토큰 적용하기
+          border-color: ${isFocused ? DESIGN_TOKEN_COLOR["blue.600"] : DESIGN_TOKEN_COLOR["gray.300"]};
           border-radius: 0.8rem;
           padding: 1.6rem;
           display: flex;
@@ -46,7 +46,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           id={id || textareaContext?.id}
           css={css`
             ::placeholder {
-              color: ${DESIGN_SYSTEM_COLOR.lightGrey5};
+              color: ${DESIGN_TOKEN_COLOR["gray.500"]};
             }
             flex-shrink: 0;
             flex-grow: 1;
@@ -65,10 +65,10 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
               align-self: flex-end;
             `}
           >
-            <Typography variant="CAPTION" color={value.length ? "theme3" : "lightGrey"}>
+            <Typography variant={"body12Medium"} color={value.length ? "blue.600" : "gray.500"}>
               {value.length}
             </Typography>
-            <Typography variant="CAPTION" color={"lightGrey"}>{`/${maxLength}`}</Typography>
+            <Typography variant={"body12Medium"} color={"gray.500"}>{`/${maxLength}`}</Typography>
           </div>
         )}
       </div>
@@ -78,7 +78,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
             margin-top: 0.8rem;
           `}
         >
-          <Typography color="red400" variant="B2">
+          <Typography color={"red.400"} variant={"body14Medium"}>
             {`*${errorMsg}`}
           </Typography>
         </div>
