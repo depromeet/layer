@@ -2,11 +2,10 @@ import { useAtom, useAtomValue } from "jotai";
 import { createContext, useContext, useEffect } from "react";
 // import { useLocation } from "react-router-dom";
 
-import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
+import { CustomTemplateContext, RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
 import { FullModal } from "@/component/common/Modal/FullModal";
 import { ConfirmEditTemplate, EditQuestions, ConfirmDefaultTemplate } from "@/component/retrospectCreate";
 import { useGetCustomTemplate } from "@/hooks/api/template/useGetCustomTemplate";
-import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { CustomTemplateRes } from "@/types/template";
 
@@ -22,16 +21,15 @@ export function CustomTemplate() {
   const {
     data: { title, tag, questions },
   } = useGetCustomTemplate(10001); //FIXME - dummy template id
-  const retroContext = useContext(RetrospectCreateContext);
-  const { currentStep, goNext, goPrev, goTo } = useMultiStepForm({
-    steps: ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const,
-  });
+  const pageContext = useContext(RetrospectCreateContext);
+  const customContext = useContext(CustomTemplateContext);
+
   const isQuestionEdited = useAtomValue(isQuestionEditedAtom);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
 
   useEffect(() => {
     if (isQuestionEdited) {
-      goTo("confirmEditTemplate");
+      customContext.goTo("confirmEditTemplate");
     }
   }, []);
 
@@ -42,22 +40,22 @@ export function CustomTemplate() {
 
   return (
     <TemplateContext.Provider value={{ title, tag, questions }}>
-      {currentStep === "confirmDefaultTemplate" && <ConfirmDefaultTemplate goEdit={goNext} />}
-      {currentStep === "editQuestions" && (
+      {customContext.currentStep === "confirmDefaultTemplate" && <ConfirmDefaultTemplate goEdit={customContext.goNext} />}
+      {customContext.currentStep === "editQuestions" && (
         <FullModal>
           <EditQuestions
-            goNext={goNext}
+            goNext={customContext.goNext}
             goPrev={() => {
               if (!isQuestionEdited) {
-                goPrev();
+                customContext.goPrev();
               } else {
-                goTo("confirmEditTemplate");
+                customContext.goTo("confirmEditTemplate");
               }
             }}
           />
         </FullModal>
       )}
-      {currentStep === "confirmEditTemplate" && <ConfirmEditTemplate goNext={retroContext.goNext} goPrev={goPrev} />}
+      {customContext.currentStep === "confirmEditTemplate" && <ConfirmEditTemplate goNext={pageContext.goNext} goPrev={customContext.goPrev} />}
     </TemplateContext.Provider>
   );
 }
