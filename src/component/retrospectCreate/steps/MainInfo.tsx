@@ -22,13 +22,7 @@ export function MainInfo() {
   };
 
   return (
-    <div
-      css={css`
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      `}
-    >
+    <>
       <Header title={"회고의\n이름은 무엇인가요?"} />
       <div
         css={css`
@@ -68,6 +62,6 @@ export function MainInfo() {
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>
-    </div>
+    </>
   );
 }
