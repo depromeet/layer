@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
@@ -22,6 +22,8 @@ export default function Staging() {
   const { value: layerName, handleInputChange: handleChangeName } = useInput();
   const { value: description, handleInputChange: handleChangeDescription } = useInput();
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     console.log("라디오 버튼 선택 value:", selectedValue);
   }, [selectedValue]);
@@ -33,6 +35,10 @@ export default function Staging() {
   useEffect(() => {
     console.log("현재 바텀 시트 상태: ", bottomSheetState);
   }, [bottomSheetState]);
+
+  useEffect(() => {
+    console.log("inputRef.current?.validity", inputRef.current?.validity.patternMismatch);
+  }, [layerName]);
 
   const navigate = useNavigate();
 
@@ -73,12 +79,12 @@ export default function Staging() {
       <br />
       <InputLabelContainer id={"retro"}>
         <Label order={1}>회고 이름</Label>
-        <Input onChange={handleChangeName} value={layerName} maxLength={10} count />
+        <Input ref={inputRef} onChange={handleChangeName} value={layerName} maxLength={10} count validations={["NO_SPECIAL_CHARS"]} />
       </InputLabelContainer>
 
       <InputLabelContainer id={"description"}>
         <Label>한 줄 설명</Label>
-        <TextArea onChange={handleChangeDescription} value={description} maxLength={20} count />
+        <TextArea onChange={handleChangeDescription} value={description} maxLength={20} count validations={["NO_SPECIAL_CHARS"]} />
       </InputLabelContainer>
 
       <BottomSheet
