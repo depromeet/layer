@@ -79,12 +79,12 @@ export default function Staging() {
       <br />
       <InputLabelContainer id={"retro"}>
         <Label order={1}>회고 이름</Label>
-        <Input ref={inputRef} onChange={handleChangeName} value={layerName} maxLength={10} count validations={["NO_SPECIAL_CHARS", "ONLY_KO"]} />
+        <Input ref={inputRef} onChange={handleChangeName} value={layerName} maxLength={10} count validations={["NO_SPECIAL_CHARS"]} />
       </InputLabelContainer>
 
       <InputLabelContainer id={"description"}>
         <Label>한 줄 설명</Label>
-        <TextArea onChange={handleChangeDescription} value={description} maxLength={20} count validations={["NO_SPECIAL_CHARS", "ONLY_KO"]} />
+        <TextArea onChange={handleChangeDescription} value={description} maxLength={20} count validations={["NO_SPECIAL_CHARS"]} />
       </InputLabelContainer>
 
       <BottomSheet
