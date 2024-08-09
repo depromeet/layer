@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Input } from "@/component/common/input";
@@ -8,16 +8,13 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { usePostSignUp } from "@/hooks/api/login/usePostSignUp";
 import { useInput } from "@/hooks/useInput";
-import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { SocialLoginKind } from "@/types/loginType";
 
 export function SetNickNamePage() {
-  const { toast } = useToast();
   const { value: nickName, handleInputChange } = useInput("");
   const maxLength = 10;
-  const navigate = useNavigate();
   const { mutate: signUpMutation } = usePostSignUp();
   const { socialType } = useParams<{ socialType: SocialLoginKind }>();
 
@@ -25,10 +22,7 @@ export function SetNickNamePage() {
     event.preventDefault();
 
     const accessToken = Cookies.get(`${socialType}AccessToken`) || "";
-    if (!accessToken) {
-      toast.error("잘못된 접근이에요.");
-      navigate("/login");
-    }
+
     signUpMutation({ accessToken, name: nickName, socialType: socialType });
   };
 
