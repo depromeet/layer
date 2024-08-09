@@ -107,6 +107,7 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/:spaceId",
     element: <SpaceViewPage />,
+    auth: true,
   },
   {
     path: "/space/:spaceId/templates",
