@@ -21,13 +21,7 @@ export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) 
   const { title, tag, questions: originalQuestions } = useContext(TemplateContext);
 
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      `}
-    >
+    <>
       <Header title={"해당 질문들로\n회고를 진행할까요?"} contents={"템플릿을 기반으로 질문을 커스텀할 수 있어요"} />
       <Spacing size={6.5} />
 
@@ -72,7 +66,6 @@ export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) 
         </div>
         <div
           css={css`
-            max-height: 100%;
             overflow-y: auto;
             margin-bottom: -2rem;
             padding: 1.2rem 0;
@@ -90,6 +83,6 @@ export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) 
         <ButtonProvider.Gray onClick={goEdit}>질문 수정</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={goNext}>이대로 작성</ButtonProvider.Primary>
       </ButtonProvider>
-    </div>
+    </>
   );
 }

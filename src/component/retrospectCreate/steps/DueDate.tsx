@@ -39,13 +39,7 @@ export function DueDate() {
   };
 
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      `}
-    >
+    <>
       <Header title={"회고는\n언제까지 작성할까요?"} />
       <Spacing size={4} />
       <label
@@ -110,6 +104,6 @@ export function DueDate() {
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>
-    </div>
+    </>
   );
 }
