@@ -34,13 +34,13 @@ export function DefaultTemplateListItem({ title, tag, imageUrl, createRetrospect
           </div>
         )}
         {createRetrospect ? (
-          <Button colorSchema={"outline"} onClick={() => createRetrospect()}>
+          <Button colorSchema={"outline"} onClick={createRetrospect}>
             선택하기
           </Button>
         ) : (
-          <button>
+          <Button colorSchema={"white"}>
             <Typography>더 알아보기</Typography>
-          </button>
+          </Button>
         )}
       </Card>
     </li>

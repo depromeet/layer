@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { TabButton } from "@/component/common/tabs/TabButton";
@@ -17,6 +18,11 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 export function TemplateListPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const locationState = useLocation().state as { createRetrospect?: boolean };
+  const isCreateRetrospect = useRef(false);
+  if (locationState && locationState.createRetrospect) {
+    isCreateRetrospect.current = true;
+  }
   const { data: templates } = useGetDefaultTemplateList();
   const { spaceId } = useParams();
   const { tabs, curTab, selectTab } = useTabs(["기본", "커스텀"] as const);
@@ -49,11 +55,13 @@ export function TemplateListPage() {
     </div>
   );
 
-  if (!spaceId || Object.is(parseInt(spaceId), NaN)) {
-    toast.error("스페이스를 찾지 못했어요");
-    navigate("/");
-    return;
-  }
+  useEffect(() => {
+    if (!spaceId || Object.is(parseInt(spaceId), NaN)) {
+      toast.error("스페이스를 찾지 못했어요");
+      navigate("/");
+      return;
+    }
+  }, [spaceId]);
 
   return (
     <DualToneLayout TopComp={TemplateListTabs} title="회고 템플릿 리스트">
@@ -76,16 +84,19 @@ export function TemplateListPage() {
                     title={template.title}
                     tag={template.templateName}
                     imageUrl={template.imageUrl}
-                    createRetrospect={() =>
-                      navigate(PATHS.retrospectCreate(), {
-                        state: { spaceId, templateId: template.id },
-                      })
+                    createRetrospect={
+                      isCreateRetrospect.current
+                        ? () =>
+                            navigate(PATHS.retrospectCreate(), {
+                              state: { spaceId, templateId: template.id },
+                            })
+                        : undefined
                     }
                   />
                 ))}
               </>
             ),
-            커스텀: <CustomTemplateList spaceId={parseInt(spaceId)} />,
+            커스텀: <CustomTemplateList spaceId={parseInt(spaceId!)} isCreateRetrospect={isCreateRetrospect.current} />,
           }[curTab]
         }
       </ul>

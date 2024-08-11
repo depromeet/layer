@@ -64,7 +64,10 @@ export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
         </button>
         <button
           onClick={() => {
-            if (spaceId) navigate(PATHS.template(spaceId));
+            if (spaceId)
+              navigate(PATHS.template(spaceId), {
+                state: { createRetrospect: true },
+              });
           }}
           css={css`
             width: 16.3rem;

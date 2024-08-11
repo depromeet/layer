@@ -1,29 +1,27 @@
 import { css, Interpolation, Theme } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type TagProps = {
   children: React.ReactNode;
   styles?: Interpolation<Theme>;
-  size?: "default" | "md";
 };
 
-export function Tag({ children, styles, size = "default" }: TagProps) {
+export function Tag({ children, styles }: TagProps) {
   return (
     <div
       css={[
         css`
-          background-color: ${DESIGN_SYSTEM_COLOR["lightGrey2"]};
-          border-radius: ${size === "default" ? "0.4rem" : ".8rem"};
-          padding: ${size === "default" ? "0.4rem 0.8rem" : "1.2rem 1.6rem"};
+          background-color: ${DESIGN_TOKEN_COLOR.gray100};
+          border-radius: 0.4rem;
+          padding: 0.4rem 0.8rem;
           width: fit-content;
         `,
         styles,
       ]}
     >
-      {/**FIXME - bold 적용 안돼있음 */}
-      <Typography variant={size === "default" ? "CAPTION" : "B2"} color={"darkGrayText"}>
+      <Typography variant={"body12SemiBold"} color={"gray800"}>
         {children}
       </Typography>
     </div>

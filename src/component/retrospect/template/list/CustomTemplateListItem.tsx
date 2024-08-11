@@ -11,27 +11,52 @@ type CustomTemplateListItem = {
   date: string;
   createRetrospect?: () => void;
 };
+
 export function CustomTemplateListItem({ title, tag, date, createRetrospect }: CustomTemplateListItem) {
   return (
     <li>
-      <Card rounded={"md"}>
-        <Typography variant="S2">{title}</Typography>
-        <Tag
-          styles={css`
-            margin-top: 1.2rem;
+      <Card
+        rounded={"md"}
+        css={css`
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        `}
+      >
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
           `}
         >
-          {tag}
-        </Tag>
-        <Typography>{date}</Typography>
-        {createRetrospect ? (
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+            `}
+          >
+            <Typography variant="S2">{title}</Typography>
+          </div>
+          <Tag>{tag}</Tag>
+          <div
+            css={
+              !createRetrospect &&
+              css`
+                align-self: flex-end;
+                margin-top: -0.6rem;
+              `
+            }
+          >
+            <Typography variant={"body14Medium"} color={"gray600"}>
+              {date}
+            </Typography>
+          </div>
+        </div>
+        {createRetrospect && (
           <Button colorSchema={"outline"} onClick={() => createRetrospect()}>
             선택하기
           </Button>
-        ) : (
-          <button>
-            <Typography>더 알아보기</Typography>
-          </button>
         )}
       </Card>
     </li>
