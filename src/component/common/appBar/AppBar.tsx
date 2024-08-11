@@ -11,7 +11,7 @@ export type AppBarProps = {
   height?: string;
   LeftComp?: React.ReactNode;
   RightComp?: React.ReactNode;
-  css?: Interpolation<Theme>;
+  style?: Interpolation<Theme>;
 };
 
 //FIXME: 색깔 디자인 토큰에 따라 변경
@@ -30,7 +30,7 @@ function Back({ theme }: { theme: "dark" | "gray" | "default" | "transparent" })
 
 //FIXME : 디자인 토큰에 따라 색깔 변경, 폰트 수정
 export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
-  { css: appbarStyle, title, theme = "default", height = "5.8rem", LeftComp = <Back theme={theme} />, RightComp = <div></div> },
+  { style, title, theme = "default", height = "5.8rem", LeftComp = <Back theme={theme} />, RightComp = <div></div> },
   ref,
 ) {
   return (
@@ -53,7 +53,7 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
             z-index: 99;
             transition: 0.4s all;
           `,
-          appbarStyle,
+          style,
         ]}
         ref={ref}
       >

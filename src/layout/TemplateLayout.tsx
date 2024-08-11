@@ -26,8 +26,12 @@ const Header = forwardRef<HTMLDivElement, PropsWithChildren<AppBarProps>>(functi
         height={height}
         LeftComp={LeftComp}
         RightComp={RightComp}
-        css={css`
-          position: absolute;
+        style={css`
+          ${theme === "default" &&
+          css`
+            background-color: rgba(255, 255, 255, 0.7);
+          `}
+          backdrop-filter: blur(0.1rem);
         `}
         {...props}
       />
