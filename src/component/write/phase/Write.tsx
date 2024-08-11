@@ -27,7 +27,6 @@ export type Answer = {
   answerContent: string;
 };
 
-type ModalModeType = "TEMP_SAVED" | "ALREADY_SAVED";
 type EditModeType = "EDIT" | "POST";
 
 export function Write() {
@@ -41,7 +40,8 @@ export function Write() {
   const [isAnswerFilled, setIsAnswerFilled] = useState(false);
   const isComplete = data?.questions.length === phase;
   const editMode = useRef<EditModeType>("POST");
-  const modalMode = useRef<ModalModeType>("TEMP_SAVED");
+  /** FIXME: 임시 저장한 데이터가 있을 경우, 변수를 통해 판별해서 모달 제공 */
+  // const isTemp = useState(false);
   const [answers, setAnswers] = useState<Answer[]>(
     data.questions.map((question) => ({
       questionId: question.questionId,
@@ -66,6 +66,7 @@ export function Write() {
   /** Data patching if you have temporary data */
   useEffect(() => {
     if (temporaryDataSuccess && temporaryData) {
+      console.log("temporaryData", temporaryData);
       setAnswers(
         temporaryData.answers.map((question) => ({
           questionId: question.questionId,
@@ -78,8 +79,9 @@ export function Write() {
 
   useEffect(() => {
     if (answerDataSuccess && answerData) {
+      console.log("answerData", answerData);
       editMode.current = "EDIT";
-      modalMode.current = "ALREADY_SAVED";
+      // modalMode.current = "ALREADY_SAVED";
       setAnswers(
         answerData.answers.map((question) => ({
           questionId: question.questionId,
@@ -138,19 +140,17 @@ export function Write() {
           {/* FIXME: 디자인 팀에 모달 문구 전달 후, 수정 예정 */}
           <TemporarySaveModal
             title={"회고 작성을 멈출까요?"}
-            content={modalMode.current === "TEMP_SAVED" ? "작성중인 회고는 임시저장 되어요" : "중요한 정보라면 변경 사항을 저장해주세요"}
+            content={"작성중인 회고는 임시저장 되어요"}
             confirm={() => {
-              modalMode.current === "TEMP_SAVED"
-                ? mutate(
-                    { data: answers, isTemporarySave: true, spaceId: spaceId, retrospectId: retrospectId },
-                    {
-                      onSuccess: () => {
-                        handleModalClose("temporary-save");
-                        navigate("/");
-                      },
-                    },
-                  )
-                : (handleModalClose("temporary-save"), navigate("/"));
+              mutate(
+                { data: answers, isTemporarySave: true, spaceId: spaceId, retrospectId: retrospectId },
+                {
+                  onSuccess: () => {
+                    handleModalClose("temporary-save");
+                    navigate("/");
+                  },
+                },
+              );
             }}
             quit={() => {
               handleModalClose("temporary-save");
