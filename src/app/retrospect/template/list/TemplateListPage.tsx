@@ -5,16 +5,19 @@ import { Icon } from "@/component/common/Icon";
 import { TabButton } from "@/component/common/tabs/TabButton";
 import { Tabs } from "@/component/common/tabs/Tabs";
 import { Typography } from "@/component/common/typography";
-import { TemplateCard } from "@/component/retrospect/TemplateCard";
+import { DefaultTemplateListItem } from "@/component/retrospect/template/list";
+import { CustomTemplateList } from "@/component/retrospect/template/list/CustomTemplateList";
 import { PATHS } from "@/config/paths";
 import { useGetDefaultTemplateList } from "@/hooks/api/template/useGetDefaultTemplateList";
 import { useTabs } from "@/hooks/useTabs";
+import { useToast } from "@/hooks/useToast";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export function TemplateListPage() {
-  const { data: templates } = useGetDefaultTemplateList();
+  const { toast } = useToast();
   const navigate = useNavigate();
+  const { data: templates } = useGetDefaultTemplateList();
   const { spaceId } = useParams();
   const { tabs, curTab, selectTab } = useTabs(["기본", "커스텀"] as const);
   const TemplateListTabs = (
@@ -46,10 +49,16 @@ export function TemplateListPage() {
     </div>
   );
 
+  if (!spaceId || Object.is(parseInt(spaceId), NaN)) {
+    toast.error("스페이스를 찾지 못했어요");
+    navigate("/");
+    return;
+  }
+
   return (
     <DualToneLayout TopComp={TemplateListTabs} title="회고 템플릿 리스트">
       {Info}
-      <div
+      <ul
         css={css`
           display: flex;
           flex-direction: column;
@@ -62,10 +71,10 @@ export function TemplateListPage() {
             기본: (
               <>
                 {templates.map((template) => (
-                  <TemplateCard
+                  <DefaultTemplateListItem
                     key={template.id}
                     title={template.title}
-                    templateName={template.templateName}
+                    tag={template.templateName}
                     imageUrl={template.imageUrl}
                     createRetrospect={() =>
                       navigate(PATHS.retrospectCreate(), {
@@ -76,10 +85,10 @@ export function TemplateListPage() {
                 ))}
               </>
             ),
-            커스텀: <></>,
+            커스텀: <CustomTemplateList spaceId={parseInt(spaceId)} />,
           }[curTab]
         }
-      </div>
+      </ul>
     </DualToneLayout>
   );
 }

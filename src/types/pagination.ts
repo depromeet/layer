@@ -1,4 +1,5 @@
-export type PaginationRes = {
+export type PaginationRes<T> = {
+  content: T[];
   pageable: {
     pageNumber: number;
     pageSize: number;

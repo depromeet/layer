@@ -26,7 +26,5 @@ type AbbrCustomTemplate = {
 };
 
 export type CustomTemplateListRes = {
-  customTemplateList: {
-    content: AbbrCustomTemplate[];
-  };
-} & PaginationRes;
+  customTemplateList: PaginationRes<AbbrCustomTemplate>;
+};
