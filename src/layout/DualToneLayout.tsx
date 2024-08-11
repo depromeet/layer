@@ -27,6 +27,9 @@ export function DualToneLayout({
         css={css`
           --parent-bg-color: ${DESIGN_SYSTEM_COLOR.themeBackground[topTheme]};
           background-color: var(--parent-bg-color);
+          position: sticky;
+          top: 0;
+          z-index: 999;
         `}
       >
         <AppBar title={title} theme={topTheme} height={height} LeftComp={LeftComp} RightComp={RightComp} />
