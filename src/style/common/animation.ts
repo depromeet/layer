@@ -1,4 +1,4 @@
-import { keyframes } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 export const ANIMATION = {
   FADE_IN: keyframes`
@@ -64,4 +64,16 @@ export const ANIMATION = {
         width: 100%;
         opacity: 100%;  
       }`,
+
+  PULSE: keyframes`
+    50% {
+      opacity: 0.5;
+    }
+  `,
+};
+
+export const ANIMATION_CSS = {
+  animatePulse: css`
+    animation: ${ANIMATION.PULSE} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  `,
 };

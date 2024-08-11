@@ -72,6 +72,7 @@ export function TemplateListPage() {
           flex-direction: column;
           gap: 2rem;
           margin-top: 2rem;
+          padding-bottom: 2rem;
         `}
       >
         {

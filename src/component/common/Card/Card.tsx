@@ -1,11 +1,11 @@
 import { css } from "@emotion/react";
+import { PropsWithChildren } from "react";
 
 type CardProps = {
   width?: string;
   rounded?: keyof typeof BORDER_RADIUS;
   shadow?: boolean;
   padding?: string;
-  children: React.ReactNode;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const BORDER_RADIUS = {
@@ -13,7 +13,7 @@ const BORDER_RADIUS = {
   md: "1.2rem",
 } as const;
 
-export function Card({ width = "100%", rounded = "sm", shadow = true, padding = "2rem", children, ...props }: CardProps) {
+export function Card({ width = "100%", rounded = "sm", shadow = true, padding = "2rem", children, ...props }: PropsWithChildren<CardProps>) {
   return (
     <div
       css={[

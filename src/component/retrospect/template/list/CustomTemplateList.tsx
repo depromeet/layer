@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { CustomTemplateListItem } from "./CustomTemplateListItem";
 
+import { SkeletonCard } from "@/component/common/skeleton/SkeletonCard";
 import { PATHS } from "@/config/paths";
 import { useGetCustomTemplateList } from "@/hooks/api/template/useGetCustomTemplateList";
 import { useIntersectionObserve } from "@/hooks/useIntersectionObserve";
@@ -15,11 +16,13 @@ type CustomTemplateListProps = {
 
 export function CustomTemplateList({ spaceId, isCreateRetrospect }: CustomTemplateListProps) {
   const navigate = useNavigate();
-  const { data, fetchNextPage } = useGetCustomTemplateList(spaceId);
+  const { data, fetchNextPage, hasNextPage } = useGetCustomTemplateList(spaceId);
   const targetDivRef = useIntersectionObserve({
     options: { threshold: 0.5 },
     onIntersect: async () => {
-      await fetchNextPage();
+      if (hasNextPage) {
+        await fetchNextPage();
+      }
     },
   });
   const templates = useMemo(() => data.pages.flatMap(({ content }) => content), [data]);
@@ -42,7 +45,7 @@ export function CustomTemplateList({ spaceId, isCreateRetrospect }: CustomTempla
           }
         />
       ))}
-      <div ref={targetDivRef} />
+      {hasNextPage && <SkeletonCard ref={targetDivRef} />}
     </>
   );
 }
