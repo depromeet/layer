@@ -39,10 +39,10 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
             gap: 0.2rem;
           `}
         >
-          <Typography variant="body12Medium" color="grey800">
-            대표 템플릿ss
+          <Typography variant="body12Medium" color="gray800">
+            대표 템플릿
           </Typography>
-          <Typography variant="B2_SEMIBOLD">{mainTemplate ? mainTemplate : "-"}</Typography>
+          <Typography variant="subtitle14SemiBold">{mainTemplate ? mainTemplate : "_"}</Typography>
         </div>
       </div>
 
@@ -69,10 +69,10 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
             margin-right: 1rem;
           `}
         >
-          <Typography variant="CAPTION" color="grey800">
+          <Typography variant="body12Medium" color="gray800">
             팀원
           </Typography>
-          <Typography variant="B2_SEMIBOLD">{memberCount}명</Typography>
+          <Typography variant="subtitle14SemiBold">{memberCount}명</Typography>
         </div>
         <Icon icon="ic_after" size={1.6} />
       </div>

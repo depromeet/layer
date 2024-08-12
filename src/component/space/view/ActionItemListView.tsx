@@ -76,8 +76,6 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
       </div>
 
       <Spacing size={1.0} />
-      <ActionItem key={10} actionItemContent={"ss"} />
-      <ActionItem key={10} actionItemContent={"ss"} />
 
       {teamActionList && teamActionList.length === 0 && (
         <>

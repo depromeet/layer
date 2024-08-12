@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { NavigateOptions, useNavigate } from "react-router-dom";
 
 import { Typography } from "@/component/common/typography";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type RetrospectButtonProps = {
   status: "PROCEEDING" | "DONE" | "HAS_WRITING";
@@ -26,7 +26,7 @@ export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectBu
             },
           },
         ] as const,
-        color: DESIGN_SYSTEM_COLOR.grey900,
+        color: DESIGN_TOKEN_COLOR.gray900,
       },
       HAS_WRITING: {
         route: [
@@ -38,7 +38,7 @@ export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectBu
             },
           },
         ] as const,
-        color: DESIGN_SYSTEM_COLOR.blue600,
+        color: DESIGN_TOKEN_COLOR.blue600,
         text: "회고 작성",
       },
       PROCEEDING: {
@@ -51,7 +51,7 @@ export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectBu
             },
           },
         ] as const,
-        color: DESIGN_SYSTEM_COLOR.blue600,
+        color: DESIGN_TOKEN_COLOR.blue600,
         text: "회고 수정",
       },
     }[status];
@@ -71,7 +71,7 @@ export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectBu
       `}
     >
       <Typography
-        variant="B2_SEMIBOLD"
+        variant="subtitle14SemiBold"
         color="white"
         css={css`
           white-space: nowrap;

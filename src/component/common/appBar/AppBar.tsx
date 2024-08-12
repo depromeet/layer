@@ -58,7 +58,7 @@ export function AppBar({ title, theme = "default", height = "5.8rem", LeftComp =
         >
           <Typography
             color={theme === "dark" ? "white" : "gray900"}
-            variant="heading24Bold"
+            variant="subtitle18SemiBold"
             css={css`
               text-align: center;
             `}
