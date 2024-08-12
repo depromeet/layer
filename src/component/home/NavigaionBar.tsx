@@ -9,7 +9,7 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 export function NavigationBar() {
   const location = useLocation();
 
-  const getSelectedColor = (path: string): keyof typeof DESIGN_SYSTEM_COLOR => (location.pathname === path ? "black" : "lightGrey");
+  const getSelectedColor = (path: string): keyof typeof DESIGN_SYSTEM_COLOR => (location.pathname === path ? "grey900" : "grey400");
 
   return (
     <>
@@ -40,7 +40,7 @@ export function NavigationBar() {
           `}
         >
           <Icon icon="ic_home" size="2.4rem" color={getSelectedColor(PATHS.home())} />
-          <Typography variant="OVERLINE" color={getSelectedColor(PATHS.home())}>
+          <Typography variant="caption11Medium" color={getSelectedColor(PATHS.home())}>
             회고
           </Typography>
         </Link>
@@ -57,7 +57,7 @@ export function NavigationBar() {
           `}
         >
           <Icon icon="ic_chart" size="2.4rem" color={getSelectedColor(PATHS.goals())} />
-          <Typography variant="OVERLINE" color={getSelectedColor(PATHS.goals())}>
+          <Typography variant="caption11Medium" color={getSelectedColor(PATHS.goals())}>
             실행 목표
           </Typography>
         </Link>
@@ -74,7 +74,7 @@ export function NavigationBar() {
           `}
         >
           <Icon icon="ic_barChart" size="2.4rem" color={getSelectedColor(PATHS.analysis())} />
-          <Typography variant="OVERLINE" color={getSelectedColor(PATHS.analysis())}>
+          <Typography variant="caption11Medium" color={getSelectedColor(PATHS.analysis())}>
             분석
           </Typography>
         </Link>
