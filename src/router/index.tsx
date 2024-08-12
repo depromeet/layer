@@ -7,6 +7,7 @@ import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
+import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
 import { CreateDonePage } from "@/app/space/CreateDonePage";
@@ -106,6 +107,11 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/:spaceId",
     element: <SpaceViewPage />,
+    auth: true,
+  },
+  {
+    path: "/space/:spaceId/templates",
+    element: <TemplateListPage />,
     auth: true,
   },
 ];
