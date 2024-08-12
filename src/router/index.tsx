@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-dom";
 
+import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
 import { RetrospectViewPage } from "@/app/home/RetrospectViewPage";
-import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
+import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
 import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
@@ -14,6 +15,7 @@ import { CreateDonePage } from "@/app/space/CreateDonePage";
 import { CreateNextPage } from "@/app/space/CreateNextPage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
 import { JoinSpacePage } from "@/app/space/JoinSpacePage";
+import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 import { TemplatePage } from "@/app/template/TemplatePage.tsx";
 import Staging from "@/app/test/Staging.tsx";
 import { RetrospectWriteCompletePage } from "@/app/write/RetrospectWriteCompletePage.tsx";
@@ -21,7 +23,6 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
-import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 
 type RouteChildren = {
   auth: boolean;
@@ -119,6 +120,11 @@ const routerChildren: RouteChildren[] = [
     path: "/space/:spaceId/templates",
     element: <TemplateListPage />,
     auth: true,
+  },
+  {
+    path: "*",
+    element: <Error />,
+    auth: false,
   },
 ];
 

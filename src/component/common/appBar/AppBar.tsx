@@ -51,7 +51,6 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
             transform: translateX(-50%);
             box-sizing: border-box;
             z-index: 99;
-            transition: 0.4s all;
           `,
           style,
         ]}

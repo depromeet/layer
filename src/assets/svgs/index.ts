@@ -6,3 +6,4 @@ export * from "./template/list";
 export * from "./space";
 export * from "./calendar";
 export * from "./retrospect";
+export * from "./error";
