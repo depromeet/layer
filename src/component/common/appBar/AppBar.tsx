@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
+import { Typography } from "@/component/common/typography";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export type AppBarProps = {
@@ -21,7 +22,7 @@ function Back({ theme }: { theme: "dark" | "gray" | "default" | "transparent" })
       onClick={() => {
         navigate(-1);
       }}
-      color={theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.black}
+      color={theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.grey900}
     />
   );
 }
@@ -53,12 +54,17 @@ export function AppBar({ title, theme = "default", height = "5.8rem", LeftComp =
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 1.8rem;
-            color: ${theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.black};
-            text-align: center;
           `}
         >
-          {title}
+          <Typography
+            color={theme === "dark" ? "white" : "grey900"}
+            variant="heading24Bold"
+            css={css`
+              text-align: center;
+            `}
+          >
+            {title}
+          </Typography>
         </div>
         {RightComp}
       </div>
