@@ -4,6 +4,11 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "700",
     lineHeight: "150%",
   },
+  title20Bold: {
+    fontSize: "2.0rem",
+    fontWeight: "700",
+    lineHeight: "140%",
+  },
   title18Bold: {
     fontSize: "1.8rem",
     fontWeight: "700",
