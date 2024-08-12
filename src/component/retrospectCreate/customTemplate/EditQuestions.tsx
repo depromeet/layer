@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useSetAtom } from "jotai";
-import { useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 
 import { REQUIRED_QUESTIONS } from "./questions.const";
@@ -16,11 +16,13 @@ import { Portal } from "@/component/common/Portal";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { AddQuestionsBottomSheet } from "@/component/retrospectCreate";
+import { TemplateContext } from "@/component/retrospectCreate/steps/CustomTemplate";
 import { TemporarySaveModal } from "@/component/write/modal";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useEditQuestions } from "@/hooks/useEditQuestions";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 const MAX_QUESTIONS_COUNT = 10;
@@ -45,13 +47,17 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
     handleAddQuestions,
   } = useEditQuestions();
 
+  const { questions: originalQuestions } = useContext(TemplateContext);
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
   const setIsQuestionEdited = useSetAtom(isQuestionEditedAtom);
 
   const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
+  const isEdited = useMemo(
+    () => JSON.stringify(newQuestions) !== JSON.stringify(initialQuestions) || JSON.stringify(initialQuestions) !== JSON.stringify(originalQuestions),
+    [newQuestions, initialQuestions, originalQuestions],
+  );
 
   const saveData = () => {
-    const isEdited = JSON.stringify(newQuestions) !== JSON.stringify(initialQuestions);
     setIsQuestionEdited(isEdited);
     setRetroCreateData((prev) => ({ ...prev, isNewForm: isEdited, questions: newQuestions, formName: `커스텀 템플릿` }));
   };
@@ -76,7 +82,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
           <Icon
             icon={"ic_quit"}
             onClick={() => {
-              if (JSON.stringify(newQuestions) !== JSON.stringify(initialQuestions)) {
+              if (isEdited) {
                 setIsTemporarySaveModalOpen(true);
                 return;
               }
@@ -175,6 +181,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
             content="수정 중인 내용은 모두 사라져요"
             confirm={() => {
               setIsTemporarySaveModalOpen(false);
+              setRetroCreateData((prev) => ({ ...prev, questions: originalQuestions }));
               goPrev();
             }}
             quit={() => {
@@ -202,8 +209,7 @@ function Control({ index, showDelete, handleDeleteItem }: ControlProps) {
       `}
       onClick={() => handleDeleteItem(index)}
     >
-      {/**FIXME - design token */}
-      <Icon icon={"ic_delete"} color="#F85B81" />
+      <Icon icon={"ic_delete"} color={DESIGN_TOKEN_COLOR.red400} />
     </button>
   ) : (
     <div

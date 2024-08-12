@@ -55,8 +55,8 @@ export function RetrospectCreate() {
     },
   } as const;
 
-  const locationState = useLocation().state as { spaceId: number; templateId: string };
-  const { spaceId } = locationState;
+  const locationState = useLocation().state as { spaceId: number; templateId: number };
+  const { spaceId, templateId } = locationState;
   const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
   const [, setTemporaryTemplateAtom] = useAtom(temporaryTemplateAtom);
 
@@ -68,7 +68,7 @@ export function RetrospectCreate() {
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
     postRetrospectCreate.mutate({
       spaceId,
-      body: { ...retroCreateData, questions: questionsWithRequired, curFormId: 10001 },
+      body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateId },
     });
     resetRetroCreateData();
   };
@@ -104,8 +104,7 @@ export function RetrospectCreate() {
 
   const quitPage = useCallback(() => {
     setIsTemporarySaveModalOpen(false);
-    /**FIXME - dummy template id */
-    setTemporaryTemplateAtom((prev) => ({ ...prev, templateId: 10001 }));
+    setTemporaryTemplateAtom((prev) => ({ ...prev, templateId }));
     resetRetroCreateData();
     navigate(PATHS.spaceDetail(spaceId.toString()));
   }, []);

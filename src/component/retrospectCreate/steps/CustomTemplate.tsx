@@ -43,16 +43,7 @@ export function CustomTemplate() {
       {customContext.currentStep === "confirmDefaultTemplate" && <ConfirmDefaultTemplate goEdit={customContext.goNext} />}
       {customContext.currentStep === "editQuestions" && (
         <FullModal>
-          <EditQuestions
-            goNext={customContext.goNext}
-            goPrev={() => {
-              if (!isQuestionEdited) {
-                customContext.goPrev();
-              } else {
-                customContext.goTo("confirmEditTemplate");
-              }
-            }}
-          />
+          <EditQuestions goNext={customContext.goNext} goPrev={customContext.goPrev} />
         </FullModal>
       )}
       {customContext.currentStep === "confirmEditTemplate" && <ConfirmEditTemplate goNext={pageContext.goNext} goPrev={customContext.goPrev} />}
