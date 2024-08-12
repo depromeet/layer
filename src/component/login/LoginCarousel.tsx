@@ -49,7 +49,7 @@ function LoginCarousel() {
                 `}
               >
                 <Typography
-                  variant="CAPTION"
+                  variant="body12SemiBold"
                   css={css`
                     width: fit-content;
                     color: rgba(73, 80, 87, 1);
@@ -61,7 +61,7 @@ function LoginCarousel() {
                   {item.title}
                 </Typography>
                 <Typography
-                  variant="S1"
+                  variant="title20Bold"
                   css={css`
                     white-space: pre-line;
                   `}
