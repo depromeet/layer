@@ -18,7 +18,7 @@ import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
@@ -91,7 +91,7 @@ export function SpaceViewPage() {
           width: calc(100% + 4rem);
           transform: translateX(-2rem);
           min-height: calc(100vh - 32rem);
-          background-color: ${DESIGN_SYSTEM_COLOR.white};
+          background-color: ${DESIGN_TOKEN_COLOR.gray00};
           padding: 2.2rem 2rem;
         `}
       >

@@ -79,11 +79,11 @@ export const DESIGN_TOKEN_TEXT = {
 export const DESIGN_TOKEN_COLOR = {
   themeBackground: {
     dark: "#212529",
-    gray: "#F6F8FA",
+    gray: "#F2F4F8",
     transparent: "transparent",
     default: "#FFFFFF",
   },
-  gray00: "#FFFFF",
+  gray00: "#FFFFFF",
   gray100: "#F2F4F8",
   gray200: "#EDF0F4",
   gray300: "#DFE3EA",

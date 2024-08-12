@@ -110,12 +110,6 @@ export const DESIGN_SYSTEM_TEXT = {
 } as const;
 
 export const DESIGN_SYSTEM_COLOR = {
-  themeBackground: {
-    dark: "#212529",
-    gray: "#F6F8FA",
-    transparent: "transparent",
-    default: "#FFFFFF",
-  },
   dark: "#212529",
   darkGray: "#868E96",
   darkGrayText: "#495057",

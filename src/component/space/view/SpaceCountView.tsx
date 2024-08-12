@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type SpaceCountViewProps = {
   memberCount: number | undefined;
@@ -15,7 +15,7 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
       css={css`
         width: 100%;
         height: 7.2rem;
-        background-color: ${DESIGN_SYSTEM_COLOR.white};
+        background-color: ${DESIGN_TOKEN_COLOR.gray00};
         border: 1px solid rgba(33, 37, 41, 0.08);
         border-radius: 1.2rem;
         padding: 1.6rem 2.8rem;
@@ -31,7 +31,7 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
           align-items: center;
         `}
       >
-        <Icon icon="ic_template" size={2.8} color="#6C9CFA" />
+        <Icon icon="ic_template" size={2.8} color="blue600" />
         <div
           css={css`
             display: flex;
@@ -39,8 +39,8 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
             gap: 0.2rem;
           `}
         >
-          <Typography variant="CAPTION" color="grey800">
-            대표 템플릿
+          <Typography variant="body12Medium" color="grey800">
+            대표 템플릿ss
           </Typography>
           <Typography variant="B2_SEMIBOLD">{mainTemplate ? mainTemplate : "-"}</Typography>
         </div>

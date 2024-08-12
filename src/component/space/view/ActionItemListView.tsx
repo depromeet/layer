@@ -9,7 +9,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ActionItemType } from "@/types/actionItem";
 
 type TeamGoalViewPros = {
@@ -53,7 +53,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
       css={css`
         width: 100%;
         height: 16.9rem;
-        background-color: ${DESIGN_SYSTEM_COLOR.white};
+        background-color: ${DESIGN_TOKEN_COLOR.gray00};
         border: 1px solid rgba(33, 37, 41, 0.08);
         border-radius: 1.2rem;
         padding: 1.6rem 2rem;
@@ -69,13 +69,15 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
           justify-content: space-between;
         `}
       >
-        <Typography variant="B2_SEMIBOLD">실행목표</Typography>
-        <Typography variant="B2_MEDIUM" color="darkGray">
+        <Typography variant="body14Medium">실행목표</Typography>
+        <Typography variant="body14Medium" color="gray500">
           더보기
         </Typography>
       </div>
 
       <Spacing size={1.0} />
+      <ActionItem key={10} actionItemContent={"ss"} />
+      <ActionItem key={10} actionItemContent={"ss"} />
 
       {teamActionList && teamActionList.length === 0 && (
         <>
@@ -84,17 +86,17 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
             css={css`
               width: 4rem;
               height: 4rem;
-              background-color: ${DESIGN_SYSTEM_COLOR.grey200};
+              background-color: ${DESIGN_TOKEN_COLOR.gray200};
               border-radius: 0.8rem;
               display: flex;
               justify-content: center;
               align-items: center;
             `}
           >
-            <Icon icon="ic_plus" size="1.5rem" color="rgba(169, 175, 187, 1)" />
+            <Icon icon="ic_plus" size="1.5rem" color="gray500" />
           </button>
           <Spacing size={1.6} />
-          <Typography variant="B2_MEDIUM" color="darkGray">
+          <Typography variant="body14Medium" color="gray600">
             실행목표를 설정해보세요.
           </Typography>
         </>
@@ -113,7 +115,6 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
             {teamActionList.map((actionItem, idx) => (
               <ActionItem key={idx} actionItemContent={actionItem.actionItemContent} />
             ))}
-
             {Array.from({ length: 3 - teamActionList.length }).map((_, index) => (
               <div key={`plus-${index}`} onClick={handleOpenBottomSheet}>
                 <PlusActionItem />
@@ -166,7 +167,9 @@ function ActionItem({ actionItemContent }: ActionItemProps) {
       `}
     >
       <Icon icon="ic_bluePoint" size={1.6} />
-      <Typography variant="B2_MEDIUM">{actionItemContent}</Typography>
+      <Typography variant="body14Medium" color="gray800">
+        {actionItemContent}
+      </Typography>
     </div>
   );
 }
@@ -189,12 +192,12 @@ function PlusActionItem() {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: ${DESIGN_SYSTEM_COLOR.grey100};
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
           `}
         >
           <Icon icon="ic_plus" color="rgba(169, 175, 187, 1)" size={0.6} />
         </div>
-        <Typography variant="B2_MEDIUM" color="grey500">
+        <Typography variant="body14Medium" color="gray800">
           실행목표 추가하기
         </Typography>
       </div>

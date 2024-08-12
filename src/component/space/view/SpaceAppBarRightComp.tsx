@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type RightCompProps = {
   spaceId: string | undefined;
@@ -67,7 +67,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
         `}
       >
         <div css={{ position: "relative" }}>
-          <Icon icon="ic_plus" color="white" size={1.8} onClick={handleOpenBottomSheet} />
+          <Icon icon="ic_plus" color="gray00" size={1.8} onClick={handleOpenBottomSheet} />
           {isTooltipVisible && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -79,7 +79,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
                 top: 160%;
                 right: -60%;
                 transform: translateX(-50%);
-                background-color: ${DESIGN_SYSTEM_COLOR.blue600};
+                background-color: ${DESIGN_TOKEN_COLOR.blue600};
                 padding: 1rem;
                 padding-bottom: 1.2rem;
                 border-radius: 0.5rem;
@@ -95,11 +95,11 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
                   right: 1.5rem;
                   border-width: 0 0.5rem 0.5rem 0.5rem;
                   border-style: solid;
-                  border-color: transparent transparent ${DESIGN_SYSTEM_COLOR.blue600} transparent;
+                  border-color: transparent transparent ${DESIGN_TOKEN_COLOR.blue600} transparent;
                 }
               `}
             >
-              <Typography variant="CAPTION" color="white">
+              <Typography variant="body12SemiBold" color="gray00">
                 아이콘을 눌러 회고를 생성해보세요!
               </Typography>
             </motion.div>
@@ -118,7 +118,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
                 position: absolute;
                 top: 150%;
                 right: 0%;
-                background-color: white;
+                background-color: ${DESIGN_TOKEN_COLOR.gray00};
                 border: 1px solid #ccc;
                 border-radius: 1rem;
                 box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
@@ -137,7 +137,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
                   text-align: left;
                 `}
               >
-                <Typography variant="B2_SEMIBOLD">스페이스 수정</Typography>
+                <Typography variant="subtitle14SemiBold">스페이스 수정</Typography>
               </button>
               <button
                 onClick={() => {
@@ -151,7 +151,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
                   text-align: left;
                 `}
               >
-                <Typography variant="B2_SEMIBOLD" color="red600">
+                <Typography variant="subtitle14SemiBold" color="red500">
                   스페이스 삭제
                 </Typography>
               </button>

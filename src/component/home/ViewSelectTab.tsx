@@ -48,7 +48,7 @@ export function ViewSelectTab({ viewState, setViewState }: ViewSelectTabProps) {
   return (
     <div
       css={css`
-        width: 100%;
+        width: 300px;
         position: fixed;
         background-color: ${DESIGN_TOKEN_COLOR.themeBackground.gray};
       `}
