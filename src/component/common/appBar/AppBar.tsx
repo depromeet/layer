@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export type AppBarProps = {
   title?: React.ReactNode;
@@ -22,7 +22,7 @@ function Back({ theme }: { theme: "dark" | "gray" | "default" | "transparent" })
       onClick={() => {
         navigate(-1);
       }}
-      color={theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.grey900}
+      color={theme === "dark" ? DESIGN_TOKEN_COLOR.gray00 : DESIGN_TOKEN_COLOR.gray900}
     />
   );
 }
@@ -37,7 +37,7 @@ export function AppBar({ title, theme = "default", height = "5.8rem", LeftComp =
           max-width: 48rem;
           height: ${height};
           padding: 1.1rem 2rem;
-          background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
+          background-color: ${DESIGN_TOKEN_COLOR.themeBackground[theme]};
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -57,7 +57,7 @@ export function AppBar({ title, theme = "default", height = "5.8rem", LeftComp =
           `}
         >
           <Typography
-            color={theme === "dark" ? "white" : "grey900"}
+            color={theme === "dark" ? "white" : "gray900"}
             variant="heading24Bold"
             css={css`
               text-align: center;
