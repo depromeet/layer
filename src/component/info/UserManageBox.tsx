@@ -1,11 +1,19 @@
 import { css } from "@emotion/react";
+import Cookies from "js-cookie";
+import { useState } from "react";
 
 import { InfoBox } from "./InfoBox";
 
+import { MidModal } from "@/component/common/Modal/MidModal";
 import { Typography } from "@/component/common/typography";
+import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function UserManageBox() {
+  const { mutate: signOut } = usePostSignOut();
+  const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
+  const memberId = Cookies.get("memberId");
+
   return (
     <>
       <div
@@ -51,11 +59,26 @@ export function UserManageBox() {
               display: flex;
               align-items: center;
             `}
+            onClick={() => {
+              setIsSignOutModalVisible(true);
+            }}
           >
             <Typography variant="body16Medium">로그아웃</Typography>
           </div>
         </div>
       </div>
+      {isSignOutModalVisible && (
+        <MidModal
+          title="로그아웃"
+          content="정말 로그아웃 하시겠어요?"
+          leftFun={() => {
+            setIsSignOutModalVisible(false);
+          }}
+          rightFun={() => {
+            if (memberId) signOut({ memberId: memberId });
+          }}
+        />
+      )}
     </>
   );
 }
