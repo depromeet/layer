@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { TagBox } from "@/component/home";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Space } from "@/types/spaceType";
 
 type SpaceOverviewProps = {
@@ -24,7 +25,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
         css={css`
           width: 100%;
           height: auto;
-          background-color: #ffffff;
+          background-color: ${DESIGN_TOKEN_COLOR.gray00};
           padding: 1.9rem 1.8rem 1.6rem 1.8rem;
           display: flex;
           gap: 1.6rem;
@@ -42,7 +43,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
             css={css`
               width: 4rem;
               height: 4rem;
-              background-color: #eef2f9;
+              background-color: ${DESIGN_TOKEN_COLOR.gray600};
               border-radius: 100%;
             `}
           />
@@ -56,8 +57,8 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
             gap: 0.2rem;
           `}
         >
-          <Typography variant="S2">{name}</Typography>
-          <Typography variant="B2" color="darkGray">
+          <Typography variant="title18Bold">{name}</Typography>
+          <Typography variant="body14Medium" color="gray600">
             {introduction}
           </Typography>
           <div
@@ -97,7 +98,9 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
                   margin-top: 0.3rem;
                 `}
               >
-                <Typography>{memberCount}</Typography>
+                <Typography variant="body12Medium" color="gray900">
+                  {memberCount}
+                </Typography>
               </div>
             </div>
           </div>

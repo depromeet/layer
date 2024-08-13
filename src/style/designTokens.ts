@@ -4,6 +4,11 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "700",
     lineHeight: "150%",
   },
+  title20Bold: {
+    fontSize: "2.0rem",
+    fontWeight: "700",
+    lineHeight: "140%",
+  },
   title18Bold: {
     fontSize: "1.8rem",
     fontWeight: "700",
@@ -72,7 +77,13 @@ export const DESIGN_TOKEN_TEXT = {
 } as const;
 
 export const DESIGN_TOKEN_COLOR = {
-  gray00: "#FFFFF",
+  themeBackground: {
+    dark: "#212529",
+    gray: "#F2F4F8",
+    transparent: "transparent",
+    default: "#FFFFFF",
+  },
+  gray00: "#FFFFFF",
   gray100: "#F2F4F8",
   gray200: "#EDF0F4",
   gray300: "#DFE3EA",

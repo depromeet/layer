@@ -51,7 +51,7 @@ export function RetrospectViewPage() {
       theme="gray"
       height="6.4rem"
       LeftComp={
-        <Typography as="h1" variant="T4">
+        <Typography as="h1" variant="heading24Bold">
           회고
         </Typography>
       }

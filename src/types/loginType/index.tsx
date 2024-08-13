@@ -1,3 +1,5 @@
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+
 export const loginTypeProvider = {
   apple: "애플",
   google: "구글",
@@ -7,7 +9,7 @@ export const loginTypeProvider = {
 // FIXME : 버튼 색 수정 필요
 export const backgroundColors: Record<keyof typeof loginTypeProvider, string> = {
   kakao: "#ffe400",
-  google: "#FFFFFF",
+  google: DESIGN_TOKEN_COLOR.gray00,
   apple: "red",
 };
 
