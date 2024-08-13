@@ -3,7 +3,8 @@ import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { Typography } from "@/component/common/typography";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export type AppBarProps = {
   title?: React.ReactNode;
@@ -23,7 +24,7 @@ function Back({ theme }: { theme: "dark" | "gray" | "default" | "transparent" })
       onClick={() => {
         navigate(-1);
       }}
-      color={theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.black}
+      color={theme === "dark" ? DESIGN_TOKEN_COLOR.gray00 : DESIGN_TOKEN_COLOR.gray900}
     />
   );
 }
@@ -42,7 +43,7 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
             max-width: 48rem;
             height: ${height};
             padding: 1.1rem 2rem;
-            background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
+            background-color: ${DESIGN_TOKEN_COLOR.themeBackground[theme]};
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -54,7 +55,7 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
           `,
           style,
         ]}
-        ref={ref}
+        ref = {ref}
       >
         {LeftComp}
         <div
@@ -62,12 +63,17 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 1.8rem;
-            color: ${theme === "dark" ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.black};
-            text-align: center;
           `}
         >
-          {title}
+          <Typography
+            color={theme === "dark" ? "white" : "gray900"}
+            variant="subtitle18SemiBold"
+            css={css`
+              text-align: center;
+            `}
+          >
+            {title}
+          </Typography>
         </div>
         {RightComp}
       </div>

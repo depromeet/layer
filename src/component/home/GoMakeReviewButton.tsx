@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type GoMakeReviewButtonProps = {
   onClick: () => void;
@@ -10,11 +11,12 @@ type GoMakeReviewButtonProps = {
 export function GoMakeReviewButton({ onClick }: GoMakeReviewButtonProps) {
   return (
     <>
-      <div
+      <button
+        onClick={onClick}
         css={css`
           width: 100%;
           height: 7.4rem;
-          background-color: #ffffff;
+          background-color: ${DESIGN_TOKEN_COLOR.gray00};
           box-shadow: 0.4rem, #2125290a;
           border-radius: 1rem;
           padding: 1.6rem 1.1rem;
@@ -25,24 +27,23 @@ export function GoMakeReviewButton({ onClick }: GoMakeReviewButtonProps) {
           align-items: center;
         `}
       >
-        <button
+        <div
           css={css`
             width: 4.2rem;
             height: 4.2rem;
-            background-color: #f5f7f9;
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
             display: flex;
             justify-content: center;
             align-items: center;
             border-radius: 8px;
           `}
-          onClick={onClick}
         >
-          <Icon icon="ic_plus" size="1.6rem" color="#7C848C" />
-        </button>
-        <Typography variant="B2" color="darkGray">
+          <Icon icon="ic_plus" size="1.6rem" color={DESIGN_TOKEN_COLOR.gray600} />
+        </div>
+        <Typography variant="body14Medium" color="gray600">
           회고 스페이스 생성
         </Typography>
-      </div>
+      </button>
     </>
   );
 }
