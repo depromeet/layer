@@ -20,7 +20,7 @@ export function Title({ contents, theme = "primary", ...props }: Pick<HeaderProp
       {contents.split("\n").map((item) => (
         <div key={item}>
           {parseTextToJSX(item).map((title, index) => (
-            <Typography key={index} variant={"T4"} color={themeSet[theme]} {...props}>
+            <Typography key={index} variant={"title18Bold"} color={themeSet[theme]} {...props}>
               {title}
             </Typography>
           ))}
