@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useNavigate } from "react-router-dom";
 
 import { UserBox, VersionBox, ServicePolicyBox, UserManageBox } from "@/component/info";
 import { DefaultLayout } from "@/layout/DefaultLayout";

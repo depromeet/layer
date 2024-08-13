@@ -35,6 +35,7 @@ export const usePatchUpdateProfile = (): UseMutationResult<AxiosResponse, unknow
     },
     onError: (error) => {
       console.error(error);
+      toast.error("서버 에러가 발생했어요!");
     },
   });
 };
