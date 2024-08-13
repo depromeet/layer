@@ -1,4 +1,5 @@
-import { css } from "@emotion/react";
+import { css, Interpolation, Theme } from "@emotion/react";
+import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
@@ -11,6 +12,7 @@ export type AppBarProps = {
   height?: string;
   LeftComp?: React.ReactNode;
   RightComp?: React.ReactNode;
+  style?: Interpolation<Theme>;
 };
 
 //FIXME: 색깔 디자인 토큰에 따라 변경
@@ -28,11 +30,14 @@ function Back({ theme }: { theme: "dark" | "gray" | "default" | "transparent" })
 }
 
 //FIXME : 디자인 토큰에 따라 색깔 변경, 폰트 수정
-export function AppBar({ title, theme = "default", height = "5.8rem", LeftComp = <Back theme={theme} />, RightComp = <div></div> }: AppBarProps) {
+export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
+  { style, title, theme = "default", height = "5.8rem", LeftComp = <Back theme={theme} />, RightComp = <div></div> },
+  ref,
+) {
   return (
     <>
       <div
-        css={css`
+        css={[css`
           width: 100%;
           max-width: 48rem;
           height: ${height};
@@ -46,7 +51,11 @@ export function AppBar({ title, theme = "default", height = "5.8rem", LeftComp =
           transform: translateX(-50%);
           box-sizing: border-box;
           z-index: 99;
-        `}
+          transition: 0.4s all;
+        `,
+              style,
+         ]}
+        ref = {ref}
       >
         {LeftComp}
         <div
@@ -76,4 +85,6 @@ export function AppBar({ title, theme = "default", height = "5.8rem", LeftComp =
       />
     </>
   );
-}
+});
+
+AppBar.displayName = "AppBar";
