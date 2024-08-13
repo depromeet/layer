@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { ReactNode } from "react";
 
 import { AppBar, AppBarProps } from "@/component/common/appBar";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type DefaultLayoutProps = AppBarProps & {
   appBarVisible?: boolean;
@@ -13,7 +13,7 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
   return (
     <div
       css={css`
-        --parent-bg-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
+        --parent-bg-color: ${DESIGN_TOKEN_COLOR.themeBackground[theme]};
         background-color: var(--parent-bg-color);
         overflow-y: auto;
         max-height: 100vh;
@@ -27,7 +27,7 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
           display: flex;
           flex-direction: column;
           padding: 0 2rem;
-          min-height: calc(100dvh - ${height ?? `5.8rem`});
+          height: calc(100dvh - ${height ?? `5.8rem`});
         `}
       >
         {children}

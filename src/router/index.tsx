@@ -1,24 +1,28 @@
 import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-dom";
 
+import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
 import { RetrospectViewPage } from "@/app/home/RetrospectViewPage";
-import { KaKaoRedirection } from "@/app/login/KakaoLoginRedirection";
+import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
+import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
+import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
 import { CreateDonePage } from "@/app/space/CreateDonePage";
 import { CreateNextPage } from "@/app/space/CreateNextPage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
 import { JoinSpacePage } from "@/app/space/JoinSpacePage";
+import { SpaceViewPage } from "@/app/space/SpaceViewPage";
+import { TemplatePage } from "@/app/template/TemplatePage.tsx";
 import Staging from "@/app/test/Staging.tsx";
 import { RetrospectWriteCompletePage } from "@/app/write/RetrospectWriteCompletePage.tsx";
 import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
-import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 import { RecommendTemplatePage } from "@/app/retrospectCreate/recommend/RecommendTemplatePage";
 import { RecommendDonePage } from "@/app/retrospectCreate/recommend/RecommendDonePage";
 
@@ -57,6 +61,11 @@ const routerChildren: RouteChildren[] = [
     auth: true,
   },
   {
+    path: "/template",
+    element: <TemplatePage />,
+    auth: false,
+  },
+  {
     path: "/staging",
     element: <Staging />,
     auth: false,
@@ -67,7 +76,7 @@ const routerChildren: RouteChildren[] = [
     auth: false,
   },
   {
-    path: "/setnickname",
+    path: "/setnickname/:socialType",
     element: <SetNickNamePage />,
     auth: false,
   },
@@ -93,7 +102,9 @@ const routerChildren: RouteChildren[] = [
     element: <JoinSpacePage />,
     auth: false,
   },
-  { path: "/api/auth/oauth2/kakao", element: <KaKaoRedirection />, auth: false },
+  { path: "/api/auth/oauth2/kakao", element: <KakaoLoginRedirection />, auth: false },
+  { path: "/api/auth/oauth2/google", element: <GoogleLoginRedirection />, auth: false },
+
   {
     path: "/retrospect/new",
     element: <RetrospectCreate />,
@@ -108,6 +119,16 @@ const routerChildren: RouteChildren[] = [
     path: "/space/:spaceId",
     element: <SpaceViewPage />,
     auth: true,
+  },
+  {
+    path: "/space/:spaceId/templates",
+    element: <TemplateListPage />,
+    auth: true,
+  },
+  {
+    path: "*",
+    element: <Error />,
+    auth: false,
   },
 ];
 

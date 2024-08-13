@@ -1,3 +1,5 @@
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+
 export const loginTypeProvider = {
   apple: "애플",
   google: "구글",
@@ -7,7 +9,7 @@ export const loginTypeProvider = {
 // FIXME : 버튼 색 수정 필요
 export const backgroundColors: Record<keyof typeof loginTypeProvider, string> = {
   kakao: "#ffe400",
-  google: "#FFFFFF",
+  google: DESIGN_TOKEN_COLOR.gray00,
   apple: "red",
 };
 
@@ -31,6 +33,14 @@ export type KakaoLoginResponse = {
   refresh_token_expires_in: number;
 };
 
+export type GoogleLoginResponse = {
+  access_token: string;
+  expires_in: number;
+  scope: string;
+  token_type: string;
+  id_token?: string;
+};
+
 export type AuthResponse = {
   memberId: number;
   name: string;
@@ -44,9 +54,8 @@ export type AuthResponse = {
 
 export type AuthApiReturn = {
   status: number;
-  data: AuthResponse | null;
+  data: AuthResponse;
 };
-
 export type LoginKakaoResult = { status: number; response: AuthResponse | null };
 
 export type MemberInfo = {
@@ -55,5 +64,11 @@ export type MemberInfo = {
   email: string;
   memberRole: string;
   socialId: string;
-  socialType: "KAKAO" | "Google";
+  socialType: SocialLoginKind;
 };
+
+export type LoginKindType = {
+  socialType: "kakao" | "google";
+};
+
+export type SocialLoginKind = "kakao" | "google";

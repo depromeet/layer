@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue } from "jotai";
 import { createContext, useContext, useEffect } from "react";
-// import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { CustomTemplateContext, RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
 import { FullModal } from "@/component/common/Modal/FullModal";
@@ -16,11 +16,11 @@ export const TemplateContext = createContext<CustomTemplateRes>({
 });
 
 export function CustomTemplate() {
-  // const locationState = useLocation().state as { templateId: number };
-  // const { templateId } = locationState;
+  const locationState = useLocation().state as { templateId: number };
+  const { templateId } = locationState;
   const {
     data: { title, tag, questions },
-  } = useGetCustomTemplate(10001); //FIXME - dummy template id
+  } = useGetCustomTemplate(templateId);
   const pageContext = useContext(RetrospectCreateContext);
   const customContext = useContext(CustomTemplateContext);
 

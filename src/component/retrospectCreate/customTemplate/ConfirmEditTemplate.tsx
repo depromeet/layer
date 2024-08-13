@@ -39,13 +39,7 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
   };
 
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-      `}
-    >
+    <>
       <Header title={"수정된 해당 템플릿으로\n진행하시겠어요?"} contents={"다음 회고에서도 해당 템플릿으로 제공해드릴게요!"} />
       <Spacing size={6.5} />
       <Card
@@ -132,7 +126,6 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
         </div>
         <div
           css={css`
-            max-height: 100%;
             overflow-y: auto;
             margin-bottom: -2rem;
             padding: 1.2rem 0;
@@ -152,6 +145,6 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
         <ButtonProvider.Gray onClick={goPrev}>템플릿 수정</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={onNext}>다음</ButtonProvider.Primary>
       </ButtonProvider>
-    </div>
+    </>
   );
 }

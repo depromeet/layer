@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 import { Dispatch, SetStateAction } from "react";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 import { Typography } from "@/component/common/typography";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type UnderBarProps = {
   position: number;
@@ -22,7 +22,7 @@ function UnderBar({ position }: UnderBarProps) {
   return (
     <div
       css={css`
-        border: 1px solid #212529;
+        border: 1px solid ${DESIGN_TOKEN_COLOR.gray900};
         width: 3.8rem;
         position: absolute;
         bottom: 0;
@@ -48,9 +48,9 @@ export function ViewSelectTab({ viewState, setViewState }: ViewSelectTabProps) {
   return (
     <div
       css={css`
-        width: 100%;
+        width: 300px;
         position: fixed;
-        background-color: ${DESIGN_SYSTEM_COLOR.themeBackground.gray};
+        background-color: ${DESIGN_TOKEN_COLOR.themeBackground.gray};
       `}
     >
       <div
@@ -78,7 +78,7 @@ export function ViewSelectTab({ viewState, setViewState }: ViewSelectTabProps) {
               margin-right: ${i < viewState.length - 1 ? "1.2rem" : "0"};
             `}
           >
-            <Typography variant="S2" color={selected ? "black" : "grey500"}>
+            <Typography variant="subtitle18SemiBold" color={selected ? "black" : "gray500"}>
               {viewName === "ALL" ? "전체" : viewName === "INDIVIDUAL" ? "개인" : "팀"}
             </Typography>
           </button>

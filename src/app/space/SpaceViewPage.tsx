@@ -18,7 +18,7 @@ import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
@@ -90,36 +90,40 @@ export function SpaceViewPage() {
         css={css`
           width: calc(100% + 4rem);
           transform: translateX(-2rem);
-          min-height: calc(100vh - 32rem);
-          background-color: ${DESIGN_SYSTEM_COLOR.white};
+          min-height: calc(100vh - 20rem);
+          background-color: ${DESIGN_TOKEN_COLOR.gray00};
           padding: 2.2rem 2rem;
         `}
       >
-        <div
-          css={css`
-            display: flex;
-            gap: 0.6rem;
-          `}
-        >
-          <Typography variant="B1_BOLD">진행중인 회고</Typography>
-          <Typography variant="B1_BOLD" color="darkGray">
-            {proceedingRetrospects?.length}
-          </Typography>
-        </div>
         <Spacing size={1.6} />
-        {!proceedingRetrospects?.length && <EmptyRetrospect />}
-
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-          `}
-        >
-          {proceedingRetrospects?.map((retrospect) => (
-            <RetrospectBox key={retrospect.retrospectId} spaceId={spaceId} retrospect={retrospect} onDelete={handleDeleteRetrospect} />
-          ))}
-        </div>
+        {proceedingRetrospects?.length === 0 ? (
+          <EmptyRetrospect />
+        ) : (
+          <>
+            <div
+              css={css`
+                display: flex;
+                gap: 0.6rem;
+              `}
+            >
+              <Typography variant="title18Bold">진행중인 회고</Typography>
+              <Typography variant="title16Bold" color="gray600">
+                {proceedingRetrospects?.length}
+              </Typography>
+            </div>
+            <div
+              css={css`
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+              `}
+            >
+              {proceedingRetrospects?.map((retrospect) => (
+                <RetrospectBox key={retrospect.retrospectId} spaceId={spaceId} retrospect={retrospect} onDelete={handleDeleteRetrospect} />
+              ))}
+            </div>
+          </>
+        )}
 
         <Spacing size={2} />
 
@@ -130,8 +134,8 @@ export function SpaceViewPage() {
               gap: 0.6rem;
             `}
           >
-            <Typography variant="B1_BOLD">완료된 회고</Typography>
-            <Typography variant="B1_BOLD" color="darkGray">
+            <Typography variant="title18Bold">완료된 회고</Typography>
+            <Typography variant="title16Bold" color="gray600">
               {doneRetrospects?.length}
             </Typography>
           </div>

@@ -22,6 +22,10 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
         cursor: pointer;
         transition: 0.4s all;
 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         // FIXME: 추후 디자인 토큰 나오면 세부 수정 진행 필요
         ${colorSchema === "sky" &&
         css`
@@ -37,12 +41,12 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
           color: #212529;
           background-color: white;
         `}
-        ${colorSchema === "white" &&
+        ${colorSchema === "outline" &&
         css`
-          background-color: #fff;
-          color: #212529;
+          border: 1px solid #dfe3ea;
+          background-color: white;
+          color: #454952;
         `}
-      
         ${disabled &&
         css`
           background-color: #edf0f4;

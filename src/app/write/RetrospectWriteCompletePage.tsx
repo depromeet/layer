@@ -3,7 +3,7 @@ import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { CompleteCheck, CompleteIcon } from "@/assets/imgs/template";
+import { CompleteCheck, CompleteIcon } from "@/assets/imgs/write/template";
 import confetti from "@/assets/lottie/template/confetti.json";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";

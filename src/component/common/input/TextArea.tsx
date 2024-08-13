@@ -1,51 +1,86 @@
 import { css } from "@emotion/react";
-import { forwardRef, useContext } from "react";
+import { forwardRef, useContext, useState } from "react";
 
 import { InputContext } from "./InputLabelContainer";
+import { patterns } from "./patterns.const";
 
 import { Typography } from "@/component/common/typography";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { useValidation } from "@/hooks/useValidation";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type TextAreaProps = {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   width?: string;
   height?: string;
   count?: boolean;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  validations?: (keyof typeof patterns)[];
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function ({ id, width = "100%", height = "8.4rem", count, ...props }, ref) {
+export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function (
+  { id, width = "100%", height = "8.4rem", count, validations, onChange, ...props },
+  ref,
+) {
   const { maxLength, value } = props;
+  const [isFocused, setIsFocused] = useState(false);
   const textareaContext = useContext(InputContext);
+  const { errorMsg, onInputValidate } = useValidation({ validations, maxLength });
+
   return (
-    <div
-      css={css`
-        width: ${width};
-        border: 1px solid ${"#e3e6ea"}; // FIXME: 디자인 토큰 적용하기
-        border-radius: 0.8rem;
-        padding: 1.6rem;
-        display: flex;
-        flex-direction: column;
-        height: ${height};
-      `}
-    >
-      <textarea
-        ref={ref}
-        id={id || textareaContext?.id}
+    <div>
+      <div
         css={css`
-          ::placeholder {
-            color: ${DESIGN_SYSTEM_COLOR.lightGrey5};
-          }
+          width: ${width};
+          border: 1px solid;
+          border-color: ${isFocused ? DESIGN_TOKEN_COLOR.blue600 : DESIGN_TOKEN_COLOR.gray300};
+          border-radius: 0.8rem;
+          padding: 1.6rem;
+          display: flex;
+          flex-direction: column;
+          height: ${height};
+          transition: 0.2s all;
         `}
-        {...props}
-      />
-      {count && maxLength && (
+      >
+        <textarea
+          ref={ref}
+          id={id || textareaContext?.id}
+          css={css`
+            ::placeholder {
+              color: ${DESIGN_TOKEN_COLOR.gray00};
+            }
+            flex-shrink: 0;
+            flex-grow: 1;
+          `}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onChange={(e) => {
+            onChange(e);
+            onInputValidate(e);
+          }}
+          {...props}
+        />
+        {count && maxLength && (
+          <div
+            css={css`
+              align-self: flex-end;
+            `}
+          >
+            <Typography variant={"body12Medium"} color={value.length ? "blue600" : "gray500"}>
+              {value.length}
+            </Typography>
+            <Typography variant={"body12Medium"} color={"gray500"}>{`/${maxLength}`}</Typography>
+          </div>
+        )}
+      </div>
+      {errorMsg && (
         <div
           css={css`
-            align-self: flex-end;
+            margin-top: 0.8rem;
           `}
         >
-          <Typography variant="CAPTION" color={"lightGrey"}>{`${value.length}/${maxLength}`}</Typography>
+          <Typography color={"red400"} variant={"body14Medium"}>
+            {`*${errorMsg}`}
+          </Typography>
         </div>
       )}
     </div>
