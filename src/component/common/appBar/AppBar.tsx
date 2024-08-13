@@ -37,24 +37,24 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
   return (
     <>
       <div
-        css={[css`
-          width: 100%;
-          max-width: 48rem;
-          height: ${height};
-          padding: 1.1rem 2rem;
-          background-color: ${DESIGN_TOKEN_COLOR.themeBackground[theme]};
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          position: fixed;
-          left: 50%;
-          transform: translateX(-50%);
-          box-sizing: border-box;
-          z-index: 99;
-          transition: 0.4s all;
-        `,
-              style,
-         ]}
+        css={[
+          css`
+            width: 100%;
+            max-width: 48rem;
+            height: ${height};
+            padding: 1.1rem 2rem;
+            background-color: ${DESIGN_TOKEN_COLOR.themeBackground[theme]};
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            box-sizing: border-box;
+            z-index: 99;
+          `,
+          style,
+        ]}
         ref = {ref}
       >
         {LeftComp}
