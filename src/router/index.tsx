@@ -19,6 +19,8 @@ import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
 import { SpaceViewPage } from "@/app/space/SpaceViewPage";
+import { RecommendTemplatePage } from "@/app/retrospectCreate/recommend/RecommendTemplatePage";
+import { RecommendDonePage } from "@/app/retrospectCreate/recommend/RecommendDonePage";
 
 type RouteChildren = {
   auth: boolean;
@@ -69,6 +71,8 @@ const routerChildren: RouteChildren[] = [
     element: <SetNickNamePage />,
     auth: false,
   },
+  { path: "/retrospect/recommend", element: <RecommendTemplatePage />, auth: true },
+  { path: "/retrospect/recommend/done", element: <RecommendDonePage />, auth: true },
   {
     path: "/space/create",
     element: <CreateSpacePage />,
