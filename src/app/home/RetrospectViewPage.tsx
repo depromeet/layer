@@ -8,6 +8,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/home";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
+import { PATHS } from "@/config/paths";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { authAtom } from "@/store/auth/authAtom";
@@ -44,8 +45,12 @@ export function RetrospectViewPage() {
     [fetchNextPage, hasNextPage, isFetchingNextPage],
   );
 
-  const goMakeReview = () => {
-    navigate("/space/create");
+  const goToCreateSpace = () => {
+    navigate(PATHS.retrospectCreate());
+  };
+
+  const goToUserInfo = () => {
+    navigate(PATHS.myInfo());
   };
 
   return (
@@ -65,16 +70,25 @@ export function RetrospectViewPage() {
               width: 3.2rem;
               height: 3.2rem;
               border-radius: 100%;
+              cursor: pointer;
             `}
+            onClick={goToUserInfo}
           />
         ) : (
-          <Icon icon="basicProfile" size="3.2rem" />
+          <Icon
+            icon="basicProfile"
+            size="3.2rem"
+            onClick={goToUserInfo}
+            css={css`
+              cursor: pointer;
+            `}
+          />
         )
       }
     >
       <ViewSelectTab viewState={viewState} setViewState={setViewState} />
       <Spacing size={3.6} />
-      <GoMakeReviewButton onClick={goMakeReview} />
+      <GoMakeReviewButton onClick={goToCreateSpace} />
 
       <div
         css={css`
