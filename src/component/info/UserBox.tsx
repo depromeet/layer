@@ -1,20 +1,25 @@
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { PATHS } from "@/config/paths";
 
 type UserBoxProps = {
   name: string;
   imgUrl: string;
-  onClick: () => void;
 };
 
-export function UserBox({ name, imgUrl, onClick }: UserBoxProps) {
+export function UserBox({ name, imgUrl }: UserBoxProps) {
+  const naviate = useNavigate();
+
   return (
     <>
       <div
-        onClick={onClick}
+        onClick={() => {
+          naviate(PATHS.myInfoModify());
+        }}
         css={css`
           width: 100%;
           height: 7.4rem;

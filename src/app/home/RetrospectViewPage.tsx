@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { useAtom } from "jotai";
 import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +10,7 @@ import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/ho
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { authAtom } from "@/store/auth/authAtom";
 
 type ViewState = {
   viewName: string;
@@ -22,7 +24,7 @@ export function RetrospectViewPage() {
     { viewName: "INDIVIDUAL", selected: false },
     { viewName: "TEAM", selected: false },
   ]);
-
+  const [{ imageUrl }] = useAtom(authAtom);
   const selectedView = viewState.find((view) => view.selected)?.viewName || "ALL";
 
   const { data: spaceList, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useApiGetSpaceList(selectedView);
@@ -55,7 +57,20 @@ export function RetrospectViewPage() {
           회고
         </Typography>
       }
-      RightComp={<Icon icon="basicProfile" size="3.2rem" />}
+      RightComp={
+        imageUrl ? (
+          <img
+            src={imageUrl}
+            css={css`
+              width: 3.2rem;
+              height: 3.2rem;
+              border-radius: 100%;
+            `}
+          />
+        ) : (
+          <Icon icon="basicProfile" size="3.2rem" />
+        )
+      }
     >
       <ViewSelectTab viewState={viewState} setViewState={setViewState} />
       <Spacing size={3.6} />

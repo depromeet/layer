@@ -36,3 +36,5 @@ export { default as ic_more } from "./ic_more.svg?react";
 export { default as ic_calendar } from "./ic_calendar.svg?react";
 export { default as ic_darkPerson } from "./ic_darkPerson.svg?react";
 export { default as ic_bluePoint } from "./ic_bluePoint.svg?react";
+export { default as ic_choose_picture } from "./ic_choose_picture.svg?react";
+export { default as ic_camera } from "./ic_camera.svg?react";
