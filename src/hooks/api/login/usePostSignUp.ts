@@ -42,7 +42,7 @@ export const usePostSignUp = () => {
         Cookies.set("memberId", data.memberId.toString(), { expires: 7 });
         Cookies.set("accessToken", data.accessToken, { expires: 7 });
         Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
-        setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole });
+        setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole, imageUrl: data.imageUrl });
       }
       toast.success("Layer에 온걸 환영해요!");
       navigate(PATHS.home());
