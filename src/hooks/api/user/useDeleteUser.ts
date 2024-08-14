@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
+import { PATHS } from "@/config/paths";
 import { useToast } from "@/hooks/useToast";
 
 export const useDeleteUser = () => {
@@ -16,7 +17,7 @@ export const useDeleteUser = () => {
   return useMutation({
     mutationFn: (memberId: string) => apiSpaceLeave(memberId),
     onSuccess: () => {
-      navigate("/");
+      navigate(PATHS.login());
     },
     onError: (error) => {
       toast.error(error.message);

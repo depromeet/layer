@@ -1,22 +1,36 @@
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { InfoBox } from "./InfoBox";
 
 import { MidModal } from "@/component/common/Modal/MidModal";
 import { Typography } from "@/component/common/typography";
-import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { PATHS } from "@/config/paths";
+import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
+import { useDeleteUser } from "@/hooks/api/user/useDeleteUser";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+
+type LocationState = {
+  showDeletionModal?: boolean;
+};
 
 export function UserManageBox() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { mutate: deleteUser } = useDeleteUser();
   const { mutate: signOut } = usePostSignOut();
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const [isDeletionModalVisible, setIsDeletionModalVisible] = useState(false);
   const memberId = Cookies.get("memberId");
+
+  useEffect(() => {
+    const state = location.state as LocationState;
+    if (state?.showDeletionModal) {
+      setIsDeletionModalVisible(true);
+    }
+  }, [location.state]);
 
   return (
     <>
@@ -92,7 +106,11 @@ export function UserManageBox() {
           leftFun={() => {
             setIsDeletionModalVisible(false);
           }}
-          rightFun={() => {}}
+          rightFun={() => {
+            if (memberId) {
+              deleteUser(memberId);
+            }
+          }}
         />
       )}
     </>

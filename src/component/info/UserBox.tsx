@@ -3,22 +3,22 @@ import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { PATHS } from "@/config/paths";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type UserBoxProps = {
   name: string;
-  imgUrl: string;
+  imgUrl?: string;
 };
 
 export function UserBox({ name, imgUrl }: UserBoxProps) {
-  const naviate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <>
       <div
         onClick={() => {
-          naviate(PATHS.myInfoModify());
+          navigate(PATHS.myInfoModify());
         }}
         css={css`
           width: 100%;
@@ -30,6 +30,7 @@ export function UserBox({ name, imgUrl }: UserBoxProps) {
           padding-right: 2.2rem;
           display: flex;
           justify-content: space-between;
+          align-items: center;
         `}
       >
         <div
@@ -39,14 +40,18 @@ export function UserBox({ name, imgUrl }: UserBoxProps) {
             align-items: center;
           `}
         >
-          <img
-            src={imgUrl}
-            css={css`
-              width: 4.2rem;
-              height: 4.2rem;
-              border-radius: 100%;
-            `}
-          />
+          {imgUrl ? (
+            <img
+              src={imgUrl}
+              css={css`
+                width: 4.2rem;
+                height: 4.2rem;
+                border-radius: 100%;
+              `}
+            />
+          ) : (
+            <Icon icon="basicProfile" size={4.2} />
+          )}
           <Typography variant="body16Medium">{name}</Typography>
         </div>
         <Icon icon="ic_after" size={1.6} color="#424242" />
