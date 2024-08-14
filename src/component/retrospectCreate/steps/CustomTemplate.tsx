@@ -1,4 +1,4 @@
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { createContext, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -6,7 +6,7 @@ import { CustomTemplateContext, RetrospectCreateContext } from "@/app/retrospect
 import { FullModal } from "@/component/common/Modal/FullModal";
 import { ConfirmEditTemplate, EditQuestions, ConfirmDefaultTemplate } from "@/component/retrospectCreate";
 import { useGetCustomTemplate } from "@/hooks/api/template/useGetCustomTemplate";
-import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { CustomTemplateRes } from "@/types/template";
 
 export const TemplateContext = createContext<CustomTemplateRes>({
@@ -24,14 +24,7 @@ export function CustomTemplate() {
   const pageContext = useContext(RetrospectCreateContext);
   const customContext = useContext(CustomTemplateContext);
 
-  const isQuestionEdited = useAtomValue(isQuestionEditedAtom);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
-
-  useEffect(() => {
-    if (isQuestionEdited) {
-      customContext.goTo("confirmEditTemplate");
-    }
-  }, []);
 
   useEffect(() => {
     if (retroCreateData.questions.length > 0) return;

@@ -21,7 +21,7 @@ import { TemporarySaveModal } from "@/component/write/modal";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useEditQuestions } from "@/hooks/useEditQuestions";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
-import { isQuestionEditedAtom, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
@@ -49,7 +49,6 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
 
   const { questions: originalQuestions } = useContext(TemplateContext);
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
-  const setIsQuestionEdited = useSetAtom(isQuestionEditedAtom);
 
   const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
   const isEdited = useMemo(
@@ -58,7 +57,6 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   );
 
   const saveData = () => {
-    setIsQuestionEdited(isEdited);
     setRetroCreateData((prev) => ({ ...prev, isNewForm: isEdited, questions: newQuestions, formName: `커스텀 템플릿` }));
   };
 
