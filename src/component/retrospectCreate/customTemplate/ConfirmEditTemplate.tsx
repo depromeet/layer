@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useContext, useRef, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 
 import { ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
@@ -22,8 +22,18 @@ type QuestionsListProps = {
 };
 
 export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
-  const { tag } = useContext(TemplateContext);
+  const { tag: originalTag, questions: originalQuestions } = useContext(TemplateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const tag = useMemo(() => {
+    if (
+      originalQuestions
+        .map(({ questionContent }) => questionContent)
+        .every((question) => retroCreateData.questions.map(({ questionContent }) => questionContent).includes(question))
+    ) {
+      return originalTag;
+    }
+    return "커스텀";
+  }, [originalTag, originalQuestions, retroCreateData.questions]);
   const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const [showTooltip, setShowTooltip] = useState(true);
