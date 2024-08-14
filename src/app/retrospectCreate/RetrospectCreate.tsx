@@ -27,7 +27,7 @@ type UseMultiStepFormContextState<T extends (typeof CUSTOM_TEMPLATE_STEPS)[numbe
   typeof useMultiStepForm<T>
 >;
 
-type RetrospectCreateContextState = UseMultiStepFormContextState<(typeof PAGE_STEPS)[number]>;
+type RetrospectCreateContextState = UseMultiStepFormContextState<(typeof PAGE_STEPS)[number]> & { confirmQuitPage: () => void };
 type CustomTemplateContextState = UseMultiStepFormContextState<(typeof CUSTOM_TEMPLATE_STEPS)[number]>;
 
 export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({} as RetrospectCreateContextState);
@@ -87,12 +87,16 @@ export function RetrospectCreate() {
     [pageState.currentStep, retroCreateData.deadline],
   );
 
+  const confirmQuitPage = () => {
+    setIsTemporarySaveModalOpen(true);
+  };
+
   const conditionalGoPrev = useCallback(() => {
     const { currentStep: pageCurrentStep, goPrev: pageGoPrev } = pageState;
     const { currentStep: customCurrentStep, goPrev: customGoPrev } = customState;
 
     if (pageCurrentStep === "start") {
-      setIsTemporarySaveModalOpen(true);
+      confirmQuitPage();
       return;
     }
     if (pageCurrentStep === "customTemplate" && customCurrentStep === "confirmEditTemplate") {
@@ -123,7 +127,7 @@ export function RetrospectCreate() {
           <ProgressBar curPage={conditionalStepIndex} lastPage={pageState.totalStepsCnt - 1} />
         </div>
         <Spacing size={2.9} />
-        <RetrospectCreateContext.Provider value={pageState}>
+        <RetrospectCreateContext.Provider value={{ ...pageState, confirmQuitPage }}>
           <form
             css={css`
               flex: 1 1 0;
@@ -135,7 +139,7 @@ export function RetrospectCreate() {
               e.preventDefault();
             }}
           >
-            {pageState.currentStep === "start" && <Start onQuitPage={quitPage} />}
+            {pageState.currentStep === "start" && <Start />}
             {pageState.currentStep === "mainInfo" && <MainInfo />}
             {pageState.currentStep === "customTemplate" && (
               <CustomTemplateContext.Provider value={customState}>
