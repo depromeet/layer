@@ -5,7 +5,7 @@ import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";
 import { Spacing } from "@/component/common/Spacing";
 import { ANIMATION } from "@/style/common/animation.ts";
-import { DESIGN_TOKEN_TEXT } from "@/style/designTokens";
+import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 
 type MidModalProps = {
   title: string;
