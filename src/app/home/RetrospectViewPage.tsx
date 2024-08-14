@@ -46,7 +46,7 @@ export function RetrospectViewPage() {
   );
 
   const goToCreateSpace = () => {
-    navigate(PATHS.retrospectCreate());
+    navigate(PATHS.spaceCreate());
   };
 
   const goToUserInfo = () => {
