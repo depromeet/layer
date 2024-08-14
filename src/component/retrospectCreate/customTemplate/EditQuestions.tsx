@@ -21,6 +21,7 @@ import { TemporarySaveModal } from "@/component/write/modal";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useEditQuestions } from "@/hooks/useEditQuestions";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
+import { useToast } from "@/hooks/useToast";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
@@ -31,6 +32,7 @@ type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "
 
 export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
+  const { toast } = useToast();
 
   const {
     newQuestions,
@@ -63,6 +65,14 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   const onNext = () => {
     saveData();
     goNext();
+  };
+
+  const handleAddButtonClick = () => {
+    if (newQuestions.length < MAX_QUESTIONS_COUNT) {
+      openBottomSheet();
+    } else {
+      toast.error("추가 가능한 질문 개수를 초과했어요");
+    }
   };
 
   return (
@@ -164,14 +174,23 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
             </QuestionList>
           </Drop>
         </DragDropContext>
-        {newQuestions.length < MAX_QUESTIONS_COUNT && <AddListItemButton onClick={openBottomSheet} />}
+        <AddListItemButton onClick={handleAddButtonClick} />
       </div>
 
       <ButtonProvider>
         <ButtonProvider.Primary onClick={onNext}>완료</ButtonProvider.Primary>
       </ButtonProvider>
 
-      <BottomSheet contents={<AddQuestionsBottomSheet onClose={closeBottomSheet} handleAddQuestions={handleAddQuestions} />} sheetHeight={590} />
+      <BottomSheet
+        contents={
+          <AddQuestionsBottomSheet
+            maxCount={MAX_QUESTIONS_COUNT - newQuestions.length}
+            onClose={closeBottomSheet}
+            handleAddQuestions={handleAddQuestions}
+          />
+        }
+        sheetHeight={590}
+      />
       {isTemporarySaveModalOpen && (
         <Portal id="modal-root">
           <TemporarySaveModal
