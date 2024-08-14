@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { createContext, useCallback, useMemo, useState } from "react";
 import { Beforeunload } from "react-beforeunload";
@@ -14,10 +14,10 @@ import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/
 import { TemporarySaveModal } from "@/component/write/modal";
 import { PATHS } from "@/config/paths";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
+import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTemplateId";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
-import { temporaryTemplateAtom } from "@/store/templateAtom";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 const PAGE_STEPS = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
@@ -58,11 +58,11 @@ export function RetrospectCreate() {
   const locationState = useLocation().state as { spaceId: number; templateId: number };
   const { spaceId, templateId } = locationState;
   const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
-  const [, setTemporaryTemplateAtom] = useAtom(temporaryTemplateAtom);
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
   const postRetrospectCreate = usePostRetrospectCreate(spaceId);
+  const postRecentTemplateId = usePostRecentTemplateId(spaceId);
 
   const handleSubmit = () => {
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
@@ -107,10 +107,10 @@ export function RetrospectCreate() {
   }, [pageState.currentStep, customState.currentStep]);
 
   const quitPage = useCallback(() => {
+    postRecentTemplateId.mutate({ formId: templateId, spaceId });
     setIsTemporarySaveModalOpen(false);
-    setTemporaryTemplateAtom((prev) => ({ ...prev, templateId }));
     resetRetroCreateData();
-    navigate(PATHS.spaceDetail(spaceId.toString()));
+    navigate(PATHS.spaceDetail(spaceId.toString()), { replace: true });
   }, []);
 
   return (
