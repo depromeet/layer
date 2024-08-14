@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { InfoBox } from "./InfoBox";
 
@@ -8,10 +9,13 @@ import { MidModal } from "@/component/common/Modal/MidModal";
 import { Typography } from "@/component/common/typography";
 import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { PATHS } from "@/config/paths";
 
 export function UserManageBox() {
+  const navigate = useNavigate();
   const { mutate: signOut } = usePostSignOut();
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
+  const [isDeletionModalVisible, setIsDeletionModalVisible] = useState(false);
   const memberId = Cookies.get("memberId");
 
   return (
@@ -49,7 +53,7 @@ export function UserManageBox() {
           <InfoBox
             content="계정탈퇴"
             onClick={() => {
-              console.log("계정탈퇴 실행");
+              navigate(PATHS.userDeletion());
             }}
           />
           <div
@@ -67,6 +71,7 @@ export function UserManageBox() {
           </div>
         </div>
       </div>
+
       {isSignOutModalVisible && (
         <MidModal
           title="로그아웃"
@@ -77,6 +82,17 @@ export function UserManageBox() {
           rightFun={() => {
             if (memberId) signOut({ memberId: memberId });
           }}
+        />
+      )}
+
+      {isDeletionModalVisible && (
+        <MidModal
+          title="계정탈퇴"
+          content={`계정 탈퇴시 모든 회고 정보가 날아가요.\n정말 계정 탈퇴를 진행하시겠어요?`}
+          leftFun={() => {
+            setIsDeletionModalVisible(false);
+          }}
+          rightFun={() => {}}
         />
       )}
     </>

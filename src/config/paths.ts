@@ -10,4 +10,5 @@ export const PATHS = {
   spaceDetail: (spaceId: string) => `/space/${spaceId}`,
   myInfo: () => `/myinfo`,
   myInfoModify: () => `/myinfo/modify`,
+  userDeletion: () => `/myinfo/userdeletion`,
 };
