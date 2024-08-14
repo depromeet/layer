@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-dom";
 
+import { MoreActionItemPage } from "@/app/actionItem/MoreActionItemPage.tsx";
 import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
@@ -8,6 +9,7 @@ import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
+import MainPage from "@/app/MainPage.tsx";
 import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
@@ -122,8 +124,18 @@ const routerChildren: RouteChildren[] = [
     auth: true,
   },
   {
+    path: "/goals/more",
+    element: <MoreActionItemPage />,
+    auth: true,
+  },
+  {
     path: "*",
     element: <Error />,
+    auth: false,
+  },
+  {
+    path: "/test",
+    element: <MainPage />,
     auth: false,
   },
 ];
