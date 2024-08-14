@@ -72,7 +72,7 @@ export const DESIGN_TOKEN_TEXT = {
 } as const;
 
 export const DESIGN_TOKEN_COLOR = {
-  gray00: "#FFFFF",
+  gray00: "#FFFFFF",
   gray100: "#F2F4F8",
   gray200: "#EDF0F4",
   gray300: "#DFE3EA",
