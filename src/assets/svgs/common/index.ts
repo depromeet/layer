@@ -17,6 +17,7 @@ export { default as ic_cylinder } from "./ic_cylinder.svg?react";
 
 export { default as basicProfile } from "./basicProfile.svg?react";
 export { default as ic_arrow_back } from "./ic_arrow_back.svg?react";
+export { default as ic_arrow_back_white } from "./ic_back_arrow_white.svg?react";
 export { default as ic_delete } from "./ic_delete.svg?react";
 export { default as ic_handle } from "./ic_handle.svg?react";
 export { default as ic_pencil } from "./ic_pencil.svg?react";

@@ -8,11 +8,20 @@ import { ANIMATION } from "@/style/common/animation.ts";
 type EntireListProps = {
   confirm: () => void;
   quit: () => void;
+  rightButtonText?: string;
+  leftButtonText?: string;
   title: string;
   content: string;
 };
 
-export function TemporarySaveModal({ confirm, quit, title = "회고 작성을 멈출까요?", content = "작성중인 회고는 임시저장 되어요" }: EntireListProps) {
+export function TemporarySaveModal({
+  rightButtonText,
+  leftButtonText,
+  confirm,
+  quit,
+  title = "회고 작성을 멈출까요?",
+  content = "작성중인 회고는 임시저장 되어요",
+}: EntireListProps) {
   const containerRef = useRef(null);
 
   return (
@@ -96,10 +105,10 @@ export function TemporarySaveModal({ confirm, quit, title = "회고 작성을 �
               gradient={false}
             >
               <Button colorSchema={"gray"} onClick={() => quit()}>
-                취소
+                {leftButtonText ?? "취소"}
               </Button>
               <Button colorSchema={"primary"} onClick={() => confirm()}>
-                나가기
+                {rightButtonText ?? "나가기"}
               </Button>
             </ButtonProvider>
           </div>

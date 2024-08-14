@@ -22,6 +22,10 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
         cursor: pointer;
         transition: 0.4s all;
 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         // FIXME: 추후 디자인 토큰 나오면 세부 수정 진행 필요
         ${colorSchema === "sky" &&
         css`

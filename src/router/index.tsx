@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-dom";
 
+import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
 import { RetrospectViewPage } from "@/app/home/RetrospectViewPage";
@@ -18,6 +19,7 @@ import { CreateNextPage } from "@/app/space/CreateNextPage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
 import { JoinSpacePage } from "@/app/space/JoinSpacePage";
 import { SpaceViewPage } from "@/app/space/SpaceViewPage";
+import { TemplatePage } from "@/app/template/TemplatePage.tsx";
 import Staging from "@/app/test/Staging.tsx";
 import { RetrospectWriteCompletePage } from "@/app/write/RetrospectWriteCompletePage.tsx";
 import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
@@ -58,6 +60,11 @@ const routerChildren: RouteChildren[] = [
     path: "/write/complete",
     element: <RetrospectWriteCompletePage />,
     auth: true,
+  },
+  {
+    path: "/template",
+    element: <TemplatePage />,
+    auth: false,
   },
   {
     path: "/staging",
@@ -131,6 +138,11 @@ const routerChildren: RouteChildren[] = [
     path: "/myinfo/userdeletion",
     element: <UserDeletion />,
     auth: true,
+  },
+  {
+    path: "*",
+    element: <Error />,
+    auth: false,
   },
 ];
 

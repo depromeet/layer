@@ -7,7 +7,7 @@ import { RetrospectOptions } from "./RetrospectOptions";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type RestrospectBoxType = {
   retrospectId: number;
@@ -21,10 +21,10 @@ type RestrospectBoxType = {
 
 const statusStyles = {
   PROCEEDING: {
-    backgroundColor: DESIGN_SYSTEM_COLOR.blue50,
+    backgroundColor: DESIGN_TOKEN_COLOR.blue50,
   },
   DONE: {
-    backgroundColor: DESIGN_SYSTEM_COLOR.grey100,
+    backgroundColor: DESIGN_TOKEN_COLOR.gray100,
   },
 };
 
@@ -39,7 +39,7 @@ export function RetrospectBox({
 }) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  const optionsRef = useRef<HTMLDivElement | null>(null); // optionsRef 선언
+  const optionsRef = useRef<HTMLDivElement | null>(null);
   const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount } = retrospect;
   const { backgroundColor } = statusStyles[retrospectStatus];
 
@@ -113,7 +113,7 @@ export function RetrospectBox({
         `}
       >
         <Typography
-          variant="B1_BOLD"
+          variant="title16Bold"
           css={css`
             white-space: nowrap;
             overflow: hidden;
@@ -131,7 +131,7 @@ export function RetrospectBox({
           {retrospectStatus === "PROCEEDING" && (
             <Typography
               css={css`
-                background-color: ${DESIGN_SYSTEM_COLOR.white};
+                background-color: ${DESIGN_TOKEN_COLOR.gray00};
                 padding: 0.4rem 0.8rem;
                 vertical-align: center;
                 border-radius: 0.4rem;
@@ -154,8 +154,8 @@ export function RetrospectBox({
       </div>
       {introduction && (
         <Typography
-          color="grey800"
-          variant="B2_SEMIBOLD"
+          color="gray800"
+          variant="body14Medium"
           css={css`
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -179,7 +179,7 @@ export function RetrospectBox({
         `}
       >
         <Icon size={1.6} icon="ic_calendar" />
-        <Typography color="grey500" variant="B2_SEMIBOLD">
+        <Typography color="gray500" variant="body14Medium">
           2024 07. 30 오전 10:00
         </Typography>
       </div>
@@ -210,12 +210,12 @@ export function RetrospectBox({
             `}
           />
 
-          <Typography variant="B2_SEMIBOLD" color={retrospectStatus === "PROCEEDING" ? "blue700" : "grey500"}>
+          <Typography variant="subtitle14SemiBold" color={retrospectStatus === "PROCEEDING" ? "blue600" : "grey500"}>
             {writeCount}
           </Typography>
           <Typography
-            variant="B2_SEMIBOLD"
-            color="grey500"
+            variant="subtitle14SemiBold"
+            color="gray500"
             css={css`
               margin: 0 0.2rem;
             `}

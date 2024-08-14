@@ -14,7 +14,7 @@ export default defineConfig({
       },
     }),
     svgr(),
-    Sitemap(),
+    Sitemap({ hostname: "https://layerapp.io" }),
   ],
   resolve: {
     alias: {

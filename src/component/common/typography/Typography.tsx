@@ -12,7 +12,7 @@ export type TypographyProps = {
   children: React.ReactNode;
 } & Omit<React.HTMLAttributes<HTMLElement>, "color" | "as" | "variant">;
 
-export function Typography({ as: Component = "span", variant = "B1", color = "black", children, ...props }: TypographyProps) {
+export function Typography({ as: Component = "span", variant = "caption10Medium", color = "gray900", children, ...props }: TypographyProps) {
   return (
     <Component
       css={css`

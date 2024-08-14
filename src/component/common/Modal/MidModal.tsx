@@ -69,7 +69,7 @@ export function MidModal({ title, content, leftText = "취소", rightText = "삭
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: white;
+            background-color: ${DESIGN_TOKEN_COLOR.gray00};
             border-radius: 1.2rem;
             padding: 3rem 2rem;
             row-gap: 2.8rem;
