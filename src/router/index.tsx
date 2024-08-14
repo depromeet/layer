@@ -133,11 +133,6 @@ const routerChildren: RouteChildren[] = [
     element: <Error />,
     auth: false,
   },
-  {
-    path: "/test",
-    element: <MainPage />,
-    auth: false,
-  },
 ];
 
 const browserRouter = routerChildren.map(({ path, element, auth, children }) => {
