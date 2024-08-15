@@ -14,13 +14,16 @@ import { useCheckBox } from "@/hooks/useCheckBox";
 import { useEditQuestions } from "@/hooks/useEditQuestions";
 import { useInput } from "@/hooks/useInput";
 import { useTabs } from "@/hooks/useTabs";
+import { useToast } from "@/hooks/useToast";
 
 type AddQuestionsBottomSheetProps = {
   onClose: () => void;
   handleAddQuestions: ReturnType<typeof useEditQuestions>["handleAddQuestions"];
+  maxCount: number;
 };
 
-export function AddQuestionsBottomSheet({ onClose, handleAddQuestions }: AddQuestionsBottomSheetProps) {
+export function AddQuestionsBottomSheet({ onClose, handleAddQuestions, maxCount }: AddQuestionsBottomSheetProps) {
+  const { toast } = useToast();
   const { tabs, curTab, selectTab } = useTabs(["직접 작성", "추천 질문"] as const);
   const { value: customQuestion, handleInputChange: handleCustomChange, resetInput } = useInput();
   const { isChecked, toggle, selectedValues, resetChecked } = useCheckBox();
@@ -33,6 +36,10 @@ export function AddQuestionsBottomSheet({ onClose, handleAddQuestions }: AddQues
   };
 
   const handleRecommendedSave = () => {
+    if (selectedValues.length > maxCount) {
+      toast.error("추가 가능한 질문 개수를 초과했어요");
+      return;
+    }
     handleAddQuestions(selectedValues);
     resetChecked();
     onClose();
@@ -59,7 +66,9 @@ export function AddQuestionsBottomSheet({ onClose, handleAddQuestions }: AddQues
         >
           <Input placeholder="질문을 작성해주세요." value={customQuestion} onChange={handleCustomChange} maxLength={10} count />
           <ButtonProvider>
-            <ButtonProvider.Primary onClick={handleCustomSave}>추가하기</ButtonProvider.Primary>
+            <ButtonProvider.Primary onClick={handleCustomSave} disabled={!customQuestion}>
+              추가하기
+            </ButtonProvider.Primary>
           </ButtonProvider>
         </div>
       )}
@@ -105,6 +114,7 @@ export function AddQuestionsBottomSheet({ onClose, handleAddQuestions }: AddQues
           <ButtonProvider>
             <ButtonProvider.Primary
               onClick={handleRecommendedSave}
+              disabled={selectedValues.length === 0}
             >{`추가하기${selectedValues.length > 0 ? " " + selectedValues.length : ""}`}</ButtonProvider.Primary>
           </ButtonProvider>
         </div>
