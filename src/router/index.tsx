@@ -28,6 +28,9 @@ import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
 import { NoticePage } from "@/app/info/NoticePage";
 import { HelpPage } from "@/app/info/HelpPage";
+import { LicensePage } from "@/app/info/LicensePage";
+import { TermsOfServicePage } from "@/app/info/TermsOfServicePage";
+import { PrivacyPolicyPage } from "@/app/info/PrivacyPolicyPage";
 
 type RouteChildren = {
   auth: boolean;
@@ -149,6 +152,21 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/myinfo/help",
     element: <HelpPage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/license",
+    element: <LicensePage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/termsofservice",
+    element: <TermsOfServicePage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/privacypolicy",
+    element: <PrivacyPolicyPage />,
     auth: true,
   },
   {
