@@ -1,11 +1,14 @@
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 import { InfoBox } from "./InfoBox";
 
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function VersionBox() {
+  const navigate = useNavigate();
   return (
     <div
       css={css`
@@ -40,13 +43,13 @@ export function VersionBox() {
         <InfoBox
           content="공지사항"
           onClick={() => {
-            console.log("공지사항");
+            navigate(PATHS.notices());
           }}
         />
         <InfoBox
           content="도움말"
           onClick={() => {
-            console.log("공지사항");
+            navigate(PATHS.help());
           }}
         />
         <div

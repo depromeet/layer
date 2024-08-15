@@ -26,6 +26,8 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
+import { NoticePage } from "@/app/info/NoticePage";
+import { HelpPage } from "@/app/info/HelpPage";
 
 type RouteChildren = {
   auth: boolean;
@@ -137,6 +139,16 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/myinfo/userdeletion",
     element: <UserDeletion />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/notices",
+    element: <NoticePage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/help",
+    element: <HelpPage />,
     auth: true,
   },
   {

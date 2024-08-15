@@ -12,4 +12,6 @@ export const PATHS = {
   myInfo: () => `/myinfo`,
   myInfoModify: () => `/myinfo/modify`,
   userDeletion: () => `/myinfo/userdeletion`,
+  notices: () => `/myinfo/notices`,
+  help: () => `/myinfo/help`,
 };
