@@ -8,16 +8,7 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-
-type RestrospectBoxType = {
-  retrospectId: number;
-  title: string;
-  introduction: string;
-  isWrite: boolean;
-  retrospectStatus: "PROCEEDING" | "DONE";
-  writeCount: number;
-  totalCount: number;
-};
+import { Retrospect } from "@/types/retrospect";
 
 const statusStyles = {
   PROCEEDING: {
@@ -34,7 +25,7 @@ export function RetrospectBox({
   onDelete,
 }: {
   spaceId: string | undefined;
-  retrospect: RestrospectBoxType;
+  retrospect: Retrospect;
   onDelete: (retrospectId: number) => void;
 }) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);

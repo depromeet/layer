@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useQueries } from "@tanstack/react-query";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
@@ -19,6 +19,7 @@ import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpa
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Retrospect } from "@/types/retrospect";
 
 export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
@@ -35,10 +36,16 @@ export function SpaceViewPage() {
     queries: [useApiOptionsGetRetrospects(spaceId), useApiOptionsGetSpaceInfo(spaceId), useApiOptionsGetTeamActionItemList(spaceId)],
   });
 
-  const [proceedingRetrospects, setProceedingRetrospects] = useState(
-    restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [],
-  );
-  const [doneRetrospects, setDoneRetrospects] = useState(restrospectArr?.filter((retrospect) => retrospect.retrospectStatus === "DONE") || []);
+  const [proceedingRetrospects, setProceedingRetrospects] = useState<Retrospect[]>([]);
+  const [doneRetrospects, setDoneRetrospects] = useState<Retrospect[]>([]);
+
+  useEffect(() => {
+    if (restrospectArr) {
+      console.log(restrospectArr);
+      setProceedingRetrospects(restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING"));
+      setDoneRetrospects(restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "DONE"));
+    }
+  }, [restrospectArr]);
 
   const isLoading = isLoadingRestrospects || isLoadingSpaceInfo || isLoadingTeamActionList;
 
@@ -68,6 +75,7 @@ export function SpaceViewPage() {
   if (isLoading) {
     return <LoadingModal />;
   }
+
   return (
     <DefaultLayout
       theme="dark"
@@ -76,7 +84,7 @@ export function SpaceViewPage() {
         <SpaceAppBarRightComp
           spaceId={spaceId}
           onDeleteClick={handleOpenModal}
-          isTooltipVisible={restrospectArr?.length == 0}
+          isTooltipVisible={restrospectArr?.length === 0}
           handleOpenBottomSheet={handleOpenBottomSheet}
         />
       }
