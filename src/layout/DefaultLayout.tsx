@@ -26,8 +26,8 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
           flex: 1 1 0;
           display: flex;
           flex-direction: column;
-          padding: 0 2rem;
-          height: calc(100dvh - ${height ?? `5.8rem`});
+          height: 100dvh;
+          padding: ${height ?? "var(--app-bar-height)"} 2rem 0 2rem;
           overflow-y: auto;
         `}
       >

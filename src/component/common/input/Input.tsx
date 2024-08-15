@@ -28,7 +28,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
   );
 
   return (
-    <div>
+    <div
+      css={css`
+        position: relative;
+      `}
+    >
       <div
         css={css`
           width: ${width};
@@ -62,7 +66,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
         {count && maxLength && (
           <>
             <Typography variant={"body12Medium"} color={value.length ? "blue600" : "gray500"}>
-              {value.length}
+              {value.length > maxLength ? maxLength : value.length}
             </Typography>
             <Typography variant={"body12Medium"} color={"gray500"}>{`/${maxLength}`}</Typography>
           </>
@@ -71,7 +75,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
       {errorMsg && (
         <div
           css={css`
-            margin-top: 0.8rem;
+            position: absolute;
+            bottom: -2.5rem;
           `}
         >
           <Typography color={"red400"} variant={"body14Medium"}>

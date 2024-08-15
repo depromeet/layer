@@ -22,7 +22,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
       if (accessToken) {
         try {
           const response = await fetchMemberInfo();
-          setAuth({ isLogin: true, name: response.name, email: response.email, memberRole: response.memberRole });
+          setAuth({ isLogin: true, name: response.name, email: response.email, memberRole: response.memberRole, imageUrl: response.imageUrl });
         } catch (error) {
           console.error("Error fetching member info:", error);
           navigate("/login");

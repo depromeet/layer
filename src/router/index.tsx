@@ -5,6 +5,15 @@ import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
 import { RetrospectViewPage } from "@/app/home/RetrospectViewPage";
+import { FeedbackPage } from "@/app/info/FeedBackPage";
+import { HelpPage } from "@/app/info/HelpPage";
+import { LicensePage } from "@/app/info/LicensePage";
+import { ModifyMyInfo } from "@/app/info/ModifyMyInfo";
+import { MyInfo } from "@/app/info/MyInfo";
+import { NoticePage } from "@/app/info/NoticePage";
+import { PrivacyPolicyPage } from "@/app/info/PrivacyPolicyPage";
+import { TermsOfServicePage } from "@/app/info/TermsOfServicePage";
+import { UserDeletion } from "@/app/info/UserDeletion";
 import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
@@ -120,6 +129,51 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/:spaceId/templates",
     element: <TemplateListPage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo",
+    element: <MyInfo />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/modify",
+    element: <ModifyMyInfo />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/userdeletion",
+    element: <UserDeletion />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/notices",
+    element: <NoticePage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/help",
+    element: <HelpPage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/license",
+    element: <LicensePage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/termsofservice",
+    element: <TermsOfServicePage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/privacypolicy",
+    element: <PrivacyPolicyPage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/feedback",
+    element: <FeedbackPage />,
     auth: true,
   },
   {

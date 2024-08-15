@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { useAtom } from "jotai";
 import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,8 +8,10 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/home";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
+import { PATHS } from "@/config/paths";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { authAtom } from "@/store/auth/authAtom";
 
 type ViewState = {
   viewName: string;
@@ -22,7 +25,7 @@ export function RetrospectViewPage() {
     { viewName: "INDIVIDUAL", selected: false },
     { viewName: "TEAM", selected: false },
   ]);
-
+  const [{ imageUrl }] = useAtom(authAtom);
   const selectedView = viewState.find((view) => view.selected)?.viewName || "ALL";
 
   const { data: spaceList, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useApiGetSpaceList(selectedView);
@@ -42,8 +45,12 @@ export function RetrospectViewPage() {
     [fetchNextPage, hasNextPage, isFetchingNextPage],
   );
 
-  const goMakeReview = () => {
-    navigate("/space/create");
+  const goToCreateSpace = () => {
+    navigate(PATHS.spaceCreate());
+  };
+
+  const goToUserInfo = () => {
+    navigate(PATHS.myInfo());
   };
 
   return (
@@ -55,11 +62,33 @@ export function RetrospectViewPage() {
           회고
         </Typography>
       }
-      RightComp={<Icon icon="basicProfile" size="3.2rem" />}
+      RightComp={
+        imageUrl ? (
+          <img
+            src={imageUrl}
+            css={css`
+              width: 3.2rem;
+              height: 3.2rem;
+              border-radius: 100%;
+              cursor: pointer;
+            `}
+            onClick={goToUserInfo}
+          />
+        ) : (
+          <Icon
+            icon="basicProfile"
+            size="3.2rem"
+            onClick={goToUserInfo}
+            css={css`
+              cursor: pointer;
+            `}
+          />
+        )
+      }
     >
       <ViewSelectTab viewState={viewState} setViewState={setViewState} />
       <Spacing size={3.6} />
-      <GoMakeReviewButton onClick={goMakeReview} />
+      <GoMakeReviewButton onClick={goToCreateSpace} />
 
       <div
         css={css`
