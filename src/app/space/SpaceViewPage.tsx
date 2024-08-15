@@ -71,7 +71,6 @@ export function SpaceViewPage() {
   return (
     <DefaultLayout
       theme="dark"
-      height="6.4rem"
       title={spaceInfo?.name}
       RightComp={
         <SpaceAppBarRightComp

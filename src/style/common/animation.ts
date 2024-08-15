@@ -55,6 +55,24 @@ export const ANIMATION = {
           transform: translateZ(50);
       }`,
 
+  FADE_DOWN: keyframes`
+      0% {
+          opacity: 100%;
+        transform: translateZ(50);
+      }
+      50% {
+          opacity: 60%;
+          transform: translateZ(30);
+      }
+      70% {
+          opacity: 40%;
+          transform: translateZ(10);
+      }
+      100% {
+          opacity: 10%;
+        transform: translate3d(0, 10%, 0);
+      }`,
+
   FADE_IN_SCALE_UP: keyframes`
       0% {
         width: 40%;

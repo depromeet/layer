@@ -27,7 +27,6 @@ export type Answer = {
   answerContent: string;
 };
 
-type ModalModeType = "TEMP_SAVED" | "ALREADY_SAVED";
 type EditModeType = "EDIT" | "POST";
 
 export function Write() {
@@ -39,16 +38,21 @@ export function Write() {
   const [isEntireModalOpen, setEntireModalOpen] = useState(false);
   const [isTemporarySaveModalOpen, setTemporarySaveModalOpen] = useState(false);
   const [isAnswerFilled, setIsAnswerFilled] = useState(false);
+  const [isTempData, setIsTempData] = useState(false);
   const isComplete = data?.questions.length === phase;
   const editMode = useRef<EditModeType>("POST");
-  const modalMode = useRef<ModalModeType>("TEMP_SAVED");
-  const [answers, setAnswers] = useState<Answer[]>(
+  /** FIXME: 임시 저장한 데이터가 있을 경우, 변수를 통해 판별해서 모달 제공 */
+  // const isTemp = useState(false);
+
+  const initializeAnswers = () =>
     data.questions.map((question) => ({
       questionId: question.questionId,
       questionType: question.questionType,
       answerContent: "",
-    })),
-  );
+    }));
+
+  const [answers, setAnswers] = useState<Answer[]>(initializeAnswers);
+  const [tempAnswer, setTempAnswer] = useState<Answer[]>([]);
 
   /** Data Fetching */
   const { mutate, isPending } = useWriteQuestions();
@@ -66,20 +70,20 @@ export function Write() {
   /** Data patching if you have temporary data */
   useEffect(() => {
     if (temporaryDataSuccess && temporaryData) {
-      setAnswers(
+      setTempAnswer(
         temporaryData.answers.map((question) => ({
           questionId: question.questionId,
           questionType: question.questionType,
           answerContent: question.answerContent,
         })),
       );
+      setIsTempData(true);
     }
   }, [temporaryDataLoading, temporaryDataSuccess]);
 
   useEffect(() => {
     if (answerDataSuccess && answerData) {
       editMode.current = "EDIT";
-      modalMode.current = "ALREADY_SAVED";
       setAnswers(
         answerData.answers.map((question) => ({
           questionId: question.questionId,
@@ -115,49 +119,90 @@ export function Write() {
   const handleClickSatistfy = (index: number) => handleClick(index);
   const handleClickAchivement = (index: number) => handleClick(index);
   const handleModalClose = (type: string) => {
-    if (type === "entire") {
-      setEntireModalOpen(false);
-    }
-
-    if (type === "temporary-save") {
-      setTemporarySaveModalOpen(false);
-    }
+    if (type === "entire") setEntireModalOpen(false);
+    if (type === "temporary-save") setTemporarySaveModalOpen(false);
+    if (type === "temp-data") setIsTempData(false);
   };
 
-  return (
-    <Fragment>
-      {(temporaryDataLoading || answerDataLoading) && <LoadingModal />}
-      {isPending && <LoadingModal purpose={"데이터를 저장하고 있어요"} />}
-      {isEntireModalOpen && (
+  /**
+   * Get (Data Get)
+   * - temporaryDataLoading
+   * - answerDataLoading
+   *
+   * Post (Data Save)
+   * - isPending
+   * */
+  const renderLoadingModal = () => {
+    if (temporaryDataLoading || answerDataLoading) return <LoadingModal />;
+    if (isPending) return <LoadingModal purpose={"데이터를 저장하고 있어요"} />;
+  };
+
+  /**
+   * Rendering Modal
+   * - `EntireListModal`: Displays when the `isEntireModalOpen` flag is true.
+   * - `TemporarySaveModal` for resuming work: Displays when `isTempData` is true and data loading flags (`temporaryDataLoading` and `answerDataLoading`) are false.
+   * - `TemporarySaveModal` for saving work: Displays when `isTemporarySaveModalOpen` is true.
+   * */
+  const renderModal = () => {
+    if (isEntireModalOpen) {
+      return (
         <Portal id="modal-root">
           <EntireListModal onClose={() => handleModalClose("entire")} answers={answers} />
         </Portal>
-      )}
-      {isTemporarySaveModalOpen && (
+      );
+    }
+
+    if (!temporaryDataLoading && !answerDataLoading && isTempData) {
+      return (
+        <Portal id="modal-root">
+          <TemporarySaveModal
+            title={"작성중인 회고가 있어요!\n이어서 작성할까요?"}
+            content={"이전에 저장한 데이터를 가져올게요"}
+            confirm={() => {
+              setAnswers(tempAnswer);
+              handleModalClose("temp-data");
+            }}
+            quit={() => {
+              handleModalClose("temp-data");
+            }}
+            leftButtonText={"취소"}
+            rightButtonText={"작성하기"}
+          />
+        </Portal>
+      );
+    }
+
+    if (isTemporarySaveModalOpen) {
+      return (
         <Portal id="modal-root">
           {/* FIXME: 디자인 팀에 모달 문구 전달 후, 수정 예정 */}
           <TemporarySaveModal
             title={"회고 작성을 멈출까요?"}
-            content={modalMode.current === "TEMP_SAVED" ? "작성중인 회고는 임시저장 되어요" : "중요한 정보라면 변경 사항을 저장해주세요"}
+            content={"작성중인 회고는 임시저장 되어요"}
             confirm={() => {
-              modalMode.current === "TEMP_SAVED"
-                ? mutate(
-                    { data: answers, isTemporarySave: true, spaceId: spaceId, retrospectId: retrospectId },
-                    {
-                      onSuccess: () => {
-                        handleModalClose("temporary-save");
-                        navigate("/");
-                      },
-                    },
-                  )
-                : (handleModalClose("temporary-save"), navigate("/"));
+              mutate(
+                { data: answers, isTemporarySave: true, spaceId: spaceId, retrospectId: retrospectId },
+                {
+                  onSuccess: () => {
+                    handleModalClose("temporary-save");
+                    navigate("/");
+                  },
+                },
+              );
             }}
             quit={() => {
               handleModalClose("temporary-save");
             }}
           />
         </Portal>
-      )}
+      );
+    }
+  };
+
+  return (
+    <Fragment>
+      {renderLoadingModal()}
+      {renderModal()}
       <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />
       <DefaultLayout
         theme={isComplete ? "gray" : "default"}

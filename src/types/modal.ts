@@ -1,6 +1,13 @@
 export type ModalType = {
   isOpen: boolean;
   title: string;
-  content: JSX.Element | string;
-  callBack?: () => void;
+  contents: string;
+  onClose?: () => void;
+  onConfirm?: () => void;
+  overrideActionElements?: JSX.Element;
+  options?: {
+    type?: "confirm" | "alert";
+    buttonText?: string[];
+    autoClose?: boolean;
+  };
 };

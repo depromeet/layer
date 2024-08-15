@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { createContext, useCallback, useMemo, useState } from "react";
 import { Beforeunload } from "react-beforeunload";
@@ -14,10 +14,10 @@ import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/
 import { TemporarySaveModal } from "@/component/write/modal";
 import { PATHS } from "@/config/paths";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
+import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTemplateId";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
-import { temporaryTemplateAtom } from "@/store/templateAtom";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 const PAGE_STEPS = ["start", "mainInfo", "customTemplate", "dueDate"] as const;
@@ -27,7 +27,7 @@ type UseMultiStepFormContextState<T extends (typeof CUSTOM_TEMPLATE_STEPS)[numbe
   typeof useMultiStepForm<T>
 >;
 
-type RetrospectCreateContextState = UseMultiStepFormContextState<(typeof PAGE_STEPS)[number]>;
+type RetrospectCreateContextState = UseMultiStepFormContextState<(typeof PAGE_STEPS)[number]> & { confirmQuitPage: () => void };
 type CustomTemplateContextState = UseMultiStepFormContextState<(typeof CUSTOM_TEMPLATE_STEPS)[number]>;
 
 export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({} as RetrospectCreateContextState);
@@ -55,20 +55,20 @@ export function RetrospectCreate() {
     },
   } as const;
 
-  const locationState = useLocation().state as { spaceId: number; templateId: string };
-  const { spaceId } = locationState;
+  const locationState = useLocation().state as { spaceId: number; templateId: number };
+  const { spaceId, templateId } = locationState;
   const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
-  const [, setTemporaryTemplateAtom] = useAtom(temporaryTemplateAtom);
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
   const postRetrospectCreate = usePostRetrospectCreate(spaceId);
+  const postRecentTemplateId = usePostRecentTemplateId(spaceId);
 
   const handleSubmit = () => {
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
     postRetrospectCreate.mutate({
       spaceId,
-      body: { ...retroCreateData, questions: questionsWithRequired, curFormId: 10001 },
+      body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateId },
     });
     resetRetroCreateData();
   };
@@ -87,12 +87,16 @@ export function RetrospectCreate() {
     [pageState.currentStep, retroCreateData.deadline],
   );
 
+  const confirmQuitPage = () => {
+    setIsTemporarySaveModalOpen(true);
+  };
+
   const conditionalGoPrev = useCallback(() => {
     const { currentStep: pageCurrentStep, goPrev: pageGoPrev } = pageState;
     const { currentStep: customCurrentStep, goPrev: customGoPrev } = customState;
 
     if (pageCurrentStep === "start") {
-      setIsTemporarySaveModalOpen(true);
+      confirmQuitPage();
       return;
     }
     if (pageCurrentStep === "customTemplate" && customCurrentStep === "confirmEditTemplate") {
@@ -103,11 +107,10 @@ export function RetrospectCreate() {
   }, [pageState.currentStep, customState.currentStep]);
 
   const quitPage = useCallback(() => {
+    postRecentTemplateId.mutate({ formId: templateId, spaceId });
     setIsTemporarySaveModalOpen(false);
-    /**FIXME - dummy template id */
-    setTemporaryTemplateAtom((prev) => ({ ...prev, templateId: 10001 }));
     resetRetroCreateData();
-    navigate(PATHS.spaceDetail(spaceId.toString()));
+    navigate(PATHS.spaceDetail(spaceId.toString()), { replace: true });
   }, []);
 
   return (
@@ -124,7 +127,7 @@ export function RetrospectCreate() {
           <ProgressBar curPage={conditionalStepIndex} lastPage={pageState.totalStepsCnt - 1} />
         </div>
         <Spacing size={2.9} />
-        <RetrospectCreateContext.Provider value={pageState}>
+        <RetrospectCreateContext.Provider value={{ ...pageState, confirmQuitPage }}>
           <form
             css={css`
               flex: 1 1 0;
@@ -136,7 +139,7 @@ export function RetrospectCreate() {
               e.preventDefault();
             }}
           >
-            {pageState.currentStep === "start" && <Start onQuitPage={quitPage} />}
+            {pageState.currentStep === "start" && <Start />}
             {pageState.currentStep === "mainInfo" && <MainInfo />}
             {pageState.currentStep === "customTemplate" && (
               <CustomTemplateContext.Provider value={customState}>

@@ -27,7 +27,6 @@ export function Prepare() {
           flex: 1;
           width: 100%;
           position: relative;
-          top: 50%;
         `}
       >
         <div

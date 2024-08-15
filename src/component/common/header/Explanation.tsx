@@ -20,7 +20,7 @@ export function Explanation({ contents, theme = "primary", ...props }: Pick<Head
       {contents.split("\n").map((item) => (
         <div key={item}>
           {parseTextToJSX(item).map((contents, index) => (
-            <Typography key={index} variant={"B1"} color={themeSet[theme]} {...props}>
+            <Typography key={index} variant={"body16Medium"} color={themeSet[theme]} {...props}>
               {contents}
             </Typography>
           ))}

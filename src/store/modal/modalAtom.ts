@@ -5,5 +5,13 @@ import { ModalType } from "@/types/modal";
 export const modalState = atom<ModalType>({
   isOpen: false,
   title: "",
-  content: "",
+  contents: "",
+  onClose: () => {},
+  onConfirm: () => {},
+  overrideActionElements: undefined,
+  options: {
+    type: "confirm",
+    buttonText: [],
+    autoClose: true,
+  },
 });

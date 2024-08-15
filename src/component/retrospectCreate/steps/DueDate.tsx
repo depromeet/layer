@@ -85,11 +85,11 @@ export function DueDate() {
             <Spacing size={2.2} />
             <DateTimePicker value={selectedDate} onChange={onSelectDate} radioControl={radioControl} />
             <ButtonProvider
-            // onlyContainerStyle={css`
-            //   div:nth-of-type(1) {
-            //     margin: 0;
-            //   }
-            // `}
+              onlyContainerStyle={css`
+                div:nth-of-type(1) {
+                  margin: 0;
+                }
+              `}
             >
               <ButtonProvider.Primary onClick={handleDateSave} disabled={!selectedDate}>
                 설정하기
