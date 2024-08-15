@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-dom";
 
+import { MoreActionItemPage } from "@/app/actionItem/MoreActionItemPage.tsx";
 import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
@@ -173,6 +174,11 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/myinfo/feedback",
     element: <FeedbackPage />,
+    auth: true,
+   },
+   {     
+    path: "/goals/more",
+    element: <MoreActionItemPage />,
     auth: true,
   },
   {

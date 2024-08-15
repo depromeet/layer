@@ -83,6 +83,12 @@ export const DESIGN_TOKEN_COLOR = {
     transparent: "transparent",
     default: "#FFFFFF",
   },
+  shadow: {
+    shadow100: "0px 4px 12px 0px rgba(6, 8, 12, 0.04)",
+    shadow200: "0px 4px 8px 0px rgba(6, 8, 12, 0.12), 0px 1px 4px 0px rgba(6, 8, 12, 0.08)",
+    shadow300: "0px 4px 12px 0px rgba(6, 8, 12, 0.12), 0px 4px 8px 0px rgba(6, 8, 12, 0.08)",
+    shadow400: "0px 4px 12px 0px rgba(6, 8, 12, 0.22), 0px 4px 8px 0px rgba(6, 8, 12, 0.08)",
+  },
   gray00: "#FFFFFF",
   gray100: "#F2F4F8",
   gray200: "#EDF0F4",

@@ -31,7 +31,7 @@ function Back({ theme }: { theme: "dark" | "gray" | "default" | "transparent" })
 
 //FIXME : 디자인 토큰에 따라 색깔 변경, 폰트 수정
 export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
-  { style, title, theme = "default", height = "5.8rem", LeftComp = <Back theme={theme} />, RightComp = <div></div> },
+  { style, title, theme = "default", height, LeftComp = <Back theme={theme} />, RightComp = <div></div> },
   ref,
 ) {
   return (
@@ -41,7 +41,7 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
           css`
             width: 100%;
             max-width: 48rem;
-            height: ${height};
+            height: ${height ?? "var(--app-bar-height)"};
             padding: 1.1rem 2rem;
             background-color: ${DESIGN_TOKEN_COLOR.themeBackground[theme]};
             display: flex;
@@ -55,7 +55,7 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
           `,
           style,
         ]}
-        ref = {ref}
+        ref={ref}
       >
         {LeftComp}
         <div
@@ -77,12 +77,6 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
         </div>
         {RightComp}
       </div>
-      <div
-        css={css`
-          width: 100%;
-          height: ${height};
-        `}
-      />
     </>
   );
 });

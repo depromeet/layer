@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, Interpolation, Theme } from "@emotion/react";
 import { Children, cloneElement, isValidElement, PropsWithChildren } from "react";
 
 import { Explanation } from "@/component/common/header/Explanation.tsx";
@@ -40,14 +40,18 @@ const Subject = ({ theme, ...props }: HeaderProps) => {
 const Description = ({ theme, ...props }: HeaderProps) => {
   return <Explanation theme={theme} {...props} />;
 };
-export function HeaderProvider({ children, ...props }: PropsWithChildren) {
+export function HeaderProvider({ onlyContainerStyle, children, ...props }: PropsWithChildren<{ onlyContainerStyle?: Interpolation<Theme> }>) {
   return (
     <header
-      css={css`
-        display: flex;
-        flex-direction: column;
-        row-gap: 0.8rem;
-      `}
+      css={[
+        css`
+          display: flex;
+          flex-direction: column;
+          row-gap: 0.8rem;
+        `,
+        ,
+        onlyContainerStyle,
+      ]}
     >
       {Children.map(children, (child) => {
         if (isValidElement(child)) {
