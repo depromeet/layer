@@ -9,7 +9,8 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 export function NavigationBar() {
   const location = useLocation();
 
-  const getSelectedColor = (path: string): keyof typeof DESIGN_TOKEN_COLOR => (location.pathname === path ? "gray900" : "gray400");
+  const getSelectedIconColor = (path: string): string => (location.pathname === path ? DESIGN_TOKEN_COLOR.gray900 : DESIGN_TOKEN_COLOR.gray400);
+  const getSelectedTextColor = (path: string): keyof typeof DESIGN_TOKEN_COLOR => (location.pathname === path ? "gray900" : "gray400");
 
   return (
     <>
@@ -39,8 +40,8 @@ export function NavigationBar() {
             text-decoration: none;
           `}
         >
-          <Icon icon="ic_home" size="2.4rem" color={getSelectedColor(PATHS.home())} />
-          <Typography variant="caption11Medium" color={getSelectedColor(PATHS.home())}>
+          <Icon icon="ic_home" size="2.4rem" color={getSelectedIconColor(PATHS.home())} />
+          <Typography variant="caption11Medium" color={getSelectedTextColor(PATHS.home())}>
             회고
           </Typography>
         </Link>
@@ -56,8 +57,8 @@ export function NavigationBar() {
             text-decoration: none;
           `}
         >
-          <Icon icon="ic_chart" size="2.4rem" color={getSelectedColor(PATHS.goals())} />
-          <Typography variant="caption11Medium" color={getSelectedColor(PATHS.goals())}>
+          <Icon icon="ic_chart" size="2.4rem" color={getSelectedIconColor(PATHS.goals())} />
+          <Typography variant="caption11Medium" color={getSelectedTextColor(PATHS.goals())}>
             실행 목표
           </Typography>
         </Link>
@@ -73,8 +74,8 @@ export function NavigationBar() {
             text-decoration: none;
           `}
         >
-          <Icon icon="ic_barChart" size="2.4rem" color={getSelectedColor(PATHS.analysis())} />
-          <Typography variant="caption11Medium" color={getSelectedColor(PATHS.analysis())}>
+          <Icon icon="ic_barChart" size="2.4rem" color={getSelectedIconColor(PATHS.analysis())} />
+          <Typography variant="caption11Medium" color={getSelectedTextColor(PATHS.analysis())}>
             분석
           </Typography>
         </Link>
