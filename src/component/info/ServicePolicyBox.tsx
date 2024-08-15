@@ -1,11 +1,14 @@
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 import { InfoBox } from "./InfoBox";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { PATHS } from "@/config/paths";
 
 export function ServicePolicyBox() {
+  const navigate = useNavigate();
   return (
     <div
       css={css`
@@ -40,19 +43,19 @@ export function ServicePolicyBox() {
         <InfoBox
           content="오픈 소스 라이센스"
           onClick={() => {
-            console.log("오픈 소스 라이센스");
+            navigate(PATHS.license());
           }}
         />
         <InfoBox
           content="이용약관"
           onClick={() => {
-            console.log("이용약관");
+            navigate(PATHS.termsofservice());
           }}
         />
         <InfoBox
           content="개인정보 처리방침"
           onClick={() => {
-            console.log("개인정보 처리방침");
+            navigate(PATHS.privacypolicy());
           }}
         />
       </div>
