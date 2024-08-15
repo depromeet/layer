@@ -4,12 +4,11 @@ import { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
-import { Spacing } from "@/component/common/Spacing";
+import { TabButton } from "@/component/common/tabs/TabButton";
+import { Tabs } from "@/component/common/tabs/Tabs";
 import { Typography } from "@/component/common/typography";
 import { GoMakeReviewButton, SpaceOverview } from "@/component/home";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
-import { Tabs } from "@/component/common/tabs/Tabs";
-import { TabButton } from "@/component/common/tabs/TabButton";
 import { PATHS } from "@/config/paths";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { useTabs } from "@/hooks/useTabs";
