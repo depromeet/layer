@@ -6,14 +6,19 @@ import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { ANIMATION } from "@/style/common/animation.ts";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
+import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 
 type ActionItemBoxProps = {
   inProgressYn: boolean;
   title: string;
   contents: string[];
+  readonly?: boolean;
+  description?: {
+    team: string;
+    completeDate: string;
+  };
 };
-export default function ActionItemBox({ title, contents, inProgressYn }: ActionItemBoxProps) {
+export default function ActionItemBox({ title, contents, inProgressYn, readonly, description }: ActionItemBoxProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isFading, setIsFading] = useState(false);
 
@@ -84,6 +89,28 @@ export default function ActionItemBox({ title, contents, inProgressYn }: ActionI
             </div>
           )}
           <Typography variant={"title18Bold"}>{title}</Typography>
+          {description && (
+            <div
+              id="description"
+              css={css`
+                display: flex;
+                column-gap: 0.6rem;
+
+                span {
+                  ${DESIGN_TOKEN_TEXT.body14Medium}
+                  color: ${DESIGN_TOKEN_COLOR.gray500};
+                }
+
+                span:nth-of-type(2) {
+                  color: ${DESIGN_TOKEN_COLOR.gray400};
+                }
+              `}
+            >
+              <Typography>{description.team}</Typography>
+              <Typography>|</Typography>
+              <Typography>회고 완료일 {description.completeDate}</Typography>
+            </div>
+          )}
         </div>
         <div
           css={css`
@@ -91,7 +118,7 @@ export default function ActionItemBox({ title, contents, inProgressYn }: ActionI
             margin-left: auto;
           `}
         >
-          <Icon icon={"ic_more"} size={2.5} onClick={handleClick} />
+          {!readonly && <Icon icon={"ic_more"} size={2.5} onClick={handleClick} />}
           {isVisible && (
             <div
               ref={menuRef}
