@@ -50,7 +50,7 @@ export function MoreActionItemPage() {
             padding: 1.5rem 0;
           `}
         >
-          <ActionItemBox inProgressYn={true} title={"스프린트 2회차 이후 회고"} contents={["긴 회의시간 줄이기"]} />
+          <ActionItemBox inProgressYn={true} title={"스프린트 2회차 이후 회고"} contents={[]} />
           <ActionItemBox
             inProgressYn={false}
             title={"스프린트 2회차 이후 회고"}

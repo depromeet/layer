@@ -136,9 +136,40 @@ export default function ActionItemBox({ title, contents, inProgressYn }: ActionI
           padding: 0 0.4rem;
         `}
       >
-        {contents.map((item, index) => (
-          <ActionItemList contents={item} key={index} />
-        ))}
+        {contents.length ? (
+          contents.map((item, index) => <ActionItemList contents={item} key={index} />)
+        ) : (
+          <div
+            css={css`
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              row-gap: 1.6rem;
+              padding: 2.2rem 0;
+              cursor: pointer;
+            `}
+          >
+            <div
+              css={css`
+                background-color: ${DESIGN_TOKEN_COLOR.gray200};
+                border-radius: 0.8rem;
+                padding: 1.2rem 1.2rem 0.9rem 1.2rem;
+                width: fit-content;
+              `}
+            >
+              <Icon
+                icon={"ic_plus"}
+                css={css`
+                  color: ${DESIGN_TOKEN_COLOR.gray600};
+                `}
+              />
+            </div>
+            <Typography variant={"body14Medium"} color={"gray600"}>
+              회고 완료 후 실행 목표를 설정해보세요!
+            </Typography>
+          </div>
+        )}
       </div>
     </div>
   );
