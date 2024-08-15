@@ -7,6 +7,7 @@ import ReactDOM from "react-dom/client";
 import { LoadingModal } from "./component/common/Modal/LoadingModal";
 import { Routers } from "./router";
 
+import { Modal } from "@/component/common/Modal";
 import { Toast } from "@/component/common/Toast";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         {/* <DevTools /> */}
         <Routers />
         <Toast />
+        <Modal />
       </QueryClientProvider>
     </Suspense>
   </React.StrictMode>,

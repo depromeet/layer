@@ -1,36 +1,21 @@
 import { css } from "@emotion/react";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
+import { Button, ButtonProvider } from "@/component/common/button";
+import { HeaderProvider } from "@/component/common/header";
 import { Portal } from "@/component/common/Portal";
+import { Typography } from "@/component/common/typography";
 import { useModal } from "@/hooks/useModal";
+import { ANIMATION } from "@/style/common/animation.ts";
 
 export function Modal() {
   const { modalDataState, close } = useModal();
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  // 모달 영역 이외 클릭 시 모달 닫기
-  useEffect(() => {
-    const listener = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        close();
-      }
-    };
-    document.addEventListener("mousedown", listener);
-    return () => {
-      document.removeEventListener("mousedown", listener);
-    };
-  }, [close]);
-
-  // 모달 오픈 시 스크롤 금지
-  useEffect(() => {
-    document.body.style.overflow = modalDataState.isOpen ? "hidden" : "auto";
-  }, [modalDataState.isOpen]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   if (!modalDataState.isOpen) return null;
+  const { type = "confirm", buttonText = [], autoClose = true } = modalDataState.options || {};
 
   return (
-    // FIXME: 추후 디자인 토큰 연동 후 컬러 값 변경
-    // FIXME: 추후 Modal 디자인 확정 시 Body 형태 변경
     <Portal id="modal-root">
       <div
         css={css`
@@ -45,22 +30,120 @@ export function Modal() {
           display: flex;
           justify-content: center;
           align-items: center;
+          z-index: 999999;
         `}
+        ref={containerRef}
+        onClick={(e) => {
+          if (containerRef.current === e.target) close();
+        }}
       >
         <div
-          ref={modalRef}
           css={css`
+            display: table;
+            margin: auto;
+            width: 100%;
+            height: fit-content;
+            max-width: 46rem;
+            max-height: 46rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: 0.4s all;
+            animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
             padding: 2rem;
-            min-width: 30rem;
-            min-height: 10rem;
-            background-color: #ffffff;
-            border: 1px solid #cbcbcb;
-            border-radius: 1rem;
           `}
         >
-          <div>{modalDataState.title}</div>
-          <div>{modalDataState.content}</div>
-          <div onClick={modalDataState.callBack}>확인</div>
+          <div
+            css={css`
+              width: 100%;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              background-color: white;
+              border-radius: 1.2rem;
+              padding: 2.5rem 2rem;
+              row-gap: 2rem;
+              box-sizing: border-box;
+              text-align: center;
+            `}
+          >
+            <HeaderProvider
+              onlyContainerStyle={css`
+                row-gap: 1.2rem;
+              `}
+            >
+              <HeaderProvider.Subject contents={modalDataState.title} />
+              <HeaderProvider.Description contents={modalDataState.contents} />
+            </HeaderProvider>
+            {modalDataState.overrideActionElements ?? (
+              <div
+                css={css`
+                  width: 100%;
+                `}
+              >
+                {
+                  {
+                    confirm: (
+                      <ButtonProvider
+                        sort={"horizontal"}
+                        onlyContainerStyle={css`
+                          padding: 0;
+                        `}
+                        gradient={false}
+                      >
+                        <Button
+                          colorSchema={"gray"}
+                          onClick={() => {
+                            modalDataState.onClose?.();
+                            autoClose && close();
+                          }}
+                        >
+                          <Typography color={"gray800"} variant={"subtitle16SemiBold"}>
+                            {buttonText.length ? buttonText[0] : "아니요"}
+                          </Typography>
+                        </Button>
+                        <Button
+                          colorSchema={"primary"}
+                          onClick={() => {
+                            modalDataState.onConfirm?.();
+                            autoClose && close();
+                          }}
+                        >
+                          <Typography color={"white"} variant={"subtitle16SemiBold"}>
+                            {buttonText.length ? buttonText[1] : "네"}
+                          </Typography>
+                        </Button>
+                      </ButtonProvider>
+                    ),
+                    alert: (
+                      <ButtonProvider
+                        sort={"horizontal"}
+                        onlyContainerStyle={css`
+                          padding: 0;
+                        `}
+                        gradient={false}
+                      >
+                        <Button
+                          colorSchema={"primary"}
+                          onClick={() => {
+                            modalDataState.onConfirm?.();
+                            autoClose && close();
+                          }}
+                        >
+                          <Typography color={"white"} variant={"subtitle16SemiBold"}>
+                            {buttonText.length ? buttonText[0] : "확인"}
+                          </Typography>
+                        </Button>
+                      </ButtonProvider>
+                    ),
+                  }[type]
+                }
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Portal>
