@@ -6,7 +6,7 @@ import { Icon } from "@/component/common/Icon";
 import { useModal } from "@/hooks/useModal.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
-export function MoreActionItemPage() {
+export function ActionItemMorePage() {
   const { open } = useModal();
 
   return (
