@@ -175,8 +175,8 @@ const routerChildren: RouteChildren[] = [
     path: "/myinfo/feedback",
     element: <FeedbackPage />,
     auth: true,
-   },
-   {     
+  },
+  {
     path: "/goals/more",
     element: <MoreActionItemPage />,
     auth: true,
