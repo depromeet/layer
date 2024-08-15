@@ -133,7 +133,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
                 css={css`
                   display: block;
                   width: 100%;
-                  padding: 1.3rem 0;
+                  padding: 1rem 0;
                   text-align: left;
                 `}
               >

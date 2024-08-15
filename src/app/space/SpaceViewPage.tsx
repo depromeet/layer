@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
-import { MidModal } from "@/component/common/Modal/MidModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Toast } from "@/component/common/Toast";
 import { Typography } from "@/component/common/typography";
@@ -17,6 +16,7 @@ import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOption
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
+import { useModal } from "@/hooks/useModal";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
@@ -24,7 +24,8 @@ import { Retrospect } from "@/types/retrospect";
 export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { open } = useModal();
+
   const { mutate: deleteSpace } = useApiDeleteSpace();
   const [isVisiableBottomSheet, setIsVisiableBottomSheet] = useState<boolean>(false);
 
@@ -54,17 +55,8 @@ export function SpaceViewPage() {
     setDoneRetrospects((prev) => prev.filter((item) => item.retrospectId !== retrospectId));
   };
 
-  const handleDeleteFun = () => {
+  const SpaceDeleteFun = () => {
     deleteSpace(spaceId as string);
-    setIsModalVisible(false);
-  };
-
-  const handleOpenModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalVisible(false);
   };
 
   const handleOpenBottomSheet = () => {
@@ -83,7 +75,13 @@ export function SpaceViewPage() {
       RightComp={
         <SpaceAppBarRightComp
           spaceId={spaceId}
-          onDeleteClick={handleOpenModal}
+          onDeleteClick={() => {
+            open({
+              title: "스페이스를 삭제하시겠어요?",
+              contents: "스페이스를 다시 되돌릴 수 없어요",
+              onConfirm: SpaceDeleteFun,
+            });
+          }}
           isTooltipVisible={restrospectArr?.length === 0}
           handleOpenBottomSheet={handleOpenBottomSheet}
         />
@@ -172,14 +170,6 @@ export function SpaceViewPage() {
         />
       )}
 
-      {isModalVisible && (
-        <MidModal
-          title="스페이스를 삭제하시겠어요?"
-          content="스페이스를 다시 되돌릴 수 없어요"
-          leftFun={handleCloseModal}
-          rightFun={handleDeleteFun}
-        />
-      )}
       <Toast />
     </DefaultLayout>
   );
