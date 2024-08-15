@@ -4,8 +4,14 @@ import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
 import { RetrospectViewPage } from "@/app/home/RetrospectViewPage";
+import { FeedbackPage } from "@/app/info/FeedBackPage";
+import { HelpPage } from "@/app/info/HelpPage";
+import { LicensePage } from "@/app/info/LicensePage";
 import { ModifyMyInfo } from "@/app/info/ModifyMyInfo";
 import { MyInfo } from "@/app/info/MyInfo";
+import { NoticePage } from "@/app/info/NoticePage";
+import { PrivacyPolicyPage } from "@/app/info/PrivacyPolicyPage";
+import { TermsOfServicePage } from "@/app/info/TermsOfServicePage";
 import { UserDeletion } from "@/app/info/UserDeletion";
 import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
@@ -26,11 +32,6 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
-import { NoticePage } from "@/app/info/NoticePage";
-import { HelpPage } from "@/app/info/HelpPage";
-import { LicensePage } from "@/app/info/LicensePage";
-import { TermsOfServicePage } from "@/app/info/TermsOfServicePage";
-import { PrivacyPolicyPage } from "@/app/info/PrivacyPolicyPage";
 
 type RouteChildren = {
   auth: boolean;
@@ -167,6 +168,11 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/myinfo/privacypolicy",
     element: <PrivacyPolicyPage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/feedback",
+    element: <FeedbackPage />,
     auth: true,
   },
   {

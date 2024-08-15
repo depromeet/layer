@@ -17,4 +17,5 @@ export const PATHS = {
   license: () => `/myinfo/license`,
   termsofservice: () => `/myinfo/termsofservice`,
   privacypolicy: () => `/myinfo/privacypolicy`,
+  feedback: () => `/myinfo/feedback`,
 };

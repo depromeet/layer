@@ -69,7 +69,7 @@ export function VersionBox() {
         <InfoBox
           content="평가 및 피드백"
           onClick={() => {
-            console.log("공지사항");
+            navigate(PATHS.feedback());
           }}
         />
       </div>
