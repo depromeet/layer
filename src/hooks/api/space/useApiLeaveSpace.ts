@@ -4,17 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { api } from "@/api";
 import { useToast } from "@/hooks/useToast";
 
-export const useApiDeleteSpace = () => {
+export const useApiLeaveSpace = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const apiSpaceDelete = async (spaceId: string | undefined) => {
-    const response = await api.delete(`/api/space/${spaceId}`);
+  const apiSpaceLeave = async (spaceId: string | undefined) => {
+    const response = await api.post(`/api/space/leave`, { spaceId: Number(spaceId) });
     return response;
   };
 
   return useMutation({
-    mutationFn: (spaceId: string) => apiSpaceDelete(spaceId),
+    mutationFn: (spaceId: string) => apiSpaceLeave(spaceId),
     onSuccess: () => {
       navigate("/");
     },

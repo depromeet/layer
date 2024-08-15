@@ -1,32 +1,32 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useState, useRef, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
-import { Spacing } from "@/component/common/Spacing";
+import { TabButton } from "@/component/common/tabs/TabButton";
+import { Tabs } from "@/component/common/tabs/Tabs";
 import { Typography } from "@/component/common/typography";
-import { ViewSelectTab, GoMakeReviewButton, SpaceOverview } from "@/component/home";
+import { GoMakeReviewButton, SpaceOverview } from "@/component/home";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { PATHS } from "@/config/paths";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
+import { useTabs } from "@/hooks/useTabs";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { authAtom } from "@/store/auth/authAtom";
 
-type ViewState = {
-  viewName: string;
-  selected: boolean;
-};
-
 export function RetrospectViewPage() {
   const navigate = useNavigate();
-  const [viewState, setViewState] = useState<ViewState[]>([
-    { viewName: "ALL", selected: true },
-    { viewName: "INDIVIDUAL", selected: false },
-    { viewName: "TEAM", selected: false },
-  ]);
   const [{ imageUrl }] = useAtom(authAtom);
-  const selectedView = viewState.find((view) => view.selected)?.viewName || "ALL";
+
+  const tabMappings = {
+    전체: "ALL",
+    개인: "INDIVIDUAL",
+    팀: "TEAM",
+  } as const;
+  const tabNames = Object.keys(tabMappings) as Array<keyof typeof tabMappings>;
+  const { tabs, curTab, selectTab } = useTabs(tabNames);
+  const selectedView = tabMappings[curTab];
 
   const { data: spaceList, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useApiGetSpaceList(selectedView);
 
@@ -86,8 +86,8 @@ export function RetrospectViewPage() {
         )
       }
     >
-      <ViewSelectTab viewState={viewState} setViewState={setViewState} />
-      <Spacing size={3.6} />
+      <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
+
       <GoMakeReviewButton onClick={goToCreateSpace} />
 
       <div

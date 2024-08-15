@@ -20,7 +20,7 @@ export function GoMakeReviewButton({ onClick }: GoMakeReviewButtonProps) {
           box-shadow: 0.4rem, #2125290a;
           border-radius: 1rem;
           padding: 1.6rem 1.1rem;
-          margin-top: 2rem;
+          margin-top: 1.6rem;
           display: flex;
           flex-wrap: wrap;
           gap: 1.6rem;

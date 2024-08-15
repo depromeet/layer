@@ -8,16 +8,8 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-
-type RestrospectBoxType = {
-  retrospectId: number;
-  title: string;
-  introduction: string;
-  isWrite: boolean;
-  retrospectStatus: "PROCEEDING" | "DONE";
-  writeCount: number;
-  totalCount: number;
-};
+import { Retrospect } from "@/types/retrospect";
+import { formatDateAndTime, calculateDeadlineRemaining } from "@/utils/date";
 
 const statusStyles = {
   PROCEEDING: {
@@ -34,13 +26,13 @@ export function RetrospectBox({
   onDelete,
 }: {
   spaceId: string | undefined;
-  retrospect: RestrospectBoxType;
+  retrospect: Retrospect;
   onDelete: (retrospectId: number) => void;
 }) {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const optionsRef = useRef<HTMLDivElement | null>(null);
-  const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount } = retrospect;
+  const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount, createdAt, deadline } = retrospect;
   const { backgroundColor } = statusStyles[retrospectStatus];
 
   const { mutate: retrospectDelete } = useApiDeleteRetrospect();
@@ -139,7 +131,7 @@ export function RetrospectBox({
               color="blue600"
               variant="B2_SEMIBOLD"
             >
-              D-13
+              {calculateDeadlineRemaining(deadline)}
             </Typography>
           )}
 
@@ -180,7 +172,7 @@ export function RetrospectBox({
       >
         <Icon size={1.6} icon="ic_calendar" />
         <Typography color="gray500" variant="body14Medium">
-          2024 07. 30 오전 10:00
+          {formatDateAndTime(createdAt)}
         </Typography>
       </div>
 

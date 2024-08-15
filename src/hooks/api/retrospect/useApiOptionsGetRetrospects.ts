@@ -1,18 +1,11 @@
 import { UseQueryOptions } from "@tanstack/react-query";
 
 import { api } from "@/api";
+import { Retrospect } from "@/types/retrospect";
 
 type RestrospectResponse = {
   layerCount: number;
-  retrospects: {
-    retrospectId: number;
-    title: string;
-    introduction: string;
-    isWrite: boolean;
-    retrospectStatus: "PROCEEDING" | "DONE";
-    writeCount: number;
-    totalCount: number;
-  }[];
+  retrospects: Retrospect[];
 };
 
 const spaceRestrospectFetch = async (spaceId: string | undefined) => {

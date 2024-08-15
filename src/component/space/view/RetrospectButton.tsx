@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { NavigateOptions, useNavigate } from "react-router-dom";
 
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type RetrospectButtonProps = {
@@ -30,20 +31,7 @@ export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectBu
       },
       HAS_WRITING: {
         route: [
-          `/write`,
-          {
-            state: {
-              retrospectId,
-              spaceId,
-            },
-          },
-        ] as const,
-        color: DESIGN_TOKEN_COLOR.blue600,
-        text: "회고 작성",
-      },
-      PROCEEDING: {
-        route: [
-          `/edit`,
+          `/modify`,
           {
             state: {
               retrospectId,
@@ -53,6 +41,19 @@ export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectBu
         ] as const,
         color: DESIGN_TOKEN_COLOR.blue600,
         text: "회고 수정",
+      },
+      PROCEEDING: {
+        route: [
+          PATHS.write(),
+          {
+            state: {
+              retrospectId,
+              spaceId,
+            },
+          },
+        ] as const,
+        color: DESIGN_TOKEN_COLOR.blue600,
+        text: "회고 작성",
       },
     }[status];
   }, [retrospectId, spaceId, status]);
