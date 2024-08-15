@@ -8,16 +8,26 @@ const BRIDGE_PROVIER = "BRIDGE_PROVIER";
 
 interface WebViewBridgeContext {
   safeAreaHeight?: number;
+  isWebView: boolean;
 }
 
 const [Provider, useBridgeContext] = createContext<WebViewBridgeContext>(BRIDGE_PROVIER);
 
 const BridgeProvider = ({ children }: PropsWithChildren) => {
-  const { data: safeAreaHeight } = useQuery({
+  const { data: { isWebview, safeAreaHeight } = {} } = useQuery({
     queryKey: ["app", "height"],
-    queryFn: bridge.getSafeAreaHeight,
+    queryFn: async () => {
+      const safeAreaHeight = await bridge.getSafeAreaHeight();
+      const isWebview = await bridge.checkWebview();
+
+      return { safeAreaHeight, isWebview };
+    },
   });
-  return <Provider safeAreaHeight={safeAreaHeight}>{children}</Provider>;
+  return (
+    <Provider safeAreaHeight={safeAreaHeight} isWebView={!!isWebview}>
+      {children}
+    </Provider>
+  );
 };
 
 export { BridgeProvider, useBridgeContext, BRIDGE_PROVIER };
