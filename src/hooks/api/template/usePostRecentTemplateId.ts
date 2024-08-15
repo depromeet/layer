@@ -13,7 +13,6 @@ export const usePostRecentTemplateId = (spaceId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ["postRecentTemplateId"],
     mutationFn: postRecentTemplateId,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
