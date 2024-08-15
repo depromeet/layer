@@ -16,8 +16,7 @@ export const useApiJoinSpace = () => {
     mutationFn: (spaceId: number) => joinSpace(spaceId),
     onSuccess: () => {
       toast.success("팀에 초대 되었습니다.");
-      // FIXME: 플로우 정해지면 수정
-      navigate("/space/create/done");
+      navigate("/");
     },
     onError: (error: { status: number }) => {
       console.log(error);
