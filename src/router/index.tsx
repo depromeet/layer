@@ -9,7 +9,6 @@ import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
-import MainPage from "@/app/MainPage.tsx";
 import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
