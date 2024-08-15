@@ -33,8 +33,6 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
-import { RecommendTemplatePage } from "@/app/retrospectCreate/recommend/RecommendTemplatePage";
-import { RecommendDonePage } from "@/app/retrospectCreate/recommend/RecommendDonePage";
 
 type RouteChildren = {
   auth: boolean;
@@ -90,8 +88,6 @@ const routerChildren: RouteChildren[] = [
     element: <SetNickNamePage />,
     auth: false,
   },
-  { path: "/retrospect/recommend", element: <RecommendTemplatePage />, auth: true },
-  { path: "/retrospect/recommend/done", element: <RecommendDonePage />, auth: true },
   {
     path: "/space/create",
     element: <CreateSpacePage />,
@@ -179,8 +175,8 @@ const routerChildren: RouteChildren[] = [
     path: "/myinfo/feedback",
     element: <FeedbackPage />,
     auth: true,
-   },
-   {     
+  },
+  {
     path: "/goals/more",
     element: <MoreActionItemPage />,
     auth: true,
