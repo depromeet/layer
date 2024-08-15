@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { PATHS } from "@/config/paths";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type Props = {
   teamName: string | undefined;
@@ -24,7 +25,7 @@ export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
         gap: 3rem;
       `}
     >
-      <Typography variant="S1">
+      <Typography variant="title20Bold">
         {teamName}에 맞는 <br />
         회고템플릿을 찾아볼까요?
       </Typography>
@@ -38,7 +39,9 @@ export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
       >
         <button
           onClick={() => {
-            navigate("/retrospect/new");
+            navigate("/retrospect/new", {
+              state: { spaceId: spaceId },
+            });
           }}
           css={css`
             width: 16.3rem;
@@ -50,15 +53,15 @@ export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
             gap: 1.6rem;
             padding: 3.65rem 0;
             &:hover {
-              background-color: rgba(108, 156, 250, 1);
+              background-color: ${DESIGN_TOKEN_COLOR.blue600};
               span {
-                color: white;
+                color: ${DESIGN_TOKEN_COLOR.gray00};
               }
             }
           `}
         >
           <Icon icon="ic_stars" size={4.8} />
-          <Typography as="span" variant="B1_BOLD" color="black">
+          <Typography as="span" variant="body16Medium" color="black">
             추천받기
           </Typography>
         </button>
@@ -79,15 +82,15 @@ export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
             gap: 1.6rem;
             padding: 3.65rem 0;
             &:hover {
-              background-color: rgba(108, 156, 250, 1);
+              background-color: ${DESIGN_TOKEN_COLOR.blue600};
               span {
-                color: white;
+                color: ${DESIGN_TOKEN_COLOR.gray00};
               }
             }
           `}
         >
-          <Icon icon="ic_list" size={4.8} color="#8C81F7" />
-          <Typography variant="B1_BOLD">리스트보기</Typography>
+          <Icon icon="ic_list" size={4.8} color={DESIGN_TOKEN_COLOR.purple600} />
+          <Typography variant="body16Medium">리스트보기</Typography>
         </button>
       </div>
     </div>

@@ -7,5 +7,9 @@ export const PATHS = {
   retrospectCreate: () => `/retrospect/new`,
   completeRetrospectCreate: () => `/retrospect/complete`,
   template: (spaceId: string) => `/space/${spaceId}/templates`,
+  spaceCreate: () => `/space/create`,
   spaceDetail: (spaceId: string) => `/space/${spaceId}`,
+  myInfo: () => `/myinfo`,
+  myInfoModify: () => `/myinfo/modify`,
+  userDeletion: () => `/myinfo/userdeletion`,
 };

@@ -5,7 +5,7 @@ import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";
 import { Spacing } from "@/component/common/Spacing";
 import { ANIMATION } from "@/style/common/animation.ts";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 
 type MidModalProps = {
   title: string;
@@ -80,7 +80,7 @@ export function MidModal({ title, content, leftText = "취소", rightText = "삭
             <HeaderProvider.Subject
               contents={title}
               css={css`
-                font-size: 1.8rem;
+                ${DESIGN_TOKEN_TEXT.subtitle16SemiBold}
               `}
             />
             <Spacing size={0.1} />
@@ -88,6 +88,7 @@ export function MidModal({ title, content, leftText = "취소", rightText = "삭
               contents={content}
               css={css`
                 font-size: 1.6rem;
+                white-space: pre-line;
               `}
             />
           </HeaderProvider>

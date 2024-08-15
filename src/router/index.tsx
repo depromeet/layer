@@ -5,6 +5,9 @@ import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
 import { RetrospectViewPage } from "@/app/home/RetrospectViewPage";
+import { ModifyMyInfo } from "@/app/info/ModifyMyInfo";
+import { MyInfo } from "@/app/info/MyInfo";
+import { UserDeletion } from "@/app/info/UserDeletion";
 import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
@@ -120,6 +123,21 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/:spaceId/templates",
     element: <TemplateListPage />,
+    auth: true,
+  },
+  {
+    path: "/myinfo",
+    element: <MyInfo />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/modify",
+    element: <ModifyMyInfo />,
+    auth: true,
+  },
+  {
+    path: "/myinfo/userdeletion",
+    element: <UserDeletion />,
     auth: true,
   },
   {

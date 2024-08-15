@@ -50,6 +50,7 @@ export type AuthResponse = {
   socialType: string;
   accessToken: string;
   refreshToken: string;
+  imageUrl: string;
 } | null;
 
 export type AuthApiReturn = {
@@ -65,6 +66,7 @@ export type MemberInfo = {
   memberRole: string;
   socialId: string;
   socialType: SocialLoginKind;
+  imageUrl: string;
 };
 
 export type LoginKindType = {
