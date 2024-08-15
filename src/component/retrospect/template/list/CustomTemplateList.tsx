@@ -25,12 +25,14 @@ export function CustomTemplateList({ spaceId, isCreateRetrospect }: CustomTempla
       }
     },
   });
-  const templates = useMemo(() => data.pages.flatMap(({ content }) => content), [data]);
+  const templates = useMemo(() => data.pages.flatMap(({ content }) => content), [data.pages]);
   return (
     <>
       {templates.map((template) => (
         <CustomTemplateListItem
           key={template.id}
+          id={template.id}
+          spaceId={spaceId}
           title={template.title}
           tag={template.formTag}
           date={formatDateToString(new Date(template.createdAt), ". ")}
