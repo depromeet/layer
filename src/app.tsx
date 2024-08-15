@@ -4,11 +4,12 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 
-import { LoadingModal } from "./component/common/Modal/LoadingModal";
 import { Routers } from "./router";
 
 import { Modal } from "@/component/common/Modal";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Toast } from "@/component/common/Toast";
+import { BridgeProvider } from "@/lib/provider/bridge-provider";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -17,7 +18,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         {/* <DevTools /> */}
-        <Routers />
+        <BridgeProvider>
+          <Routers />
+        </BridgeProvider>
         <Toast />
         <Modal />
       </QueryClientProvider>

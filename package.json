@@ -17,6 +17,8 @@
     "@tanstack/react-query": "^5.49.2",
     "@tanstack/react-query-devtools": "^5.49.2",
     "@types/react-beautiful-dnd": "^13.1.8",
+    "@webview-bridge/react-native": "^1.6.2",
+    "@webview-bridge/web": "^1.6.2",
     "axios": "^1.7.2",
     "date-fns": "^3.6.0",
     "framer-motion": "^11.2.13",

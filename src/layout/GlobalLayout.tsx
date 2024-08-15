@@ -1,7 +1,11 @@
 import { css } from "@emotion/react";
 import { Outlet } from "react-router-dom";
 
+import { useBridgeContext } from "@/lib/provider/bridge-provider";
+
 export default function GlobalLayout() {
+  const { safeAreaHeight } = useBridgeContext();
+
   return (
     <div
       css={css`
@@ -17,6 +21,8 @@ export default function GlobalLayout() {
 
         display: flex;
         flex-direction: column;
+
+        ${safeAreaHeight && { height: `calc(100dvh-${safeAreaHeight * 2}px)` }}
       `}
     >
       <Outlet />
