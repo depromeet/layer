@@ -46,7 +46,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           id={id || textareaContext?.id}
           css={css`
             ::placeholder {
-              color: ${DESIGN_TOKEN_COLOR.gray00};
+              color: ${DESIGN_TOKEN_COLOR["gray500"]};
             }
             flex-shrink: 0;
             flex-grow: 1;
