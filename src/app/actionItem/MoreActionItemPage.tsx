@@ -3,7 +3,6 @@ import { Fragment } from "react";
 
 import ActionItemBox from "@/component/actionItem/ActionItemBox.tsx";
 import { Icon } from "@/component/common/Icon";
-import { Modal } from "@/component/common/Modal";
 import { useModal } from "@/hooks/useModal.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
@@ -12,7 +11,6 @@ export function MoreActionItemPage() {
 
   return (
     <Fragment>
-      <Modal />
       <DefaultLayout
         theme={"gray"}
         title={"실행목표"}

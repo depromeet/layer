@@ -2,7 +2,6 @@
 import { useAtom } from "jotai";
 
 import { Button } from "@/component/common/button";
-import { Modal } from "@/component/common/Modal";
 import { Toast } from "@/component/common/Toast";
 import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
@@ -63,7 +62,6 @@ function MainPage() {
       </Button>
       <Button onClick={() => toast.error("에러")}>Error Toast</Button>
 
-      <Modal />
       <Toast />
     </>
   );
