@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 
 import { Button } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
+import { DropdownMenu } from "@/component/common/dropdownMenu/DropdownMenu";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
 
@@ -37,6 +38,19 @@ export function CustomTemplateListItem({ title, tag, date, createRetrospect }: C
             `}
           >
             <Typography variant="S2">{title}</Typography>
+            <DropdownMenu onValueChange={(value) => console.log(value)}>
+              <DropdownMenu.Trigger />
+              <DropdownMenu.Content>
+                <DropdownMenu.Item value="edit-name">
+                  <Typography variant={"subtitle14SemiBold"}>이름 수정하기</Typography>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item value="delete">
+                  <Typography variant={"subtitle14SemiBold"} color={"red500"}>
+                    삭제하기
+                  </Typography>
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu>
           </div>
           <Tag>{tag}</Tag>
           <div
