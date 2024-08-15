@@ -22,6 +22,7 @@
 
 :root {
   --parent-bg-color: inherit;
+  --app-bar-height: 5.8rem;
 }
 
 html {
