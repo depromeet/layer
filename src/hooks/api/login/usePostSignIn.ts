@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { PATHS } from "@/config/paths";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 import { useToast } from "@/hooks/useToast";
 import { authAtom } from "@/store/auth/authAtom";
 import { LoginKindType, AuthResponse } from "@/types/loginType";
@@ -45,8 +46,15 @@ export const usePostSignIn = () => {
         setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole, imageUrl: data.imageUrl });
       }
 
+      const prevPath = Cookies.get(COOKIE_KEYS.redirectPrevPathKey);
+      if (prevPath) {
+        Cookies.remove(COOKIE_KEYS.redirectPrevPathKey);
+        navigate(prevPath);
+        return;
+      }
       toast.success("어서오세요!");
       navigate(PATHS.home());
+      return;
     },
     onError: (error: ErrorType, variables: LoginKindType) => {
       if (error.status === 400) {
