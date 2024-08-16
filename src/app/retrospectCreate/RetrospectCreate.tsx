@@ -1,20 +1,19 @@
 import { css } from "@emotion/react";
 import { useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
-import { createContext, useCallback, useMemo, useState } from "react";
+import { createContext, useCallback, useMemo } from "react";
 import { Beforeunload } from "react-beforeunload";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
-import { Portal } from "@/component/common/Portal";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
 import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
-import { TemporarySaveModal } from "@/component/write/modal";
 import { PATHS } from "@/config/paths";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
 import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTemplateId";
+import { useModal } from "@/hooks/useModal";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
@@ -55,9 +54,9 @@ export function RetrospectCreate() {
     },
   } as const;
 
-  const locationState = useLocation().state as { spaceId: number; templateId: number };
-  const { spaceId, templateId } = locationState;
-  const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
+  const locationState = useLocation().state as { spaceId: number; templateId: number; saveTemplateId?: boolean };
+  const { spaceId, templateId, saveTemplateId } = locationState;
+  const { open, close: closeModal } = useModal();
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
@@ -87,15 +86,11 @@ export function RetrospectCreate() {
     [pageState.currentStep, retroCreateData.deadline],
   );
 
-  const confirmQuitPage = () => {
-    setIsTemporarySaveModalOpen(true);
-  };
-
   const conditionalGoPrev = useCallback(() => {
     const { currentStep: pageCurrentStep, goPrev: pageGoPrev } = pageState;
     const { currentStep: customCurrentStep, goPrev: customGoPrev } = customState;
 
-    if (pageCurrentStep === "start") {
+    if (pageCurrentStep === "start" && saveTemplateId) {
       confirmQuitPage();
       return;
     }
@@ -106,9 +101,17 @@ export function RetrospectCreate() {
     pageGoPrev();
   }, [pageState.currentStep, customState.currentStep]);
 
+  const confirmQuitPage = () => {
+    open({
+      title: "회고 진행을 중단하시겠어요?",
+      contents: "선택한 템플릿은 임시저장되어요",
+      onConfirm: quitPage,
+    });
+  };
+
   const quitPage = useCallback(() => {
     postRecentTemplateId({ formId: templateId, spaceId });
-    setIsTemporarySaveModalOpen(false);
+    closeModal();
     resetRetroCreateData();
     navigate(PATHS.spaceDetail(spaceId.toString()), { replace: true });
   }, []);
@@ -151,18 +154,6 @@ export function RetrospectCreate() {
         </RetrospectCreateContext.Provider>
       </DefaultLayout>
       <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />
-      {isTemporarySaveModalOpen && (
-        <Portal id="modal-root">
-          <TemporarySaveModal
-            title="회고 진행을 중단하시겠어요?"
-            content="선택한 템플릿은 임시저장되어요"
-            confirm={quitPage}
-            quit={() => {
-              setIsTemporarySaveModalOpen(false);
-            }}
-          />
-        </Portal>
-      )}
     </>
   );
 }
