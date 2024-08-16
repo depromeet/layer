@@ -29,10 +29,10 @@ export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRe
   const { open } = useModal();
   const { openBottomSheet } = useBottomSheet();
   const { value: templateTitle, handleInputChange: handleChangeTitle } = useInput(title);
-  const patchTemplateTitle = usePatchTemplateTitle(spaceId);
-  const deleteCustomTemplate = useDeleteCustomTemplate(spaceId);
+  const { mutate: patchTemplateTitle } = usePatchTemplateTitle(spaceId);
+  const { mutate: deleteCustomTemplate } = useDeleteCustomTemplate(spaceId);
   const handleSubmitTitle = () => {
-    patchTemplateTitle.mutate({ formId: id, formTitle: templateTitle });
+    patchTemplateTitle({ formId: id, formTitle: templateTitle });
   };
   const handleOptionSelect = (option: string) => {
     if (option === MENU_EDIT) {
@@ -46,7 +46,7 @@ export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRe
         },
         onConfirm: () => {
           console.log(id);
-          deleteCustomTemplate.mutate({ formId: id });
+          deleteCustomTemplate({ formId: id });
         },
       });
     }

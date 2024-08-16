@@ -61,12 +61,12 @@ export function RetrospectCreate() {
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
-  const postRetrospectCreate = usePostRetrospectCreate(spaceId);
-  const postRecentTemplateId = usePostRecentTemplateId(spaceId);
+  const { mutate: postRetrospectCreate } = usePostRetrospectCreate(spaceId);
+  const { mutate: postRecentTemplateId } = usePostRecentTemplateId(spaceId);
 
   const handleSubmit = () => {
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
-    postRetrospectCreate.mutate({
+    postRetrospectCreate({
       spaceId,
       body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateId },
     });
@@ -107,7 +107,7 @@ export function RetrospectCreate() {
   }, [pageState.currentStep, customState.currentStep]);
 
   const quitPage = useCallback(() => {
-    postRecentTemplateId.mutate({ formId: templateId, spaceId });
+    postRecentTemplateId({ formId: templateId, spaceId });
     setIsTemporarySaveModalOpen(false);
     resetRetroCreateData();
     navigate(PATHS.spaceDetail(spaceId.toString()), { replace: true });
