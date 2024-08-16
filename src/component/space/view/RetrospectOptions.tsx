@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function RetrospectOptions({
   isOptionsVisible,
@@ -19,7 +20,7 @@ export function RetrospectOptions({
 }) {
   return (
     <>
-      <Icon icon="ic_more" onClick={toggleOptionsVisibility} />
+      <Icon icon="ic_more" onClick={toggleOptionsVisibility} color={DESIGN_TOKEN_COLOR.gray600} />
       <AnimatePresence>
         {isOptionsVisible && (
           <motion.div
