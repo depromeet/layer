@@ -78,7 +78,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   return (
     <div
       css={css`
-        min-height: 100%;
+        height: 100dvh;
         display: flex;
         flex-direction: column;
         padding: 0 2rem;
@@ -99,88 +99,96 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
           />
         }
       />
-      <Header title={"질문 리스트"} contents={`문항은 최대 ${MAX_QUESTIONS_COUNT}개까지 구성 가능해요`} />
       <div
         css={css`
-          margin-top: 3.2rem;
+          padding-top: var(--app-bar-height);
+          flex: 1 1 0;
           display: flex;
           flex-direction: column;
-          gap: 1.2rem;
         `}
       >
-        <Typography variant="B2" color={"darkGray"}>
-          사전 질문
-        </Typography>
-        <QuestionList>
-          {REQUIRED_QUESTIONS.map(({ questionContent }, index) => (
-            <QuestionListItem key={index} content={questionContent} />
-          ))}
-        </QuestionList>
-      </div>
-      <Spacing size={3.3} />
-      <div
-        css={css`
-          margin-top: 3.2rem;
-          margin-bottom: 1.7rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.2rem;
-        `}
-      >
+        <Header title={"질문 리스트"} contents={`문항은 최대 ${MAX_QUESTIONS_COUNT}개까지 구성 가능해요`} />
         <div
           css={css`
+            margin-top: 3.2rem;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 1.2rem;
           `}
         >
           <Typography variant="B2" color={"darkGray"}>
-            메인 질문
+            사전 질문
           </Typography>
-          <ShowDeleteButton onToggle={toggleDelete} onCancel={handleDeleteCancel} showDelete={showDelete} onDelete={handleDeleteConfirm} />
+          <QuestionList>
+            {REQUIRED_QUESTIONS.map(({ questionContent }, index) => (
+              <QuestionListItem key={index} content={questionContent} />
+            ))}
+          </QuestionList>
         </div>
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <Drop droppableId="droppable">
-            <QuestionList>
-              {newQuestions.map(({ questionContent: question }, index) => (
-                <div
-                  key={index}
-                  css={css`
-                    display: ${isTemporarilyDeleted(index) ? "none" : "block"};
-                  `}
-                >
-                  <Drag index={index} draggableId={index.toString()} isDragDisabled={showDelete}>
-                    <QuestionListItem
-                      key={index}
-                      order={index + 1}
-                      RightComp={<Control index={index} showDelete={showDelete} handleDeleteItem={handleDeleteItemTemporarily} />}
-                      onDrag={(e) => {
-                        if (showDelete) {
-                          e.preventDefault();
-                        }
-                      }}
-                    >
-                      <input
-                        value={question}
-                        onChange={(e) => handleQuestionInputChange(e, index)}
-                        css={css`
-                          flex-grow: 1;
-                        `}
-                        onBlur={handleInputChangeConfirm}
-                      />
-                    </QuestionListItem>
-                  </Drag>
-                </div>
-              ))}
-            </QuestionList>
-          </Drop>
-        </DragDropContext>
-        <AddListItemButton onClick={handleAddButtonClick} />
+        <Spacing size={3.3} />
+        <div
+          css={css`
+            margin-top: 3.2rem;
+            margin-bottom: 1.7rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+          `}
+        >
+          <div
+            css={css`
+              display: flex;
+              justify-content: space-between;
+            `}
+          >
+            <Typography variant="B2" color={"darkGray"}>
+              메인 질문
+            </Typography>
+            <ShowDeleteButton onToggle={toggleDelete} onCancel={handleDeleteCancel} showDelete={showDelete} onDelete={handleDeleteConfirm} />
+          </div>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Drop droppableId="droppable">
+              <QuestionList>
+                {newQuestions.map(({ questionContent: question }, index) => (
+                  <div
+                    key={index}
+                    css={css`
+                      display: ${isTemporarilyDeleted(index) ? "none" : "block"};
+                    `}
+                  >
+                    <Drag index={index} draggableId={index.toString()} isDragDisabled={showDelete}>
+                      <QuestionListItem
+                        key={index}
+                        order={index + 1}
+                        RightComp={<Control index={index} showDelete={showDelete} handleDeleteItem={handleDeleteItemTemporarily} />}
+                        onDrag={(e) => {
+                          if (showDelete) {
+                            e.preventDefault();
+                          }
+                        }}
+                      >
+                        <input
+                          value={question}
+                          onChange={(e) => handleQuestionInputChange(e, index)}
+                          css={css`
+                            flex-grow: 1;
+                          `}
+                          onBlur={handleInputChangeConfirm}
+                        />
+                      </QuestionListItem>
+                    </Drag>
+                  </div>
+                ))}
+              </QuestionList>
+            </Drop>
+          </DragDropContext>
+          <AddListItemButton onClick={handleAddButtonClick} />
+        </div>
+
+        <ButtonProvider>
+          <ButtonProvider.Primary onClick={onNext}>완료</ButtonProvider.Primary>
+        </ButtonProvider>
       </div>
-
-      <ButtonProvider>
-        <ButtonProvider.Primary onClick={onNext}>완료</ButtonProvider.Primary>
-      </ButtonProvider>
-
       <BottomSheet
         contents={
           <AddQuestionsBottomSheet

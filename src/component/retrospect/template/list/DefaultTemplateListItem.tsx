@@ -39,7 +39,9 @@ export function DefaultTemplateListItem({ title, tag, imageUrl, createRetrospect
           </Button>
         ) : (
           <Button colorSchema={"white"}>
-            <Typography>더 알아보기</Typography>
+            <Typography variant={"subtitle16SemiBold"} color={"gray800"}>
+              더 알아보기
+            </Typography>
           </Button>
         )}
       </Card>

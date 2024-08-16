@@ -106,7 +106,7 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/join/:id",
     element: <JoinSpacePage />,
-    auth: false,
+    auth: true,
   },
   { path: "/api/auth/oauth2/kakao", element: <KakaoLoginRedirection />, auth: false },
   { path: "/api/auth/oauth2/google", element: <GoogleLoginRedirection />, auth: false },
