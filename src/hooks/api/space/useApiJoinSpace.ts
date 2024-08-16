@@ -22,6 +22,7 @@ export const useApiJoinSpace = () => {
       console.log(error);
       if (error.status === 400) {
         console.log("이미 참여한 스페이스 입니다");
+        toast.error("이미 참여한 스페이스 입니다");
       }
     },
   });
