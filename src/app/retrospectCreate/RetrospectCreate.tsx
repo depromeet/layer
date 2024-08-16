@@ -106,6 +106,9 @@ export function RetrospectCreate() {
       title: "회고 진행을 중단하시겠어요?",
       contents: "선택한 템플릿은 임시저장되어요",
       onConfirm: quitPage,
+      options: {
+        buttonText: ["취소", "나가기"],
+      },
     });
   };
 

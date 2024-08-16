@@ -11,7 +11,7 @@ type RightCompProps = {
   spaceId: string | undefined;
   onDeleteClick: () => void;
   isTooltipVisible: boolean;
-  handleOpenBottomSheet: () => void;
+  onClickPlus: () => void;
 };
 
 const slideUpDown = keyframes`
@@ -26,7 +26,7 @@ const slideUpDown = keyframes`
   }
 `;
 
-export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible, handleOpenBottomSheet }: RightCompProps) {
+export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible, onClickPlus }: RightCompProps) {
   const [isBoxVisible, setIsBoxVisible] = useState(false);
   const boxRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
         `}
       >
         <div css={{ position: "relative" }}>
-          <Icon icon="ic_plus" color={DESIGN_TOKEN_COLOR.gray00} size={1.8} onClick={handleOpenBottomSheet} />
+          <Icon icon="ic_plus" color={DESIGN_TOKEN_COLOR.gray00} size={1.8} onClick={onClickPlus} />
           {isTooltipVisible && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}

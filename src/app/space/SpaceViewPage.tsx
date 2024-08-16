@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useQueries } from "@tanstack/react-query";
 import { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
@@ -11,6 +11,7 @@ import { Typography } from "@/component/common/typography";
 import { SpaceCountView, RetrospectBox, ActionItemListView, CreateRetrospectiveSheet } from "@/component/space";
 import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceAppBarRightComp } from "@/component/space/view/SpaceAppBarRightComp";
+import { PATHS } from "@/config/paths";
 import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useApiOptionsGetTeamActionItemList";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
@@ -22,6 +23,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 
 export function SpaceViewPage() {
+  const navigate = useNavigate();
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
   const { open } = useModal();
@@ -42,7 +44,6 @@ export function SpaceViewPage() {
 
   useEffect(() => {
     if (restrospectArr) {
-      console.log(restrospectArr);
       setProceedingRetrospects(restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING"));
       setDoneRetrospects(restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "DONE"));
     }
@@ -59,7 +60,26 @@ export function SpaceViewPage() {
     deleteSpace(spaceId as string);
   };
 
-  const handleOpenBottomSheet = () => {
+  const handleCreateSpace = () => {
+    if (spaceInfo?.formId) {
+      open({
+        title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
+        contents: "",
+        options: {
+          buttonText: ["다시 하기", "진행하기"],
+        },
+        onClose: () => {
+          setIsVisiableBottomSheet(true);
+          openBottomSheet();
+        },
+        onConfirm: () => {
+          navigate(PATHS.retrospectCreate(), {
+            state: { spaceId, templateId: spaceInfo.formId, saveTemplateId: true },
+          });
+        },
+      });
+      return;
+    }
     setIsVisiableBottomSheet(true);
     openBottomSheet();
   };
@@ -83,7 +103,7 @@ export function SpaceViewPage() {
             });
           }}
           isTooltipVisible={restrospectArr?.length === 0}
-          handleOpenBottomSheet={handleOpenBottomSheet}
+          onClickPlus={handleCreateSpace}
         />
       }
     >
