@@ -19,6 +19,7 @@ export const useGetTemporaryQuestions = ({ spaceId, retrospectId }: { spaceId: n
   return useQuery({
     queryKey: ["temporaryQuestion", spaceId, retrospectId],
     queryFn: () => getTemporaryQuestions(),
+    refetchOnWindowFocus: false,
     retry: 1,
   });
 };

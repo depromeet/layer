@@ -92,7 +92,7 @@ export function Write() {
         })),
       );
     }
-  }, [answerDataLoading, answerDataSuccess]);
+  }, [answerDataLoading, answerDataSuccess, answerData]);
 
   useEffect(() => {
     const allFilled = answers.every((answer) => answer.answerContent !== "");
