@@ -29,6 +29,7 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
           height: 100dvh;
           padding: ${height ?? "var(--app-bar-height)"} 2rem 0 2rem;
           overflow-y: auto;
+          overflow-x: hidden;
         `}
       >
         {children}

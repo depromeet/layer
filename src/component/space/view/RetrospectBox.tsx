@@ -1,11 +1,13 @@
 import { css } from "@emotion/react";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { RetrospectButton } from "./RetrospectButton";
 import { RetrospectOptions } from "./RetrospectOptions";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths.ts";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
@@ -34,6 +36,7 @@ export function RetrospectBox({
   const optionsRef = useRef<HTMLDivElement | null>(null);
   const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount, createdAt, deadline } = retrospect;
   const { backgroundColor } = statusStyles[retrospectStatus];
+  const navigate = useNavigate();
 
   const { mutate: retrospectDelete } = useApiDeleteRetrospect();
 
@@ -50,7 +53,12 @@ export function RetrospectBox({
   };
 
   const modifyBtnClickFun = () => {
-    console.log("준비중");
+    navigate(PATHS.write(), {
+      state: {
+        retrospectId,
+        spaceId,
+      },
+    });
   };
 
   const toggleOptionsVisibility = () => {
