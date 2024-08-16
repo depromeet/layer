@@ -16,6 +16,7 @@ import { Confirm } from "@/component/write/phase/Confirm";
 import { WAchievementTemplate } from "@/component/write/template/write/Achievement";
 import { WDescriptiveTemplate } from "@/component/write/template/write/Descriptive";
 import { WSatisfactionTemplate } from "@/component/write/template/write/Satisfaction";
+import { PATHS } from "@/config/paths.ts";
 import { useGetAnswers } from "@/hooks/api/write/useGetAnswers.ts";
 import { useGetTemporaryQuestions } from "@/hooks/api/write/useGetTemporaryQuestions.ts";
 import { useWriteQuestions } from "@/hooks/api/write/useWriteQuestions.ts";
@@ -51,6 +52,7 @@ export function Write() {
       answerContent: "",
     }));
 
+  const [prevAnswer, setPrevAnswers] = useState<Answer[]>(initializeAnswers);
   const [answers, setAnswers] = useState<Answer[]>(initializeAnswers);
   const [tempAnswer, setTempAnswer] = useState<Answer[]>([]);
 
@@ -83,14 +85,14 @@ export function Write() {
 
   useEffect(() => {
     if (answerDataSuccess && answerData) {
+      const mappedAnswers = answerData.answers.map(({ questionId, questionType, answerContent }) => ({
+        questionId,
+        questionType,
+        answerContent,
+      }));
       editMode.current = "EDIT";
-      setAnswers(
-        answerData.answers.map((question) => ({
-          questionId: question.questionId,
-          questionType: question.questionType,
-          answerContent: question.answerContent,
-        })),
-      );
+      setAnswers(mappedAnswers);
+      setPrevAnswers(mappedAnswers);
     }
   }, [answerDataLoading, answerDataSuccess]);
 
@@ -114,6 +116,10 @@ export function Write() {
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     updateAnswer(phase, e.target.value);
+  };
+
+  const hasChanges = () => {
+    return answers.some((answer, index) => answer.answerContent !== prevAnswer[index]?.answerContent);
   };
 
   const handleClickSatistfy = (index: number) => handleClick(index);
@@ -160,6 +166,7 @@ export function Write() {
             content={"이전에 저장한 데이터를 가져올게요"}
             confirm={() => {
               setAnswers(tempAnswer);
+              setPrevAnswers(tempAnswer);
               handleModalClose("temp-data");
             }}
             quit={() => {
@@ -234,7 +241,19 @@ export function Write() {
             </button>
           )
         }
-        LeftComp={<Icon icon={"ic_write_quit"} size={1.4} onClick={() => setTemporarySaveModalOpen(true)} />}
+        LeftComp={
+          <Icon
+            icon={"ic_write_quit"}
+            size={1.4}
+            onClick={() => {
+              if (hasChanges()) {
+                setTemporarySaveModalOpen(true);
+              } else {
+                navigate(PATHS.home());
+              }
+            }}
+          />
+        }
       >
         <div
           css={css`
