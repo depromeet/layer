@@ -23,6 +23,7 @@ export const useGetAnswers = ({ spaceId, retrospectId }: { spaceId: number; retr
   return useQuery({
     queryKey: ["answers", spaceId, retrospectId],
     queryFn: () => getQuestions(),
+    refetchOnWindowFocus: false,
     retry: 1,
   });
 };
