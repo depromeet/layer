@@ -9,17 +9,16 @@ import { Portal } from "@/component/common/Portal";
 import { ANIMATION } from "@/style/common/animation";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-const DropdownMenuContext = createContext<
-  | {
-      isOpen: boolean;
-      toggle: () => void;
-      onSelect: (value: string) => void;
-      setPopperEl: React.Dispatch<React.SetStateAction<HTMLDivElement | null>>;
-      popperStyles: ReturnType<typeof usePopper>["styles"]["popper"];
-      popperAttributes: ReturnType<typeof usePopper>["attributes"]["popper"];
-    }
-  | undefined
->(undefined);
+type DropdownMenuContextState = {
+  isOpen: boolean;
+  toggle: () => void;
+  onSelect: (value: string) => void;
+  setPopperEl: React.Dispatch<React.SetStateAction<HTMLDivElement | null>>;
+  popperStyles: ReturnType<typeof usePopper>["styles"]["popper"];
+  popperAttributes: ReturnType<typeof usePopper>["attributes"]["popper"];
+};
+
+const DropdownMenuContext = createContext<DropdownMenuContextState | undefined>(undefined);
 
 type DropdownMenuProps = {
   children: React.ReactNode;
