@@ -6,7 +6,7 @@ import { QuestionItemCheckbox } from ".";
 
 import { ButtonProvider } from "@/component/common/button";
 import { CheckBoxGroup } from "@/component/common/checkBox";
-import { Input } from "@/component/common/input";
+import { TextArea } from "@/component/common/input";
 import { TabButton } from "@/component/common/tabs/TabButton";
 import { Tabs } from "@/component/common/tabs/Tabs";
 import { TagButton } from "@/component/common/tabs/TagButton";
@@ -64,7 +64,7 @@ export function AddQuestionsBottomSheet({ onClose, handleAddQuestions, maxCount 
             margin-top: 2.3rem;
           `}
         >
-          <Input placeholder="질문을 작성해주세요." value={customQuestion} onChange={handleCustomChange} maxLength={10} count />
+          <TextArea placeholder="질문을 작성해주세요." value={customQuestion} onChange={handleCustomChange} maxLength={20} count />
           <ButtonProvider>
             <ButtonProvider.Primary onClick={handleCustomSave} disabled={!customQuestion}>
               추가하기
