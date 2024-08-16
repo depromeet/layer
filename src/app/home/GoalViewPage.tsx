@@ -22,16 +22,7 @@ export function GoalViewPage() {
       }
       RightComp={<Icon icon="basicProfile" size="3.2rem" />}
     >
-      <Tabs
-        tabs={tabs}
-        curTab={curTab}
-        selectTab={selectTab}
-        TabComp={TabButton}
-        fullWidth={false}
-        containerStyles={css`
-          background-color: var(--parent-bg-color);
-        `}
-      />
+      <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
       <Spacing size={3.6} />
       <div
         css={css`
