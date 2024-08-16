@@ -1,4 +1,6 @@
 import { css } from "@emotion/react";
+import { Placement } from "@popperjs/core";
+import { OffsetModifier } from "@popperjs/core/lib/modifiers/offset";
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
 import { usePopper } from "react-popper";
 
@@ -10,7 +12,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 const DropdownMenuContext = createContext<
   | {
       isOpen: boolean;
-      onOpenChange: () => void;
+      toggle: () => void;
       onSelect: (value: string) => void;
       setPopperEl: React.Dispatch<React.SetStateAction<HTMLDivElement | null>>;
       popperStyles: ReturnType<typeof usePopper>["styles"]["popper"];
@@ -19,21 +21,28 @@ const DropdownMenuContext = createContext<
   | undefined
 >(undefined);
 
-type DropdownMenuProps = { children: React.ReactNode; onValueChange: (value: string) => void };
+type DropdownMenuProps = {
+  children: React.ReactNode;
+  onValueChange: (value: string) => void;
+  placement?: Placement;
+  modifiers?: Partial<OffsetModifier>[];
+  offset?: [number, number];
+};
 
-export function DropdownMenu({ children, onValueChange }: DropdownMenuProps) {
+export function DropdownMenu({ children, onValueChange, placement = "bottom-end", offset = [20, 11.5], modifiers = [] }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [referenceEl, setReferenceEl] = useState<HTMLDivElement | null>(null);
   const [popperEl, setPopperEl] = useState<HTMLDivElement | null>(null);
   const { styles, attributes } = usePopper(referenceEl, popperEl, {
-    placement: "bottom-end",
+    placement,
     modifiers: [
       {
         name: "offset",
         options: {
-          offset: [20, 11.5],
+          offset,
         },
       },
+      ...modifiers,
     ],
   });
 
@@ -58,7 +67,7 @@ export function DropdownMenu({ children, onValueChange }: DropdownMenuProps) {
         setPopperEl,
         onSelect: onValueChange,
         isOpen,
-        onOpenChange: () => setIsOpen(!isOpen),
+        toggle: () => setIsOpen(!isOpen),
         popperStyles: styles.popper,
         popperAttributes: attributes.popper,
       }}
@@ -79,7 +88,7 @@ export function DropdownMenu({ children, onValueChange }: DropdownMenuProps) {
 
 function Trigger({ asChild, children }: { asChild: true; children: React.ReactNode } | PropsWithChildren<{ asChild?: false }>) {
   const context = useContext(DropdownMenuContext);
-  return <button onClick={() => context?.onOpenChange()}>{asChild ? children : <Icon icon={"ic_more"} color={DESIGN_TOKEN_COLOR.gray600} />}</button>;
+  return <button onClick={() => context?.toggle()}>{asChild ? children : <Icon icon={"ic_more"} color={DESIGN_TOKEN_COLOR.gray600} />}</button>;
 }
 
 function Content({ children }: { children: React.ReactNode }) {
@@ -117,7 +126,11 @@ function Item({ children, value }: { children: React.ReactNode; value: string })
         padding: 1.2rem 2rem;
         text-align: left;
       `}
-      onClick={() => context?.onSelect(value)}
+      onClick={(e) => {
+        e.stopPropagation();
+        context?.onSelect(value);
+        context?.toggle();
+      }}
     >
       {children}
     </button>
