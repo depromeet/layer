@@ -4,6 +4,9 @@ import { Fragment, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { fetchMemberInfo } from "@/api/login";
+import { PATHS } from "@/config/paths";
+import { COOKIE_KEYS } from "@/config/storage-keys";
+import { useToast } from "@/hooks/useToast";
 import { authAtom } from "@/store/auth/authAtom";
 
 type RequireLoginProps = {
@@ -13,6 +16,14 @@ type RequireLoginProps = {
 export function RequireLoginLayout({ children }: RequireLoginProps) {
   const [auth, setAuth] = useAtom(authAtom);
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const curPath = window.location.pathname;
+
+  const redirectLogin = () => {
+    toast.error("로그인이 필요해요");
+    Cookies.set(COOKIE_KEYS.redirectPrevPathKey, curPath);
+    navigate(PATHS.login());
+  };
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -25,10 +36,10 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
           setAuth({ isLogin: true, name: response.name, email: response.email, memberRole: response.memberRole, imageUrl: response.imageUrl });
         } catch (error) {
           console.error("Error fetching member info:", error);
-          navigate("/login");
+          redirectLogin();
         }
       } else {
-        navigate("/login");
+        redirectLogin();
       }
     };
 
@@ -36,7 +47,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
     checkLoginStatus().catch((error) => {
       console.error("유저 정보 불러오기 실패:", error);
     });
-  }, [auth, setAuth, navigate]);
+  }, [auth, setAuth]);
 
   if (!auth.isLogin) return null;
 
