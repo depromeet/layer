@@ -54,7 +54,6 @@ export const ButtonProvider = ({
           padding: 4rem 0 2rem 0;
           margin-top: auto;
           z-index: 10000;
-          overflow: hidden;
         `,
         onlyContainerStyle,
       ]}

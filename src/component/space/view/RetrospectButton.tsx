@@ -31,7 +31,7 @@ export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectBu
       },
       HAS_WRITING: {
         route: [
-          `/modify`,
+          PATHS.write(),
           {
             state: {
               retrospectId,
