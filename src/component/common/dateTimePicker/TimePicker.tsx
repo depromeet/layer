@@ -1,9 +1,9 @@
 import { css } from "@emotion/react";
 import { forwardRef } from "react";
 
+import { TIME } from "@/component/common/dateTimePicker/time.const";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { Typography } from "@/component/common/typography";
-import { TIME } from "@/component/retrospectCreate/dueDate/time.const";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { useTabs } from "@/hooks/useTabs";
 import { formatTime12to24 } from "@/utils/formatDate";
