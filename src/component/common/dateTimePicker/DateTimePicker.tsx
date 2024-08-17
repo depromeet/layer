@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { isPast } from "date-fns";
 import { useEffect, useRef } from "react";
 import type { CalendarProps } from "react-calendar";
 
@@ -7,6 +8,7 @@ import { ButtonProvider } from "@/component/common/button";
 import { Calendar } from "@/component/common/dateTimePicker/Calendar";
 import { TimePicker } from "@/component/common/dateTimePicker/TimePicker";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
+import { useToast } from "@/hooks/useToast";
 
 type DateTimePickerProps = {
   /**
@@ -25,6 +27,7 @@ type DateTimePickerProps = {
 };
 
 export function DateTimePicker({ defaultValue, tileDisabled, onSave }: DateTimePickerProps) {
+  const { toast } = useToast();
   const { onSelectDate, radioControl, date, dateTime } = useDateTimePicker();
   const timePickerRef = useRef<HTMLDivElement>(null);
 
@@ -33,6 +36,14 @@ export function DateTimePicker({ defaultValue, tileDisabled, onSave }: DateTimeP
       timePickerRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [date]);
+
+  const handleClickSave = () => {
+    if (dateTime && isPast(dateTime)) {
+      toast.error("과거는 선택할 수 없어요");
+      return;
+    }
+    onSave(dateTime);
+  };
 
   return (
     <BottomSheet
@@ -48,7 +59,7 @@ export function DateTimePicker({ defaultValue, tileDisabled, onSave }: DateTimeP
           <Calendar defaultValue={defaultValue} onChange={onSelectDate} tileDisabled={tileDisabled} />
           {date && <TimePicker ref={timePickerRef} radioControl={radioControl} />}
           <ButtonProvider>
-            <ButtonProvider.Primary onClick={() => onSave(dateTime)} disabled={!date}>
+            <ButtonProvider.Primary onClick={handleClickSave} disabled={!date}>
               완료
             </ButtonProvider.Primary>
           </ButtonProvider>
