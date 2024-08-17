@@ -110,6 +110,7 @@ export function RetrospectCreate() {
   }, []);
 
   const handleSubmit = useCallback(() => {
+    if (!pageState.isLastStep) return;
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
     postRetrospectCreate({
       spaceId,

@@ -35,7 +35,7 @@ export function DueDate() {
         }}
       />
       <ButtonProvider>
-        <ButtonProvider.Primary onClick={onNext} disabled={!selectedDateTime}>
+        <ButtonProvider.Primary onClick={onNext} disabled={!selectedDateTime} type="submit">
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>

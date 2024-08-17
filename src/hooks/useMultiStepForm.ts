@@ -13,7 +13,7 @@ export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseM
   const currentStep: T = useMemo(() => steps[currentStepIndex], [currentStepIndex, steps]);
 
   const goNext = useCallback(() => {
-    if (currentStep === steps[totalStepsCnt - 1]) {
+    if (isLastStep) {
       if (redirectPath) {
         navigate(redirectPath, { replace: true });
       }
@@ -38,6 +38,8 @@ export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseM
     [steps, setCurrentStepIndex],
   );
 
+  const isLastStep = useMemo(() => currentStepIndex === totalStepsCnt - 1, [currentStepIndex, totalStepsCnt]);
+
   return useMemo(
     () => ({
       totalStepsCnt,
@@ -46,7 +48,8 @@ export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseM
       goNext,
       goPrev,
       goTo,
+      isLastStep,
     }),
-    [totalStepsCnt, currentStep, currentStepIndex, goNext, goPrev, goTo],
+    [totalStepsCnt, currentStep, currentStepIndex, goNext, goPrev, goTo, isLastStep],
   );
 };
