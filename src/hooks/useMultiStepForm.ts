@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 type UseMultiStepForm<T extends string> = {
   steps: readonly T[];
   redirectPath?: string;
-  handleSubmit?: () => void;
 };
 
-export const useMultiStepForm = <T extends string>({ steps, redirectPath, handleSubmit }: UseMultiStepForm<T>) => {
+export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseMultiStepForm<T>) => {
   const navigate = useNavigate();
   const totalStepsCnt = useMemo(() => steps.length, [steps]);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -15,16 +14,13 @@ export const useMultiStepForm = <T extends string>({ steps, redirectPath, handle
 
   const goNext = useCallback(() => {
     if (currentStep === steps[totalStepsCnt - 1]) {
-      if (handleSubmit) {
-        handleSubmit();
-      }
       if (redirectPath) {
         navigate(redirectPath, { replace: true });
       }
       return;
     }
     setCurrentStepIndex((i) => i + 1);
-  }, [currentStep, totalStepsCnt, steps, redirectPath, handleSubmit]);
+  }, [currentStep, totalStepsCnt, steps, redirectPath]);
 
   const goPrev = useCallback(() => {
     if (currentStepIndex === 0) {

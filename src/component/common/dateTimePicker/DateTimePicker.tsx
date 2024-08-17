@@ -9,19 +9,30 @@ import { TimePicker } from "@/component/common/dateTimePicker/TimePicker";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 
 type DateTimePickerProps = {
+  /**
+   * Pass a function to determine if a certain day should be displayed as disabled.
+   *
+   * @example ({ activeStartDate, date, view }) => date.getDay() === 0
+   */
+  tileDisabled?: CalendarProps["tileDisabled"];
+  /**
+   * Calendar value that shall be selected initially.
+   *
+   * @example new Date(2024, 0, 1)
+   */
   defaultValue?: CalendarProps["defaultValue"];
-  onSave: ({ date, time }: { date: Date; time?: string }) => void;
+  onSave: (dateTime?: string) => void;
 };
 
-export function DateTimePicker({ defaultValue, onSave }: DateTimePickerProps) {
-  const { onSelectDate, radioControl, selectedDate, selectedTime } = useDateTimePicker();
+export function DateTimePicker({ defaultValue, tileDisabled, onSave }: DateTimePickerProps) {
+  const { onSelectDate, radioControl, date, dateTime } = useDateTimePicker();
   const timePickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (selectedDate) {
+    if (date) {
       timePickerRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [selectedDate]);
+  }, [date]);
 
   return (
     <BottomSheet
@@ -34,11 +45,11 @@ export function DateTimePicker({ defaultValue, onSave }: DateTimePickerProps) {
             gap: 2.8rem;
           `}
         >
-          <Calendar defaultValue={defaultValue} onChange={onSelectDate} />
-          {selectedDate && <TimePicker ref={timePickerRef} radioControl={radioControl} />}
+          <Calendar defaultValue={defaultValue} onChange={onSelectDate} tileDisabled={tileDisabled} />
+          {date && <TimePicker ref={timePickerRef} radioControl={radioControl} />}
           <ButtonProvider>
-            <ButtonProvider.Primary onClick={() => onSave({ date: selectedDate as Date, time: selectedTime })} disabled={!selectedDate}>
-              설정하기
+            <ButtonProvider.Primary onClick={() => onSave(dateTime)} disabled={!date}>
+              완료
             </ButtonProvider.Primary>
           </ButtonProvider>
         </div>

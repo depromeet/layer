@@ -1,8 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
+import { useResetAtom } from "jotai/utils";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { PATHS } from "@/config/paths";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { RetrospectCreateReq } from "@/types/retrospectCreate";
 
 type PostRetrospect = { spaceId: number; body: RetrospectCreateReq };
@@ -10,6 +12,7 @@ type PostRetrospect = { spaceId: number; body: RetrospectCreateReq };
 type RetrospectCreateRes = { retrospectId: number };
 
 export const usePostRetrospectCreate = (spaceId: number) => {
+  const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
   const navigate = useNavigate();
 
   const postRetrospect = async ({ spaceId, body }: PostRetrospect): Promise<RetrospectCreateRes> => {
@@ -23,6 +26,7 @@ export const usePostRetrospectCreate = (spaceId: number) => {
       navigate(PATHS.completeRetrospectCreate(), {
         state: { retrospectId, spaceId },
       });
+      resetRetroCreateData();
     },
   });
 };
