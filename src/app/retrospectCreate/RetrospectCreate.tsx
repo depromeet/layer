@@ -63,18 +63,8 @@ export function RetrospectCreate() {
   const { mutate: postRetrospectCreate } = usePostRetrospectCreate(spaceId);
   const { mutate: postRecentTemplateId } = usePostRecentTemplateId(spaceId);
 
-  const handleSubmit = () => {
-    const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
-    postRetrospectCreate({
-      spaceId,
-      body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateId },
-    });
-    resetRetroCreateData();
-  };
-
   const pageState = useMultiStepForm({
     steps: PAGE_STEPS,
-    handleSubmit,
   });
 
   const customState = useMultiStepForm({
@@ -83,7 +73,7 @@ export function RetrospectCreate() {
 
   const conditionalStepIndex = useMemo(
     () => (pageState.currentStep === "dueDate" && !retroCreateData.deadline ? pageState.currentStepIndex - 1 : pageState.currentStepIndex),
-    [pageState.currentStep, retroCreateData.deadline],
+    [pageState.currentStep, retroCreateData.deadline, pageState.currentStepIndex],
   );
 
   const conditionalGoPrev = useCallback(() => {
@@ -119,6 +109,15 @@ export function RetrospectCreate() {
     navigate(PATHS.spaceDetail(spaceId.toString()), { replace: true });
   }, []);
 
+  const handleSubmit = useCallback(() => {
+    if (!pageState.isLastStep) return;
+    const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
+    postRetrospectCreate({
+      spaceId,
+      body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateId },
+    });
+  }, [retroCreateData.deadline]);
+
   return (
     <>
       <DefaultLayout
@@ -143,6 +142,7 @@ export function RetrospectCreate() {
             `}
             onSubmit={(e) => {
               e.preventDefault();
+              handleSubmit();
             }}
           >
             {pageState.currentStep === "start" && <Start />}

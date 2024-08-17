@@ -6,6 +6,6 @@ export const retrospectCreateAtom = atomWithReset<RetrospectCreateReq>({
   title: "",
   introduction: "",
   questions: [],
-  deadline: new Date().toISOString(),
+  deadline: "",
   isNewForm: false,
 });

@@ -9,9 +9,9 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 type RadioProps = {
   value: string;
   children: React.ReactNode;
-};
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
-export function Radio({ value, children }: RadioProps) {
+export function Radio({ value, children, ...props }: RadioProps) {
   const radioContext = useContext(RadioContext);
   return (
     <label
@@ -28,8 +28,7 @@ export function Radio({ value, children }: RadioProps) {
         cursor: pointer;
       `}
     >
-      {/*FIXME - semibold */}
-      <Typography color={radioContext?.isChecked(value) ? "white" : "darkGrayText"} variant="B2">
+      <Typography color={radioContext?.isChecked(value) ? "white" : "darkGrayText"} variant={"body16Medium"}>
         {children}
       </Typography>
       <input
@@ -43,6 +42,7 @@ export function Radio({ value, children }: RadioProps) {
         css={css`
           display: none;
         `}
+        {...props}
       />
     </label>
   );
