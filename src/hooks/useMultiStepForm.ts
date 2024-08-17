@@ -28,6 +28,7 @@ export const useMultiStepForm = <T extends string>({ steps, redirectPath, handle
 
   const goPrev = useCallback(() => {
     if (currentStepIndex === 0) {
+      navigate(-1);
       return;
     }
     setCurrentStepIndex((i) => i - 1);

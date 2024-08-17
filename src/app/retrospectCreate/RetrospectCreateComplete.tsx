@@ -5,6 +5,7 @@ import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
+import { PATHS } from "@/config/paths";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 
 export function RetrospectCreateComplete() {
@@ -25,7 +26,7 @@ export function RetrospectCreateComplete() {
         <Icon icon={"ic_notebook_open"} size={27.8} />
       </div>
       <ButtonProvider sort="horizontal">
-        <ButtonProvider.Gray onClick={() => navigate(-1)}>끝내기</ButtonProvider.Gray>
+        <ButtonProvider.Gray onClick={() => navigate(PATHS.spaceDetail(spaceId.toString()))}>끝내기</ButtonProvider.Gray>
         <ButtonProvider.Primary
           onClick={() => {
             navigate("/write", {
