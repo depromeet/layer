@@ -51,6 +51,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
 
   const { questions: originalQuestions } = useContext(TemplateContext);
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
+  const SHEET_ID = "addQuestionSheet";
 
   const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
   const isEdited = useMemo(
@@ -69,7 +70,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
 
   const handleAddButtonClick = () => {
     if (newQuestions.length < MAX_QUESTIONS_COUNT) {
-      openBottomSheet();
+      openBottomSheet({ id: SHEET_ID });
     } else {
       toast.error("추가 가능한 질문 개수를 초과했어요");
     }
@@ -190,6 +191,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
         </ButtonProvider>
       </div>
       <BottomSheet
+        id={SHEET_ID}
         contents={
           <AddQuestionsBottomSheet
             maxCount={MAX_QUESTIONS_COUNT - newQuestions.length}

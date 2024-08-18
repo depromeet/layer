@@ -27,6 +27,7 @@ export function SpaceViewPage() {
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
   const { open } = useModal();
+  const SHEET_ID = "createSpaceSheet";
 
   const { mutate: deleteSpace } = useApiDeleteSpace();
   const [isVisiableBottomSheet, setIsVisiableBottomSheet] = useState<boolean>(false);
@@ -70,7 +71,7 @@ export function SpaceViewPage() {
         },
         onClose: () => {
           setIsVisiableBottomSheet(true);
-          openBottomSheet();
+          openBottomSheet({ id: SHEET_ID });
         },
         onConfirm: () => {
           navigate(PATHS.retrospectCreate(), {
@@ -81,7 +82,7 @@ export function SpaceViewPage() {
       return;
     }
     setIsVisiableBottomSheet(true);
-    openBottomSheet();
+    openBottomSheet({ id: SHEET_ID });
   };
 
   if (isLoading) {
@@ -181,6 +182,7 @@ export function SpaceViewPage() {
       </div>
       {isVisiableBottomSheet && (
         <BottomSheet
+          id={SHEET_ID}
           contents={
             <Fragment>
               <CreateRetrospectiveSheet spaceId={spaceId} teamName={spaceInfo?.name} />

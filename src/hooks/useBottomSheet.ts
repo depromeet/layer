@@ -17,16 +17,27 @@ type BottomSheetMetrics = {
   isContentAreaTouched: boolean;
 };
 
-const bottomSheetStore = externalStore<boolean>(false);
+type BottomSheetStoreType = {
+  id: string | null;
+  visible: boolean;
+};
+
+const bottomSheetStore = externalStore<BottomSheetStoreType>({ id: null, visible: false });
 
 export const useBottomSheet = () => {
   const [bottomSheetState, setBottomSheetState] = useStore(bottomSheetStore);
-  const openBottomSheet = () => {
-    setBottomSheetState(true);
+  const openBottomSheet = ({ id }: { id: string }) => {
+    setBottomSheetState({
+      id: id,
+      visible: true,
+    });
   };
 
   const closeBottomSheet = () => {
-    setBottomSheetState(false);
+    setBottomSheetState({
+      id: null,
+      visible: false,
+    });
   };
 
   return { openBottomSheet, closeBottomSheet, bottomSheetState } as const;
