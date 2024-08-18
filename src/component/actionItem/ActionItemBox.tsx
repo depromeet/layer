@@ -57,6 +57,7 @@ export default function ActionItemBox({ title, contents, inProgressYn, readonly,
 
         display: flex;
         flex-direction: column;
+        box-shadow: ${DESIGN_TOKEN_COLOR.shadow.shadow100};
       `}
     >
       <div

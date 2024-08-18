@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 
 import ActionItemBox from "@/component/actionItem/ActionItemBox.tsx";
 import { Icon } from "@/component/common/Icon";
-import { Spacing } from "@/component/common/Spacing";
 import { TabButton } from "@/component/common/tabs/TabButton.tsx";
 import { Tabs } from "@/component/common/tabs/Tabs.tsx";
 import { Typography } from "@/component/common/typography";
@@ -23,12 +22,13 @@ export function GoalViewPage() {
       RightComp={<Icon icon="basicProfile" size="3.2rem" />}
     >
       <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
-      <Spacing size={3.6} />
       <div
         css={css`
           display: flex;
           flex-direction: column;
+          padding-top: 1.6rem;
           row-gap: 1.2rem;
+          padding-bottom: calc(var(--nav-bar-height) + 2rem);
         `}
       >
         <ActionItemBox

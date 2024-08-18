@@ -97,7 +97,7 @@ export function RetrospectViewPage() {
           flex-wrap: nowrap;
           gap: 1.2rem;
           margin: 1.4rem 0;
-          margin-bottom: 10rem;
+          padding-bottom: var(--nav-bar-height);
         `}
       >
         {spaceList?.pages

@@ -23,6 +23,7 @@
 :root {
   --parent-bg-color: inherit;
   --app-bar-height: 5.8rem;
+  --nav-bar-height: 5.6rem;
 }
 
 html {
