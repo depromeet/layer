@@ -8,6 +8,7 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { RetrospectEditModal } from "@/component/space/view/RetrospectEditModal";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
+import { useModal } from "@/hooks/useModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 import { formatDateAndTime, calculateDeadlineRemaining } from "@/utils/date";
@@ -30,25 +31,35 @@ export function RetrospectBox({
   retrospect: Retrospect;
   onDelete: (retrospectId: number) => void;
 }) {
+  const { open } = useModal();
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const optionsRef = useRef<HTMLDivElement | null>(null);
-  const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount, createdAt, deadline } = retrospect;
+  const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount, deadline } = retrospect;
   const { backgroundColor } = statusStyles[retrospectStatus];
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const { mutate: retrospectDelete } = useApiDeleteRetrospect();
 
   const removeBtnClickFun = () => {
-    retrospectDelete(
-      { spaceId: spaceId, retrospectId: String(retrospectId) },
-      {
-        onSuccess: () => {
-          setIsDeleted(true);
-          onDelete(retrospectId);
-        },
+    open({
+      title: "회고를 삭제하시겠어요?",
+      contents: "삭제하면 다시 되돌릴 수 없어요",
+      options: {
+        buttonText: ["취소", "삭제"],
       },
-    );
+      onConfirm: () => {
+        retrospectDelete(
+          { spaceId: spaceId, retrospectId: String(retrospectId) },
+          {
+            onSuccess: () => {
+              setIsDeleted(true);
+              onDelete(retrospectId);
+            },
+          },
+        );
+      },
+    });
   };
 
   const modifyBtnClickFun = () => {

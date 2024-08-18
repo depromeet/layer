@@ -9,10 +9,10 @@ type RetrospectEditReq = {
   deadline: string;
 };
 
-type PostRetrospect = { spaceId: number; retrospectId: number; data: RetrospectEditReq };
+type PatchRetrospect = { spaceId: number; retrospectId: number; data: RetrospectEditReq };
 
 export const usePatchRetrospect = () => {
-  const patchRetrospect = async ({ spaceId, retrospectId, data }: PostRetrospect) => {
+  const patchRetrospect = async ({ spaceId, retrospectId, data }: PatchRetrospect) => {
     const res = await api.patch(`/space/${spaceId}/retrospect/${retrospectId}`, data);
     return res;
   };
