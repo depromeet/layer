@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { isPast } from "date-fns";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import type { CalendarProps } from "react-calendar";
 
 import { BottomSheet } from "@/component/BottomSheet";
@@ -9,6 +9,7 @@ import { Calendar } from "@/component/common/dateTimePicker/Calendar";
 import { TimePicker } from "@/component/common/dateTimePicker/TimePicker";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { useToast } from "@/hooks/useToast";
+import { getTimeStringFromDate } from "@/utils/formatDate";
 
 type DateTimePickerProps = {
   /**
@@ -17,18 +18,14 @@ type DateTimePickerProps = {
    * @example ({ activeStartDate, date, view }) => date.getDay() === 0
    */
   tileDisabled?: CalendarProps["tileDisabled"];
-  /**
-   * Calendar value that shall be selected initially.
-   *
-   * @example new Date(2024, 0, 1)
-   */
-  defaultValue?: CalendarProps["defaultValue"];
+  defaultValue?: string | Date;
   onSave: (dateTime?: string) => void;
 };
 
 export function DateTimePicker({ defaultValue, tileDisabled, onSave }: DateTimePickerProps) {
   const { toast } = useToast();
-  const { onSelectDate, radioControl, date, dateTime } = useDateTimePicker();
+  const defaultDate = useMemo(() => (typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue), [defaultValue]);
+  const { onSelectDate, radioControl, date, dateTime } = useDateTimePicker(defaultDate, getTimeStringFromDate(defaultDate));
   const timePickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
