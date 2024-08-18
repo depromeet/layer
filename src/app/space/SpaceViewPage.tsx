@@ -121,7 +121,7 @@ export function SpaceViewPage() {
         css={css`
           width: calc(100% + 4rem);
           transform: translateX(-2rem);
-          min-height: calc(100vh - 20rem);
+          min-height: calc(100vh - 33rem);
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
           padding: 2.2rem 2rem;
         `}
