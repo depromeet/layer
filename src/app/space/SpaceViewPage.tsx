@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { useQueries } from "@tanstack/react-query";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
@@ -15,6 +16,7 @@ import { PATHS } from "@/config/paths";
 import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useApiOptionsGetTeamActionItemList";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
+import { useApiLeaveSpace } from "@/hooks/api/space/useApiLeaveSpace";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useModal } from "@/hooks/useModal";
@@ -24,12 +26,14 @@ import { Retrospect } from "@/types/retrospect";
 
 export function SpaceViewPage() {
   const navigate = useNavigate();
+  const memberId = Cookies.get("memberId");
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
   const { open } = useModal();
   const SHEET_ID = "createSpaceSheet";
 
   const { mutate: deleteSpace } = useApiDeleteSpace();
+  const { mutate: leaveSpace } = useApiLeaveSpace();
 
   const [
     { data: restrospectArr, isLoading: isLoadingRestrospects },
@@ -58,6 +62,9 @@ export function SpaceViewPage() {
 
   const SpaceDeleteFun = () => {
     deleteSpace(spaceId as string);
+  };
+  const SpaceLeaveFun = () => {
+    leaveSpace(spaceId as string);
   };
 
   const handleCreateSpace = () => {
@@ -102,14 +109,23 @@ export function SpaceViewPage() {
         <SpaceAppBarRightComp
           spaceId={spaceId}
           onDeleteClick={() => {
-            open({
-              title: "스페이스를 삭제하시겠어요?",
-              contents: "스페이스를 다시 되돌릴 수 없어요",
-              onConfirm: SpaceDeleteFun,
-            });
+            if (spaceInfo?.leaderId == memberId) {
+              open({
+                title: "스페이스를 삭제하시겠어요?",
+                contents: "스페이스를 다시 되돌릴 수 없어요",
+                onConfirm: SpaceDeleteFun,
+              });
+            } else {
+              open({
+                title: "스페이스를 떠나시겠습니까??",
+                contents: "리스트에서 사라질꺼에요!",
+                onConfirm: SpaceLeaveFun,
+              });
+            }
           }}
           isTooltipVisible={restrospectArr?.length === 0}
           onClickPlus={handleCreateSpace}
+          isLeader={Number(memberId) === spaceInfo?.leaderId}
         />
       }
     >

@@ -7,4 +7,5 @@ export type Space = {
   formId: number;
   bannerUrl: string;
   memberCount: number;
+  leaderId: number;
 };
