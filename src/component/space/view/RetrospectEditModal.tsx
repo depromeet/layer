@@ -1,11 +1,13 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { DateTimeInput, Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
 import { FullModal } from "@/component/common/Modal/FullModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths";
 import { usePatchRetrospect } from "@/hooks/api/retrospect/edit/usePatchRetrospect";
 import { useInput } from "@/hooks/useInput";
 import { DefaultLayout } from "@/layout/DefaultLayout";
@@ -19,7 +21,8 @@ type RetrospectEditProps = {
 };
 
 export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, close }: RetrospectEditProps) {
-  const { mutate: patchRetrospect } = usePatchRetrospect();
+  const navigate = useNavigate();
+  const { mutate: patchRetrospect, isSuccess, isError } = usePatchRetrospect();
   const { value: title, handleInputChange: handleTitleChange } = useInput(defaultValue.title);
   const { value: introduction, handleInputChange: handleIntroductionChange } = useInput(defaultValue.introduction);
   const [deadline, setDeadline] = useState(defaultValue.deadline);
@@ -34,7 +37,12 @@ export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, close
         RightComp={
           <button
             disabled={!isEdited}
-            onClick={() => patchRetrospect({ spaceId: +spaceId, retrospectId: +retrospectId, data: { title, introduction, deadline } })}
+            onClick={() => {
+              patchRetrospect({ spaceId: +spaceId, retrospectId: +retrospectId, data: { title, introduction, deadline } });
+              if (isSuccess) {
+                navigate(PATHS.spaceDetail(spaceId));
+              }
+            }}
           >
             <Typography variant={"subtitle16SemiBold"} color={isEdited ? "blue600" : "gray400"}>
               완료

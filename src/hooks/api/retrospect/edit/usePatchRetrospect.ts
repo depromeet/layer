@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 
 import { api } from "@/api";
+import { useToast } from "@/hooks/useToast";
 
 type RetrospectEditReq = {
   title: string;
@@ -16,7 +17,12 @@ export const usePatchRetrospect = () => {
     return res;
   };
 
+  const { toast } = useToast();
+
   return useMutation({
     mutationFn: patchRetrospect,
+    onSuccess: () => {
+      toast.success("회고 정보가 수정되었어요!");
+    },
   });
 };
