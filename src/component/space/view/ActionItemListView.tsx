@@ -22,7 +22,7 @@ type ActionItemProps = {
 };
 
 type PostActionItemProps = {
-  retrospectId: string;
+  retrospectId: number;
   actionItemContent: string;
 };
 
@@ -34,7 +34,7 @@ export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalVie
     setTextValue(e.target.value);
   };
 
-  const handleAddActionItem = ({ actionItemContent }: PostActionItemProps) => {
+  const handleAddActionItem = ({ retrospectId, actionItemContent }: PostActionItemProps) => {
     if (textValue.trim() === "") {
       return;
     }
@@ -68,9 +68,6 @@ export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalVie
         `}
       >
         <Typography variant="body14Medium">실행목표</Typography>
-        <Typography variant="body14Medium" color="gray500">
-          더보기
-        </Typography>
       </div>
 
       <Spacing size={1.0} />
@@ -89,7 +86,7 @@ export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalVie
               align-items: center;
             `}
           >
-            <Icon icon="ic_plus" size="1.5rem" color="gray500" />
+            <Icon icon="ic_plus" size="1.5rem" color={DESIGN_TOKEN_COLOR.gray500} />
           </button>
           <Spacing size={1.6} />
           <Typography variant="body14Medium" color="gray600">
@@ -137,7 +134,7 @@ export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalVie
               <Button
                 colorSchema="black"
                 onClick={() => {
-                  handleAddActionItem({ retrospectId: "100", actionItemContent: textValue });
+                  handleAddActionItem({ retrospectId: retrospectId, actionItemContent: textValue });
                 }}
               >
                 추가하기
