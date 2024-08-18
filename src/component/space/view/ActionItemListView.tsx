@@ -26,7 +26,6 @@ type PostActionItemProps = {
 };
 
 export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
-  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
   const [textValue, setTextValue] = useState("");
   const { mutate: postActionItem } = useApiPostActionItem();
   const { openBottomSheet } = useBottomSheet();
@@ -40,12 +39,10 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
     }
     postActionItem({ retrospectId: retrospectId, content: actionItemContent });
     setTextValue("");
-    setIsBottomSheetVisible(false);
   };
 
   const handleOpenBottomSheet = () => {
-    openBottomSheet();
-    setIsBottomSheetVisible(true);
+    openBottomSheet({ id: "actionItemSheet" });
   };
 
   return (
@@ -121,35 +118,34 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
           </div>
         </>
       )}
-      {isBottomSheetVisible && (
-        <BottomSheet
-          sheetHeight={300}
-          contents={
-            <Fragment>
-              <div
-                css={css`
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  gap: 2.5rem;
-                `}
+      <BottomSheet
+        id={"actionItemSheet"}
+        sheetHeight={300}
+        contents={
+          <Fragment>
+            <div
+              css={css`
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2.5rem;
+              `}
+            >
+              <Typography variant="S1">실행 목표 추가</Typography>
+              <TextArea value={textValue} placeholder="Text" onChange={handleTextChange} />
+              <Button
+                colorSchema="black"
+                onClick={() => {
+                  handleAddActionItem({ retrospectId: "100", actionItemContent: textValue });
+                }}
               >
-                <Typography variant="S1">실행 목표 추가</Typography>
-                <TextArea value={textValue} placeholder="Text" onChange={handleTextChange} />
-                <Button
-                  colorSchema="black"
-                  onClick={() => {
-                    handleAddActionItem({ retrospectId: "100", actionItemContent: textValue });
-                  }}
-                >
-                  추가하기
-                </Button>
-              </div>
-            </Fragment>
-          }
-          handler={true}
-        />
-      )}
+                추가하기
+              </Button>
+            </div>
+          </Fragment>
+        }
+        handler={true}
+      />
     </div>
   );
 }

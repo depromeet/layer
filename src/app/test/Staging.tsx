@@ -53,7 +53,8 @@ export default function Staging() {
       />
       <Button onClick={() => setNumber(number + 1)}>업</Button>
       <Button onClick={() => setNumber(number - 1)}>다운</Button>
-      <Button onClick={openBottomSheet}> 그냥 그저 그런 버튼 </Button>
+      <Button onClick={() => openBottomSheet({ id: "hello1" })}> 그냥 그저 그런 버튼 </Button>
+      <Button onClick={() => openBottomSheet({ id: "hello2" })}> 그냥 그저 그런 버튼 </Button>
       <Button colorSchema={"gray"}> 그냥 그저 그런 버튼 </Button>
       <Button colorSchema={"sky"}> 그냥 그저 그런 버튼 </Button>
       <Button colorSchema={"primary"}> 그냥 그저 그런 버튼 </Button>
@@ -88,6 +89,7 @@ export default function Staging() {
       </InputLabelContainer>
 
       <BottomSheet
+        id={"hello1"}
         title={"헬로우"}
         contents={
           <Fragment>
@@ -95,6 +97,17 @@ export default function Staging() {
           </Fragment>
         }
         handler={true}
+      />
+      <BottomSheet
+        id={"hello2"}
+        title={"헬로우2"}
+        sheetHeight={600}
+        contents={
+          <Fragment>
+            <p> 완전 이거 럭키비키자냐2?</p>
+          </Fragment>
+        }
+        handler={false}
       />
 
       <ButtonProvider>

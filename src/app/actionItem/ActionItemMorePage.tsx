@@ -1,16 +1,56 @@
 import { css } from "@emotion/react";
-import { Fragment } from "react";
+import { Fragment, MouseEvent, useState } from "react";
 
 import ActionItemBox from "@/component/actionItem/ActionItemBox.tsx";
+import { BottomSheet } from "@/component/BottomSheet";
+import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
+import { TextArea } from "@/component/common/input";
+import { SelectBox } from "@/component/common/SelectBox";
+import { Spacing } from "@/component/common/Spacing";
+import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
+import { useInput } from "@/hooks/useInput.ts";
 import { useModal } from "@/hooks/useModal.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
 export function ActionItemMorePage() {
   const { open } = useModal();
+  const { openBottomSheet } = useBottomSheet();
+  const [retrospect, setRetrospect] = useState("");
+  const { value: actionItemValue, handleInputChange } = useInput();
+  const data = ["중간발표 이후 회고", "스프린트 2회차 이후"];
+  const handleClick = (e: MouseEvent) => {
+    setRetrospect(e.currentTarget.textContent as string);
+  };
 
   return (
     <Fragment>
+      <BottomSheet
+        id={"ActionItemSheet"}
+        title={"실행 목표"}
+        contents={
+          <Fragment>
+            <div
+              css={css`
+                padding: 2.4rem 2rem 0 2rem;
+              `}
+            >
+              <SelectBox data={data} onClick={handleClick} value={retrospect} />
+              <Spacing size={1.5} />
+              <TextArea value={actionItemValue} onChange={handleInputChange} placeholder={"실행목표를 입력해주세요"} />
+              <Spacing size={2.3} />
+              <ButtonProvider>
+                <Button>추가하기</Button>
+              </ButtonProvider>
+            </div>
+          </Fragment>
+        }
+        onlyContentStyle={css`
+          #content {
+            margin: 0 -2rem;
+          }
+        `}
+      />
       <DefaultLayout
         theme={"gray"}
         title={"실행목표"}
@@ -36,7 +76,7 @@ export function ActionItemMorePage() {
                 });
               }}
             />
-            <Icon icon={"ic_plus"} size={1.7} />
+            <Icon icon={"ic_plus"} size={1.7} onClick={() => openBottomSheet({ id: "ActionItemSheet" })} />
           </div>
         }
       >

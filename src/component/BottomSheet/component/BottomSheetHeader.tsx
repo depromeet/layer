@@ -44,6 +44,10 @@ export function BottomSheetHeader({ title, handler, quitButton }: Pick<BottomShe
           css={css`
             display: flex;
             align-items: center;
+            width: 100%;
+            position: absolute;
+            justify-content: center;
+            z-index: 10;
 
             svg:nth-of-type(1) {
               margin-left: auto;
@@ -65,6 +69,7 @@ export function BottomSheetHeader({ title, handler, quitButton }: Pick<BottomShe
           onClick={closeBottomSheet}
           css={css`
             margin-left: auto;
+            z-index: 11;
           `}
         >
           <Icon icon={"ic_quit"} size={2.4} color={DESIGN_SYSTEM_COLOR.dark} />

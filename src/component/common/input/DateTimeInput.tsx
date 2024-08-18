@@ -54,7 +54,7 @@ export function DateTimeInput({ onValueChange, disablePast = true, ...props }: D
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const handleDateOpen = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault();
-    openBottomSheet();
+    openBottomSheet({ id: "datePickerSheet" });
   };
 
   return (

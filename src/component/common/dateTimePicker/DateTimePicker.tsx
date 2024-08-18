@@ -47,6 +47,7 @@ export function DateTimePicker({ defaultValue, tileDisabled, onSave }: DateTimeP
 
   return (
     <BottomSheet
+      id={"datePickerSheet"}
       contents={
         <div
           css={css`

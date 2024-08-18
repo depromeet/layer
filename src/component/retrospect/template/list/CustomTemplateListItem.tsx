@@ -24,6 +24,7 @@ type CustomTemplateListItem = {
 
 const MENU_EDIT = "edit-name";
 const MENU_DELETE = "delete";
+const SHEET_ID = "modifyTemplateSheet";
 
 export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRetrospect }: CustomTemplateListItem) {
   const { open } = useModal();
@@ -36,7 +37,7 @@ export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRe
   };
   const handleOptionSelect = (option: string) => {
     if (option === MENU_EDIT) {
-      openBottomSheet();
+      openBottomSheet({ id: SHEET_ID });
     } else if (option === MENU_DELETE) {
       open({
         title: "정말로 삭제할까요?",
@@ -114,6 +115,7 @@ export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRe
         </Card>
       </li>
       <BottomSheet
+        id={SHEET_ID}
         title="템플릿 이름 수정"
         contents={
           <div
