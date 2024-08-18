@@ -21,6 +21,7 @@ import { useModal } from "@/hooks/useModal";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
+import { DualToneLayout } from "@/layout/DualToneLayout";
 
 export function SpaceViewPage() {
   const navigate = useNavigate();
@@ -90,8 +91,16 @@ export function SpaceViewPage() {
   }
 
   return (
-    <DefaultLayout
-      theme="dark"
+    <DualToneLayout
+      topTheme="dark"
+      TopComp={
+        <>
+          <ActionItemListView teamActionList={teamActionList?.teamActionItemList || []} />
+          <Spacing size={1.1} />
+          <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
+          <Spacing size={2.4} />
+        </>
+      }
       title={spaceInfo?.name}
       RightComp={
         <SpaceAppBarRightComp
@@ -108,10 +117,6 @@ export function SpaceViewPage() {
         />
       }
     >
-      <ActionItemListView teamActionList={teamActionList?.teamActionItemList || []} />
-      <Spacing size={1.1} />
-      <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
-      <Spacing size={2.4} />
       <div
         css={css`
           width: calc(100% + 4rem);
@@ -193,6 +198,6 @@ export function SpaceViewPage() {
       )}
 
       <Toast />
-    </DefaultLayout>
+    </DualToneLayout>
   );
 }

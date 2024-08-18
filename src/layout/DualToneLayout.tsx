@@ -38,6 +38,7 @@ export function DualToneLayout({
           position: fixed;
           top: 0;
           width: 100%;
+          max-width: 48rem;
           z-index: 999;
         `}
       >
