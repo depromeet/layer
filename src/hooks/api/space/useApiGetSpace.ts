@@ -12,6 +12,10 @@ type SpaceResponse = {
   introduction: string;
   memberCount: number;
   name: string;
+  leader: {
+    id: number;
+    name: string;
+  };
 };
 
 export const useApiGetSpace = (spaceId: string) => {
