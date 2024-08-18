@@ -95,9 +95,9 @@ export function SpaceViewPage() {
       topTheme="dark"
       TopComp={
         <>
-          <ActionItemListView teamActionList={teamActionList?.teamActionItemList || []} />
+          <ActionItemListView retrospectId={100} teamActionList={teamActionList?.teamActionItemList || []} />
           <Spacing size={1.1} />
-          <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
+          <SpaceCountView mainTemplate={spaceInfo?.fieldList[0]} memberCount={spaceInfo?.memberCount} />
           <Spacing size={2.4} />
         </>
       }

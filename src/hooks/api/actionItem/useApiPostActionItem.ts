@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { api } from "@/api";
 
 type PostActioItemProps = {
-  retrospectId: string;
+  retrospectId: number;
   content: string;
 };
 
