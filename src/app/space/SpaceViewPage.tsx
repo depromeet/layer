@@ -18,10 +18,9 @@ import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useModal } from "@/hooks/useModal";
-import { DefaultLayout } from "@/layout/DefaultLayout";
+import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
-import { DualToneLayout } from "@/layout/DualToneLayout";
 
 export function SpaceViewPage() {
   const navigate = useNavigate();
@@ -31,7 +30,6 @@ export function SpaceViewPage() {
   const SHEET_ID = "createSpaceSheet";
 
   const { mutate: deleteSpace } = useApiDeleteSpace();
-  const [isVisiableBottomSheet, setIsVisiableBottomSheet] = useState<boolean>(false);
 
   const [
     { data: restrospectArr, isLoading: isLoadingRestrospects },
@@ -71,7 +69,6 @@ export function SpaceViewPage() {
           buttonText: ["다시 하기", "진행하기"],
         },
         onClose: () => {
-          setIsVisiableBottomSheet(true);
           openBottomSheet({ id: SHEET_ID });
         },
         onConfirm: () => {
@@ -82,7 +79,6 @@ export function SpaceViewPage() {
       });
       return;
     }
-    setIsVisiableBottomSheet(true);
     openBottomSheet({ id: SHEET_ID });
   };
 
@@ -185,18 +181,15 @@ export function SpaceViewPage() {
           ))}
         </div>
       </div>
-      {isVisiableBottomSheet && (
-        <BottomSheet
-          id={SHEET_ID}
-          contents={
-            <Fragment>
-              <CreateRetrospectiveSheet spaceId={spaceId} teamName={spaceInfo?.name} />
-            </Fragment>
-          }
-          handler={true}
-        />
-      )}
-
+      <BottomSheet
+        id={SHEET_ID}
+        contents={
+          <Fragment>
+            <CreateRetrospectiveSheet spaceId={spaceId} teamName={spaceInfo?.name} />
+          </Fragment>
+        }
+        handler={true}
+      />
       <Toast />
     </DualToneLayout>
   );

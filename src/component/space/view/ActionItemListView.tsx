@@ -14,6 +14,7 @@ import { ActionItemType } from "@/types/actionItem";
 
 type TeamGoalViewPros = {
   teamActionList: ActionItemType[];
+  retrospectId: number;
 };
 
 type ActionItemProps = {
@@ -25,7 +26,7 @@ type PostActionItemProps = {
   actionItemContent: string;
 };
 
-export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
+export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalViewPros) {
   const [textValue, setTextValue] = useState("");
   const { mutate: postActionItem } = useApiPostActionItem();
   const { openBottomSheet } = useBottomSheet();
@@ -33,7 +34,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
     setTextValue(e.target.value);
   };
 
-  const handleAddActionItem = ({ retrospectId, actionItemContent }: PostActionItemProps) => {
+  const handleAddActionItem = ({ actionItemContent }: PostActionItemProps) => {
     if (textValue.trim() === "") {
       return;
     }
