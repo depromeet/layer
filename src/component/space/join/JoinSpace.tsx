@@ -18,7 +18,7 @@ export function JoinSpace() {
   return (
     <>
       <DefaultLayout theme="gray" LeftComp={null}>
-        <Header title={`짱구님이\n${data?.name} 팀에 초대했어요!`} contents={`${data?.name} 팀에서 함께 회고를 진행해볼까요?`} />
+        <Header title={`${data?.leader.name}님이\n${data?.name} 팀에 초대했어요!`} contents={`${data?.name} 팀에서 함께 회고를 진행해볼까요?`} />
         <ButtonProvider>
           <ButtonProvider.Primary onClick={() => mutate(Number(spaceId))}>수락하기</ButtonProvider.Primary>
         </ButtonProvider>
