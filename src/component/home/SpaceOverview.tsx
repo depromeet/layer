@@ -30,6 +30,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
           display: flex;
           gap: 1.6rem;
           border-radius: 1.2rem;
+          box-shadow: ${DESIGN_TOKEN_COLOR.shadow.shadow100};
         `}
       >
         <div

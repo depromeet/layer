@@ -17,7 +17,7 @@ export function GoMakeReviewButton({ onClick }: GoMakeReviewButtonProps) {
           width: 100%;
           height: 7.4rem;
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
-          box-shadow: 0.4rem, #2125290a;
+          box-shadow: ${DESIGN_TOKEN_COLOR.shadow.shadow100};
           border-radius: 1rem;
           padding: 1.6rem 1.1rem;
           margin-top: 1.6rem;

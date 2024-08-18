@@ -18,15 +18,21 @@ export function NavigationBar() {
         css={css`
           width: 100%;
           max-width: 48rem;
-          height: 8.4rem;
+          max-height: var(--nav-bar-height);
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
+          border-top: 0.1rem solid rgba(6, 8, 12, 0.04);
           position: fixed;
           bottom: 0;
           left: 50%;
           transform: translateX(-50%);
           display: flex;
           justify-content: space-between;
-          padding: 0.8rem;
+          padding: 0.9rem;
+
+          span,
+          svg {
+            transition: 0.4s all;
+          }
         `}
       >
         <Link
