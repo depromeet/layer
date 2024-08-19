@@ -1,5 +1,7 @@
 import { css } from "@emotion/react";
 import { useState, Fragment } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button } from "@/component/common/button";
@@ -14,7 +16,8 @@ import { ActionItemType } from "@/types/actionItem";
 
 type TeamGoalViewPros = {
   teamActionList: ActionItemType[];
-  retrospectId: number;
+  spaceId: number | undefined;
+  leaderId: number | undefined;
 };
 
 type ActionItemProps = {
@@ -26,7 +29,9 @@ type PostActionItemProps = {
   actionItemContent: string;
 };
 
-export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalViewPros) {
+export function ActionItemListView({ spaceId, teamActionList, leaderId }: TeamGoalViewPros) {
+  const navigate = useNavigate();
+  const memberId = Cookies.get("memberId");
   const [textValue, setTextValue] = useState("");
   const { mutate: postActionItem } = useApiPostActionItem();
   const { openBottomSheet } = useBottomSheet();
@@ -44,6 +49,12 @@ export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalVie
 
   const handleOpenBottomSheet = () => {
     openBottomSheet({ id: "actionItemSheet" });
+  };
+
+  const handleMoreActionItem = () => {
+    if (spaceId && leaderId) {
+      navigate("/goals/more", { state: { spaceId, leaderId } });
+    }
   };
 
   return (
@@ -68,6 +79,11 @@ export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalVie
         `}
       >
         <Typography variant="body14Medium">실행목표</Typography>
+        {leaderId === Number(memberId) && (
+          <Typography variant="body14Medium" color="gray500" onClick={handleMoreActionItem}>
+            더보기
+          </Typography>
+        )}
       </div>
 
       <Spacing size={1.0} />
@@ -134,7 +150,10 @@ export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalVie
               <Button
                 colorSchema="black"
                 onClick={() => {
-                  handleAddActionItem({ retrospectId: retrospectId, actionItemContent: textValue });
+                  if (spaceId) {
+                    // FIXME: 수정해야됨
+                    handleAddActionItem({ retrospectId: spaceId, actionItemContent: textValue });
+                  }
                 }}
               >
                 추가하기
