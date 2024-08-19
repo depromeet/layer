@@ -90,6 +90,30 @@ export const ANIMATION = {
       opacity: 0.5;
     }
   `,
+
+  FLOAT_UP: keyframes`
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-1rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  `,
+
+  FLOAT_DOWN: keyframes`
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(1rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  `,
 };
 
 export const ANIMATION_CSS = {

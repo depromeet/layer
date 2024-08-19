@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useContext, useMemo, useRef, useState } from "react";
+import { useContext, useMemo, useRef } from "react";
 
 import { ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
@@ -36,7 +36,6 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
   }, [originalTag, originalQuestions, retroCreateData.questions]);
   const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName);
   const titleInputRef = useRef<HTMLInputElement>(null);
-  const [showTooltip, setShowTooltip] = useState(true);
   const { toast } = useToast();
 
   const handleDataSave = () => {
@@ -62,15 +61,6 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
       >
         <div
           css={css`
-            position: absolute;
-            top: 18rem;
-            right: 2rem;
-          `}
-        >
-          {showTooltip && <Tooltip message="커스텀된 템플릿의 이름을 수정할 수 있어요!" bounce />}
-        </div>
-        <div
-          css={css`
             position: relative;
           `}
         >
@@ -94,7 +84,6 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
                 value={title}
                 onChange={(e) => {
                   handleTitleChange(e);
-                  setShowTooltip(false);
                 }}
                 css={css`
                   font-size: 2rem;
@@ -109,15 +98,19 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
                   }
                 }}
               />
-              <Icon
-                icon="ic_pencil"
-                size={2.4}
-                color="#d9d9d9"
-                onClick={() => {
-                  titleInputRef.current?.focus();
-                  setShowTooltip(false);
-                }}
-              />
+              <Tooltip>
+                <Tooltip.Trigger>
+                  <Icon
+                    icon="ic_pencil"
+                    size={2.4}
+                    color="#d9d9d9"
+                    onClick={() => {
+                      titleInputRef.current?.focus();
+                    }}
+                  />
+                </Tooltip.Trigger>
+                <Tooltip.Content message="커스텀된 템플릿의 이름을 수정할 수 있어요!" hideOnClick animate />
+              </Tooltip>
             </div>
             <Tag>{tag}</Tag>
           </div>
