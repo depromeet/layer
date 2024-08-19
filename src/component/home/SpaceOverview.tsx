@@ -46,6 +46,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
               height: 4rem;
               background-color: ${DESIGN_TOKEN_COLOR.gray600};
               border-radius: 100%;
+              object-fit: cover;
             `}
           />
         </div>

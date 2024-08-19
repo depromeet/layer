@@ -71,6 +71,7 @@ export function RetrospectViewPage() {
               height: 3.2rem;
               border-radius: 100%;
               cursor: pointer;
+              object-fit: cover;
             `}
             onClick={goToUserInfo}
           />
