@@ -14,7 +14,8 @@ import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ActionItemType } from "@/types/actionItem";
 
-type TeamGoalViewPros = {
+type ActionItemListViewPros = {
+  isPossibleMake: boolean;
   teamActionList: ActionItemType[];
   spaceId: number | undefined;
   leaderId: number | undefined;
@@ -29,7 +30,7 @@ type PostActionItemProps = {
   actionItemContent: string;
 };
 
-export function ActionItemListView({ spaceId, teamActionList, leaderId }: TeamGoalViewPros) {
+export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, leaderId }: ActionItemListViewPros) {
   const navigate = useNavigate();
   const memberId = Cookies.get("memberId");
   const [textValue, setTextValue] = useState("");
@@ -90,23 +91,10 @@ export function ActionItemListView({ spaceId, teamActionList, leaderId }: TeamGo
 
       {teamActionList && teamActionList.length === 0 && (
         <>
-          <button
-            onClick={handleOpenBottomSheet}
-            css={css`
-              width: 4rem;
-              height: 4rem;
-              background-color: ${DESIGN_TOKEN_COLOR.gray200};
-              border-radius: 0.8rem;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            `}
-          >
-            <Icon icon="ic_plus" size="1.5rem" color={DESIGN_TOKEN_COLOR.gray500} />
-          </button>
+          <Icon icon="icon_file_open" size="5.2rem" />
           <Spacing size={1.6} />
           <Typography variant="body14Medium" color="gray600">
-            실행목표를 설정해보세요.
+            {isPossibleMake ? "완료된 회고가 없어요" : "실행목표를 설정해보세요"}
           </Typography>
         </>
       )}
@@ -215,3 +203,7 @@ function PlusActionItem() {
     </>
   );
 }
+
+const isNotCompleteComp = () => {
+  return <></>;
+};

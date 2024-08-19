@@ -28,3 +28,4 @@ export { default as ic_document_color } from "./ic_document_color.svg?react";
 export { default as ic_document_white } from "./ic_document_white.svg?react";
 export { default as ic_people_white } from "./ic_people_white.svg?react";
 export { default as ic_people_color } from "./ic_people_color.svg?react";
+export { default as icon_file_open } from "./icon_file_open.svg?react";
