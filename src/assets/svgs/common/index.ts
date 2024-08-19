@@ -9,6 +9,7 @@ export { default as ic_barChart } from "./ic_barChart.svg?react";
 export { default as ic_chart } from "./ic_chart.svg?react";
 export { default as ic_arrow_left } from "./ic_arrow_left.svg?react";
 export { default as ic_folder } from "./ic_folder.svg?react";
+export { default as ic_fault_folder } from "./ic_fault_folder.svg?react";
 export { default as ic_earth } from "./ic_earth.svg?react";
 export { default as ic_team } from "./ic_team.svg?react";
 export { default as ic_after } from "./ic_after.svg?react";

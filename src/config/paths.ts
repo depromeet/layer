@@ -3,6 +3,7 @@ export const PATHS = {
   setNickName: (socialType: "kakao" | "google") => `/setnickname/${socialType}`,
   home: () => `/`,
   goals: () => `/goals`,
+  goalsMore: () => `/goals/more`,
   analysis: () => `/analysis`,
   retrospectCreate: () => `/retrospect/new`,
   write: () => `/write`,

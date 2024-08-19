@@ -3,15 +3,21 @@ import { HTMLAttributes, useState } from "react";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
 
 export type SelectBoxType = {
-  data: string[];
+  data: {
+    retrospectId: number;
+    retrospectTitle: string;
+    status: "PROCEEDING" | "DONE";
+  }[];
   value: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  updateRetroSpectData: ({ retrospectId, retrospectTitle }: { retrospectId: number; retrospectTitle: string }) => void;
 } & Omit<HTMLAttributes<HTMLDivElement>, "type">;
 
-export function SelectBox({ data = ["data1", "data2", "data3"], onClick, value, ...props }: SelectBoxType) {
+export function SelectBox({ data, onClick, value, updateRetroSpectData, ...props }: SelectBoxType) {
   const DEFAULT_WORD = "회고 선택";
   const [isOpen, setOpen] = useState(false);
 
@@ -51,6 +57,7 @@ export function SelectBox({ data = ["data1", "data2", "data3"], onClick, value, 
           width: 100%;
           height: 100%;
           position: relative;
+          display: ${!isOpen && `none`};
         `}
       >
         <div
@@ -61,32 +68,37 @@ export function SelectBox({ data = ["data1", "data2", "data3"], onClick, value, 
             background: white;
             left: 50%;
             transform: translate(-50%, 0);
-            display: ${isOpen ? `flex` : `none`};
+            display: flex;
             flex-direction: column;
             box-shadow: ${DESIGN_TOKEN_COLOR.shadow.shadow300};
             border-radius: 1.2rem;
             padding: 0 2rem;
+            max-height: 16.5rem;
+            overflow-y: auto;
+            animation: ${ANIMATION.FADE_IN} ease 0.4s;
 
             button {
-              padding: 1.5rem 0;
+              padding: 1.7rem 0;
               text-align: left;
             }
           `}
           {...props}
         >
-          {data.map((item) => {
-            return (
+          {data?.map((item) => {
+            return item.status === "DONE" ? (
               <button
+                key={item.retrospectId}
                 onClick={(e) => {
                   handleClick(e);
                   onClick(e);
+                  updateRetroSpectData({ retrospectId: item.retrospectId, retrospectTitle: item.retrospectTitle });
                 }}
               >
                 <Typography variant={"subtitle14SemiBold"} color={"gray800"}>
-                  {item}
+                  {item.retrospectTitle}
                 </Typography>
               </button>
-            );
+            ) : null;
           })}
         </div>
       </div>
