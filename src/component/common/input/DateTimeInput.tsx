@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
-import { format } from "date-fns";
-import { useState } from "react";
+import { format, formatISO } from "date-fns";
+import { useMemo, useState } from "react";
 
 import { DateTimePicker } from "@/component/common/dateTimePicker";
 import { Icon } from "@/component/common/Icon";
@@ -14,9 +14,10 @@ const DATE_INPUT_ID = "due-date";
 type DateTimeInput = {
   disablePast?: boolean;
   onValueChange: (isoString?: string) => void;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+  defaultValue?: string | Date;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "defaultValue">;
 
-export function DateTimeInput({ onValueChange, disablePast = true, ...props }: DateTimeInput) {
+export function DateTimeInput({ onValueChange, disablePast = true, defaultValue, ...props }: DateTimeInput) {
   const COLOR_MAP = {
     default: {
       text: "gray500",
@@ -50,7 +51,16 @@ export function DateTimeInput({ onValueChange, disablePast = true, ...props }: D
     return COLOR_MAP["default"];
   };
 
-  const [dateTime, setDateTime] = useState<string>();
+  const defaultDateTime = useMemo(() => {
+    if (!defaultValue) return undefined;
+    if (typeof defaultValue === "string") {
+      return defaultValue;
+    } else {
+      return formatISO(defaultValue);
+    }
+  }, [defaultValue]);
+
+  const [dateTime, setDateTime] = useState(defaultDateTime);
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const handleDateOpen = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     e.preventDefault();
@@ -92,6 +102,7 @@ export function DateTimeInput({ onValueChange, disablePast = true, ...props }: D
         />
       </label>
       <DateTimePicker
+        defaultValue={defaultValue}
         tileDisabled={({ date }) => {
           return disablePast ? isBeforeToday(date) : false;
         }}

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useEffect, useRef } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { TabButton } from "@/component/common/tabs/TabButton";
@@ -10,6 +10,7 @@ import { DefaultTemplateListItem } from "@/component/retrospect/template/list";
 import { CustomTemplateList } from "@/component/retrospect/template/list/CustomTemplateList";
 import { PATHS } from "@/config/paths";
 import { useGetDefaultTemplateList } from "@/hooks/api/template/useGetDefaultTemplateList";
+import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { useTabs } from "@/hooks/useTabs";
 import { useToast } from "@/hooks/useToast";
 import { DualToneLayout } from "@/layout/DualToneLayout";
@@ -24,7 +25,7 @@ export function TemplateListPage() {
     isCreateRetrospect.current = true;
   }
   const { data: templates } = useGetDefaultTemplateList();
-  const { spaceId } = useParams();
+  const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { tabs, curTab, selectTab } = useTabs(["기본", "커스텀"] as const);
   const TemplateListTabs = (
     <Tabs
@@ -56,7 +57,7 @@ export function TemplateListPage() {
   );
 
   useEffect(() => {
-    if (!spaceId || Object.is(parseInt(spaceId), NaN)) {
+    if (Object.is(parseInt(spaceId), NaN)) {
       toast.error("스페이스를 찾지 못했어요");
       navigate("/");
       return;
@@ -97,7 +98,7 @@ export function TemplateListPage() {
                 ))}
               </>
             ),
-            커스텀: <CustomTemplateList spaceId={parseInt(spaceId!)} isCreateRetrospect={isCreateRetrospect.current} />,
+            커스텀: <CustomTemplateList spaceId={parseInt(spaceId)} isCreateRetrospect={isCreateRetrospect.current} />,
           }[curTab]
         }
       </ul>

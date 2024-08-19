@@ -9,7 +9,7 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 type RadioProps = {
   value: string;
   children: React.ReactNode;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "checked">;
 
 export function Radio({ value, children, ...props }: RadioProps) {
   const radioContext = useContext(RadioContext);

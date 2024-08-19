@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 import { useQueries } from "@tanstack/react-query";
-import { Fragment, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import { Fragment, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
@@ -20,6 +20,7 @@ import { useApiLeaveSpace } from "@/hooks/api/space/useApiLeaveSpace";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useModal } from "@/hooks/useModal";
+import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
@@ -27,7 +28,7 @@ import { Retrospect } from "@/types/retrospect";
 export function SpaceViewPage() {
   const navigate = useNavigate();
   const memberId = Cookies.get("memberId");
-  const { spaceId } = useParams<{ spaceId: string }>();
+  const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
   const { open } = useModal();
   const SHEET_ID = "createSpaceSheet";
@@ -61,10 +62,10 @@ export function SpaceViewPage() {
   };
 
   const SpaceDeleteFun = () => {
-    deleteSpace(spaceId as string);
+    deleteSpace(spaceId);
   };
   const SpaceLeaveFun = () => {
-    leaveSpace(spaceId as string);
+    leaveSpace(spaceId);
   };
 
   const handleCreateSpace = () => {

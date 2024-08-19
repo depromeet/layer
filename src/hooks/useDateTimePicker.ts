@@ -7,9 +7,9 @@ type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-export const useDateTimePicker = (defaultDate?: Value) => {
+export const useDateTimePicker = (defaultDate?: Value, defaultTime?: string) => {
   const [selectedDate, setSelectedDate] = useState<Value | undefined>(defaultDate);
-  const { isChecked: isTimeChecked, onChange: onTimeChange, selectedValue: selectedTime } = useRadioButton();
+  const { isChecked: isTimeChecked, onChange: onTimeChange, selectedValue: selectedTime } = useRadioButton(defaultTime);
 
   const dateString = useMemo(() => {
     return selectedDate instanceof Date ? formatISO(selectedDate) : undefined;

@@ -22,11 +22,11 @@ type CustomTemplateListItem = {
   createRetrospect?: () => void;
 };
 
-const MENU_EDIT = "edit-name";
-const MENU_DELETE = "delete";
-const SHEET_ID = "modifyTemplateSheet";
-
 export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRetrospect }: CustomTemplateListItem) {
+  const MENU_EDIT = "edit-name";
+  const MENU_DELETE = "delete";
+  const SHEET_ID = `modifyTemplateSheet_${id}`;
+
   const { open } = useModal();
   const { openBottomSheet } = useBottomSheet();
   const { value: templateTitle, handleInputChange: handleChangeTitle } = useInput(title);

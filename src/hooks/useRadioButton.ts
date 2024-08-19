@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export const useRadioButton = () => {
-  const [selectedValue, setSelectedValue] = useState<string>();
+export const useRadioButton = (defaultValue?: string) => {
+  const [selectedValue, setSelectedValue] = useState(defaultValue);
   const isChecked = (value: string) => selectedValue === value;
   const onChange = (value: string) => setSelectedValue(value);
 

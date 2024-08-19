@@ -42,7 +42,7 @@ export function RetrospectOptions({
             `}
           >
             <button
-              onClick={removeBtnClickFun}
+              onClick={modifyBtnClickFun}
               css={css`
                 display: block;
                 height: 4.6rem;
@@ -52,33 +52,33 @@ export function RetrospectOptions({
               `}
             >
               <Typography
-                variant="B2_SEMIBOLD"
+                variant="subtitle14SemiBold"
+                color="gray800"
+                css={css`
+                  margin-left: 2rem;
+                `}
+              >
+                회고 수정
+              </Typography>
+            </button>
+            <button
+              onClick={removeBtnClickFun}
+              css={css`
+                display: block;
+                width: 100%;
+                height: 4.6rem;
+                text-align: left;
+                cursor: pointer;
+              `}
+            >
+              <Typography
+                variant="subtitle14SemiBold"
                 color="red500"
                 css={css`
                   margin-left: 2rem;
                 `}
               >
                 회고 삭제
-              </Typography>
-            </button>
-            <button
-              onClick={modifyBtnClickFun}
-              css={css`
-                display: block;
-                width: 100%;
-                height: 4.6rem;
-                text-align: left;
-                cursor: pointer;
-              `}
-            >
-              <Typography
-                variant="B2_SEMIBOLD"
-                color="grey800"
-                css={css`
-                  margin-left: 2rem;
-                `}
-              >
-                회고 수정
               </Typography>
             </button>
           </motion.div>

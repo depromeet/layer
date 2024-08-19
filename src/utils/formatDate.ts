@@ -45,3 +45,8 @@ export const isBeforeToday = (date: Date) => {
 
   return date.getTime() < today.getTime();
 };
+
+export const getTimeStringFromDate = (date?: Date) => {
+  if (!date) return undefined;
+  return `${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`;
+};
