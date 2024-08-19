@@ -1,4 +1,4 @@
-export function collapseToast(node: HTMLDivElement, done: () => void, duration = 3000) {
+export function collapseToast(node: HTMLDivElement, done: () => void, duration = 20000) {
   if (node) {
     const { scrollHeight, style } = node;
 
