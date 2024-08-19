@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import axios from "axios";
 import { useAtom } from "jotai";
 import { useRef, useState, useEffect } from "react";
 
@@ -11,6 +12,7 @@ import { useInput } from "@/hooks/useInput";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { authAtom } from "@/store/auth/authAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { api } from "@/api";
 
 export function ModifyMyInfo() {
   const [{ name, imageUrl }] = useAtom(authAtom);
@@ -34,14 +36,20 @@ export function ModifyMyInfo() {
     }
   }, [nickName, selectedImage, name, imageUrl]);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const {
+          data: { presignedUrl, imageUrl: imageUrl },
+        } = await api.get<{ presignedUrl: string; imageUrl: string }>("/external/image/presigned?domain=SPACE");
+
+        await axios.put(presignedUrl, file);
+
+        setSelectedImage(imageUrl);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
