@@ -7,6 +7,7 @@ export const ANIMATION = {
     }
     to {
         opacity: 1;
+
     }
   `,
   FADE_OUT: keyframes`
@@ -16,6 +17,8 @@ export const ANIMATION = {
     }
     to {
         opacity: 0;
+        transform: translateY(-1.5rem);  
+
     }
   `,
   TRIGGER: keyframes`
