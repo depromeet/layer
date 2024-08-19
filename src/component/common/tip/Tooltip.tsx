@@ -6,7 +6,7 @@ import { usePopper } from "react-popper";
 
 import { Portal } from "@/component/common/Portal";
 import { Typography } from "@/component/common/typography";
-import { BOUNCE } from "@/style/common/bounce";
+import { ANIMATION } from "@/style/common/animation";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 type TooltipContextState = {
@@ -55,7 +55,7 @@ function Trigger({ children }: { children: React.ReactNode }) {
 
 type Content = {
   message: string;
-  bounce?: boolean;
+  animate?: boolean;
   placement?: Extract<VariationPlacement, "top-start" | "top-end" | "bottom-start" | "bottom-end">;
   modifiers?: Partial<OffsetModifier>[];
   offset?: [number, number];
@@ -69,19 +69,19 @@ type ContentProps =
     } & Content)
   | PropsWithChildren<{ asChild?: false } & Content>;
 
-function Content({ asChild, children, message, bounce, placement = "top-end", offset = [8, 30], modifiers = [], hideOnClick = true }: ContentProps) {
+function Content({ asChild, children, message, animate, placement = "top-end", offset = [8, 30], modifiers = [], hideOnClick = true }: ContentProps) {
   const context = useContext(TooltipContext);
 
   const [isVisible, setIsVisible] = useState(true);
-  useEffect(() => {
-    if (isVisible) {
-      const timer = setTimeout(() => {
-        setIsVisible(false);
-      }, 3000);
+  // useEffect(() => {
+  //   if (isVisible) {
+  //     const timer = setTimeout(() => {
+  //       setIsVisible(false);
+  //     }, 3000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [isVisible]);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isVisible]);
 
   useEffect(() => {
     if (hideOnClick) {
@@ -135,50 +135,49 @@ function Content({ asChild, children, message, bounce, placement = "top-end", of
       {asChild ? (
         children
       ) : (
-        <div
-          ref={(el) => context.setPopperEl(el)}
-          css={css`
-            position: relative;
-            background-color: ${DESIGN_SYSTEM_COLOR.blue600};
-            padding: 1rem 1.4rem;
-            border-radius: 1.2rem;
-            width: max-content;
-            ${bounce &&
-            css`
-              animation: ${BOUNCE} 1.3s ease infinite;
-            `}
-            opacity: ${isVisible ? 1 : 0};
-            visibility: ${isVisible ? "visible" : "hidden"};
-            transition:
-              opacity 0.2s ease,
-              visibility 0.2s ease;
-          `}
-          style={styles.popper}
-          {...attributes.popper}
-        >
-          <Typography variant="CAPTION" color="white">
-            {message}
-          </Typography>
+        <div ref={(el) => context.setPopperEl(el)} style={styles.popper} {...attributes.popper}>
           <div
             css={css`
-              ::before {
-                position: absolute;
-                ${getArrowPosition(placement)}
-                width: 1.2rem;
-                height: 1.2rem;
-                border-radius: 0.2rem;
-                background: ${DESIGN_SYSTEM_COLOR.blue600};
-                visibility: visible;
-                content: "";
-                transform: rotate(45deg);
-                opacity: ${isVisible ? 1 : 0};
-                visibility: ${isVisible ? "visible" : "hidden"};
-                transition:
-                  opacity 0.2s ease,
-                  visibility 0.2s ease;
-              }
+              position: relative;
+              background-color: ${DESIGN_SYSTEM_COLOR.blue600};
+              padding: 1rem 1.4rem;
+              border-radius: 1.2rem;
+              width: max-content;
+              ${animate &&
+              css`
+                animation: ${placement === "top-start" || placement === "top-end" ? ANIMATION.FLOAT_UP : ANIMATION.FADE_DOWN} 1.3s ease infinite;
+              `}
+              opacity: ${isVisible ? 1 : 0};
+              visibility: ${isVisible ? "visible" : "hidden"};
+              transition:
+                opacity 0.2s ease,
+                visibility 0.2s ease;
             `}
-          />
+          >
+            <Typography variant="CAPTION" color="white">
+              {message}
+            </Typography>
+            <div
+              css={css`
+                ::before {
+                  position: absolute;
+                  ${getArrowPosition(placement)}
+                  width: 1.2rem;
+                  height: 1.2rem;
+                  border-radius: 0.2rem;
+                  background: ${DESIGN_SYSTEM_COLOR.blue600};
+                  visibility: visible;
+                  content: "";
+                  transform: rotate(45deg);
+                  opacity: ${isVisible ? 1 : 0};
+                  visibility: ${isVisible ? "visible" : "hidden"};
+                  transition:
+                    opacity 0.2s ease,
+                    visibility 0.2s ease;
+                }
+              `}
+            />
+          </div>
         </div>
       )}
     </Portal>
