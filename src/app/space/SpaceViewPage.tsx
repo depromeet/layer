@@ -164,7 +164,13 @@ export function SpaceViewPage() {
               `}
             >
               {proceedingRetrospects?.map((retrospect) => (
-                <RetrospectBox key={retrospect.retrospectId} spaceId={spaceId} retrospect={retrospect} onDelete={handleDeleteRetrospect} />
+                <RetrospectBox
+                  key={retrospect.retrospectId}
+                  spaceId={spaceId}
+                  retrospect={retrospect}
+                  onDelete={handleDeleteRetrospect}
+                  isLeader={Number(memberId) === spaceInfo?.leader.id}
+                />
               ))}
             </div>
           </>
@@ -194,7 +200,13 @@ export function SpaceViewPage() {
           `}
         >
           {doneRetrospects?.map((retrospect) => (
-            <RetrospectBox key={retrospect.retrospectId} retrospect={retrospect} spaceId={spaceId} onDelete={handleDeleteRetrospect} />
+            <RetrospectBox
+              key={retrospect.retrospectId}
+              retrospect={retrospect}
+              spaceId={spaceId}
+              onDelete={handleDeleteRetrospect}
+              isLeader={Number(memberId) === spaceInfo?.leader.id}
+            />
           ))}
         </div>
       </div>
