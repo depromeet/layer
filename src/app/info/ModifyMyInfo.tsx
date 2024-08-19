@@ -44,9 +44,7 @@ export function ModifyMyInfo() {
           data: { presignedUrl, imageUrl: imageUrl },
         } = await api.get<{ presignedUrl: string; imageUrl: string }>("/external/image/presigned?domain=SPACE");
 
-        await axios.put(presignedUrl, file, {
-          headers: {},
-        });
+        await axios.put(presignedUrl, file);
 
         setSelectedImage(imageUrl);
       } catch (error) {
