@@ -99,7 +99,7 @@ export function SpaceViewPage() {
       topTheme="dark"
       TopComp={
         <>
-          <ActionItemListView retrospectId={100} teamActionList={teamActionList?.teamActionItemList || []} />
+          <ActionItemListView spaceId={spaceInfo?.id} teamActionList={teamActionList?.teamActionItemList || []} leaderId={spaceInfo?.leader.id} />
           <Spacing size={1.1} />
           <SpaceCountView mainTemplate={spaceInfo?.fieldList[0]} memberCount={spaceInfo?.memberCount} />
           <Spacing size={2.4} />
@@ -110,7 +110,7 @@ export function SpaceViewPage() {
         <SpaceAppBarRightComp
           spaceId={spaceId}
           onDeleteClick={() => {
-            if (spaceInfo?.leaderId == memberId) {
+            if (spaceInfo?.leader.id == memberId) {
               open({
                 title: "스페이스를 삭제하시겠어요?",
                 contents: "스페이스를 다시 되돌릴 수 없어요",
@@ -126,7 +126,7 @@ export function SpaceViewPage() {
           }}
           isTooltipVisible={restrospectArr?.length === 0}
           onClickPlus={handleCreateSpace}
-          isLeader={Number(memberId) === spaceInfo?.leaderId}
+          isLeader={Number(memberId) === spaceInfo?.leader.id}
         />
       }
     >
