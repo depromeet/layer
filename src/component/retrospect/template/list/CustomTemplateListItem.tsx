@@ -1,5 +1,8 @@
 import { css } from "@emotion/react";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { TemplateListPageContext } from "@/app/retrospect/template/list/TemplateListPage";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
@@ -7,6 +10,7 @@ import { DropdownMenu } from "@/component/common/dropdownMenu/DropdownMenu";
 import { TextArea } from "@/component/common/input";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths";
 import { useDeleteCustomTemplate } from "@/hooks/api/template/useDeleteCustomTemplate";
 import { usePatchTemplateTitle } from "@/hooks/api/template/usePatchTemplateTitle";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
@@ -15,23 +19,23 @@ import { useModal } from "@/hooks/useModal";
 
 type CustomTemplateListItem = {
   id: number;
-  spaceId: number;
   title: string;
   tag: string;
   date: string;
-  createRetrospect?: () => void;
 };
 
-export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRetrospect }: CustomTemplateListItem) {
+export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateListItem) {
   const MENU_EDIT = "edit-name";
   const MENU_DELETE = "delete";
   const SHEET_ID = `modifyTemplateSheet_${id}`;
 
+  const { spaceId, isCreateRetrospect } = useContext(TemplateListPageContext);
+  const navigate = useNavigate();
   const { open } = useModal();
   const { openBottomSheet } = useBottomSheet();
   const { value: templateTitle, handleInputChange: handleChangeTitle } = useInput(title);
-  const { mutate: patchTemplateTitle } = usePatchTemplateTitle(spaceId);
-  const { mutate: deleteCustomTemplate } = useDeleteCustomTemplate(spaceId);
+  const { mutate: patchTemplateTitle } = usePatchTemplateTitle(+spaceId);
+  const { mutate: deleteCustomTemplate } = useDeleteCustomTemplate(+spaceId);
   const handleSubmitTitle = () => {
     patchTemplateTitle({ formId: id, formTitle: templateTitle });
   };
@@ -46,7 +50,6 @@ export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRe
           buttonText: ["취소", "삭제"],
         },
         onConfirm: () => {
-          console.log(id);
           deleteCustomTemplate({ formId: id });
         },
       });
@@ -78,24 +81,26 @@ export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRe
               `}
             >
               <Typography variant="S2">{title}</Typography>
-              <DropdownMenu onValueChange={(value) => handleOptionSelect(value)}>
-                <DropdownMenu.Trigger />
-                <DropdownMenu.Content>
-                  <DropdownMenu.Item value={MENU_EDIT}>
-                    <Typography variant={"subtitle14SemiBold"}>이름 수정하기</Typography>
-                  </DropdownMenu.Item>
-                  <DropdownMenu.Item value={MENU_DELETE}>
-                    <Typography variant={"subtitle14SemiBold"} color={"red500"}>
-                      삭제하기
-                    </Typography>
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu>
+              {!isCreateRetrospect && (
+                <DropdownMenu onValueChange={(value) => handleOptionSelect(value)}>
+                  <DropdownMenu.Trigger />
+                  <DropdownMenu.Content>
+                    <DropdownMenu.Item value={MENU_EDIT}>
+                      <Typography variant={"subtitle14SemiBold"}>이름 수정하기</Typography>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item value={MENU_DELETE}>
+                      <Typography variant={"subtitle14SemiBold"} color={"red500"}>
+                        삭제하기
+                      </Typography>
+                    </DropdownMenu.Item>
+                  </DropdownMenu.Content>
+                </DropdownMenu>
+              )}
             </div>
             <Tag>{tag}</Tag>
             <div
               css={
-                !createRetrospect &&
+                !isCreateRetrospect &&
                 css`
                   align-self: flex-end;
                   margin-top: -0.6rem;
@@ -107,8 +112,17 @@ export function CustomTemplateListItem({ id, spaceId, title, tag, date, createRe
               </Typography>
             </div>
           </div>
-          {createRetrospect && (
-            <Button colorSchema={"outline"} onClick={() => createRetrospect()}>
+          {isCreateRetrospect && (
+            <Button
+              colorSchema={"outline"}
+              onClick={() => {
+                if (isCreateRetrospect) {
+                  navigate(PATHS.retrospectCreate(), {
+                    state: { spaceId, templateId: id },
+                  });
+                }
+              }}
+            >
               선택하기
             </Button>
           )}

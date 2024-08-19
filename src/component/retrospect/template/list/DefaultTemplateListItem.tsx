@@ -1,18 +1,25 @@
 import { css } from "@emotion/react";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
+import { TemplateListPageContext } from "@/app/retrospect/template/list/TemplateListPage";
 import { Button } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths";
 
 type DefaultTemplateListItemProps = {
+  id: number;
   title: string;
   tag: string;
   imageUrl?: string;
   date?: string;
-  createRetrospect?: () => void;
 };
-export function DefaultTemplateListItem({ title, tag, imageUrl, createRetrospect }: DefaultTemplateListItemProps) {
+
+export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTemplateListItemProps) {
+  const { spaceId, isCreateRetrospect } = useContext(TemplateListPageContext);
+  const navigate = useNavigate();
   return (
     <li>
       <Card rounded={"md"}>
@@ -33,8 +40,15 @@ export function DefaultTemplateListItem({ title, tag, imageUrl, createRetrospect
             <img src={imageUrl} width={180} height={180} />
           </div>
         )}
-        {createRetrospect ? (
-          <Button colorSchema={"outline"} onClick={createRetrospect}>
+        {isCreateRetrospect ? (
+          <Button
+            colorSchema={"outline"}
+            onClick={() => {
+              navigate(PATHS.retrospectCreate(), {
+                state: { spaceId, templateId: id },
+              });
+            }}
+          >
             선택하기
           </Button>
         ) : (

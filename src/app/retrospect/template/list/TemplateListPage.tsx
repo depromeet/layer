@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useEffect, useRef } from "react";
+import { createContext, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
@@ -8,13 +8,14 @@ import { Tabs } from "@/component/common/tabs/Tabs";
 import { Typography } from "@/component/common/typography";
 import { DefaultTemplateListItem } from "@/component/retrospect/template/list";
 import { CustomTemplateList } from "@/component/retrospect/template/list/CustomTemplateList";
-import { PATHS } from "@/config/paths";
 import { useGetDefaultTemplateList } from "@/hooks/api/template/useGetDefaultTemplateList";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { useTabs } from "@/hooks/useTabs";
 import { useToast } from "@/hooks/useToast";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+
+export const TemplateListPageContext = createContext<{ isCreateRetrospect: boolean; spaceId: string }>({ isCreateRetrospect: false, spaceId: "" });
 
 export function TemplateListPage() {
   const { toast } = useToast();
@@ -65,43 +66,38 @@ export function TemplateListPage() {
   }, [spaceId]);
 
   return (
-    <DualToneLayout TopComp={TemplateListTabs} title="회고 템플릿 리스트">
-      {Info}
-      <ul
-        css={css`
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-          margin-top: 2rem;
-          padding-bottom: 2rem;
-        `}
-      >
-        {
+    <TemplateListPageContext.Provider value={{ isCreateRetrospect: isCreateRetrospect.current, spaceId }}>
+      <DualToneLayout TopComp={TemplateListTabs} title="회고 템플릿 리스트">
+        {Info}
+        <ul
+          css={css`
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+            padding-bottom: 2rem;
+          `}
+        >
           {
-            기본: (
-              <>
-                {templates.map((template) => (
-                  <DefaultTemplateListItem
-                    key={template.id}
-                    title={template.title}
-                    tag={template.templateName}
-                    imageUrl={template.imageUrl}
-                    createRetrospect={
-                      isCreateRetrospect.current
-                        ? () =>
-                            navigate(PATHS.retrospectCreate(), {
-                              state: { spaceId, templateId: template.id },
-                            })
-                        : undefined
-                    }
-                  />
-                ))}
-              </>
-            ),
-            커스텀: <CustomTemplateList spaceId={parseInt(spaceId)} isCreateRetrospect={isCreateRetrospect.current} />,
-          }[curTab]
-        }
-      </ul>
-    </DualToneLayout>
+            {
+              기본: (
+                <>
+                  {templates.map((template) => (
+                    <DefaultTemplateListItem
+                      key={template.id}
+                      id={template.id}
+                      title={template.title}
+                      tag={template.templateName}
+                      imageUrl={template.imageUrl}
+                    />
+                  ))}
+                </>
+              ),
+              커스텀: <CustomTemplateList />,
+            }[curTab]
+          }
+        </ul>
+      </DualToneLayout>
+    </TemplateListPageContext.Provider>
   );
 }
