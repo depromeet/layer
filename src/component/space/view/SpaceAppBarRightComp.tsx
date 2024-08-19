@@ -12,6 +12,7 @@ type RightCompProps = {
   onDeleteClick: () => void;
   isTooltipVisible: boolean;
   onClickPlus: () => void;
+  isLeader: boolean;
 };
 
 const slideUpDown = keyframes`
@@ -26,7 +27,7 @@ const slideUpDown = keyframes`
   }
 `;
 
-export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible, onClickPlus }: RightCompProps) {
+export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible, onClickPlus, isLeader }: RightCompProps) {
   const [isBoxVisible, setIsBoxVisible] = useState(false);
   const boxRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
@@ -152,7 +153,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
                 `}
               >
                 <Typography variant="subtitle14SemiBold" color="red500">
-                  스페이스 삭제
+                  {isLeader ? "스페이스 삭제" : "스페이스 떠나기"}
                 </Typography>
               </button>
             </motion.div>

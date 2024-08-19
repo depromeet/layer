@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { useQueries } from "@tanstack/react-query";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
@@ -15,22 +16,24 @@ import { PATHS } from "@/config/paths";
 import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useApiOptionsGetTeamActionItemList";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
+import { useApiLeaveSpace } from "@/hooks/api/space/useApiLeaveSpace";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useModal } from "@/hooks/useModal";
-import { DefaultLayout } from "@/layout/DefaultLayout";
+import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 
 export function SpaceViewPage() {
   const navigate = useNavigate();
+  const memberId = Cookies.get("memberId");
   const { spaceId } = useParams<{ spaceId: string }>();
   const { openBottomSheet } = useBottomSheet();
   const { open } = useModal();
   const SHEET_ID = "createSpaceSheet";
 
   const { mutate: deleteSpace } = useApiDeleteSpace();
-  const [isVisiableBottomSheet, setIsVisiableBottomSheet] = useState<boolean>(false);
+  const { mutate: leaveSpace } = useApiLeaveSpace();
 
   const [
     { data: restrospectArr, isLoading: isLoadingRestrospects },
@@ -60,6 +63,9 @@ export function SpaceViewPage() {
   const SpaceDeleteFun = () => {
     deleteSpace(spaceId as string);
   };
+  const SpaceLeaveFun = () => {
+    leaveSpace(spaceId as string);
+  };
 
   const handleCreateSpace = () => {
     if (spaceInfo?.formId) {
@@ -70,7 +76,6 @@ export function SpaceViewPage() {
           buttonText: ["다시 하기", "진행하기"],
         },
         onClose: () => {
-          setIsVisiableBottomSheet(true);
           openBottomSheet({ id: SHEET_ID });
         },
         onConfirm: () => {
@@ -81,7 +86,6 @@ export function SpaceViewPage() {
       });
       return;
     }
-    setIsVisiableBottomSheet(true);
     openBottomSheet({ id: SHEET_ID });
   };
 
@@ -90,33 +94,46 @@ export function SpaceViewPage() {
   }
 
   return (
-    <DefaultLayout
-      theme="dark"
+    <DualToneLayout
+      topTheme="dark"
+      TopComp={
+        <>
+          <ActionItemListView retrospectId={100} teamActionList={teamActionList?.teamActionItemList || []} />
+          <Spacing size={1.1} />
+          <SpaceCountView mainTemplate={spaceInfo?.fieldList[0]} memberCount={spaceInfo?.memberCount} />
+          <Spacing size={2.4} />
+        </>
+      }
       title={spaceInfo?.name}
       RightComp={
         <SpaceAppBarRightComp
           spaceId={spaceId}
           onDeleteClick={() => {
-            open({
-              title: "스페이스를 삭제하시겠어요?",
-              contents: "스페이스를 다시 되돌릴 수 없어요",
-              onConfirm: SpaceDeleteFun,
-            });
+            if (spaceInfo?.leaderId == memberId) {
+              open({
+                title: "스페이스를 삭제하시겠어요?",
+                contents: "스페이스를 다시 되돌릴 수 없어요",
+                onConfirm: SpaceDeleteFun,
+              });
+            } else {
+              open({
+                title: "스페이스를 떠나시겠습니까??",
+                contents: "리스트에서 사라질꺼에요!",
+                onConfirm: SpaceLeaveFun,
+              });
+            }
           }}
           isTooltipVisible={restrospectArr?.length === 0}
           onClickPlus={handleCreateSpace}
+          isLeader={Number(memberId) === spaceInfo?.leaderId}
         />
       }
     >
-      <ActionItemListView teamActionList={teamActionList?.teamActionItemList || []} />
-      <Spacing size={1.1} />
-      <SpaceCountView mainTemplate="" memberCount={spaceInfo?.memberCount} />
-      <Spacing size={2.4} />
       <div
         css={css`
           width: calc(100% + 4rem);
           transform: translateX(-2rem);
-          min-height: calc(100vh - 20rem);
+          min-height: calc(100vh - 33rem);
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
           padding: 2.2rem 2rem;
         `}
@@ -180,19 +197,16 @@ export function SpaceViewPage() {
           ))}
         </div>
       </div>
-      {isVisiableBottomSheet && (
-        <BottomSheet
-          id={SHEET_ID}
-          contents={
-            <Fragment>
-              <CreateRetrospectiveSheet spaceId={spaceId} teamName={spaceInfo?.name} />
-            </Fragment>
-          }
-          handler={true}
-        />
-      )}
-
+      <BottomSheet
+        id={SHEET_ID}
+        contents={
+          <Fragment>
+            <CreateRetrospectiveSheet spaceId={spaceId} teamName={spaceInfo?.name} />
+          </Fragment>
+        }
+        handler={true}
+      />
       <Toast />
-    </DefaultLayout>
+    </DualToneLayout>
   );
 }

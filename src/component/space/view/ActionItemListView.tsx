@@ -14,6 +14,7 @@ import { ActionItemType } from "@/types/actionItem";
 
 type TeamGoalViewPros = {
   teamActionList: ActionItemType[];
+  retrospectId: number;
 };
 
 type ActionItemProps = {
@@ -21,11 +22,11 @@ type ActionItemProps = {
 };
 
 type PostActionItemProps = {
-  retrospectId: string;
+  retrospectId: number;
   actionItemContent: string;
 };
 
-export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
+export function ActionItemListView({ retrospectId, teamActionList }: TeamGoalViewPros) {
   const [textValue, setTextValue] = useState("");
   const { mutate: postActionItem } = useApiPostActionItem();
   const { openBottomSheet } = useBottomSheet();
@@ -67,9 +68,6 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
         `}
       >
         <Typography variant="body14Medium">실행목표</Typography>
-        <Typography variant="body14Medium" color="gray500">
-          더보기
-        </Typography>
       </div>
 
       <Spacing size={1.0} />
@@ -88,7 +86,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
               align-items: center;
             `}
           >
-            <Icon icon="ic_plus" size="1.5rem" color="gray500" />
+            <Icon icon="ic_plus" size="1.5rem" color={DESIGN_TOKEN_COLOR.gray500} />
           </button>
           <Spacing size={1.6} />
           <Typography variant="body14Medium" color="gray600">
@@ -136,7 +134,7 @@ export function ActionItemListView({ teamActionList }: TeamGoalViewPros) {
               <Button
                 colorSchema="black"
                 onClick={() => {
-                  handleAddActionItem({ retrospectId: "100", actionItemContent: textValue });
+                  handleAddActionItem({ retrospectId: retrospectId, actionItemContent: textValue });
                 }}
               >
                 추가하기
