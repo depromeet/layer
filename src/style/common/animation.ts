@@ -4,12 +4,9 @@ export const ANIMATION = {
   FADE_IN: keyframes`
     from {
         opacity: 0;
-        transform: translateY(-1.5rem);  
     }
     to {
         opacity: 1;
-        transform: translateY(0);      
-
     }
   `,
   FADE_OUT: keyframes`
