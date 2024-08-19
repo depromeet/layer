@@ -1,4 +1,4 @@
-export const categoryTagChange = (category: string): string => {
+export const categoryTagKoreanChange = (category: string): string => {
   const categoryMap: { [key: string]: string } = {
     INDIVIDUAL: "개인",
     TEAM: "팀",
@@ -13,5 +13,5 @@ export const categoryTagChange = (category: string): string => {
     ETC: "기타",
   };
 
-  return categoryMap[category] || "Unknown Category";
+  return categoryMap[category] || "-";
 };

@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { categoryTagChange } from "@/utils/space/categoryTagChange";
+import { categoryTagKoreanChange } from "@/utils/space/categoryTagKoreanChange";
 
 type SpaceCountViewProps = {
   memberCount: number | undefined;
@@ -43,7 +43,7 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
           <Typography variant="body12Medium" color="gray800">
             대표 템플릿
           </Typography>
-          <Typography variant="subtitle14SemiBold">{mainTemplate ? categoryTagChange(mainTemplate) : "_"}</Typography>
+          <Typography variant="subtitle14SemiBold">{mainTemplate ? categoryTagKoreanChange(mainTemplate) : "_"}</Typography>
         </div>
       </div>
 
