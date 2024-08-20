@@ -1,10 +1,10 @@
 import { css, keyframes } from "@emotion/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { useToast } from "@/hooks/useToast";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type RightCompProps = {
@@ -30,10 +30,15 @@ const slideUpDown = keyframes`
 export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible, onClickPlus, isLeader }: RightCompProps) {
   const [isBoxVisible, setIsBoxVisible] = useState(false);
   const boxRef = useRef<HTMLDivElement | null>(null);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleModifyFun = () => {
-    navigate(`/space/modify/${spaceId}`);
+    //navigate(`/space/modify/${spaceId}`);
+    // 빌드 에러로 인해 잠시 삽입
+    console.log(spaceId);
+    toast.success("아직 준비중인 단계에요!");
+    setIsBoxVisible((prev) => !prev);
   };
 
   const toggleBoxVisibility = () => {
