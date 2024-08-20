@@ -6,6 +6,11 @@ const formatDateAndTime = (dateString: string): string => {
   return formattedDate.replace("AM", "오전").replace("PM", "오후");
 };
 
+const formatOnlyDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return format(date, "yyyy MM. dd");
+};
+
 const calculateDeadlineRemaining = (deadlineString: string): string => {
   const deadline = new Date(deadlineString);
   const today = new Date();
@@ -13,4 +18,4 @@ const calculateDeadlineRemaining = (deadlineString: string): string => {
   return `D-${remainingDays}`;
 };
 
-export { formatDateAndTime, calculateDeadlineRemaining };
+export { formatDateAndTime, formatOnlyDate, calculateDeadlineRemaining };

@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
+import Cookies from "js-cookie";
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button } from "@/component/common/button";
@@ -80,7 +80,14 @@ export function ActionItemListView({ spaceId, teamActionList, leaderId }: TeamGo
       >
         <Typography variant="body14Medium">실행목표</Typography>
         {leaderId === Number(memberId) && (
-          <Typography variant="body14Medium" color="gray500" onClick={handleMoreActionItem}>
+          <Typography
+            variant="body14Medium"
+            color="gray500"
+            onClick={handleMoreActionItem}
+            css={css`
+              cursor: pointer;
+            `}
+          >
             더보기
           </Typography>
         )}

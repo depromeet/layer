@@ -1,87 +1,72 @@
 import { css } from "@emotion/react";
+import Cookies from "js-cookie";
+import { Fragment } from "react";
 
+import { status } from "@/component/actionItem/actionItem.const.ts";
 import ActionItemBox from "@/component/actionItem/ActionItemBox.tsx";
+import { NotActionItemBoxData } from "@/component/actionItem/NotActionItemBoxData.tsx";
 import { Icon } from "@/component/common/Icon";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { TabButton } from "@/component/common/tabs/TabButton.tsx";
 import { Tabs } from "@/component/common/tabs/Tabs.tsx";
 import { Typography } from "@/component/common/typography";
+import { useGetActionItemList } from "@/hooks/api/actionItem/useGetActionItemList.ts";
 import { useTabs } from "@/hooks/useTabs.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
+import { formatOnlyDate } from "@/utils/date";
 
 export function GoalViewPage() {
   const { tabs, curTab, selectTab } = useTabs(["실행중", "지난"] as const);
+  const memberId = Cookies.get("memberId");
+  const { data, isLoading } = useGetActionItemList({ memberId: memberId as string });
+  const filteredItems = data?.actionItems?.filter(
+    (item) => (curTab === tabs[0] && item.status === status[0]) || (curTab === tabs[1] && item.status === status[1]),
+  );
+  const hasNonEmptyActionItems = filteredItems?.some((item) => item.actionItemList && item.actionItemList.length > 0);
+
   return (
-    <DefaultLayout
-      theme="gray"
-      height="6.4rem"
-      LeftComp={
-        <Typography as="h1" variant="heading24Bold">
-          실행목표
-        </Typography>
-      }
-      RightComp={<Icon icon="basicProfile" size="3.2rem" />}
-    >
-      <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          padding-top: 1.6rem;
-          row-gap: 1.2rem;
-          padding-bottom: calc(var(--nav-bar-height) + 2rem);
-        `}
+    <Fragment>
+      {isLoading && <LoadingModal />}
+      <DefaultLayout
+        theme="gray"
+        height="6.4rem"
+        LeftComp={
+          <Typography as="h1" variant="heading24Bold">
+            실행목표
+          </Typography>
+        }
+        RightComp={<Icon icon="basicProfile" size="3.2rem" />}
       >
-        <ActionItemBox
-          inProgressYn={true}
-          readonly={true}
-          title={"스프린트 2회차 이후 회고"}
-          contents={["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "‘린 분석' 북 스터디 진행"]}
-          description={{
-            team: "떡잎방범대",
-            completeDate: "2024.06.30",
-          }}
-        />
-        <ActionItemBox
-          inProgressYn={false}
-          readonly={true}
-          title={"스프린트 2회차 이후 회고"}
-          contents={["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "‘린 분석' 북 스터디 진행"]}
-          description={{
-            team: "떡잎방범대",
-            completeDate: "2024.06.30",
-          }}
-        />
-        <ActionItemBox
-          inProgressYn={false}
-          readonly={true}
-          title={"스프린트 2회차 이후 회고"}
-          contents={["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "‘린 분석' 북 스터디 진행"]}
-          description={{
-            team: "떡잎방범대",
-            completeDate: "2024.06.30",
-          }}
-        />
-        <ActionItemBox
-          inProgressYn={false}
-          readonly={true}
-          title={"스프린트 2회차 이후 회고"}
-          contents={["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "‘린 분석' 북 스터디 진행"]}
-          description={{
-            team: "떡잎방범대",
-            completeDate: "2024.06.30",
-          }}
-        />
-        <ActionItemBox
-          inProgressYn={false}
-          readonly={true}
-          title={"스프린트 2회차 이후 회고"}
-          contents={["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "‘린 분석' 북 스터디 진행"]}
-          description={{
-            team: "떡잎방범대",
-            completeDate: "2024.06.30",
-          }}
-        />
-      </div>
-    </DefaultLayout>
+        <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            padding-top: 1.6rem;
+            row-gap: 1.2rem;
+            height: 100%;
+            padding-bottom: calc(var(--nav-bar-height) + 2rem);
+          `}
+        >
+          {hasNonEmptyActionItems
+            ? filteredItems?.map((item) =>
+                item.actionItemList.length ? (
+                  <ActionItemBox
+                    key={item.retrospectId}
+                    inProgressYn={item.status === status[0]}
+                    readonly={true}
+                    title={item.retrospectTitle}
+                    contents={item.actionItemList.slice(0, 3)}
+                    description={{
+                      team: item.spaceName,
+                      completeDate: formatOnlyDate(item.deadline), // Or dynamically use item.completeDate if available
+                    }}
+                  />
+                ) : null,
+              )
+            : !isLoading && <NotActionItemBoxData />}
+        </div>
+      </DefaultLayout>
+    </Fragment>
   );
 }
