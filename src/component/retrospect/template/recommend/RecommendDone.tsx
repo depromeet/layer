@@ -11,6 +11,7 @@ import { PATHS } from "@/config/paths";
 import { useApiRecommendTemplate } from "@/hooks/api/retrospect/recommend/useApiRecommendTemplate";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
+import { Tooltip } from "@/component/common/tip";
 
 export function RecommendDone() {
   const locationState = useLocation().state as RecommendTemplateType & { spaceId: string };
@@ -40,15 +41,19 @@ export function RecommendDone() {
         css={css`
           display: flex;
           justify-content: center;
-          position: relative;
         `}
       >
-        <TemplateCard
-          name={recommendData.formName}
-          tag={recommendData.tag}
-          imgUrl={recommendData.formImageUrl}
-          onClick={() => navigate("/template", { state: { templateId: recommendData.formId } })}
-        />
+        <Tooltip>
+          <Tooltip.Trigger>
+            <TemplateCard
+              name={recommendData.formName}
+              tag={recommendData.tag}
+              imgUrl={recommendData.formImageUrl}
+              onClick={() => navigate("/template", { state: { templateId: recommendData.formId } })}
+            />
+          </Tooltip.Trigger>
+          <Tooltip.Content message="커스텀된 템플릿의 이름을 수정할 수 있어요!" placement="top-start" hideOnClick animate />
+        </Tooltip>
       </div>
       <ButtonProvider>
         <div
