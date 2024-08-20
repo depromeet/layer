@@ -46,6 +46,7 @@ export function GoalViewPage() {
             row-gap: 1.2rem;
             height: 100%;
             padding-bottom: calc(var(--nav-bar-height) + 2rem);
+            overflow-y: auto;
           `}
         >
           {hasNonEmptyActionItems
@@ -56,7 +57,7 @@ export function GoalViewPage() {
                     inProgressYn={item.status === status[0]}
                     readonly={true}
                     title={item.retrospectTitle}
-                    contents={item.actionItemList.slice(0, 3)}
+                    contents={item.actionItemList.slice(0, 6)}
                     description={{
                       team: item.spaceName,
                       completeDate: formatOnlyDate(item.deadline), // Or dynamically use item.completeDate if available

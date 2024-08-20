@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { ActionItemList } from "@/component/actionItem/ActionItemList.tsx";
 import { BottomSheet } from "@/component/BottomSheet";
@@ -9,6 +10,7 @@ import { TextArea } from "@/component/common/input";
 import { SelectBox } from "@/component/common/SelectBox";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths.ts";
 import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem.ts";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 import { useInput } from "@/hooks/useInput.ts";
@@ -60,6 +62,7 @@ export default function ActionItemBox({
   const [retrospectId, setRetrospectId] = useState(id);
   const { mutate, isPending } = useCreateActionItem();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const { open } = useModal();
 
   useEffect(() => {
@@ -164,34 +167,49 @@ export default function ActionItemBox({
           css={css`
             width: 100%;
             display: flex;
-            align-items: flex-start;
+            ${readonly
+              ? css`
+                  flex-direction: column;
+                  row-gap: 0.9rem;
+                `
+              : css`
+                  align-items: flex-start;
+                  column-gap: 0.8rem;
+                `}
           `}
         >
+          {inProgressYn && (
+            <div
+              css={css`
+                background: ${DESIGN_TOKEN_COLOR.blue100};
+                color: ${DESIGN_TOKEN_COLOR.blue600};
+                padding: 0.4rem 0.8rem;
+                width: fit-content;
+                border-radius: 0.4rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              `}
+            >
+              <Typography variant={"body12SemiBold"} color={"blue600"}>
+                실행 중
+              </Typography>
+            </div>
+          )}
           <div
             css={css`
               display: flex;
-              column-gap: 0.8rem;
-              align-items: center;
+              ${readonly
+                ? css`
+                    flex-direction: column;
+                    row-gap: 0.4rem;
+                  `
+                : css`
+                    column-gap: 0.8rem;
+                    align-items: center;
+                  `}
             `}
           >
-            {inProgressYn && (
-              <div
-                css={css`
-                  background: ${DESIGN_TOKEN_COLOR.blue100};
-                  color: ${DESIGN_TOKEN_COLOR.blue600};
-                  padding: 0.4rem 0.8rem;
-                  width: fit-content;
-                  border-radius: 0.4rem;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                `}
-              >
-                <Typography variant={"body12SemiBold"} color={"blue600"}>
-                  실행 중
-                </Typography>
-              </div>
-            )}
             <Typography variant={"title18Bold"}>{title}</Typography>
             {description && (
               <div
@@ -277,6 +295,11 @@ export default function ActionItemBox({
                   variant={"subtitle14SemiBold"}
                   color={"gray800"}
                   onClick={() => {
+                    navigate(PATHS.goalsEdit(), {
+                      state: {
+                        data: retrospectInfo,
+                      },
+                    });
                     open({
                       title: "현재 해당 기능은 준비중이에요",
                       contents: "빠르게 개발을 진행하고 있으니, 잠시만 기다려주세요!",
@@ -293,7 +316,7 @@ export default function ActionItemBox({
           </div>
         </div>
 
-        {hasContents && !showEmptyState && <Spacing size={2.5} />}
+        {hasContents && !showEmptyState && <Spacing size={2} />}
         <div
           css={css`
             display: flex;

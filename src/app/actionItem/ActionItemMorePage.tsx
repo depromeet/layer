@@ -17,13 +17,14 @@ import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 
 export function ActionItemMorePage() {
   const location = useLocation();
-  const { openBottomSheet } = useBottomSheet();
   const { spaceId } = location.state as { spaceId: string };
+  const { openBottomSheet } = useBottomSheet();
   const { data, isLoading, refetch } = useGetSpaceActionItemList({ spaceId: spaceId });
   const scaledData = data?.teamActionItemList.map((item) => ({
     retrospectId: item.retrospectId,
     retrospectTitle: item.retrospectTitle,
     status: item.status,
+    actionItemList: item.actionItemList,
   }));
   const SHEET_ID = "info";
   return (
