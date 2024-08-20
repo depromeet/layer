@@ -1,5 +1,5 @@
 export type ActionItemType = {
-  actionItemContent: string;
+  content: string;
   actionItemId: number;
   retrospectId: number;
   retrospectName: string;
