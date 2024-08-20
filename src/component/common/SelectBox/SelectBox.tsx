@@ -20,6 +20,7 @@ export type SelectBoxType = {
 export function SelectBox({ data, onClick, value, updateRetroSpectData, ...props }: SelectBoxType) {
   const DEFAULT_WORD = "회고 선택";
   const [isOpen, setOpen] = useState(false);
+  const isMultipleData = data?.length > 1;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -36,21 +37,25 @@ export function SelectBox({ data, onClick, value, updateRetroSpectData, ...props
           padding: 1.6rem 1.4rem;
           border: 0.1rem solid ${DESIGN_TOKEN_COLOR.gray300};
           border-radius: 1.2rem;
-          cursor: pointer;
+          cursor: ${isMultipleData && "pointer"};
         `}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          isMultipleData && setOpen(true);
+        }}
       >
         <Typography color={!value ? "gray500" : "gray800"} variant={"body15Medium"}>
           {value || DEFAULT_WORD}
         </Typography>
-        <Icon
-          icon={"ic_back"}
-          css={css`
-            color: ${DESIGN_TOKEN_COLOR.gray600};
-            transform: rotate(-90deg);
-            margin-left: auto;
-          `}
-        />
+        {isMultipleData && (
+          <Icon
+            icon={"ic_back"}
+            css={css`
+              color: ${DESIGN_TOKEN_COLOR.gray600};
+              transform: rotate(-90deg);
+              margin-left: auto;
+            `}
+          />
+        )}
       </div>
       <div
         css={css`

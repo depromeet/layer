@@ -17,13 +17,14 @@ import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 
 export function ActionItemMorePage() {
   const location = useLocation();
-  const { openBottomSheet } = useBottomSheet();
   const { spaceId } = location.state as { spaceId: string };
-  const { data, isLoading } = useGetSpaceActionItemList({ spaceId: spaceId });
+  const { openBottomSheet } = useBottomSheet();
+  const { data, isLoading, refetch } = useGetSpaceActionItemList({ spaceId: spaceId });
   const scaledData = data?.teamActionItemList.map((item) => ({
     retrospectId: item.retrospectId,
     retrospectTitle: item.retrospectTitle,
     status: item.status,
+    actionItemList: item.actionItemList,
   }));
   const SHEET_ID = "info";
   return (
@@ -39,7 +40,6 @@ export function ActionItemMorePage() {
                 display: flex;
                 flex-direction: column;
                 padding-top: 3.5rem;
-                text-align: center;
 
                 span {
                   ${DESIGN_TOKEN_TEXT.body16Medium}
@@ -47,8 +47,7 @@ export function ActionItemMorePage() {
                 }
               `}
             >
-              <Typography>실행목표란 회고 완료 후 실제로 변화를 이루기 위해</Typography>
-              <Typography>필요한 구체적인 개선 작업이나 활동을 의미해요!</Typography>
+              <Typography>실행목표란 회고 완료 후 실제로 변화를 이루기 위해 필요한 구체적인 개선 작업이나 활동을 의미해요!</Typography>
             </div>
             <Spacing size={2.4} />
             <Callout
@@ -88,6 +87,7 @@ export function ActionItemMorePage() {
                 title={item.retrospectTitle}
                 contents={item.actionItemList}
                 retrospectInfo={scaledData}
+                emitDataRefetch={refetch}
               />
             );
           })}

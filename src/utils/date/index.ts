@@ -8,7 +8,7 @@ const formatDateAndTime = (dateString: string): string => {
 
 const formatOnlyDate = (dateString: string): string => {
   const date = new Date(dateString);
-  return format(date, "yyyy MM. dd");
+  return format(date, "yyyy.MM.dd");
 };
 
 const calculateDeadlineRemaining = (deadlineString: string): string => {

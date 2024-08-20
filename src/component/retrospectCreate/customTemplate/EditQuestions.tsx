@@ -297,7 +297,7 @@ function ShowDeleteButton({
   );
 }
 
-function AddListItemButton({ onClick }: { onClick: () => void }) {
+export function AddListItemButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       css={css`

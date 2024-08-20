@@ -4,6 +4,7 @@ export const PATHS = {
   home: () => `/`,
   goals: () => `/goals`,
   goalsMore: () => `/goals/more`,
+  goalsEdit: () => `/goals/edit`,
   analysis: () => `/analysis`,
   retrospectCreate: () => `/retrospect/new`,
   retrospectRecommend: () => `/retrospect/recommend`,
