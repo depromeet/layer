@@ -6,6 +6,7 @@ export const PATHS = {
   goalsMore: () => `/goals/more`,
   analysis: () => `/analysis`,
   retrospectCreate: () => `/retrospect/new`,
+  retrospectRecommend: () => `/retrospect/recommend`,
   write: () => `/write`,
   completeRetrospectCreate: () => `/retrospect/complete`,
   template: (spaceId: string) => `/space/${spaceId}/templates`,

@@ -2,10 +2,9 @@ import { css } from "@emotion/react";
 import { useAtomValue } from "jotai";
 import { Fragment, useState } from "react";
 
-import { ButtonProvider } from "@/component/common/button";
+import { ButtonProvider, FieldButton } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Spacing } from "@/component/common/Spacing";
-import { FieldButton } from "@/component/space/FieldButton";
 import { fieldArr, fieldMap } from "@/component/space/space.const";
 import { spaceState } from "@/store/space/spaceAtom";
 import { FieldType, SpaceValue } from "@/types/space";
