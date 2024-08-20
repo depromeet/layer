@@ -47,7 +47,6 @@ export function ActionItemMorePage() {
               `}
             >
               <Typography>실행목표란 회고 완료 후 실제로 변화를 이루기 위해 필요한 구체적인 개선 작업이나 활동을 의미해요!</Typography>
-              {/*<Typography></Typography>*/}
             </div>
             <Spacing size={2.4} />
             <Callout
