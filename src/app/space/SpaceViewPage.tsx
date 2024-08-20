@@ -13,7 +13,7 @@ import { SpaceCountView, RetrospectBox, ActionItemListView, CreateRetrospectiveS
 import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceAppBarRightComp } from "@/component/space/view/SpaceAppBarRightComp";
 import { PATHS } from "@/config/paths";
-import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useApiOptionsGetTeamActionItemList";
+import { useAPiOptionsRecentTeamActionList } from "@/hooks/api/actionItem/useAPiOptionsRecentTeamActionList";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
 import { useApiLeaveSpace } from "@/hooks/api/space/useApiLeaveSpace";
@@ -42,7 +42,7 @@ export function SpaceViewPage() {
     { data: spaceInfo, isLoading: isLoadingSpaceInfo },
     { data: teamActionList, isLoading: isLoadingTeamActionList },
   ] = useQueries({
-    queries: [useApiOptionsGetRetrospects(spaceId), useApiOptionsGetSpaceInfo(spaceId), useApiOptionsGetTeamActionItemList(spaceId)],
+    queries: [useApiOptionsGetRetrospects(spaceId), useApiOptionsGetSpaceInfo(spaceId), useAPiOptionsRecentTeamActionList(spaceId)],
   });
 
   const [proceedingRetrospects, setProceedingRetrospects] = useState<Retrospect[]>([]);

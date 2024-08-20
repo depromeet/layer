@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import Cookies from "js-cookie";
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -32,7 +31,6 @@ type PostActionItemProps = {
 
 export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, leaderId }: ActionItemListViewPros) {
   const navigate = useNavigate();
-  const memberId = Cookies.get("memberId");
   const [textValue, setTextValue] = useState("");
   const { mutate: postActionItem } = useApiPostActionItem();
   const { openBottomSheet } = useBottomSheet();
@@ -80,18 +78,16 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
         `}
       >
         <Typography variant="body14Medium">실행목표</Typography>
-        {leaderId === Number(memberId) && (
-          <Typography
-            variant="body14Medium"
-            color="gray500"
-            onClick={handleMoreActionItem}
-            css={css`
-              cursor: pointer;
-            `}
-          >
-            더보기
-          </Typography>
-        )}
+        <Typography
+          variant="body14Medium"
+          color="gray500"
+          onClick={handleMoreActionItem}
+          css={css`
+            cursor: pointer;
+          `}
+        >
+          더보기
+        </Typography>
       </div>
 
       <Spacing size={1.0} />
@@ -116,8 +112,8 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
               gap: 0.8rem;
             `}
           >
-            {teamActionList.map((actionItem, idx) => (
-              <ActionItem key={idx} actionItemContent={actionItem.actionItemContent} />
+            {teamActionList.slice(0, 3).map((actionItem, idx) => (
+              <ActionItem key={idx} actionItemContent={actionItem.content} />
             ))}
             {Array.from({ length: 3 - teamActionList.length }).map((_, index) => (
               <div key={`plus-${index}`} onClick={handleOpenBottomSheet}>
@@ -186,9 +182,16 @@ function PlusActionItem() {
       <div
         css={css`
           display: flex;
+          width: calc(100% + 0.8rem);
+          padding: 0 0.8rem;
           align-items: center;
+          transform: translateX(-0.8rem);
           gap: 0.8rem;
           height: 3.2rem;
+          border-radius: 0.2rem;
+          :hover {
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+          }
         `}
       >
         <div
@@ -198,10 +201,11 @@ function PlusActionItem() {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+            background-color: ${DESIGN_TOKEN_COLOR.gray300};
+            border-radius: 0.2rem;
           `}
         >
-          <Icon icon="ic_plus" color="rgba(169, 175, 187, 1)" size={0.6} />
+          <Icon icon="ic_plus" color={DESIGN_TOKEN_COLOR.gray500} size={0.6} />
         </div>
         <Typography variant="body14Medium" color="gray800">
           실행목표 추가하기
