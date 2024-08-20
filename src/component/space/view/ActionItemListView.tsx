@@ -38,7 +38,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
   }));
 
   const navigate = useNavigate();
-  const queryClient = useQueryClient(); // QueryClient를 사용하여 쿼리 재실행을 관리
+  const queryClient = useQueryClient();
   const [retrospect, setRetrospect] = useState("");
   const [retrospectId, setRetrospectId] = useState<number | undefined>(-1);
 
@@ -71,12 +71,17 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
     mutate(
       { retrospectId, content: actionItemValue },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
           closeBottomSheet();
           setRetrospect("");
           setRetrospectId(-1);
           toast.success("성공적으로 실행목표가 추가되었어요!");
-          queryClient.invalidateQueries(["teamActionList", spaceId]);
+
+          if (spaceId) {
+            await queryClient.invalidateQueries({
+              queryKey: ["getTeamActionItemList", spaceId.toString()],
+            });
+          }
         },
         onError: () => {
           toast.error("예기치 못한 에러가 발생했어요");
@@ -171,7 +176,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
               <SelectBox data={retrospectInfo} onClick={() => {}} value={retrospect} updateRetroSpectData={updateRetroSpectData} />
 
               <Spacing size={1.5} />
-              <TextArea value={actionItemValue} onChange={handleInputChange} placeholder={"실행목표를 입력해주세요"} />
+              <TextArea value={actionItemValue} onChange={handleInputChange} placeholder={"실행목표를 입력해주세요"} height="14.3rem" />
               <ButtonProvider
                 onlyContainerStyle={css`
                   padding-bottom: 0;
