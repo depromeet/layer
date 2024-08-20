@@ -64,6 +64,8 @@ export function DualToneLayout({
           height: 100dvh;
           padding: calc(${height ?? "var(--app-bar-height)"} + ${topCompHeight}) 2rem 0 2rem;
           background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[bottomTheme]};
+          overflow-y: auto;
+          overflow-x: hidden;
         `}
       >
         {children}
