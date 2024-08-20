@@ -20,7 +20,7 @@ import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 type ActionItemBoxProps = {
   id?: number;
   inProgressYn: boolean;
-  emitDataRefetch: () => void;
+  emitDataRefetch?: () => void;
   title: string;
   contents: {
     actionItemId: number;
@@ -123,9 +123,9 @@ export default function ActionItemBox({
                       { retrospectId: retrospectId as number, content: actionItemValue },
                       {
                         onSuccess: () => {
+                          emitDataRefetch && emitDataRefetch();
                           setRetrospect("");
                           resetInput();
-                          emitDataRefetch();
                           toast.success("성공적으로 실행목표가 추가되었어요!");
                           closeBottomSheet();
                         },
