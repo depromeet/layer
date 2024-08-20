@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import Cookies from "js-cookie";
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
