@@ -25,6 +25,7 @@ const LAST_PAGE = 4;
 export function CreateSpace({ onSubmit }: CreateSpaceProps) {
   const navigate = useNavigate();
   const [spaceValue, setSpaceValue] = useAtom(spaceState);
+
   useEffect(() => {
     if (spaceValue.step === LAST_PAGE + 1) {
       onSubmit({
@@ -111,13 +112,15 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
       }
       theme={spaceValue.step === 0 ? "dark" : "default"}
     >
-      <ProgressBar
-        curPage={spaceValue.step}
-        lastPage={LAST_PAGE}
-        css={css`
-          visibility: ${spaceValue.step === 0 ? "hidden" : "visible"};
-        `}
-      />
+      {spaceValue.step !== LAST_PAGE + 1 && (
+        <ProgressBar
+          curPage={spaceValue.step}
+          lastPage={LAST_PAGE}
+          css={css`
+            visibility: ${spaceValue.step === 0 ? "hidden" : "visible"};
+          `}
+        />
+      )}
       {spaceValue.step === 0 && <Home onNext={handleNext} />}
       {spaceValue.step === 1 && <Category onNext={handleCategoryChange} />}
       {spaceValue.step === 2 && <Field onNext={handleFieldChange} />}
