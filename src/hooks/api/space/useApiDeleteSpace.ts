@@ -17,6 +17,7 @@ export const useApiDeleteSpace = () => {
     mutationFn: (spaceId: string) => apiSpaceDelete(spaceId),
     onSuccess: () => {
       navigate("/");
+      toast.success("스페이스 삭제가 완료되었습니다.");
     },
     onError: (error) => {
       toast.error(error.message);
