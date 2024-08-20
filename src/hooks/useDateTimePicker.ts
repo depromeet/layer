@@ -16,7 +16,10 @@ export const useDateTimePicker = (defaultDate?: Value, defaultTime?: string) => 
   }, [selectedDate]);
 
   const dateTimeString = useMemo(() => {
-    if (dateString && selectedTime) {
+    if (!selectedTime) {
+      return dateString;
+    }
+    if (dateString) {
       const [h, m] = selectedTime.split(":");
       const isoTimeString = `${h.padStart(2, "0")}:${m.padStart(2, "0")}`;
       return formatISO(new Date(`${dateString.split("T")[0]}T${isoTimeString ?? "00:00"}`)).split("+")[0];
