@@ -36,6 +36,8 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
 
   const handleModifyFun = () => {
     //navigate(`/space/modify/${spaceId}`);
+    // 빌드 에러로 인해 잠시 삽입
+    console.log(spaceId);
     toast.success("아직 준비중인 단계에요!");
     setIsBoxVisible((prev) => !prev);
   };
