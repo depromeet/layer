@@ -1,7 +1,10 @@
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths";
+import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { categoryTagKoreanChange } from "@/utils/space/categoryTagKoreanChange";
 
@@ -11,6 +14,8 @@ type SpaceCountViewProps = {
 };
 
 export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProps) {
+  const navigate = useNavigate();
+  const { spaceId } = useRequiredParams<{ spaceId: string }>();
   return (
     <div
       css={css`
@@ -33,6 +38,7 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
           justify-content: space-between;
           flex-basis: 50%;
         `}
+        onClick={() => navigate(PATHS.template(spaceId))}
       >
         <div
           css={css`
