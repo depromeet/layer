@@ -125,21 +125,24 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
                 box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
                 z-index: 99;
                 width: 16.5rem;
-                height: 9.2rem;
+                height: auto;
                 padding: 0.3rem 2rem;
               `}
             >
-              <button
-                onClick={handleModifyFun}
-                css={css`
-                  display: block;
-                  width: 100%;
-                  padding: 1rem 0;
-                  text-align: left;
-                `}
-              >
-                <Typography variant="subtitle14SemiBold">스페이스 수정</Typography>
-              </button>
+              {isLeader && (
+                <button
+                  onClick={handleModifyFun}
+                  css={css`
+                    display: block;
+                    width: 100%;
+                    padding: 1rem 0;
+                    text-align: left;
+                  `}
+                >
+                  <Typography variant="subtitle14SemiBold">스페이스 수정</Typography>
+                </button>
+              )}
+
               <button
                 onClick={() => {
                   toggleBoxVisibility();
