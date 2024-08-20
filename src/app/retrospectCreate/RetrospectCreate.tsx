@@ -6,6 +6,7 @@ import { Beforeunload } from "react-beforeunload";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
@@ -60,7 +61,7 @@ export function RetrospectCreate() {
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
-  const { mutate: postRetrospectCreate } = usePostRetrospectCreate(spaceId);
+  const { mutate: postRetrospectCreate, isPending } = usePostRetrospectCreate(spaceId);
   const { mutate: postRecentTemplateId } = usePostRecentTemplateId(spaceId);
 
   const pageState = useMultiStepForm({
@@ -157,6 +158,7 @@ export function RetrospectCreate() {
         </RetrospectCreateContext.Provider>
       </DefaultLayout>
       <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />
+      {isPending && <LoadingModal purpose={"데이터를 저장하고 있어요"} />}
     </>
   );
 }
