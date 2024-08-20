@@ -6,12 +6,12 @@ import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
+import { Tooltip } from "@/component/common/tip";
 import { TemplateCard } from "@/component/retrospect/template/card/TemplateCard";
 import { PATHS } from "@/config/paths";
 import { useApiRecommendTemplate } from "@/hooks/api/retrospect/recommend/useApiRecommendTemplate";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
-import { Tooltip } from "@/component/common/tip";
 
 export function RecommendDone() {
   const locationState = useLocation().state as RecommendTemplateType & { spaceId: string };
@@ -52,7 +52,7 @@ export function RecommendDone() {
               onClick={() => navigate("/template", { state: { templateId: recommendData.formId } })}
             />
           </Tooltip.Trigger>
-          <Tooltip.Content message="커스텀된 템플릿의 이름을 수정할 수 있어요!" placement="top-start" hideOnClick animate />
+          <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
         </Tooltip>
       </div>
       <ButtonProvider>

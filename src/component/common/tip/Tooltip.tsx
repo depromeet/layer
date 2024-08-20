@@ -56,9 +56,10 @@ function Trigger({ children }: { children: React.ReactNode }) {
 type Content = {
   message: string;
   animate?: boolean;
-  placement?: Extract<VariationPlacement, "top-start" | "top-end" | "bottom-start" | "bottom-end">;
+  placement: Extract<VariationPlacement, "top-start" | "top-end" | "bottom-start" | "bottom-end">;
   modifiers?: Partial<OffsetModifier>[];
-  offset?: [number, number];
+  offsetX?: number;
+  offsetY?: number;
   hideOnClick?: boolean;
 };
 
@@ -69,7 +70,17 @@ type ContentProps =
     } & Content)
   | PropsWithChildren<{ asChild?: false } & Content>;
 
-function Content({ asChild, children, message, animate, placement = "top-end", offset = [8, 30], modifiers = [], hideOnClick = true }: ContentProps) {
+function Content({
+  asChild,
+  children,
+  message,
+  animate = true,
+  placement,
+  offsetX = 0,
+  offsetY = 30,
+  modifiers = [],
+  hideOnClick = true,
+}: ContentProps) {
   const context = useContext(TooltipContext);
 
   const [isVisible, setIsVisible] = useState(true);
@@ -95,7 +106,7 @@ function Content({ asChild, children, message, animate, placement = "top-end", o
       {
         name: "offset",
         options: {
-          offset,
+          offset: [offsetX, offsetY],
         },
       },
       ...modifiers,
@@ -103,29 +114,29 @@ function Content({ asChild, children, message, animate, placement = "top-end", o
   });
 
   const getArrowPosition = (placement: ContentProps["placement"]) => {
-    const offsetX = offset[0] + (context.referenceEl?.offsetWidth ? context.referenceEl?.offsetWidth / 2 : 0);
     const offsetY = -0.4;
+    const offsetX = 2;
     switch (placement) {
       case "top-start":
         return css`
           bottom: ${offsetY}rem;
-          left: ${offsetX}px;
+          left: ${offsetX}rem;
         `;
       case "top-end":
         return css`
           bottom: ${offsetY}rem;
-          right: ${offsetX}px;
+          right: ${offsetX}rem;
         `;
 
       case "bottom-start":
         return css`
           top: ${offsetY}rem;
-          left: ${offsetX}px;
+          left: ${offsetX}rem;
         `;
       case "bottom-end":
         return css`
           top: ${offsetY}rem;
-          right: ${offsetX}px;
+          right: ${offsetX}rem;
         `;
     }
   };
