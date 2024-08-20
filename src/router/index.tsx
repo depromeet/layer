@@ -20,6 +20,8 @@ import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
 import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
+import { RecommendDonePage } from "@/app/retrospect/template/recommend/RecommendDonePage";
+import { RecommendTemplatePage } from "@/app/retrospect/template/recommend/RecommendTemplatePage";
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
 import { CreateDonePage } from "@/app/space/CreateDonePage";
@@ -120,6 +122,16 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/retrospect/complete",
     element: <RetrospectCreateComplete />,
+    auth: true,
+  },
+  {
+    path: "/retrospect/recommend",
+    element: <RecommendTemplatePage />,
+    auth: true,
+  },
+  {
+    path: "/retrospect/recommend/done",
+    element: <RecommendDonePage />,
     auth: true,
   },
   {
