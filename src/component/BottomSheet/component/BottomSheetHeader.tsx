@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 
 import { BottomSheetType } from "@/component/BottomSheet/BottomSheet.tsx";
 import { Icon } from "@/component/common/Icon";
+import { Typography } from "@/component/common/typography";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
@@ -55,13 +56,9 @@ export function BottomSheetHeader({ title, handler, quitButton }: Pick<BottomShe
             }
           `}
         >
-          <span
-            css={css`
-              font-size: 2rem;
-            `}
-          >
+          <Typography variant={"title18Bold"} color={"gray900"}>
             {title}
-          </span>
+          </Typography>
         </div>
       )}
       {quitButton && (

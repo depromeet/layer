@@ -170,8 +170,8 @@ export default function ActionItemBox({
           <div
             css={css`
               display: flex;
-              flex-direction: column;
-              row-gap: 0.8rem;
+              column-gap: 0.8rem;
+              align-items: center;
             `}
           >
             {inProgressYn && (
@@ -182,10 +182,13 @@ export default function ActionItemBox({
                   padding: 0.4rem 0.8rem;
                   width: fit-content;
                   border-radius: 0.4rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
                 `}
               >
                 <Typography variant={"body12SemiBold"} color={"blue600"}>
-                  진행 중
+                  실행 중
                 </Typography>
               </div>
             )}
