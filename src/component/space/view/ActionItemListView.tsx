@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/useToast";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ActionItemType } from "@/types/actionItem";
 import { Retrospect } from "@/types/retrospect";
+import { useQueryClient } from "@tanstack/react-query";
 
 type ActionItemListViewProps = {
   isPossibleMake: boolean;
@@ -35,12 +36,13 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
     retrospectTitle: item.title,
     status: item.retrospectStatus,
   }));
+
   const navigate = useNavigate();
+  const queryClient = useQueryClient(); // QueryClient를 사용하여 쿼리 재실행을 관리
   const [retrospect, setRetrospect] = useState("");
   const [retrospectId, setRetrospectId] = useState<number | undefined>(-1);
 
   const { value: actionItemValue, handleInputChange } = useInput();
-
   const { mutate } = useCreateActionItem();
   const { toast } = useToast();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
@@ -58,6 +60,29 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
     if (spaceId && leaderId) {
       navigate("/goals/more", { state: { spaceId, leaderId } });
     }
+  };
+
+  const handleAddActionItem = () => {
+    if (retrospectId === undefined || retrospectId === -1 || actionItemValue.trim() === "") {
+      toast.error("회고를 선택하고 실행목표를 입력해주세요.");
+      return;
+    }
+
+    mutate(
+      { retrospectId, content: actionItemValue },
+      {
+        onSuccess: () => {
+          closeBottomSheet();
+          setRetrospect("");
+          setRetrospectId(-1);
+          toast.success("성공적으로 실행목표가 추가되었어요!");
+          queryClient.invalidateQueries(["teamActionList", spaceId]);
+        },
+        onError: () => {
+          toast.error("예기치 못한 에러가 발생했어요");
+        },
+      },
+    );
   };
 
   return (
@@ -152,24 +177,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
                   padding-bottom: 0;
                 `}
               >
-                <Button
-                  onClick={() => {
-                    mutate(
-                      { retrospectId: retrospectId as number, content: actionItemValue },
-                      {
-                        onSuccess: () => {
-                          closeBottomSheet();
-                          setRetrospect("");
-                          toast.success("성공적으로 실행목표가 추가되었어요!");
-                        },
-                        onError: () => {
-                          toast.error("예기치못한 에러가 발생했어요");
-                        },
-                      },
-                    );
-                  }}
-                  disabled={!actionItemValue}
-                >
+                <Button onClick={handleAddActionItem} disabled={!actionItemValue}>
                   추가하기
                 </Button>
               </ButtonProvider>
