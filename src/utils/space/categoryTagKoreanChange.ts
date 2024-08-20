@@ -18,5 +18,5 @@ export const categoryTagKoreanChange = (category: string): string => {
 
 // FIXME: 매핑에 따른 함수 변경
 export const templateNameChange = (formId: number | undefined): string => {
-  return "KPT";
+  return formId ? "KPT" : "none";
 };

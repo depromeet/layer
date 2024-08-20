@@ -150,14 +150,15 @@ export function RetrospectBox({
                 {calculateDeadlineRemaining(deadline)}
               </Typography>
             )}
-
-            <RetrospectOptions
-              isOptionsVisible={isOptionsVisible}
-              toggleOptionsVisibility={toggleOptionsVisibility}
-              removeBtnClickFun={removeBtnClickFun}
-              modifyBtnClickFun={modifyBtnClickFun}
-              optionsRef={optionsRef}
-            />
+            {isLeader && (
+              <RetrospectOptions
+                isOptionsVisible={isOptionsVisible}
+                toggleOptionsVisibility={toggleOptionsVisibility}
+                removeBtnClickFun={removeBtnClickFun}
+                modifyBtnClickFun={modifyBtnClickFun}
+                optionsRef={optionsRef}
+              />
+            )}
           </div>
         </div>
         {introduction && (

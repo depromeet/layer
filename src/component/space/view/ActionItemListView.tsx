@@ -203,7 +203,3 @@ function PlusActionItem() {
     </>
   );
 }
-
-const isNotCompleteComp = () => {
-  return <></>;
-};
