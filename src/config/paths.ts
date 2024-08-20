@@ -20,4 +20,5 @@ export const PATHS = {
   termsofservice: () => `/myinfo/termsofservice`,
   privacypolicy: () => `/myinfo/privacypolicy`,
   feedback: () => `/myinfo/feedback`,
+  retrospectRecommend: () => `/retrospect/recommend`,
 };
