@@ -73,15 +73,15 @@ function Content({ asChild, children, message, animate, placement = "top-end", o
   const context = useContext(TooltipContext);
 
   const [isVisible, setIsVisible] = useState(true);
-  // useEffect(() => {
-  //   if (isVisible) {
-  //     const timer = setTimeout(() => {
-  //       setIsVisible(false);
-  //     }, 3000);
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 3000);
 
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [isVisible]);
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible]);
 
   useEffect(() => {
     if (hideOnClick) {
