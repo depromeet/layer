@@ -101,6 +101,7 @@ export function SpaceViewPage() {
       TopComp={
         <>
           <ActionItemListView
+            restrospectArr={restrospectArr ? restrospectArr : []}
             isPossibleMake={doneRetrospects.length === 0}
             spaceId={spaceInfo?.id}
             teamActionList={teamActionList?.teamActionItemList || []}

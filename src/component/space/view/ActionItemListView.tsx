@@ -3,47 +3,51 @@ import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
-import { Button } from "@/component/common/button";
+import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { TextArea } from "@/component/common/input";
+import { SelectBox } from "@/component/common/SelectBox";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
+import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
+import { useInput } from "@/hooks/useInput";
+import { useToast } from "@/hooks/useToast";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ActionItemType } from "@/types/actionItem";
+import { Retrospect } from "@/types/retrospect";
 
-type ActionItemListViewPros = {
+type ActionItemListViewProps = {
   isPossibleMake: boolean;
   teamActionList: ActionItemType[];
   spaceId: number | undefined;
   leaderId: number | undefined;
+  restrospectArr: Retrospect[] | [];
 };
 
 type ActionItemProps = {
   actionItemContent: string;
 };
 
-type PostActionItemProps = {
-  retrospectId: number;
-  actionItemContent: string;
-};
-
-export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, leaderId }: ActionItemListViewPros) {
+export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, leaderId, restrospectArr = [] }: ActionItemListViewProps) {
+  const retrospectInfo = restrospectArr.map((item) => ({
+    retrospectId: item.retrospectId,
+    retrospectTitle: item.title,
+    status: item.retrospectStatus,
+  }));
   const navigate = useNavigate();
-  const [textValue, setTextValue] = useState("");
-  const { mutate: postActionItem } = useApiPostActionItem();
-  const { openBottomSheet } = useBottomSheet();
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTextValue(e.target.value);
-  };
+  const [retrospect, setRetrospect] = useState("");
+  const [retrospectId, setRetrospectId] = useState<number | undefined>(-1);
 
-  const handleAddActionItem = ({ retrospectId, actionItemContent }: PostActionItemProps) => {
-    if (textValue.trim() === "") {
-      return;
-    }
-    postActionItem({ retrospectId: retrospectId, content: actionItemContent });
-    setTextValue("");
+  const { value: actionItemValue, handleInputChange } = useInput();
+
+  const { mutate } = useCreateActionItem();
+  const { toast } = useToast();
+  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
+
+  const updateRetroSpectData = ({ retrospectId, retrospectTitle }: { retrospectId: number; retrospectTitle: string }) => {
+    setRetrospect(retrospectTitle);
+    setRetrospectId(retrospectId);
   };
 
   const handleOpenBottomSheet = () => {
@@ -123,32 +127,52 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
           </div>
         </>
       )}
+
       <BottomSheet
         id={"actionItemSheet"}
-        sheetHeight={300}
+        title="실행 목표 추가"
+        sheetHeight={420}
         contents={
           <Fragment>
             <div
               css={css`
+                padding: 2.4rem 1rem 0 1rem;
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-                gap: 2.5rem;
+                height: 100%;
+                position: relative;
               `}
             >
-              <Typography variant="S1">실행 목표 추가</Typography>
-              <TextArea value={textValue} placeholder="Text" onChange={handleTextChange} />
-              <Button
-                colorSchema="black"
-                onClick={() => {
-                  if (spaceId) {
-                    // FIXME: 수정해야됨
-                    handleAddActionItem({ retrospectId: spaceId, actionItemContent: textValue });
-                  }
-                }}
+              <SelectBox data={retrospectInfo} onClick={() => {}} value={retrospect} updateRetroSpectData={updateRetroSpectData} />
+
+              <Spacing size={1.5} />
+              <TextArea value={actionItemValue} onChange={handleInputChange} placeholder={"실행목표를 입력해주세요"} />
+              <ButtonProvider
+                onlyContainerStyle={css`
+                  padding-bottom: 0;
+                `}
               >
-                추가하기
-              </Button>
+                <Button
+                  onClick={() => {
+                    mutate(
+                      { retrospectId: retrospectId as number, content: actionItemValue },
+                      {
+                        onSuccess: () => {
+                          closeBottomSheet();
+                          setRetrospect("");
+                          toast.success("성공적으로 실행목표가 추가되었어요!");
+                        },
+                        onError: () => {
+                          toast.error("예기치못한 에러가 발생했어요");
+                        },
+                      },
+                    );
+                  }}
+                  disabled={!actionItemValue}
+                >
+                  추가하기
+                </Button>
+              </ButtonProvider>
             </div>
           </Fragment>
         }
