@@ -116,7 +116,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
               gap: 0.8rem;
             `}
           >
-            {teamActionList.map((actionItem, idx) => (
+            {teamActionList.slice(0, 3).map((actionItem, idx) => (
               <ActionItem key={idx} actionItemContent={actionItem.actionItemContent} />
             ))}
             {Array.from({ length: 3 - teamActionList.length }).map((_, index) => (
