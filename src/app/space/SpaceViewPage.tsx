@@ -30,7 +30,7 @@ export function SpaceViewPage() {
   const navigate = useNavigate();
   const memberId = Cookies.get("memberId");
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
-  const { openBottomSheet } = useBottomSheet();
+  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { open } = useModal();
   const SHEET_ID = "createSpaceSheet";
 
@@ -222,7 +222,7 @@ export function SpaceViewPage() {
         id={SHEET_ID}
         contents={
           <Fragment>
-            <CreateRetrospectiveSheet spaceId={spaceId} teamName={spaceInfo?.name} />
+            <CreateRetrospectiveSheet spaceId={spaceId} teamName={spaceInfo?.name} closeBottomSheet={closeBottomSheet} />
           </Fragment>
         }
         handler={true}

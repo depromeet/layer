@@ -8,10 +8,11 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type Props = {
   teamName: string | undefined;
-  spaceId: string | undefined;
+  spaceId: string;
+  closeBottomSheet: () => void;
 };
 
-export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
+export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }: Props) {
   const navigate = useNavigate();
   return (
     <div
@@ -39,10 +40,10 @@ export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
       >
         <button
           onClick={() => {
-            //FIXME - 추천 페이지로 변경하기
             navigate(PATHS.retrospectRecommend(), {
               state: { spaceId: spaceId },
             });
+            closeBottomSheet();
           }}
           css={css`
             width: 16.3rem;
@@ -68,10 +69,10 @@ export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
         </button>
         <button
           onClick={() => {
-            if (spaceId)
-              navigate(PATHS.template(spaceId), {
-                state: { createRetrospect: true },
-              });
+            navigate(PATHS.template(spaceId), {
+              state: { createRetrospect: true },
+            });
+            closeBottomSheet();
           }}
           css={css`
             width: 16.3rem;

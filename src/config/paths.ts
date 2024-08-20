@@ -22,4 +22,4 @@ export const PATHS = {
   privacypolicy: () => `/myinfo/privacypolicy`,
   feedback: () => `/myinfo/feedback`,
   retrospectAnalysis: () => `/retrospect/analysis`,
-};
+} as const;
