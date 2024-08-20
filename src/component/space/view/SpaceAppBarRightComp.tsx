@@ -1,12 +1,11 @@
 import { css, keyframes } from "@emotion/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useToast } from "@/hooks/useToast";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type RightCompProps = {
   spaceId: string | undefined;
