@@ -20,6 +20,7 @@ import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 type ActionItemBoxProps = {
   id?: number;
   inProgressYn: boolean;
+  emitDataRefetch: () => void;
   title: string;
   contents: {
     actionItemId: number;
@@ -36,7 +37,16 @@ type ActionItemBoxProps = {
     status: "PROCEEDING" | "DONE";
   }[];
 };
-export default function ActionItemBox({ id, title, contents, inProgressYn, readonly, description, retrospectInfo = [] }: ActionItemBoxProps) {
+export default function ActionItemBox({
+  id,
+  title,
+  contents,
+  inProgressYn,
+  readonly,
+  description,
+  retrospectInfo = [],
+  emitDataRefetch,
+}: ActionItemBoxProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isFading, setIsFading] = useState(false);
   const SHEET_ID = btoa(`ActionItemSheet${id}`);
@@ -45,10 +55,10 @@ export default function ActionItemBox({ id, title, contents, inProgressYn, reado
 
   const menuRef = useRef<HTMLDivElement>(null);
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
-  const { value: actionItemValue, handleInputChange } = useInput();
+  const { value: actionItemValue, handleInputChange, resetInput } = useInput();
   const [retrospect, setRetrospect] = useState("");
   const [retrospectId, setRetrospectId] = useState(id);
-  const { mutate } = useCreateActionItem();
+  const { mutate, isPending } = useCreateActionItem();
   const { toast } = useToast();
   const { open } = useModal();
 
@@ -107,14 +117,17 @@ export default function ActionItemBox({ id, title, contents, inProgressYn, reado
                 `}
               >
                 <Button
+                  isProgress={isPending}
                   onClick={() => {
                     mutate(
                       { retrospectId: retrospectId as number, content: actionItemValue },
                       {
                         onSuccess: () => {
-                          closeBottomSheet();
                           setRetrospect("");
+                          resetInput();
+                          emitDataRefetch();
                           toast.success("성공적으로 실행목표가 추가되었어요!");
+                          closeBottomSheet();
                         },
                         onError: () => {
                           toast.error("예기치못한 에러가 발생했어요");

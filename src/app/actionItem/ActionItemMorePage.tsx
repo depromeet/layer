@@ -19,7 +19,7 @@ export function ActionItemMorePage() {
   const location = useLocation();
   const { openBottomSheet } = useBottomSheet();
   const { spaceId } = location.state as { spaceId: string };
-  const { data, isLoading } = useGetSpaceActionItemList({ spaceId: spaceId });
+  const { data, isLoading, refetch } = useGetSpaceActionItemList({ spaceId: spaceId });
   const scaledData = data?.teamActionItemList.map((item) => ({
     retrospectId: item.retrospectId,
     retrospectTitle: item.retrospectTitle,
@@ -88,6 +88,7 @@ export function ActionItemMorePage() {
                 title={item.retrospectTitle}
                 contents={item.actionItemList}
                 retrospectInfo={scaledData}
+                emitDataRefetch={refetch}
               />
             );
           })}

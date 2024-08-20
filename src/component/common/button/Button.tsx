@@ -1,12 +1,17 @@
 import { css } from "@emotion/react";
+import Lottie from "lottie-react";
 import { PropsWithChildren } from "react";
+
+import Loading from "@/assets/lottie/button/loading/loading.json";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
 
 export type ButtonProps = {
   colorSchema?: string;
   disabled?: boolean;
+  isProgress?: boolean;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type">;
 
-export function Button({ children, colorSchema = "primary", disabled = false, ...props }: PropsWithChildren<ButtonProps>) {
+export function Button({ children, isProgress = false, colorSchema = "primary", disabled = false, ...props }: PropsWithChildren<ButtonProps>) {
   return (
     <button
       css={css`
@@ -19,12 +24,16 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
         border: none;
         font-size: 1.6rem;
         font-weight: 500;
-        cursor: pointer;
+        cursor: ${isProgress ? "not-allowed" : "pointer"};
         transition: 0.4s all;
 
         display: flex;
         align-items: center;
         justify-content: center;
+
+        path {
+          fill: white;
+        }
 
         // FIXME: 추후 디자인 토큰 나오면 세부 수정 진행 필요
         ${colorSchema === "sky" &&
@@ -40,12 +49,18 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
         css`
           color: #212529;
           background-color: white;
+          path {
+            fill: ${DESIGN_TOKEN_COLOR.gray700};
+          }
         `}
         ${colorSchema === "outline" &&
         css`
           border: 1px solid #dfe3ea;
           background-color: white;
           color: #454952;
+          path {
+            fill: ${DESIGN_TOKEN_COLOR.gray700};
+          }
         `}
         ${disabled &&
         css`
@@ -55,9 +70,20 @@ export function Button({ children, colorSchema = "primary", disabled = false, ..
         `}
       `}
       {...props}
-      disabled={disabled}
+      disabled={disabled || isProgress}
     >
-      {children}
+      {isProgress ? (
+        <Lottie
+          animationData={Loading}
+          loop={true}
+          css={css`
+            width: auto;
+            height: 13rem;
+          `}
+        />
+      ) : (
+        children
+      )}
     </button>
   );
 }

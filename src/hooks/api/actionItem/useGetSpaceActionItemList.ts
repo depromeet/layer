@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { api } from "@/api";
 
-type PersonalActionItemListType = {
+export type PersonalActionItemListType = {
   spaceId: number;
   spaceName: string;
   teamActionItemList: {
