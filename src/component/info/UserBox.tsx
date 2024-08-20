@@ -47,6 +47,7 @@ export function UserBox({ name, imgUrl }: UserBoxProps) {
                 width: 4.2rem;
                 height: 4.2rem;
                 border-radius: 100%;
+                object-fit: cover;
               `}
             />
           ) : (

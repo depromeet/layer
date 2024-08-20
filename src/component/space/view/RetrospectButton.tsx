@@ -19,7 +19,7 @@ export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectBu
       DONE: {
         text: "분석 확인",
         route: [
-          "/분석",
+          PATHS.retrospectAnalysis(),
           {
             state: {
               retrospectId,
