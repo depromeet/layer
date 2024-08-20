@@ -40,8 +40,8 @@ export function CreateRetrospectiveSheet({ teamName, spaceId }: Props) {
         <button
           onClick={() => {
             //FIXME - 추천 페이지로 변경하기
-            navigate(PATHS.retrospectCreate(), {
-              state: { spaceId: spaceId, templateId: 10000, saveTemplateId: true },
+            navigate(PATHS.retrospectRecommend(), {
+              state: { spaceId: spaceId },
             });
           }}
           css={css`
