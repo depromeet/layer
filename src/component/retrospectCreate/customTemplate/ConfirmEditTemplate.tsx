@@ -109,7 +109,7 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
                     }}
                   />
                 </Tooltip.Trigger>
-                <Tooltip.Content message="커스텀된 템플릿의 이름을 수정할 수 있어요!" hideOnClick animate />
+                <Tooltip.Content message="커스텀된 템플릿의 이름을 수정할 수 있어요!" placement="top-end" offsetX={10} hideOnClick />
               </Tooltip>
             </div>
             <Tag>{tag}</Tag>
