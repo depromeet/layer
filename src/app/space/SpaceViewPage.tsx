@@ -24,6 +24,7 @@ import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
+import { templateNameChange } from "@/utils/space/categoryTagKoreanChange";
 
 export function SpaceViewPage() {
   const navigate = useNavigate();
@@ -99,9 +100,14 @@ export function SpaceViewPage() {
       topTheme="dark"
       TopComp={
         <>
-          <ActionItemListView spaceId={spaceInfo?.id} teamActionList={teamActionList?.teamActionItemList || []} leaderId={spaceInfo?.leader.id} />
+          <ActionItemListView
+            isPossibleMake={doneRetrospects.length === 0}
+            spaceId={spaceInfo?.id}
+            teamActionList={teamActionList?.teamActionItemList || []}
+            leaderId={spaceInfo?.leader.id}
+          />
           <Spacing size={1.1} />
-          <SpaceCountView mainTemplate={spaceInfo?.fieldList[0]} memberCount={spaceInfo?.memberCount} />
+          <SpaceCountView mainTemplate={templateNameChange(spaceInfo?.formId)} memberCount={spaceInfo?.memberCount} />
           <Spacing size={2.4} />
         </>
       }
@@ -135,6 +141,7 @@ export function SpaceViewPage() {
           width: calc(100% + 4rem);
           transform: translateX(-2rem);
           min-height: calc(100vh - 33rem);
+          overflow-y: scroll;
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
           padding: 2.2rem 2rem;
         `}

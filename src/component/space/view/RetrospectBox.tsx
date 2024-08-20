@@ -105,73 +105,7 @@ export function RetrospectBox({
           border-radius: 1rem;
           padding: 2rem 2rem 1.8rem 2rem;
           display: flex;
-          align-items: center;
-          justify-content: space-between;
-          position: relative;
-        `}
-      >
-        <Typography
-          variant="title16Bold"
-          css={css`
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          `}
-        >
-          {title}
-        </Typography>
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
-          `}
-        >
-          {retrospectStatus === "PROCEEDING" && (
-            <Typography
-              css={css`
-                background-color: ${DESIGN_TOKEN_COLOR.gray00};
-                padding: 0.4rem 0.8rem;
-                vertical-align: center;
-                border-radius: 0.4rem;
-              `}
-              color="blue600"
-              variant="B2_SEMIBOLD"
-            >
-              {calculateDeadlineRemaining(deadline)}
-            </Typography>
-          )}
-          {isLeader && (
-            <RetrospectOptions
-              isOptionsVisible={isOptionsVisible}
-              toggleOptionsVisibility={toggleOptionsVisibility}
-              removeBtnClickFun={removeBtnClickFun}
-              modifyBtnClickFun={modifyBtnClickFun}
-              optionsRef={optionsRef}
-            />
-          )}
-        </div>
-      </div>
-      {introduction && (
-        <Typography
-          color="gray800"
-          variant="body14Medium"
-          css={css`
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          `}
-        >
-          {introduction}
-        </Typography>
-      )}
-
-      <div
-        css={css`
-          margin-top: 0.4rem;
-          display: flex;
-          align-items: center;
+          flex-direction: column;
           gap: 0.4rem;
           transition: opacity 0.3s ease-out;
           opacity: ${isDeleted ? 0 : 1};
@@ -216,14 +150,15 @@ export function RetrospectBox({
                 {calculateDeadlineRemaining(deadline)}
               </Typography>
             )}
-
-            <RetrospectOptions
-              isOptionsVisible={isOptionsVisible}
-              toggleOptionsVisibility={toggleOptionsVisibility}
-              removeBtnClickFun={removeBtnClickFun}
-              modifyBtnClickFun={modifyBtnClickFun}
-              optionsRef={optionsRef}
-            />
+            {isLeader && (
+              <RetrospectOptions
+                isOptionsVisible={isOptionsVisible}
+                toggleOptionsVisibility={toggleOptionsVisibility}
+                removeBtnClickFun={removeBtnClickFun}
+                modifyBtnClickFun={modifyBtnClickFun}
+                optionsRef={optionsRef}
+              />
+            )}
           </div>
         </div>
         {introduction && (
