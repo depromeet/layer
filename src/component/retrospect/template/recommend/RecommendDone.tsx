@@ -7,6 +7,7 @@ import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
 import { TemplateCard } from "@/component/retrospect/template/card/TemplateCard";
+import { PATHS } from "@/config/paths";
 import { useApiRecommendTemplate } from "@/hooks/api/retrospect/recommend/useApiRecommendTemplate";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
@@ -39,6 +40,7 @@ export function RecommendDone() {
         css={css`
           display: flex;
           justify-content: center;
+          position: relative;
         `}
       >
         <TemplateCard
@@ -55,8 +57,10 @@ export function RecommendDone() {
             gap: 0.8rem;
           `}
         >
-          <ButtonProvider.Gray onClick={() => {}}>템플릿 변경</ButtonProvider.Gray>
-          <ButtonProvider.Primary onClick={() => {}}>진행하기</ButtonProvider.Primary>
+          <ButtonProvider.Gray onClick={() => navigate(PATHS.template(locationState.spaceId))}>템플릿 변경</ButtonProvider.Gray>
+          <ButtonProvider.Primary onClick={() => navigate(PATHS.retrospectCreate(), { state: { spaceId: locationState.spaceId } })}>
+            진행하기
+          </ButtonProvider.Primary>
         </div>
       </ButtonProvider>
     </DefaultLayout>
