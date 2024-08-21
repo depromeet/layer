@@ -108,7 +108,7 @@ export function SpaceViewPage() {
             leaderId={spaceInfo?.leader.id}
           />
           <Spacing size={1.1} />
-          <SpaceCountView mainTemplate={templateNameChange(spaceInfo?.formId)} memberCount={spaceInfo?.memberCount} />
+          <SpaceCountView mainTemplate={spaceInfo?.formTag} memberCount={spaceInfo?.memberCount} />
           <Spacing size={2.4} />
         </>
       }

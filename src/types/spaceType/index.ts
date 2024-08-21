@@ -5,6 +5,7 @@ export type Space = {
   name: string;
   introduction: string;
   formId: number;
+  formTag: string | null;
   bannerUrl: string;
   memberCount: number;
   leader: { id: number; name: string };
