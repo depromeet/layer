@@ -53,7 +53,9 @@ export function TemplateListPage() {
       `}
     >
       <Icon icon={"ic_info"} color={DESIGN_SYSTEM_COLOR.grey500} />
-      <Typography color={"grey500"}>카드를 클릭하면 자세한 내용을 확인할 수 있어요</Typography>
+      <Typography color={"gray600"} variant={"body14Medium"}>
+        카드를 클릭하면 자세한 내용을 확인할 수 있어요
+      </Typography>
     </div>
   );
 
