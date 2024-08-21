@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
 import { AxiosResponse } from "axios";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { ActionItemModifyBox } from "@/component/actionItem/ActionItemModifyBox.tsx";
