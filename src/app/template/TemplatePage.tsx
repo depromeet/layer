@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
-import { TagBox } from "@/component/home";
+import { Tag } from "@/component/common/tag";
 import { ExampleButton } from "@/component/template/ExampleButton.tsx";
 import { PurposeBox } from "@/component/template/PurposeBox.tsx";
 import { QuestionBox } from "@/component/template/QuestionBox.tsx";
@@ -114,7 +114,7 @@ export function TemplatePage() {
                   }
                 `}
               >
-                <TagBox tagName={data?.templateName ?? ""} isSubstitution={false} />
+                <Tag>{data?.templateName ?? ""}</Tag>
               </div>
               <div
                 id="description"
