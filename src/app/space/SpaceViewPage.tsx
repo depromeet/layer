@@ -24,7 +24,6 @@ import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
-import { templateNameChange } from "@/utils/space/categoryTagKoreanChange";
 
 export function SpaceViewPage() {
   const navigate = useNavigate();
