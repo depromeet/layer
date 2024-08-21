@@ -2,8 +2,7 @@ import { css } from "@emotion/react";
 import { HTMLAttributes } from "react";
 
 import { Icon } from "@/component/common/Icon";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable.ts";
+import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 
 type ActionItemModifyBoxProps = {
   contents: string;
@@ -32,15 +31,8 @@ export function ActionItemModifyBox({ actionItemId, handleChange, contents, dele
         value={contents}
         onChange={handleChange}
         css={css`
+          ${DESIGN_TOKEN_TEXT.body14Medium};
           flex-grow: 1;
-        `}
-      />
-      <Icon
-        icon="ic_handle"
-        color={DESIGN_SYSTEM_COLOR.lightGrey3}
-        size={"1.8rem"}
-        css={css`
-          margin-left: auto;
         `}
       />
     </div>

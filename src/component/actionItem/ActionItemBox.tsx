@@ -14,7 +14,6 @@ import { PATHS } from "@/config/paths.ts";
 import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem.ts";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 import { useInput } from "@/hooks/useInput.ts";
-import { useModal } from "@/hooks/useModal.ts";
 import { useToast } from "@/hooks/useToast.ts";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
@@ -63,7 +62,6 @@ export default function ActionItemBox({
   const { mutate, isPending } = useCreateActionItem();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { open } = useModal();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -298,13 +296,6 @@ export default function ActionItemBox({
                     navigate(PATHS.goalsEdit(), {
                       state: {
                         data: retrospectInfo,
-                      },
-                    });
-                    open({
-                      title: "현재 해당 기능은 준비중이에요",
-                      contents: "빠르게 개발을 진행하고 있으니, 잠시만 기다려주세요!",
-                      options: {
-                        type: "alert",
                       },
                     });
                   }}
