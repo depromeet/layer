@@ -2,12 +2,14 @@ import { css } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { categoryTagKoreanChange } from "@/utils/space/categoryTagKoreanChange";
 
 type TagBoxProps = {
   tagName: string;
+  isSubstitution?: boolean;
 };
 
-export function TagBox({ tagName }: TagBoxProps) {
+export function TagBox({ tagName, isSubstitution = true }: TagBoxProps) {
   return (
     <div
       css={css`
@@ -22,7 +24,7 @@ export function TagBox({ tagName }: TagBoxProps) {
       `}
     >
       <Typography variant="body12SemiBold" color="gray800">
-        {tagName}
+        {isSubstitution ? categoryTagKoreanChange(tagName) : tagName}
       </Typography>
     </div>
   );

@@ -114,7 +114,7 @@ export function TemplatePage() {
                   }
                 `}
               >
-                <TagBox tagName={data?.templateName ?? ""} />
+                <TagBox tagName={data?.templateName ?? ""} isSubstitution={false} />
               </div>
               <div
                 id="description"
