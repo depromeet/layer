@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { categoryTagKoreanChange } from "@/utils/space/categoryTagKoreanChange";
 
 type TagBoxProps = {
   tagName: string;
@@ -23,7 +22,7 @@ export function TagBox({ tagName }: TagBoxProps) {
       `}
     >
       <Typography variant="body12SemiBold" color="gray800">
-        {categoryTagKoreanChange(tagName)}
+        {tagName}
       </Typography>
     </div>
   );

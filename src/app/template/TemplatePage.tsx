@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
@@ -18,6 +18,7 @@ export function TemplatePage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [isColliding, setIsColliding] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { templateId } = location?.state as { templateId: number };
   /**
    * template
@@ -63,6 +64,7 @@ export function TemplatePage() {
                   transition: 0.4s all;
                 }
               `}
+              onClick={() => navigate(-1)}
             />
           }
           ref={appbarRef}
@@ -144,12 +146,9 @@ export function TemplatePage() {
                   flex-wrap: wrap;
                 `}
               >
-                {/* FIXME: 서버에서 해당 데이터 값 반영 후, 리패칭 예정 */}
-                <PurposeBox purpose={"팀워크 강화"} />
-                <PurposeBox purpose={"팀워크 강화"} />
-                <PurposeBox purpose={"김현도리 김현도리 김현도리"} />
-                <PurposeBox purpose={"팀워크 강화"} />
-                <PurposeBox purpose={"김현도리 김현도리 김현도리"} />
+                {data.templatePurposeResponseList.map((item) => {
+                  return <PurposeBox key={item.id} purpose={item.purpose} />;
+                })}
               </div>
             </article>
             <article>
