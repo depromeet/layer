@@ -6,7 +6,6 @@ import { Typography } from "@/component/common/typography";
 import { PATHS } from "@/config/paths";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { categoryTagKoreanChange } from "@/utils/space/categoryTagKoreanChange";
 
 type SpaceCountViewProps = {
   memberCount: number | undefined;
@@ -63,7 +62,7 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
                 text-align: left;
               `}
             >
-              {mainTemplate ? categoryTagKoreanChange(mainTemplate) : "-"}
+              {mainTemplate ?? "-"}
             </Typography>
           </div>
         </div>
