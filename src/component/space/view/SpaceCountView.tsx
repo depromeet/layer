@@ -10,7 +10,7 @@ import { categoryTagKoreanChange } from "@/utils/space/categoryTagKoreanChange";
 
 type SpaceCountViewProps = {
   memberCount: number | undefined;
-  mainTemplate: string | undefined;
+  mainTemplate: string | null | undefined;
 };
 
 export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProps) {
