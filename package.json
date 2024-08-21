@@ -14,6 +14,7 @@
     "@egjs/react-flicking": "^4.11.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@hello-pangea/dnd": "^16.6.0",
     "@popperjs/core": "^2.11.8",
     "@tanstack/react-query": "^5.49.2",
     "@tanstack/react-query-devtools": "^5.49.2",

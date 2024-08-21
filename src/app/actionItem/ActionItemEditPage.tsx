@@ -1,5 +1,7 @@
 import { css } from "@emotion/react";
-import { Fragment, useState } from "react";
+import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
+import { AxiosResponse } from "axios";
+import { Fragment, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { ActionItemModifyBox } from "@/component/actionItem/ActionItemModifyBox.tsx";
@@ -8,13 +10,14 @@ import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { Typography } from "@/component/common/typography";
 import { AddListItemButton } from "@/component/retrospectCreate/customTemplate/EditQuestions.tsx";
-// import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem.ts";
+import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem.ts";
 import { useDeleteActionItemList } from "@/hooks/api/actionItem/useDeleteActionItemList.ts";
 import { usePatchActionItemList } from "@/hooks/api/actionItem/usePatchActionItemList.ts";
 import { useModal } from "@/hooks/useModal.ts";
 import { useToast } from "@/hooks/useToast.ts";
 import { DualToneLayout } from "@/layout/DualToneLayout.tsx";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable.ts";
 
 type retrospectInfoType = {
   actionItemList: {
@@ -32,7 +35,7 @@ export function ActionItemEditPage() {
   const { data: retrospectInfo } = location.state as { data: retrospectInfoType[] };
   const { mutate: deleteActionItem, isPending: deleteActionItemPending } = useDeleteActionItemList();
   const { mutate: patchActionItem, isPending: patchActionItemPending } = usePatchActionItemList();
-  // const { mutate: createActionItem } = useCreateActionItem();
+  const { mutate: createActionItem, isPending: createActionItemPending } = useCreateActionItem();
   const { open } = useModal();
   const { toast } = useToast();
   const actionItems = retrospectInfo?.flatMap((item) =>
@@ -44,8 +47,13 @@ export function ActionItemEditPage() {
   const [data, setData] = useState(actionItems);
   const isLimit = data.length >= 6;
 
+  useEffect(() => {
+    const inputNodeSet = document.querySelectorAll("input");
+    const lastInputNode = inputNodeSet[inputNodeSet.length - 1];
+    lastInputNode.focus();
+  }, [data]);
+
   const handleDelete = (id: number) => {
-    console.log(id);
     open({
       title: "실행 목표 삭제",
       contents: "정말 삭제하시겠어요?",
@@ -71,18 +79,37 @@ export function ActionItemEditPage() {
     setData((prevData) => prevData.map((item) => (item.id === id ? { ...item, content: value } : item)));
   };
 
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const items = reorder(data, result.source.index, result.destination.index);
+    setData([...items]);
+  };
+
+  const reorder = (list: { id: number; content: string }[], startIndex: number, endIndex: number) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+
   const handleAdd = () => {
     if (isLimit) return;
-    open({
-      title: "해당 부분은 서버 연동중이에요",
-      contents: "해당 부분은 21일 업데이트 예정입니다.",
-      options: {
-        type: "alert",
+    createActionItem(
+      { retrospectId: retrospectInfo[0].retrospectId, content: "" },
+      {
+        onSuccess: (res: AxiosResponse<{ actionItemId: number }>) => {
+          try {
+            setData([...data, { id: res.data.actionItemId, content: "" }]);
+          } catch {
+            toast.error("실행 목표 생성 과정에서 에러가 발생했어요!");
+          }
+        },
       },
-    });
-    // FIXME: 백엔드에서 리턴 값으로 액션 아이템 아이디를 넘겨줘야 함
-    // const res = createActionItem({ retrospectId: retrospectInfo[0].retrospectId, content: "" });
-    // setData([...data, { id: Date.now(), content: "test" }]);
+    );
   };
 
   const handleComplete = () => {
@@ -100,6 +127,7 @@ export function ActionItemEditPage() {
 
   return (
     <Fragment>
+      {createActionItemPending && <LoadingModal purpose={"실행 목표를 만드는 중입니다.."} />}
       {deleteActionItemPending && <LoadingModal purpose={"데이터를 삭제하는 중..."} />}
       <DualToneLayout
         title={"실행목표 편집"}
@@ -146,17 +174,62 @@ export function ActionItemEditPage() {
               row-gap: 0.8rem;
             `}
           >
-            {data.map((item) => {
-              return (
-                <ActionItemModifyBox
-                  contents={item.content}
-                  deleteActionItems={() => handleDelete(item.id)}
-                  handleChange={(e) => handleChange(item.id, e.target.value)} // handleChange로 상태 관리
-                  key={item.id}
-                  actionItemId={item.id}
-                />
-              );
-            })}
+            <DragDropContext onDragEnd={handleDragEnd}>
+              {
+                <Droppable droppableId={"fields"}>
+                  {(provided) => (
+                    <div id="fields" ref={provided.innerRef} {...provided.droppableProps}>
+                      <div
+                        css={css`
+                          display: flex;
+                          flex-direction: column;
+                          row-gap: 0.8rem;
+                        `}
+                      >
+                        {data.map((item, index) => {
+                          return (
+                            <Fragment key={item.id}>
+                              <Draggable key={item.id} draggableId={String(item.id)} index={index}>
+                                {(provided) => (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    css={css`
+                                      position: relative;
+                                    `}
+                                  >
+                                    <ActionItemModifyBox
+                                      contents={item.content}
+                                      deleteActionItems={() => handleDelete(item.id)}
+                                      handleChange={(e) => handleChange(item.id, e.target.value)}
+                                      key={item.id}
+                                      actionItemId={item.id}
+                                    />
+                                    <div
+                                      {...provided.dragHandleProps}
+                                      css={css`
+                                        position: absolute;
+                                        top: 50%;
+                                        right: 1.6rem;
+                                        transform: translate(0%, -50%);
+                                      `}
+                                    >
+                                      <Icon icon="ic_handle" color={DESIGN_SYSTEM_COLOR.lightGrey3} size={"1.8rem"} />
+                                    </div>
+                                  </div>
+                                )}
+                              </Draggable>
+                            </Fragment>
+                          );
+                        })}
+                      </div>
+
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              }
+            </DragDropContext>
             {!isLimit && <AddListItemButton onClick={handleAdd} />}
           </div>
         </div>
