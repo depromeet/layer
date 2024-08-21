@@ -56,7 +56,7 @@ export function ToastItem({ type, content, id, duration = 3000 }: ToastType) {
         onAnimationEnd={handleExitingAnimationEnd}
         onClick={handleClick}
         css={css`
-          animation: 0.7s forwards ${isClosing ? ANIMATION.FADE_OUT : ANIMATION.FADE_IN};
+          animation: 0.7s forwards ${isClosing ? ANIMATION.FADE_OUT : "none"};
           width: 33.5rem;
           padding: 0rem 2rem;
           height: 5.8rem;
