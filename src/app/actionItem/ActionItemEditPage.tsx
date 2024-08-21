@@ -47,12 +47,6 @@ export function ActionItemEditPage() {
   const [data, setData] = useState(actionItems);
   const isLimit = data.length >= 6;
 
-  useEffect(() => {
-    const inputNodeSet = document.querySelectorAll("input");
-    const lastInputNode = inputNodeSet[inputNodeSet.length - 1];
-    lastInputNode.focus();
-  }, [data]);
-
   const handleDelete = (id: number) => {
     open({
       title: "실행 목표 삭제",
