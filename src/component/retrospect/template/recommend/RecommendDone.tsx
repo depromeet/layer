@@ -63,7 +63,13 @@ export function RecommendDone() {
           `}
         >
           <ButtonProvider.Gray onClick={() => navigate(PATHS.template(locationState.spaceId))}>템플릿 변경</ButtonProvider.Gray>
-          <ButtonProvider.Primary onClick={() => navigate(PATHS.retrospectCreate(), { state: { spaceId: locationState.spaceId } })}>
+          <ButtonProvider.Primary
+            onClick={() =>
+              navigate(PATHS.retrospectCreate(), {
+                state: { spaceId: locationState.spaceId, templateId: recommendData.formId, saveTemplateId: true },
+              })
+            }
+          >
             진행하기
           </ButtonProvider.Primary>
         </div>

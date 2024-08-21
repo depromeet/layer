@@ -19,6 +19,7 @@ import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
+import { RetrospectAnalysisPage } from "@/app/retrospect/analysis/RetrospectAnalysisPage";
 import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
 import { RecommendDonePage } from "@/app/retrospect/template/recommend/RecommendDonePage";
 import { RecommendTemplatePage } from "@/app/retrospect/template/recommend/RecommendTemplatePage";
@@ -36,7 +37,6 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
-import { RetrospectAnalysisPage } from "@/app/retrospect/analysis/RetrospectAnalysisPage";
 
 type RouteChildren = {
   auth: boolean;
