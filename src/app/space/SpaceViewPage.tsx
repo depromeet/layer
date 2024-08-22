@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
+import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Toast } from "@/component/common/Toast";
@@ -24,8 +25,6 @@ import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
-import { Icon } from "@/component/common/Icon";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export function SpaceViewPage() {
   const navigate = useNavigate();
