@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "@/api";
 import { ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
-import { ImageUploader } from "@/component/common/ImageUploader/ImageUploader";
 import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
@@ -14,6 +13,7 @@ import { useApiEditSpace } from "@/hooks/api/space/edit/useApiEditSpace";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { useInput } from "@/hooks/useInput";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { ImageUploader } from "@/component/common/ImageUploader";
 
 export function SpaceEdit() {
   const { id } = useParams() as { id: string };
