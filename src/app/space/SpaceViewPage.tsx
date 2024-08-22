@@ -81,7 +81,7 @@ export function SpaceViewPage() {
         },
         onConfirm: () => {
           navigate(PATHS.retrospectCreate(), {
-            state: { spaceId, templateId: spaceInfo.formId, saveTemplateId: true },
+            state: { spaceId, templateId: spaceInfo.formId },
           });
         },
       });

@@ -10,6 +10,10 @@ type InfoReponse = {
     question: string;
     questionId: number;
   }[];
+  templatePurposeResponseList: {
+    id: number;
+    purpose: string;
+  }[];
   templateImageUrl: string;
   templateName: string;
   tipDescription: string;
