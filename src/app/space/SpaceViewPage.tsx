@@ -24,6 +24,8 @@ import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
+import { Icon } from "@/component/common/Icon";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 export function SpaceViewPage() {
   const navigate = useNavigate();
@@ -97,6 +99,17 @@ export function SpaceViewPage() {
   return (
     <DualToneLayout
       topTheme="dark"
+      LeftComp={
+        <Icon
+          size={2.4}
+          icon="ic_arrow_left"
+          css={css`
+            cursor: pointer;
+          `}
+          onClick={() => navigate("/")}
+          color={DESIGN_TOKEN_COLOR.gray00}
+        />
+      }
       TopComp={
         <>
           <ActionItemListView
