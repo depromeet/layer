@@ -11,6 +11,7 @@ export const PATHS = {
   write: () => `/write`,
   completeRetrospectCreate: () => `/retrospect/complete`,
   template: (spaceId: string) => `/space/${spaceId}/templates`,
+  viewDetailTemplate: () => `/template`,
   spaceCreate: () => `/space/create`,
   spaceDetail: (spaceId: string) => `/space/${spaceId}`,
   myInfo: () => `/myinfo`,

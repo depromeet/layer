@@ -52,7 +52,16 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTem
             선택하기
           </Button>
         ) : (
-          <Button colorSchema={"white"}>
+          <Button
+            colorSchema={"white"}
+            onClick={() =>
+              navigate(PATHS.viewDetailTemplate(), {
+                state: {
+                  templateId: id,
+                },
+              })
+            }
+          >
             <Typography variant={"subtitle16SemiBold"} color={"gray800"}>
               더 알아보기
             </Typography>
