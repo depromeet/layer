@@ -11,5 +11,5 @@ export const useInput = <T extends HTMLInputElement | HTMLTextAreaElement>(defau
     setValue("");
   }, []);
 
-  return { value, handleInputChange, resetInput };
+  return { value, handleInputChange, resetInput, setValue };
 };

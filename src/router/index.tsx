@@ -19,7 +19,6 @@ import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
-import { RetrospectAnalysisPage } from "@/app/retrospect/analysis/RetrospectAnalysisPage";
 import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
 import { RecommendDonePage } from "@/app/retrospect/template/recommend/RecommendDonePage";
 import { RecommendTemplatePage } from "@/app/retrospect/template/recommend/RecommendTemplatePage";
@@ -28,6 +27,7 @@ import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreat
 import { CreateDonePage } from "@/app/space/CreateDonePage";
 import { CreateNextPage } from "@/app/space/CreateNextPage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
+import { SpaceEditPage } from "@/app/space/edit/SpaceEditPage";
 import { JoinSpacePage } from "@/app/space/JoinSpacePage";
 import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 import { TemplatePage } from "@/app/template/TemplatePage.tsx";
@@ -112,6 +112,11 @@ const routerChildren: RouteChildren[] = [
     element: <JoinSpacePage />,
     auth: true,
   },
+  {
+    path: "/space/edit/:id",
+    element: <SpaceEditPage />,
+    auth: true,
+  },
   { path: "/api/auth/oauth2/kakao", element: <KakaoLoginRedirection />, auth: false },
   { path: "/api/auth/oauth2/google", element: <GoogleLoginRedirection />, auth: false },
 
@@ -133,11 +138,6 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/retrospect/recommend/done",
     element: <RecommendDonePage />,
-    auth: true,
-  },
-  {
-    path: "/retrospect/analysis",
-    element: <RetrospectAnalysisPage />,
     auth: true,
   },
   {
