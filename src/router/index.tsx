@@ -136,6 +136,11 @@ const routerChildren: RouteChildren[] = [
     auth: true,
   },
   {
+    path: "/retrospect/analysis",
+    element: <RetrospectAnalysisPage />,
+    auth: true,
+  },
+  {
     path: "/space/:spaceId",
     element: <SpaceViewPage />,
     auth: true,
