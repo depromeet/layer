@@ -25,7 +25,7 @@ export function Purpose({ onNext }: { onNext: (periodicValue: Pick<RecommendTemp
 
   return (
     <Fragment>
-      <Header title={`어떤 패턴으로\n회고를 작성하시나요?`} />
+      <Header title={`회고를 하는\n목적이 무엇인가요?`} contents="최대 3개까지 선택가능해요" />
       <Spacing size={4} />
       <div
         css={css`

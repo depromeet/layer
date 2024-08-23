@@ -21,7 +21,7 @@ export function Period({ onNext }: { onNext: (periodicValues: Pick<RecommendTemp
   return (
     <Fragment>
       <Spacing size={3.2} />
-      <Header title={`어떤 형태의\n프로젝트를 진행하나요?`} contents="최대 3개까지 선택 가능해요!" />
+      <Header title={`어떤 주기로\n회고를 작성하시나요?`} />
       <Spacing size={3.2} />
       <div
         css={css`
