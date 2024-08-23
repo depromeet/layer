@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
+import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Toast } from "@/component/common/Toast";
@@ -97,6 +98,17 @@ export function SpaceViewPage() {
   return (
     <DualToneLayout
       topTheme="dark"
+      LeftComp={
+        <Icon
+          size={2.4}
+          icon="ic_arrow_left"
+          css={css`
+            cursor: pointer;
+          `}
+          onClick={() => navigate("/")}
+          color={DESIGN_TOKEN_COLOR.gray00}
+        />
+      }
       TopComp={
         <>
           <ActionItemListView
