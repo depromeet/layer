@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-d
 
 import { ActionItemEditPage } from "@/app/actionItem/ActionItemEditPage.tsx";
 import { ActionItemMorePage } from "@/app/actionItem/ActionItemMorePage.tsx";
-// import { Error } from "@/app/error/404.tsx";
+import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
 import { RetrospectViewPage } from "@/app/home/RetrospectViewPage";
@@ -211,11 +211,11 @@ const routerChildren: RouteChildren[] = [
     element: <ActionItemEditPage />,
     auth: false,
   },
-  // {
-  //   path: "*",
-  //   element: <Error />,
-  //   auth: false,
-  // },
+  {
+    path: "*",
+    element: <Error />,
+    auth: false,
+  },
 ];
 
 const browserRouter = routerChildren.map(({ path, element, auth, children }) => {
