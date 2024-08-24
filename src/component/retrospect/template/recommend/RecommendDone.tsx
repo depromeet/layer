@@ -49,7 +49,7 @@ export function RecommendDone() {
               name={recommendData.formName}
               tag={recommendData.tag}
               imgUrl={recommendData.formImageUrl}
-              onClick={() => navigate("/template", { state: { templateId: recommendData.formId } })}
+              onClick={() => navigate("/template", { state: { templateId: recommendData.formId, readOnly: true } })}
             />
           </Tooltip.Trigger>
           <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />

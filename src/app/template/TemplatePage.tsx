@@ -19,7 +19,8 @@ export function TemplatePage() {
   const [isColliding, setIsColliding] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { templateId } = location?.state as { templateId: number };
+  const { templateId, readOnly } = location?.state as { templateId: number; readOnly: boolean };
+
   /**
    * template
    * - 10000 : KPT
@@ -84,7 +85,7 @@ export function TemplatePage() {
         <TemplateLayout.Main>
           <section
             css={css`
-              padding-top: 2rem;
+              padding: 2rem 0;
               display: flex;
               flex-direction: column;
               row-gap: 6rem;
@@ -126,55 +127,58 @@ export function TemplatePage() {
                 {data?.introduction ?? ""}
               </div>
             </article>
-            <article>
-              <span
-                css={css`
-                  color: #212329;
-                  font-weight: 600;
-                  font-size: 1.8rem;
-                `}
-              >
-                이런 목적으로 사용하기 좋아요
-              </span>
-              <Spacing size={2} />
-              <div
-                css={css`
-                  display: flex;
-                  align-items: center;
-                  column-gap: 0.8rem;
-                  row-gap: 0.8rem;
-                  flex-wrap: wrap;
-                `}
-              >
-                {data.templatePurposeResponseList.map((item) => {
-                  return <PurposeBox key={item.id} purpose={item.purpose} />;
-                })}
-              </div>
-            </article>
-            <article>
-              <span
-                css={css`
-                  color: #212329;
-                  font-weight: 600;
-                  font-size: 1.8rem;
-                `}
-              >
-                이런 목적으로 사용하기 좋아요
-              </span>
-              <Spacing size={2} />
-              <div
-                css={css`
-                  display: flex;
-                  flex-direction: column;
-                  row-gap: 0.8rem;
-                `}
-              >
-                {/* FIXME: 데이터가 반복으로 들어가는 구간, 데이터 패칭 시 수정 */}
-                {data?.templateDetailQuestionList.map((item, index) => {
-                  return <QuestionBox key={item.questionId} index={index + 1} title={item.question} contents={item.description} />;
-                })}
-              </div>
-            </article>
+            {data?.templatePurposeResponseList?.length > 0 && (
+              <article>
+                <span
+                  css={css`
+                    color: #212329;
+                    font-weight: 600;
+                    font-size: 1.8rem;
+                  `}
+                >
+                  이런 목적으로 사용하기 좋아요
+                </span>
+                <Spacing size={2} />
+                <div
+                  css={css`
+                    display: flex;
+                    align-items: center;
+                    column-gap: 0.8rem;
+                    row-gap: 0.8rem;
+                    flex-wrap: wrap;
+                  `}
+                >
+                  {data.templatePurposeResponseList.map((item) => {
+                    return <PurposeBox key={item.id} purpose={item.purpose} />;
+                  })}
+                </div>
+              </article>
+            )}
+            {data?.templateDetailQuestionList?.length > 0 && (
+              <article>
+                <span
+                  css={css`
+                    color: #212329;
+                    font-weight: 600;
+                    font-size: 1.8rem;
+                  `}
+                >
+                  회고 질문은 이렇게 구성되어 있어요
+                </span>
+                <Spacing size={2} />
+                <div
+                  css={css`
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 0.8rem;
+                  `}
+                >
+                  {data?.templateDetailQuestionList.map((item, index) => {
+                    return <QuestionBox key={item.questionId} index={index + 1} title={item.question} contents={item.description} />;
+                  })}
+                </div>
+              </article>
+            )}
             <article
               css={css`
                 display: flex;
@@ -195,9 +199,11 @@ export function TemplatePage() {
               <ExampleButton> {data?.templateName ?? ""} 회고 예시 보기 </ExampleButton>
             </article>
           </section>
-          <ButtonProvider>
-            <Button>선택하기</Button>
-          </ButtonProvider>
+          {readOnly && (
+            <ButtonProvider>
+              <Button>선택하기</Button>
+            </ButtonProvider>
+          )}
         </TemplateLayout.Main>
       </TemplateLayout>
     </Fragment>
