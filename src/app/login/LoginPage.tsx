@@ -30,7 +30,7 @@ const appleLogin = async () => {
     clientId: `${import.meta.env.VITE_APPLE_CLIENT_ID}`,
     scope: "email",
     //FIXME - temp redirect uri
-    redirectURI: "https://somehow-annual-crowd-interact.trycloudflare.com/api/v1/auth/test",
+    redirectURI: "https://cb29-175-198-94-35.ngrok-free.app/api/auth/oauth2/apple",
     state: `${import.meta.env.VITE_APPLE_STATE}`,
     nonce: `${import.meta.env.VITE_APPLE_NONCE}`,
     usePopup: false,
