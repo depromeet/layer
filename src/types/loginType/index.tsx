@@ -6,20 +6,19 @@ export const loginTypeProvider = {
   kakao: "카카오",
 };
 
-// FIXME : 버튼 색 수정 필요
-export const backgroundColors: Record<keyof typeof loginTypeProvider, string> = {
+type loginProvider = keyof typeof loginTypeProvider;
+
+export const backgroundColors: Record<loginProvider, string> = {
   kakao: "#ffe400",
   google: DESIGN_TOKEN_COLOR.gray00,
-  apple: "red",
+  apple: DESIGN_TOKEN_COLOR.gray100,
 };
-
-type loginProvider = keyof typeof loginTypeProvider;
 
 export type loginType = {
   type: loginProvider;
 };
 
-export type loginBtnProps = {
+export type SocialLoginButtonProps = {
   type: loginProvider;
   handler: () => void;
 };
