@@ -3,9 +3,9 @@ import { css } from "@emotion/react";
 import { LoginSpriteSvg } from "./LoginSpriteSvg";
 
 import { Typography } from "@/component/common/typography";
-import { loginBtnProps, backgroundColors } from "@/types/loginType";
+import { backgroundColors, SocialLoginButtonProps } from "@/types/loginType";
 
-export function SocialLoginButton({ type, handler }: loginBtnProps) {
+export function SocialLoginButton({ type, handler }: SocialLoginButtonProps) {
   return (
     <button
       css={css`
@@ -33,6 +33,7 @@ export function SocialLoginButton({ type, handler }: loginBtnProps) {
       </div>
       <Typography variant="subtitle14SemiBold">
         {type === "kakao" && "카카오로 로그인"}
+        {type === "apple" && "Apple 로그인"}
         {type === "google" && "구글 계정으로 로그인"}
       </Typography>
     </button>
