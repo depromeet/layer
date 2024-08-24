@@ -2,9 +2,7 @@ import { Fragment, useContext } from "react";
 
 import { PhaseContext } from "@/app/write/RetrospectWritePage.tsx";
 import { Answer } from "@/component/write/phase/Write";
-import { CAchievementTemplate } from "@/component/write/template/complete/Achievement";
-import { CDescriptiveTemplate } from "@/component/write/template/complete/Descriptive";
-import { CSatisfactionTemplate } from "@/component/write/template/complete/Satisfaction";
+import { CAchievementTemplate, CDescriptiveTemplate, CSatisfactionTemplate } from "@/component/write/template/complete";
 
 type CompleteProps = {
   answers: Answer[];

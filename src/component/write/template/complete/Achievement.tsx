@@ -3,12 +3,9 @@ import { css } from "@emotion/react";
 import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
 import { ACHIEVEMENT_COLOR } from "@/component/write/template/template.const.ts";
 
-type ProgressBarProps = {
-  question: string;
-  index: number;
-};
+type ProgressBarProps = { name: string; question?: never; index: number } | { question: string; name?: never; index: number };
 
-export function CAchievementTemplate({ question, index: AchivementIdx = 0 }: ProgressBarProps) {
+export function CAchievementTemplate({ name, question, index: AchivementIdx = 0 }: ProgressBarProps) {
   const segments = Array.from({ length: 5 }, (_, i) => i < AchivementIdx + 1);
   const defaultBorderStyle = css`
     border-radius: 0;
@@ -23,8 +20,10 @@ export function CAchievementTemplate({ question, index: AchivementIdx = 0 }: Pro
   return (
     <ResultContainer
       question={question}
+      name={name}
       css={css`
-        #line {
+        #line,
+        #space {
           margin-bottom: 3.5rem;
         }
       `}

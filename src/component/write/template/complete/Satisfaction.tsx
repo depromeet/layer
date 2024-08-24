@@ -6,15 +6,12 @@ import { ResultContainer } from "@/component/write/template/complete/ResultConta
 import { SATISTFACTION_COLOR } from "@/component/write/template/template.const.ts";
 
 type IconType = keyof typeof icons;
-type SatisfactionProps = {
-  question: string;
-  index: number;
-};
+type SatisfactionProps = { name: string; question?: never; index: number } | { question: string; name?: never; index: number };
 
-export function CSatisfactionTemplate({ question = "진행상황에 대해 얼마나 만족하시나요?", index: SatisfactionIdx }: SatisfactionProps) {
+export function CSatisfactionTemplate({ name, question, index: SatisfactionIdx }: SatisfactionProps) {
   const emotions: IconType[] = ["ic_very_poor", "ic_poor", "ic_commonly", "ic_good", "ic_very_good"];
   return (
-    <ResultContainer question={question}>
+    <ResultContainer question={question} name={name}>
       {emotions.map((item, index) => {
         return (
           <div key={index}>
