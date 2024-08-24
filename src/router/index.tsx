@@ -205,11 +205,11 @@ const routerChildren: RouteChildren[] = [
     element: <ActionItemEditPage />,
     auth: false,
   },
-  // {
-  //   path: "*",
-  //   element: <Error />,
-  //   auth: false,
-  // },
+  {
+    path: "*",
+    element: <Error />,
+    auth: false,
+  },
 ];
 
 const browserRouter = routerChildren.map(({ path, element, auth, children }) => {
