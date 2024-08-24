@@ -52,7 +52,7 @@ const routerChildren: RouteChildren[] = [
         element: <RetrospectViewPage />,
       },
       {
-        path: "analysis?spaceId=:spaceId&retrospectId=:retrospectId",
+        path: "analysis",
         element: <AnalysisViewPage />,
       },
       {
