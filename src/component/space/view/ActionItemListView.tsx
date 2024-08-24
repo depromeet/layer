@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +17,6 @@ import { useToast } from "@/hooks/useToast";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ActionItemType } from "@/types/actionItem";
 import { Retrospect } from "@/types/retrospect";
-import { useQueryClient } from "@tanstack/react-query";
 
 type ActionItemListViewProps = {
   isPossibleMake: boolean;
@@ -112,16 +112,19 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
         `}
       >
         <Typography variant="body14Medium">실행목표</Typography>
-        <Typography
-          variant="body14Medium"
-          color="gray500"
-          onClick={handleMoreActionItem}
-          css={css`
-            cursor: pointer;
-          `}
-        >
-          더보기
-        </Typography>
+        {/* You must have a completed retrospective to view more. */}
+        {!isPossibleMake && (
+          <Typography
+            variant="body14Medium"
+            color="gray500"
+            onClick={handleMoreActionItem}
+            css={css`
+              cursor: pointer;
+            `}
+          >
+            더보기
+          </Typography>
+        )}
       </div>
 
       <Spacing size={1.0} />
