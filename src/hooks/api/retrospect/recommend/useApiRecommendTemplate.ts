@@ -26,5 +26,6 @@ export const useApiRecommendTemplate = (recommendValue: RecommendTemplateType) =
   return useQuery({
     queryKey: ["recommendTemplate", recommendValue],
     queryFn: () => recommendTemplate(recommendValue),
+    staleTime: Infinity,
   });
 };

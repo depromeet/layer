@@ -1,11 +1,15 @@
 import { css } from "@emotion/react";
-import React, { PropsWithChildren } from "react";
+import React, { Fragment, PropsWithChildren } from "react";
+
+import { Spacing } from "@/component/common/Spacing";
+import { Tag } from "@/component/common/tag";
 
 type ResultContainerProps = {
-  question: string;
+  question?: string;
+  name?: string;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "type">;
 
-export function ResultContainer({ question, children, ...props }: PropsWithChildren<ResultContainerProps>) {
+export function ResultContainer({ name, question, children, ...props }: PropsWithChildren<ResultContainerProps>) {
   return (
     <div
       css={css`
@@ -22,24 +26,35 @@ export function ResultContainer({ question, children, ...props }: PropsWithChild
       `}
       {...props}
     >
-      <span
-        id="question"
-        css={css`
-          font-weight: 500;
-        `}
-      >
-        {question}
-      </span>
-      <div
-        id="line"
-        css={css`
-          width: 100%;
-          border: solid 0.01rem #eee;
-          background: transparent;
-          border-radius: 5rem;
-          margin: 2rem 0 1.3rem 0;
-        `}
-      />
+      {question ? (
+        <Fragment>
+          <span
+            id="question"
+            css={css`
+              font-weight: 500;
+              line-height: 1.5;
+            `}
+          >
+            {question}
+          </span>
+          <div
+            id="line"
+            css={css`
+              width: 100%;
+              border: solid 0.01rem #eee;
+              background: transparent;
+              border-radius: 5rem;
+              margin: 1.3rem 0;
+            `}
+          />
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Tag>{name}</Tag>
+          <Spacing id="space" size={1.2} />
+        </Fragment>
+      )}
+
       <div
         id="children"
         css={css`

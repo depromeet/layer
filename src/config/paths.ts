@@ -23,5 +23,5 @@ export const PATHS = {
   termsofservice: () => `/myinfo/termsofservice`,
   privacypolicy: () => `/myinfo/privacypolicy`,
   feedback: () => `/myinfo/feedback`,
-  retrospectAnalysis: () => `/retrospect/analysis`,
+  retrospectAnalysis: (spaceId: string, retrospectId: number) => `/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}`,
 } as const;

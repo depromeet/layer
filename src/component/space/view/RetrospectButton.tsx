@@ -18,15 +18,7 @@ export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectBu
     return {
       DONE: {
         text: "분석 확인",
-        route: [
-          PATHS.retrospectAnalysis(),
-          {
-            state: {
-              retrospectId,
-              spaceId,
-            },
-          },
-        ] as const,
+        route: [PATHS.retrospectAnalysis(spaceId!, retrospectId!), {}] as const,
         color: DESIGN_TOKEN_COLOR.gray900,
       },
       HAS_WRITING: {

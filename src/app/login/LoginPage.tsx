@@ -11,6 +11,7 @@ export function LoginPage() {
       <LoginCarousel />
       <ButtonProvider>
         <SocialLoginButton type="kakao" handler={kakaoLogin} />
+        <SocialLoginButton type="apple" handler={appleLogin} />
         <SocialLoginButton type="google" handler={googleLogin} />
       </ButtonProvider>
     </DefaultLayout>
@@ -22,6 +23,26 @@ const kakaoLogin = () => {
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI as string;
   const link = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
   window.location.href = link;
+};
+
+const appleLogin = async () => {
+  window.AppleID.auth.init({
+    clientId: `${import.meta.env.VITE_APPLE_CLIENT_ID}`,
+    scope: "email",
+    //FIXME - temp redirect uri
+    redirectURI: "https://cb29-175-198-94-35.ngrok-free.app/api/auth/oauth2/apple",
+    state: `${import.meta.env.VITE_APPLE_STATE}`,
+    nonce: `${import.meta.env.VITE_APPLE_NONCE}`,
+    usePopup: false,
+  });
+
+  try {
+    sessionStorage.setItem("redirect_uri", "/");
+    const res = await window.AppleID.auth.signIn();
+    console.log("res", res.authorization, res.user);
+  } catch (error) {
+    console.log("error", error);
+  }
 };
 
 const googleLogin = () => {
