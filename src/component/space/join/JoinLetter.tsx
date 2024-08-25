@@ -103,7 +103,16 @@ export function JoinLetter() {
               row-gap: 1.6rem;
             `}
           >
-            <img src={""} />
+            <img
+              src={
+                "https://ouch-cdn2.icons8.com/7VemU216ukEkFsyNksRVmO7z5vT5wOjglbE-9s57Pk0/rs:fit:368:364/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzU5/L2FlYjVmYTEwLTNi/NDItNGY0OS04YjQx/LWNlYzNkODE3ODkz/OS5wbmc.png"
+              }
+              css={css`
+                width: 6.8rem;
+                height: 6.8rem;
+                border-radius: 100%;
+              `}
+            />
             <Typography color={"gray900"} variant={"title18Bold"}>
               디프만
             </Typography>
