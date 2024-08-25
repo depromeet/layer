@@ -14,7 +14,7 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
 
 export function RecommendDone() {
-  const locationState = useLocation().state as RecommendTemplateType & { spaceId: string };
+  const locationState = useLocation().state as RecommendTemplateType & { spaceId: string; readOnly: boolean };
   const navigate = useNavigate();
   const { data: recommendData, isLoading } = useApiRecommendTemplate(locationState);
 
@@ -49,7 +49,7 @@ export function RecommendDone() {
               name={recommendData.formName}
               tag={recommendData.tag}
               imgUrl={recommendData.formImageUrl}
-              onClick={() => navigate("/template", { state: { templateId: recommendData.formId, readOnly: true } })}
+              onClick={() => navigate("/template", { state: { templateId: recommendData.formId, readOnly: false } })}
             />
           </Tooltip.Trigger>
           <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
@@ -62,7 +62,17 @@ export function RecommendDone() {
             gap: 0.8rem;
           `}
         >
-          <ButtonProvider.Gray onClick={() => navigate(PATHS.template(locationState.spaceId))}>템플릿 변경</ButtonProvider.Gray>
+          <ButtonProvider.Gray
+            onClick={() =>
+              navigate(PATHS.template(locationState.spaceId), {
+                state: {
+                  readOnly: false,
+                },
+              })
+            }
+          >
+            템플릿 변경
+          </ButtonProvider.Gray>
           <ButtonProvider.Primary
             onClick={() =>
               navigate(PATHS.retrospectCreate(), {
