@@ -12,7 +12,7 @@ export const useDateTimePicker = (defaultDate?: Value, defaultTime?: string) => 
   const { isChecked: isTimeChecked, onChange: onTimeChange, selectedValue: selectedTime } = useRadioButton(defaultTime);
 
   const dateString = useMemo(() => {
-    return selectedDate instanceof Date ? formatISO(selectedDate) : undefined;
+    return selectedDate instanceof Date ? formatISO(selectedDate).split("+")[0] : undefined;
   }, [selectedDate]);
 
   const dateTimeString = useMemo(() => {
