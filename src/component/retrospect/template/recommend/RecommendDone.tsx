@@ -14,7 +14,7 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
 
 export function RecommendDone() {
-  const locationState = useLocation().state as RecommendTemplateType & { spaceId: string; readOnly: boolean };
+  const locationState = useLocation().state as RecommendTemplateType & { spaceId: string; readOnly?: boolean };
   const navigate = useNavigate();
   const { data: recommendData, isLoading } = useApiRecommendTemplate(locationState);
 
