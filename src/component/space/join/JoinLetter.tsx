@@ -6,7 +6,13 @@ import { Typography } from "@/component/common/typography";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
 
-export function JoinLetter() {
+type JoinLetterProps = {
+  space: string;
+  description: string;
+  imgUrl: string;
+};
+
+export function JoinLetter({ space, description, imgUrl }: JoinLetterProps) {
   const [_, setRender] = useState(false);
 
   useEffect(() => {
@@ -104,9 +110,7 @@ export function JoinLetter() {
             `}
           >
             <img
-              src={
-                "https://ouch-cdn2.icons8.com/7VemU216ukEkFsyNksRVmO7z5vT5wOjglbE-9s57Pk0/rs:fit:368:364/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzU5/L2FlYjVmYTEwLTNi/NDItNGY0OS04YjQx/LWNlYzNkODE3ODkz/OS5wbmc.png"
-              }
+              src={imgUrl}
               css={css`
                 width: 6.8rem;
                 height: 6.8rem;
@@ -114,10 +118,10 @@ export function JoinLetter() {
               `}
             />
             <Typography color={"gray900"} variant={"title18Bold"}>
-              디프만
+              {space}
             </Typography>
             <Typography color={"gray600"} variant={"body12Medium"}>
-              IT 연합동아리 디프만 15기의 프로젝트
+              {description}
             </Typography>
           </div>
         </div>
