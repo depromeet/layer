@@ -8,8 +8,14 @@ import { useGetCustomTemplateList } from "@/hooks/api/template/useGetCustomTempl
 import { useIntersectionObserve } from "@/hooks/useIntersectionObserve";
 import { formatDateToString } from "@/utils/formatDate";
 
-export function CustomTemplateList() {
+export function CustomTemplateList({ readOnly }: { readOnly?: boolean }) {
   const { spaceId } = useContext(TemplateListPageContext);
+  /**
+   * NOTE: 리드미 Props는 아래의 의미를 가지고 있습니다.
+   * - ReadOnly: 버튼 유무 상태
+   * */
+
+  console.log(readOnly);
   const { data, fetchNextPage, hasNextPage } = useGetCustomTemplateList(+spaceId);
   const targetDivRef = useIntersectionObserve({
     options: { threshold: 0.5 },
