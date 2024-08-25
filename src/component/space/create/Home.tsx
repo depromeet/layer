@@ -1,9 +1,7 @@
-import { css, keyframes } from "@emotion/react";
 import { Fragment } from "react";
 
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
-import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { NeonIllustrator } from "@/component/space/create/NeonIllustrator.tsx";
