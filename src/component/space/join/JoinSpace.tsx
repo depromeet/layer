@@ -11,7 +11,7 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 export function JoinSpace() {
   const { id } = useParams() as { id: string };
   const spaceId = window.atob(id);
-  const { data, isLoading } = useApiGetSpace(spaceId); // TODO - 초대한 사람 정보 API 업데이트 후 data 사용하기
+  const { data, isLoading } = useApiGetSpace(spaceId, true);
   const { mutate } = useApiJoinSpace();
 
   if (isLoading) return <LoadingModal />;
