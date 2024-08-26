@@ -5,6 +5,15 @@ import { LoginCarousel } from "@/component/login/LoginCarousel";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 
 export function LoginPage() {
+  window.AppleID.auth.init({
+    clientId: `${import.meta.env.VITE_APPLE_CLIENT_ID}`,
+    scope: "email",
+    redirectURI: `${import.meta.env.VITE_APPLE_REDIRECT_URI}`,
+    state: `${import.meta.env.VITE_APPLE_STATE}`,
+    nonce: `${import.meta.env.VITE_APPLE_NONCE}`,
+    usePopup: true,
+  });
+
   return (
     <DefaultLayout appBarVisible={false}>
       <Spacing size={6} />
@@ -26,22 +35,11 @@ const kakaoLogin = () => {
 };
 
 const appleLogin = async () => {
-  window.AppleID.auth.init({
-    clientId: `${import.meta.env.VITE_APPLE_CLIENT_ID}`,
-    scope: "email",
-    //FIXME - temp redirect uri
-    redirectURI: "https://cb29-175-198-94-35.ngrok-free.app/api/auth/oauth2/apple",
-    state: `${import.meta.env.VITE_APPLE_STATE}`,
-    nonce: `${import.meta.env.VITE_APPLE_NONCE}`,
-    usePopup: false,
-  });
-
   try {
-    sessionStorage.setItem("redirect_uri", "/");
     const res = await window.AppleID.auth.signIn();
-    console.log("res", res.authorization, res.user);
+    console.log("res:", res.authorization, res.user);
   } catch (error) {
-    console.log("error", error);
+    console.log("error:", error);
   }
 };
 
