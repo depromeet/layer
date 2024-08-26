@@ -1,15 +1,15 @@
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { InfoBox } from "./InfoBox";
 
-import { MidModal } from "@/component/common/Modal/MidModal";
 import { Typography } from "@/component/common/typography";
 import { PATHS } from "@/config/paths";
 import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 import { useDeleteUser } from "@/hooks/api/user/useDeleteUser";
+import { useModal } from "@/hooks/useModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type LocationState = {
@@ -17,20 +17,34 @@ type LocationState = {
 };
 
 export function UserManageBox() {
+  const { open } = useModal();
   const navigate = useNavigate();
   const location = useLocation();
   const { mutate: deleteUser } = useDeleteUser();
   const { mutate: signOut } = usePostSignOut();
-  const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
-  const [isDeletionModalVisible, setIsDeletionModalVisible] = useState(false);
   const memberId = Cookies.get("memberId");
 
   useEffect(() => {
     const state = location.state as LocationState;
-    if (state?.showDeletionModal) {
-      setIsDeletionModalVisible(true);
+    const modalShown = localStorage.getItem("deletionModalShown") === "false" ? false : true;
+
+    if (state?.showDeletionModal && !modalShown) {
+      open({
+        title: "계정탈퇴",
+        contents: "계정 탈퇴시 모든 회고 정보가 날아가요.\n정말 계정 탈퇴를 진행하시겠어요?",
+        options: {
+          type: "confirm",
+        },
+        onConfirm: () => {
+          if (memberId) {
+            deleteUser(memberId);
+          }
+        },
+      });
+
+      localStorage.setItem("deletionModalShown", "true");
     }
-  }, [location.state]);
+  }, [location.state, memberId, open, deleteUser]);
 
   return (
     <>
@@ -78,41 +92,22 @@ export function UserManageBox() {
               align-items: center;
             `}
             onClick={() => {
-              setIsSignOutModalVisible(true);
+              open({
+                title: "로그아웃",
+                contents: "정말 로그아웃 하시겠어요?",
+                options: {
+                  type: "confirm",
+                },
+                onConfirm: () => {
+                  if (memberId) signOut({ memberId: memberId });
+                },
+              });
             }}
           >
             <Typography variant="body16Medium">로그아웃</Typography>
           </div>
         </div>
       </div>
-
-      {isSignOutModalVisible && (
-        <MidModal
-          title="로그아웃"
-          content="정말 로그아웃 하시겠어요?"
-          leftFun={() => {
-            setIsSignOutModalVisible(false);
-          }}
-          rightFun={() => {
-            if (memberId) signOut({ memberId: memberId });
-          }}
-        />
-      )}
-
-      {isDeletionModalVisible && (
-        <MidModal
-          title="계정탈퇴"
-          content={`계정 탈퇴시 모든 회고 정보가 날아가요.\n정말 계정 탈퇴를 진행하시겠어요?`}
-          leftFun={() => {
-            setIsDeletionModalVisible(false);
-          }}
-          rightFun={() => {
-            if (memberId) {
-              deleteUser(memberId);
-            }
-          }}
-        />
-      )}
     </>
   );
 }
