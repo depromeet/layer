@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { TabButton } from "@/component/common/tabs/TabButton";
 import { Tabs } from "@/component/common/tabs/Tabs";
-import { Typography } from "@/component/common/typography";
+import { AnalysisContainer } from "@/component/retrospect/analysis/Analysis";
 import { PersonalForm } from "@/component/retrospect/analysis/PersonalForm.tsx";
 import { QuestionForm } from "@/component/retrospect/analysis/QuestionForm.tsx";
 import { useGetAnalysisAnswer } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer.ts";
@@ -40,7 +40,7 @@ export const RetrospectAnalysisPage = () => {
         {
           QUESTIONS: <QuestionForm data={data!} />,
           INDIVIDUAL_ANALYSIS: <PersonalForm data={data!} />,
-          ANALYSIS: <Typography>분석 컴포</Typography>,
+          ANALYSIS: <AnalysisContainer />,
         }[selectedTab]
       }
     </DualToneLayout>

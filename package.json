@@ -40,6 +40,7 @@
     "react-popper": "^2.3.0",
     "react-router-dom": "^6.24.0",
     "react-slick": "^0.30.2",
+    "recharts": "^2.12.7",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.1.5",
     "vite-plugin-sitemap": "^0.7.1"
