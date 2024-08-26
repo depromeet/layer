@@ -5,12 +5,22 @@ import { LoginCarousel } from "@/component/login/LoginCarousel";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 
 export function LoginPage() {
+  window.AppleID.auth.init({
+    clientId: `${import.meta.env.VITE_APPLE_CLIENT_ID}`,
+    scope: "email",
+    redirectURI: `${import.meta.env.VITE_APPLE_REDIRECT_URI}`,
+    state: `${import.meta.env.VITE_APPLE_STATE}`,
+    nonce: `${import.meta.env.VITE_APPLE_NONCE}`,
+    usePopup: true,
+  });
+
   return (
     <DefaultLayout appBarVisible={false}>
       <Spacing size={6} />
       <LoginCarousel />
       <ButtonProvider>
         <SocialLoginButton type="kakao" handler={kakaoLogin} />
+        <SocialLoginButton type="apple" handler={appleLogin} />
         <SocialLoginButton type="google" handler={googleLogin} />
       </ButtonProvider>
     </DefaultLayout>
@@ -22,6 +32,15 @@ const kakaoLogin = () => {
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI as string;
   const link = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
   window.location.href = link;
+};
+
+const appleLogin = async () => {
+  try {
+    const res = await window.AppleID.auth.signIn();
+    console.log("res:", res.authorization, res.user);
+  } catch (error) {
+    console.log("error:", error);
+  }
 };
 
 const googleLogin = () => {
