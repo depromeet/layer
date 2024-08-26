@@ -1,9 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useSetAtom } from "jotai";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
+import { api } from "@/api";
 import { PATHS } from "@/config/paths";
 import { COOKIE_KEYS } from "@/config/storage-keys";
 import { useToast } from "@/hooks/useToast";
@@ -18,7 +18,7 @@ export const usePostAppleLogin = () => {
       state,
     };
 
-    const { data } = await axios.post<AuthResponse>(`/api/auth/oauth2/apple`, new URLSearchParams(searchParams), {
+    const { data } = await api.post<AuthResponse>(`/api/auth/oauth2/apple`, new URLSearchParams(searchParams), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
