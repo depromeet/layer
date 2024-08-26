@@ -15,7 +15,6 @@ import { NoticePage } from "@/app/info/NoticePage";
 import { PrivacyPolicyPage } from "@/app/info/PrivacyPolicyPage";
 import { TermsOfServicePage } from "@/app/info/TermsOfServicePage";
 import { UserDeletion } from "@/app/info/UserDeletion";
-import { AppleLoginRedirection } from "@/app/login/AppleLoginRedirection";
 import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
@@ -121,7 +120,6 @@ const routerChildren: RouteChildren[] = [
   },
   { path: "/api/auth/oauth2/kakao", element: <KakaoLoginRedirection />, auth: false },
   { path: "/api/auth/oauth2/google", element: <GoogleLoginRedirection />, auth: false },
-  { path: "/api/auth/oauth2/apple", element: <AppleLoginRedirection />, auth: false },
 
   {
     path: "/retrospect/new",
