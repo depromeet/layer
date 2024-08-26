@@ -25,7 +25,7 @@ interface ClientConfig {
   clientId: string;
   redirectURI: string;
   scope?: string;
-  state?: string;
+  state: string;
   nonce?: string;
   usePopup?: boolean;
 }
@@ -33,7 +33,7 @@ interface ClientConfig {
 interface Authorization {
   code: string;
   id_token: string;
-  state?: string;
+  state: string;
 }
 
 interface User {
