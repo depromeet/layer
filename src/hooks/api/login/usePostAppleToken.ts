@@ -10,21 +10,33 @@ import { useToast } from "@/hooks/useToast";
 import { authAtom } from "@/store/auth/authAtom";
 import { AuthResponse } from "@/types/loginType";
 
+//FIXME -공통 에러 처리하기 (usePostSignIn)
+type ErrorType = {
+  status: number;
+  message: string;
+};
+
+type PostAppleLoginReq = {
+  code: string;
+  id_token: string;
+  state: string;
+};
+
 export const usePostAppleLogin = () => {
-  const postAppleLogin = async (code: string, id_token: string, state: string) => {
+  const postAppleLogin = async ({ code, id_token, state }: PostAppleLoginReq) => {
     const searchParams = {
       code,
       id_token,
       state,
     };
 
-    const { data } = await api.post<AuthResponse>(`/api/auth/oauth2/apple`, new URLSearchParams(searchParams), {
+    const res = await api.post<AuthResponse>(`/api/auth/oauth2/apple`, new URLSearchParams(searchParams), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
 
-    return data;
+    return res.data;
   };
 
   const { toast } = useToast();
@@ -32,7 +44,7 @@ export const usePostAppleLogin = () => {
   const setAuth = useSetAtom(authAtom);
 
   return useMutation({
-    mutationFn: ({ code, id_token, state }: { code: string; id_token: string; state: string }) => postAppleLogin(code, id_token, state),
+    mutationFn: postAppleLogin,
     onSuccess: (data: AuthResponse) => {
       if (data) {
         Cookies.set("memberId", data.memberId.toString(), { expires: 7 });
@@ -50,6 +62,15 @@ export const usePostAppleLogin = () => {
       toast.success("어서오세요!");
       navigate(PATHS.home());
       return;
+    },
+    onError: (error: ErrorType) => {
+      if (error.status === 400) {
+        toast.success("닉네임을 입력하여 회원가입을 진행해보세요.");
+        navigate(PATHS.setNickName("apple"));
+      } else {
+        toast.error("로그인에 실패했습니다. 다시 시도해주세요.");
+        navigate(PATHS.login());
+      }
     },
   });
 };

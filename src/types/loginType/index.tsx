@@ -72,4 +72,4 @@ export type LoginKindType = {
   socialType: "kakao" | "google";
 };
 
-export type SocialLoginKind = "kakao" | "google";
+export type SocialLoginKind = "kakao" | "google" | "apple";
