@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 import { ButtonProvider } from "@/component/common/button";
 import { Spacing } from "@/component/common/Spacing";
 import { SocialLoginButton } from "@/component/login";
@@ -29,6 +31,7 @@ export function LoginPage() {
       const {
         authorization: { code, id_token, state },
       } = await window.AppleID.auth.signIn();
+      Cookies.set("appleAccessToken", id_token);
       postAppleLogin({ code, id_token, state });
     } catch (error) {
       console.error("apple login error:", error);

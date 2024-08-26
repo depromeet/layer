@@ -1,15 +1,14 @@
-import { css } from "@emotion/react";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
 
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Input } from "@/component/common/input";
 import { Spacing } from "@/component/common/Spacing";
+import { TipCard } from "@/component/common/tip";
 import { Typography } from "@/component/common/typography";
 import { usePostSignUp } from "@/hooks/api/login/usePostSignUp";
 import { useInput } from "@/hooks/useInput";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { SocialLoginKind } from "@/types/loginType";
 
 export function SetNickNamePage() {
@@ -36,26 +35,7 @@ export function SetNickNamePage() {
       <Spacing size={4} />
       <Input value={nickName} onChange={handleInputChange} placeholder="Text" count={true} maxLength={maxLength} />
       <Spacing size={0.8} />
-      <div
-        css={css`
-          height: 6.6rem;
-          background-color: ${DESIGN_SYSTEM_COLOR.blue100};
-          border-radius: 0.8rem;
-          padding: 1.4rem 1.8rem;
-          box-sizing: border-box;
-          display: flex;
-          flex-direction: column;
-          gap: 0.4rem;
-          justify-content: space-between;
-        `}
-      >
-        <Typography variant="CAPTION" color="blue600">
-          TIP
-        </Typography>
-        <Typography variant="CAPTION" color="blue600">
-          실명으로 활동하는 걸 추천해요!
-        </Typography>
-      </div>
+      <TipCard message={"실명으로 활동하는 걸 추천해요!"} />
 
       <ButtonProvider>
         <Button disabled={nickName.length === 0} onClick={handleSubmit}>
