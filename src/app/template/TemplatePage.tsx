@@ -19,7 +19,7 @@ export function TemplatePage() {
   const [isColliding, setIsColliding] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { templateId, readOnly } = location?.state as { templateId: number; readOnly: boolean };
+  const { templateId, readOnly = true } = location?.state as { templateId: number; readOnly: boolean };
 
   /**
    * template
@@ -199,7 +199,7 @@ export function TemplatePage() {
               <ExampleButton> {data?.templateName ?? ""} 회고 예시 보기 </ExampleButton>
             </article>
           </section>
-          {readOnly && (
+          {!readOnly && (
             <ButtonProvider>
               <Button onClick={() => navigate("/retrospect/recommend/done", { state: { templateId } })}>선택하기</Button>
             </ButtonProvider>

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { TagBox } from "@/component/home";
+import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Space } from "@/types/spaceType";
 
@@ -31,6 +32,8 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
           gap: 1.6rem;
           border-radius: 1.2rem;
           box-shadow: ${DESIGN_TOKEN_COLOR.shadow.shadow100};
+          cursor: pointer;
+          animation: ${ANIMATION.FADE_UP} 0.6s ease;
         `}
       >
         <div

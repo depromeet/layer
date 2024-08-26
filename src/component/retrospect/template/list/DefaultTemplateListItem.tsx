@@ -15,9 +15,10 @@ type DefaultTemplateListItemProps = {
   tag: string;
   imageUrl?: string;
   date?: string;
+  readOnly?: boolean;
 };
 
-export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTemplateListItemProps) {
+export function DefaultTemplateListItem({ id, title, tag, imageUrl, readOnly }: DefaultTemplateListItemProps) {
   const { spaceId, isCreateRetrospect } = useContext(TemplateListPageContext);
   const navigate = useNavigate();
   return (
@@ -58,6 +59,7 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTem
               navigate(PATHS.viewDetailTemplate(), {
                 state: {
                   templateId: id,
+                  readOnly: readOnly,
                 },
               })
             }

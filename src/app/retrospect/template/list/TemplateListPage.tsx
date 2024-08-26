@@ -20,13 +20,17 @@ export const TemplateListPageContext = createContext<{ isCreateRetrospect: boole
 export function TemplateListPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const locationState = useLocation().state as { createRetrospect?: boolean };
+  const locationState = useLocation().state as { createRetrospect?: boolean; readOnly?: boolean };
   const isCreateRetrospect = useRef(false);
-  if (locationState && locationState.createRetrospect) {
-    isCreateRetrospect.current = true;
+  const isReadOnly = useRef(false);
+  if (locationState) {
+    if (locationState.createRetrospect) isCreateRetrospect.current = true;
+    if (locationState.readOnly) isReadOnly.current = true;
   }
+
   const { data: templates } = useGetDefaultTemplateList();
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
+
   const { tabs, curTab, selectTab } = useTabs(["기본", "커스텀"] as const);
   const TemplateListTabs = (
     <Tabs
@@ -91,11 +95,12 @@ export function TemplateListPage() {
                       title={template.title}
                       tag={template.templateName}
                       imageUrl={template.imageUrl}
+                      readOnly={isReadOnly.current}
                     />
                   ))}
                 </>
               ),
-              커스텀: <CustomTemplateList />,
+              커스텀: <CustomTemplateList readOnly={isReadOnly.current} />,
             }[curTab]
           }
         </ul>

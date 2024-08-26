@@ -15,9 +15,6 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 export function RecommendDone() {
   const { templateId, spaceId } = useLocation().state as { templateId: string; spaceId: string };
 
-  console.log(templateId);
-  console.log(spaceId);
-
   const navigate = useNavigate();
   const { data: templateData, isLoading } = useGetSimpleTemplateInfo(templateId);
 
