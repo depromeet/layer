@@ -1,5 +1,4 @@
 import { ButtonProvider } from "@/component/common/button";
-import { Spacing } from "@/component/common/Spacing";
 import { SocialLoginButton } from "@/component/login";
 import { LoginCarousel } from "@/component/login/LoginCarousel";
 import { DefaultLayout } from "@/layout/DefaultLayout";
@@ -7,7 +6,6 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 export function LoginPage() {
   return (
     <DefaultLayout appBarVisible={false}>
-      <Spacing size={6} />
       <LoginCarousel />
       <ButtonProvider>
         <SocialLoginButton type="kakao" handler={kakaoLogin} />

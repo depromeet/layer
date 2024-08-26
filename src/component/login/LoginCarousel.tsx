@@ -26,7 +26,7 @@ function LoginCarousel() {
             key={idx}
             css={css`
               width: 100vw;
-              height: 60vh;
+              height: calc(100vh - 28rem);
             `}
           >
             <div
