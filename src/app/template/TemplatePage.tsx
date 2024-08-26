@@ -201,7 +201,7 @@ export function TemplatePage() {
           </section>
           {readOnly && (
             <ButtonProvider>
-              <Button>선택하기</Button>
+              <Button onClick={() => navigate("/retrospect/recommend/done", { state: { templateId } })}>선택하기</Button>
             </ButtonProvider>
           )}
         </TemplateLayout.Main>

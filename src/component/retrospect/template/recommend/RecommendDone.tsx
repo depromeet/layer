@@ -15,6 +15,9 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 export function RecommendDone() {
   const { templateId, spaceId } = useLocation().state as { templateId: string; spaceId: string };
 
+  console.log(templateId);
+  console.log(spaceId);
+
   const navigate = useNavigate();
   const { data: templateData, isLoading } = useGetSimpleTemplateInfo(templateId);
 
@@ -49,7 +52,7 @@ export function RecommendDone() {
               name={templateData.templateName}
               tag={templateData.title}
               imgUrl={templateData.imageUrl}
-              onClick={() => navigate("/template", { state: { templateId: templateData.id, readOnly: true } })}
+              onClick={() => navigate("/template", { state: { templateId: templateData.id, readOnly: false } })}
             />
           </Tooltip.Trigger>
           <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
@@ -62,7 +65,7 @@ export function RecommendDone() {
             gap: 0.8rem;
           `}
         >
-          <ButtonProvider.Gray onClick={() => navigate(PATHS.template(spaceId))}>템플릿 변경</ButtonProvider.Gray>
+          <ButtonProvider.Gray onClick={() => navigate(PATHS.template(spaceId), { state: { readOnly: false } })}>템플릿 변경</ButtonProvider.Gray>
           <ButtonProvider.Primary
             onClick={() =>
               navigate(PATHS.retrospectCreate(), {
