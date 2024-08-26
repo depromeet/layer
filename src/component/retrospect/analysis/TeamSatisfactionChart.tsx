@@ -15,7 +15,7 @@ type TeamSatisfactionChartProps = {
   regretCount: number;
 };
 
-export const TeamSatisfactionChart = ({ teamName, satisfactionCount, normalCount, regretCount }: TeamSatisfactionChartProps) => {
+export function TeamSatisfactionChart({ teamName, satisfactionCount, normalCount, regretCount }: TeamSatisfactionChartProps) {
   const data = useMemo(
     () => [
       { name: "만족해요", value: satisfactionCount },
@@ -95,7 +95,7 @@ export const TeamSatisfactionChart = ({ teamName, satisfactionCount, normalCount
       </div>
     </div>
   );
-};
+}
 
 type LegendInfoProps = {
   type: "만족해요" | "평범해요" | "후회해요";
