@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { status } from "@/component/actionItem/actionItem.const.ts";
 import ActionItemBox from "@/component/actionItem/ActionItemBox.tsx";
 import { NotActionItemBoxData } from "@/component/actionItem/NotActionItemBoxData.tsx";
-import { Icon } from "@/component/common/Icon";
+import { UserProfileIcon } from "@/component/common/appBar";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { TabButton } from "@/component/common/tabs/TabButton.tsx";
 import { Tabs } from "@/component/common/tabs/Tabs.tsx";
@@ -35,7 +35,7 @@ export function GoalViewPage() {
             실행목표
           </Typography>
         }
-        RightComp={<Icon icon="basicProfile" size="3.2rem" />}
+        RightComp={<UserProfileIcon />}
       >
         <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
         <div
