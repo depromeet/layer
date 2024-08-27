@@ -20,19 +20,23 @@ type DefaultTemplateListItemProps = {
 export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTemplateListItemProps) {
   const { spaceId, readOnly } = useContext(TemplateListPageContext);
   const navigate = useNavigate();
+
+  const handleClickDetail = () => {
+    navigate(PATHS.viewDetailTemplate(), {
+      state: {
+        spaceId,
+        templateId: id,
+        readOnly,
+      },
+    });
+  };
+
   return (
     <li
       css={css`
         cursor: pointer;
       `}
-      onClick={() =>
-        navigate(PATHS.viewDetailTemplate(), {
-          state: {
-            templateId: id,
-            readOnly,
-          },
-        })
-      }
+      onClick={handleClickDetail}
     >
       <Card rounded={"md"}>
         <Typography variant="S2">{title}</Typography>
@@ -65,7 +69,7 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTem
             선택하기
           </Button>
         ) : (
-          <Button colorSchema={"white"}>
+          <Button colorSchema={"white"} onClick={handleClickDetail}>
             <Typography variant={"subtitle16SemiBold"} color={"gray800"}>
               더 알아보기
             </Typography>

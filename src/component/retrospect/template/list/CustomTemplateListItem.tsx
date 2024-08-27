@@ -56,20 +56,23 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
     }
   };
 
+  const handleClickDetail = () => {
+    navigate(PATHS.viewDetailTemplate(), {
+      state: {
+        spaceId,
+        templateId: id,
+        readOnly,
+      },
+    });
+  };
+
   return (
     <>
       <li
         css={css`
           cursor: pointer;
         `}
-        onClick={() =>
-          navigate(PATHS.viewDetailTemplate(), {
-            state: {
-              templateId: id,
-              readOnly,
-            },
-          })
-        }
+        onClick={handleClickDetail}
       >
         <Card
           rounded={"md"}
