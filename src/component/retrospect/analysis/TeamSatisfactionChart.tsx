@@ -62,6 +62,7 @@ export function TeamSatisfactionChart({ teamName, satisfactionCount, normalCount
           display: flex;
           justify-content: space-between;
           width: 120%;
+          transform: translateX(-10%);
         `}
       >
         <PieChart
