@@ -71,16 +71,7 @@ export function DropdownMenu({ children, onValueChange, placement = "bottom-end"
         popperAttributes: attributes.popper,
       }}
     >
-      <div
-        ref={(el) => setReferenceEl(el)}
-        css={css`
-          position: relative;
-          width: 2rem;
-          height: 2rem;
-        `}
-      >
-        {children}
-      </div>
+      <div ref={(el) => setReferenceEl(el)}>{children}</div>
     </DropdownMenuContext.Provider>
   );
 }
