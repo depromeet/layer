@@ -19,6 +19,7 @@ import { GoogleLoginRedirection } from "@/app/login/GoogleLoginRedirection";
 import { KakaoLoginRedirection } from "@/app/login/KakaoLoginRedirection";
 import { LoginPage } from "@/app/login/LoginPage";
 import { SetNickNamePage } from "@/app/login/SetNicknamePage";
+import { RetrospectAnalysisPage } from "@/app/retrospect/analysis/RetrospectAnalysisPage";
 import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
 import { RecommendDonePage } from "@/app/retrospect/template/recommend/RecommendDonePage";
 import { RecommendTemplatePage } from "@/app/retrospect/template/recommend/RecommendTemplatePage";
@@ -29,6 +30,8 @@ import { CreateNextPage } from "@/app/space/CreateNextPage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
 import { SpaceEditPage } from "@/app/space/edit/SpaceEditPage";
 import { JoinSpacePage } from "@/app/space/JoinSpacePage";
+import { MembersEditListPage } from "@/app/space/members/MembersEditListPage";
+import { MembersListPage } from "@/app/space/members/MembersListPage";
 import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 import { TemplatePage } from "@/app/template/TemplatePage.tsx";
 import Staging from "@/app/test/Staging.tsx";
@@ -37,7 +40,6 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
-import { RetrospectAnalysisPage } from "@/app/retrospect/analysis/RetrospectAnalysisPage";
 
 type RouteChildren = {
   auth: boolean;
@@ -154,6 +156,16 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/:spaceId/templates",
     element: <TemplateListPage />,
+    auth: true,
+  },
+  {
+    path: "/space/:spaceId/members",
+    element: <MembersListPage />,
+    auth: true,
+  },
+  {
+    path: "/space/:spaceId/members/edit",
+    element: <MembersEditListPage />,
     auth: true,
   },
   {
