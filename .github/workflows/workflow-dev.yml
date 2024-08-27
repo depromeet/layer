@@ -16,7 +16,7 @@ jobs:
         with:
           token: ${{ secrets.FORKED_REPO_TOKEN_DEV }}
           fetch-depth: 0
-          ref: develop
+          ref: ${{ github.ref_name }}
 
       - name: Add remote-url
         run: |
