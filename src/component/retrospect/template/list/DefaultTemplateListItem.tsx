@@ -55,7 +55,8 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTem
         {!readOnly ? (
           <Button
             colorSchema={"outline"}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               navigate(PATHS.retrospectCreate(), {
                 state: { spaceId, templateId: id },
               });

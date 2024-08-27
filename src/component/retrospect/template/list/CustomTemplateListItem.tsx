@@ -127,7 +127,8 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
           {!readOnly && (
             <Button
               colorSchema={"outline"}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 navigate(PATHS.retrospectCreate(), {
                   state: { spaceId, templateId: id },
                 });
