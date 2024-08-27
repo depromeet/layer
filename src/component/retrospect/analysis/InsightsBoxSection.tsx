@@ -7,11 +7,14 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { analysisType, Insight } from "@/types/analysis";
 
 type InsightsBoxProps = {
+  isTeam: boolean;
   type: analysisType;
   insightArr: Insight[];
 };
 
-export function InsightsBoxSection({ type, insightArr }: InsightsBoxProps) {
+export function InsightsBoxSection({ isTeam, type, insightArr }: InsightsBoxProps) {
+  if (insightArr === null) return;
+  const oneInsight = insightArr[0].content;
   return (
     <div
       css={css`
@@ -42,7 +45,7 @@ export function InsightsBoxSection({ type, insightArr }: InsightsBoxProps) {
                 border: 0.1rem solid ${DESIGN_TOKEN_COLOR.blue400};
               `}
             >
-              회의 내용 문서화
+              {oneInsight}
             </Typography>{" "}
             를 <br /> 가장 잘 하고 있어요
           </>
@@ -60,9 +63,9 @@ export function InsightsBoxSection({ type, insightArr }: InsightsBoxProps) {
                 border: 0.1rem solid ${DESIGN_TOKEN_COLOR.blue400};
               `}
             >
-              커뮤니케이션 부족
+              {oneInsight}
             </Typography>{" "}
-            외 <br /> 3가지를 문제점으로 생각해요
+            외 <br /> {insightArr.length}가지를 문제점으로 생각해요
           </>
         )}
         {type === "improvementPoints" && (
@@ -78,9 +81,9 @@ export function InsightsBoxSection({ type, insightArr }: InsightsBoxProps) {
                 border: 0.1rem solid ${DESIGN_TOKEN_COLOR.blue400};
               `}
             >
-              커뮤니케이션 부족
+              {oneInsight}
             </Typography>{" "}
-            외 <br /> 3가지를 개선점으로 생각해요
+            외 <br /> {insightArr.length}가지를 개선점으로 생각해요
           </>
         )}
       </Typography>
@@ -93,7 +96,7 @@ export function InsightsBoxSection({ type, insightArr }: InsightsBoxProps) {
         `}
       >
         {insightArr.map(({ analyzeType, content, count }, i) => (
-          <InsightBox key={i} analyzeType={analyzeType} content={content} count={count} />
+          <InsightBox key={i} analyzeType={analyzeType} content={content} count={count} isTeam={isTeam} />
         ))}
       </div>
       <Spacing size={1.6} />
@@ -101,7 +104,7 @@ export function InsightsBoxSection({ type, insightArr }: InsightsBoxProps) {
   );
 }
 
-function InsightBox({ analyzeType, content, count }: Insight) {
+function InsightBox({ analyzeType, content, count, isTeam }: Insight) {
   return (
     <div
       css={css`
@@ -130,15 +133,17 @@ function InsightBox({ analyzeType, content, count }: Insight) {
           {content}
         </Typography>
       </div>
-      <Typography
-        variant="body14Medium"
-        color="gray600"
-        css={css`
-          white-space: nowrap;
-        `}
-      >
-        {count}명
-      </Typography>
+      {isTeam && (
+        <Typography
+          variant="body14Medium"
+          color="gray600"
+          css={css`
+            white-space: nowrap;
+          `}
+        >
+          {count}명
+        </Typography>
+      )}
     </div>
   );
 }

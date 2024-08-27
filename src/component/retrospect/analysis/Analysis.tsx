@@ -13,12 +13,15 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 type AnalysisContainerProps = {
   spaceId: string;
   retrospectId: string;
+  hasAIAnalyzed: boolean | undefined;
 };
 
-export const AnalysisContainer = ({ spaceId, retrospectId }: AnalysisContainerProps) => {
+export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: AnalysisContainerProps) {
   const { data, isLoading } = useApiGetAnalysis({ spaceId, retrospectId });
   const [selectedTab, setSelectedTab] = useState<"personal" | "team">("personal");
-  console.log(data);
+  if (!hasAIAnalyzed) {
+    return <EmptyAnalysis />;
+  }
   return (
     <>
       {isLoading && <LoadingModal />}
@@ -28,6 +31,7 @@ export const AnalysisContainer = ({ spaceId, retrospectId }: AnalysisContainerPr
           flex-direction: column;
           gap: 2.8rem;
           margin-bottom: 3rem;
+          padding-top: 2.4rem;
         `}
       >
         {data?.teamAnalyze && (
@@ -42,7 +46,6 @@ export const AnalysisContainer = ({ spaceId, retrospectId }: AnalysisContainerPr
               border-radius: 0.6rem;
               position: relative;
               overflow: hidden;
-              margin-top: 2.4rem;
             `}
           >
             <div
@@ -102,19 +105,55 @@ export const AnalysisContainer = ({ spaceId, retrospectId }: AnalysisContainerPr
             />
             <GoalCompletionRateChart goalCompletionRate={data.teamAnalyze.goalCompletionRate} />
 
-            <InsightsBoxSection type="goodPoints" insightArr={data.teamAnalyze.goodPoints} />
-            <InsightsBoxSection type="badPoints" insightArr={data.teamAnalyze.badPoints} />
-            <InsightsBoxSection type="improvementPoints" insightArr={data.teamAnalyze.badPoints} />
+            <InsightsBoxSection type="goodPoints" insightArr={data.teamAnalyze.goodPoints} isTeam={true} />
+            <InsightsBoxSection type="badPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
+            <InsightsBoxSection type="improvementPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
           </>
         )}
         {data?.individualAnalyze && selectedTab === "personal" && (
           <>
-            <InsightsBoxSection type="goodPoints" insightArr={data.individualAnalyze.goodPoints} />
-            <InsightsBoxSection type="badPoints" insightArr={data.individualAnalyze.badPoints} />
-            <InsightsBoxSection type="improvementPoints" insightArr={data.individualAnalyze.badPoints} />
+            <InsightsBoxSection type="goodPoints" insightArr={data.individualAnalyze.goodPoints} isTeam={false} />
+            <InsightsBoxSection type="badPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
+            <InsightsBoxSection type="improvementPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
           </>
         )}
       </div>
     </>
   );
-};
+}
+
+function EmptyAnalysis() {
+  return (
+    <div
+      css={css`
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+      `}
+    >
+      <Typography variant="title18Bold" color="gray900">
+        AI가 회고 내용을 분석하고 있어요!
+      </Typography>
+
+      <div
+        css={css`
+          width: 100%;
+          align-items: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        `}
+      >
+        <Typography variant="body16Medium" color="gray500">
+          잠시만 기다려주세요
+        </Typography>
+        <Typography variant="body16Medium" color="gray500">
+          최대 1분까지 소요될 수 있어요
+        </Typography>
+      </div>
+    </div>
+  );
+}
