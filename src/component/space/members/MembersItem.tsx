@@ -4,8 +4,7 @@ import styled from "@emotion/styled";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { EditType } from "@/component/space/members/MembersList";
-import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type MembersItemProps = {
   id?: string;
@@ -98,7 +97,7 @@ export function MembersItem({
             </div>
           )}
         </div>
-        <Typography variant={DESIGN_TOKEN_TEXT.subtitle18SemiBold} color={DESIGN_SYSTEM_COLOR.grey900}>
+        <Typography variant="subtitle18SemiBold" color="grey900">
           {name}
         </Typography>
       </div>
@@ -115,7 +114,7 @@ export function MembersItem({
                   border-radius: 0.8rem;
                 `}
               >
-                <Typography variant={DESIGN_TOKEN_TEXT.body14Medium} color={DESIGN_TOKEN_COLOR.gray900}>
+                <Typography variant="body14Medium" color="gray900">
                   삭제
                 </Typography>
               </button>

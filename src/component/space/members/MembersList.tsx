@@ -102,7 +102,7 @@ export function MembersList() {
         data![0].isLeader && (
           <DropdownMenu onValueChange={(value) => onChangeEditType(value as EditType)} offset={[8, 8]}>
             <DropdownMenu.Trigger asChild={true}>
-              <Typography color={DESIGN_TOKEN_COLOR.gray600} variant={DESIGN_TOKEN_TEXT.subtitle16SemiBold}>
+              <Typography color="gray600" variant="subtitle16SemiBold">
                 편집
               </Typography>
             </DropdownMenu.Trigger>
@@ -121,7 +121,7 @@ export function MembersList() {
       }
     >
       <Spacing size={0.5} />
-      <Typography color={DESIGN_TOKEN_COLOR.gray800} variant={DESIGN_TOKEN_TEXT.body16Medium}>
+      <Typography color="gray800" variant="body16Medium">
         {`팀원 ${data?.length}`}
       </Typography>
       <Spacing size={2.5} />

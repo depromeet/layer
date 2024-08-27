@@ -12,7 +12,6 @@ import { useApiGetMemers } from "@/hooks/api/space/members/useApiGetMembers";
 import { useApiKickMember } from "@/hooks/api/space/members/useApiKickMembers";
 import { useModal } from "@/hooks/useModal";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 
 export function MembersEditList() {
   const { spaceId } = useParams() as { spaceId: string };
@@ -60,7 +59,7 @@ export function MembersEditList() {
   return (
     <DefaultLayout title={editType === "LEADER" ? "대표자 변경" : "팀원 추방"}>
       <Spacing size={0.5} />
-      <Typography color={DESIGN_TOKEN_COLOR.gray800} variant={DESIGN_TOKEN_TEXT.body16Medium}>
+      <Typography color="gray800" variant="body16Medium">
         {`팀원 ${data?.length}`}
       </Typography>
       <Spacing size={2.5} />
