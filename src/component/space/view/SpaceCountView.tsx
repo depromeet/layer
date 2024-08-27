@@ -83,6 +83,7 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
           justify-content: space-between;
           flex-basis: 50%;
         `}
+        onClick={() => navigate(`/space/${spaceId}/members`)}
       >
         <div
           css={css`
