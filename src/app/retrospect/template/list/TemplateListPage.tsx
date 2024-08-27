@@ -78,6 +78,7 @@ export function TemplateListPage() {
             display: flex;
             flex-direction: column;
             gap: 2rem;
+            min-height: 100%;
             margin-top: 2rem;
             padding-bottom: 2rem;
           `}
@@ -97,7 +98,7 @@ export function TemplateListPage() {
                   ))}
                 </>
               ),
-              커스텀: <CustomTemplateList readOnly={isReadOnly.current} />,
+              커스텀: <CustomTemplateList />,
             }[curTab]
           }
         </ul>
