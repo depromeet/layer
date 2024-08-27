@@ -40,7 +40,7 @@ export const RetrospectAnalysisPage = () => {
         {
           QUESTIONS: <QuestionForm data={data!} />,
           INDIVIDUAL_ANALYSIS: <PersonalForm data={data!} />,
-          ANALYSIS: <AnalysisContainer />,
+          ANALYSIS: <AnalysisContainer spaceId={spaceId!} retrospectId={retrospectId!} />,
         }[selectedTab]
       }
     </DualToneLayout>

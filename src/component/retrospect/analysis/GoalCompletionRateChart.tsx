@@ -1,14 +1,14 @@
 import { css } from "@emotion/react";
 
+import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 
 type GoalCompletionRateChartProps = {
-  teamName: string;
   goalCompletionRate: number;
 };
 
-export function GoalCompletionRateChart({ teamName, goalCompletionRate }: GoalCompletionRateChartProps) {
+export function GoalCompletionRateChart({ goalCompletionRate }: GoalCompletionRateChartProps) {
   const numberOfSegments = 5;
   const segmentWidth = 100 / numberOfSegments;
   const filledSegments = Math.floor(goalCompletionRate / segmentWidth);
@@ -31,7 +31,7 @@ export function GoalCompletionRateChart({ teamName, goalCompletionRate }: GoalCo
           margin-bottom: 6.5rem;
         `}
       >
-        {teamName} 팀이 생각하는
+        우리 팀이 생각하는
         <br />
         목표달성률은{" "}
         <span
@@ -105,13 +105,14 @@ export function GoalCompletionRateChart({ teamName, goalCompletionRate }: GoalCo
             &::after {
               content: "";
               position: absolute;
-              bottom: -0.5rem;
+              bottom: -1.5rem;
               left: 50%;
               transform: translateX(-50%);
-              width: 1.2rem;
-              height: 1.2rem;
-              background-color: ${DESIGN_TOKEN_COLOR.gray00};
-              border-radius: 50% / 100%;
+              width: 0;
+              height: 0;
+              border-left: 0.8rem solid transparent;
+              border-right: 0.8rem solid transparent;
+              border-top: 2rem solid ${DESIGN_TOKEN_COLOR.gray00};
             }
           `}
         >
@@ -119,10 +120,13 @@ export function GoalCompletionRateChart({ teamName, goalCompletionRate }: GoalCo
             css={css`
               ${DESIGN_TOKEN_TEXT.body14Medium};
               margin-left: 0.3rem;
-              color: ${DESIGN_TOKEN_COLOR.blue600};
+              color: ${DESIGN_TOKEN_COLOR.gray800};
+              display: flex;
+              align-items: center;
+              gap: 0.4rem;
             `}
           >
-            👥 {goalCompletionRate}%
+            <Icon icon="ic_twoMan_blue" size={2} /> {goalCompletionRate}%
           </Typography>
         </div>
       </div>

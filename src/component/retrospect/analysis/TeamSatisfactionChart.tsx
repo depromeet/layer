@@ -6,35 +6,42 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-const COLORS = [DESIGN_TOKEN_COLOR.blue600, DESIGN_TOKEN_COLOR.gray300, DESIGN_TOKEN_COLOR.red300];
+const COLORS = [
+  DESIGN_TOKEN_COLOR.blue600,
+  DESIGN_TOKEN_COLOR.blue500,
+  DESIGN_TOKEN_COLOR.blue400,
+  DESIGN_TOKEN_COLOR.blue700,
+  DESIGN_TOKEN_COLOR.blue800,
+];
 
 type TeamSatisfactionChartProps = {
-  teamName: string;
-  satisfactionCount: number;
-  normalCount: number;
-  regretCount: number;
+  satisfactionLevels: number[];
 };
 
-export function TeamSatisfactionChart({ teamName, satisfactionCount, normalCount, regretCount }: TeamSatisfactionChartProps) {
-  const data = useMemo(
-    () => [
-      { name: "만족해요", value: satisfactionCount },
-      { name: "평범해요", value: normalCount },
-      { name: "후회해요", value: regretCount },
-    ],
-    [satisfactionCount, normalCount, regretCount],
-  );
+export function TeamSatisfactionChart({ satisfactionLevels }: TeamSatisfactionChartProps) {
+  const data = useMemo(() => {
+    const levels = [
+      { name: "매우 만족", value: satisfactionLevels[0], color: COLORS[0] },
+      { name: "만족", value: satisfactionLevels[1], color: COLORS[1] },
+      { name: "보통", value: satisfactionLevels[2], color: COLORS[2] },
+      { name: "불만족", value: satisfactionLevels[3], color: COLORS[3] },
+      { name: "매우 불만족", value: satisfactionLevels[4], color: COLORS[4] },
+    ];
 
-  const maxIndex = data.reduce((maxIdx, current, idx, array) => (current.value > array[maxIdx].value ? idx : maxIdx), 0);
-  const dominantCategory = data[maxIndex].name;
-  const dominantColor = COLORS[maxIndex];
+    return levels.filter((level) => level.value > 0).sort((a, b) => b.value - a.value);
+  }, [satisfactionLevels]);
+
+  const dominantCategory = data[0]?.name || "";
+  const dominantColor = data[0]?.color || COLORS[2];
 
   return (
     <div
       css={css`
         display: flex;
         flex-direction: column;
+        border-radius: 0.8rem;
         padding: 2.8rem;
+        padding-bottom: 0;
         border-radius: 0.8rem;
         background-color: ${DESIGN_TOKEN_COLOR.gray00};
         position: relative;
@@ -47,7 +54,7 @@ export function TeamSatisfactionChart({ teamName, satisfactionCount, normalCount
           line-height: 2.6rem;
         `}
       >
-        {teamName} 팀은 <br />
+        우리 팀은 <br />
         진행상황에 대해 대부분{" "}
         <span
           css={css`
@@ -56,6 +63,7 @@ export function TeamSatisfactionChart({ teamName, satisfactionCount, normalCount
         >
           {dominantCategory}
         </span>
+        해요
       </Typography>
       <div
         css={css`
@@ -72,9 +80,9 @@ export function TeamSatisfactionChart({ teamName, satisfactionCount, normalCount
             width: 60%;
           `}
         >
-          <Pie data={data} cx={120} cy={120} innerRadius={50} outerRadius={90} startAngle={90} endAngle={450} dataKey="value">
-            {data.map((_, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          <Pie data={data} cx={120} cy={120} innerRadius={45} outerRadius={90} startAngle={90} endAngle={450} dataKey="value" stroke="none">
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
           </Pie>
           <Tooltip />
@@ -85,13 +93,13 @@ export function TeamSatisfactionChart({ teamName, satisfactionCount, normalCount
             height: auto;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            gap: 0.6rem;
+            justify-content: center;
+            gap: 1rem;
           `}
         >
-          <LegendInfo type="만족해요" value={satisfactionCount} />
-          <LegendInfo type="평범해요" value={normalCount} />
-          <LegendInfo type="후회해요" value={regretCount} />
+          {data.map((item) => (
+            <LegendInfo key={item.name} type={item.name} value={item.value} />
+          ))}
         </div>
       </div>
     </div>
@@ -99,51 +107,36 @@ export function TeamSatisfactionChart({ teamName, satisfactionCount, normalCount
 }
 
 type LegendInfoProps = {
-  type: "만족해요" | "평범해요" | "후회해요";
+  type: string;
   value: number;
 };
 
 const LegendInfo = ({ type, value }: LegendInfoProps) => {
-  const getLegendDetails = (type: LegendInfoProps["type"]) => {
-    switch (type) {
-      case "만족해요":
-        return {
-          color: DESIGN_TOKEN_COLOR.blue600,
-          emoji: "😊",
-        };
-      case "평범해요":
-        return {
-          color: DESIGN_TOKEN_COLOR.gray300,
-          emoji: "😐",
-        };
-      case "후회해요":
-        return {
-          color: DESIGN_TOKEN_COLOR.red300,
-          emoji: "😞",
-        };
-      default:
-        return {
-          color: DESIGN_TOKEN_COLOR.gray300,
-          emoji: "😐",
-        };
-    }
+  const emojiMap: Record<string, JSX.Element> = {
+    "매우 만족": <Icon icon="ic_very_satisfied" size={2} />,
+    만족: <Icon icon="ic_satisfied" size={2} />,
+    보통: <Icon icon="ic_neutral" size={2} />,
+    불만족: <Icon icon="ic_dissatisfied" size={2} />,
+    "매우 불만족": <Icon icon="ic_very_dissatisfied" size={2} />,
   };
-
-  const { color, emoji } = getLegendDetails(type);
 
   return (
     <div
       css={css`
-        width: fit-content;
+        width: 12rem;
         display: flex;
-        gap: 0.4rem;
         align-items: center;
+        justify-content: space-between;
       `}
     >
-      <Icon icon="ic_bluePoint" size={2} color={color} />
-      <Typography variant="body13Medium" color="gray900">
-        {emoji} {type}
-      </Typography>
+      <div
+        css={css`
+          display: flex;
+          gap: 0.4rem;
+        `}
+      >
+        {emojiMap[type]} {type}
+      </div>
       <Typography variant="body13Medium" color="gray500">
         {value}
       </Typography>

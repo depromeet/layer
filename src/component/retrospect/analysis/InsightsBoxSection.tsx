@@ -1,18 +1,10 @@
 import { css } from "@emotion/react";
 
 import { Icon } from "@/component/common/Icon";
-import { Typography } from "@/component/common/typography";
 import { Spacing } from "@/component/common/Spacing";
+import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-
-type analysisType = "goodPoints" | "badPoints" | "improvementPoints";
-type analysisItemType = "GOOD" | "BAD" | "IMPROVEMENT";
-
-type Insight = {
-  type: analysisItemType;
-  content: string;
-  count: number;
-};
+import { analysisType, Insight } from "@/types/analysis";
 
 type InsightsBoxProps = {
   type: analysisType;
@@ -100,8 +92,8 @@ export function InsightsBoxSection({ type, insightArr }: InsightsBoxProps) {
           gap: 1rem;
         `}
       >
-        {insightArr.map(({ type, content, count }, i) => (
-          <InsightBox key={i} type={type} content={content} count={count} />
+        {insightArr.map(({ analyzeType, content, count }, i) => (
+          <InsightBox key={i} analyzeType={analyzeType} content={content} count={count} />
         ))}
       </div>
       <Spacing size={1.6} />
@@ -109,7 +101,7 @@ export function InsightsBoxSection({ type, insightArr }: InsightsBoxProps) {
   );
 }
 
-function InsightBox({ type, content, count }: Insight) {
+function InsightBox({ analyzeType, content, count }: Insight) {
   return (
     <div
       css={css`
@@ -131,9 +123,9 @@ function InsightBox({ type, content, count }: Insight) {
           align-items: center;
         `}
       >
-        {type == "GOOD" && <Icon icon="ic_good_mark" size={2} />}
-        {type == "BAD" && <Icon icon="ic_bad_mark" size={2} />}
-        {type == "IMPROVEMENT" && <Icon icon="ic_improve_mark" size={2} />}
+        {analyzeType == "GOOD" && <Icon icon="ic_good_mark" size={2} />}
+        {analyzeType == "BAD" && <Icon icon="ic_bad_mark" size={2} />}
+        {analyzeType == "IMPROVEMENT" && <Icon icon="ic_improve_mark" size={2} />}
         <Typography variant="subtitle16SemiBold" color="gray800">
           {content}
         </Typography>
