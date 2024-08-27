@@ -4,8 +4,8 @@ import { useState, useEffect, useRef } from "react";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { useToast } from "@/hooks/useToast";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useNavigate } from "react-router-dom";
 
 type RightCompProps = {
   spaceId: string | undefined;
@@ -30,14 +30,10 @@ const slideUpDown = keyframes`
 export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible, onClickPlus, isLeader }: RightCompProps) {
   const [isBoxVisible, setIsBoxVisible] = useState(false);
   const boxRef = useRef<HTMLDivElement | null>(null);
-  //const navigate = useNavigate();
-  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleModifyFun = () => {
-    //navigate(`/space/modify/${spaceId}`);
-    // 빌드 에러로 인해 잠시 삽입
-    console.log(spaceId);
-    toast.success("아직 준비중인 단계에요!");
+    navigate(`/space/edit/${spaceId}`);
     setIsBoxVisible((prev) => !prev);
   };
 
