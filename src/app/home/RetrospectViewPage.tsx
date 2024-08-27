@@ -1,9 +1,8 @@
 import { css } from "@emotion/react";
-import { useAtom } from "jotai";
 import { useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Icon } from "@/component/common/Icon";
+import { UserProfileIcon } from "@/component/common/appBar";
 import { TabButton } from "@/component/common/tabs/TabButton";
 import { Tabs } from "@/component/common/tabs/Tabs";
 import { Typography } from "@/component/common/typography";
@@ -13,11 +12,9 @@ import { PATHS } from "@/config/paths";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { useTabs } from "@/hooks/useTabs";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { authAtom } from "@/store/auth/authAtom";
 
 export function RetrospectViewPage() {
   const navigate = useNavigate();
-  const [{ imageUrl }] = useAtom(authAtom);
 
   const tabMappings = {
     전체: "ALL",
@@ -49,10 +46,6 @@ export function RetrospectViewPage() {
     navigate(PATHS.spaceCreate());
   };
 
-  const goToUserInfo = () => {
-    navigate(PATHS.myInfo());
-  };
-
   return (
     <DefaultLayout
       theme="gray"
@@ -62,35 +55,10 @@ export function RetrospectViewPage() {
           회고
         </Typography>
       }
-      RightComp={
-        imageUrl ? (
-          <img
-            src={imageUrl}
-            css={css`
-              width: 3.2rem;
-              height: 3.2rem;
-              border-radius: 100%;
-              cursor: pointer;
-              object-fit: cover;
-            `}
-            onClick={goToUserInfo}
-          />
-        ) : (
-          <Icon
-            icon="basicProfile"
-            size="3.2rem"
-            onClick={goToUserInfo}
-            css={css`
-              cursor: pointer;
-            `}
-          />
-        )
-      }
+      RightComp={<UserProfileIcon />}
     >
       <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
-
       <GoMakeReviewButton onClick={goToCreateSpace} />
-
       <div
         css={css`
           display: flex;

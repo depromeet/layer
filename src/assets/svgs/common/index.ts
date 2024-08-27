@@ -41,3 +41,4 @@ export { default as ic_bluePoint } from "./ic_bluePoint.svg?react";
 export { default as ic_choose_picture } from "./ic_choose_picture.svg?react";
 export { default as ic_camera } from "./ic_camera.svg?react";
 export { default as ic_info_transparent } from "./ic_info_transparent.svg?react";
+export { default as ic_apple_logo } from "./ic_apple_logo.svg?react";

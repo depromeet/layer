@@ -1,6 +1,6 @@
 export const PATHS = {
   login: () => `/login`,
-  setNickName: (socialType: "kakao" | "google") => `/setnickname/${socialType}`,
+  setNickName: (socialType: "kakao" | "google" | "apple") => `/setnickname/${socialType}`,
   home: () => `/`,
   goals: () => `/goals`,
   goalsMore: () => `/goals/more`,
