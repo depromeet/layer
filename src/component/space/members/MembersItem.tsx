@@ -121,6 +121,7 @@ export function MembersItem({
               </button>
             ),
             LEADER: (
+              // FIXME: 공통 컴포넌트로 뺄 예정
               <div
                 onClick={handleRadioChange}
                 css={css`
