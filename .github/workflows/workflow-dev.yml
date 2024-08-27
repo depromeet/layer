@@ -26,7 +26,7 @@ jobs:
 
       - name: Push changes to forked-repo
         run: |
-          git push -f forked-repo develop
+          git push -f forked-repo ${{ github.ref_name }}
 
       - name: Clean up
         run: |
