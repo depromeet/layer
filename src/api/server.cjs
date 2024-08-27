@@ -31,7 +31,7 @@ app.get("/space/join/:id", (req, res) => {
   // Open Graph 태그 동적 치환
   html = html.replace(
       /<meta\s+property="og:title"\s+content=".*?">/,
-      `<meta property="og:title" content="함께 회고해요! ${id} | MyApp">`
+      `<meta property="og:title" content="함께 회고해요! - ${id} | MyApp">`
   );
   html = html.replace(
       /<meta\s+property="og:description"\s+content=".*?">/,

@@ -10,6 +10,7 @@ import { ExampleButton } from "@/component/template/ExampleButton.tsx";
 import { PurposeBox } from "@/component/template/PurposeBox.tsx";
 import { QuestionBox } from "@/component/template/QuestionBox.tsx";
 import { TipBox } from "@/component/template/TipBox.tsx";
+import { PATHS } from "@/config/paths";
 import { useGetTemplateInfo } from "@/hooks/api/template/useGetTemplateInfo.ts";
 import { useCollisionDetection } from "@/hooks/useCollisionDetection.ts";
 import { TemplateLayout } from "@/layout/TemplateLayout.tsx";
@@ -19,7 +20,7 @@ export function TemplatePage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const { templateId, readOnly = true } = location?.state as { templateId: number; readOnly: boolean };
+  const { templateId, spaceId, readOnly = true } = location?.state as { templateId: number; spaceId: number; readOnly: boolean };
 
   /**
    * template
@@ -182,7 +183,15 @@ export function TemplatePage() {
           </section>
           {!readOnly && (
             <ButtonProvider>
-              <Button>선택하기</Button>
+              <Button
+                onClick={() => {
+                  navigate(PATHS.retrospectCreate(), {
+                    state: { spaceId, templateId },
+                  });
+                }}
+              >
+                선택하기
+              </Button>
             </ButtonProvider>
           )}
         </TemplateLayout.Main>
