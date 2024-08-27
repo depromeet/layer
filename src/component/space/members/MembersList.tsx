@@ -100,7 +100,7 @@ export function MembersList() {
       RightComp={
         data![0].id === userData.memberId &&
         data![0].isLeader && (
-          <DropdownMenu onValueChange={(value) => onChangeEditType(value as EditType)}>
+          <DropdownMenu onValueChange={(value) => onChangeEditType(value as EditType)} offset={[8, 8]}>
             <DropdownMenu.Trigger asChild={true}>
               <Typography color={DESIGN_TOKEN_COLOR.gray600} variant={DESIGN_TOKEN_TEXT.subtitle16SemiBold}>
                 편집
