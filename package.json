@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
-    "start": "node src/api/server.cjs"
+    "start": "node server/server.cjs"
   },
   "dependencies": {
     "@egjs/react-flicking": "^4.11.3",

@@ -5,7 +5,7 @@ const path = require("path");
 const app = express();
 
 // 프로젝트 루트 경로에서 dist 폴더 제공
-const distPath = path.resolve(__dirname, "../../dist"); // 루트 디렉토리 기준으로 절대 경로 사용
+const distPath = path.resolve(__dirname, "../dist"); // 루트 디렉토리 기준으로 절대 경로 사용
 
 app.use(express.static(distPath));
 
