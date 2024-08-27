@@ -53,7 +53,7 @@ app.get("/space/join/:id", async (req, res) => {
     $('meta[name="description"]').attr('content', `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`);
     $('meta[property="og:title"]').attr('content', `${leaderName}님의 회고 초대장`);
     $('meta[property="og:description"]').attr('content', `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`);
-    $('meta[property="og:image"]').attr('content', '/assets/imgs/og/retrospectOG.png');
+    $('meta[property="og:image"]').attr('content', '../src/assets/imgs/og/retrospectOG.png');
 
     res.send($.html());
   } catch (err) {
