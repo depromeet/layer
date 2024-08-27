@@ -32,12 +32,13 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
   const { spaceId, readOnly } = useContext(TemplateListPageContext);
   const navigate = useNavigate();
   const { open } = useModal();
-  const { openBottomSheet } = useBottomSheet();
+  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { value: templateTitle, handleInputChange: handleChangeTitle } = useInput(title);
   const { mutate: patchTemplateTitle } = usePatchTemplateTitle(+spaceId);
   const { mutate: deleteCustomTemplate } = useDeleteCustomTemplate(+spaceId);
   const handleSubmitTitle = () => {
     patchTemplateTitle({ formId: id, formTitle: templateTitle });
+    closeBottomSheet();
   };
   const handleOptionSelect = (option: string) => {
     if (option === MENU_EDIT) {
