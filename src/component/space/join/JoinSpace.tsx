@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import { useParams } from "react-router-dom";
 
 import { ButtonProvider } from "@/component/common/button";
@@ -19,6 +20,15 @@ export function JoinSpace() {
   return (
     <>
       <DefaultLayout theme="gray" LeftComp={null}>
+        <span
+          id="essential_data"
+          css={css`
+            display: none;
+          `}
+        >
+          <span id="name">{data?.leader.name}</span>
+          <span id="team">{data?.name}</span>
+        </span>
         <Header title={`${data?.leader.name}님이\n${data?.name} 팀에 초대했어요!`} contents={`${data?.name} 팀에서 함께 회고를 진행해볼까요?`} />
         <JoinLetter space={data!.name} description={data!.introduction} imgUrl={data!.bannerUrl} />
         <ButtonProvider>

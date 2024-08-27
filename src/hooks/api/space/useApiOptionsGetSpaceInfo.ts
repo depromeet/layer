@@ -4,7 +4,7 @@ import { api } from "@/api";
 import { Space } from "@/types/spaceType";
 
 const spaceInfoFetch = async (spaceId: string | undefined) => {
-  const response = await api.get<Space>(`api/space/${spaceId}`);
+  const response = await api.get<Space>(`/api/space/${spaceId}`);
   return response.data;
 };
 
