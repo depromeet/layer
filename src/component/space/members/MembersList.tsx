@@ -12,7 +12,6 @@ import { useApiGetMemers } from "@/hooks/api/space/members/useApiGetMembers";
 import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 import { shareKakao } from "@/utils/kakao/sharedKakaoLink";
 
 export type EditType = "LEADER" | "KICK";
