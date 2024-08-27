@@ -8,7 +8,7 @@ type PostActionItemProps = {
 };
 
 const postActionItem = async ({ retrospectId, content }: PostActionItemProps) => {
-  const data = await api.post("api/action-item/create", { retrospectId: retrospectId, content: content });
+  const data = await api.post("/api/action-item/create", { retrospectId: retrospectId, content: content });
   return data;
 };
 

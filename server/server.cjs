@@ -1,6 +1,10 @@
+require('dotenv').config();
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const cheerio = require("cheerio");
+const axios = require("axios");
+
 
 const app = express();
 
@@ -9,40 +13,43 @@ const distPath = path.resolve(__dirname, "../dist"); // 루트 디렉토리 기�
 
 app.use(express.static(distPath));
 
-app.get("/space/join/:id", (req, res) => {
+app.get("/space/join/:id", async (req, res) => {
   const id = req.params.id;
   const filePath = path.join(distPath, "index.html"); // dist 경로에 있는 index.html 사용
-  let html;
+  let html, teamName, leaderName;
 
   try {
     html = fs.readFileSync(filePath, "utf8");
   } catch (err) {
-    console.error("Failed to read index.html:", err);
-    res.status(500).send("Error loading the page.");
-    return;
+    console.error("Failed to read index.html");
+    return res.status(500).send("Error loading the page.");
   }
 
-  // 동적 메타태그 설정 (정규 표현식 사용)
-  html = html.replace(/<title>(.*?)<\/title>/, `<title>Join Space ${id} | MyApp</title>`);
-  html = html.replace(
-      /<meta\s+name="description"\s+content=".*?">/,
-      `<meta name="description" content="Join space ${id} at MyApp!">`
-  );
-  // Open Graph 태그 동적 치환
-  html = html.replace(
-      /<meta\s+property="og:title"\s+content=".*?">/,
-      `<meta property="og:title" content="함께 회고해요! - ${id} | MyApp">`
-  );
-  html = html.replace(
-      /<meta\s+property="og:description"\s+content=".*?">/,
-      `<meta property="og:description" content="Join space ${id} description">`
-  );
-  html = html.replace(
-      /<meta\s+property="og:image"\s+content=".*?">/,
-      `<meta property="og:image" content="https://example.com/space-${id}-image.jpg">`
-  );
+  try {
+    const apiResponse = await axios.get(`${process.env.VITE_API_URL}/api/space/public/${atob(id)}`);
+    const spaceData = apiResponse.data;
 
-  res.send(html);
+    leaderName = spaceData?.leader?.name;
+    teamName = spaceData?.name;
+  } catch (err) {
+    console.error("Error fetching space data");
+    return res.status(500).send("Failed to fetch space data.", err);
+  }
+
+  const $ = cheerio.load(html);
+
+  if (!leaderName || !teamName) {
+    console.error("Missing leaderName or teamName from API response.");
+    return res.status(500).send("Error: Missing data from API.");
+  }
+
+  $('title').text(`${leaderName}님의 회고 초대장`);
+  $('meta[name="description"]').attr('content', `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`);
+  $('meta[property="og:title"]').attr('content', `${leaderName}님의 회고 초대장`);
+  $('meta[property="og:description"]').attr('content', `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`);
+  $('meta[property="og:image"]').attr('content', '../src/assets/imgs/og/retrospectOG.png');
+
+  res.send($.html());
 });
 
 app.get("*", (req, res) => {
