@@ -1,14 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/api";
 import { useToast } from "@/hooks/useToast";
-
-type MembersResponse = {
-  avatar: string | null;
-  id: string;
-  isLeader: boolean;
-  name: string;
-};
 
 export const useChangeLeader = (spaceId: string) => {
   const queryClient = useQueryClient();
