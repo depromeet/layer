@@ -9,7 +9,7 @@
       }
     },
     {
-      "src": "src/api/server.js",
+      "src": "server/server.js",
       "use": "@vercel/node"
     }
   ],
@@ -17,7 +17,7 @@
     { "handle": "filesystem" },
     {
       "src": "/space/join/(.*)",
-      "dest": "/api/server.js"
+      "dest": "/server/server.js"
     },
     {
       "src": "/.*",
