@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 
+import { UserProfileIcon } from "@/component/common/appBar";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
@@ -17,7 +18,7 @@ export function AnalysisViewPage() {
           실행목표
         </Typography>
       }
-      RightComp={<Icon icon="basicProfile" size="3.2rem" />}
+      RightComp={<UserProfileIcon />}
     >
       {/*<Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />*/}
       <div

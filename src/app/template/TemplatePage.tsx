@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button, ButtonProvider } from "@/component/common/button";
@@ -10,16 +10,17 @@ import { ExampleButton } from "@/component/template/ExampleButton.tsx";
 import { PurposeBox } from "@/component/template/PurposeBox.tsx";
 import { QuestionBox } from "@/component/template/QuestionBox.tsx";
 import { TipBox } from "@/component/template/TipBox.tsx";
+import { PATHS } from "@/config/paths";
 import { useGetTemplateInfo } from "@/hooks/api/template/useGetTemplateInfo.ts";
+import { useCollisionDetection } from "@/hooks/useCollisionDetection.ts";
 import { TemplateLayout } from "@/layout/TemplateLayout.tsx";
 
 export function TemplatePage() {
   const appbarRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const [isColliding, setIsColliding] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { templateId, readOnly } = location?.state as { templateId: number; readOnly: boolean };
+  const { templateId, spaceId, readOnly = true } = location?.state as { templateId: number; spaceId: number; readOnly: boolean };
 
   /**
    * template
@@ -32,26 +33,7 @@ export function TemplatePage() {
    * */
   // const templateSet = [10000, 10001, 10002, 10003, 10004, 10005];
   const { data } = useGetTemplateInfo({ templateId: templateId });
-
-  const checkCollision = () => {
-    if (appbarRef.current && contentRef.current) {
-      const rect1 = appbarRef.current.getBoundingClientRect();
-      const rect2 = contentRef.current.getBoundingClientRect();
-      const isColliding = rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y;
-      setIsColliding(isColliding);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", checkCollision);
-    window.addEventListener("resize", checkCollision);
-
-    return () => {
-      window.removeEventListener("scroll", checkCollision);
-      window.removeEventListener("resize", checkCollision);
-    };
-  }, []);
-
+  const isColliding = useCollisionDetection(appbarRef, contentRef);
   return (
     <Fragment>
       <TemplateLayout theme={isColliding ? "default" : "transparent"}>
@@ -199,9 +181,21 @@ export function TemplatePage() {
               <ExampleButton> {data?.templateName ?? ""} 회고 예시 보기 </ExampleButton>
             </article>
           </section>
-          {readOnly && (
+          {!readOnly && (
             <ButtonProvider>
-              <Button>선택하기</Button>
+<<<<<<< HEAD
+              <Button onClick={() => navigate("/retrospect/recommend/done", { state: { templateId } })}>선택하기</Button>
+=======
+              <Button
+                onClick={() => {
+                  navigate(PATHS.retrospectCreate(), {
+                    state: { spaceId, templateId },
+                  });
+                }}
+              >
+                선택하기
+              </Button>
+>>>>>>> e081a6751954a2811fd9b9f120216603e48f377b
             </ButtonProvider>
           )}
         </TemplateLayout.Main>

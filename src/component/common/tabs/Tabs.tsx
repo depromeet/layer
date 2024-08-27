@@ -20,6 +20,7 @@ export function Tabs<T extends string>({ tabs, curTab, selectTab, TabComp, fullW
           position: sticky;
           top: 0;
           background-color: var(--parent-bg-color);
+          z-index: 10;
         `,
       ]}
     >

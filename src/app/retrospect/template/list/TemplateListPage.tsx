@@ -15,18 +15,20 @@ import { useToast } from "@/hooks/useToast";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-export const TemplateListPageContext = createContext<{ isCreateRetrospect: boolean; spaceId: string }>({ isCreateRetrospect: false, spaceId: "" });
+export const TemplateListPageContext = createContext<{ readOnly: boolean; spaceId: string }>({ readOnly: false, spaceId: "" });
 
 export function TemplateListPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const locationState = useLocation().state as { createRetrospect?: boolean };
-  const isCreateRetrospect = useRef(false);
-  if (locationState && locationState.createRetrospect) {
-    isCreateRetrospect.current = true;
+  const locationState = useLocation().state as { readOnly?: boolean };
+  const isReadOnly = useRef(false);
+  if (locationState) {
+    if (locationState.readOnly) isReadOnly.current = true;
   }
+
   const { data: templates } = useGetDefaultTemplateList();
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
+
   const { tabs, curTab, selectTab } = useTabs(["기본", "커스텀"] as const);
   const TemplateListTabs = (
     <Tabs
@@ -68,7 +70,7 @@ export function TemplateListPage() {
   }, [spaceId]);
 
   return (
-    <TemplateListPageContext.Provider value={{ isCreateRetrospect: isCreateRetrospect.current, spaceId }}>
+    <TemplateListPageContext.Provider value={{ readOnly: isReadOnly.current, spaceId }}>
       <DualToneLayout TopComp={TemplateListTabs} title="회고 템플릿 리스트">
         {Info}
         <ul
@@ -95,7 +97,7 @@ export function TemplateListPage() {
                   ))}
                 </>
               ),
-              커스텀: <CustomTemplateList />,
+              커스텀: <CustomTemplateList readOnly={isReadOnly.current} />,
             }[curTab]
           }
         </ul>

@@ -18,10 +18,26 @@ type DefaultTemplateListItemProps = {
 };
 
 export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTemplateListItemProps) {
-  const { spaceId, isCreateRetrospect } = useContext(TemplateListPageContext);
+  const { spaceId, readOnly } = useContext(TemplateListPageContext);
   const navigate = useNavigate();
+
+  const handleClickDetail = () => {
+    navigate(PATHS.viewDetailTemplate(), {
+      state: {
+        spaceId,
+        templateId: id,
+        readOnly,
+      },
+    });
+  };
+
   return (
-    <li>
+    <li
+      css={css`
+        cursor: pointer;
+      `}
+      onClick={handleClickDetail}
+    >
       <Card rounded={"md"}>
         <Typography variant="S2">{title}</Typography>
         <Tag
@@ -40,10 +56,11 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTem
             <img src={imageUrl} width={180} height={180} />
           </div>
         )}
-        {isCreateRetrospect ? (
+        {!readOnly ? (
           <Button
             colorSchema={"outline"}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               navigate(PATHS.retrospectCreate(), {
                 state: { spaceId, templateId: id },
               });
@@ -52,16 +69,7 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTem
             선택하기
           </Button>
         ) : (
-          <Button
-            colorSchema={"white"}
-            onClick={() =>
-              navigate(PATHS.viewDetailTemplate(), {
-                state: {
-                  templateId: id,
-                },
-              })
-            }
-          >
+          <Button colorSchema={"white"} onClick={handleClickDetail}>
             <Typography variant={"subtitle16SemiBold"} color={"gray800"}>
               더 알아보기
             </Typography>

@@ -18,14 +18,16 @@ type SpaceResponse = {
   };
 };
 
-export const useApiGetSpace = (spaceId: string) => {
-  const getSpace = async (spaceId: string) => {
-    const res = await api.get<SpaceResponse>(`/api/space/${spaceId}`);
+export const useApiGetSpace = (spaceId: string, isPublic: boolean = false) => {
+  const getSpace = async (spaceId: string, isPublic: boolean) => {
+    const endpoint = isPublic ? `/api/space/public/${spaceId}` : `/api/space/${spaceId}`;
+    const res = await api.get<SpaceResponse>(endpoint);
+
     return res.data;
   };
 
   return useQuery({
     queryKey: ["getSpace", spaceId],
-    queryFn: () => getSpace(spaceId),
+    queryFn: () => getSpace(spaceId, isPublic),
   });
 };

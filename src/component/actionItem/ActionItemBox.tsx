@@ -159,6 +159,7 @@ export default function ActionItemBox({
           display: flex;
           flex-direction: column;
           box-shadow: ${DESIGN_TOKEN_COLOR.shadow.shadow100};
+          animation: ${ANIMATION.FADE_UP} 0.6s ease;
         `}
       >
         <div
