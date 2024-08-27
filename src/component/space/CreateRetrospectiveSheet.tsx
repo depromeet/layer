@@ -70,7 +70,7 @@ export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }
         <button
           onClick={() => {
             navigate(PATHS.template(spaceId), {
-              state: { createRetrospect: true },
+              state: { readOnly: false },
             });
             closeBottomSheet();
           }}

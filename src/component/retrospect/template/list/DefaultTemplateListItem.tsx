@@ -15,14 +15,29 @@ type DefaultTemplateListItemProps = {
   tag: string;
   imageUrl?: string;
   date?: string;
-  readOnly?: boolean;
 };
 
-export function DefaultTemplateListItem({ id, title, tag, imageUrl, readOnly }: DefaultTemplateListItemProps) {
-  const { spaceId, isCreateRetrospect } = useContext(TemplateListPageContext);
+export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTemplateListItemProps) {
+  const { spaceId, readOnly } = useContext(TemplateListPageContext);
   const navigate = useNavigate();
+
+  const handleClickDetail = () => {
+    navigate(PATHS.viewDetailTemplate(), {
+      state: {
+        spaceId,
+        templateId: id,
+        readOnly,
+      },
+    });
+  };
+
   return (
-    <li>
+    <li
+      css={css`
+        cursor: pointer;
+      `}
+      onClick={handleClickDetail}
+    >
       <Card rounded={"md"}>
         <Typography variant="S2">{title}</Typography>
         <Tag
@@ -41,10 +56,11 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl, readOnly }: 
             <img src={imageUrl} width={180} height={180} />
           </div>
         )}
-        {isCreateRetrospect ? (
+        {!readOnly ? (
           <Button
             colorSchema={"outline"}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               navigate(PATHS.retrospectCreate(), {
                 state: { spaceId, templateId: id },
               });
@@ -53,17 +69,7 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl, readOnly }: 
             선택하기
           </Button>
         ) : (
-          <Button
-            colorSchema={"white"}
-            onClick={() =>
-              navigate(PATHS.viewDetailTemplate(), {
-                state: {
-                  templateId: id,
-                  readOnly: readOnly,
-                },
-              })
-            }
-          >
+          <Button colorSchema={"white"} onClick={handleClickDetail}>
             <Typography variant={"subtitle16SemiBold"} color={"gray800"}>
               더 알아보기
             </Typography>

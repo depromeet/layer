@@ -29,7 +29,7 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
   const MENU_DELETE = "delete";
   const SHEET_ID = `modifyTemplateSheet_${id}`;
 
-  const { spaceId, isCreateRetrospect } = useContext(TemplateListPageContext);
+  const { spaceId, readOnly } = useContext(TemplateListPageContext);
   const navigate = useNavigate();
   const { open } = useModal();
   const { openBottomSheet } = useBottomSheet();
@@ -56,9 +56,24 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
     }
   };
 
+  const handleClickDetail = () => {
+    navigate(PATHS.viewDetailTemplate(), {
+      state: {
+        spaceId,
+        templateId: id,
+        readOnly,
+      },
+    });
+  };
+
   return (
     <>
-      <li>
+      <li
+        css={css`
+          cursor: pointer;
+        `}
+        onClick={handleClickDetail}
+      >
         <Card
           rounded={"md"}
           css={css`
@@ -81,7 +96,7 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
               `}
             >
               <Typography variant="S2">{title}</Typography>
-              {!isCreateRetrospect && (
+              {readOnly && (
                 <DropdownMenu onValueChange={(value) => handleOptionSelect(value)}>
                   <DropdownMenu.Trigger />
                   <DropdownMenu.Content>
@@ -100,7 +115,7 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
             <Tag>{tag}</Tag>
             <div
               css={
-                !isCreateRetrospect &&
+                readOnly &&
                 css`
                   align-self: flex-end;
                   margin-top: -0.6rem;
@@ -112,15 +127,14 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
               </Typography>
             </div>
           </div>
-          {isCreateRetrospect && (
+          {!readOnly && (
             <Button
               colorSchema={"outline"}
-              onClick={() => {
-                if (isCreateRetrospect) {
-                  navigate(PATHS.retrospectCreate(), {
-                    state: { spaceId, templateId: id },
-                  });
-                }
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(PATHS.retrospectCreate(), {
+                  state: { spaceId, templateId: id },
+                });
               }}
             >
               선택하기
