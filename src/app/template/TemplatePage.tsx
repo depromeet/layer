@@ -183,9 +183,6 @@ export function TemplatePage() {
           </section>
           {!readOnly && (
             <ButtonProvider>
-<<<<<<< HEAD
-              <Button onClick={() => navigate("/retrospect/recommend/done", { state: { templateId } })}>선택하기</Button>
-=======
               <Button
                 onClick={() => {
                   navigate(PATHS.retrospectCreate(), {
@@ -195,7 +192,6 @@ export function TemplatePage() {
               >
                 선택하기
               </Button>
->>>>>>> e081a6751954a2811fd9b9f120216603e48f377b
             </ButtonProvider>
           )}
         </TemplateLayout.Main>
