@@ -6,8 +6,8 @@
       "use": "@vercel/node"
     },
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
+      "src": "dist/**/*",
+      "use": "@vercel/static",
       "config": {
         "distDir": "dist"
       }
@@ -16,7 +16,7 @@
   "routes": [
     { "handle": "filesystem" },
     {
-      "src": "/api/(.*)",
+      "src": "/space/join/(.*)",
       "dest": "/api/server.js"
     },
     {
