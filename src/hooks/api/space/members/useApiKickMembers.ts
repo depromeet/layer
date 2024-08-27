@@ -8,8 +8,6 @@ export const useApiKickMember = (spaceId: string) => {
   const queryClient = useQueryClient();
 
   const apiKickMember = async ({ spaceId, memberId }: { spaceId: string; memberId: string }) => {
-    console.log(spaceId);
-    console.log(memberId);
     const response = await api.patch(`/api/space/kick?spaceId=${spaceId}&memberId=${memberId}`);
     return response;
   };
@@ -20,7 +18,7 @@ export const useApiKickMember = (spaceId: string) => {
       await queryClient.invalidateQueries({
         queryKey: ["getMembers", spaceId],
       });
-      toast.success("스페이스 삭제가 완료되었습니다.");
+      toast.success("해당 팀원을 추방시켰습니다.");
     },
     onError: (error) => {
       console.log(error);
