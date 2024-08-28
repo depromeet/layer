@@ -4,8 +4,10 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
+import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/space/space.const.ts";
 import { PATHS } from "@/config/paths";
 import { COOKIE_KEYS } from "@/config/storage-keys";
+import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";
 import { authAtom } from "@/store/auth/authAtom";
 import { AuthResponse } from "@/types/loginType";
@@ -42,6 +44,7 @@ export const usePostAppleLogin = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const setAuth = useSetAtom(authAtom);
+  const { mutate } = useApiJoinSpace();
 
   return useMutation({
     mutationFn: postAppleLogin,
@@ -59,8 +62,21 @@ export const usePostAppleLogin = () => {
         navigate(prevPath);
         return;
       }
-      toast.success("어서오세요!");
-      navigate(PATHS.home());
+
+      const saveSpaceIdPhase = Cookies.get(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
+      if (saveSpaceIdPhase) {
+        mutate(parseInt(saveSpaceIdPhase), {
+          onSuccess: () => {
+            toast.success("이미 참여한 스페이스로 이동했어요!");
+            navigate(PATHS.spaceDetail(saveSpaceIdPhase));
+            Cookies.remove(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
+          },
+        });
+      } else {
+        toast.success("어서오세요!");
+        navigate(PATHS.home());
+      }
+
       return;
     },
     onError: (error: ErrorType) => {
