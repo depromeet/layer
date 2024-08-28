@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { EditType } from "@/component/space/members/MembersList";
+import { defaultUserImgUrl } from "@/component/space/space.const";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type MembersItemProps = {
@@ -67,15 +68,14 @@ export function MembersItem({
           {plus ? (
             <Icon icon="ic_plus" size={1.4} color={DESIGN_TOKEN_COLOR.gray700} />
           ) : (
+            // FIXME: 추후에 Default Img 변경
             <img
-              src={avatar || ""}
+              src={avatar || defaultUserImgUrl}
+              onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => (e.currentTarget.src = defaultUserImgUrl)}
               css={css`
                 width: 5rem;
                 height: 5rem;
                 border-radius: 50%;
-                &[src=""] {
-                  display: none;
-                }
               `}
             />
           )}
