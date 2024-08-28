@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
