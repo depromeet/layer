@@ -22,18 +22,14 @@ type QuestionsListProps = {
 };
 
 export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
-  const { tag: originalTag, questions: originalQuestions } = useContext(TemplateContext);
+  const { tag: originalTag } = useContext(TemplateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const tag = useMemo(() => {
-    if (
-      originalQuestions
-        .map(({ questionContent }) => questionContent)
-        .every((question) => retroCreateData.questions.map(({ questionContent }) => questionContent).includes(question))
-    ) {
+    if (retroCreateData.hasChangedOriginal) {
       return originalTag;
     }
     return "커스텀";
-  }, [originalTag, originalQuestions, retroCreateData.questions]);
+  }, [retroCreateData.hasChangedOriginal, originalTag]);
   const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
