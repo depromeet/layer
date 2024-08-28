@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -39,8 +40,10 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const memberId = Cookies.get("memberId");
   const [retrospect, setRetrospect] = useState("");
   const [retrospectId, setRetrospectId] = useState<number | undefined>(-1);
+  const isLeader = memberId === String(leaderId);
 
   const { value: actionItemValue, handleInputChange } = useInput();
   const { mutate } = useCreateActionItem();
@@ -152,11 +155,12 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
             {teamActionList.slice(0, 3).map((actionItem, idx) => (
               <ActionItem key={idx} actionItemContent={actionItem.content} />
             ))}
-            {Array.from({ length: 3 - teamActionList.length }).map((_, index) => (
-              <div key={`plus-${index}`} onClick={handleOpenBottomSheet}>
-                <PlusActionItem />
-              </div>
-            ))}
+            {isLeader &&
+              Array.from({ length: 3 - teamActionList.length }).map((_, index) => (
+                <div key={`plus-${index}`} onClick={handleOpenBottomSheet}>
+                  <PlusActionItem />
+                </div>
+              ))}
           </div>
         </>
       )}
