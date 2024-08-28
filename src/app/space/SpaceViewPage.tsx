@@ -136,8 +136,8 @@ export function SpaceViewPage() {
               });
             } else {
               open({
-                title: "스페이스를 떠나시겠습니까??",
-                contents: "리스트에서 사라질꺼에요!",
+                title: "해당 스페이스를 떠나시겠어요?",
+                contents: "내 리스트에서 스페이스가 사라져요",
                 onConfirm: SpaceLeaveFun,
               });
             }
