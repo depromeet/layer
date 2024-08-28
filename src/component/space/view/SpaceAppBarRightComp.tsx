@@ -69,7 +69,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
         `}
       >
         <div css={{ position: "relative" }}>
-          <Icon icon="ic_plus" color={DESIGN_TOKEN_COLOR.gray00} size={1.8} onClick={onClickPlus} />
+          {isLeader && <Icon icon="ic_plus" color={DESIGN_TOKEN_COLOR.gray00} size={1.8} onClick={onClickPlus} />}
           {isTooltipVisible && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}

@@ -30,6 +30,7 @@ export function ResultContainer({ type = "question", data, page, handleDecrement
     >
       {
         {
+          // 회고 분석 시 사용되는 질문 조회
           question: (
             <Fragment>
               <ResultControlTab curPage={page} lastPage={lastPage} handleDecrement={handleDecrement} handleIncrement={handleIncrement} />
@@ -55,10 +56,11 @@ export function ResultContainer({ type = "question", data, page, handleDecrement
               })}
             </Fragment>
           ),
+          // 회고 작성 시 보여지는 개인 질문 조회
           personal: (
             <Fragment>
               <ResultControlTab
-                contents={data?.individuals[page].name}
+                contents={data?.individuals[page]?.name}
                 curPage={page}
                 lastPage={lastPage}
                 handleDecrement={handleDecrement}

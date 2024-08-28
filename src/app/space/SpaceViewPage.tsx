@@ -56,6 +56,7 @@ export function SpaceViewPage() {
   }, [restrospectArr]);
 
   const isLoading = isLoadingRestrospects || isLoadingSpaceInfo || isLoadingTeamActionList;
+  const isLeader = memberId === String(spaceInfo?.leader.id);
 
   const handleDeleteRetrospect = (retrospectId: number) => {
     setProceedingRetrospects((prev) => prev.filter((item) => item.retrospectId !== retrospectId));
@@ -128,7 +129,7 @@ export function SpaceViewPage() {
         <SpaceAppBarRightComp
           spaceId={spaceId}
           onDeleteClick={() => {
-            if (spaceInfo?.leader.id == memberId) {
+            if (isLeader) {
               open({
                 title: "스페이스를 삭제하시겠어요?",
                 contents: "스페이스를 다시 되돌릴 수 없어요",
@@ -144,7 +145,7 @@ export function SpaceViewPage() {
           }}
           isTooltipVisible={restrospectArr?.length === 0}
           onClickPlus={handleCreateSpace}
-          isLeader={Number(memberId) === spaceInfo?.leader.id}
+          isLeader={isLeader}
         />
       }
     >
@@ -188,7 +189,7 @@ export function SpaceViewPage() {
                   spaceId={spaceId}
                   retrospect={retrospect}
                   onDelete={handleDeleteRetrospect}
-                  isLeader={Number(memberId) === spaceInfo?.leader.id}
+                  isLeader={isLeader}
                 />
               ))}
             </div>
@@ -224,7 +225,7 @@ export function SpaceViewPage() {
               retrospect={retrospect}
               spaceId={spaceId}
               onDelete={handleDeleteRetrospect}
-              isLeader={Number(memberId) === spaceInfo?.leader.id}
+              isLeader={isLeader}
             />
           ))}
         </div>
