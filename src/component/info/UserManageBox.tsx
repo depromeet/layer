@@ -90,6 +90,7 @@ export function UserManageBox() {
               height: 4.8rem;
               display: flex;
               align-items: center;
+              cursor: pointer;
             `}
             onClick={() => {
               open({

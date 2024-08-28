@@ -13,6 +13,7 @@ export function InfoBox({ content, onClick }: InfoBoxProps) {
     <div
       onClick={onClick}
       css={css`
+        cursor: pointer;
         width: 100%;
         height: 4.8rem;
         display: flex;
