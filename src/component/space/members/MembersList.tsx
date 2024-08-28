@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { IconButton } from "@/component/common/button";
@@ -91,14 +92,19 @@ export function MembersList() {
     naviagate(`/space/${spaceId}/members/edit`, { state: { editType } });
   };
 
+  const isLeader = useMemo(() => {
+    if (!data || data.length === 0) return false;
+
+    return data[0].id === userData.memberId && data[0].isLeader;
+  }, [data, userData.memberId]);
+
   if (isLoading) return <LoadingModal />;
 
   return (
     <DefaultLayout
       title="팀원"
       RightComp={
-        data![0].id === userData.memberId &&
-        data![0].isLeader && (
+        isLeader && (
           <DropdownMenu onValueChange={(value) => onChangeEditType(value as EditType)} offset={[8, 8]}>
             <DropdownMenu.Trigger asChild={true}>
               <Typography color="gray600" variant="subtitle16SemiBold">
@@ -124,7 +130,7 @@ export function MembersList() {
         {`팀원 ${data?.length}`}
       </Typography>
       <Spacing size={2.5} />
-      <MembersItem name="팀원 추가" plus onClick={onInviteMember} />
+      {isLeader && <MembersItem name="팀원 추가" plus onClick={onInviteMember} />}
       {data?.map((member) => <MembersItem key={member.id} {...member} />)}
     </DefaultLayout>
   );

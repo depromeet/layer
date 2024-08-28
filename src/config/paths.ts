@@ -8,6 +8,7 @@ export const PATHS = {
   analysis: () => `/analysis`,
   retrospectCreate: () => `/retrospect/new`,
   retrospectRecommend: () => `/retrospect/recommend`,
+  retrospectRecommendDone: () => `/retrospect/recommend/done`,
   write: () => `/write`,
   completeRetrospectCreate: () => `/retrospect/complete`,
   template: (spaceId: string) => `/space/${spaceId}/templates`,
