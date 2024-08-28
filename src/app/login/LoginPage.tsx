@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 
 import { ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
-import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { SocialLoginButton } from "@/component/login";
 import { LoginCarousel } from "@/component/login/LoginCarousel";
@@ -51,7 +50,6 @@ export function LoginPage() {
 
   return (
     <DefaultLayout appBarVisible={false}>
-      <Spacing size={6} />
       <LoginCarousel />
       <ButtonProvider>
         <SocialLoginButton type="kakao" handler={kakaoLogin} />

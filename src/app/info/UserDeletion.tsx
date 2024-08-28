@@ -23,6 +23,7 @@ export function UserDeletion() {
   };
 
   useEffect(() => {
+    localStorage.setItem("deletionModalShown", "false");
     setIsDisabled(checkedItems.length === 0);
   }, [checkedItems]);
 

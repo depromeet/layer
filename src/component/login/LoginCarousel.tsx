@@ -1,11 +1,19 @@
 import { css } from "@emotion/react";
+import Lottie from "lottie-react";
 import Slider from "react-slick";
+import { useState } from "react";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import animationData1 from "@/assets/lottie/login/login_carousel_1.json";
+import animationData2 from "@/assets/lottie/login/login_carousel_2.json";
+import animationData3 from "@/assets/lottie/login/login_carousel_3.json";
+import animationData4 from "@/assets/lottie/login/login_carousel_4.json";
 import { Typography } from "@/component/common/typography";
 
 function LoginCarousel() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -13,9 +21,10 @@ function LoginCarousel() {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 4900,
     centerMode: true,
     centerPadding: "0",
+    beforeChange: (_: number, next: number) => setActiveSlide(next),
   };
 
   return (
@@ -26,7 +35,7 @@ function LoginCarousel() {
             key={idx}
             css={css`
               width: 100vw;
-              height: 60vh;
+              height: calc(100vh - 28rem);
             `}
           >
             <div
@@ -69,7 +78,8 @@ function LoginCarousel() {
                   {item.content}
                 </Typography>
               </div>
-              <img src={item.imgSrc} css={css``} />
+              {/* Lottie 애니메이션은 활성화된 슬라이드에서만 재생됨 */}
+              {activeSlide === idx && <Lottie animationData={item.animationData} loop={true} autoplay={true} style={{ height: 300, width: 300 }} />}
               <div />
             </div>
           </div>
@@ -84,22 +94,22 @@ export { LoginCarousel };
 const items = [
   {
     title: "템플릿 추천",
-    content: "회고 템플릿 추천을 통해 \n나에게 맞는 회고 방법을 고르고",
-    imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH5tMYku5GI0TB4BCjCF1Qd4S8BrRZp_7-GA&s",
+    content: "나에게 맞는 회고 템플릿을 \n쉽고 빠르게 추천받아요",
+    animationData: animationData1,
   },
   {
     title: "간편한 회고 작성",
-    content: "간편하게 회고를 작성해요!",
-    imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH5tMYku5GI0TB4BCjCF1Qd4S8BrRZp_7-GA&s",
+    content: "편리한 회고 작성 환경에서\n나의 회고를 진행해요",
+    animationData: animationData2,
   },
   {
     title: "AI 회고분석",
-    content: "작성된 회고 내용을\n 분석해줄게요",
-    imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH5tMYku5GI0TB4BCjCF1Qd4S8BrRZp_7-GA&s",
+    content: "작성된 회고 내용을\n분석해 볼 수 있어요",
+    animationData: animationData3,
   },
   {
     title: "실행목표 관리",
-    content: "이제 나의 실행목표를 \n설정하고 관리해요!",
-    imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQH5tMYku5GI0TB4BCjCF1Qd4S8BrRZp_7-GA&s",
+    content: "회고를 통한 실행목표를\n설정하고 관리해요!",
+    animationData: animationData4,
   },
 ];
