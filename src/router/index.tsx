@@ -113,7 +113,7 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/join/:id",
     element: <JoinSpacePage />,
-    auth: true,
+    auth: false,
   },
   {
     path: "/space/edit/:id",

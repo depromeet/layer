@@ -6,7 +6,6 @@ import ReactDOM from "react-dom/client";
 
 import { Routers } from "./router";
 
-import { Modal } from "@/component/common/Modal";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Toast } from "@/component/common/Toast";
 import { BridgeProvider } from "@/lib/provider/bridge-provider";
@@ -22,7 +21,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Routers />
         </BridgeProvider>
         <Toast />
-        <Modal />
       </QueryClientProvider>
     </Suspense>
   </React.StrictMode>,
