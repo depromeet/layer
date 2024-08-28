@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import { Outlet } from "react-router-dom";
 
+import { Modal } from "@/component/common/Modal";
 import { useBridgeContext } from "@/lib/provider/bridge-provider";
 
 export default function GlobalLayout() {
@@ -25,6 +26,7 @@ export default function GlobalLayout() {
         ${safeAreaHeight && { height: `calc(100dvh-${safeAreaHeight * 2}px)` }}
       `}
     >
+      <Modal />
       <Outlet />
     </div>
   );
