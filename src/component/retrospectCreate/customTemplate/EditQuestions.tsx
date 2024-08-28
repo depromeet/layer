@@ -59,8 +59,22 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
     [newQuestions, initialQuestions, originalQuestions],
   );
 
+  const isDefaultExtended = useMemo(
+    () =>
+      originalQuestions
+        .map(({ questionContent }) => questionContent)
+        .every((question) => newQuestions.map(({ questionContent }) => questionContent).includes(question)),
+    [newQuestions, originalQuestions],
+  );
+
   const saveData = () => {
-    setRetroCreateData((prev) => ({ ...prev, isNewForm: isEdited, questions: newQuestions, formName: `커스텀 템플릿` }));
+    setRetroCreateData((prev) => ({
+      ...prev,
+      isNewForm: isEdited,
+      hasChangedOriginal: isDefaultExtended,
+      questions: newQuestions,
+      formName: `커스텀 템플릿`,
+    }));
   };
 
   const onNext = () => {
