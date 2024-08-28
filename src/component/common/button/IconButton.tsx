@@ -5,9 +5,10 @@ import { Icon, IconType } from "@/component/common/Icon/Icon";
 
 type IconButtonProps = {
   icon: IconType;
+  color?: string;
 } & ButtonProps;
 
-export function IconButton({ icon, children, ...props }: IconButtonProps) {
+export function IconButton({ icon, color, children, ...props }: IconButtonProps) {
   return (
     <Button
       css={css`
@@ -17,6 +18,7 @@ export function IconButton({ icon, children, ...props }: IconButtonProps) {
     >
       <Icon
         icon={icon}
+        color={color}
         css={css`
           position: absolute;
           left: 2rem;

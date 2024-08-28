@@ -18,7 +18,7 @@ export function Toast() {
           top: 10px;
           left: 50%;
           transform: translate(-50%, 0);
-          z-index: 100000;
+          z-index: 1000000;
         `}
       >
         {toastDataState.map((toast) => (

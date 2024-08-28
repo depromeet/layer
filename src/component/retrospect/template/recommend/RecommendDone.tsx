@@ -9,16 +9,16 @@ import { Spacing } from "@/component/common/Spacing";
 import { Tooltip } from "@/component/common/tip";
 import { TemplateCard } from "@/component/retrospect/template/card/TemplateCard";
 import { PATHS } from "@/config/paths";
-import { useApiRecommendTemplate } from "@/hooks/api/retrospect/recommend/useApiRecommendTemplate";
+import { useGetSimpleTemplateInfo } from "@/hooks/api/template/useGetSimpleTemplateInfo";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
 
 export function RecommendDone() {
-  const locationState = useLocation().state as RecommendTemplateType & { spaceId: string; readOnly?: boolean };
-  const navigate = useNavigate();
-  const { data: recommendData, isLoading } = useApiRecommendTemplate(locationState);
+  const { templateId, spaceId } = useLocation().state as { templateId: string; spaceId: string };
 
-  if (!recommendData || isLoading) return <LoadingModal />;
+  const navigate = useNavigate();
+  const { data: templateData, isLoading } = useGetSimpleTemplateInfo(templateId);
+
+  if (isLoading) return <LoadingModal />;
 
   return (
     <DefaultLayout
@@ -31,7 +31,7 @@ export function RecommendDone() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => navigate(`/space/${locationState.spaceId}`)}
+          onClick={() => navigate(`/space/${spaceId}`)}
         />
       }
     >
@@ -46,10 +46,10 @@ export function RecommendDone() {
         <Tooltip>
           <Tooltip.Trigger>
             <TemplateCard
-              name={recommendData.formName}
-              tag={recommendData.tag}
-              imgUrl={recommendData.formImageUrl}
-              onClick={() => navigate("/template", { state: { templateId: recommendData.formId, readOnly: false } })}
+              name={templateData.templateName}
+              tag={templateData.title}
+              imgUrl={templateData.imageUrl}
+              onClick={() => navigate("/template", { state: { templateId: templateData.id, readOnly: false } })}
             />
           </Tooltip.Trigger>
           <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
@@ -62,21 +62,11 @@ export function RecommendDone() {
             gap: 0.8rem;
           `}
         >
-          <ButtonProvider.Gray
-            onClick={() =>
-              navigate(PATHS.template(locationState.spaceId), {
-                state: {
-                  readOnly: false,
-                },
-              })
-            }
-          >
-            템플릿 변경
-          </ButtonProvider.Gray>
+          <ButtonProvider.Gray onClick={() => navigate(PATHS.template(spaceId), { state: { readOnly: false } })}>템플릿 변경</ButtonProvider.Gray>
           <ButtonProvider.Primary
             onClick={() =>
               navigate(PATHS.retrospectCreate(), {
-                state: { spaceId: locationState.spaceId, templateId: recommendData.formId, saveTemplateId: true },
+                state: { spaceId: spaceId, templateId: templateData.id, saveTemplateId: true },
               })
             }
           >

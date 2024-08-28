@@ -30,6 +30,8 @@ import { CreateNextPage } from "@/app/space/CreateNextPage";
 import { CreateSpacePage } from "@/app/space/CreateSpacePage";
 import { SpaceEditPage } from "@/app/space/edit/SpaceEditPage";
 import { JoinSpacePage } from "@/app/space/JoinSpacePage";
+import { MembersEditListPage } from "@/app/space/members/MembersEditListPage";
+import { MembersListPage } from "@/app/space/members/MembersListPage";
 import { SpaceViewPage } from "@/app/space/SpaceViewPage";
 import { TemplatePage } from "@/app/template/TemplatePage.tsx";
 import Staging from "@/app/test/Staging.tsx";
@@ -154,6 +156,16 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/space/:spaceId/templates",
     element: <TemplateListPage />,
+    auth: true,
+  },
+  {
+    path: "/space/:spaceId/members",
+    element: <MembersListPage />,
+    auth: true,
+  },
+  {
+    path: "/space/:spaceId/members/edit",
+    element: <MembersEditListPage />,
     auth: true,
   },
   {
