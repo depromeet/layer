@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/space/space.const.ts";
@@ -25,6 +25,10 @@ export function JoinSpace() {
   const { toast } = useToast();
   const { open, close } = useModal();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => close();
+  }, []);
 
   if (isLoading) return <LoadingModal />;
 
@@ -58,7 +62,7 @@ export function JoinSpace() {
                   if (error.status === 403) {
                     // 로그인 또는 회원가입 후, 해당 쿠키 값을 판별하여 스페이스 가입을 진행합니다.
                     // FIXME: Cookie 모음 저장 필요
-                    Cookies.set(COOKIE_VALUE_SAVE_SPACE_ID_PHASE, spaceId, { expires: 1 });
+                    Cookies.set(COOKIE_VALUE_SAVE_SPACE_ID_PHASE, spaceId);
                     open({
                       title: "스페이스 참여를 위해 로그인이 필요해요",
                       contents: "지금 팀원들과 함께 회고를 진행해보세요",
