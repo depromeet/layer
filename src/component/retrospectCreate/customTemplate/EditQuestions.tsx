@@ -71,7 +71,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
     setRetroCreateData((prev) => ({
       ...prev,
       isNewForm: isEdited,
-      hasChangedOriginal: isDefaultExtended,
+      hasChangedOriginal: !isDefaultExtended,
       questions: newQuestions,
       formName: `커스텀 템플릿`,
     }));
