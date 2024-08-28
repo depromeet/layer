@@ -61,7 +61,7 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTem
             colorSchema={"outline"}
             onClick={(e) => {
               e.stopPropagation();
-              navigate(PATHS.retrospectCreate(), {
+              navigate(PATHS.retrospectRecommendDone(), {
                 state: { spaceId, templateId: id },
               });
             }}
