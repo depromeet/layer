@@ -14,21 +14,31 @@ const questionArr = ["앱을 자주 사용하지 않아요", "앱 사용이 불�
 
 export function UserDeletion() {
   const navigate = useNavigate();
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [checkedItems, setCheckedItems] = useState<boolean[]>(new Array(questionArr.length).fill(false));
   const [feedback, setFeedback] = useState<string>("");
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const handleCheckboxChange = (question: string) => {
-    setCheckedItems((prev) => (prev.includes(question) ? prev.filter((item) => item !== question) : [...prev, question]));
+  const handleCheckboxChange = (index: number) => {
+    setCheckedItems((prev) => {
+      const updated = [...prev];
+      updated[index] = !updated[index];
+      return updated;
+    });
   };
 
   useEffect(() => {
     localStorage.setItem("deletionModalShown", "false");
-    setIsDisabled(checkedItems.length === 0);
+    setIsDisabled(!checkedItems.includes(true));
   }, [checkedItems]);
 
   const deleteComplete = () => {
-    navigate(PATHS.myInfo(), { state: { showDeletionModal: true } });
+    navigate(PATHS.myInfo(), {
+      state: {
+        showDeletionModal: true,
+        booleans: checkedItems,
+        description: feedback,
+      },
+    });
   };
 
   return (
@@ -42,7 +52,7 @@ export function UserDeletion() {
       <Spacing size={2.8} />
 
       <div>
-        {questionArr.map((question) => (
+        {questionArr.map((question, index) => (
           <label
             key={question}
             css={css`
@@ -54,8 +64,8 @@ export function UserDeletion() {
           >
             <input
               type="checkbox"
-              checked={checkedItems.includes(question)}
-              onChange={() => handleCheckboxChange(question)}
+              checked={checkedItems[index]}
+              onChange={() => handleCheckboxChange(index)}
               css={css`
                 display: none;
               `}
@@ -66,7 +76,7 @@ export function UserDeletion() {
                 height: 1.6rem;
                 border-radius: 0.4rem;
                 border: 0.2rem solid ${DESIGN_TOKEN_COLOR.blue600};
-                background-color: ${checkedItems.includes(question) ? DESIGN_TOKEN_COLOR.blue600 : "transparent"};
+                background-color: ${checkedItems[index] ? DESIGN_TOKEN_COLOR.blue600 : "transparent"};
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -74,16 +84,16 @@ export function UserDeletion() {
                 transition:
                   background-color 0.3s ease,
                   transform 0.2s ease;
-                transform: ${checkedItems.includes(question) ? "scale(1)" : "scale(0.9)"};
+                transform: ${checkedItems[index] ? "scale(1)" : "scale(0.9)"};
               `}
             >
-              {checkedItems.includes(question) && (
+              {checkedItems[index] && (
                 <>
                   <Icon
                     icon="ic_check"
                     color={DESIGN_TOKEN_COLOR.gray00}
                     css={css`
-                      opacity: ${checkedItems.includes(question) ? "1" : "0"};
+                      opacity: ${checkedItems[index] ? "1" : "0"};
                       transition: opacity 0.3s ease;
                     `}
                   />

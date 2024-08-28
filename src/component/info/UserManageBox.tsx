@@ -14,6 +14,8 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type LocationState = {
   showDeletionModal?: boolean;
+  booleans?: boolean[];
+  description?: string;
 };
 
 export function UserManageBox() {
@@ -37,7 +39,11 @@ export function UserManageBox() {
         },
         onConfirm: () => {
           if (memberId) {
-            deleteUser(memberId);
+            deleteUser({
+              memberId: memberId,
+              booleans: state.booleans!,
+              description: state.description!,
+            });
           }
         },
       });
