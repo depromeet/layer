@@ -87,7 +87,16 @@ export function DropdownMenu({ children, onValueChange, placement = "bottom-end"
 
 function Trigger({ asChild, children }: { asChild: true; children: React.ReactNode } | PropsWithChildren<{ asChild?: false }>) {
   const context = useContext(DropdownMenuContext);
-  return <button onClick={() => context?.toggle()}>{asChild ? children : <Icon icon={"ic_more"} color={DESIGN_TOKEN_COLOR.gray600} />}</button>;
+  return (
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        context?.toggle();
+      }}
+    >
+      {asChild ? children : <Icon icon={"ic_more"} color={DESIGN_TOKEN_COLOR.gray600} />}
+    </button>
+  );
 }
 
 function Content({ children }: { children: React.ReactNode }) {

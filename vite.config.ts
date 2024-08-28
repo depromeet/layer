@@ -16,6 +16,10 @@ export default defineConfig({
     svgr(),
     Sitemap({ hostname: "https://layerapp.io" }),
   ],
+  build: {
+    outDir: "dist", // 빌드 결과가 저장되는 폴더
+    sourcemap: true, // 디버깅을 위한 소스맵 생성 (선택 사항)
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

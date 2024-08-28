@@ -15,16 +15,14 @@ import { useToast } from "@/hooks/useToast";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-export const TemplateListPageContext = createContext<{ isCreateRetrospect: boolean; spaceId: string }>({ isCreateRetrospect: false, spaceId: "" });
+export const TemplateListPageContext = createContext<{ readOnly: boolean; spaceId: string }>({ readOnly: false, spaceId: "" });
 
 export function TemplateListPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const locationState = useLocation().state as { createRetrospect?: boolean; readOnly?: boolean };
-  const isCreateRetrospect = useRef(false);
+  const locationState = useLocation().state as { readOnly?: boolean };
   const isReadOnly = useRef(false);
   if (locationState) {
-    if (locationState.createRetrospect) isCreateRetrospect.current = true;
     if (locationState.readOnly) isReadOnly.current = true;
   }
 
@@ -72,7 +70,7 @@ export function TemplateListPage() {
   }, [spaceId]);
 
   return (
-    <TemplateListPageContext.Provider value={{ isCreateRetrospect: isCreateRetrospect.current, spaceId }}>
+    <TemplateListPageContext.Provider value={{ readOnly: isReadOnly.current, spaceId }}>
       <DualToneLayout TopComp={TemplateListTabs} title="회고 템플릿 리스트">
         {Info}
         <ul
@@ -80,6 +78,7 @@ export function TemplateListPage() {
             display: flex;
             flex-direction: column;
             gap: 2rem;
+            min-height: 100%;
             margin-top: 2rem;
             padding-bottom: 2rem;
           `}
@@ -95,12 +94,11 @@ export function TemplateListPage() {
                       title={template.title}
                       tag={template.templateName}
                       imageUrl={template.imageUrl}
-                      readOnly={isReadOnly.current}
                     />
                   ))}
                 </>
               ),
-              커스텀: <CustomTemplateList readOnly={isReadOnly.current} />,
+              커스텀: <CustomTemplateList />,
             }[curTab]
           }
         </ul>
