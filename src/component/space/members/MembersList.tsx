@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { IconButton } from "@/component/common/button";
@@ -13,6 +14,7 @@ import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { shareKakao } from "@/utils/kakao/sharedKakaoLink";
+import { encryptId } from "@/utils/space/cryptoKey";
 
 export type EditType = "LEADER" | "KICK";
 
@@ -23,12 +25,11 @@ export function MembersList() {
   const { data: userData } = useApiGetUser();
   const { toast } = useToast();
   const naviagate = useNavigate();
-
-  const hashedSpaceId = window.btoa(spaceId);
+  const encryptedId = encryptId(spaceId);
 
   const handleShareKakao = () => {
     shareKakao(
-      `${window.location.protocol}//${window.location.host}/space/join/${hashedSpaceId}`,
+      `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
       `${userData.name}님이 스페이스에 초대했습니다.`,
       "어서오세용~!!",
     );
@@ -37,7 +38,7 @@ export function MembersList() {
 
   const handleCopyClipBoard = async () => {
     try {
-      await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${hashedSpaceId}`);
+      await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`);
       toast.success("복사 성공!!");
       close();
     } catch (e) {
@@ -91,14 +92,19 @@ export function MembersList() {
     naviagate(`/space/${spaceId}/members/edit`, { state: { editType } });
   };
 
+  const isLeader = useMemo(() => {
+    if (!data || data.length === 0) return false;
+
+    return data[0].id === userData.memberId && data[0].isLeader;
+  }, [data, userData.memberId]);
+
   if (isLoading) return <LoadingModal />;
 
   return (
     <DefaultLayout
       title="팀원"
       RightComp={
-        data![0].id === userData.memberId &&
-        data![0].isLeader && (
+        isLeader && (
           <DropdownMenu onValueChange={(value) => onChangeEditType(value as EditType)} offset={[8, 8]}>
             <DropdownMenu.Trigger asChild={true}>
               <Typography color="gray600" variant="subtitle16SemiBold">
@@ -124,7 +130,7 @@ export function MembersList() {
         {`팀원 ${data?.length}`}
       </Typography>
       <Spacing size={2.5} />
-      <MembersItem name="팀원 추가" plus onClick={onInviteMember} />
+      {isLeader && <MembersItem name="팀원 추가" plus onClick={onInviteMember} />}
       {data?.map((member) => <MembersItem key={member.id} {...member} />)}
     </DefaultLayout>
   );

@@ -185,7 +185,7 @@ export function TemplatePage() {
             <ButtonProvider>
               <Button
                 onClick={() => {
-                  navigate(PATHS.retrospectCreate(), {
+                  navigate(PATHS.retrospectRecommendDone(), {
                     state: { spaceId, templateId },
                   });
                 }}

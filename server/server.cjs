@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const cheerio = require("cheerio");
 const axios = require("axios");
+const CryptoJS = require("crypto-js");  // crypto-js를 추가합니다.
 
 const app = express();
 
@@ -12,8 +13,25 @@ const distPath = path.resolve(__dirname, "../dist"); // 절대 경로 사용
 
 app.use(express.static(distPath));
 
+const CRYPTO_KEY = process.env.VITE_CRYPTO_KEY;
+const VECTOR_KEY = process.env.VITE_VECTOR_KEY;
+
+const key = CryptoJS.enc.Utf8.parse(CRYPTO_KEY);
+const iv = CryptoJS.enc.Utf8.parse(VECTOR_KEY);
+
+// 복호화 함수 구현
+function decryptId(encryptedId) {
+  const decrypted = CryptoJS.AES.decrypt(encryptedId, key, {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+
+  return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
 app.get("/space/join/:id", async (req, res) => {
-  const id = req.params.id;
+  const encryptedId = req.params.id;
   const filePath = path.join(distPath, "index.html"); // dist 경로에 있는 index.html 사용
   let html;
 
@@ -28,10 +46,11 @@ app.get("/space/join/:id", async (req, res) => {
 
   let leaderName, teamName;
   console.log("VITE_API_URL:", process.env.VITE_API_URL);
-  console.log(`Decoded ID: ${atob(id)}`);
+  console.log(`Decoded ID: ${encryptedId}`);
 
   try {
-    const apiResponse = await axios.get(`${process.env.VITE_API_URL}/api/space/public/${atob(id)}`);
+    const decryptedId = decryptId(encryptedId);
+    const apiResponse = await axios.get(`${process.env.VITE_API_URL}/api/space/public/${decryptedId}`);
     const spaceData = apiResponse.data;
     console.log("Space Data:", spaceData);
 
