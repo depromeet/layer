@@ -34,22 +34,29 @@ export function SpaceEdit() {
 
   const onSubmitEditSpace = async () => {
     try {
-      const {
-        data: { presignedUrl, imageUrl },
-      } = await api.get<{ presignedUrl: string; imageUrl: string }>("/external/image/presigned?domain=SPACE");
+      if (imgFile) {
+        const { data } = await api.get<{ presignedUrl: string; imageUrl: string }>("/external/image/presigned?domain=SPACE");
 
-      await axios.put(presignedUrl, imgFile, {
-        headers: {
-          "Content-Type": "image/png",
-        },
-      });
+        await axios.put(data.presignedUrl, imgFile, {
+          headers: {
+            "Content-Type": imgFile.type || "image/png",
+          },
+        });
 
-      mutate({
-        spaceId: id,
-        name,
-        introduction,
-        imgUrl: imageUrl,
-      });
+        mutate({
+          spaceId: id,
+          name,
+          introduction,
+          imgUrl: data.imageUrl,
+        });
+      } else {
+        mutate({
+          spaceId: id,
+          name,
+          introduction,
+          imgUrl: data?.bannerUrl || "",
+        });
+      }
     } catch (error) {
       console.log(error);
     }
