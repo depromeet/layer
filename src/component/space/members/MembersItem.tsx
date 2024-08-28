@@ -72,6 +72,7 @@ export function MembersItem({
               css={css`
                 width: 5rem;
                 height: 5rem;
+                border-radius: 50%;
                 &[src=""] {
                   display: none;
                 }
