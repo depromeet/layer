@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
@@ -8,10 +8,11 @@ import { JoinLetter } from "@/component/space/join/JoinLetter.tsx";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { decryptId } from "@/utils/space/cryptoKey";
 
 export function JoinSpace() {
   const { id } = useParams() as { id: string };
-  const spaceId = window.atob(id);
+  const spaceId = decryptId(id);
   const { data, isLoading } = useApiGetSpace(spaceId, true);
   const { mutate } = useApiJoinSpace();
 
