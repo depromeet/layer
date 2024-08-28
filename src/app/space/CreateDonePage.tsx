@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { ProjectType } from "@/types/space";
 import { shareKakao } from "@/utils/kakao/sharedKakaoLink";
+import { encryptId } from "@/utils/space/cryptoKey";
 
 export function CreateDonePage() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export function CreateDonePage() {
   const { data: userData } = useApiGetUser();
   const { toast } = useToast();
 
-  const hashedSpaceId = window.btoa(spaceId);
+  const encryptedId = encryptId(spaceId);
 
   useEffect(() => {
     if (spaceData && spaceData.category === ProjectType.Team) {
@@ -34,7 +35,7 @@ export function CreateDonePage() {
 
   const handleShareKakao = () => {
     shareKakao(
-      `${window.location.protocol}//${window.location.host}/space/join/${hashedSpaceId}`,
+      `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
       `${userData.name}님이 스페이스에 초대했습니다.`,
       "어서오세용~!!",
     );
@@ -42,7 +43,7 @@ export function CreateDonePage() {
 
   const handleCopyClipBoard = async () => {
     try {
-      await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${hashedSpaceId}`);
+      await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`);
       toast.success("복사 성공!!");
     } catch (e) {
       alert("failed");
