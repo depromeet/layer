@@ -21,12 +21,13 @@ const iv = CryptoJS.enc.Utf8.parse(VECTOR_KEY);
 
 // 복호화 함수 구현
 function decryptId(encryptedId) {
-  const decrypted = CryptoJS.AES.decrypt(encryptedId, key, {
+  const word_array = CryptoJS.enc.Base64.parse(encryptedId);
+  const decoding = word_array.toString(CryptoJS.enc.Utf8);
+  const decrypted = CryptoJS.AES.decrypt(decoding, key, {
     iv: iv,
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7,
   });
-
   return decrypted.toString(CryptoJS.enc.Utf8);
 }
 
