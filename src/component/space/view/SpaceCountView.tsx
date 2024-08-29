@@ -56,7 +56,17 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
             css={css`
               display: flex;
               flex-direction: column;
+              align-items: flex-start;
               gap: 0.2rem;
+
+              span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                font-weight: 400;
+              }
             `}
           >
             <Typography variant="body12Medium" color="gray800">
@@ -102,7 +112,17 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
             css={css`
               display: flex;
               flex-direction: column;
+              align-items: flex-start;
               gap: 0.2rem;
+
+              span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+                font-weight: 400;
+              }
             `}
           >
             <Typography variant="body12Medium" color="gray800">

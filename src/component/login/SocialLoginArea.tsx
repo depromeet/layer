@@ -13,7 +13,7 @@ export function SocialLoginArea({
   onlyContainerStyle,
   ...props
 }: Omit<HTMLAttributes<HTMLDivElement>, "type"> & { onlyContainerStyle?: Interpolation<Theme> }) {
-  const { mutate: postAppleLogin } = usePostAppleLogin();
+  const { mutate: postAppleLogin, isPending } = usePostAppleLogin();
 
   window.AppleID.auth.init({
     clientId: `${import.meta.env.VITE_APPLE_CLIENT_ID}`,
@@ -52,7 +52,7 @@ export function SocialLoginArea({
 
   return (
     <div {...props}>
-      <ButtonProvider onlyContainerStyle={onlyContainerStyle}>
+      <ButtonProvider onlyContainerStyle={onlyContainerStyle} isProgress={isPending}>
         <SocialLoginButton type="kakao" handler={kakaoLogin} />
         {/* <SocialLoginButton type="apple" handler={appleLogin} /> */}
 
