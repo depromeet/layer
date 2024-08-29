@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { PATHS } from "@/config/paths";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function EmptyAnalysis() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export function EmptyAnalysis() {
       <Spacing size={3.8} />
       <button
         onClick={() => {
-          navigate(PATHS.spaceCreate());
+          navigate(PATHS.home());
         }}
         css={css`
           width: 100%;
