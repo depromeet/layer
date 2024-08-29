@@ -244,6 +244,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <GlobalLayout />,
+    errorElement: <Error />,
     children: browserRouter,
   },
 ]);

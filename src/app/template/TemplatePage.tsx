@@ -6,6 +6,7 @@ import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
+import { Typography } from "@/component/common/typography";
 import { PurposeBox } from "@/component/template/PurposeBox.tsx";
 import { QuestionBox } from "@/component/template/QuestionBox.tsx";
 import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture.tsx";
@@ -14,6 +15,7 @@ import { PATHS } from "@/config/paths";
 import { useGetTemplateInfo } from "@/hooks/api/template/useGetTemplateInfo.ts";
 import { useCollisionDetection } from "@/hooks/useCollisionDetection.ts";
 import { TemplateLayout } from "@/layout/TemplateLayout.tsx";
+import { formatOnlyDate } from "@/utils/date";
 
 export function TemplatePage() {
   const appbarRef = useRef<HTMLDivElement>(null);
@@ -31,12 +33,23 @@ export function TemplatePage() {
    * - 10004 : PMI
    * - 10005 : 무제
    * */
-  // const templateSet = [10000, 10001, 10002, 10003, 10004, 10005];
+  const templateSet = [10000, 10001, 10002, 10003, 10004, 10005];
+  const isProvidedTemplateSet = templateSet.includes(templateId);
   const { data } = useGetTemplateInfo({ templateId: templateId });
   const isColliding = useCollisionDetection(appbarRef, contentRef);
   return (
     <Fragment>
-      <TemplateLayout theme={isColliding ? "default" : "transparent"}>
+      <TemplateLayout
+        theme={isColliding ? "default" : "transparent"}
+        isOnlyTemplateStyle={
+          !isProvidedTemplateSet &&
+          css`
+          #header {
+              min-height: var(--app-bar-height);
+              background-color: transparent;
+        `
+        }
+      >
         <TemplateLayout.Header
           LeftComp={
             <Icon
@@ -50,6 +63,8 @@ export function TemplatePage() {
               onClick={() => navigate(-1)}
             />
           }
+          // FIXME: 플로우 수정되면 미트볼 메뉴 추가
+          // RightComp={isProvidedTemplateSet || readOnly ? null : <Icon icon={"ic_more"} size={2.1} />}
           ref={appbarRef}
         >
           <div
@@ -100,6 +115,11 @@ export function TemplatePage() {
               >
                 <Tag>{data?.templateName ?? ""}</Tag>
               </div>
+              {!isProvidedTemplateSet && (
+                <Typography color={"gray500"} variant={"body14Medium"}>
+                  {formatOnlyDate(data?.createdAt)}
+                </Typography>
+              )}
               <div
                 id="description"
                 css={css`
@@ -157,7 +177,15 @@ export function TemplatePage() {
                   `}
                 >
                   {data?.templateDetailQuestionList.map((item, index) => {
-                    return <QuestionBox key={item.questionId} index={index + 1} title={item.question} contents={item.description} />;
+                    return (
+                      <QuestionBox
+                        key={item.questionId}
+                        index={index + 1}
+                        title={item.question}
+                        contents={item.description}
+                        isProvidedTemplateSet={isProvidedTemplateSet}
+                      />
+                    );
                   })}
                 </div>
               </article>
@@ -169,16 +197,20 @@ export function TemplatePage() {
                 row-gap: 1.2rem;
               `}
             >
-              <span
-                css={css`
-                  color: #212329;
-                  font-weight: 600;
-                  font-size: 1.8rem;
-                `}
-              >
-                회고 작성 Tip
-              </span>
-              <TipBox title={data?.tipTitle ?? ""} content={data?.tipDescription ?? ""} />
+              {data?.tipTitle && data?.tipDescription && (
+                <Fragment>
+                  <span
+                    css={css`
+                      color: #212329;
+                      font-weight: 600;
+                      font-size: 1.8rem;
+                    `}
+                  >
+                    회고 작성 Tip
+                  </span>
+                  <TipBox title={data?.tipTitle ?? ""} content={data?.tipDescription ?? ""} />
+                </Fragment>
+              )}
               {/* FIXME: 추후 회고 예시 버튼 추가 */}
               {/*<ExampleButton> {data?.templateName ?? ""} 회고 예시 보기 </ExampleButton>*/}
             </article>

@@ -141,8 +141,8 @@ export function RetrospectWriteCompletePage() {
               css={css`
                 position: absolute;
                 top: -10%;
-                right: -10%;
-                width: 30%;
+                right: -5%;
+                width: 20%;
                 height: auto;
                 z-index: 4;
               `}
@@ -171,7 +171,7 @@ export function RetrospectWriteCompletePage() {
               <span
                 css={css`
                   color: white;
-                  font-size: 1.7rem;
+                  font-size: 1.9rem;
                   font-weight: 500;
                   display: flex;
                   justify-content: center;

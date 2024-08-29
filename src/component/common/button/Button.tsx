@@ -32,7 +32,7 @@ export function Button({ children, isProgress = false, colorSchema = "primary", 
         justify-content: center;
 
         path {
-          fill: white;
+          fill: ${isProgress && "white"};
         }
 
         // FIXME: 추후 디자인 토큰 나오면 세부 수정 진행 필요

@@ -28,7 +28,7 @@ export function Error() {
           animation: ${ANIMATION.FADE_IN} ease 0.4s;
         `}
       >
-        <Icon icon={"ic_error"} size={6} />
+        <Icon icon={"ic_error"} size={14} />
         <div
           css={css`
             display: flex;
