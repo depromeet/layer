@@ -34,7 +34,7 @@ export function CreateNextPage() {
     >
       <Spacing size={3.2} />
       <Header title={`어울리는 회고 템플릿을\n찾아볼까요?`} contents={data.category === ProjectType.Individual ? "스페이스 생성 완료!" : undefined} />
-      <Spacing size={7.4} />
+      <Spacing size={5.8} />
       <div
         css={css`
           position: relative;
