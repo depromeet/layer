@@ -13,11 +13,17 @@ const encryptId = (id: string) => {
     padding: CryptoJS.pad.Pkcs7,
   });
 
-  return encrypted.toString();
+  const word_array = CryptoJS.enc.Utf8.parse(encrypted.toString()); //UTF-8
+  const encoding = CryptoJS.enc.Base64.stringify(word_array); //인코딩
+
+  return encoding;
 };
 
 const decryptId = (encryptedId: string) => {
-  const decrypted = CryptoJS.AES.decrypt(encryptedId, key, {
+  const word_array = CryptoJS.enc.Base64.parse(encryptedId);
+  const decoding = word_array.toString(CryptoJS.enc.Utf8);
+
+  const decrypted = CryptoJS.AES.decrypt(decoding, key, {
     iv: iv,
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7,
