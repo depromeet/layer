@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { MyInsight } from "@/types/analysis";
 import { formatDateToMMDD } from "@/utils/date";
@@ -19,6 +20,7 @@ export function RetrospectSummaryBox({ recentAnalyzes }: RetrospectSummaryBoxPro
         background-color: ${DESIGN_TOKEN_COLOR.gray00};
         border-radius: 1.2rem;
         padding: 2.2rem 2rem;
+        animation: ${ANIMATION.FADE_UP} 0.6s ease;
       `}
     >
       <Typography variant="title18Bold" color="gray900">
