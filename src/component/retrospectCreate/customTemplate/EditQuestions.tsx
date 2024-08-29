@@ -23,7 +23,7 @@ import { useEditQuestions } from "@/hooks/useEditQuestions";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { useToast } from "@/hooks/useToast";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 const MAX_QUESTIONS_COUNT = 10;
@@ -187,6 +187,8 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
                           onChange={(e) => handleQuestionInputChange(e, index)}
                           css={css`
                             flex-grow: 1;
+                            ${DESIGN_TOKEN_TEXT.body14Medium};
+                            color: ${DESIGN_TOKEN_COLOR.gray900};
                           `}
                           onBlur={handleInputChangeConfirm}
                         />
