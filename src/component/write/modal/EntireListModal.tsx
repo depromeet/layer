@@ -5,6 +5,7 @@ import { AdvanceQuestionsNum, PhaseContext } from "@/app/write/RetrospectWritePa
 import { Icon } from "@/component/common/Icon";
 import { Answer } from "@/component/write/phase/Write.tsx";
 import { ANIMATION } from "@/style/common/animation.ts";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
 
 type EntireListProps = {
   onClose: () => void;
@@ -12,7 +13,7 @@ type EntireListProps = {
 };
 
 export function EntireListModal({ onClose, answers }: EntireListProps) {
-  const { data, movePhase } = useContext(PhaseContext);
+  const { data, movePhase, phase } = useContext(PhaseContext);
   const containerRef = useRef(null);
 
   return (
@@ -98,9 +99,14 @@ export function EntireListModal({ onClose, answers }: EntireListProps) {
                   align-items: center;
                   transition: 0.4s all;
                   cursor: pointer;
+                  background-color: ${phase === index && DESIGN_TOKEN_COLOR.blue200};
 
                   &:hover {
-                    background-color: rgba(108, 156, 250, 0.15);
+                    background-color: ${phase === index ? "" : DESIGN_TOKEN_COLOR.gray200};
+                  }
+
+                  &:active {
+                    background-color: ${DESIGN_TOKEN_COLOR.gray300};
                   }
                 `}
                 onClick={() => {
