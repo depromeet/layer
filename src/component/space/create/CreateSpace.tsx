@@ -6,29 +6,28 @@ import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { Icon } from "@/component/common/Icon";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Category } from "@/component/space/create/Category";
 import { Field } from "@/component/space/create/Field";
 import { Home } from "@/component/space/create/Home";
 import { Info } from "@/component/space/create/Info";
 import { Thumb } from "@/component/space/create/Thumb";
+import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { spaceState } from "@/store/space/spaceAtom";
 import { SpaceValue } from "@/types/space";
 
-type CreateSpaceProps = {
-  onSubmit: (spaceValue: SpaceValue) => void;
-};
-
 const LAST_PAGE = 4;
 
-export function CreateSpace({ onSubmit }: CreateSpaceProps) {
+export function CreateSpace() {
   const navigate = useNavigate();
   const [spaceValue, setSpaceValue] = useAtom(spaceState);
+  const { mutate, isPending } = useApiPostSpace();
 
   useEffect(() => {
     if (spaceValue.step === LAST_PAGE + 1) {
-      onSubmit({
+      mutate({
         ...spaceValue,
       });
     }
@@ -97,6 +96,8 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
       : navigate(-1);
   }, [navigate, setSpaceValue, spaceValue.step]);
 
+  if (isPending) return <LoadingModal />;
+
   return (
     <DefaultLayout
       LeftComp={
@@ -112,7 +113,7 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
       }
       theme={spaceValue.step === 0 ? "dark" : "default"}
     >
-      {spaceValue.step !== LAST_PAGE + 1 && (
+      {spaceValue.step <= LAST_PAGE + 1 && (
         <ProgressBar
           curPage={spaceValue.step}
           lastPage={LAST_PAGE}
@@ -125,7 +126,7 @@ export function CreateSpace({ onSubmit }: CreateSpaceProps) {
       {spaceValue.step === 1 && <Category onNext={handleCategoryChange} />}
       {spaceValue.step === 2 && <Field onNext={handleFieldChange} />}
       {spaceValue.step === 3 && <Info onNext={handleInfoChange} />}
-      {spaceValue.step === 4 && <Thumb onNext={handleThumbChange} />}
+      {spaceValue.step === 4 && <Thumb onNext={handleThumbChange} isPending={isPending} />}
     </DefaultLayout>
   );
 }
