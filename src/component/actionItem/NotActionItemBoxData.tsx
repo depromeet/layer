@@ -1,13 +1,17 @@
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
-import temp from "@/assets/temp.png";
 import { Button } from "@/component/common/button";
+import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths.ts";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 
 export function NotActionItemBoxData() {
+  const navigate = useNavigate();
+
   return (
     <div
       css={css`
@@ -32,23 +36,17 @@ export function NotActionItemBoxData() {
           animation: ${ANIMATION.FADE_IN} ease 0.4s;
         `}
       >
-        {/* FIXME: 변경된 이미지로 변경 */}
-        <img
-          src={temp}
-          css={css`
-            width: 13rem;
-            height: auto;
-          `}
-        />
-        <Spacing size={3.4} />
+        <Icon icon="ic_clock" size={8} />
+        <Spacing size={2} />
         <div
           css={css`
             display: flex;
             flex-direction: column;
             text-align: center;
+            row-gap: 0.3rem;
 
             span {
-              ${DESIGN_TOKEN_TEXT.body16Medium};
+              ${DESIGN_TOKEN_TEXT.body15Medium};
               color: ${DESIGN_TOKEN_COLOR.gray600};
             }
           `}
@@ -56,16 +54,16 @@ export function NotActionItemBoxData() {
           <Typography>30일간 진행한 회고가 없어요!</Typography>
           <Typography>회고를 진행해 실행목표를 설정해보세요</Typography>
         </div>
-        <Spacing size={3.4} />
+        <Spacing size={3} />
         <Button
           colorSchema={"outline"}
           css={css`
             width: fit-content;
-            padding: 0 2.1rem;
+            padding: 1.3rem 3.65rem;
           `}
         >
-          <Typography variant={"subtitle16SemiBold"} color={"gray800"}>
-            회고 진행하러가기
+          <Typography variant={"subtitle16SemiBold"} color={"gray800"} onClick={() => navigate(PATHS.home())}>
+            회고 진행하기
           </Typography>
         </Button>
       </div>
