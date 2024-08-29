@@ -3,6 +3,10 @@ import react from "@vitejs/plugin-react";
 import Sitemap from "vite-plugin-sitemap";
 import svgr from "vite-plugin-svgr";
 import path from "path";
+import dotenv from "dotenv";
+import { VitePluginRadar } from "vite-plugin-radar";
+
+dotenv.config();
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,6 +19,11 @@ export default defineConfig({
     }),
     svgr(),
     Sitemap({ hostname: "https://layerapp.io" }),
+    VitePluginRadar({
+      analytics: {
+        id: process.env.VITE_GOOGLE_ANALYTICS,
+      },
+    }),
   ],
   build: {
     outDir: "dist", // 빌드 결과가 저장되는 폴더
