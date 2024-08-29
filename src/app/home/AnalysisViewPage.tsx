@@ -9,7 +9,9 @@ import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
 export function AnalysisViewPage() {
   const { data, isLoading } = useApiGetMemberAnalysis();
-  console.log(data);
+
+  const hasRecentAnalyzes = data?.recentAnalyzes && data.recentAnalyzes.length !== 0;
+
   return (
     <DefaultLayout
       theme="gray"
@@ -21,22 +23,28 @@ export function AnalysisViewPage() {
       }
       RightComp={<UserProfileIcon />}
     >
-      {isLoading && <LoadingModal />}
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          gap: 1.7rem;
-          margin-top: 1.7rem;
-          margin-bottom: 8rem;
-        `}
-      >
-        {data?.recentAnalyzes && <RetrospectSummaryBox recentAnalyzes={data.recentAnalyzes} />}
-        {data?.goodAnalyzes && <SummaryInsightBox type="GOOD" insightArr={data.goodAnalyzes} />}
-        {data?.improvementAnalyzes && <SummaryInsightBox type="IMPROVEMENT" insightArr={data.improvementAnalyzes} />}
-        {data?.improvementAnalyzes && <SummaryInsightBox type="BAD" insightArr={data.badAnalyzes} />}
-      </div>
-      {!data && <EmptyAnalysis />}
+      {isLoading ? (
+        <LoadingModal />
+      ) : !data || !hasRecentAnalyzes ? (
+        <EmptyAnalysis />
+      ) : (
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            gap: 1.7rem;
+            margin-top: 1.7rem;
+            margin-bottom: 8rem;
+          `}
+        >
+          {hasRecentAnalyzes && <RetrospectSummaryBox recentAnalyzes={data.recentAnalyzes} />}
+          {data?.goodAnalyzes && data.goodAnalyzes.length !== 0 && <SummaryInsightBox type="GOOD" insightArr={data.goodAnalyzes} />}
+          {data?.improvementAnalyzes && data.improvementAnalyzes.length !== 0 && (
+            <SummaryInsightBox type="IMPROVEMENT" insightArr={data.improvementAnalyzes} />
+          )}
+          {data?.badAnalyzes && data.badAnalyzes.length !== 0 && <SummaryInsightBox type="BAD" insightArr={data.badAnalyzes} />}
+        </div>
+      )}
     </DefaultLayout>
   );
 }

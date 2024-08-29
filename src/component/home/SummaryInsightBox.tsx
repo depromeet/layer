@@ -7,28 +7,16 @@ import { Typography } from "@/component/common/typography";
 import { PATHS } from "@/config/paths";
 import { authAtom } from "@/store/auth/authAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { analysisItemType } from "@/types/analysis";
-import { Point, OriginalPoint, TransformPoint } from "@/types/analysis";
+import { Point, OriginalPoint, TransformPoint, analysisItemType } from "@/types/analysis";
 
 type SummaryInsightBoxProps = {
   type: analysisItemType;
   insightArr: Point[];
 };
 
-function transformPointsFun(points: OriginalPoint[]) {
-  return points
-    .map((point) => {
-      const pointValue =
-        "goodPoint" in point ? point.goodPoint : "improvementPoint" in point ? point.improvementPoint : "badPoint" in point ? point.badPoint : null;
-      return pointValue ? { ...point, point: pointValue } : null;
-    })
-    .filter((point) => point !== null) as TransformPoint[];
-}
-
 export function SummaryInsightBox({ type, insightArr }: SummaryInsightBoxProps) {
-  console.log(type, insightArr);
   const transformPoints = transformPointsFun(insightArr);
-  console.log(transformPoints);
+
   return (
     <div
       css={css`
@@ -40,6 +28,7 @@ export function SummaryInsightBox({ type, insightArr }: SummaryInsightBoxProps) 
       `}
     >
       <SummaryInsightIntro
+        type={type}
         insight={transformPoints.map((v) => {
           return v.point;
         })}
@@ -60,9 +49,9 @@ export function SummaryInsightBox({ type, insightArr }: SummaryInsightBoxProps) 
   );
 }
 
-function SummaryInsightIntro({ insight }: { insight: string[] }) {
+function SummaryInsightIntro({ type, insight }: { type: analysisItemType; insight: string[] }) {
   const [auth] = useAtom(authAtom);
-
+  console.log("타입:", type);
   return (
     <div
       css={css`
@@ -75,7 +64,7 @@ function SummaryInsightIntro({ insight }: { insight: string[] }) {
       {insight.length == 1 && (
         <>
           <Typography variant="title18Bold">
-            <BlueTextBox>{insight[0]}</BlueTextBox> 을 가장 잘 하고 있어요
+            <BlueTextBox>{insight[0]}</BlueTextBox> 을 {getMessageByType(type)}
           </Typography>
         </>
       )}
@@ -96,7 +85,7 @@ function SummaryInsightIntro({ insight }: { insight: string[] }) {
             ))}
             을
           </Typography>
-          <Typography variant="title18Bold">가장 잘 하고 있어요</Typography>
+          <Typography variant="title18Bold">{getMessageByType(type)}</Typography>
         </>
       )}
     </div>
@@ -192,4 +181,25 @@ function InsightBox({ insight }: { insight: TransformPoint }) {
       <Icon icon="ic_after" size={1.6} color={DESIGN_TOKEN_COLOR.gray900} />
     </div>
   );
+}
+
+function transformPointsFun(points: OriginalPoint[]) {
+  return points
+    .map((point) => {
+      const pointValue =
+        "goodPoint" in point ? point.goodPoint : "improvementPoint" in point ? point.improvementPoint : "badPoint" in point ? point.badPoint : null;
+      return pointValue ? { ...point, point: pointValue } : null;
+    })
+    .filter((point) => point !== null) as TransformPoint[];
+}
+
+function getMessageByType(type: analysisItemType): string {
+  switch (type) {
+    case "BAD":
+      return "문제점으로 생각해요";
+    case "IMPROVEMENT":
+      return "개선점으로 생각해요";
+    default:
+      return "가장 잘 하고 있어요";
+  }
 }
