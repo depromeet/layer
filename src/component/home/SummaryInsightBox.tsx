@@ -6,6 +6,7 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { PATHS } from "@/config/paths";
 import { authAtom } from "@/store/auth/authAtom";
+import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Point, OriginalPoint, TransformPoint, analysisItemType } from "@/types/analysis";
 
@@ -25,6 +26,7 @@ export function SummaryInsightBox({ type, insightArr }: SummaryInsightBoxProps) 
         background-color: ${DESIGN_TOKEN_COLOR.gray00};
         border-radius: 1.2rem;
         padding: 2.2rem 2rem;
+        animation: ${ANIMATION.FADE_UP} 0.6s ease;
       `}
     >
       <SummaryInsightIntro

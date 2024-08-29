@@ -16,7 +16,7 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
         --parent-bg-color: ${DESIGN_TOKEN_COLOR.themeBackground[theme]};
         background-color: var(--parent-bg-color);
         overflow-y: auto;
-        max-height: 100vh;
+        max-height: 100dvh;
       `}
     >
       {appBarVisible && <AppBar title={title} theme={theme} height={height} LeftComp={LeftComp} RightComp={RightComp} />}

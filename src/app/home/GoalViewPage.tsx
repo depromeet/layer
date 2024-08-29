@@ -60,7 +60,7 @@ export function GoalViewPage() {
                     contents={item.actionItemList.slice(0, 6)}
                     description={{
                       team: item.spaceName,
-                      completeDate: formatOnlyDate(item.deadline), // Or dynamically use item.completeDate if available
+                      completeDate: formatOnlyDate(item.deadline),
                     }}
                   />
                 ) : null,
