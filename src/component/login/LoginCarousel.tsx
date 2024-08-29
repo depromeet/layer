@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import Lottie from "lottie-react";
-import Slider from "react-slick";
 import { useState } from "react";
+import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -35,7 +35,7 @@ function LoginCarousel() {
             key={idx}
             css={css`
               width: 100vw;
-              height: calc(100vh - 28rem);
+              height: calc(100dvh - 28rem);
             `}
           >
             <div
@@ -78,7 +78,6 @@ function LoginCarousel() {
                   {item.content}
                 </Typography>
               </div>
-              {/* Lottie 애니메이션은 활성화된 슬라이드에서만 재생됨 */}
               {activeSlide === idx && <Lottie animationData={item.animationData} loop={true} autoplay={true} style={{ height: 300, width: 300 }} />}
               <div />
             </div>
