@@ -25,7 +25,7 @@ export function RetrospectCreateComplete() {
           height: 100%;
         `}
       >
-        <Lottie animationData={retrospect_create_complete_lottie} autoplay />
+        <Lottie animationData={retrospect_create_complete_lottie} autoplay style={{ width: "34rem" }} />
       </div>
       <ButtonProvider sort="horizontal">
         <ButtonProvider.Gray onClick={() => navigate(PATHS.spaceDetail(spaceId.toString()))}>끝내기</ButtonProvider.Gray>
