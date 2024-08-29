@@ -1,10 +1,11 @@
 import { css } from "@emotion/react";
+import Lottie from "lottie-react";
 import { useContext } from "react";
 
 import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
+import retrospect_create_start_lottie from "@/assets/lottie/retropsect/create/speech_bubble_envelope.json";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
-import { Icon } from "@/component/common/Icon";
 
 export function Start() {
   const { goNext, confirmQuitPage } = useContext(RetrospectCreateContext);
@@ -13,12 +14,13 @@ export function Start() {
       <Header title={"회고를 만들어볼까요"} contents={"회고를 진행할 질문들을 구성해요"} theme="white" />
       <div
         css={css`
-          text-align: center;
-          margin-top: 9.8rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
         `}
       >
-        {/**FIXME - lottie로 대체하기 */}
-        <Icon icon={"ic_notebook"} size={20.4} />
+        <Lottie animationData={retrospect_create_start_lottie} autoPlay={true} />
       </div>
       <ButtonProvider>
         <ButtonProvider.White onClick={goNext}>시작하기</ButtonProvider.White>
