@@ -140,6 +140,9 @@ export function SpaceViewPage() {
                 title: "해당 스페이스를 떠나시겠어요?",
                 contents: "내 리스트에서 스페이스가 사라져요",
                 onConfirm: SpaceLeaveFun,
+                options: {
+                  buttonText: ["아니요", "네"],
+                },
               });
             }
           }}
