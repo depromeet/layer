@@ -126,6 +126,7 @@ function InsightBox({ type, insight }: { type: analysisItemType; insight: Transf
         border-radius: 1.2rem;
         display: flex;
         justify-content: space-between;
+        cursor: pointer;
       `}
     >
       <div
