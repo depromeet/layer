@@ -1,7 +1,9 @@
 import { css } from "@emotion/react";
+import Lottie from "lottie-react";
 import { Fragment, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import CreateDone from "@/assets/lottie/space/create_done.json";
 import { ButtonProvider, IconButton } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
@@ -28,7 +30,7 @@ export function CreateDonePage() {
     if (spaceData && spaceData.category === ProjectType.Team) {
       const timer = setTimeout(() => {
         setAnimate(true);
-      }, 1000);
+      }, 3200);
       return () => clearTimeout(timer);
     }
   }, [spaceData]);
@@ -89,17 +91,23 @@ export function CreateDonePage() {
           <Spacing size={4} />
           <div
             css={css`
+              position: relative;
               text-align: center;
               height: 27.6rem;
             `}
           >
-            <img
-              src={"https://kr.object.ncloudstorage.com/layer-bucket/%EC%8A%A4%ED%8E%98%EC%9D%B4%EC%8A%A4%201.png"}
+            <Lottie
+              animationData={CreateDone}
+              loop={false}
               css={css`
-                width: ${animate ? "18rem" : "23rem"};
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translate(-50%, 0);
                 transition: all 0.5s ease;
                 height: auto;
                 margin-bottom: 4rem;
+                width: ${animate ? "24rem" : "33rem"};
               `}
             />
           </div>
