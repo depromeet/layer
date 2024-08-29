@@ -10,7 +10,7 @@ export function Start() {
   const { goNext, confirmQuitPage } = useContext(RetrospectCreateContext);
   return (
     <>
-      <Header title={"회고를 만들어볼까요"} contents={"회고를 진행하기 위한 공간이 필요해요"} theme="white" />
+      <Header title={"회고를 만들어볼까요"} contents={"회고를 진행할 질문들을 구성해요"} theme="white" />
       <div
         css={css`
           text-align: center;
