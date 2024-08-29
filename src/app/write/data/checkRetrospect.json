@@ -1,0 +1,64 @@
+{
+  "questions": [
+    {
+      "questionId": 0,
+      "question": "진행 상황에 대해\n얼마나 만족하나요?",
+      "order": 0,
+      "questionType": "number"
+    },
+    {
+      "questionId": 1,
+      "question": "목표했던 부분에\n얼마나 달성했나요?",
+      "order": 1,
+      "questionType": "range"
+    },
+    {
+      "questionId": 2,
+      "question": "프로젝트를 진행하면서 만족하고 있는 부분이 있나요?",
+      "order": 2,
+      "questionType": "plain_text"
+    },
+    {
+      "questionId": 3,
+      "question": "프로젝트에서 계속 이어갔으면 하는 부분이 있나요?",
+      "order": 3,
+      "questionType": "plain_text"
+    },
+    {
+      "questionId": 4,
+      "question": "프로젝트에서 불편하게 느끼는 부분이 있나요?",
+      "order": 4,
+      "questionType": "plain_text"
+    },
+    {
+      "questionId": 5,
+      "question": "프로젝트에서 개선이 필요하다고 느끼는 부분이 있나요?",
+      "order": 5,
+      "questionType": "plain_text"
+    },
+    {
+      "questionId": 6,
+      "question": "프로젝트를 진행해서 발생했던 문제점과 이에 따라 생각했던 해결책이 있나요?",
+      "order": 6,
+      "questionType": "plain_text"
+    },
+    {
+      "questionId": 7,
+      "question": "다음 회고를 진행하면서 판별 가능한 개선점이 있을까요?",
+      "order": 7,
+      "questionType": "plain_text"
+    },
+    {
+      "questionId": 8,
+      "question": "현재 프로젝트에서 개선을 위해 당장 실행할 수 있는 부분들이 있을까요?",
+      "order": 8,
+      "questionType": "plain_text"
+    },
+    {
+      "questionId": 9,
+      "question": "9번 질문이 왔습니다?",
+      "order": 9,
+      "questionType": "plain_text"
+    }
+  ]
+}
