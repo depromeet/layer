@@ -56,6 +56,9 @@ export function NotActionItemBoxData() {
         </div>
         <Spacing size={3} />
         <Button
+          onClick={() => {
+            navigate(PATHS.home());
+          }}
           colorSchema={"outline"}
           css={css`
             width: fit-content;
