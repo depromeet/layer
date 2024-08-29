@@ -22,6 +22,7 @@ export function UserBox({ name, imgUrl }: UserBoxProps) {
         }}
         css={css`
           width: 100%;
+          cursor: pointer;
           height: 7.4rem;
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
           border-radius: 1.2rem;

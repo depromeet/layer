@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-import { ACHIEVEMENT_COLOR } from "@/component/write/template/template.const.ts";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
 
 type ProgressBarProps = {
   answer: number;
@@ -86,7 +86,7 @@ export function WAchievementTemplate({ answer: AchivementIdx = -1, onClick }: Pr
               css={css`
                 position: absolute;
                 width: 100%;
-                background-color: ${isActive ? ACHIEVEMENT_COLOR[index] : "transparent"};
+                background-color: ${isActive ? DESIGN_TOKEN_COLOR.blue600 : "transparent"};
                 border-radius: inherit;
                 height: inherit;
                 transition: 0.4s all;

@@ -1,11 +1,11 @@
 import { css, keyframes } from "@emotion/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { useNavigate } from "react-router-dom";
 
 type RightCompProps = {
   spaceId: string | undefined;
@@ -69,8 +69,8 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
         `}
       >
         <div css={{ position: "relative" }}>
-          <Icon icon="ic_plus" color={DESIGN_TOKEN_COLOR.gray00} size={1.8} onClick={onClickPlus} />
-          {isTooltipVisible && (
+          {isLeader && <Icon icon="ic_plus" color={DESIGN_TOKEN_COLOR.gray00} size={1.8} onClick={onClickPlus} />}
+          {isLeader && isTooltipVisible && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}

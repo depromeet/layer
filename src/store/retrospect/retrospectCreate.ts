@@ -8,4 +8,5 @@ export const retrospectCreateAtom = atomWithReset<RetrospectCreateReq>({
   questions: [],
   deadline: "",
   isNewForm: false,
+  hasChangedOriginal: false,
 });
