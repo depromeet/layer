@@ -5,11 +5,11 @@ import { GoalCompletionRateChart } from "./GoalCompletionRateChart";
 import { InsightsBoxSection } from "./InsightsBoxSection";
 import { TeamSatisfactionChart } from "./TeamSatisfactionChart";
 
+import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Typography } from "@/component/common/typography";
 import { useApiGetAnalysis } from "@/hooks/api/analysis/useApiGetAnalysis";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { Icon } from "@/component/common/Icon";
 
 type AnalysisContainerProps = {
   spaceId: string;

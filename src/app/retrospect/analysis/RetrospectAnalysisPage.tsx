@@ -24,7 +24,6 @@ export const RetrospectAnalysisPage = () => {
   const spaceId = queryParams.get("spaceId");
   const retrospectId = queryParams.get("retrospectId");
   const { data, isLoading } = useGetAnalysisAnswer({ spaceId: spaceId!, retrospectId: retrospectId! });
-  console.log(data);
   return (
     <DualToneLayout
       bottomTheme="gray"
