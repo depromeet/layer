@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "@/api";
-import { MyInsight } from "@/types/analysis";
+import { MyInsight, Point } from "@/types/analysis";
 
 export type AnalysisType = {
   recentAnalyzes: MyInsight[];
-  goodAnalyzes: MyInsight[];
-  badAnalyzes: MyInsight[];
-  improvementAnalyzes: MyInsight[];
+  goodAnalyzes: Point[];
+  badAnalyzes: Point[];
+  improvementAnalyzes: Point[];
 };
 
 export const useApiGetMemberAnalysis = () => {

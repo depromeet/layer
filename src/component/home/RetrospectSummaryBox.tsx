@@ -6,12 +6,10 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { MyInsight } from "@/types/analysis";
 import { formatDateToMMDD } from "@/utils/date";
 
-// recentAnalyzes
 type RetrospectSummaryBoxProps = {
   recentAnalyzes: MyInsight[];
 };
 
-// FIXME: 타입과 Props 넘겨주기
 export function RetrospectSummaryBox({ recentAnalyzes }: RetrospectSummaryBoxProps) {
   return (
     <div

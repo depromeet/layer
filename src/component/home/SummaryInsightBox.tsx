@@ -2,14 +2,33 @@ import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 
-import { PATHS } from "@/config/paths";
-
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { PATHS } from "@/config/paths";
 import { authAtom } from "@/store/auth/authAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { analysisItemType } from "@/types/analysis";
+import { Point, OriginalPoint, TransformPoint } from "@/types/analysis";
 
-export function SummaryInsightBox() {
+type SummaryInsightBoxProps = {
+  type: analysisItemType;
+  insightArr: Point[];
+};
+
+function transformPointsFun(points: OriginalPoint[]) {
+  return points
+    .map((point) => {
+      const pointValue =
+        "goodPoint" in point ? point.goodPoint : "improvementPoint" in point ? point.improvementPoint : "badPoint" in point ? point.badPoint : null;
+      return pointValue ? { ...point, point: pointValue } : null;
+    })
+    .filter((point) => point !== null) as TransformPoint[];
+}
+
+export function SummaryInsightBox({ type, insightArr }: SummaryInsightBoxProps) {
+  console.log(type, insightArr);
+  const transformPoints = transformPointsFun(insightArr);
+  console.log(transformPoints);
   return (
     <div
       css={css`
@@ -20,7 +39,11 @@ export function SummaryInsightBox() {
         padding: 2.2rem 2rem;
       `}
     >
-      <SummaryInsightIntro insight={["회의 내용 문서화", "회의 내용 문서화", "회의 내용 문서화", "회의 내용 문서화"]} />
+      <SummaryInsightIntro
+        insight={transformPoints.map((v) => {
+          return v.point;
+        })}
+      />
       <div
         css={css`
           margin-top: 2rem;
@@ -29,8 +52,9 @@ export function SummaryInsightBox() {
           gap: 1rem;
         `}
       >
-        <InsightBox />
-        <InsightBox />
+        {transformPoints.map((point, idx) => (
+          <InsightBox key={idx} insight={point} />
+        ))}
       </div>
     </div>
   );
@@ -97,10 +121,11 @@ function BlueTextBox({ children }: { children: React.ReactNode }) {
   );
 }
 
-function InsightBox() {
+function InsightBox({ insight }: { insight: TransformPoint }) {
+  const { spaceId, retrospectId, spaceName, retrospectTitle, point } = insight;
   const navigate = useNavigate();
   const goAnalysisPage = () => {
-    navigate(PATHS.retrospectAnalysis("11", 11));
+    navigate(PATHS.retrospectAnalysis(spaceId.toString(), retrospectId));
   };
 
   return (
@@ -157,10 +182,10 @@ function InsightBox() {
           `}
         >
           <Typography variant="subtitle16SemiBold" color="gray900">
-            회의 내용 문서화
+            {point}
           </Typography>
           <Typography variant="body13Medium" color="gray500">
-            중간발표 이후 회고 | 떡잎마을 방법대
+            {retrospectTitle} | {spaceName}
           </Typography>
         </div>
       </div>
