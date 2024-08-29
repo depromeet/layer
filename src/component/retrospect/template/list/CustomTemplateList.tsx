@@ -27,15 +27,11 @@ export function CustomTemplateList() {
     <>
       {templates.length === 0 ? (
         <EmptyList
-          message={
-            <>
-              생성한 커스텀 템플릿이
-              <br />
-              아직 없어요!
-            </>
-          }
+          icon={"ic_empty_list"}
+          iconSize={14}
+          message={"아직 커스텀 템플릿이 없어요"}
           css={css`
-            margin-top: -5rem;
+            margin-top: -7rem;
           `}
         />
       ) : (

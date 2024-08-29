@@ -1,13 +1,17 @@
 import { css } from "@emotion/react";
+import { PropsWithChildren } from "react";
 
 import { Icon } from "@/component/common/Icon";
+import { IconType } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
 
 type EmptyListProps = {
   message: React.ReactNode;
+  icon: IconType;
+  iconSize?: number;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function EmptyList({ message, ...props }: EmptyListProps) {
+export function EmptyList({ message, icon, iconSize = 7.2, children, ...props }: PropsWithChildren<EmptyListProps>) {
   return (
     <div
       css={css`
@@ -20,7 +24,7 @@ export function EmptyList({ message, ...props }: EmptyListProps) {
       `}
       {...props}
     >
-      <Icon icon="ic_clock" size={7.2} />
+      <Icon icon={icon} size={iconSize} />
       <div
         css={css`
           text-align: center;
@@ -30,6 +34,7 @@ export function EmptyList({ message, ...props }: EmptyListProps) {
           {message}
         </Typography>
       </div>
+      {children}
     </div>
   );
 }
