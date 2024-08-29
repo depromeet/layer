@@ -3,7 +3,7 @@ import { UseQueryOptions } from "@tanstack/react-query";
 import { api } from "@/api";
 import { Retrospect } from "@/types/retrospect";
 
-type RestrospectResponse = {
+export type RestrospectResponse = {
   layerCount: number;
   retrospects: Retrospect[];
 };
@@ -14,7 +14,7 @@ const spaceRestrospectFetch = async (spaceId: string | undefined) => {
 };
 
 export const useApiOptionsGetRetrospects = (spaceId?: string): UseQueryOptions<RestrospectResponse, Error, RestrospectResponse["retrospects"]> => ({
-  queryKey: ["getRetrospects", spaceId!],
+  queryKey: ["getRetrospects", spaceId!], //FIXME - query key 상수화
   queryFn: () => spaceRestrospectFetch(spaceId),
   select(data) {
     return data.retrospects;
