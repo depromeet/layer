@@ -138,6 +138,7 @@ export function RetrospectCreate() {
             css={css`
               flex: 1 1 0;
               overflow-y: auto;
+              overflow-x: hidden;
               display: flex;
               flex-direction: column;
             `}
