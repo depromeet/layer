@@ -6,7 +6,6 @@ import { Beforeunload } from "react-beforeunload";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
-import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
@@ -27,7 +26,10 @@ type UseMultiStepFormContextState<T extends (typeof CUSTOM_TEMPLATE_STEPS)[numbe
   typeof useMultiStepForm<T>
 >;
 
-type RetrospectCreateContextState = UseMultiStepFormContextState<(typeof PAGE_STEPS)[number]> & { confirmQuitPage: () => void };
+type RetrospectCreateContextState = UseMultiStepFormContextState<(typeof PAGE_STEPS)[number]> & {
+  confirmQuitPage: () => void;
+  isMutatePending: boolean;
+};
 type CustomTemplateContextState = UseMultiStepFormContextState<(typeof CUSTOM_TEMPLATE_STEPS)[number]>;
 
 export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({} as RetrospectCreateContextState);
@@ -133,7 +135,7 @@ export function RetrospectCreate() {
           <ProgressBar curPage={conditionalStepIndex} lastPage={pageState.totalStepsCnt - 1} />
         </div>
         <Spacing size={2.9} />
-        <RetrospectCreateContext.Provider value={{ ...pageState, confirmQuitPage }}>
+        <RetrospectCreateContext.Provider value={{ ...pageState, confirmQuitPage, isMutatePending: isPending }}>
           <form
             css={css`
               flex: 1 1 0;
@@ -159,7 +161,6 @@ export function RetrospectCreate() {
         </RetrospectCreateContext.Provider>
       </DefaultLayout>
       <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />
-      {isPending && <LoadingModal purpose={"데이터를 저장하고 있어요"} />}
     </>
   );
 }
