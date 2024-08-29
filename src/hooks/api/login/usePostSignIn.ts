@@ -59,10 +59,12 @@ export const usePostSignIn = () => {
       const saveSpaceIdPhase = Cookies.get(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
       if (saveSpaceIdPhase) {
         mutate(parseInt(saveSpaceIdPhase), {
-          onSuccess: () => {
-            toast.success("이미 참여한 스페이스로 이동했어요!");
-            navigate(PATHS.spaceDetail(saveSpaceIdPhase));
-            Cookies.remove(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
+          onError: (error) => {
+            if (error.status === 400) {
+              toast.success("이미 참여한 스페이스로 이동했어요!");
+              navigate(PATHS.spaceDetail(saveSpaceIdPhase));
+              Cookies.remove(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
+            }
           },
         });
       } else {

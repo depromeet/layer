@@ -50,6 +50,7 @@ export const usePostSignUp = () => {
 
       const saveSpaceIdPhase = Cookies.get(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
       if (saveSpaceIdPhase) {
+        console.log(saveSpaceIdPhase);
         mutate(parseInt(saveSpaceIdPhase), {
           onSuccess: () => {
             toast.success("첫 스페이스에 오신 걸 환영해요!");

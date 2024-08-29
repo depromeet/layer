@@ -11,7 +11,7 @@ export function EmptyRetrospect() {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: 5rem;
+        padding: 4rem 0 5rem 0;
       `}
     >
       <Icon icon="ic_clock" size={7.2} />

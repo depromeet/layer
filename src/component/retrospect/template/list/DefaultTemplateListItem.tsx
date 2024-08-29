@@ -7,6 +7,7 @@ import { Button } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
+import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture.tsx";
 import { PATHS } from "@/config/paths";
 
 type DefaultTemplateListItemProps = {
@@ -51,9 +52,12 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTem
           <div
             css={css`
               text-align: center;
+              width: 23rem;
+              height: auto;
+              margin: 0 auto;
             `}
           >
-            <img src={imageUrl} width={180} height={180} />
+            <TemplateLottiePicture templateId={id} />
           </div>
         )}
         {!readOnly ? (

@@ -13,14 +13,14 @@ export type SelectBoxType = {
     status: "PROCEEDING" | "DONE";
   }[];
   value: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   updateRetroSpectData: ({ retrospectId, retrospectTitle }: { retrospectId: number; retrospectTitle: string }) => void;
 } & Omit<HTMLAttributes<HTMLDivElement>, "type">;
 
 export function SelectBox({ data, onClick, value, updateRetroSpectData, ...props }: SelectBoxType) {
   const DEFAULT_WORD = "회고 선택";
   const [isOpen, setOpen] = useState(false);
-  const isMultipleData = data?.length > 1;
+  const isMultipleData = data?.length >= 1;
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -40,7 +40,8 @@ export function SelectBox({ data, onClick, value, updateRetroSpectData, ...props
           cursor: ${isMultipleData && "pointer"};
         `}
         onClick={() => {
-          isMultipleData && setOpen(true);
+          if (isOpen) setOpen(false);
+          else isMultipleData && setOpen(true);
         }}
       >
         <Typography color={!value ? "gray500" : "gray800"} variant={"body15Medium"}>
@@ -90,7 +91,7 @@ export function SelectBox({ data, onClick, value, updateRetroSpectData, ...props
           {...props}
         >
           {data?.map((item) => {
-            return item.status === "DONE" ? (
+            return (
               <button
                 key={item.retrospectId}
                 onClick={(e) => {
@@ -103,7 +104,7 @@ export function SelectBox({ data, onClick, value, updateRetroSpectData, ...props
                   {item.retrospectTitle}
                 </Typography>
               </button>
-            ) : null;
+            );
           })}
         </div>
       </div>

@@ -114,7 +114,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
           justify-content: space-between;
         `}
       >
-        <Typography variant="body14Medium">실행목표</Typography>
+        <Typography variant="body14Medium">실행 목표</Typography>
         {/* You must have a completed retrospective to view more. */}
         {!isPossibleMake && (
           <Typography
@@ -196,7 +196,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
             </div>
           </Fragment>
         }
-        handler={true}
+        handler={false}
       />
     </div>
   );
@@ -212,7 +212,15 @@ function ActionItem({ actionItemContent }: ActionItemProps) {
         height: 3.2rem;
       `}
     >
-      <Icon icon="ic_bluePoint" size={1.6} />
+      <div
+        css={css`
+          width: 0.6rem;
+          height: 0.6rem;
+          border-radius: 100%;
+          margin: 0 0.4rem;
+          background: ${DESIGN_TOKEN_COLOR.gray400};
+        `}
+      />
       <Typography variant="body14Medium" color="gray800">
         {actionItemContent}
       </Typography>
@@ -232,7 +240,9 @@ function PlusActionItem() {
           transform: translateX(-0.8rem);
           gap: 0.8rem;
           height: 3.2rem;
-          border-radius: 0.2rem;
+          border-radius: 0.4rem;
+          transition: 0.4s all;
+          cursor: pointer;
           :hover {
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
           }

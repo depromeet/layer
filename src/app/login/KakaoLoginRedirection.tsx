@@ -13,6 +13,7 @@ export function KakaoLoginRedirection() {
 
   useEffect(() => {
     if (code && !hasFetchedToken) {
+      console.log("!");
       fetchKakaoToken(code);
       setHasFetchedToken(true);
     }

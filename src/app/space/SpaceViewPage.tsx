@@ -159,22 +159,19 @@ export function SpaceViewPage() {
           padding: 2.2rem 2rem;
         `}
       >
-        <Spacing size={1.6} />
-        {proceedingRetrospects?.length === 0 ? (
-          <EmptyRetrospect />
-        ) : (
-          <>
-            <div
-              css={css`
-                display: flex;
-                gap: 0.6rem;
-              `}
-            >
-              <Typography variant="title18Bold">진행중인 회고</Typography>
-              <Typography variant="title16Bold" color="gray600">
-                {proceedingRetrospects?.length}
-              </Typography>
-            </div>
+        <>
+          <div
+            css={css`
+              display: flex;
+              gap: 0.6rem;
+            `}
+          >
+            <Typography variant="title18Bold">진행중인 회고</Typography>
+            <Typography variant="title16Bold" color="gray600">
+              {proceedingRetrospects?.length}
+            </Typography>
+          </div>
+          {proceedingRetrospects?.length > 0 ? (
             <div
               css={css`
                 margin-top: 1.6rem;
@@ -193,8 +190,10 @@ export function SpaceViewPage() {
                 />
               ))}
             </div>
-          </>
-        )}
+          ) : (
+            <EmptyRetrospect />
+          )}
+        </>
 
         <Spacing size={2} />
 

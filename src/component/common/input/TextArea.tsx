@@ -65,10 +65,10 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
               align-self: flex-end;
             `}
           >
-            <Typography variant={"body12Medium"} color={value.length ? "blue600" : "gray500"}>
+            <Typography variant={"body15Medium"} color={value.length ? "blue600" : "gray500"}>
               {value.length}
             </Typography>
-            <Typography variant={"body12Medium"} color={"gray500"}>{`/${maxLength}`}</Typography>
+            <Typography variant={"body15Medium"} color={"gray500"}>{`/${maxLength}`}</Typography>
           </div>
         )}
       </div>
