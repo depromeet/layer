@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { TagBox } from "@/component/home";
@@ -43,7 +44,10 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
           `}
         >
           <img
-            src={bannerUrl}
+            src={bannerUrl || spaceDefaultImg}
+            onError={(e) => {
+              e.currentTarget.src = spaceDefaultImg;
+            }}
             css={css`
               width: 4rem;
               height: 4rem;

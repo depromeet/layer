@@ -26,7 +26,6 @@ export function RetrospectViewPage() {
   const selectedView = tabMappings[curTab];
 
   const { data: spaceList, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useApiGetSpaceList(selectedView);
-
   const observer = useRef<IntersectionObserver | null>(null);
 
   const lastElementRef = useCallback(
