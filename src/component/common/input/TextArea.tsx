@@ -18,7 +18,7 @@ type TextAreaProps = {
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function (
-  { id, width = "100%", height = "8.4rem", count, validations, onChange, ...props },
+  { id, width = "100%", height = "7.4rem", count, validations, onChange, ...props },
   ref,
 ) {
   const { maxLength, value } = props;
@@ -34,7 +34,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           border: 1px solid;
           border-color: ${isFocused ? DESIGN_TOKEN_COLOR.blue600 : DESIGN_TOKEN_COLOR.gray300};
           border-radius: 1.2rem;
-          padding: 1.6rem;
+          padding: 1.6rem 1.4rem;
           display: flex;
           flex-direction: column;
           height: ${height};
@@ -45,12 +45,13 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           ref={ref}
           id={id || textareaContext?.id}
           css={css`
+            flex-grow: 1;
             ::placeholder {
               color: ${DESIGN_TOKEN_COLOR["gray500"]};
               ${DESIGN_TOKEN_TEXT["body15Medium"]}
             }
-            flex-shrink: 0;
-            flex-grow: 1;
+            ${DESIGN_TOKEN_TEXT["body15Medium"]};
+            color: ${DESIGN_TOKEN_COLOR.gray900};
           `}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}

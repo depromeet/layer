@@ -54,6 +54,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
               color: ${DESIGN_TOKEN_COLOR["gray500"]};
               ${DESIGN_TOKEN_TEXT["body15Medium"]}
             }
+            ${DESIGN_TOKEN_TEXT["body15Medium"]};
+            color: ${DESIGN_TOKEN_COLOR.gray900};
           `}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -65,12 +67,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           {...props}
         />
         {count && maxLength && (
-          <>
+          <div>
             <Typography variant={"body12Medium"} color={value.length ? "blue600" : "gray500"}>
               {value.length > maxLength ? maxLength : value.length}
             </Typography>
             <Typography variant={"body12Medium"} color={"gray500"}>{`/${maxLength}`}</Typography>
-          </>
+          </div>
         )}
       </div>
       {errorMsg && (
