@@ -13,7 +13,7 @@ const Header = forwardRef<HTMLDivElement, PropsWithChildren<AppBarProps>>(functi
       id="header"
       css={css`
         position: relative;
-        background: #212329;
+        background: ${DESIGN_SYSTEM_COLOR.blue50};
         top: 0;
         height: auto;
         min-height: 27rem;
@@ -29,7 +29,7 @@ const Header = forwardRef<HTMLDivElement, PropsWithChildren<AppBarProps>>(functi
         style={css`
           ${theme === "default" &&
           css`
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.4);
           `}
           backdrop-filter: blur(0.1rem);
         `}

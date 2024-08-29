@@ -21,7 +21,7 @@ export function ActionItemList({ contents }: ActionItemListProps) {
           width: 0.6rem;
           height: 0.6rem;
           border-radius: 100%;
-          background: ${DESIGN_TOKEN_COLOR.gray600};
+          background: ${DESIGN_TOKEN_COLOR.gray400};
         `}
       />
       <Typography variant={"body16Medium"}> {contents} </Typography>

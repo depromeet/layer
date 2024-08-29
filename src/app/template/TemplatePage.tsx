@@ -6,9 +6,9 @@ import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
-import { ExampleButton } from "@/component/template/ExampleButton.tsx";
 import { PurposeBox } from "@/component/template/PurposeBox.tsx";
 import { QuestionBox } from "@/component/template/QuestionBox.tsx";
+import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture.tsx";
 import { TipBox } from "@/component/template/TipBox.tsx";
 import { PATHS } from "@/config/paths";
 import { useGetTemplateInfo } from "@/hooks/api/template/useGetTemplateInfo.ts";
@@ -43,7 +43,7 @@ export function TemplatePage() {
               icon={"ic_arrow_back_white"}
               css={css`
                 path {
-                  fill: ${isColliding ? "#212329" : "fff"};
+                  fill: #212329;
                   transition: 0.4s all;
                 }
               `}
@@ -52,17 +52,18 @@ export function TemplatePage() {
           }
           ref={appbarRef}
         >
-          <img
-            src={data?.templateImageUrl ?? ""}
+          <div
             css={css`
-              width: 20rem;
+              width: 25rem;
               height: auto;
               position: absolute;
               top: 50%;
               left: 50%;
               transform: translate(-50%, -50%);
             `}
-          />
+          >
+            <TemplateLottiePicture templateId={templateId} />
+          </div>
         </TemplateLayout.Header>
         <TemplateLayout.Main>
           <section
@@ -178,7 +179,8 @@ export function TemplatePage() {
                 회고 작성 Tip
               </span>
               <TipBox title={data?.tipTitle ?? ""} content={data?.tipDescription ?? ""} />
-              <ExampleButton> {data?.templateName ?? ""} 회고 예시 보기 </ExampleButton>
+              {/* FIXME: 추후 회고 예시 버튼 추가 */}
+              {/*<ExampleButton> {data?.templateName ?? ""} 회고 예시 보기 </ExampleButton>*/}
             </article>
           </section>
           {!readOnly && (

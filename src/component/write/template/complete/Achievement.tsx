@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
 
 import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
-import { ACHIEVEMENT_COLOR } from "@/component/write/template/template.const.ts";
+import { ACHIEVEMENT_COLOR_DEFAULT_COLOR } from "@/component/write/template/template.const.ts";
+import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 
 type ProgressBarProps = { name: string; question?: never; index: number } | { question: string; name?: never; index: number };
 
@@ -83,7 +84,7 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = 0 
               css={css`
                 position: absolute;
                 width: 100%;
-                background-color: ${isActive ? ACHIEVEMENT_COLOR[index] : "transparent"};
+                background-color: ${isActive ? ACHIEVEMENT_COLOR_DEFAULT_COLOR : "transparent"};
                 border-radius: inherit;
                 height: inherit;
                 transition: 0.4s all;
@@ -93,7 +94,8 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = 0 
           <span
             id="percent"
             css={css`
-              color: ${index === AchivementIdx && "#212529"};
+              ${index === AchivementIdx ? DESIGN_TOKEN_TEXT.caption10Bold : DESIGN_TOKEN_TEXT.caption10Medium}
+              color: ${index === AchivementIdx && DESIGN_TOKEN_COLOR.blue600};
               transition: 0.4s all;
             `}
           >

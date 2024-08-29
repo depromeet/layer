@@ -14,7 +14,7 @@ import { SocialLoginKind } from "@/types/loginType";
 export function SetNickNamePage() {
   const { value: nickName, handleInputChange } = useInput("");
   const maxLength = 10;
-  const { mutate: signUpMutation } = usePostSignUp();
+  const { mutate: signUpMutation, isPending } = usePostSignUp();
   const { socialType } = useParams<{ socialType: SocialLoginKind }>();
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -37,7 +37,7 @@ export function SetNickNamePage() {
       <Spacing size={0.8} />
       <TipCard message={"실명으로 활동하는 걸 추천해요!"} />
 
-      <ButtonProvider>
+      <ButtonProvider isProgress={isPending}>
         <Button disabled={nickName.length === 0} onClick={handleSubmit}>
           완료
         </Button>

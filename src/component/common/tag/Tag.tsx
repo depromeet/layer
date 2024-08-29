@@ -17,6 +17,9 @@ export function Tag({ children, styles }: TagProps) {
           border-radius: 0.4rem;
           padding: 0.4rem 0.8rem;
           width: fit-content;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         `,
         styles,
       ]}

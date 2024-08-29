@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 
+import { ACHIEVEMENT_COLOR_DEFAULT_COLOR } from "@/component/write/template/template.const.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
 
 type ProgressBarProps = {
@@ -96,7 +97,7 @@ export function WAchievementTemplate({ answer: AchivementIdx = -1, onClick }: Pr
           <span
             id="percent"
             css={css`
-              color: ${index === AchivementIdx && "#6C9CFA"};
+              color: ${index === AchivementIdx && ACHIEVEMENT_COLOR_DEFAULT_COLOR};
               font-weight: ${index === AchivementIdx && 500};
               transition: 0.4s all;
             `}
