@@ -132,6 +132,7 @@ export function MembersList() {
       <Spacing size={2.5} />
       {isLeader && <MembersItem name="팀원 추가" plus onClick={onInviteMember} />}
       {data?.map((member) => <MembersItem key={member.id} {...member} />)}
+      <Spacing size={3} />
     </DefaultLayout>
   );
 }
