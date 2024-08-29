@@ -20,7 +20,7 @@ export function Start() {
           height: 100%;
         `}
       >
-        <Lottie animationData={retrospect_create_start_lottie} autoPlay={true} />
+        <Lottie animationData={retrospect_create_start_lottie} autoPlay={true} style={{ width: "34rem" }} />
       </div>
       <ButtonProvider>
         <ButtonProvider.White onClick={goNext}>시작하기</ButtonProvider.White>

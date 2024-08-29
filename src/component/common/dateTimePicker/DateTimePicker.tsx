@@ -56,7 +56,7 @@ export function DateTimePicker({ defaultValue, tileDisabled, onSave }: DateTimeP
         >
           <Calendar defaultValue={defaultValue} onChange={onSelectDate} tileDisabled={tileDisabled} />
           {date && <TimePicker ref={timePickerRef} radioControl={radioControl} />}
-          <ButtonProvider>
+          <ButtonProvider gradient={false}>
             <ButtonProvider.Primary onClick={handleClickSave} disabled={!date}>
               완료
             </ButtonProvider.Primary>
