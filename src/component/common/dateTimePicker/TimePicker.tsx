@@ -1,12 +1,11 @@
 import { css } from "@emotion/react";
 import { forwardRef } from "react";
 
-import { TIME } from "@/component/common/dateTimePicker/time.const";
+import { TIME_24 } from "@/component/common/dateTimePicker/time.const";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { Typography } from "@/component/common/typography";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { useTabs } from "@/hooks/useTabs";
-import { formatTime12to24 } from "@/utils/formatDate";
 
 type TimePickerProps = {
   radioControl: ReturnType<typeof useDateTimePicker>["radioControl"];
@@ -23,11 +22,22 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(function (
     >
       <AmPmTabs tabs={tabs} curTab={curTab} selectTab={selectTab} />
       <RadioButtonGroup isChecked={radioControl.isTimeChecked} onChange={radioControl.onTimeChange} radioName={"회고 마감 시간"} ref={ref}>
-        {TIME.map((time, index) => (
-          <Radio key={index} value={formatTime12to24(time, curTab === "오후")}>
-            {time}
-          </Radio>
-        ))}
+        {curTab === "오전" &&
+          TIME_24.slice(0, 12).map((time, index) => {
+            return (
+              <Radio key={index} value={time}>
+                {time}
+              </Radio>
+            );
+          })}
+        {curTab === "오후" &&
+          TIME_24.slice(12).map((time, index) => {
+            return (
+              <Radio key={index} value={time}>
+                {`${Number(time.split(":")[0]) - 12}:00`}
+              </Radio>
+            );
+          })}
       </RadioButtonGroup>
     </div>
   );
