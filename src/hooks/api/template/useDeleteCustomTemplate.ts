@@ -7,7 +7,6 @@ type DeleteCustomTemplateReq = { formId: number };
 
 export const useDeleteCustomTemplate = (spaceId: number) => {
   const deleteCustomTemplate = async ({ formId }: DeleteCustomTemplateReq) => {
-    console.log("id", formId);
     const { data } = await api.delete<DeleteCustomTemplateReq>(`/form/${formId}`);
     return data;
   };

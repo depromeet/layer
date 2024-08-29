@@ -18,4 +18,11 @@ const calculateDeadlineRemaining = (deadlineString: string): string => {
   return `D-${remainingDays}`;
 };
 
-export { formatDateAndTime, formatOnlyDate, calculateDeadlineRemaining };
+function formatDateToMMDD(dateString: string): string {
+  const date = new Date(dateString);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${month}.${day}`;
+}
+
+export { formatDateAndTime, formatOnlyDate, calculateDeadlineRemaining, formatDateToMMDD };
