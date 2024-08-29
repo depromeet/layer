@@ -128,11 +128,6 @@ export function CreateDonePage() {
                   opacity: ${animate ? 1 : 0};
                   transition: all 0.5s ease;
                   transition-delay: 0.5s;
-
-                  svg {
-                    fill: #222;
-                    color: red;
-                  }
                 `}
               >
                 초대링크 복사
