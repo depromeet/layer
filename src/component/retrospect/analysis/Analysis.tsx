@@ -7,6 +7,7 @@ import { TeamSatisfactionChart } from "./TeamSatisfactionChart";
 
 import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
+import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useApiGetAnalysis } from "@/hooks/api/analysis/useApiGetAnalysis";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
@@ -178,13 +179,14 @@ function AnalysisingComp() {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 3rem;
       `}
     >
+      <Icon icon="ic_logo_gray" size={8} />
+      <Spacing size={2} />
       <Typography variant="title18Bold" color="gray900">
         AI가 회고 내용을 분석하고 있어요!
       </Typography>
-
+      <Spacing size={3} />
       <div
         css={css`
           width: 100%;

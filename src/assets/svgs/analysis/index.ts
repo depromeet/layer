@@ -8,3 +8,4 @@ export { default as ic_neutral } from "./ic_neutral.svg?react";
 export { default as ic_dissatisfied } from "./ic_dissatisfied.svg?react";
 export { default as ic_very_dissatisfied } from "./ic_very_dissatisfied.svg?react";
 export { default as ic_empty_analysis } from "./ic_empty_analysis.svg?react";
+export { default as ic_logo_gray } from "./ic_logo_gray.svg?react";
