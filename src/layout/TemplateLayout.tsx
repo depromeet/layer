@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, Interpolation, Theme } from "@emotion/react";
 import { Children, cloneElement, forwardRef, isValidElement, PropsWithChildren, ReactElement } from "react";
 
 import { AppBarProps, AppBar } from "@/component/common/appBar";
@@ -29,9 +29,9 @@ const Header = forwardRef<HTMLDivElement, PropsWithChildren<AppBarProps>>(functi
         style={css`
           ${theme === "default" &&
           css`
-            background-color: rgba(255, 255, 255, 0.4);
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(0.2rem);
           `}
-          backdrop-filter: blur(0.1rem);
         `}
         {...props}
       />
@@ -57,14 +57,23 @@ const Main = ({ height, children, ...props }: PropsWithChildren<{ height?: strin
   </main>
 );
 
-export function TemplateLayout({ theme = "transparent", height = "5.8rem", children, ...props }: PropsWithChildren<AppBarProps>) {
+export function TemplateLayout({
+  theme = "transparent",
+  height = "5.8rem",
+  children,
+  isOnlyTemplateStyle,
+  ...props
+}: PropsWithChildren<AppBarProps & { isOnlyTemplateStyle: Interpolation<Theme> }>) {
   return (
     <div
-      css={css`
-        --parent-bg-color: #fff;
-        background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
-        transition: 0.4s all;
-      `}
+      css={[
+        css`
+          --parent-bg-color: #fff;
+          background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[theme]};
+          transition: 0.4s all;
+        `,
+        isOnlyTemplateStyle,
+      ]}
     >
       {Children.map(children, (child) => {
         if (isValidElement(child)) {

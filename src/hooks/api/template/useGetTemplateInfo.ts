@@ -4,6 +4,7 @@ import { api } from "@/api";
 
 type InfoReponse = {
   id: number;
+  createdAt: string;
   introduction: string;
   templateDetailQuestionList: {
     description: string;

@@ -7,8 +7,9 @@ type QuestionBoxType = {
   index: number;
   title: string;
   contents: string;
+  isProvidedTemplateSet: boolean;
 };
-export function QuestionBox({ index, title, contents }: QuestionBoxType) {
+export function QuestionBox({ index, title, contents, isProvidedTemplateSet }: QuestionBoxType) {
   const [isOpen, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,7 @@ export function QuestionBox({ index, title, contents }: QuestionBoxType) {
               column-gap: 1rem;
               cursor: pointer;
             `}
-            onClick={() => setOpen(!isOpen)}
+            onClick={() => isProvidedTemplateSet && setOpen(!isOpen)}
           >
             <div
               css={css`
@@ -83,14 +84,16 @@ export function QuestionBox({ index, title, contents }: QuestionBoxType) {
             >
               {title}
             </div>
-            <Icon
-              icon={"ic_chevron_down"}
-              css={css`
-                transform: ${isOpen ? `rotate(180deg)` : `rotate(0deg)`};
-                transition: 0.4s all;
-                margin-left: auto;
-              `}
-            />
+            {isProvidedTemplateSet && (
+              <Icon
+                icon={"ic_chevron_down"}
+                css={css`
+                  transform: ${isOpen ? `rotate(180deg)` : `rotate(0deg)`};
+                  transition: 0.4s all;
+                  margin-left: auto;
+                `}
+              />
+            )}
           </div>
         </div>
       </div>
