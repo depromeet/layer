@@ -6,7 +6,7 @@ import { patterns } from "./patterns.const";
 
 import { Typography } from "@/component/common/typography";
 import { useValidation } from "@/hooks/useValidation";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 
 type TextAreaProps = {
   value: string;
@@ -33,7 +33,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           width: ${width};
           border: 1px solid;
           border-color: ${isFocused ? DESIGN_TOKEN_COLOR.blue600 : DESIGN_TOKEN_COLOR.gray300};
-          border-radius: 0.8rem;
+          border-radius: 1.2rem;
           padding: 1.6rem;
           display: flex;
           flex-direction: column;
@@ -47,6 +47,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           css={css`
             ::placeholder {
               color: ${DESIGN_TOKEN_COLOR["gray500"]};
+              ${DESIGN_TOKEN_TEXT["body15Medium"]}
             }
             flex-shrink: 0;
             flex-grow: 1;
@@ -65,10 +66,10 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
               align-self: flex-end;
             `}
           >
-            <Typography variant={"body15Medium"} color={value.length ? "blue600" : "gray500"}>
+            <Typography variant={"body12Medium"} color={value.length ? "blue600" : "gray500"}>
               {value.length}
             </Typography>
-            <Typography variant={"body15Medium"} color={"gray500"}>{`/${maxLength}`}</Typography>
+            <Typography variant={"body12Medium"} color={"gray500"}>{`/${maxLength}`}</Typography>
           </div>
         )}
       </div>
