@@ -80,6 +80,8 @@ export function QuestionBox({ index, title, contents, isProvidedTemplateSet }: Q
               css={css`
                 font-weight: 600;
                 font-size: 1.6rem;
+                flex: 1;
+                line-height: 1.4;
               `}
             >
               {title}
@@ -124,6 +126,7 @@ export function QuestionBox({ index, title, contents, isProvidedTemplateSet }: Q
             font-size: 1.4rem;
             line-height: 1.5;
             transition: opacity 0.4s ease;
+            flex: 1;
           `}
         >
           {contents}
