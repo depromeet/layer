@@ -39,10 +39,10 @@ export function AnalysisViewPage() {
         >
           {hasRecentAnalyzes && <RetrospectSummaryBox recentAnalyzes={data.recentAnalyzes} />}
           {data?.goodAnalyzes && data.goodAnalyzes.length !== 0 && <SummaryInsightBox type="GOOD" insightArr={data.goodAnalyzes} />}
+          {data?.badAnalyzes && data.badAnalyzes.length !== 0 && <SummaryInsightBox type="BAD" insightArr={data.badAnalyzes} />}
           {data?.improvementAnalyzes && data.improvementAnalyzes.length !== 0 && (
             <SummaryInsightBox type="IMPROVEMENT" insightArr={data.improvementAnalyzes} />
           )}
-          {data?.badAnalyzes && data.badAnalyzes.length !== 0 && <SummaryInsightBox type="BAD" insightArr={data.badAnalyzes} />}
         </div>
       )}
     </DefaultLayout>

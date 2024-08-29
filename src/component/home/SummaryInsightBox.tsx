@@ -42,7 +42,7 @@ export function SummaryInsightBox({ type, insightArr }: SummaryInsightBoxProps) 
         `}
       >
         {transformPoints.map((point, idx) => (
-          <InsightBox key={idx} insight={point} />
+          <InsightBox key={idx} type={type} insight={point} />
         ))}
       </div>
     </div>
@@ -51,7 +51,6 @@ export function SummaryInsightBox({ type, insightArr }: SummaryInsightBoxProps) 
 
 function SummaryInsightIntro({ type, insight }: { type: analysisItemType; insight: string[] }) {
   const [auth] = useAtom(authAtom);
-  console.log("타입:", type);
   return (
     <div
       css={css`
@@ -110,7 +109,7 @@ function BlueTextBox({ children }: { children: React.ReactNode }) {
   );
 }
 
-function InsightBox({ insight }: { insight: TransformPoint }) {
+function InsightBox({ type, insight }: { type: analysisItemType; insight: TransformPoint }) {
   const { spaceId, retrospectId, spaceName, retrospectTitle, point } = insight;
   const navigate = useNavigate();
   const goAnalysisPage = () => {
@@ -152,14 +151,19 @@ function InsightBox({ insight }: { insight: TransformPoint }) {
               align-content: center;
             `}
           >
-            <Icon
-              icon="ic_check"
-              size={1.2}
-              color={DESIGN_TOKEN_COLOR.gray00}
-              css={css`
-                padding-top: 0.1rem;
-              `}
-            />
+            {type === "GOOD" && (
+              <Icon
+                icon="ic_check"
+                size={1.2}
+                color={DESIGN_TOKEN_COLOR.gray00}
+                css={css`
+                  padding-top: 0.1rem;
+                `}
+              />
+            )}
+            {type === "BAD" && <Icon icon="ic_minus" size={0.9} color={DESIGN_TOKEN_COLOR.gray00} />}
+
+            {type === "IMPROVEMENT" && <Icon icon="ic_3point" size={0.9} color={DESIGN_TOKEN_COLOR.gray00} />}
           </div>
         </div>
         <div

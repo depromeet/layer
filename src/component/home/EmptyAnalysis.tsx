@@ -1,11 +1,14 @@
 import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { PATHS } from "@/config/paths";
 
 export function EmptyAnalysis() {
+  const navigate = useNavigate();
   return (
     <div
       css={css`
@@ -35,6 +38,9 @@ export function EmptyAnalysis() {
       </Typography>
       <Spacing size={3.8} />
       <button
+        onClick={() => {
+          navigate(PATHS.spaceCreate());
+        }}
         css={css`
           width: 100%;
           max-width: 16rem;
