@@ -6,7 +6,7 @@ import { patterns } from "./patterns.const";
 
 import { Typography } from "@/component/common/typography";
 import { useValidation } from "@/hooks/useValidation";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 
 type InputProps = {
   value: string;
@@ -38,7 +38,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           width: ${width};
           border: 1px solid;
           border-color: ${isFocused ? DESIGN_TOKEN_COLOR["blue600"] : DESIGN_TOKEN_COLOR["gray300"]};
-          border-radius: 0.8rem;
+          border-radius: 1.2rem;
           padding: 1.6rem;
           display: flex;
           transition: 0.2s all;
@@ -52,7 +52,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
             flex-grow: 1;
             ::placeholder {
               color: ${DESIGN_TOKEN_COLOR["gray500"]};
+              ${DESIGN_TOKEN_TEXT["body15Medium"]}
             }
+            ${DESIGN_TOKEN_TEXT["body15Medium"]};
+            color: ${DESIGN_TOKEN_COLOR.gray900};
           `}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
@@ -64,12 +67,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function ({ id, wi
           {...props}
         />
         {count && maxLength && (
-          <>
+          <div>
             <Typography variant={"body12Medium"} color={value.length ? "blue600" : "gray500"}>
               {value.length > maxLength ? maxLength : value.length}
             </Typography>
             <Typography variant={"body12Medium"} color={"gray500"}>{`/${maxLength}`}</Typography>
-          </>
+          </div>
         )}
       </div>
       {errorMsg && (

@@ -3,6 +3,8 @@ import { useContext } from "react";
 
 import { InputContext } from "./InputLabelContainer";
 
+import { Typography } from "@/component/common/typography";
+
 type LabelProps = {
   order?: number;
   styles?: Interpolation<Theme>;
@@ -50,14 +52,9 @@ export function Label({ id, children, order, styles }: LabelProps) {
           </span>
         </div>
       )}
-      <span
-        css={css`
-          font-size: 1.4rem;
-          font-weight: 600;
-        `}
-      >
+      <Typography variant={"subtitle14SemiBold"} color={"gray900"}>
         {children}
-      </span>
+      </Typography>
     </label>
   );
 }

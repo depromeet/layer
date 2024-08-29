@@ -1,7 +1,7 @@
 import { css, Interpolation, Theme } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type TipCardProps = {
   message: string;
@@ -14,7 +14,7 @@ export function TipCard({ message, header = "TIP", styles }: TipCardProps) {
     <div
       css={[
         css`
-          background-color: ${DESIGN_SYSTEM_COLOR.theme}10;
+          background-color: ${DESIGN_TOKEN_COLOR.blue100};
           padding: 1.4rem 1.8rem;
           border-radius: 0.8rem;
           display: flex;
@@ -24,11 +24,10 @@ export function TipCard({ message, header = "TIP", styles }: TipCardProps) {
         styles,
       ]}
     >
-      {/**FIXME - typography design token */}
-      <Typography color={"theme2"} variant={"CAPTION"}>
+      <Typography variant={"body12SemiBold"} color={"blue600"}>
         {header}
       </Typography>
-      <Typography color={"theme"} variant={"CAPTION"}>
+      <Typography variant={"body12Medium"} color={"blue600"}>
         {message}
       </Typography>
     </div>
