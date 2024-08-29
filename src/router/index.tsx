@@ -122,7 +122,6 @@ const routerChildren: RouteChildren[] = [
   },
   { path: "/api/auth/oauth2/kakao", element: <KakaoLoginRedirection />, auth: false },
   { path: "/api/auth/oauth2/google", element: <GoogleLoginRedirection />, auth: false },
-
   {
     path: "/retrospect/new",
     element: <RetrospectCreate />,

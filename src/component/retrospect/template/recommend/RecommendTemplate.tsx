@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
-import { useResetAtom } from "jotai/utils";
 import { useCallback, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -23,7 +22,6 @@ export function RecommendTemplate({ onSubmit }: CreateSpaceProps) {
   const { spaceId } = useLocation().state as { spaceId: string };
   const navigate = useNavigate();
   const [templateValue, setTemplateValue] = useAtom(recommendTemplateState);
-  const resetTemplateValue = useResetAtom(recommendTemplateState);
 
   useEffect(() => {
     if (templateValue.step === LAST_PAGE + 1) {
@@ -31,7 +29,6 @@ export function RecommendTemplate({ onSubmit }: CreateSpaceProps) {
         ...templateValue,
         ...{ spaceId },
       });
-      resetTemplateValue();
     }
   }, [templateValue]);
 
@@ -63,13 +60,21 @@ export function RecommendTemplate({ onSubmit }: CreateSpaceProps) {
   };
 
   const handleBack = useCallback(() => {
-    templateValue.step > 0
-      ? setTemplateValue((prevValues) => ({
-          ...prevValues,
-          step: prevValues.step - 1,
-        }))
-      : navigate(`/space/${spaceId}`);
-  }, [navigate, setTemplateValue, spaceId, templateValue.step]);
+    const { step, periodic } = templateValue;
+    if (step === LAST_PAGE - 1 && periodic === "IRREGULAR") {
+      setTemplateValue((prevValues) => ({
+        ...prevValues,
+        step: prevValues.step - 2,
+      }));
+    } else {
+      step > 0
+        ? setTemplateValue((prevValues) => ({
+            ...prevValues,
+            step: prevValues.step - 1,
+          }))
+        : navigate(`/space/${spaceId}`);
+    }
+  }, [navigate, setTemplateValue, spaceId, templateValue]);
 
   return (
     <DefaultLayout
@@ -86,7 +91,7 @@ export function RecommendTemplate({ onSubmit }: CreateSpaceProps) {
       }
       theme={"default"}
     >
-      <ProgressBar curPage={templateValue.step + 1} lastPage={LAST_PAGE + 1} />
+      {templateValue.step <= LAST_PAGE && <ProgressBar curPage={templateValue.step + 1} lastPage={LAST_PAGE + 1} />}
       {
         {
           0: <Periodic onNext={handlePeriodicChange} />,
