@@ -8,3 +8,11 @@ export type Insight = {
   content: string;
   count: number;
 };
+
+export type MyInsight = {
+  spaceId: number;
+  spaceName: string;
+  retrospectId: number;
+  retrospectTitle: string;
+  deadline: string;
+};

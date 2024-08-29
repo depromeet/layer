@@ -3,9 +3,16 @@ import { css } from "@emotion/react";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { MyInsight } from "@/types/analysis";
+import { formatDateToMMDD } from "@/utils/date";
+
+// recentAnalyzes
+type RetrospectSummaryBoxProps = {
+  recentAnalyzes: MyInsight[];
+};
 
 // FIXME: 타입과 Props 넘겨주기
-export function RetrospectSummaryBox() {
+export function RetrospectSummaryBox({ recentAnalyzes }: RetrospectSummaryBoxProps) {
   return (
     <div
       css={css`
@@ -17,7 +24,7 @@ export function RetrospectSummaryBox() {
       `}
     >
       <Typography variant="title18Bold" color="gray900">
-        최근 2개의 회고가 진행되었어요!
+        최근 {recentAnalyzes.length}개의 회고가 진행되었어요!
       </Typography>
       <Spacing size={2.7} />
       <div
@@ -28,8 +35,9 @@ export function RetrospectSummaryBox() {
           gap: 1.6rem;
         `}
       >
-        <SummaryBox date="06.30" retrospectName="중간발표 이후 회고" spaceName="떡잎마을 방법대" />
-        <SummaryBox date="06.30" retrospectName="중간발표 이후 회고" spaceName="떡잎마을 방법대" />
+        {recentAnalyzes.map((v, idx) => (
+          <SummaryBox key={idx} date={formatDateToMMDD(v.deadline)} retrospectName={v.retrospectTitle} spaceName={v.spaceName} />
+        ))}
       </div>
     </div>
   );
@@ -52,6 +60,7 @@ function SummaryBox({ date, retrospectName, spaceName }: SummaryBoxProps) {
       <div
         css={css`
           height: 100%;
+          padding-top: 0.03rem;
         `}
       >
         <Typography variant="body13Medium" color="gray500">

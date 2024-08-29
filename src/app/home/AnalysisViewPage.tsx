@@ -1,11 +1,14 @@
 import { css } from "@emotion/react";
 
 import { UserProfileIcon } from "@/component/common/appBar";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Typography } from "@/component/common/typography";
 import { RetrospectSummaryBox, SummaryInsightBox } from "@/component/home";
+import { useApiGetMemberAnalysis } from "@/hooks/api/analysis/useApiGetMemberAnalysis";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 
 export function AnalysisViewPage() {
+  const { data, isLoading } = useApiGetMemberAnalysis();
   return (
     <DefaultLayout
       theme="gray"
@@ -17,6 +20,7 @@ export function AnalysisViewPage() {
       }
       RightComp={<UserProfileIcon />}
     >
+      {isLoading && <LoadingModal />}
       <div
         css={css`
           display: flex;
@@ -26,7 +30,7 @@ export function AnalysisViewPage() {
           margin-bottom: 8rem;
         `}
       >
-        <RetrospectSummaryBox />
+        <RetrospectSummaryBox recentAnalyzes={data!.recentAnalyzes} />
         <SummaryInsightBox />
         <SummaryInsightBox />
         <SummaryInsightBox />
