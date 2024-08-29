@@ -65,11 +65,19 @@ export const usePostAppleLogin = () => {
 
       const saveSpaceIdPhase = Cookies.get(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
       if (saveSpaceIdPhase) {
+        const moveNextPhase = () => {
+          navigate(PATHS.spaceDetail(saveSpaceIdPhase));
+          Cookies.remove(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
+        };
+
         mutate(parseInt(saveSpaceIdPhase), {
           onSuccess: () => {
+            toast.success("첫 스페이스에 오신 걸 환영해요!");
+            moveNextPhase();
+          },
+          onError: () => {
             toast.success("이미 참여한 스페이스로 이동했어요!");
-            navigate(PATHS.spaceDetail(saveSpaceIdPhase));
-            Cookies.remove(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
+            moveNextPhase();
           },
         });
       } else {
