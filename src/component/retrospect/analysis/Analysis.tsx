@@ -9,6 +9,7 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Typography } from "@/component/common/typography";
 import { useApiGetAnalysis } from "@/hooks/api/analysis/useApiGetAnalysis";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Icon } from "@/component/common/Icon";
 
 type AnalysisContainerProps = {
   spaceId: string;
@@ -19,12 +20,23 @@ type AnalysisContainerProps = {
 export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: AnalysisContainerProps) {
   const { data, isLoading } = useApiGetAnalysis({ spaceId, retrospectId });
   const [selectedTab, setSelectedTab] = useState<"personal" | "team">("personal");
-  if (!hasAIAnalyzed) {
-    return <EmptyAnalysis />;
+  if (isLoading) {
+    return <LoadingModal />;
   }
+  {
+    /**분석이 진행중일 때**/
+  }
+  if (hasAIAnalyzed == false) {
+    return <AnalysisingComp />;
+  }
+  {
+    /**분석이 결과가 아무것도 없을 때**/
+  }
+  if (data?.individualAnalyze.badPoints === null && data?.individualAnalyze.goodPoints === null && data?.individualAnalyze.improvementPoints === null)
+    return <EmptyAnalysisComp />;
+
   return (
     <>
-      {isLoading && <LoadingModal />}
       <div
         css={css`
           display: flex;
@@ -122,7 +134,42 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
   );
 }
 
-function EmptyAnalysis() {
+function EmptyAnalysisComp() {
+  return (
+    <div
+      css={css`
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3.5rem;
+      `}
+    >
+      <Icon
+        icon="ic_empty_analysis"
+        size={9.1}
+        css={css`
+          position: relative;
+          left: 1rem;
+        `}
+      />
+      <Typography
+        variant="body16Medium"
+        color="gray600"
+        css={css`
+          text-align: center;
+        `}
+      >
+        회고 내용이 짧아
+        <br />
+        분석을 할 수 없어요
+      </Typography>
+    </div>
+  );
+}
+
+function AnalysisingComp() {
   return (
     <div
       css={css`
