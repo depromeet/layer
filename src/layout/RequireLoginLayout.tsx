@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { fetchMemberInfo } from "@/api/login";
 import { PATHS } from "@/config/paths";
 import { COOKIE_KEYS } from "@/config/storage-keys";
-import { useToast } from "@/hooks/useToast";
 import { authAtom } from "@/store/auth/authAtom";
 
 type RequireLoginProps = {
@@ -16,11 +15,9 @@ type RequireLoginProps = {
 export function RequireLoginLayout({ children }: RequireLoginProps) {
   const [auth, setAuth] = useAtom(authAtom);
   const navigate = useNavigate();
-  const { toast } = useToast();
   const curPath = window.location.pathname;
 
   const redirectLogin = () => {
-    toast.error("로그인이 필요해요");
     Cookies.set(COOKIE_KEYS.redirectPrevPathKey, curPath);
     navigate(PATHS.login());
   };
