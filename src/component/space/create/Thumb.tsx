@@ -9,7 +9,7 @@ import { SpaceValue } from "@/types/space";
 
 type ThumbValues = Pick<SpaceValue, "imgUrl">;
 
-export function Thumb({ onNext }: { onNext: (thumbValues: ThumbValues) => void }) {
+export function Thumb({ onNext, isPending }: { onNext: (thumbValues: ThumbValues) => void; isPending: boolean }) {
   const [imgUrl, setImgUrl] = useState(defaultImgUrl);
   const [imgFile, setImgFile] = useState<File | null>(null);
   const imgRef = useRef<HTMLInputElement>(null);
@@ -73,6 +73,7 @@ export function Thumb({ onNext }: { onNext: (thumbValues: ThumbValues) => void }
       </div>
       <ButtonProvider>
         <ButtonProvider.Primary
+          isProgress={isPending}
           onClick={() =>
             onNext({
               imgUrl: imgFile || defaultImgUrl,
