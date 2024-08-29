@@ -9,6 +9,8 @@ import { PATHS } from "@/config/paths";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { ProjectType } from "@/types/space";
+import Lottie from "lottie-react";
+import Recommend from "@/assets/lottie/space/recommend.json";
 
 export function CreateNextPage() {
   const navigate = useNavigate();
@@ -35,14 +37,19 @@ export function CreateNextPage() {
       <Spacing size={7.4} />
       <div
         css={css`
-          text-align: center;
+          position: relative;
           height: 27.6rem;
         `}
       >
-        <img
-          src={"https://kr.object.ncloudstorage.com/layer-bucket/%ED%9A%8C%EA%B3%A0%20%EC%B6%94%EC%B2%9C%201.png"}
+        <Lottie
+          animationData={Recommend}
+          loop={true}
           css={css`
-            width: 20rem;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: 32rem;
             transition: all 0.5s ease;
             height: auto;
           `}
