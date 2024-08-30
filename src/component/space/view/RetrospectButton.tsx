@@ -9,16 +9,17 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 type RetrospectButtonProps = {
   status: "PROCEEDING" | "DONE" | "HAS_WRITING";
   retrospectId?: number;
+  title?: string;
   spaceId?: string;
 };
 
-export function RetrospectButton({ status, retrospectId, spaceId }: RetrospectButtonProps) {
+export function RetrospectButton({ status, retrospectId, title, spaceId }: RetrospectButtonProps) {
   const navigate = useNavigate();
   const { color, route, text } = useMemo<{ text: string; route: readonly [string, NavigateOptions]; color: string }>(() => {
     return {
       DONE: {
         text: "분석 확인",
-        route: [PATHS.retrospectAnalysis(spaceId!, retrospectId!), {}] as const,
+        route: [PATHS.retrospectAnalysis(spaceId!, retrospectId!), { state: { title } }] as const,
         color: DESIGN_TOKEN_COLOR.gray900,
       },
       HAS_WRITING: {
