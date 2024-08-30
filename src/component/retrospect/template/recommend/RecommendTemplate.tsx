@@ -61,7 +61,7 @@ export function RecommendTemplate({ onSubmit }: CreateSpaceProps) {
 
   const handleBack = useCallback(() => {
     const { step, periodic } = templateValue;
-    if (step === LAST_PAGE - 1 && periodic === "IRREGULAR") {
+    if (step === LAST_PAGE && periodic === "IRREGULAR") {
       setTemplateValue((prevValues) => ({
         ...prevValues,
         step: prevValues.step - 2,
