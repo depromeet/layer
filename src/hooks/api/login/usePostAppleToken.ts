@@ -72,12 +72,14 @@ export const usePostAppleLogin = () => {
 
         mutate(parseInt(saveSpaceIdPhase), {
           onSuccess: () => {
-            toast.success("첫 스페이스에 오신 걸 환영해요!");
+            toast.success("스페이스에 초대되었어요!");
             moveNextPhase();
           },
-          onError: () => {
-            toast.success("이미 참여한 스페이스로 이동했어요!");
-            moveNextPhase();
+          onError: (error) => {
+            if (error.status === 400) {
+              toast.success("이미 참여한 스페이스로 이동했어요!");
+              moveNextPhase();
+            }
           },
         });
       } else {

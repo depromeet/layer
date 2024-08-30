@@ -58,12 +58,20 @@ export const usePostSignIn = () => {
 
       const saveSpaceIdPhase = Cookies.get(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
       if (saveSpaceIdPhase) {
+        const moveNextPhase = () => {
+          navigate(PATHS.spaceDetail(saveSpaceIdPhase));
+          Cookies.remove(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
+        };
+
         mutate(parseInt(saveSpaceIdPhase), {
+          onSuccess: () => {
+            toast.success(`스페이스에 초대되었어요!`);
+            moveNextPhase();
+          },
           onError: (error) => {
             if (error.status === 400) {
               toast.success("이미 참여한 스페이스로 이동했어요!");
-              navigate(PATHS.spaceDetail(saveSpaceIdPhase));
-              Cookies.remove(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
+              moveNextPhase();
             }
           },
         });
