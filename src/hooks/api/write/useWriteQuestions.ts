@@ -14,7 +14,10 @@ type writeQuestionsProps = {
 export const useWriteQuestions = () => {
   const writeQuestions = ({ data, isTemporarySave = false, spaceId, retrospectId, method = "POST" }: writeQuestionsProps) => {
     const url = `/space/${spaceId}/retrospect/${retrospectId}/answer`;
-    const payload = { requests: data, ...(method === "POST" && { isTemporarySave }) };
+    const fixedData = data.map((curData) =>
+      curData.questionType === "range" ? { ...curData, answerContent: parseInt(curData.answerContent) * 20 + 20 } : curData,
+    );
+    const payload = { requests: fixedData, ...(method === "POST" && { isTemporarySave }) };
 
     if (method === "POST") {
       return api.post(url, payload);
