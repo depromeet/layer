@@ -122,6 +122,7 @@ export function CreateDonePage() {
                   opacity: ${animate ? 1 : 0};
                   transition: all 0.5s ease;
                   transition-delay: 0.5s;
+                  pointer-events: ${animate ? "default" : "none"};
                 `}
               >
                 카카오톡 전달
@@ -136,6 +137,7 @@ export function CreateDonePage() {
                   opacity: ${animate ? 1 : 0};
                   transition: all 0.5s ease;
                   transition-delay: 0.5s;
+                  pointer-events: ${animate ? "default" : "none"};
                 `}
               >
                 초대링크 복사
