@@ -67,21 +67,30 @@ export function CreateSpace() {
   const handleThumbChange = async (thumbValues: Pick<SpaceValue, "imgUrl">) => {
     try {
       const { imgUrl } = thumbValues;
-      const {
-        data: { presignedUrl, imageUrl },
-      } = await api.get<{ presignedUrl: string; imageUrl: string }>("/external/image/presigned?domain=SPACE");
 
-      await axios.put(presignedUrl, imgUrl, {
-        headers: {
-          "Content-Type": "image/png",
-        },
-      });
+      if (imgUrl) {
+        const {
+          data: { presignedUrl, imageUrl },
+        } = await api.get<{ presignedUrl: string; imageUrl: string }>("/external/image/presigned?domain=SPACE");
 
-      setSpaceValue((prevValues) => ({
-        ...prevValues,
-        imgUrl: imageUrl,
-        step: prevValues.step + 1,
-      }));
+        await axios.put(presignedUrl, imgUrl, {
+          headers: {
+            "Content-Type": "image/png",
+          },
+        });
+
+        setSpaceValue((prevValues) => ({
+          ...prevValues,
+          imgUrl: imageUrl,
+          step: prevValues.step + 1,
+        }));
+      } else {
+        setSpaceValue((prevValues) => ({
+          ...prevValues,
+          imgUrl: null,
+          step: prevValues.step + 1,
+        }));
+      }
     } catch (error) {
       console.log(error);
     }
