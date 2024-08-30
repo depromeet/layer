@@ -75,7 +75,7 @@ export function Modal() {
                 row-gap: 1.2rem;
               `}
             >
-              <HeaderProvider.Subject contents={modalDataState.title} />
+              <HeaderProvider.Subject contents={modalDataState.title} type="modal" />
               <HeaderProvider.Description contents={modalDataState.contents} />
             </HeaderProvider>
             {modalDataState.overrideActionElements ?? (

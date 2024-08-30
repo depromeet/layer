@@ -9,6 +9,7 @@ export type ThemeSet = "white" | "primary";
 export type HeaderProps = {
   theme?: ThemeSet;
   contents: string;
+  type?: string;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "type"> &
   Omit<TypographyProps, "children">;
 export const parseTextToJSX = (text: string) => {

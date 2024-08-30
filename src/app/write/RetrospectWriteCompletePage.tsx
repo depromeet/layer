@@ -87,9 +87,9 @@ export function RetrospectWriteCompletePage() {
       >
         <div
           css={css`
-            width: 40%;
+            width: 20rem;
             height: auto;
-            aspect-ratio: 4 / 5;
+            aspect-ratio: 2 / 2.6;
 
             display: flex;
             align-items: center;
@@ -159,13 +159,14 @@ export function RetrospectWriteCompletePage() {
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                row-gap: 2rem;
+                row-gap: 2.5rem;
               `}
             >
               <CompleteIcon
                 css={css`
-                  width: 55%;
+                  width: 60%;
                   height: auto;
+                  margin-top: 2rem;
                 `}
               />
               <span
@@ -195,7 +196,7 @@ export function RetrospectWriteCompletePage() {
               top: 50%;
               left: 50%;
               transform: translate(-50%, -50%);
-              width: 80%;
+              width: 90%;
               height: 80%;
               z-index: -1;
             `}

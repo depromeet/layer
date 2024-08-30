@@ -126,7 +126,7 @@ export function EntireListModal({ onClose, answers }: EntireListProps) {
                     transition: 0.4s all;
 
                     span {
-                      ${!answers[index].answerContent
+                      ${!answers[index].answerContent.trim()
                         ? css`
                             color: #8b909c;
                           `

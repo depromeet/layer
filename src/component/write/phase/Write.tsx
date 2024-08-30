@@ -97,14 +97,14 @@ export function Write() {
   }, [answerDataLoading, answerDataSuccess, answerData]);
 
   useEffect(() => {
-    const allFilled = answers.every((answer) => answer.answerContent !== "");
+    const allFilled = answers.every((answer) => answer.answerContent.trim() !== "");
     setIsAnswerFilled(allFilled);
   }, [answers]);
 
   const updateAnswer = (questionId: number, newValue: string) => {
     setAnswers((prevAnswers) => {
       const updatedAnswers = prevAnswers.map((answer, index) => (index === questionId ? { ...answer, answerContent: newValue } : answer));
-      const allFilled = updatedAnswers.every((answer) => answer.answerContent !== "");
+      const allFilled = updatedAnswers.every((answer) => answer.answerContent.trim() !== "");
       setIsAnswerFilled(allFilled);
       return updatedAnswers;
     });
