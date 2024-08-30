@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { useLocation } from "react-router-dom";
 
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { TabButton } from "@/component/common/tabs/TabButton";
@@ -11,6 +12,8 @@ import { useTabs } from "@/hooks/useTabs";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 
 export const RetrospectAnalysisPage = () => {
+  const { title } = useLocation().state as { title: string };
+
   const tabMappings = {
     질문: "QUESTIONS",
     개별: "INDIVIDUAL_ANALYSIS",
@@ -27,7 +30,7 @@ export const RetrospectAnalysisPage = () => {
   return (
     <DualToneLayout
       bottomTheme="gray"
-      title={"중간 발표 회고"}
+      title={title}
       TopComp={
         <Fragment>
           <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
