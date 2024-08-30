@@ -6,13 +6,16 @@ import { Outlet } from "react-router-dom";
 import { Modal } from "@/component/common/Modal";
 import { useBridgeContext } from "@/lib/provider/bridge-provider";
 
+// const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
+// const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
+
+const siteId = 5117593;
+const hotjarVersion = 6;
+
 export default function GlobalLayout() {
   const { safeAreaHeight } = useBridgeContext();
 
   useEffect(() => {
-    const siteId = import.meta.env.VITE_HOTJAR_ID as number;
-    const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
-
     Hotjar.init(siteId, hotjarVersion);
   }, []);
 
