@@ -1,8 +1,10 @@
 import { css } from "@emotion/react";
+import { useAtomValue } from "jotai";
 
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import { authAtom } from "@/store/auth/authAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { analysisType, Insight } from "@/types/analysis";
 
@@ -13,6 +15,7 @@ type InsightsBoxProps = {
 };
 
 export function InsightsBoxSection({ isTeam, type, insightArr }: InsightsBoxProps) {
+  const user = useAtomValue(authAtom);
   if (insightArr === null) return;
   const oneInsight = insightArr[0].content;
   return (
@@ -31,7 +34,7 @@ export function InsightsBoxSection({ isTeam, type, insightArr }: InsightsBoxProp
           line-height: 3.2rem;
         `}
       >
-        우리팀은{" "}
+        {`${isTeam ? "우리팀" : user.name}`}은{" "}
         {type === "goodPoints" && (
           <>
             <Typography
