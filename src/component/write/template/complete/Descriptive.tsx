@@ -17,6 +17,7 @@ export function CDescriptiveTemplate({ name, question, answer }: DescriptiveTemp
           white-space: pre-line;
           width: 100%;
           max-height: 25rem;
+          white-space: pre;
         `}
       >
         {answer}
