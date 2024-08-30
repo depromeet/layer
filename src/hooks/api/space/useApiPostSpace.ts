@@ -11,11 +11,11 @@ export const useApiPostSpace = () => {
   const resetSpaceValue = useResetAtom(spaceState);
 
   const postSpace = async (formData: SpaceValue) => {
-    const { imgUrl, category, field, name, introduction } = formData;
+    const { imgUrl: bannerUrl, category, field: fieldList, name, introduction } = formData;
     const res = await api.post<{ spaceId: number }>(`/api/space`, {
-      bannerUrl: imgUrl,
+      bannerUrl,
       category,
-      fieldList: field,
+      fieldList,
       name,
       introduction,
     });
