@@ -24,5 +24,4 @@ export const fieldMap: {
   ETC: { name: "기타", icon_color: "ic_document_color", icon_white: "ic_document_white" },
 };
 
-export const defaultImgUrl = "https://layer-bucket.kr.object.ncloudstorage.com/SPACE/12/5c781710-551e-444e-a977-73256ca2b07d";
 export const defaultUserImgUrl = "https://kr.object.ncloudstorage.com/layer-bucket/Profile.png";

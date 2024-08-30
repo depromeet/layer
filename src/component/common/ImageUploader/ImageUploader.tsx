@@ -1,7 +1,9 @@
 import { css } from "@emotion/react";
 import { useRef, useState } from "react";
 
-import { defaultImgUrl } from "@/component/space/space.const";
+import DefaultSpaceImgUrl from "@/assets/imgs/space/spaceDefaultImg.png";
+import { Icon } from "@/component/common/Icon";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type ImageUploaderProps = {
   defaultImg?: string;
@@ -9,7 +11,7 @@ type ImageUploaderProps = {
 };
 
 export const ImageUploader = ({ defaultImg, setImgFile }: ImageUploaderProps) => {
-  const [imgUrl, setImgUrl] = useState(defaultImg || defaultImgUrl);
+  const [imgUrl, setImgUrl] = useState(defaultImg || DefaultSpaceImgUrl);
 
   const ref = useRef<HTMLInputElement>(null);
 
@@ -39,21 +41,37 @@ export const ImageUploader = ({ defaultImg, setImgFile }: ImageUploaderProps) =>
       <div
         onClick={handleImageClick}
         css={css`
-          width: 18rem;
-          height: 18rem;
-          border-radius: ${imgUrl === defaultImgUrl ? "none" : "50%"};
-          overflow: hidden;
-          margin-bottom: 1rem;
-          cursor: pointer;
-
+          position: relative;
           img {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
+            width: 18rem;
+            height: 18rem;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+            cursor: pointer;
           }
         `}
       >
-        <img src={imgUrl} alt="Preview" />
+        <img src={imgUrl || DefaultSpaceImgUrl} onError={(e) => (e.currentTarget.src = DefaultSpaceImgUrl)} alt="Preview" />
+        <div
+          css={css`
+            position: absolute;
+            width: 4.2rem;
+            height: 4.2rem;
+            border-radius: 50%;
+            bottom: 1.2rem;
+            right: 0.4rem;
+            background-color: ${DESIGN_TOKEN_COLOR.gray500};
+            border: 0.4rem solid ${DESIGN_TOKEN_COLOR.gray00};
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          `}
+        >
+          <Icon icon="ic_camera" />
+        </div>
       </div>
       <input
         ref={ref}

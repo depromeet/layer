@@ -59,7 +59,9 @@ export function CreateNextPage() {
         <ButtonProvider.Primary onClick={() => navigate(PATHS.retrospectRecommend(), { state: { spaceId } })}>
           회고 템플릿 추천 받기
         </ButtonProvider.Primary>
-        <div css={laterTextStyles}>다음에 하기</div>
+        <div css={laterTextStyles} onClick={() => navigate(PATHS.spaceDetail(spaceId))}>
+          다음에 하기
+        </div>
       </ButtonProvider>
     </DefaultLayout>
   );
