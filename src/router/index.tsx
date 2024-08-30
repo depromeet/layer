@@ -40,6 +40,8 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
+import { useEffect } from "react";
+import Hotjar from "@hotjar/browser";
 
 type RouteChildren = {
   auth: boolean;
@@ -250,5 +252,11 @@ const router = createBrowserRouter([
 ]);
 
 export const Routers = () => {
+  useEffect(() => {
+    const siteId = 5117685;
+    const hotjarVersion = 6;
+    Hotjar.init(siteId, hotjarVersion);
+  }, []);
+
   return <RouterProvider router={router} />;
 };
