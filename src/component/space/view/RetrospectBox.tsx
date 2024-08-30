@@ -235,6 +235,7 @@ export function RetrospectBox({
           <RetrospectButton
             status={retrospectStatus === "PROCEEDING" && isWrite ? "HAS_WRITING" : retrospectStatus}
             retrospectId={retrospectId}
+            title={title}
             spaceId={spaceId}
           />
         </div>
