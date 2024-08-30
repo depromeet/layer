@@ -51,7 +51,7 @@ export function JoinSpace() {
             onClick={() =>
               mutate(Number(spaceId), {
                 onSuccess: () => {
-                  toast.success(`스페이스에 초대 되었어요!`);
+                  toast.success(`스페이스에 초대되었어요!`);
                   navigate(PATHS.spaceDetail(spaceId));
                 },
                 onError: (error) => {
