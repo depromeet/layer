@@ -17,7 +17,7 @@ export function Home({ onNext }: { onNext: () => void }) {
         animationData={create_start}
         css={css`
           position: absolute;
-          top: 57%;
+          top: 60%;
           left: 50%;
           transform: translate(-50%, -50%);
           width: 85%;
