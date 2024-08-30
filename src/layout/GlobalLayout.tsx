@@ -1,4 +1,6 @@
 import { css } from "@emotion/react";
+import Hotjar from "@hotjar/browser";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import { Modal } from "@/component/common/Modal";
@@ -6,6 +8,13 @@ import { useBridgeContext } from "@/lib/provider/bridge-provider";
 
 export default function GlobalLayout() {
   const { safeAreaHeight } = useBridgeContext();
+
+  useEffect(() => {
+    const siteId = import.meta.env.VITE_HOTJAR_ID as number;
+    const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
+
+    Hotjar.init(siteId, hotjarVersion);
+  }, []);
 
   return (
     <div
