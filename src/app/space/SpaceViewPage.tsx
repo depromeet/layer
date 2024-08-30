@@ -38,7 +38,7 @@ export function SpaceViewPage() {
   const { mutate: leaveSpace } = useApiLeaveSpace();
 
   const [
-    { data: restrospectArr, isLoading: isLoadingRestrospects },
+    { data: restrospectArr, isLoading: isLoadingRestrospects, refetch: refetchRestrospectData },
     { data: spaceInfo, isLoading: isLoadingSpaceInfo },
     { data: teamActionList, isLoading: isLoadingTeamActionList },
   ] = useQueries({
@@ -189,6 +189,7 @@ export function SpaceViewPage() {
                   spaceId={spaceId}
                   retrospect={retrospect}
                   onDelete={handleDeleteRetrospect}
+                  refetchRestrospectData={refetchRestrospectData}
                   isLeader={isLeader}
                 />
               ))}

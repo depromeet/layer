@@ -5,10 +5,13 @@ import { RetrospectButton } from "./RetrospectButton";
 import { RetrospectOptions } from "./RetrospectOptions";
 
 import { Icon } from "@/component/common/Icon";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { Typography } from "@/component/common/typography";
 import { RetrospectEditModal } from "@/component/space/view/RetrospectEditModal";
+import { useApiCloseRetrospect } from "@/hooks/api/retrospect/close/useApiCloseRetrospect.ts";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
 import { useModal } from "@/hooks/useModal";
+import { useToast } from "@/hooks/useToast.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 import { formatDateAndTime, calculateDeadlineRemaining } from "@/utils/date";
@@ -27,10 +30,12 @@ export function RetrospectBox({
   retrospect,
   onDelete,
   isLeader,
+  refetchRestrospectData,
 }: {
   spaceId: string;
   retrospect: Retrospect;
   onDelete: (retrospectId: number) => void;
+  refetchRestrospectData?: () => void;
   isLeader: boolean;
 }) {
   const { open } = useModal();
@@ -40,8 +45,30 @@ export function RetrospectBox({
   const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount, deadline } = retrospect;
   const { backgroundColor } = statusStyles[retrospectStatus];
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { toast } = useToast();
+  const isAllAnswered = writeCount === totalCount;
 
   const { mutate: retrospectDelete } = useApiDeleteRetrospect();
+  const { mutate: retrospectClose, isPending } = useApiCloseRetrospect();
+
+  const closeBtnClickFun = () => {
+    open({
+      title: "회고를 마감할까요?",
+      contents: "회고를 마감하면\n 더 이상의 회고 수정이 불가해요",
+      options: {
+        buttonText: ["취소", "마감하기"],
+      },
+      onConfirm: () => {
+        retrospectClose(
+          { spaceId: spaceId, retrospectId: retrospectId },
+          {
+            onSuccess: () => refetchRestrospectData && refetchRestrospectData(),
+            onError: () => toast.error("회고 마감을 실패하였습니다"),
+          },
+        );
+      },
+    });
+  };
 
   const removeBtnClickFun = () => {
     open({
@@ -96,6 +123,7 @@ export function RetrospectBox({
 
   return (
     <>
+      {isPending && <LoadingModal purpose={"선택하신 회고를 마감하고있어요"} />}
       <div
         key={retrospectId}
         css={css`
@@ -156,6 +184,7 @@ export function RetrospectBox({
                 toggleOptionsVisibility={toggleOptionsVisibility}
                 removeBtnClickFun={removeBtnClickFun}
                 modifyBtnClickFun={modifyBtnClickFun}
+                closeBtnClickFun={retrospectStatus === "PROCEEDING" && isAllAnswered ? closeBtnClickFun : undefined}
                 optionsRef={optionsRef}
               />
             )}
