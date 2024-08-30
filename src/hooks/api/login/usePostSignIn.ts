@@ -59,6 +59,10 @@ export const usePostSignIn = () => {
       const saveSpaceIdPhase = Cookies.get(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
       if (saveSpaceIdPhase) {
         mutate(parseInt(saveSpaceIdPhase), {
+          onSuccess: (_, spaceId) => {
+            toast.success(`스페이스에 초대되었어요!`);
+            navigate(PATHS.spaceDetail(spaceId.toString()));
+          },
           onError: (error) => {
             if (error.status === 400) {
               toast.success("이미 참여한 스페이스로 이동했어요!");
