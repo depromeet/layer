@@ -1,5 +1,4 @@
-import { css } from "@emotion/react";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
