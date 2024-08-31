@@ -5,6 +5,7 @@ import { GoalCompletionRateChart } from "./GoalCompletionRateChart";
 import { InsightsBoxSection } from "./InsightsBoxSection";
 import { TeamSatisfactionChart } from "./TeamSatisfactionChart";
 
+import { EmptyList } from "@/component/common/empty";
 import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
@@ -33,105 +34,105 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
   {
     /**분석이 결과가 아무것도 없을 때**/
   }
-  if (data?.individualAnalyze.badPoints === null && data?.individualAnalyze.goodPoints === null && data?.individualAnalyze.improvementPoints === null)
-    return <EmptyAnalysisComp />;
 
   return (
-    <>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          gap: 2.8rem;
-          margin-bottom: 3rem;
-          padding-top: 2.4rem;
-        `}
-      >
-        {data?.teamAnalyze && (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        gap: 2.8rem;
+        margin-bottom: 3rem;
+        padding-top: 2.4rem;
+      `}
+    >
+      {data?.teamAnalyze && (
+        <div
+          css={css`
+            width: 10rem;
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background-color: ${DESIGN_TOKEN_COLOR.gray00};
+            border-radius: 0.6rem;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+          `}
+        >
           <div
             css={css`
-              width: 10rem;
-              height: 4rem;
-              display: flex;
-              align-items: center;
-              justify-content: flex-start;
-              background-color: ${DESIGN_TOKEN_COLOR.gray00};
+              position: absolute;
+              width: 4.8rem;
+              height: 3.4rem;
+              background-color: ${DESIGN_TOKEN_COLOR.gray700};
               border-radius: 0.6rem;
+              transition: transform 0.3s ease;
+              transform: ${selectedTab === "team" ? "translateX(4.8rem)" : "translateX(0.1rem)"};
+            `}
+          />
+          <button
+            onClick={() => setSelectedTab("personal")}
+            css={css`
+              width: 4.8rem;
+              height: 3.4rem;
+              background-color: transparent;
+              border-radius: 0.6rem;
+              z-index: 1;
               position: relative;
-              overflow: hidden;
             `}
           >
-            <div
-              css={css`
-                position: absolute;
-                width: 4.8rem;
-                height: 3.4rem;
-                background-color: ${DESIGN_TOKEN_COLOR.gray700};
-                border-radius: 0.6rem;
-                transition: transform 0.3s ease;
-                transform: ${selectedTab === "team" ? "translateX(4.8rem)" : "translateX(0.1rem)"};
-              `}
-            />
-            <button
-              onClick={() => setSelectedTab("personal")}
-              css={css`
-                width: 4.8rem;
-                height: 3.4rem;
-                background-color: transparent;
-                border-radius: 0.6rem;
-                z-index: 1;
-                position: relative;
-              `}
-            >
-              <Typography variant="subtitle14SemiBold" color={selectedTab === "personal" ? "gray00" : "gray900"}>
-                개인
-              </Typography>
-            </button>
-            <button
-              onClick={() => setSelectedTab("team")}
-              css={css`
-                width: 4.8rem;
-                height: 3.4rem;
-                background-color: transparent;
-                border-radius: 0.6rem;
-                z-index: 1;
-                position: relative;
-              `}
-            >
-              <Typography variant="subtitle14SemiBold" color={selectedTab === "team" ? "gray00" : "gray900"}>
-                팀
-              </Typography>
-            </button>
-          </div>
-        )}
+            <Typography variant="subtitle14SemiBold" color={selectedTab === "personal" ? "gray00" : "gray900"}>
+              개인
+            </Typography>
+          </button>
+          <button
+            onClick={() => setSelectedTab("team")}
+            css={css`
+              width: 4.8rem;
+              height: 3.4rem;
+              background-color: transparent;
+              border-radius: 0.6rem;
+              z-index: 1;
+              position: relative;
+            `}
+          >
+            <Typography variant="subtitle14SemiBold" color={selectedTab === "team" ? "gray00" : "gray900"}>
+              팀
+            </Typography>
+          </button>
+        </div>
+      )}
 
-        {data?.teamAnalyze && selectedTab === "team" && (
-          <>
-            <TeamSatisfactionChart
-              satisfactionLevels={[
-                data.teamAnalyze.scoreFive,
-                data.teamAnalyze.scoreFour,
-                data.teamAnalyze.scoreThree,
-                data.teamAnalyze.scoreTwo,
-                data.teamAnalyze.scoreOne,
-              ]}
-            />
-            <GoalCompletionRateChart goalCompletionRate={data.teamAnalyze.goalCompletionRate} />
+      {data?.teamAnalyze && selectedTab === "team" && (
+        <>
+          <TeamSatisfactionChart
+            satisfactionLevels={[
+              data.teamAnalyze.scoreFive,
+              data.teamAnalyze.scoreFour,
+              data.teamAnalyze.scoreThree,
+              data.teamAnalyze.scoreTwo,
+              data.teamAnalyze.scoreOne,
+            ]}
+          />
+          <GoalCompletionRateChart goalCompletionRate={data.teamAnalyze.goalCompletionRate} />
 
-            <InsightsBoxSection type="goodPoints" insightArr={data.teamAnalyze.goodPoints} isTeam={true} />
-            <InsightsBoxSection type="badPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
-            <InsightsBoxSection type="improvementPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
-          </>
-        )}
-        {data?.individualAnalyze && selectedTab === "personal" && (
+          <InsightsBoxSection type="goodPoints" insightArr={data.teamAnalyze.goodPoints} isTeam={true} />
+          <InsightsBoxSection type="badPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
+          <InsightsBoxSection type="improvementPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
+        </>
+      )}
+      {selectedTab === "personal" &&
+        (data?.individualAnalyze ? (
           <>
             <InsightsBoxSection type="goodPoints" insightArr={data.individualAnalyze.goodPoints} isTeam={false} />
             <InsightsBoxSection type="badPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
             <InsightsBoxSection type="improvementPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
           </>
-        )}
-      </div>
-    </>
+        ) : (
+          <EmptyList message={<>회고를 작성해야 확인할 수 있어요</>} icon={"ic_empty_list"} iconSize={12} />
+        ))}
+    </div>
   );
 }
 
@@ -174,7 +175,7 @@ function AnalysisingComp() {
   return (
     <div
       css={css`
-        height: 100vh;
+        height: 100dvh;
         display: flex;
         flex-direction: column;
         justify-content: center;
