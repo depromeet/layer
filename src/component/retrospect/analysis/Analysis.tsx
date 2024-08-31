@@ -136,41 +136,6 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
   );
 }
 
-function EmptyAnalysisComp() {
-  return (
-    <div
-      css={css`
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 3.5rem;
-      `}
-    >
-      <Icon
-        icon="ic_empty_analysis"
-        size={9.1}
-        css={css`
-          position: relative;
-          left: 1rem;
-        `}
-      />
-      <Typography
-        variant="body16Medium"
-        color="gray600"
-        css={css`
-          text-align: center;
-        `}
-      >
-        회고 내용이 짧아
-        <br />
-        분석을 할 수 없어요
-      </Typography>
-    </div>
-  );
-}
-
 function AnalysisingComp() {
   return (
     <div
