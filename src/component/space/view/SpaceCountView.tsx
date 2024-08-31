@@ -10,9 +10,10 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 type SpaceCountViewProps = {
   memberCount: number | undefined;
   mainTemplate: string | null | undefined;
+  isLeader: boolean;
 };
 
-export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProps) {
+export function SpaceCountView({ mainTemplate, memberCount, isLeader }: SpaceCountViewProps) {
   const navigate = useNavigate();
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   return (
@@ -41,6 +42,7 @@ export function SpaceCountView({ mainTemplate, memberCount }: SpaceCountViewProp
           navigate(PATHS.template(spaceId), {
             state: {
               readOnly: true,
+              isLeader: isLeader,
             },
           })
         }
