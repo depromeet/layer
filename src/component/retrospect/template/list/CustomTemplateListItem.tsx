@@ -29,13 +29,14 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
   const MENU_DELETE = "delete";
   const SHEET_ID = `modifyTemplateSheet_${id}`;
 
-  const { spaceId, readOnly } = useContext(TemplateListPageContext);
+  const { spaceId, readOnly, isLeader } = useContext(TemplateListPageContext);
   const navigate = useNavigate();
   const { open } = useModal();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { value: templateTitle, handleInputChange: handleChangeTitle } = useInput(title);
   const { mutate: patchTemplateTitle } = usePatchTemplateTitle(+spaceId);
   const { mutate: deleteCustomTemplate } = useDeleteCustomTemplate(+spaceId);
+
   const handleSubmitTitle = () => {
     patchTemplateTitle({ formId: id, formTitle: templateTitle });
     closeBottomSheet();
@@ -97,7 +98,7 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
               `}
             >
               <Typography variant="S2">{title}</Typography>
-              {readOnly && (
+              {readOnly && isLeader && (
                 <DropdownMenu onValueChange={(value) => handleOptionSelect(value)}>
                   <DropdownMenu.Trigger />
                   <DropdownMenu.Content>
