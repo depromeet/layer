@@ -15,6 +15,7 @@ import { Info } from "@/component/space/create/Info";
 import { Thumb } from "@/component/space/create/Thumb";
 import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { trackEvent } from "@/lib/mixpanel/event";
 import { spaceState } from "@/store/space/spaceAtom";
 import { SpaceValue } from "@/types/space";
 
@@ -38,6 +39,7 @@ export function CreateSpace() {
       ...prevValues,
       step: prevValues.step + 1,
     }));
+    trackEvent("Space Create");
   };
 
   const handleCategoryChange = (typeValues: Pick<SpaceValue, "category">) => {
