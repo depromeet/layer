@@ -109,11 +109,11 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
           <>
             <TeamSatisfactionChart
               satisfactionLevels={[
-                data.teamAnalyze.scoreOne,
-                data.teamAnalyze.scoreTwo,
-                data.teamAnalyze.scoreThree,
-                data.teamAnalyze.scoreFour,
                 data.teamAnalyze.scoreFive,
+                data.teamAnalyze.scoreFour,
+                data.teamAnalyze.scoreThree,
+                data.teamAnalyze.scoreTwo,
+                data.teamAnalyze.scoreOne,
               ]}
             />
             <GoalCompletionRateChart goalCompletionRate={data.teamAnalyze.goalCompletionRate} />

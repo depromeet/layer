@@ -115,7 +115,11 @@ function InsightBox({ type, insight }: { type: analysisItemType; insight: Transf
   const { spaceId, retrospectId, spaceName, retrospectTitle, point } = insight;
   const navigate = useNavigate();
   const goAnalysisPage = () => {
-    navigate(PATHS.retrospectAnalysis(spaceId.toString(), retrospectId));
+    navigate(PATHS.retrospectAnalysis(spaceId.toString(), retrospectId), {
+      state: {
+        title: insight.retrospectTitle,
+      },
+    });
   };
 
   return (
