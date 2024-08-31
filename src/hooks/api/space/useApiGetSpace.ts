@@ -18,7 +18,7 @@ type SpaceResponse = {
   };
 };
 
-export const useApiGetSpace = (spaceId: string, isPublic: boolean = false) => {
+export const useApiGetSpace = (spaceId: string, isPublic: boolean = true) => {
   const getSpace = async (spaceId: string, isPublic: boolean) => {
     const endpoint = isPublic ? `/api/space/public/${spaceId}` : `/api/space/${spaceId}`;
     const res = await api.get<SpaceResponse>(endpoint);
