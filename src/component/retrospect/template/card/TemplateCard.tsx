@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-import { Button } from "@/component/common/button";
+import { ButtonProvider } from "@/component/common/button";
 import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
@@ -21,8 +21,10 @@ export function TemplateCard({ name, tag, imgUrl, onClick }: TemplateCardProps) 
         aspect-ratio: 1 / 1;
         background: ${DESIGN_TOKEN_COLOR.gray00};
         border-radius: 0.8rem;
-        max-width: 36rem;
+        width: 36rem;
+        cursor: pointer;
       `}
+      onClick={onClick}
     >
       <Typography variant="S1">{name}</Typography>
       <Spacing size={1.2} />
@@ -30,29 +32,28 @@ export function TemplateCard({ name, tag, imgUrl, onClick }: TemplateCardProps) 
       <div
         css={css`
           display: flex;
+          flex-direction: column;
           justify-content: center;
           align-items: center;
-          flex-direction: column;
+          margin-top: 2rem;
+          gap: 2rem;
         `}
       >
-        <img
-          src={imgUrl}
-          css={css`
-            width: 60%;
-            aspect-ratio: 1 / 1;
-            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
-          `}
-        />
-        <Button
-          css={css`
-            background: ${DESIGN_TOKEN_COLOR.gray00};
-          `}
-          onClick={onClick}
-        >
+        <div css={css``}>
+          <img
+            src={imgUrl}
+            css={css`
+              mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
+            `}
+          />
+        </div>
+        {/* <ButtonProvider gradient={false}> */}
+        <ButtonProvider.White>
           <Typography color="grey800" variant="B1">
             더 알아보기
           </Typography>
-        </Button>
+        </ButtonProvider.White>
+        {/* </ButtonProvider> */}
       </div>
     </div>
   );
