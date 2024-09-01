@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { api } from "@/api";
 import { Answer } from "@/component/write/phase/Write.tsx";
+import { ACHIVEMENT_PERCENT } from "@/component/write/template/write/write.const.ts";
 
 type writeQuestionsProps = {
   data: Answer[];
@@ -14,10 +15,21 @@ type writeQuestionsProps = {
 export const useWriteQuestions = () => {
   const writeQuestions = ({ data, isTemporarySave = false, spaceId, retrospectId, method = "POST" }: writeQuestionsProps) => {
     const url = `/space/${spaceId}/retrospect/${retrospectId}/answer`;
-    const fixedData = data.map((curData) =>
-      curData.questionType === "range" ? { ...curData, answerContent: parseInt(curData.answerContent) * 20 + 20 } : curData,
+    /**
+     * NOTE: 분석을 위한 Range 값을 실제 퍼센트로 변환하는 작업을 진행합니다.
+     * index 형태를 통해 게이지를 채우기 때문에 index는 0으로 시작하는 형태를 지니고 있습니다,
+     *
+     * Achievement Percent
+     * - 0 : 20
+     * - 1 : 40
+     * - 2 : 60
+     * - 3 : 80
+     * - 4 : 100
+     * */
+    const scaledAchievement = data.map((curData) =>
+      curData.questionType === "range" ? { ...curData, answerContent: ACHIVEMENT_PERCENT[parseInt(curData.answerContent)] ?? "-1" } : curData,
     );
-    const payload = { requests: fixedData, ...(method === "POST" && { isTemporarySave }) };
+    const payload = { requests: scaledAchievement, ...(method === "POST" && { isTemporarySave }) };
 
     if (method === "POST") {
       return api.post(url, payload);

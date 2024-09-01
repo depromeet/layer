@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "@/api";
+import { scaledAchievement } from "@/hooks/api/write/useGetAnswers.ts";
 
 type QuestionResponseType = {
   answers: {
@@ -12,7 +13,9 @@ type QuestionResponseType = {
 
 export const useGetTemporaryQuestions = ({ spaceId, retrospectId }: { spaceId: number; retrospectId: number }) => {
   const getTemporaryQuestions = () => {
-    const res = api.get<QuestionResponseType>(`/space/${spaceId}/retrospect/${retrospectId}/answer/temp`).then((res) => res.data);
+    const res = api.get<QuestionResponseType>(`/space/${spaceId}/retrospect/${retrospectId}/answer/temp`).then((res) => {
+      return scaledAchievement(res.data);
+    });
     return res;
   };
 
