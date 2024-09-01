@@ -1,14 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { api } from "@/api";
+import { ACHIVEMENT_PERCENT } from "@/component/write/template/write/write.const.ts";
 
-type AnswerResponseType = {
+export type AnswerResponseType = {
   answers: {
     questionId: number;
     questionType: string;
     answerContent: string;
   }[];
 };
+
+export const scaledAchievement = (data: AnswerResponseType) => {
+  const answers = data.answers.map((item) =>
+    item.questionType === "range"
+      ? {
+          ...item,
+          answerContent: `${parseInt(item.answerContent) / parseInt(ACHIVEMENT_PERCENT[0]) - 1}` ?? "-1",
+        }
+      : item,
+  );
+  return { answers: answers };
+};
+
 export const useGetAnswers = ({ spaceId, retrospectId }: { spaceId: number; retrospectId: number }) => {
   const getQuestions = () => {
     const res = api
@@ -16,7 +30,7 @@ export const useGetAnswers = ({ spaceId, retrospectId }: { spaceId: number; retr
         `/space/${spaceId}/retrospect/${retrospectId}/answer/written
 `,
       )
-      .then((res) => res.data);
+      .then((res) => scaledAchievement(res.data));
     return res;
   };
 

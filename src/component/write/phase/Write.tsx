@@ -81,7 +81,7 @@ export function Write() {
       );
       setIsTempData(true);
     }
-  }, [temporaryDataLoading, temporaryDataSuccess]);
+  }, [temporaryDataLoading, temporaryDataSuccess, temporaryData]);
 
   useEffect(() => {
     if (answerDataSuccess && answerData) {
@@ -101,6 +101,10 @@ export function Write() {
     setIsAnswerFilled(allFilled);
   }, [answers]);
 
+  /**
+   * NOTE: questionId는 작성 화면에서의 phase를 의미합니다.
+   * 구조화된 데이터의 index와 현재의 phase를 비교하여 답변을 업데이트하여 상태 값을 관리합니다.
+   * */
   const updateAnswer = (questionId: number, newValue: string) => {
     setAnswers((prevAnswers) => {
       const updatedAnswers = prevAnswers.map((answer, index) => (index === questionId ? { ...answer, answerContent: newValue } : answer));

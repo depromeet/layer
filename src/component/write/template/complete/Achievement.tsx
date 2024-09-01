@@ -6,7 +6,7 @@ import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 
 type ProgressBarProps = { name: string; question?: never; index: number } | { question: string; name?: never; index: number };
 
-export function CAchievementTemplate({ name, question, index: AchivementIdx = 0 }: ProgressBarProps) {
+export function CAchievementTemplate({ name, question, index: AchivementIdx = -1 }: ProgressBarProps) {
   const segments = Array.from({ length: 5 }, (_, i) => i < AchivementIdx + 1);
   const defaultBorderStyle = css`
     border-radius: 0;
