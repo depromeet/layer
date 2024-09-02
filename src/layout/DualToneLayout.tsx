@@ -66,6 +66,7 @@ export function DualToneLayout({
           background-color: ${DESIGN_SYSTEM_COLOR.themeBackground[bottomTheme]};
           overflow-y: auto;
           overflow-x: hidden;
+          padding-bottom: 2rem;
         `}
       >
         {children}

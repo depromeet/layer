@@ -10,12 +10,14 @@ export function RetrospectOptions({
   toggleOptionsVisibility,
   removeBtnClickFun,
   modifyBtnClickFun,
+  closeBtnClickFun,
   optionsRef,
 }: {
   isOptionsVisible: boolean;
   toggleOptionsVisibility: () => void;
   removeBtnClickFun: () => void;
   modifyBtnClickFun: () => void;
+  closeBtnClickFun?: () => void;
   optionsRef: React.RefObject<HTMLDivElement>;
 }) {
   return (
@@ -37,10 +39,33 @@ export function RetrospectOptions({
               border-radius: 1.2rem;
               z-index: 10;
               width: 16.5rem;
-              height: 9.2rem;
+              min-height: 9.2rem;
+              height: fit-content;
               box-shadow: 0px 4px 12px 0px rgba(6, 8, 12, 0.12);
             `}
           >
+            {closeBtnClickFun && (
+              <button
+                onClick={closeBtnClickFun}
+                css={css`
+                  display: block;
+                  height: 4.6rem;
+                  width: 100%;
+                  text-align: left;
+                  cursor: pointer;
+                `}
+              >
+                <Typography
+                  variant="subtitle14SemiBold"
+                  color="gray800"
+                  css={css`
+                    margin-left: 2rem;
+                  `}
+                >
+                  회고 마감
+                </Typography>
+              </button>
+            )}
             <button
               onClick={modifyBtnClickFun}
               css={css`

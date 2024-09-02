@@ -8,7 +8,7 @@ const themeSet: Record<ThemeSet, keyof typeof DESIGN_SYSTEM_COLOR> = {
   primary: "black",
   white: "white",
 };
-export function Title({ contents, theme = "primary", ...props }: Pick<HeaderProps, "contents" | "theme">) {
+export function Title({ contents, type = "title", theme = "primary", ...props }: Pick<HeaderProps, "contents" | "theme" | "type">) {
   return (
     <div
       css={css`
@@ -20,7 +20,7 @@ export function Title({ contents, theme = "primary", ...props }: Pick<HeaderProp
       {contents.split("\n").map((item) => (
         <div key={item}>
           {parseTextToJSX(item).map((title, index) => (
-            <Typography key={index} variant={"title18Bold"} color={themeSet[theme]} {...props}>
+            <Typography key={index} variant={type === "modal" ? "title18Bold" : "heading24Bold"} color={themeSet[theme]} {...props}>
               {title}
             </Typography>
           ))}

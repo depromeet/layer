@@ -15,15 +15,21 @@ import { useToast } from "@/hooks/useToast";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
-export const TemplateListPageContext = createContext<{ readOnly: boolean; spaceId: string }>({ readOnly: false, spaceId: "" });
+export const TemplateListPageContext = createContext<{ readOnly: boolean; spaceId: string; isLeader: boolean }>({
+  readOnly: false,
+  spaceId: "",
+  isLeader: false,
+});
 
 export function TemplateListPage() {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const locationState = useLocation().state as { readOnly?: boolean };
+  const locationState = useLocation().state as { readOnly?: boolean; isLeader?: boolean };
   const isReadOnly = useRef(false);
+  const isLeader = useRef(false);
   if (locationState) {
     if (locationState.readOnly) isReadOnly.current = true;
+    if (locationState.isLeader) isLeader.current = true;
   }
 
   const { data: templates } = useGetDefaultTemplateList();
@@ -70,7 +76,7 @@ export function TemplateListPage() {
   }, [spaceId]);
 
   return (
-    <TemplateListPageContext.Provider value={{ readOnly: isReadOnly.current, spaceId }}>
+    <TemplateListPageContext.Provider value={{ readOnly: isReadOnly.current, spaceId, isLeader: isLeader.current }}>
       <DualToneLayout TopComp={TemplateListTabs} title="회고 템플릿 리스트">
         {Info}
         <ul

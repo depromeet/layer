@@ -61,7 +61,7 @@ export function Header({ theme = "primary", title, contents }: HeaderProps) {
           {title.split("\n").map((item) => (
             <div key={item}>
               {parseTextToJSX(item).map((title, index) => (
-                <Typography key={index} variant={"T4"} color={themeSet[theme].titleColor}>
+                <Typography key={index} variant={"heading24Bold"} color={themeSet[theme].titleColor}>
                   {title}
                 </Typography>
               ))}
@@ -72,7 +72,7 @@ export function Header({ theme = "primary", title, contents }: HeaderProps) {
           contents.split("\n").map((item) => (
             <div key={item}>
               {parseTextToJSX(item).map((contents, index) => (
-                <Typography key={index} variant={"B1"} color={themeSet[theme].contentsColor}>
+                <Typography key={index} variant={"body15Medium"} color={themeSet[theme].contentsColor}>
                   {contents}
                 </Typography>
               ))}

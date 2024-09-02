@@ -38,7 +38,7 @@ export function SpaceViewPage() {
   const { mutate: leaveSpace } = useApiLeaveSpace();
 
   const [
-    { data: restrospectArr, isLoading: isLoadingRestrospects },
+    { data: restrospectArr, isLoading: isLoadingRestrospects, refetch: refetchRestrospectData },
     { data: spaceInfo, isLoading: isLoadingSpaceInfo },
     { data: teamActionList, isLoading: isLoadingTeamActionList },
   ] = useQueries({
@@ -120,7 +120,7 @@ export function SpaceViewPage() {
             leaderId={spaceInfo?.leader.id}
           />
           <Spacing size={1.1} />
-          <SpaceCountView mainTemplate={spaceInfo?.formTag} memberCount={spaceInfo?.memberCount} />
+          <SpaceCountView mainTemplate={spaceInfo?.formTag} memberCount={spaceInfo?.memberCount} isLeader={isLeader} />
           <Spacing size={2.4} />
         </>
       }
@@ -189,6 +189,7 @@ export function SpaceViewPage() {
                   spaceId={spaceId}
                   retrospect={retrospect}
                   onDelete={handleDeleteRetrospect}
+                  refetchRestrospectData={refetchRestrospectData}
                   isLeader={isLeader}
                 />
               ))}
