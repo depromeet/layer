@@ -103,7 +103,6 @@ function BlueTextBox({ children }: { children: React.ReactNode }) {
         border: 0.86px solid ${DESIGN_TOKEN_COLOR.blue400};
         border-radius: 0.5rem;
         padding: 0.4rem 0.6rem;
-        white-space: nowrap;
       `}
     >
       {children}
