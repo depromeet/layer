@@ -63,7 +63,7 @@ export function VersionBox() {
         >
           <Typography variant="body16Medium">현재버전</Typography>
           <Typography variant="body16Medium" color="gray600">
-            1.0.0
+            {APP_VERSION.split("-")[0]}
           </Typography>
         </div>
         <InfoBox

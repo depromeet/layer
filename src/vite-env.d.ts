@@ -1,5 +1,7 @@
 /// <reference types="vite/client" />
 
+declare const APP_VERSION: string;
+
 type ImportMetaEnv = {
   readonly VITE_REST_API_KEY: string;
   readonly VITE_REDIRECT_URI: string;

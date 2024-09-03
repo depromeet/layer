@@ -25,6 +25,9 @@ export default defineConfig({
       },
     }),
   ],
+  define: {
+    APP_VERSION: JSON.stringify(process.env.npm_package_version),
+  },
   build: {
     outDir: "dist", // 빌드 결과가 저장되는 폴더
     sourcemap: true, // 디버깅을 위한 소스맵 생성 (선택 사항)
