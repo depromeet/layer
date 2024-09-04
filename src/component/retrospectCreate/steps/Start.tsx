@@ -29,7 +29,7 @@ export function Start() {
         <ButtonProvider.White
           onClick={() => {
             goNext();
-            trackEvent("Retrospect Create Start", {
+            trackEvent("회고 생성 시작", {
               spaceId: `${spaceId}`,
             });
           }}

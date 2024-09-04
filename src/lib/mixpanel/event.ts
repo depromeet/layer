@@ -1,9 +1,8 @@
 import mixpanel from "mixpanel-browser";
 
-type TargetEvent = "Space Create" | "Retrospect Create Start" | "Retrospect Create Complete";
-
-export const trackEvent = (event: TargetEvent, properties?: Record<string, string>) => {
+export const trackEvent = (event: string, properties?: Record<string, string>) => {
   if (import.meta.env.MODE === "development") {
+    console.log("mixpanel tracking:", event, properties);
     return;
   }
   mixpanel.track(event, properties);

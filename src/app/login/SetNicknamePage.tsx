@@ -9,6 +9,7 @@ import { Typography } from "@/component/common/typography";
 import { usePostSignUp } from "@/hooks/api/login/usePostSignUp";
 import { useInput } from "@/hooks/useInput";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { trackEvent } from "@/lib/mixpanel/event";
 import { SocialLoginKind } from "@/types/loginType";
 
 export function SetNickNamePage() {
@@ -22,6 +23,7 @@ export function SetNickNamePage() {
 
     const accessToken = Cookies.get(`${socialType}AccessToken`) || "";
 
+    trackEvent("회원가입");
     signUpMutation({ accessToken, name: nickName, socialType: socialType });
   };
 

@@ -39,7 +39,7 @@ export function CreateSpace() {
       ...prevValues,
       step: prevValues.step + 1,
     }));
-    trackEvent("Space Create");
+    trackEvent("스페이스 생성");
   };
 
   const handleCategoryChange = (typeValues: Pick<SpaceValue, "category">) => {

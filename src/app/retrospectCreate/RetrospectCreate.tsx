@@ -115,7 +115,7 @@ export function RetrospectCreate() {
 
   const handleSubmit = useCallback(() => {
     if (!pageState.isLastStep) return;
-    trackEvent("Retrospect Create Complete", {
+    trackEvent("회고 생성 완료", {
       spaceId: `${spaceId}`,
       isNewTemplate: `${retroCreateData.isNewForm}`,
     });
