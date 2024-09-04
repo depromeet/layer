@@ -27,7 +27,7 @@ export function SocialLoginArea({
 
   useEffect(() => {
     if (typeof window.Kakao !== "undefined" && !window.Kakao.isInitialized()) {
-      window.Kakao.init(import.meta.env.VITE_KAKAKO_JAVASCRIPT_KEY);
+      window.Kakao.init(import.meta.env.VITE_KAKAO_KEY);
     }
   }, []);
 
