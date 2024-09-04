@@ -6,12 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { KakaoLoginResponse } from "@/types/loginType";
 
 const getKakaoLoginResponse = async (code: string): Promise<KakaoLoginResponse> => {
-  const REST_API_KEY = import.meta.env.VITE_KAKAO_KEY as string;
+  const KAKAO_JAVASCRIPT_KEY = import.meta.env.VITE_KAKAO_KEY as string;
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI as string;
 
   const data = {
     grant_type: "authorization_code",
-    client_id: REST_API_KEY,
+    client_id: KAKAO_JAVASCRIPT_KEY,
     redirect_uri: REDIRECT_URI,
     code: code,
   };
