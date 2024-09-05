@@ -7,6 +7,8 @@ export type TrackEvent<T extends Events["event"]> = Extract<Events, { event: T }
 export type TrackFunction = <T extends Events["event"]>(eventName: T, args: TrackEvent<T>) => void;
 
 type Events =
+  | WRITE_DONE
+  | WRITE_START
   | TEMPLATE_RECOMMEND
   | RETROSPECT_CREATE_DONE
   | RETROSPECT_CREATE_EDIT_QUESTIONS
@@ -38,4 +40,21 @@ type RETROSPECT_CREATE_DONE = {
 type TEMPLATE_RECOMMEND = {
   event: "TEMPLATE_RECOMMEND";
   args: Omit<RecommendTemplateResponse, "formImageUrl">;
+};
+
+type WRITE_START = {
+  event: "WRITE_START";
+  args: {
+    retrospectId: number;
+    spaceId: number;
+  };
+};
+type WRITE_DONE = {
+  event: "WRITE_DONE";
+  args: {
+    retrospectId: number;
+    spaceId: number;
+    answerLengths: number[];
+    averageAnswerLength: number;
+  };
 };

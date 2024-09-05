@@ -32,15 +32,19 @@ const MixpanelProvider = ({ children }: PropsWithChildren) => {
   const mixpanelRef = useRef(mixpanel).current;
 
   const track: MixpanelContext["track"] = useCallback((...params) => {
-    if (isDev) return;
+    const [eventName, args] = params;
+    if (isDev) {
+      console.log("Mixpanel tracking event...", eventName, args);
+    }
 
     const utmParams = getUtmFromLocalStorage();
-    const [eventName, args] = params;
     mixpanel.track(eventName, { ...args, ...utmParams });
   }, []);
 
   const setPeople = useCallback((memberId: string) => {
-    if (isDev) return;
+    if (isDev) {
+      console.log("Mixpanel tracking user...", memberId);
+    }
 
     const utmParams = getUtmFromLocalStorage();
     mixpanel.identify(memberId);

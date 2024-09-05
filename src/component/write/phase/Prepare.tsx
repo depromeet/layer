@@ -10,13 +10,15 @@ import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { QuestionItem } from "@/component/write/QuestionItem";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { ANIMATION } from "@/style/common/animation.ts";
 import "swiper/css";
 import "@/style/swiper/swiper.css";
 
 export function Prepare() {
-  const { incrementPhase, data } = useContext(PhaseContext);
+  const { incrementPhase, data, retrospectId, spaceId } = useContext(PhaseContext);
   const navigate = useNavigate();
+  const { track } = useMixpanel();
 
   return (
     <DefaultLayout theme={"dark"} LeftComp={<Icon icon={"ic_back_white"} onClick={() => navigate(-1)} />}>
@@ -89,7 +91,16 @@ export function Prepare() {
       </div>
 
       <ButtonProvider>
-        <Button colorSchema={"white"} onClick={incrementPhase}>
+        <Button
+          colorSchema={"white"}
+          onClick={() => {
+            incrementPhase();
+            track("WRITE_START", {
+              retrospectId,
+              spaceId,
+            });
+          }}
+        >
           시작하기
         </Button>
       </ButtonProvider>
