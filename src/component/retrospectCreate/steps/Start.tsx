@@ -31,7 +31,7 @@ export function Start() {
           onClick={() => {
             goNext();
             track("RETROSPECT_CREATE_START", {
-              spaceId: `${spaceId}`,
+              spaceId,
             });
           }}
         >

@@ -35,6 +35,7 @@ const MixpanelProvider = ({ children }: PropsWithChildren) => {
     const [eventName, args] = params;
     if (isDev) {
       console.log("Mixpanel tracking event...", eventName, args);
+      return;
     }
 
     const utmParams = getUtmFromLocalStorage();
@@ -44,6 +45,7 @@ const MixpanelProvider = ({ children }: PropsWithChildren) => {
   const setPeople = useCallback((memberId: string) => {
     if (isDev) {
       console.log("Mixpanel tracking user...", memberId);
+      return;
     }
 
     const utmParams = getUtmFromLocalStorage();
