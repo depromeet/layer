@@ -16,7 +16,6 @@ import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTempl
 import { useModal } from "@/hooks/useModal";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { trackEvent } from "@/lib/mixpanel/event";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
@@ -115,10 +114,6 @@ export function RetrospectCreate() {
 
   const handleSubmit = useCallback(() => {
     if (!pageState.isLastStep) return;
-    trackEvent("회고 생성 완료", {
-      spaceId: `${spaceId}`,
-      isNewTemplate: `${retroCreateData.isNewForm}`,
-    });
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
     postRetrospectCreate({
       spaceId,

@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { api } from "@/api";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { RecommendTemplate } from "@/component/retrospect/template/recommend/RecommendTemplate";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { recommendTemplateState } from "@/store/retrospect/template/recommend/recommendAtom";
 import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
 
-type RecommendTemplateResponse = {
+export type RecommendTemplateResponse = {
   formId: number;
   formImageUrl: string;
   formName: string;
@@ -19,6 +20,7 @@ export function RecommendTemplatePage() {
   const navigate = useNavigate();
   const resetTemplateValue = useResetAtom(recommendTemplateState);
   const [isLoading, setIsLoading] = useState(false);
+  const { track } = useMixpanel();
 
   const onSubmit = async (recommendValue: RecommendTemplateType & { spaceId: string }) => {
     try {
@@ -30,6 +32,11 @@ export function RecommendTemplatePage() {
           period,
           purpose: purpose.join(","),
         },
+      });
+      track("TEMPLATE_RECOMMEND", {
+        formId: data.formId,
+        formName: data.formName,
+        tag: data.tag,
       });
       navigate("/retrospect/recommend/done", { state: { templateId: data.formId, spaceId: recommendValue.spaceId } });
       resetTemplateValue();

@@ -7,11 +7,12 @@ import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate
 import retrospect_create_start_lottie from "@/assets/lottie/retropsect/create/speech_bubble_envelope.json";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
-import { trackEvent } from "@/lib/mixpanel/event";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 
 export function Start() {
   const { spaceId } = useLocation().state as { spaceId: number; templateId: number; saveTemplateId?: boolean };
   const { goNext, confirmQuitPage } = useContext(RetrospectCreateContext);
+  const { track } = useMixpanel();
   return (
     <>
       <Header title={"회고를 만들어볼까요"} contents={"회고를 진행할 질문들을 구성해요"} theme="white" />
@@ -29,7 +30,7 @@ export function Start() {
         <ButtonProvider.White
           onClick={() => {
             goNext();
-            trackEvent("회고 생성 시작", {
+            track("RETROSPECT_CREATE_START", {
               spaceId: `${spaceId}`,
             });
           }}

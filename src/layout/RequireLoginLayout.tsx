@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchMemberInfo } from "@/api/login";
 import { PATHS } from "@/config/paths";
 import { COOKIE_KEYS } from "@/config/storage-keys";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { authAtom } from "@/store/auth/authAtom";
 
 type RequireLoginProps = {
@@ -16,6 +17,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
   const [auth, setAuth] = useAtom(authAtom);
   const navigate = useNavigate();
   const curPath = window.location.pathname;
+  const { setPeople } = useMixpanel();
 
   const redirectLogin = () => {
     Cookies.set(COOKIE_KEYS.redirectPrevPathKey, curPath);
@@ -31,6 +33,8 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
         try {
           const response = await fetchMemberInfo();
           setAuth({ isLogin: true, name: response.name, email: response.email, memberRole: response.memberRole, imageUrl: response.imageUrl });
+
+          setPeople(response.memberId.toString());
         } catch (error) {
           console.error("Error fetching member info:", error);
           redirectLogin();
