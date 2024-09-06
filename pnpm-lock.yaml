@@ -40,7 +40,7 @@ dependencies:
     version: 13.1.8
   '@webview-bridge/react-native':
     specifier: ^1.6.2
-    version: 1.6.2(react-native-webview@13.10.5)(react@18.3.1)
+    version: 1.6.2(react-native-webview@13.12.1)(react@18.3.1)
   '@webview-bridge/web':
     specifier: ^1.6.2
     version: 1.6.2
@@ -110,6 +110,9 @@ dependencies:
   react-helmet-async:
     specifier: ^2.0.5
     version: 2.0.5(react@18.3.1)
+  react-native-webview:
+    specifier: ^13.12.1
+    version: 13.12.1(react-native@0.75.1)(react@18.3.1)
   react-popper:
     specifier: ^2.3.0
     version: 2.3.0(@popperjs/core@2.11.8)(react-dom@18.3.1)(react@18.3.1)
@@ -3863,7 +3866,7 @@ packages:
       - supports-color
     dev: true
 
-  /@webview-bridge/react-native@1.6.2(react-native-webview@13.10.5)(react@18.3.1):
+  /@webview-bridge/react-native@1.6.2(react-native-webview@13.12.1)(react@18.3.1):
     resolution: {integrity: sha512-vZdfpEKhu/b6Kk0ZlJRmxPpNzpHBGXRrCbP2UadagMZux5rMiYFIvSejumZVzeUtdSsEdZRfkecMW5YiMFjI6g==}
     peerDependencies:
       react: '*'
@@ -3880,7 +3883,7 @@ packages:
         optional: true
     dependencies:
       react: 18.3.1
-      react-native-webview: 13.10.5(react-native@0.75.1)(react@18.3.1)
+      react-native-webview: 13.12.1(react-native@0.75.1)(react@18.3.1)
       use-sync-external-store: 1.2.2(react@18.3.1)
     dev: false
 
@@ -7948,13 +7951,13 @@ packages:
       react-base16-styling: 0.9.1
     dev: false
 
-  /react-native-webview@13.10.5(react-native@0.75.1)(react@18.3.1):
-    resolution: {integrity: sha512-ZfQJHyifuZop8cQB8HYpL9dxss9Cw9sOlMU+/yarfG/ugoL0rky/0tq9QmEydFMXjDSplSUb22OrRdFlqfXe0g==}
+  /react-native-webview@13.12.1(react-native@0.75.1)(react@18.3.1):
+    resolution: {integrity: sha512-S/14tuAFFPMiWUYX8Fh3aChGA2iemOs9y80byqAzHdHeOVKXc0Lzn43GnFRSQlcMXG5HOK4C1wO/Mb23s6H8VA==}
     peerDependencies:
       react: '*'
       react-native: '*'
     dependencies:
-      escape-string-regexp: 2.0.0
+      escape-string-regexp: 4.0.0
       invariant: 2.2.4
       react: 18.3.1
       react-native: 0.75.1(@babel/core@7.24.5)(@babel/preset-env@7.25.3)(@types/react@18.3.2)(react@18.3.1)(typescript@5.4.5)
