@@ -1,0 +1,16 @@
+{
+  "name": "@layer/shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@webview-bridge/web": "^1.6.2",
+    "@webview-bridge/react-native": "^1.6.2"
+  } 
+}
