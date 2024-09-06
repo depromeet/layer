@@ -8,10 +8,11 @@ import { Spacing } from "@/component/common/Spacing";
 import { fieldArr, fieldMap } from "@/component/space/space.const";
 import { spaceState } from "@/store/space/spaceAtom";
 import { FieldType, SpaceValue } from "@/types/space";
+import { useToast } from "@/hooks/useToast";
 
 export function Field({ onNext }: { onNext: (categoryValues: Pick<SpaceValue, "field">) => void }) {
   const { field } = useAtomValue(spaceState);
-
+  const { toast } = useToast();
   const [checkedField, setCheckedField] = useState<Array<FieldType>>(field);
 
   const handleButtonClick = (fieldName: FieldType) => {
@@ -20,6 +21,8 @@ export function Field({ onNext }: { onNext: (categoryValues: Pick<SpaceValue, "f
     } else {
       if (checkedField.length <= 2) {
         setCheckedField((pre) => [...pre, fieldName]);
+      } else {
+        toast.error("최대 3개까지 선택 가능해요.");
       }
     }
   };
