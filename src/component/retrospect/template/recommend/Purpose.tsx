@@ -39,7 +39,13 @@ export function Purpose({ onNext }: { onNext: (periodicValue: Pick<RecommendTemp
         `}
       >
         {purposeArr.map((item) => (
-          <FieldButton key={item} field={purposeMap[item]} onClick={() => handleButtonClick(item)} isChecked={selectedPurpose.includes(item)} />
+          <FieldButton
+            key={item}
+            field={purposeMap[item]}
+            onClick={() => handleButtonClick(item)}
+            isChecked={selectedPurpose.includes(item)}
+            size={1.8}
+          />
         ))}
       </div>
       <ButtonProvider>
