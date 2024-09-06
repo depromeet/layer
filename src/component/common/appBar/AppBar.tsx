@@ -1,9 +1,11 @@
 import { css, Interpolation, Theme } from "@emotion/react";
-import { forwardRef } from "react";
+import { useAtom } from "jotai";
+import { forwardRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { themeAtom } from "@/store/theme.tsx";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export type AppBarProps = {
@@ -34,6 +36,12 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function (
   { style, title, theme = "default", height, LeftComp = <Back theme={theme} />, RightComp = <div></div> },
   ref,
 ) {
+  const [_, setThemeAtom] = useAtom(themeAtom);
+
+  useEffect(() => {
+    setThemeAtom(theme);
+  }, [theme]);
+
   return (
     <>
       <div

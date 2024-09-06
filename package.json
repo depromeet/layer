@@ -47,6 +47,7 @@
     "react-canvas-confetti": "1.4.0",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.5",
+    "react-native-webview": "^13.12.1",
     "react-popper": "^2.3.0",
     "react-router-dom": "^6.24.0",
     "react-slick": "^0.30.2",
