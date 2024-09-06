@@ -21,6 +21,7 @@ import { useGetAnswers } from "@/hooks/api/write/useGetAnswers.ts";
 import { useGetTemporaryQuestions } from "@/hooks/api/write/useGetTemporaryQuestions.ts";
 import { useWriteQuestions } from "@/hooks/api/write/useWriteQuestions.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 
 export type Answer = {
   questionId: number;
@@ -33,6 +34,7 @@ type EditModeType = "EDIT" | "POST";
 export function Write() {
   /** Util */
   const navigate = useNavigate();
+  const { track } = useMixpanel();
 
   /** Write Local State */
   const { data, incrementPhase, decrementPhase, phase, movePhase, spaceId, retrospectId } = useContext(PhaseContext);
@@ -384,6 +386,15 @@ export function Write() {
                           spaceId: spaceId,
                           retrospectId: retrospectId,
                         },
+                      });
+                      const plainTextAnswers = answers.filter(({ questionType }) => questionType === "plain_text");
+                      const answerLengths = plainTextAnswers.map(({ answerContent }) => answerContent.length);
+                      track("WRITE_DONE", {
+                        retrospectId,
+                        spaceId,
+                        answerLengths,
+                        averageAnswerLength:
+                          Math.round((answerLengths.reduce((acc, length) => acc + length, 0) / plainTextAnswers.length) * 100) / 100,
                       });
                     },
                   },

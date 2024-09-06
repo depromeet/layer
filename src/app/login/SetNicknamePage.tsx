@@ -1,5 +1,4 @@
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
 
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Input } from "@/component/common/input";
@@ -8,6 +7,7 @@ import { TipCard } from "@/component/common/tip";
 import { Typography } from "@/component/common/typography";
 import { usePostSignUp } from "@/hooks/api/login/usePostSignUp";
 import { useInput } from "@/hooks/useInput";
+import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { SocialLoginKind } from "@/types/loginType";
 
@@ -15,7 +15,7 @@ export function SetNickNamePage() {
   const { value: nickName, handleInputChange } = useInput("");
   const maxLength = 10;
   const { mutate: signUpMutation, isPending } = usePostSignUp();
-  const { socialType } = useParams<{ socialType: SocialLoginKind }>();
+  const { socialType } = useRequiredParams<{ socialType: SocialLoginKind }>();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

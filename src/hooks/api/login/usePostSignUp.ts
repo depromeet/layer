@@ -8,6 +8,7 @@ import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/space/space.const.ts";
 import { PATHS } from "@/config/paths";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { authAtom } from "@/store/auth/authAtom";
 import { AuthResponse, SocialLoginKind } from "@/types/loginType";
 
@@ -22,6 +23,8 @@ export const usePostSignUp = () => {
   const { toast } = useToast();
   const [, setAuth] = useAtom(authAtom);
   const { mutate } = useApiJoinSpace();
+  const { setPeople, track } = useMixpanel();
+
   const signUpWithToken = async ({ accessToken, name, socialType }: PostSignUp): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>(
       "/api/auth/sign-up",
@@ -46,6 +49,10 @@ export const usePostSignUp = () => {
         Cookies.set("accessToken", data.accessToken, { expires: 7 });
         Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
         setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole, imageUrl: data.imageUrl });
+        track("SIGN_UP", {
+          memberId: data.memberId,
+        });
+        setPeople(data.memberId.toString());
       }
 
       const saveSpaceIdPhase = Cookies.get(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);

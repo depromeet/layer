@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import Hotjar from "@hotjar/browser";
-import mixpanel from "mixpanel-browser";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
@@ -15,15 +14,6 @@ export default function GlobalLayout() {
 
   useEffect(() => {
     Hotjar.init(siteId, hotjarVersion);
-    if (import.meta.env.MODE === "production") {
-      mixpanel.init(`${import.meta.env.VITE_MIXPANEL_TOKEN}`, {
-        track_pageview: true,
-      });
-    } else {
-      mixpanel.init(`${import.meta.env.VITE_MIXPANEL_TOKEN}`, {
-        debug: true,
-      });
-    }
   }, []);
 
   return (
