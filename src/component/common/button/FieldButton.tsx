@@ -11,9 +11,10 @@ type FieldButtonProps = {
   };
   isChecked?: boolean;
   onClick: () => void;
+  size?: number;
 };
 
-export function FieldButton({ field, onClick, isChecked = false }: FieldButtonProps) {
+export function FieldButton({ field, onClick, size, isChecked = false }: FieldButtonProps) {
   return (
     <div
       onClick={onClick}
@@ -34,7 +35,7 @@ export function FieldButton({ field, onClick, isChecked = false }: FieldButtonPr
       {field.icon_color && field.icon_white && (
         <Icon
           icon={isChecked ? field.icon_white : field.icon_color}
-          size={2.8}
+          size={size || 2.8}
           css={css`
             cursor: pointer;
             margin-right: 0.8rem;
