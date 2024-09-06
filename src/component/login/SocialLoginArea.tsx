@@ -1,6 +1,6 @@
 import { css, Interpolation, Theme } from "@emotion/react";
 import Cookies from "js-cookie";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useEffect } from "react";
 
 import { ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
@@ -8,6 +8,7 @@ import { Typography } from "@/component/common/typography";
 import { SocialLoginButton } from "@/component/login/SocialLoginButton.tsx";
 import { usePostAppleLogin } from "@/hooks/api/login/usePostAppleToken.ts";
 import { backgroundColors } from "@/types/loginType";
+import { isMobile } from "@/utils/etc";
 
 export function SocialLoginArea({
   onlyContainerStyle,
@@ -24,11 +25,36 @@ export function SocialLoginArea({
     usePopup: true,
   });
 
-  const kakaoLogin = () => {
+  useEffect(() => {
+    if (typeof window.Kakao !== "undefined" && !window.Kakao.isInitialized()) {
+      window.Kakao.init(import.meta.env.VITE_KAKAO_KEY);
+    }
+  }, []);
+
+  const kakaoLoginRedirection = () => {
     const REST_API_KEY = import.meta.env.VITE_REST_API_KEY as string;
     const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI as string;
     const link = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
     window.location.href = link;
+  };
+
+  // 카카오 로그인 함수
+  const kakaoLogin = () => {
+    const KAKAO_REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI as string;
+
+    if (window.Kakao) {
+      if (isMobile()) {
+        window.Kakao.Auth.authorize({
+          redirectUri: KAKAO_REDIRECT_URI,
+          fail: () => {
+            kakaoLoginRedirection();
+          },
+          throughTalk: true,
+        });
+      } else {
+        kakaoLoginRedirection();
+      }
+    }
   };
 
   const appleLogin = async () => {
