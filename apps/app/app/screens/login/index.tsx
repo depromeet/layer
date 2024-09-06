@@ -3,23 +3,34 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { createWebView, postMessageSchema } from "@webview-bridge/react-native";
-import { appBridge } from "@/bridge";
 import { useEffect } from "react";
 import { PermissionsAndroid, Platform } from "react-native";
 import { PERMISSIONS } from "react-native-permissions";
 import { z } from "zod";
+import { appBridge } from "@layer/shared";
 
 const schema = postMessageSchema({
-  push: z.undefined(),
+  getBackgroundColor: z.string(),
 });
 
-const { WebView } = createWebView({
+const { WebView, postMessage } = createWebView({
   bridge: appBridge,
   debug: true,
   postMessageSchema: schema,
 });
 
-export default function LayerApp() {
+export interface BridgeEvent {
+  body: Body;
+  type: string;
+}
+
+export interface Body {
+  args: any[];
+  eventId: string;
+  method: string;
+}
+
+export function LoginPage() {
   const insets = useSafeAreaInsets();
 
   const customUserAgent = "customUserAgent";
@@ -62,6 +73,13 @@ export default function LayerApp() {
         bounces={false}
         source={{
           uri: "https://stg.layerapp.io/",
+        }}
+        onMessage={(event) => {
+          const data = event.nativeEvent.data;
+          if (data) {
+            const param = JSON.parse(data) as BridgeEvent;
+            console.log(param, "<<<data");
+          }
         }}
       />
     </SafeAreaView>

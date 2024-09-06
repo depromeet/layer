@@ -2,14 +2,28 @@
   "name": "layer",
   "version": "1.0.0",
   "private": true,
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "web": "pnpm -F @layer/web",
-    "app": "pnpm -F @layer/app",
-    "dev": "pnpm -r --parallel run dev"
+    "dev": "turbo dev",
+    "dev:app": "turbo dev --filter=\"{./apps/app}...\"",
+    "dev:web": "turbo dev --filter=\"{./apps/web}...\"",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "build": "turbo build",
+    "build:app": "turbo build --filter=\"...{./apps/app}\"",
+    "build:web": "turbo build --filter=\"...{./apps/web}\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "turbo": "^2.1.1",
+    "typescript": "^5.5.4"
+  },
+  "packageManager": "pnpm@9.5.0",
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@babel/*",
+        "expo-modules-*",
+        "typescript"
+      ]
+    }
+  }
 }

@@ -2,7 +2,8 @@
   "name": "@layer/shared",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
+  "types": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@webview-bridge/web": "^1.6.2",
     "@webview-bridge/react-native": "^1.6.2"
-  } 
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0",
+    "@types/react": "~18.2.45",
+    "@babel/preset-react": "^7.24.7",
+    "typescript": "~5.3.3"
+  }
 }

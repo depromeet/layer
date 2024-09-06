@@ -12,6 +12,7 @@
     "start": "pnpm build && node server/server.cjs"
   },
   "dependencies": {
+    "@webview-bridge/web": "^1.6.2",
     "@egjs/react-flicking": "^4.11.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -25,7 +26,6 @@
     "@types/mixpanel-browser": "^2.50.0",
     "@types/react-beautiful-dnd": "^13.1.8",
     "@webview-bridge/react-native": "^1.6.2",
-    "@webview-bridge/web": "^1.6.2",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0",
     "crypto-js": "^4.2.0",
