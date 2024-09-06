@@ -6,12 +6,14 @@ import { ButtonProvider, FieldButton } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Spacing } from "@/component/common/Spacing";
 import { purposeArr, purposeMap } from "@/component/retrospect/template/recommend/recommend.const";
+import { useToast } from "@/hooks/useToast";
 import { recommendTemplateState } from "@/store/retrospect/template/recommend/recommendAtom";
 import { PurposeType, RecommendTemplateType } from "@/types/retrospectCreate/recommend";
 
 export function Purpose({ onNext }: { onNext: (periodicValue: Pick<RecommendTemplateType, "purpose">) => void }) {
   const { purpose } = useAtomValue(recommendTemplateState);
   const [selectedPurpose, setSeletedPurpose] = useState(purpose);
+  const { toast } = useToast();
 
   const handleButtonClick = (select: PurposeType) => {
     if (selectedPurpose && selectedPurpose.includes(select)) {
@@ -19,6 +21,8 @@ export function Purpose({ onNext }: { onNext: (periodicValue: Pick<RecommendTemp
     } else {
       if (selectedPurpose && selectedPurpose.length <= 2) {
         setSeletedPurpose((pre) => [...pre, select]);
+      } else {
+        toast.error("최대 3개까지 선택 가능해요.");
       }
     }
   };
