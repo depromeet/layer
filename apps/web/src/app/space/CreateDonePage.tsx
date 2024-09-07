@@ -12,8 +12,9 @@ import { useApiGetUser } from "@/hooks/api/auth/useApiGetUser";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { useBridge } from "@/lib/provider/bridge-provider";
 import { ProjectType } from "@/types/space";
-import { shareKakao } from "@/utils/kakao/sharedKakaoLink";
+import { shareKakaoWeb } from "@/utils/kakao/sharedKakaoLink";
 import { encryptId } from "@/utils/space/cryptoKey";
 
 export function CreateDonePage() {
@@ -23,6 +24,7 @@ export function CreateDonePage() {
   const [animate, setAnimate] = useState(spaceData?.category === ProjectType.Individual);
   const { data: userData } = useApiGetUser();
   const { toast } = useToast();
+  const { bridge } = useBridge();
 
   const encryptedId = encryptId(spaceId);
 
@@ -35,12 +37,35 @@ export function CreateDonePage() {
     }
   }, [spaceData]);
 
-  const handleShareKakao = () => {
-    shareKakao(
-      `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
-      `${userData.name}님이 스페이스에 초대했습니다.`,
-      "어서오세용~!!",
-    );
+  const handleShareKakao = async () => {
+    if (bridge.isWebViewBridgeAvailable) {
+      await bridge.sendShareToKakao({
+        content: {
+          title: `${userData.name}님이 스페이스에 초대했습니다.`,
+          description: "어서오세용~!!",
+          imageUrl: "https://kr.object.ncloudstorage.com/layer-bucket/small_banner.png",
+          link: {
+            mobileWebUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+            webUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+          },
+        },
+        buttons: [
+          {
+            title: "초대 받기",
+            link: {
+              mobileWebUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+              webUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+            },
+          },
+        ],
+      });
+    } else {
+      shareKakaoWeb(
+        `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+        `${userData.name}님이 스페이스에 초대했습니다.`,
+        "어서오세용~!!",
+      );
+    }
   };
 
   const handleCopyClipBoard = async () => {

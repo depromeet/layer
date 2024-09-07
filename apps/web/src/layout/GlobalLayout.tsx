@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import { Modal } from "@/component/common/Modal";
-import { useBridgeContext } from "@/lib/provider/bridge-provider";
+import { useBridge } from '@/lib/provider/bridge-provider';
 import { themeAtom } from "@/store/theme.tsx";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
 
@@ -13,7 +13,7 @@ const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
 const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
 
 export default function GlobalLayout() {
-  const { safeAreaHeight } = useBridgeContext();
+  const { safeAreaHeight } = useBridge();
   const [test, _] = useAtom(themeAtom);
 
   useEffect(() => {
