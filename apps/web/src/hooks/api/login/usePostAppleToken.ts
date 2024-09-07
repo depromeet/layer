@@ -2,7 +2,6 @@ import { Path, PATHS } from "@layer/shared";
 import { useMutation } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/space/space.const.ts";

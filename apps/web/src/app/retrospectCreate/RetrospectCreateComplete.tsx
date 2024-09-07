@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { PATHS } from "@layer/shared";
 import Lottie from "lottie-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import retrospect_create_complete_lottie from "@/assets/lottie/retropsect/create/book_start.json";
 import { ButtonProvider } from "@/component/common/button";
