@@ -4,8 +4,6 @@ import {
 } from "@react-native-kakao/share";
 import { bridge } from "@webview-bridge/react-native";
 
-const handlePress = () => {};
-
 export const appBridge = bridge({
   async getSafeAreaHeight(): Promise<number> {
     return 1;

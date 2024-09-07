@@ -15,6 +15,7 @@ export default ({ config }: ConfigContext): ConfigContext["config"] => {
     },
     plugins: [
       "expo-router",
+      "expo-asset",
       [
         "expo-build-properties",
         {
