@@ -1,4 +1,4 @@
-import { css, Interpolation, Theme } from "@emotion/react";
+import { css } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
@@ -6,10 +6,9 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 type TipCardProps = {
   message: string;
   header?: string;
-  styles?: Interpolation<Theme>;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export function TipCard({ message, header = "TIP", styles }: TipCardProps) {
+export function TipCard({ message, header = "TIP", ...props }: TipCardProps) {
   return (
     <div
       css={[
@@ -21,8 +20,8 @@ export function TipCard({ message, header = "TIP", styles }: TipCardProps) {
           flex-direction: column;
           gap: 0.4rem;
         `,
-        styles,
       ]}
+      {...props}
     >
       <Typography variant={"body12SemiBold"} color={"blue600"}>
         {header}

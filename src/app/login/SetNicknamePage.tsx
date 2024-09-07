@@ -34,7 +34,7 @@ export function SetNickNamePage() {
       <Typography variant="T4">닉네임을 설정해주세요!</Typography>
       <Spacing size={4} />
       <Input value={nickName} onChange={handleInputChange} placeholder="Text" count={true} maxLength={maxLength} />
-      <Spacing size={0.8} />
+      <Spacing size={3.6} />
       <TipCard message={"실명으로 활동하는 걸 추천해요!"} />
 
       <ButtonProvider isProgress={isPending}>

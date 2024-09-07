@@ -50,8 +50,8 @@ export function MainInfo() {
           </InputLabelContainer>
           <TipCard
             message="회고 설명 또는 진행 목표에 대해 적어도 좋아요 :)"
-            styles={css`
-              margin-top: 0.8rem;
+            css={css`
+              margin-top: 3.6rem;
             `}
           />
         </div>
