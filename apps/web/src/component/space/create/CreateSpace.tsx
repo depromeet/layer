@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 import axios from "axios";
 import { useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { Icon } from "@/component/common/Icon";
