@@ -14,6 +14,7 @@ export const appBridge = bridge({
   },
 
   async sendBGColor(color: string) {
+    console.log(color);
     return;
   },
 
