@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import { PermissionsAndroid, Platform, Text, View } from "react-native";
 import { PERMISSIONS } from "react-native-permissions";
 import { z } from "zod";
-import { appBridge } from "@layer/shared";
-import { getKeyHashAndroid } from "@react-native-kakao/core";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { shareFeedTemplate } from "@react-native-kakao/share";
+import { appBridge } from "@/bridge/native";
 
 const schema = postMessageSchema({
   getBackgroundColor: z.string(),
 });
 
-const { WebView, linkWebMethod } = createWebView({
+const { WebView } = createWebView({
   bridge: appBridge,
   debug: true,
   postMessageSchema: schema,

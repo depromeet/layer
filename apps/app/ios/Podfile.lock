@@ -71,6 +71,8 @@ PODS:
   - hermes-engine (0.74.5):
     - hermes-engine/Pre-built (= 0.74.5)
   - hermes-engine/Pre-built (0.74.5)
+  - KakaoSDKAuth (2.22.0):
+    - KakaoSDKCommon (= 2.22.0)
   - KakaoSDKCommon (2.22.0):
     - KakaoSDKCommon/Common (= 2.22.0)
     - KakaoSDKCommon/Network (= 2.22.0)
@@ -78,6 +80,20 @@ PODS:
   - KakaoSDKCommon/Network (2.22.0):
     - Alamofire (~> 5.9.0)
     - KakaoSDKCommon/Common (= 2.22.0)
+  - KakaoSDKFriend (2.22.0):
+    - KakaoSDKFriendCore (= 2.22.0)
+    - KakaoSDKUser (= 2.22.0)
+  - KakaoSDKFriendCore (2.22.0)
+  - KakaoSDKShare (2.22.0):
+    - KakaoSDKCommon (= 2.22.0)
+    - KakaoSDKTemplate (= 2.22.0)
+  - KakaoSDKTalk (2.22.0):
+    - KakaoSDKTemplate (= 2.22.0)
+    - KakaoSDKUser (= 2.22.0)
+  - KakaoSDKTemplate (2.22.0):
+    - KakaoSDKCommon/Common (= 2.22.0)
+  - KakaoSDKUser (2.22.0):
+    - KakaoSDKAuth (= 2.22.0)
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1280,6 +1296,78 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNCKakaoShare (2.2.6):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - KakaoSDKShare (= 2.22.0)
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - RNCKakaoCore
+    - RNCKakaoSocial
+    - Yoga
+  - RNCKakaoSocial (2.2.6):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - KakaoSDKFriend (= 2.22.0)
+    - KakaoSDKTalk (= 2.22.0)
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - RNCKakaoCore
+    - RNCKakaoUser
+    - Yoga
+  - RNCKakaoUser (2.2.6):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - KakaoSDKUser (= 2.22.0)
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - RNCKakaoCore
+    - Yoga
   - RNGestureHandler (2.16.2):
     - DoubleConversion
     - glog
@@ -1356,12 +1444,12 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - "EXConstants (from `../../../node_modules/.pnpm/expo-constants@16.0.2_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-constants/ios`)"
   - "Expo (from `../../../node_modules/.pnpm/expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2_/node_modules/expo`)"
-  - ExpoAsset (from `../../../node_modules/expo-asset/ios`)
-  - ExpoFileSystem (from `../../../node_modules/expo-file-system/ios`)
+  - "ExpoAsset (from `../../../node_modules/.pnpm/expo-asset@10.0.10_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-asset/ios`)"
+  - "ExpoFileSystem (from `../../../node_modules/.pnpm/expo-file-system@17.0.1_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-file-system/ios`)"
   - "ExpoFont (from `../../../node_modules/.pnpm/expo-font@12.0.10_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-font/ios`)"
   - "ExpoHead (from `../../../node_modules/.pnpm/expo-router@3.5.23_boskdmiflijtk4cfmf5qukrum4/node_modules/expo-router/ios`)"
-  - ExpoKeepAwake (from `../../../node_modules/expo-keep-awake/ios`)
-  - ExpoModulesCore (from `../../../node_modules/expo-modules-core`)
+  - "ExpoKeepAwake (from `../../../node_modules/.pnpm/expo-keep-awake@13.0.2_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-keep-awake/ios`)"
+  - "ExpoModulesCore (from `../../../node_modules/.pnpm/expo-modules-core@1.12.24/node_modules/expo-modules-core`)"
   - "ExpoSystemUI (from `../../../node_modules/.pnpm/expo-system-ui@3.0.7_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-system-ui/ios`)"
   - "ExpoWebBrowser (from `../../../node_modules/.pnpm/expo-web-browser@13.0.3_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-web-browser/ios`)"
   - "EXSplashScreen (from `../../../node_modules/.pnpm/expo-splash-screen@0.27.5_expo-modules-autolinking@1.11.2_expo@51.0.32_@babel+core@7.25.2_@ba_nft3eqkaeaxgm72lixzvcmx7ba/node_modules/expo-splash-screen/ios`)"
@@ -1421,6 +1509,9 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCKakaoCore (from `../node_modules/@react-native-kakao/core`)"
+  - "RNCKakaoShare (from `../node_modules/@react-native-kakao/share`)"
+  - "RNCKakaoSocial (from `../node_modules/@react-native-kakao/social`)"
+  - "RNCKakaoUser (from `../node_modules/@react-native-kakao/user`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -1431,7 +1522,14 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - KakaoSDKAuth
     - KakaoSDKCommon
+    - KakaoSDKFriend
+    - KakaoSDKFriendCore
+    - KakaoSDKShare
+    - KakaoSDKTalk
+    - KakaoSDKTemplate
+    - KakaoSDKUser
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -1444,17 +1542,17 @@ EXTERNAL SOURCES:
   Expo:
     :path: "../../../node_modules/.pnpm/expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2_/node_modules/expo"
   ExpoAsset:
-    :path: "../../../node_modules/expo-asset/ios"
+    :path: "../../../node_modules/.pnpm/expo-asset@10.0.10_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-asset/ios"
   ExpoFileSystem:
-    :path: "../../../node_modules/expo-file-system/ios"
+    :path: "../../../node_modules/.pnpm/expo-file-system@17.0.1_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-file-system/ios"
   ExpoFont:
     :path: "../../../node_modules/.pnpm/expo-font@12.0.10_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-font/ios"
   ExpoHead:
     :path: "../../../node_modules/.pnpm/expo-router@3.5.23_boskdmiflijtk4cfmf5qukrum4/node_modules/expo-router/ios"
   ExpoKeepAwake:
-    :path: "../../../node_modules/expo-keep-awake/ios"
+    :path: "../../../node_modules/.pnpm/expo-keep-awake@13.0.2_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-keep-awake/ios"
   ExpoModulesCore:
-    :path: "../../../node_modules/expo-modules-core"
+    :path: "../../../node_modules/.pnpm/expo-modules-core@1.12.24/node_modules/expo-modules-core"
   ExpoSystemUI:
     :path: "../../../node_modules/.pnpm/expo-system-ui@3.0.7_expo@51.0.32_@babel+core@7.25.2_@babel+preset-env@7.25.4_@babel+core@7.25.2__/node_modules/expo-system-ui/ios"
   ExpoWebBrowser:
@@ -1570,6 +1668,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCKakaoCore:
     :path: "../node_modules/@react-native-kakao/core"
+  RNCKakaoShare:
+    :path: "../node_modules/@react-native-kakao/share"
+  RNCKakaoSocial:
+    :path: "../node_modules/@react-native-kakao/social"
+  RNCKakaoUser:
+    :path: "../node_modules/@react-native-kakao/user"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNPermissions:
@@ -1602,7 +1706,14 @@ SPEC CHECKSUMS:
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
   hermes-engine: 8c1577f3fdb849cbe7729c2e7b5abc4b845e88f8
+  KakaoSDKAuth: 569b377eda622d93d4575240b8031cd658163eef
   KakaoSDKCommon: d57127c339fc79e73aa8b236a4c77211c29924f1
+  KakaoSDKFriend: bfd6b017e31a448fa12b3254690a0dc209685d9f
+  KakaoSDKFriendCore: 15335ad820ec06940dbe5be7f920123826234d03
+  KakaoSDKShare: cbbe89685ad799709d467845dcc488c115629f5e
+  KakaoSDKTalk: cf2af6650bc7d77aa6cc8dab1bd464f4fda0618d
+  KakaoSDKTemplate: 2b518d4875fb9b3e832d39e957e4e33cb27a9d36
+  KakaoSDKUser: 043bcd7e91454ebf3bf64f150c430e6f65f0a08d
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: 3afceddffa65aee666dafd6f0116f1d975db1584
   RCTRequired: ec1239bc9d8bf63e10fb92bd8b26171a9258e0c1
@@ -1653,6 +1764,9 @@ SPEC CHECKSUMS:
   React-utils: f242eb7e7889419d979ca0e1c02ccc0ea6e43b29
   ReactCommon: f7da14a8827b72704169a48c929bcde802698361
   RNCKakaoCore: 271121ac80392d3ebe06782c5bcab4879cb3ea65
+  RNCKakaoShare: 370949ae8f3ee35c3935b05188bbe827a334195c
+  RNCKakaoSocial: 9c03b03e30c25b3a33d8ca2595ae7053bdba5b4d
+  RNCKakaoUser: 4bb56db5ec0619ec6f8f58730fc47a7e35c23b9e
   RNGestureHandler: 2282cfbcf86c360d29f44ace393203afd5c6cff7
   RNPermissions: 4da8c626e4ac9d71c1a199d500d52dd54da62e38
   RNReanimated: 0fcc4aec5ea8e152e3a8dd9ae7336edab5b3bec0
@@ -1661,6 +1775,6 @@ SPEC CHECKSUMS:
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 2246eea72aaf1b816a68a35e6e4b74563653ae09
 
-PODFILE CHECKSUM: 7902b7801bdf75a1bfd70ea08ccea588ba5fb9dd
+PODFILE CHECKSUM: ffa8566b30e4e65b1002bccc655c65ec233defaf
 
 COCOAPODS: 1.15.2

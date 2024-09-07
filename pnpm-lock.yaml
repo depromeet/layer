@@ -26,6 +26,15 @@ importers:
       '@react-native-kakao/core':
         specifier: ^2.2.6
         version: 2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@react-native-kakao/share':
+        specifier: ^2.2.6
+        version: 2.2.6(@react-native-kakao/core@2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@react-native-kakao/social':
+        specifier: ^2.2.6
+        version: 2.2.6(@react-native-kakao/core@2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@react-native-kakao/user':
+        specifier: ^2.2.6
+        version: 2.2.6(@react-native-kakao/core@2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@react-navigation/native':
         specifier: ^6.1.18
         version: 6.1.18(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
@@ -38,6 +47,9 @@ importers:
       expo:
         specifier: ~51.0.28
         version: 51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))
+      expo-build-properties:
+        specifier: ~0.12.5
+        version: 0.12.5(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
       expo-constants:
         specifier: ~16.0.2
         version: 16.0.2(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
@@ -71,6 +83,9 @@ importers:
       react-native:
         specifier: 0.74.5
         version: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
+      react-native-dotenv:
+        specifier: ^3.4.11
+        version: 3.4.11(@babel/runtime@7.25.6)
       react-native-gesture-handler:
         specifier: ~2.16.1
         version: 2.16.2(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
@@ -108,6 +123,9 @@ importers:
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.12
+      '@types/node':
+        specifier: ^20.12.12
+        version: 20.16.5
       '@types/react':
         specifier: ~18.2.45
         version: 18.2.79
@@ -117,6 +135,9 @@ importers:
       babel-preset-expo:
         specifier: ^11.0.14
         version: 11.0.14(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       jest:
         specifier: ^29.2.1
         version: 29.7.0(@types/node@20.16.5)(babel-plugin-macros@3.1.0)
@@ -147,9 +168,9 @@ importers:
       '@hotjar/browser':
         specifier: ^1.0.9
         version: 1.0.9
-      '@layer/shared':
+      '@layer/app':
         specifier: workspace:^
-        version: link:../../packages/shared
+        version: link:../app
       '@popperjs/core':
         specifier: ^2.11.8
         version: 2.11.8
@@ -342,10 +363,6 @@ importers:
         version: 4.2.0(rollup@4.21.2)(typescript@5.5.4)(vite@5.4.3(@types/node@20.16.5)(terser@5.31.6))
 
   packages/shared:
-    dependencies:
-      '@webview-bridge/react-native':
-        specifier: ^1.6.2
-        version: 1.6.2(react-native-webview@13.8.6(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react@18.2.0)(zod@3.23.8)
     devDependencies:
       '@babel/core':
         specifier: ^7.20.0
@@ -1375,7 +1392,7 @@ packages:
 
   '@expo/bunyan@4.0.1':
     resolution: {integrity: sha512-+Lla7nYSiHZirgK+U/uYzsLv/X+HaJienbD5AKX1UQZHYfWaP+9uuQluRB4GrEVWF0GZ7vEVp/jzaOT9k/SQlg==}
-    engines: {node: '>=0.10.0'}
+    engines: {'0': node >=0.10.0}
 
   '@expo/cli@0.18.29':
     resolution: {integrity: sha512-X810C48Ss+67RdZU39YEO1khNYo1RmjouRV+vVe0QhMoTe8R6OA3t+XYEdwaNbJ5p/DJN7szfHfNmX2glpC7xg==}
@@ -1643,6 +1660,12 @@ packages:
     peerDependencies:
       react: ^18.2.0
 
+  '@mj-studio/js-util@1.1.14':
+    resolution: {integrity: sha512-u9EIz0wfD8N+aHLHrcNkHhS2O0AJyd1kvX/24ykrHkmwlAhcZr1WjEpQGh8oVv2LJbdL3mx6OJ/EqHdgofhLZQ==}
+
+  '@mj-studio/js-util@1.1.3':
+    resolution: {integrity: sha512-XZe1V3J1CJ9DbPY0GlPTOES7UdnWcoUe3kIjmUWMvwmunOb/kYuDWiswu5eogHhcPSlM3LpYQYU2HhMzf3N6tw==}
+
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -1727,6 +1750,27 @@ packages:
     peerDependenciesMeta:
       expo:
         optional: true
+
+  '@react-native-kakao/share@2.2.6':
+    resolution: {integrity: sha512-WyQYCClq4g68+GUAkV4zP3AG6yBwz5fxn8jVDPvqRl6Ewnir1rvghfhdm1BdGd9ZUqHMiEPv4PUrdHf/wGPmdA==}
+    peerDependencies:
+      '@react-native-kakao/core': 2.2.6
+      react: '*'
+      react-native: '*'
+
+  '@react-native-kakao/social@2.2.6':
+    resolution: {integrity: sha512-1DUvdbpWX4j1X9Up831snDsgpuQkDXLe/FULtOrcx78CzKP/hTtKg2GLGiVidnu3jGiBDrcS/wB9ZaW0PeyWkg==}
+    peerDependencies:
+      '@react-native-kakao/core': 2.2.6
+      react: '*'
+      react-native: '*'
+
+  '@react-native-kakao/user@2.2.6':
+    resolution: {integrity: sha512-C/DP066b4rGH+aNnX7rZa8hkqWa+L6qzjCKGkTUmsoSz2KxOjUX1yGbXZCbxLA2lDd/sAALcJ1TMr0IakgLIcA==}
+    peerDependencies:
+      '@react-native-kakao/core': 2.2.6
+      react: '*'
+      react-native: '*'
 
   '@react-native/assets-registry@0.74.87':
     resolution: {integrity: sha512-1XmRhqQchN+pXPKEKYdpJlwESxVomJOxtEnIkbo7GAlaN2sym84fHEGDXAjLilih5GVPpcpSmFzTy8jx3LtaFg==}
@@ -3706,6 +3750,11 @@ packages:
     peerDependencies:
       expo: '*'
 
+  expo-build-properties@0.12.5:
+    resolution: {integrity: sha512-donC1le0PYfLKCPKRMGQoixuWuwDWCngzXSoQXUPsgHTDHQUKr8aw+lcWkTwZcItgNovcnk784I0dyfYDcxybA==}
+    peerDependencies:
+      expo: '*'
+
   expo-constants@16.0.2:
     resolution: {integrity: sha512-9tNY3OVO0jfiMzl7ngb6IOyR5VFzNoN5OOazUWoeGfmMqVB5kltTemRvKraK9JRbBKIw+SOYLEmF0sEqgFZ6OQ==}
     peerDependencies:
@@ -4771,6 +4820,7 @@ packages:
     resolution: {integrity: sha512-Quz3MvAwHxVYNXsOByL7xI5EB2WYOeFswqaHIA3qOK3isRWTxiplBEocmmru6XmxDB2L7jDNYtYA4FyimoAFEw==}
     engines: {node: '>=8.17.0'}
     hasBin: true
+    bundledDependencies: []
 
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
@@ -5676,6 +5726,11 @@ packages:
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
+  react-native-dotenv@3.4.11:
+    resolution: {integrity: sha512-6vnIE+WHABSeHCaYP6l3O1BOEhWxKH6nHAdV7n/wKn/sciZ64zPPp2NUdEUf1m7g4uuzlLbjgr+6uDt89q2DOg==}
+    peerDependencies:
+      '@babel/runtime': ^7.20.6
 
   react-native-gesture-handler@2.16.2:
     resolution: {integrity: sha512-vGFlrDKlmyI+BT+FemqVxmvO7nqxU33cgXVsn6IKAFishvlG3oV2Ds67D5nPkHMea8T+s1IcuMm0bF8ntZtAyg==}
@@ -8909,6 +8964,10 @@ snapshots:
     dependencies:
       react: 18.2.0
 
+  '@mj-studio/js-util@1.1.14': {}
+
+  '@mj-studio/js-util@1.1.3': {}
+
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -9099,6 +9158,27 @@ snapshots:
       return-fetch: 0.4.6
     optionalDependencies:
       expo: 51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))
+
+  '@react-native-kakao/share@2.2.6(@react-native-kakao/core@2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@mj-studio/js-util': 1.1.14
+      '@react-native-kakao/core': 2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
+
+  '@react-native-kakao/social@2.2.6(@react-native-kakao/core@2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@mj-studio/js-util': 1.1.3
+      '@react-native-kakao/core': 2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
+
+  '@react-native-kakao/user@2.2.6(@react-native-kakao/core@2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      '@mj-studio/js-util': 1.1.3
+      '@react-native-kakao/core': 2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      react: 18.2.0
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
 
   '@react-native/assets-registry@0.74.87': {}
 
@@ -11429,6 +11509,12 @@ snapshots:
       md5-file: 3.2.3
     transitivePeerDependencies:
       - supports-color
+
+  expo-build-properties@0.12.5(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))):
+    dependencies:
+      ajv: 8.17.1
+      expo: 51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))
+      semver: 7.6.3
 
   expo-constants@16.0.2(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))):
     dependencies:
@@ -13830,6 +13916,11 @@ snapshots:
       '@types/react': 18.2.79
       react: 18.2.0
       react-base16-styling: 0.9.1
+
+  react-native-dotenv@3.4.11(@babel/runtime@7.25.6):
+    dependencies:
+      '@babel/runtime': 7.25.6
+      dotenv: 16.4.5
 
   react-native-gesture-handler@2.16.2(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0):
     dependencies:

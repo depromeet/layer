@@ -1,4 +1,10 @@
+import {
+  KakaoFeedTemplate,
+  shareFeedTemplate,
+} from "@react-native-kakao/share";
 import { bridge } from "@webview-bridge/react-native";
+
+const handlePress = () => {};
 
 export const appBridge = bridge({
   async getSafeAreaHeight(): Promise<number> {
@@ -11,6 +17,12 @@ export const appBridge = bridge({
 
   async sendBGColor(color: string) {
     return;
+  },
+
+  async sendShareToKakao(template: KakaoFeedTemplate) {
+    shareFeedTemplate({
+      template: template,
+    });
   },
 });
 
