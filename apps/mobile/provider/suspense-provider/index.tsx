@@ -15,12 +15,6 @@ import {
 import { router, useNavigation } from "expo-router";
 import { createContext } from "@/lib/create-context";
 
-function isValidColor(color: string): boolean {
-  const s = new Option().style;
-  s.color = color;
-  return s.color !== "";
-}
-
 const [Provider, useSuspense] = createContext<{ backgroundColor: string }>(
   "SUSPENCE_PROVIDER"
 );
@@ -48,9 +42,7 @@ const SuspenseProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const handleColorChange = useCallback((color: string) => {
-    if (isValidColor(color)) {
-      setBackgroundColor(color);
-    }
+    setBackgroundColor(color);
   }, []);
 
   useEffect(() => {

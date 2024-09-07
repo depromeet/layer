@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { PATHS } from "@layer/shared";
 import Lottie from "lottie-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -6,11 +7,11 @@ import retrospect_create_complete_lottie from "@/assets/lottie/retropsect/create
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Spacing } from "@/component/common/Spacing";
-import { PATHS } from "@/config/paths";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { useTestNatigate } from "@/lib/test-natigate";
 
 export function RetrospectCreateComplete() {
-  const navigate = useNavigate();
+  const navigate = useTestNatigate();
   const locationState = useLocation().state as { spaceId: number; retrospectId: number };
   const { spaceId, retrospectId } = locationState;
   return (
@@ -28,7 +29,13 @@ export function RetrospectCreateComplete() {
         <Lottie animationData={retrospect_create_complete_lottie} autoplay style={{ width: "34rem" }} />
       </div>
       <ButtonProvider sort="horizontal">
-        <ButtonProvider.Gray onClick={() => navigate(PATHS.spaceDetail(spaceId.toString()))}>끝내기</ButtonProvider.Gray>
+        <ButtonProvider.Gray
+          onClick={() => {
+            navigate(PATHS.spaceDetail(spaceId.toString()));
+          }}
+        >
+          끝내기
+        </ButtonProvider.Gray>
         <ButtonProvider.Primary
           onClick={() => {
             navigate("/write", {

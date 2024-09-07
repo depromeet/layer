@@ -1,3 +1,4 @@
+import { Path, PATHS } from "@layer/shared";
 import { useMutation } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import Cookies from "js-cookie";
@@ -5,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/space/space.const.ts";
-import { PATHS } from "@/config/paths";
 import { COOKIE_KEYS } from "@/config/storage-keys";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { authAtom } from "@/store/auth/authAtom";
 import { AuthResponse } from "@/types/loginType";
 
@@ -42,7 +43,7 @@ export const usePostAppleLogin = () => {
   };
 
   const { toast } = useToast();
-  const navigate = useNavigate();
+  const navigate = useTestNatigate();
   const setAuth = useSetAtom(authAtom);
   const { mutate } = useApiJoinSpace();
 
@@ -59,7 +60,7 @@ export const usePostAppleLogin = () => {
       const prevPath = Cookies.get(COOKIE_KEYS.redirectPrevPathKey);
       if (prevPath) {
         Cookies.remove(COOKIE_KEYS.redirectPrevPathKey);
-        navigate(prevPath);
+        navigate(prevPath as Path);
         return;
       }
 
