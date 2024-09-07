@@ -1,14 +1,14 @@
+import { PATHS } from "@layer/shared";
 import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
-import { PATHS } from "@/config/paths";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { authAtom } from "@/store/auth/authAtom";
 
 export const usePostSignOut = () => {
-  const navigate = useNavigate();
+  const navigate = useTestNatigate();
   const [, setAuth] = useAtom(authAtom);
 
   const signOutFun = async ({ memberId }: { memberId: string }) => {
