@@ -15,23 +15,21 @@ export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }
   const { bridge, isWebView } = useBridge();
 
   useEffect(() => {
-    console.log("CALL", bridge);
-    if (!isWebView) return; // WebView에서는 실행하지 않음
     async function callNativeSuspense(loading: boolean) {
-      if (bridge) {
-        try {
-          await bridge.setSuspenseState({ loading, message: purpose });
-        } catch (error) {
-          console.error("Error calling native suspense:", error);
-        }
+      try {
+        await bridge.setSuspenseState({ loading, message: purpose });
+      } catch (error) {
+        console.error("Error calling native suspense:", error);
       }
+      // if (bridge) {
+      // }
     }
 
     callNativeSuspense(true).catch(console.error);
     return () => {
       callNativeSuspense(false).catch(console.error);
     };
-  }, [bridge, purpose, isWebView]);
+  }, [bridge, purpose]);
   return !isWebView ? (
     <Portal id={"loading-modal-root"}>
       <div
