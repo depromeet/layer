@@ -9,4 +9,5 @@ export const retrospectCreateAtom = atomWithReset<RetrospectCreateReq>({
   deadline: "",
   isNewForm: false,
   hasChangedOriginal: false,
+  curFormId: -1,
 });
