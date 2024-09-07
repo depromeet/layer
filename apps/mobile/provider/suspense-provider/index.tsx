@@ -39,6 +39,11 @@ const SuspenseProvider = ({ children }: PropsWithChildren) => {
           pathname: event.route,
         });
         break;
+      case "REPLACE":
+        router.replace({
+          pathname: event.route,
+        });
+        break;
     }
   }, []);
 

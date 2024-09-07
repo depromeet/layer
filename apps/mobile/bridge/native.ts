@@ -10,8 +10,9 @@ export type SUSPENSE_STATE = { loading: boolean; message?: string };
 
 type POP_ROUTE = { type: "POP" };
 type PUSH_ROUTE = { type: "PUSH"; route: Path };
+type REPLACE_ROUTE = { type: "REPLACE"; route: Path };
 
-export type ROUTE_EVENT = POP_ROUTE | PUSH_ROUTE;
+export type ROUTE_EVENT = POP_ROUTE | PUSH_ROUTE | REPLACE_ROUTE;
 
 interface AppEvents {
   SUSPENSE_STATE: (state: SUSPENSE_STATE) => void;
@@ -45,12 +46,14 @@ export const appBridge = bridge({
     });
   },
 
-  async navigate(path: Path | -1) {
-    console.log(path, "!!");
+  async navigate(path: Path | -1, options?: { type?: "PUSH" | "REPLACE" }) {
     if (path === -1) {
       eventEmitter.emit("ROUTE_EVENT", { type: "POP" });
     } else {
-      eventEmitter.emit("ROUTE_EVENT", { type: "PUSH", route: path });
+      eventEmitter.emit("ROUTE_EVENT", {
+        type: options?.type ?? "PUSH",
+        route: path,
+      });
     }
   },
 });
