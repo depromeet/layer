@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - apps/web/**
 
 jobs:
   sync:

@@ -4,6 +4,8 @@ on:
     branches:
       - develop
       - lab
+    paths:
+      - apps/web/**
 
 jobs:
   sync:
