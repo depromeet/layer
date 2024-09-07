@@ -15,17 +15,22 @@ import { Info } from "@/component/space/create/Info";
 import { Thumb } from "@/component/space/create/Thumb";
 import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { useBridge } from "@/lib/provider/bridge-provider";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { spaceState } from "@/store/space/spaceAtom";
 import { SpaceValue } from "@/types/space";
 
 const LAST_PAGE = 4;
 
 export function CreateSpace() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const navigate = useTestNatigate();
   const [spaceValue, setSpaceValue] = useAtom(spaceState);
   const { mutate, isPending } = useApiPostSpace();
+  const { bridge } = useBridge();
 
   useEffect(() => {
+    bridge.sendBGColor(spaceValue.step === 0 ? "#212529" : "#FFFFFF").catch(console.error);
     if (spaceValue.step === LAST_PAGE + 1) {
       mutate({
         ...spaceValue,

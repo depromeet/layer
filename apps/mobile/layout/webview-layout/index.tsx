@@ -2,8 +2,10 @@ import { appBridge } from "@/bridge/native";
 import { createWebView, postMessageSchema } from "@webview-bridge/react-native";
 import { z } from "zod";
 import { WEBVIEW_URI } from "@env";
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, View, ViewStyle } from "react-native";
 import { Path } from "@layer/shared";
+import { useState } from "react";
+import { LoadingModal } from "@/provider/suspense-provider";
 
 const schema = postMessageSchema({
   getBackgroundColor: z.string(),
@@ -33,31 +35,40 @@ interface WebViewLayoutProps {
 }
 
 export const WebViewLayout = ({ pathname, style }: WebViewLayoutProps) => {
+  const [isLoaded, setIsLoaded] = useState(true);
+
+  const handleEndLoad = () => {
+    setIsLoaded(false);
+  };
   const customUserAgent = "customUserAgent";
   const url = new URL(WEBVIEW_URI);
   url.pathname = pathname;
 
   return (
-    <WebView
-      cacheEnabled={false}
-      userAgent={customUserAgent}
-      originWhitelist={["*"]}
-      style={[
-        {
-          flex: 1,
-        },
-      ]}
-      containerStyle={[style]}
-      contentInsetAdjustmentBehavior="never"
-      scrollEnabled
-      allowsInlineMediaPlayback
-      javaScriptEnabled
-      domStorageEnabled
-      mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
-      bounces={false}
-      source={{
-        uri: url.toString(),
-      }}
-    />
+    <View style={{ flex: 1 }}>
+      <WebView
+        cacheEnabled={false}
+        userAgent={customUserAgent}
+        originWhitelist={["*"]}
+        style={[
+          {
+            flex: 1,
+          },
+        ]}
+        onLoad={handleEndLoad}
+        containerStyle={[style]}
+        contentInsetAdjustmentBehavior="never"
+        scrollEnabled
+        allowsInlineMediaPlayback
+        javaScriptEnabled
+        domStorageEnabled
+        mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
+        bounces={false}
+        source={{
+          uri: url.toString(),
+        }}
+      />
+      {isLoaded && <LoadingModal purpose="데이터를" />}
+    </View>
   );
 };

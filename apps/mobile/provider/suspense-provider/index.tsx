@@ -6,6 +6,7 @@ import { BlurView } from "@react-native-community/blur";
 
 import loading from "@/assets/loading/loading.json";
 import {
+  listenBackgroundColorEvent,
   listenRouteEvent,
   listenSuspenseChange,
   ROUTE_EVENT,
@@ -14,12 +15,20 @@ import {
 import { router, useNavigation } from "expo-router";
 import { createContext } from "@/lib/create-context";
 
-const [Provider, useSuspense] = createContext("SUSPENCE_PROVIDER");
+function isValidColor(color: string): boolean {
+  const s = new Option().style;
+  s.color = color;
+  return s.color !== "";
+}
+
+const [Provider, useSuspense] = createContext<{ backgroundColor: string }>(
+  "SUSPENCE_PROVIDER"
+);
 
 const DEFAULT_MESSAGE = "데이터를 가져오고 있어요";
 
 const SuspenseProvider = ({ children }: PropsWithChildren) => {
-  const navigation = useNavigation();
+  const [backgroundColor, setBackgroundColor] = useState("");
   const [{ loading, message }, setSuspenseState] = useState<SUSPENSE_STATE>({
     loading: false,
     message: DEFAULT_MESSAGE,
@@ -38,12 +47,19 @@ const SuspenseProvider = ({ children }: PropsWithChildren) => {
     }
   }, []);
 
+  const handleColorChange = useCallback((color: string) => {
+    if (isValidColor(color)) {
+      setBackgroundColor(color);
+    }
+  }, []);
+
   useEffect(() => {
     listenSuspenseChange(setSuspenseState);
     listenRouteEvent(handleRoute);
+    listenBackgroundColorEvent(handleColorChange);
   }, []);
   return (
-    <Provider>
+    <Provider backgroundColor={backgroundColor}>
       {children}
       {loading && (
         <LoadingModal purpose={message ? message : DEFAULT_MESSAGE} />
@@ -102,7 +118,7 @@ export function LoadingModal({ purpose }: LoadingModalProps): JSX.Element {
         style={[styles.content, { transform: [{ scale: scaleAnim }] }]}
       >
         <LottieView source={loading} autoPlay loop style={styles.lottie} />
-        <Text style={styles.purposeText}>{purpose}</Text>
+        <Text style={styles.purposeText}>{purpose ?? DEFAULT_MESSAGE}</Text>
       </Animated.View>
     </Animated.View>
   );

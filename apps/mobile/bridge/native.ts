@@ -16,6 +16,7 @@ export type ROUTE_EVENT = POP_ROUTE | PUSH_ROUTE;
 interface AppEvents {
   SUSPENSE_STATE: (state: SUSPENSE_STATE) => void;
   ROUTE_EVENT: (event: ROUTE_EVENT) => void;
+  BACKGROUND_CHANGE: (color: string) => void;
 }
 
 const eventEmitter = new EventEmitter3<AppEvents>();
@@ -30,7 +31,7 @@ export const appBridge = bridge({
   },
 
   async sendBGColor(color: string) {
-    console.log(color);
+    eventEmitter.emit("BACKGROUND_CHANGE", color);
     return;
   },
 
@@ -63,4 +64,9 @@ export function listenSuspenseChange(fn: AppEvents["SUSPENSE_STATE"]) {
 export function listenRouteEvent(fn: AppEvents["ROUTE_EVENT"]) {
   eventEmitter.on("ROUTE_EVENT", fn);
   return () => eventEmitter.off("ROUTE_EVENT", fn);
+}
+
+export function listenBackgroundColorEvent(fn: AppEvents["BACKGROUND_CHANGE"]) {
+  eventEmitter.on("BACKGROUND_CHANGE", fn);
+  return () => eventEmitter.off("BACKGROUND_CHANGE", fn);
 }
