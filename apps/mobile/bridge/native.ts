@@ -28,7 +28,6 @@ export const appBridge = bridge({
   },
 
   async setSuspenseState(state: SUSPENSE_STATE) {
-    console.log(state, " !!!");
     eventEmitter.emit("SUSPENSE_STATE", state);
   },
 
@@ -42,6 +41,9 @@ export const appBridge = bridge({
 export type AppBridge = typeof appBridge;
 
 export function listenSuspenseChange(fn: AppEvents["SUSPENSE_STATE"]) {
-  eventEmitter.on("SUSPENSE_STATE", fn);
+  eventEmitter.on("SUSPENSE_STATE", (state) => {
+    console.log(state, "!!!!!!");
+    fn(state);
+  });
   return () => eventEmitter.off("SUSPENSE_STATE");
 }
