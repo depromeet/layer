@@ -1,11 +1,11 @@
 import { css } from "@emotion/react";
 import { forwardRef } from "react";
-import { useNavigate } from "react-router-dom";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { TagBox } from "@/component/home";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Space } from "@/types/spaceType";
@@ -16,7 +16,7 @@ type SpaceOverviewProps = {
 
 const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
   ({ space: { id, category, bannerUrl, fieldList, name, introduction, memberCount } }, ref) => {
-    const navigate = useNavigate();
+    const navigate = useTestNatigate();
     return (
       <div
         ref={ref}

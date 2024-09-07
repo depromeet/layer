@@ -46,6 +46,7 @@ export const appBridge = bridge({
   },
 
   async navigate(path: Path | -1) {
+    console.log(path, "!!");
     if (path === -1) {
       eventEmitter.emit("ROUTE_EVENT", { type: "POP" });
     } else {
