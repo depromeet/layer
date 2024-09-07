@@ -1,6 +1,6 @@
 {
   "name": "@layer/app",
-  "main": "index.js",
+  "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
@@ -20,6 +20,7 @@
     "@expo/config": "^9.0.3",
     "@expo/vector-icons": "^14.0.2",
     "@layer/shared": "workspace:^",
+    "@react-native-kakao/core": "^2.2.6",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
     "@webview-bridge/react-native": "^1.6.2",

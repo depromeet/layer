@@ -1,19 +1,17 @@
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { createWebView, postMessageSchema } from "@webview-bridge/react-native";
-import { useEffect } from "react";
-import { PermissionsAndroid, Platform } from "react-native";
+import { useEffect, useState } from "react";
+import { PermissionsAndroid, Platform, Text, View } from "react-native";
 import { PERMISSIONS } from "react-native-permissions";
 import { z } from "zod";
 import { appBridge } from "@layer/shared";
+import { getKeyHashAndroid } from "@react-native-kakao/core";
 
 const schema = postMessageSchema({
   getBackgroundColor: z.string(),
 });
 
-const { WebView, postMessage } = createWebView({
+const { WebView, linkWebMethod } = createWebView({
   bridge: appBridge,
   debug: true,
   postMessageSchema: schema,
@@ -22,6 +20,7 @@ const { WebView, postMessage } = createWebView({
 export interface BridgeEvent {
   body: Body;
   type: string;
+  data?: string;
 }
 
 export interface Body {
@@ -30,8 +29,9 @@ export interface Body {
   method: string;
 }
 
-export function LoginPage() {
-  const insets = useSafeAreaInsets();
+export default function LoginPage() {
+  const [color, setColor] = useState("white");
+  const [text, setText] = useState<string[]>(["FIRST"]);
 
   const customUserAgent = "customUserAgent";
   useEffect(() => {
@@ -58,8 +58,9 @@ export function LoginPage() {
       }
     }
   };
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: color }}>
       <WebView
         userAgent={customUserAgent}
         originWhitelist={["*"]}
@@ -69,6 +70,8 @@ export function LoginPage() {
         contentInsetAdjustmentBehavior="never"
         scrollEnabled
         allowsInlineMediaPlayback
+        javaScriptEnabled
+        domStorageEnabled
         mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
         bounces={false}
         source={{
@@ -77,8 +80,12 @@ export function LoginPage() {
         onMessage={(event) => {
           const data = event.nativeEvent.data;
           if (data) {
+            setText((prev) => [...prev, data]);
             const param = JSON.parse(data) as BridgeEvent;
-            console.log(param, "<<<data");
+
+            if (param?.data) {
+              setColor(param?.data);
+            }
           }
         }}
       />

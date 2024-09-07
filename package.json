@@ -3,25 +3,24 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "turbo dev",
-    "dev:app": "turbo dev --filter=\"{./apps/app}...\"",
-    "dev:web": "turbo dev --filter=\"{./apps/web}...\"",
-    "lint": "turbo lint",
-    "test": "turbo test",
-    "build": "turbo build",
-    "build:app": "turbo build --filter=\"...{./apps/app}\"",
-    "build:web": "turbo build --filter=\"...{./apps/web}\""
+    "web": "pnpm -F @layer/web",
+    "app": "pnpm -F @layer/app",
+    "dev": "pnpm -r --parallel run dev",
+    "lint": "pnpm -r --parallel run lint",
+    "build": "pnpm -r --parallel run build",
+    "build:app": "pnpm build --filter=\"...{./apps/app}\"",
+    "build:web": "pnpm build --filter=\"...{./apps/web}\""
   },
   "devDependencies": {
-    "turbo": "^2.1.1",
     "typescript": "^5.5.4"
   },
-  "packageManager": "pnpm@9.5.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "pnpm": {
     "peerDependencyRules": {
       "ignoreMissing": [
-        "@babel/*",
-        "expo-modules-*",
         "typescript"
       ]
     }
