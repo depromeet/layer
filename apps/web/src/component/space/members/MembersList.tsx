@@ -13,7 +13,8 @@ import { useApiGetMemers } from "@/hooks/api/space/members/useApiGetMembers";
 import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { shareKakao } from "@/utils/kakao/sharedKakaoLink";
+import { useBridge } from "@/lib/provider/bridge-provider";
+import { shareKakaoWeb } from "@/utils/kakao/sharedKakaoLink";
 import { encryptId } from "@/utils/space/cryptoKey";
 
 export type EditType = "LEADER" | "KICK";
@@ -26,13 +27,37 @@ export function MembersList() {
   const { toast } = useToast();
   const naviagate = useNavigate();
   const encryptedId = encryptId(spaceId);
+  const { bridge } = useBridge();
 
-  const handleShareKakao = () => {
-    shareKakao(
-      `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
-      `${userData.name}님이 스페이스에 초대했습니다.`,
-      "어서오세용~!!",
-    );
+  const handleShareKakao = async () => {
+    if (bridge.isWebViewBridgeAvailable) {
+      await bridge.sendShareToKakao({
+        content: {
+          title: `${userData.name}님이 스페이스에 초대했습니다.`,
+          description: "어서오세용~!!",
+          imageUrl: "https://kr.object.ncloudstorage.com/layer-bucket/small_banner.png",
+          link: {
+            mobileWebUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+            webUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+          },
+        },
+        buttons: [
+          {
+            title: "초대 받기",
+            link: {
+              mobileWebUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+              webUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+            },
+          },
+        ],
+      });
+    } else {
+      shareKakaoWeb(
+        `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
+        `${userData.name}님이 스페이스에 초대했습니다.`,
+        "어서오세용~!!",
+      );
+    }
     close();
   };
 

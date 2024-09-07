@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { type AppBridge } from "@layer/shared";
+import { type AppBridge } from "@layer/app";
 import { useQuery } from "@tanstack/react-query";
 import { linkBridge } from "@webview-bridge/web";
 import { PropsWithChildren } from "react";
@@ -9,30 +9,31 @@ import { createContext } from "@/lib/create-context";
 
 const BRIDGE_PROVIER = "BRIDGE_PROVIER";
 
+const bridge = linkBridge<AppBridge>();
+
 interface WebViewBridgeContext {
   safeAreaHeight?: number;
   isWebView: boolean;
+  bridge: typeof bridge;
 }
 
-const bridge = linkBridge<AppBridge>();
-
-const [Provider, useBridgeContext] = createContext<WebViewBridgeContext>(BRIDGE_PROVIER);
+const [Provider, useBridge] = createContext<WebViewBridgeContext>(BRIDGE_PROVIER);
 
 const BridgeProvider = ({ children }: PropsWithChildren) => {
-  const { data: { isWebview, safeAreaHeight } = {} } = useQuery({
+  const { data: { safeAreaHeight, isWebViewBridgeAvailable } = {} } = useQuery({
     queryKey: ["app", "height"],
     queryFn: async () => {
       const safeAreaHeight = await bridge.getSafeAreaHeight();
-      const isWebview = await bridge.checkWebview();
 
-      return { safeAreaHeight, isWebview };
+      return { safeAreaHeight, isWebViewBridgeAvailable: bridge.isWebViewBridgeAvailable };
     },
   });
+
   return (
-    <Provider safeAreaHeight={safeAreaHeight} isWebView={!!isWebview}>
+    <Provider bridge={bridge} safeAreaHeight={safeAreaHeight} isWebView={!!isWebViewBridgeAvailable}>
       {children}
     </Provider>
   );
 };
 
-export { BridgeProvider, useBridgeContext, BRIDGE_PROVIER };
+export { BridgeProvider, useBridge, BRIDGE_PROVIER };

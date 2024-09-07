@@ -4,7 +4,7 @@
 
 const KAKAO_KEY = import.meta.env.VITE_KAKAO_KEY as string;
 
-export const shareKakao = (route: string, title: string, content?: string) => {
+export const shareKakaoWeb = (route: string, title: string, content?: string) => {
   if (window.Kakao) {
     const kakao = window.Kakao;
     if (!kakao.isInitialized()) {
