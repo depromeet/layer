@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
+import { PATHS } from "@layer/shared";
 import { useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { UserProfileIcon } from "@/component/common/appBar";
 import { TabButton } from "@/component/common/tabs/TabButton";
@@ -8,13 +8,15 @@ import { Tabs } from "@/component/common/tabs/Tabs";
 import { Typography } from "@/component/common/typography";
 import { GoMakeReviewButton, SpaceOverview } from "@/component/home";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
-import { PATHS } from "@/config/paths";
+// import { PATHS } from "@/config/paths";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { useTabs } from "@/hooks/useTabs";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { useTestNatigate } from "@/lib/test-natigate";
 
 export function RetrospectViewPage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const naviagte = useTestNatigate();
 
   const tabMappings = {
     전체: "ALL",
@@ -42,7 +44,7 @@ export function RetrospectViewPage() {
   );
 
   const goToCreateSpace = () => {
-    navigate(PATHS.spaceCreate());
+    naviagte(PATHS.spaceCreate());
   };
 
   return (
