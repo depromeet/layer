@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { KAKAO_NATIVE_APP_KEY } from "@env";
+import { SuspenseProvider } from "@/provider/suspense-provider";
 export default function App() {
   const colorScheme = useColorScheme();
 
@@ -27,12 +28,14 @@ export default function App() {
     <GestureHandlerRootView>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <SplashScreen isLoaded={true}>
-          <Stack
-            screenOptions={{ headerShown: false }}
-            initialRouteName="index"
-          >
-            <Stack.Screen name="index" />
-          </Stack>
+          <SuspenseProvider>
+            <Stack
+              screenOptions={{ headerShown: false }}
+              initialRouteName="index"
+            >
+              <Stack.Screen name="index" />
+            </Stack>
+          </SuspenseProvider>
         </SplashScreen>
       </ThemeProvider>
     </GestureHandlerRootView>

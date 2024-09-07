@@ -76,7 +76,8 @@ export default function LoginPage() {
         mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
         bounces={false}
         source={{
-          uri: "https://stg.layerapp.io/",
+          // uri: "https://stg.layerapp.io/",
+          uri: "https://layer-five.vercel.app/",
         }}
         onMessage={(event) => {
           const data = event.nativeEvent.data;

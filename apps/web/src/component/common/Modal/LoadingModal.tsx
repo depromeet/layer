@@ -1,8 +1,10 @@
 import { css } from "@emotion/react";
 import Lottie from "lottie-react";
+import { useEffect } from "react";
 
 import loading from "@/assets/lottie/modal/loading/loading.json";
 import { Portal } from "@/component/common/Portal";
+import { useBridge } from "@/lib/provider/bridge-provider";
 import { ANIMATION } from "@/style/common/animation.ts";
 
 type LoadingModalProps = {
@@ -10,7 +12,20 @@ type LoadingModalProps = {
 };
 
 export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }: LoadingModalProps) {
-  return (
+  const { bridge, isWebView } = useBridge();
+
+  useEffect(() => {
+    async function callNativeSuspense(loading: boolean) {
+      if (bridge) {
+        await bridge?.setSuspenseState({ loading, message: purpose });
+      }
+    }
+    void callNativeSuspense(true);
+    return () => {
+      void callNativeSuspense(false);
+    };
+  }, [bridge, purpose]);
+  return !isWebView ? (
     <Portal id={"loading-modal-root"}>
       <div
         css={css`
@@ -68,5 +83,5 @@ export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }
         </div>
       </div>
     </Portal>
-  );
+  ) : null;
 }

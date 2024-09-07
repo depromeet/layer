@@ -21,6 +21,7 @@ module.exports = {
   ignorePatterns: ["postcss.config.cjs", "dist", ".eslintrc.cjs", "**/*.cjs"],
   plugins: ["react-refresh", "react", "import"],
   rules: {
+    "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
     "react/no-unknown-property": ["error", { ignore: ["css"] }],
     "@typescript-eslint/no-misused-promises": "off",

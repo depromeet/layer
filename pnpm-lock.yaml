@@ -23,6 +23,9 @@ importers:
       '@layer/shared':
         specifier: workspace:^
         version: link:../../packages/shared
+      '@react-native-community/blur':
+        specifier: ^4.4.1
+        version: 4.4.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       '@react-native-kakao/core':
         specifier: ^2.2.6
         version: 2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
@@ -35,6 +38,9 @@ importers:
       '@react-native-kakao/user':
         specifier: ^2.2.6
         version: 2.2.6(@react-native-kakao/core@2.2.6(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
+      '@react-native/assets-registry':
+        specifier: ^0.75.2
+        version: 0.75.2
       '@react-navigation/native':
         specifier: ^6.1.18
         version: 6.1.18(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
@@ -44,6 +50,9 @@ importers:
       '@webview-bridge/react-native':
         specifier: ^1.6.2
         version: 1.6.2(react-native-webview@13.8.6(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0))(react@18.2.0)(zod@3.23.8)
+      eventemitter3:
+        specifier: ^5.0.1
+        version: 5.0.1
       expo:
         specifier: ~51.0.28
         version: 51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))
@@ -77,6 +86,9 @@ importers:
       expo-web-browser:
         specifier: ~13.0.3
         version: 13.0.3(expo@51.0.32(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
+      lottie-react-native:
+        specifier: ^6.7.2
+        version: 6.7.2(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -366,6 +378,10 @@ importers:
         version: 4.2.0(rollup@4.21.2)(typescript@5.5.4)(vite@5.4.3(@types/node@20.16.5)(terser@5.31.6))
 
   packages/shared:
+    dependencies:
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
     devDependencies:
       '@babel/core':
         specifier: ^7.20.0
@@ -374,7 +390,7 @@ importers:
         specifier: ^7.24.7
         version: 7.24.7(@babel/core@7.25.2)
       '@types/react':
-        specifier: ~18.2.45
+        specifier: ^18.2.66
         version: 18.2.79
       typescript:
         specifier: ~5.3.3
@@ -1706,6 +1722,12 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
 
+  '@react-native-community/blur@4.4.1':
+    resolution: {integrity: sha512-XBSsRiYxE/MOEln2ayunShfJtWztHwUxLFcSL20o+HNNRnuUDv+GXkF6FmM2zE8ZUfrnhQ/zeTqvnuDPGw6O8A==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+
   '@react-native-community/cli-clean@13.6.9':
     resolution: {integrity: sha512-7Dj5+4p9JggxuVNOjPbduZBAP1SUgNhLKVw5noBUzT/3ZpUZkDM+RCSwyoyg8xKWoE4OrdUAXwAFlMcFDPKykA==}
 
@@ -1777,6 +1799,10 @@ packages:
 
   '@react-native/assets-registry@0.74.87':
     resolution: {integrity: sha512-1XmRhqQchN+pXPKEKYdpJlwESxVomJOxtEnIkbo7GAlaN2sym84fHEGDXAjLilih5GVPpcpSmFzTy8jx3LtaFg==}
+    engines: {node: '>=18'}
+
+  '@react-native/assets-registry@0.75.2':
+    resolution: {integrity: sha512-P1dLHjpUeC0AIkDHRYcx0qLMr+p92IPWL3pmczzo6T76Qa9XzruQOYy0jittxyBK91Csn6HHQ/eit8TeXW8MVw==}
     engines: {node: '>=18'}
 
   '@react-native/babel-plugin-codegen@0.74.87':
@@ -3729,6 +3755,9 @@ packages:
   eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
 
+  eventemitter3@5.0.1:
+    resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
+
   exec-async@2.2.0:
     resolution: {integrity: sha512-87OpwcEiMia/DeiKFzaQNBNFeN3XkkpYIh9FyOqq5mS2oKv3CBE67PXoEKcr6nodWdXNogTiQ0jE2NGuoffXPw==}
 
@@ -4953,6 +4982,22 @@ packages:
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
+
+  lottie-react-native@6.7.2:
+    resolution: {integrity: sha512-MZVx6N1EeO/EaSx8T44mJ0aHc5Mqee+xIfWwszni0oz8U2wlHdaWGjES44dHxaxgAp/0dRaFt3PkpZ6egTzcBg==}
+    peerDependencies:
+      '@dotlottie/react-player': ^1.6.1
+      '@lottiefiles/react-lottie-player': ^3.5.3
+      react: '*'
+      react-native: '>=0.46'
+      react-native-windows: '>=0.63.x'
+    peerDependenciesMeta:
+      '@dotlottie/react-player':
+        optional: true
+      '@lottiefiles/react-lottie-player':
+        optional: true
+      react-native-windows:
+        optional: true
 
   lottie-react@2.4.0:
     resolution: {integrity: sha512-pDJGj+AQlnlyHvOHFK7vLdsDcvbuqvwPZdMlJ360wrzGFurXeKPr8SiRCjLf3LrNYKANQtSsh5dz9UYQHuqx4w==}
@@ -9004,6 +9049,11 @@ snapshots:
       '@radix-ui/react-compose-refs': 1.0.0(react@18.2.0)
       react: 18.2.0
 
+  '@react-native-community/blur@4.4.1(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)':
+    dependencies:
+      react: 18.2.0
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
+
   '@react-native-community/cli-clean@13.6.9':
     dependencies:
       '@react-native-community/cli-tools': 13.6.9
@@ -9183,6 +9233,8 @@ snapshots:
       react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
 
   '@react-native/assets-registry@0.74.87': {}
+
+  '@react-native/assets-registry@0.75.2': {}
 
   '@react-native/babel-plugin-codegen@0.74.87(@babel/preset-env@7.25.4(@babel/core@7.25.2))':
     dependencies:
@@ -11469,6 +11521,8 @@ snapshots:
 
   eventemitter3@4.0.7: {}
 
+  eventemitter3@5.0.1: {}
+
   exec-async@2.2.0: {}
 
   execa@1.0.0:
@@ -13041,6 +13095,11 @@ snapshots:
   loose-envify@1.4.0:
     dependencies:
       js-tokens: 4.0.0
+
+  lottie-react-native@6.7.2(react-native@0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0):
+    dependencies:
+      react: 18.2.0
+      react-native: 0.74.5(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.2.79)(react@18.2.0)
 
   lottie-react@2.4.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
