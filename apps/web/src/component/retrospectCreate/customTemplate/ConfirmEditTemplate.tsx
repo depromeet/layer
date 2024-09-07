@@ -14,6 +14,7 @@ import { TemplateContext } from "@/component/retrospectCreate/steps/CustomTempla
 import { useInput } from "@/hooks/useInput";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { useToast } from "@/hooks/useToast";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
 type QuestionsListProps = {
@@ -33,12 +34,19 @@ export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
   const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName);
   const titleInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const { track } = useMixpanel();
 
   const handleDataSave = () => {
     setRetroCreateData((prev) => ({ ...prev, formName: title }));
   };
 
   const onNext = () => {
+    if (retroCreateData.isNewForm) {
+      track("RETROSPECT_CREATE_EDIT_QUESTIONS", {
+        hasChangedOriginal: retroCreateData.hasChangedOriginal,
+        questions: retroCreateData.questions.map(({ questionContent }) => questionContent),
+      });
+    }
     handleDataSave();
     goNext();
   };

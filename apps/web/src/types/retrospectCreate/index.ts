@@ -22,5 +22,5 @@ export type RetrospectCreateReq = {
   hasChangedOriginal: boolean;
   formName?: string;
   formIntroduction?: string;
-  curFormId?: number;
+  curFormId: number;
 };

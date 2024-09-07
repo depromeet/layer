@@ -8,6 +8,7 @@ import { Header } from "@/component/common/header";
 import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
 import { TipCard } from "@/component/common/tip/TipCard";
 import { useInput } from "@/hooks/useInput";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
 export function MainInfo() {
@@ -15,9 +16,14 @@ export function MainInfo() {
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { value: title, handleInputChange: handleNameChange } = useInput(retroCreateData.title);
   const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(retroCreateData.introduction);
+  const { track } = useMixpanel();
 
   const handleDataSave = () => {
     setRetroCreateData((prev) => ({ ...prev, title, introduction }));
+    track("RETROSPECT_CREATE_MAININFO", {
+      titleLength: title.length,
+      introLength: introduction.length,
+    });
     goNext();
   };
 
@@ -50,8 +56,8 @@ export function MainInfo() {
           </InputLabelContainer>
           <TipCard
             message="회고 설명 또는 진행 목표에 대해 적어도 좋아요 :)"
-            styles={css`
-              margin-top: 0.8rem;
+            css={css`
+              margin-top: 3.6rem;
             `}
           />
         </div>

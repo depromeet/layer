@@ -37,7 +37,7 @@ export function Info({ onNext }: { onNext: (infoValues: InfoValues) => void }) {
           placeholder="프로젝트 한 줄 설명을 적어주세요"
         />
       </InputLabelContainer>
-      <Spacing size={0.8} />
+      <Spacing size={3.6} />
       <TipCard message="프로젝트 설명 또는 진행 목표에 대해 적어도 좋아요 :)" />
       <ButtonProvider>
         <ButtonProvider.Primary
