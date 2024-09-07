@@ -54,9 +54,6 @@ export const WebViewLayout = ({ pathname, style }: WebViewLayoutProps) => {
       domStorageEnabled
       mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
       bounces={false}
-      onMessage={(event) => {
-        console.log(event.nativeEvent.data);
-      }}
       source={{
         uri: url.toString(),
       }}

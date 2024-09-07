@@ -1,25 +1,46 @@
 import { createContext } from "@layer/shared";
-import { PropsWithChildren, useRef, useState } from "react";
+import { PropsWithChildren, useCallback, useRef, useState } from "react";
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, Animated } from "react-native";
 import LottieView from "lottie-react-native";
 import { BlurView } from "@react-native-community/blur";
 
 import loading from "@/assets/loading/loading.json";
-import { listenSuspenseChange, SUSPENSE_STATE } from "@/bridge/native";
+import {
+  listenRouteEvent,
+  listenSuspenseChange,
+  ROUTE_EVENT,
+  SUSPENSE_STATE,
+} from "@/bridge/native";
+import { router, useNavigation } from "expo-router";
 
 const [Provider, useSuspense] = createContext("SUSPENCE_PROVIDER");
 
 const DEFAULT_MESSAGE = "데이터를 가져오고 있어요";
 
 const SuspenseProvider = ({ children }: PropsWithChildren) => {
+  const navigation = useNavigation();
   const [{ loading, message }, setSuspenseState] = useState<SUSPENSE_STATE>({
     loading: false,
     message: DEFAULT_MESSAGE,
   });
 
+  const handleRoute = useCallback((event: ROUTE_EVENT) => {
+    switch (event.type) {
+      case "POP":
+        router.canGoBack() && router.back();
+        break;
+      case "PUSH":
+        router.push({
+          pathname: event.route,
+        });
+        break;
+    }
+  }, []);
+
   useEffect(() => {
     listenSuspenseChange(setSuspenseState);
+    listenRouteEvent(handleRoute);
   }, []);
   return (
     <Provider>

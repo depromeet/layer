@@ -1,3 +1,4 @@
+import { Path } from "@layer/shared";
 import {
   KakaoFeedTemplate,
   shareFeedTemplate,
@@ -7,8 +8,14 @@ import EventEmitter3 from "eventemitter3";
 
 export type SUSPENSE_STATE = { loading: boolean; message?: string };
 
+type POP_ROUTE = { type: "POP" };
+type PUSH_ROUTE = { type: "PUSH"; route: Path };
+
+export type ROUTE_EVENT = POP_ROUTE | PUSH_ROUTE;
+
 interface AppEvents {
   SUSPENSE_STATE: (state: SUSPENSE_STATE) => void;
+  ROUTE_EVENT: (event: ROUTE_EVENT) => void;
 }
 
 const eventEmitter = new EventEmitter3<AppEvents>();
@@ -36,6 +43,14 @@ export const appBridge = bridge({
       template: template,
     });
   },
+
+  async navigate(path: Path | -1) {
+    if (path === -1) {
+      eventEmitter.emit("ROUTE_EVENT", { type: "POP" });
+    } else {
+      eventEmitter.emit("ROUTE_EVENT", { type: "PUSH", route: path });
+    }
+  },
 });
 
 export type AppBridge = typeof appBridge;
@@ -43,4 +58,9 @@ export type AppBridge = typeof appBridge;
 export function listenSuspenseChange(fn: AppEvents["SUSPENSE_STATE"]) {
   eventEmitter.on("SUSPENSE_STATE", fn);
   return () => eventEmitter.off("SUSPENSE_STATE", fn);
+}
+
+export function listenRouteEvent(fn: AppEvents["ROUTE_EVENT"]) {
+  eventEmitter.on("ROUTE_EVENT", fn);
+  return () => eventEmitter.off("ROUTE_EVENT", fn);
 }
