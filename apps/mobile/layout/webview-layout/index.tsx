@@ -36,8 +36,11 @@ export const WebViewLayout = ({ pathname, style }: WebViewLayoutProps) => {
   const url = new URL(WEBVIEW_URI);
   url.pathname = pathname;
 
+  console.log(url.toString());
+
   return (
     <WebView
+      cacheEnabled={false}
       userAgent={customUserAgent}
       originWhitelist={["*"]}
       style={[

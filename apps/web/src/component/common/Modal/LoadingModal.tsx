@@ -15,6 +15,7 @@ export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }
   const { bridge, isWebView } = useBridge();
 
   useEffect(() => {
+    console.log("CALL", bridge);
     if (!isWebView) return; // WebView에서는 실행하지 않음
     async function callNativeSuspense(loading: boolean) {
       if (bridge) {
