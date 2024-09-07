@@ -14,9 +14,8 @@ export default function SpaceDetailPage() {
     <WebViewLayout
       pathname={`/space/${local.spaceId}`}
       style={{
-        backgroundColor: backgroundColor ?? "#212329",
+        backgroundColor: "#212329",
         paddingTop: insets.top,
-        paddingBottom: insets.bottom,
       }}
     />
   );

@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
+import { PATHS } from "@layer/shared";
 import { useQueries } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { Fragment, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Icon } from "@/component/common/Icon";
@@ -13,7 +13,6 @@ import { Typography } from "@/component/common/typography";
 import { SpaceCountView, RetrospectBox, ActionItemListView, CreateRetrospectiveSheet } from "@/component/space";
 import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceAppBarRightComp } from "@/component/space/view/SpaceAppBarRightComp";
-import { PATHS } from "@/config/paths";
 import { useAPiOptionsRecentTeamActionList } from "@/hooks/api/actionItem/useAPiOptionsRecentTeamActionList";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
@@ -23,11 +22,12 @@ import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useModal } from "@/hooks/useModal";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DualToneLayout } from "@/layout/DualToneLayout";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 
 export function SpaceViewPage() {
-  const navigate = useNavigate();
+  const navigate = useTestNatigate();
   const memberId = Cookies.get("memberId");
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
@@ -106,7 +106,9 @@ export function SpaceViewPage() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => navigate("/")}
+          onClick={() => {
+            navigate(-1);
+          }}
           color={DESIGN_TOKEN_COLOR.gray00}
         />
       }

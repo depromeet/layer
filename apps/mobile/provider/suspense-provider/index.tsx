@@ -22,6 +22,7 @@ const [Provider, useSuspense] = createContext<{ backgroundColor: string }>(
 const DEFAULT_MESSAGE = "데이터를 가져오고 있어요";
 
 const SuspenseProvider = ({ children }: PropsWithChildren) => {
+  const timeoutRef = useRef<NodeJS.Timeout>();
   const [backgroundColor, setBackgroundColor] = useState("");
   const [{ loading, message }, setSuspenseState] = useState<SUSPENSE_STATE>({
     loading: false,
@@ -45,10 +46,20 @@ const SuspenseProvider = ({ children }: PropsWithChildren) => {
     setBackgroundColor(color);
   }, []);
 
+  const handleSuspense = useCallback((state: SUSPENSE_STATE) => {
+    setSuspenseState(state);
+    timeoutRef.current = setTimeout(() => {
+      setSuspenseState({ loading: false });
+    }, 5000);
+  }, []);
+
   useEffect(() => {
-    listenSuspenseChange(setSuspenseState);
+    listenSuspenseChange(handleSuspense);
     listenRouteEvent(handleRoute);
     listenBackgroundColorEvent(handleColorChange);
+    return () => {
+      clearTimeout(timeoutRef.current);
+    };
   }, []);
   return (
     <Provider backgroundColor={backgroundColor}>
