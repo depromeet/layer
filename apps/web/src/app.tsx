@@ -15,17 +15,17 @@ import { queryClient } from "@/lib/tanstack-query/queryClient";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <MixpanelProvider>
-      <Suspense fallback={<LoadingModal purpose={"데이터를 가져오고 있어요"} />}>
-        <QueryClientProvider client={queryClient}>
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          {/* <DevTools /> */}
+      <BridgeProvider>
+        <Suspense fallback={<LoadingModal purpose={"데이터를 가져오고 있어요"} />}>
+          <QueryClientProvider client={queryClient}>
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            {/* <DevTools /> */}
 
-          <BridgeProvider>
             <Routers />
-          </BridgeProvider>
-          <Toast />
-        </QueryClientProvider>
-      </Suspense>
+            <Toast />
+          </QueryClientProvider>
+        </Suspense>
+      </BridgeProvider>
     </MixpanelProvider>
   </React.StrictMode>,
 );
