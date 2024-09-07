@@ -1,4 +1,3 @@
-import { createContext } from "@layer/shared";
 import { PropsWithChildren, useCallback, useRef, useState } from "react";
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, Animated } from "react-native";
@@ -13,6 +12,7 @@ import {
   SUSPENSE_STATE,
 } from "@/bridge/native";
 import { router, useNavigation } from "expo-router";
+import { createContext } from "@/lib/create-context";
 
 const [Provider, useSuspense] = createContext("SUSPENCE_PROVIDER");
 

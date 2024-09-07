@@ -3,6 +3,7 @@ import { createWebView, postMessageSchema } from "@webview-bridge/react-native";
 import { z } from "zod";
 import { WEBVIEW_URI } from "@env";
 import { StyleProp, ViewStyle } from "react-native";
+import { Path } from "@layer/shared";
 
 const schema = postMessageSchema({
   getBackgroundColor: z.string(),
@@ -27,7 +28,7 @@ const { WebView } = createWebView({
 });
 
 interface WebViewLayoutProps {
-  pathname: string;
+  pathname: Path;
   style?: StyleProp<ViewStyle>;
 }
 
