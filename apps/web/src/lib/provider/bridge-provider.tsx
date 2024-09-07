@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { type AppBridge } from "@layer/app";
+import { type AppBridge } from "@layer/mobile";
 import { useQuery } from "@tanstack/react-query";
 import { linkBridge } from "@webview-bridge/web";
 import { PropsWithChildren } from "react";
