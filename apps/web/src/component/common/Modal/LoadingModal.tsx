@@ -15,19 +15,25 @@ export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }
   const { bridge, isWebView } = useBridge();
 
   useEffect(() => {
-    async function callNativeSuspense(loading: boolean) {
-      try {
-        await bridge.setSuspenseState({ loading, message: purpose });
-      } catch (error) {
-        console.error("Error calling native suspense:", error);
-      }
-      // if (bridge) {
-      // }
-    }
+    // async function callNativeSuspense(loading: boolean) {
 
-    callNativeSuspense(true).catch(console.error);
+    //   try {
+    //     await bridge.setSuspenseState({ loading, message: purpose });
+    //   } catch (error) {
+    //     console.error("Error calling native suspense:", error);
+    //   }
+    //   // if (bridge) {
+    //   // }
+    // }
+
+    // callNativeSuspense(true).catch(console.error);
+    // return () => {
+    //   callNativeSuspense(false).catch(console.error);
+    // };
+
+    window.ReactNativeWebView?.postMessage(JSON.stringify({ type: "LOADING", data: true }));
     return () => {
-      callNativeSuspense(false).catch(console.error);
+      window.ReactNativeWebView?.postMessage(JSON.stringify({ type: "LOADING", data: false }));
     };
   }, [bridge, purpose]);
   return !isWebView ? (
