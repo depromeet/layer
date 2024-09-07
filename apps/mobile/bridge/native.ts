@@ -41,9 +41,6 @@ export const appBridge = bridge({
 export type AppBridge = typeof appBridge;
 
 export function listenSuspenseChange(fn: AppEvents["SUSPENSE_STATE"]) {
-  eventEmitter.on("SUSPENSE_STATE", (state) => {
-    console.log(state, "!!!!!!");
-    fn(state);
-  });
-  return () => eventEmitter.off("SUSPENSE_STATE");
+  eventEmitter.on("SUSPENSE_STATE", fn);
+  return () => eventEmitter.off("SUSPENSE_STATE", fn);
 }

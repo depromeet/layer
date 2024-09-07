@@ -16,7 +16,6 @@ export function LoadingModal({ purpose = "데이터를 가져오고 있어요" }
 
   useEffect(() => {
     bridge.setSuspenseState({ loading: true }).catch(console.error);
-    console.log("?????");
     return () => {
       bridge.setSuspenseState({ loading: false }).catch(console.error);
     };

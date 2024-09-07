@@ -59,7 +59,6 @@ type LoadingModalProps = {
 };
 
 export function LoadingModal({ purpose }: LoadingModalProps): JSX.Element {
-  console.log(purpose, "<<purpose");
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.95)).current;
 
