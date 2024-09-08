@@ -24,5 +24,8 @@
         "typescript"
       ]
     }
+  },
+  "dependencies": {
+    "lerna": "^8.1.8"
   }
 }
