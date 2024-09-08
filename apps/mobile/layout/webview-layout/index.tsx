@@ -1,7 +1,6 @@
 import { appBridge } from "@/bridge/native";
 import { createWebView, postMessageSchema } from "@webview-bridge/react-native";
 import { z } from "zod";
-import { WEBVIEW_URI } from "@env";
 import { StyleProp, View, ViewStyle } from "react-native";
 import { Path } from "@layer/shared";
 import { useState } from "react";
@@ -42,7 +41,7 @@ export const WebViewLayout = ({ pathname, style }: WebViewLayoutProps) => {
     setIsLoaded(false);
   };
   const customUserAgent = "customUserAgent";
-  const url = new URL(WEBVIEW_URI);
+  const url = new URL(process.env.EXPO_PUBLIC_WEBVIEW_URI!);
   url.pathname = pathname;
 
   return (
