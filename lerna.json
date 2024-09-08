@@ -5,5 +5,5 @@
     "packages/*",
     "apps/*"
   ],
-  "version": "fixed"
+  "version": "1.0.3-SNAPSHOT"
 }

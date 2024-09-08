@@ -1,6 +1,6 @@
 {
   "name": "@layer/shared",
-  "version": "1.0.0",
+  "version": "1.0.3-SNAPSHOT",
   "description": "",
   "main": "index.ts",
   "types": "./index.ts",
@@ -14,9 +14,9 @@
     "react": "^18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.66",
     "@babel/core": "^7.20.0",
     "@babel/preset-react": "^7.24.7",
+    "@types/react": "^18.2.66",
     "typescript": "~5.3.3"
   }
 }
