@@ -1,14 +1,14 @@
+import { Path, PATHS } from "@layer/shared";
 import { useMutation } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/space/space.const.ts";
-import { PATHS } from "@/config/paths";
 import { COOKIE_KEYS } from "@/config/storage-keys";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { authAtom } from "@/store/auth/authAtom";
 import { AuthResponse } from "@/types/loginType";
 
@@ -42,7 +42,7 @@ export const usePostAppleLogin = () => {
   };
 
   const { toast } = useToast();
-  const navigate = useNavigate();
+  const navigate = useTestNatigate();
   const setAuth = useSetAtom(authAtom);
   const { mutate } = useApiJoinSpace();
 
@@ -59,14 +59,14 @@ export const usePostAppleLogin = () => {
       const prevPath = Cookies.get(COOKIE_KEYS.redirectPrevPathKey);
       if (prevPath) {
         Cookies.remove(COOKIE_KEYS.redirectPrevPathKey);
-        navigate(prevPath);
+        void navigate(prevPath as Path);
         return;
       }
 
       const saveSpaceIdPhase = Cookies.get(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
       if (saveSpaceIdPhase) {
         const moveNextPhase = () => {
-          navigate(PATHS.spaceDetail(saveSpaceIdPhase));
+          void navigate(PATHS.spaceDetail(saveSpaceIdPhase));
           Cookies.remove(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
         };
 
@@ -84,7 +84,7 @@ export const usePostAppleLogin = () => {
         });
       } else {
         toast.success("어서오세요!");
-        navigate(PATHS.home());
+        void navigate(PATHS.home());
       }
 
       return;
@@ -92,10 +92,10 @@ export const usePostAppleLogin = () => {
     onError: (error: ErrorType) => {
       if (error.status === 400) {
         toast.success("닉네임을 입력하여 회원가입을 진행해보세요.");
-        navigate(PATHS.setNickName("apple"));
+        void navigate(PATHS.setNickName("apple"));
       } else {
         toast.error("로그인에 실패했습니다. 다시 시도해주세요.");
-        navigate(PATHS.login());
+        void navigate(PATHS.login());
       }
     },
   });

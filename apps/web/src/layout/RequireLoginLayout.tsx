@@ -1,12 +1,12 @@
+import { PATHS } from "@layer/shared";
 import { useAtom } from "jotai";
 import Cookies from "js-cookie";
 import { Fragment, ReactNode, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { fetchMemberInfo } from "@/api/login";
-import { PATHS } from "@/config/paths";
 import { COOKIE_KEYS } from "@/config/storage-keys";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { authAtom } from "@/store/auth/authAtom";
 
 type RequireLoginProps = {
@@ -15,13 +15,13 @@ type RequireLoginProps = {
 
 export function RequireLoginLayout({ children }: RequireLoginProps) {
   const [auth, setAuth] = useAtom(authAtom);
-  const navigate = useNavigate();
+  const navigate = useTestNatigate();
   const curPath = window.location.pathname;
   const { setPeople } = useMixpanel();
 
   const redirectLogin = () => {
     Cookies.set(COOKIE_KEYS.redirectPrevPathKey, curPath);
-    navigate(PATHS.login());
+    void navigate(PATHS.login());
   };
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
     checkLoginStatus().catch((error) => {
       console.error("유저 정보 불러오기 실패:", error);
     });
-  }, [auth, setAuth]);
+  }, [auth, redirectLogin, setAuth, setPeople]);
 
   if (!auth.isLogin) return null;
 

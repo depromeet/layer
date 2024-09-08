@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Helvetica-Ultra.ttf",
+      "sha1": "51fb04252aca305755df25681c2e47313f2964f5"
+    },
+    {
+      "path": "assets/fonts/Helvetica.ttf",
+      "sha1": "bc824cf019b6e436a6c4296222694aa72528ec0c"
+    },
+    {
+      "path": "assets/fonts/PretendardVariable.ttf",
+      "sha1": "89b05a2f18c76f8deb577505d48237127ccfc908"
+    }
+  ]
+}

@@ -1,26 +1,16 @@
 import { css } from "@emotion/react";
 import Hotjar from "@hotjar/browser";
-import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import { Modal } from "@/component/common/Modal";
-import { useBridge } from '@/lib/provider/bridge-provider';
-import { themeAtom } from "@/store/theme.tsx";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
+import { useBridge } from "@/lib/provider/bridge-provider";
 
 const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
 const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
 
 export default function GlobalLayout() {
   const { safeAreaHeight } = useBridge();
-  const [test, _] = useAtom(themeAtom);
-
-  useEffect(() => {
-    if (window.ReactNativeWebView && test) {
-      window.ReactNativeWebView.postMessage(JSON.stringify({ data: DESIGN_TOKEN_COLOR.themeBackground[test] }));
-    }
-  }, [test]);
 
   useEffect(() => {
     Hotjar.init(siteId, hotjarVersion);
