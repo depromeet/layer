@@ -60,9 +60,9 @@ export default function App() {
           <SuspenseProvider>
             <Stack
               screenOptions={{ headerShown: false }}
-              initialRouteName="login/index"
+              initialRouteName="login"
             >
-              <Stack.Screen name="login/index" />
+              <Stack.Screen name="login" />
               <Stack.Screen name="(tabs)" />
             </Stack>
           </SuspenseProvider>

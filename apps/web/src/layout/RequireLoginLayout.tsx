@@ -21,7 +21,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
 
   const redirectLogin = () => {
     Cookies.set(COOKIE_KEYS.redirectPrevPathKey, curPath);
-    navigate(PATHS.login());
+    void navigate(PATHS.login());
   };
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
     checkLoginStatus().catch((error) => {
       console.error("유저 정보 불러오기 실패:", error);
     });
-  }, [auth, setAuth]);
+  }, [auth, redirectLogin, setAuth, setPeople]);
 
   if (!auth.isLogin) return null;
 

@@ -1,14 +1,14 @@
+import { PATHS } from "@layer/shared";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
-import { PATHS } from "@/config/paths";
 import { useToast } from "@/hooks/useToast";
+import { useTestNatigate } from "@/lib/test-natigate";
 
 export const useDeleteUser = () => {
   const { toast } = useToast();
-  const navigate = useNavigate();
+  const navigate = useTestNatigate();
   const accessToken = Cookies.get("accessToken");
 
   const apiDeleteUser = async ({ memberId, booleans, description }: { memberId: string; booleans: boolean[]; description: string }) => {
@@ -33,7 +33,7 @@ export const useDeleteUser = () => {
       apiDeleteUser({ memberId, booleans, description }),
     onSuccess: () => {
       toast.success("계정 탈퇴에 성공했어요");
-      navigate(PATHS.login());
+      void navigate(PATHS.login());
     },
     onError: (error) => {
       toast.error(error.message);

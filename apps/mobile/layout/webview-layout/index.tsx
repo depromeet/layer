@@ -6,6 +6,7 @@ import { StyleProp, View, ViewStyle } from "react-native";
 import { Path } from "@layer/shared";
 import { useState } from "react";
 import { LoadingModal } from "@/provider/suspense-provider";
+import { StatusBar } from "expo-status-bar";
 
 const schema = postMessageSchema({
   getBackgroundColor: z.string(),
@@ -67,8 +68,12 @@ export const WebViewLayout = ({ pathname, style }: WebViewLayoutProps) => {
         source={{
           uri: url.toString(),
         }}
+        onMessage={(event) => {
+          console.log(event.nativeEvent.data);
+        }}
       />
-      {isLoaded && <LoadingModal purpose="데이터를" />}
+      {isLoaded && <LoadingModal purpose="데이터를 가져오고 있어요." />}
+      <StatusBar style="light" backgroundColor="transparent" />
     </View>
   );
 };

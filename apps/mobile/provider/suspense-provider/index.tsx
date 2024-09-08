@@ -12,7 +12,7 @@ import {
   ROUTE_EVENT,
   SUSPENSE_STATE,
 } from "@/bridge/native";
-import { router, useNavigation } from "expo-router";
+import { router } from "expo-router";
 import { createContext } from "@/lib/create-context";
 
 const [Provider, useSuspense] = createContext<{ backgroundColor: string }>(

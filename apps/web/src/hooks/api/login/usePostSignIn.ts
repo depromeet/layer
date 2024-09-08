@@ -52,14 +52,14 @@ export const usePostSignIn = () => {
       const prevPath = Cookies.get(COOKIE_KEYS.redirectPrevPathKey);
       if (prevPath) {
         Cookies.remove(COOKIE_KEYS.redirectPrevPathKey);
-        navigate(prevPath as Path);
+        void navigate(prevPath as Path);
         return;
       }
 
       const saveSpaceIdPhase = Cookies.get(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
       if (saveSpaceIdPhase) {
         const moveNextPhase = () => {
-          navigate(PATHS.spaceDetail(saveSpaceIdPhase));
+          void navigate(PATHS.spaceDetail(saveSpaceIdPhase));
           Cookies.remove(COOKIE_VALUE_SAVE_SPACE_ID_PHASE);
         };
 
@@ -77,7 +77,7 @@ export const usePostSignIn = () => {
         });
       } else {
         toast.success("어서오세요!");
-        navigate(PATHS.home());
+        void navigate(PATHS.home());
       }
 
       return;
@@ -85,10 +85,10 @@ export const usePostSignIn = () => {
     onError: (error: ErrorType, variables: LoginKindType) => {
       if (error.status === 400) {
         toast.success("닉네임을 입력하여 회원가입을 진행해보세요.");
-        navigate(PATHS.setNickName(variables.socialType));
+        void navigate(PATHS.setNickName(variables.socialType));
       } else {
         toast.error("로그인에 실패했습니다. 다시 시도해주세요.");
-        navigate(PATHS.login());
+        void navigate(PATHS.login());
       }
     },
   });

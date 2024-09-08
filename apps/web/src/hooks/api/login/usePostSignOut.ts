@@ -25,7 +25,7 @@ export const usePostSignOut = () => {
       Cookies.remove("refreshToken");
       Cookies.remove("memberId");
       setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "" }); // 상태 초기화
-      navigate(PATHS.login(), { type: "REPLACE" });
+      void navigate(PATHS.login(), { type: "REPLACE" });
     },
     onError: (error) => {
       console.error(error);
