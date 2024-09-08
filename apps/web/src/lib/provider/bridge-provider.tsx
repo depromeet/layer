@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { type AppBridge } from "@layer/app";
+import { type AppBridge } from "@layer/mobile";
 import { useQuery } from "@tanstack/react-query";
 import { linkBridge } from "@webview-bridge/web";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useRef } from "react";
 
 import { createContext } from "@/lib/create-context";
 
@@ -20,6 +20,7 @@ interface WebViewBridgeContext {
 const [Provider, useBridge] = createContext<WebViewBridgeContext>(BRIDGE_PROVIER);
 
 const BridgeProvider = ({ children }: PropsWithChildren) => {
+  const bridgeRef = useRef(bridge).current;
   const { data: { safeAreaHeight, isWebViewBridgeAvailable } = {} } = useQuery({
     queryKey: ["app", "height"],
     queryFn: async () => {
@@ -30,7 +31,7 @@ const BridgeProvider = ({ children }: PropsWithChildren) => {
   });
 
   return (
-    <Provider bridge={bridge} safeAreaHeight={safeAreaHeight} isWebView={!!isWebViewBridgeAvailable}>
+    <Provider bridge={bridgeRef} safeAreaHeight={safeAreaHeight} isWebView={!!isWebViewBridgeAvailable}>
       {children}
     </Provider>
   );

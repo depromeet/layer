@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "web": "pnpm -F @layer/web",
-    "app": "pnpm -F @layer/app",
+    "app": "pnpm -F @layer/mobile",
     "dev": "pnpm -r --parallel run dev",
     "lint": "pnpm -r --parallel run lint",
     "build": "pnpm -r --parallel run build",
