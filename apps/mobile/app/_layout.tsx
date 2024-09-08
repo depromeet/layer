@@ -12,7 +12,6 @@ import { Stack } from "expo-router";
 import { initializeKakaoSDK } from "@react-native-kakao/core";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useFonts } from "expo-font";
 
 import { KAKAO_NATIVE_APP_KEY } from "@env";
 import { SuspenseProvider } from "@/provider/suspense-provider";
