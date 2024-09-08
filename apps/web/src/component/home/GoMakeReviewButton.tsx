@@ -3,12 +3,14 @@ import { css } from "@emotion/react";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { EmptySpaceTooltip } from "../space/view/EmptySpaceTooltip";
 
 type GoMakeReviewButtonProps = {
   onClick: () => void;
+  isTooltipVisible: boolean;
 };
 
-export function GoMakeReviewButton({ onClick }: GoMakeReviewButtonProps) {
+export function GoMakeReviewButton({ onClick, isTooltipVisible }: GoMakeReviewButtonProps) {
   return (
     <>
       <button
@@ -20,6 +22,7 @@ export function GoMakeReviewButton({ onClick }: GoMakeReviewButtonProps) {
           box-shadow: ${DESIGN_TOKEN_COLOR.shadow.shadow100};
           border-radius: 1rem;
           padding: 1.6rem 1.1rem;
+          position: relative;
           margin-top: 1.6rem;
           display: flex;
           flex-wrap: wrap;
@@ -43,6 +46,7 @@ export function GoMakeReviewButton({ onClick }: GoMakeReviewButtonProps) {
         <Typography variant="body14Medium" color="gray600">
           회고 스페이스 생성
         </Typography>
+        {isTooltipVisible && <EmptySpaceTooltip />}
       </button>
     </>
   );
