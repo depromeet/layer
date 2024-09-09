@@ -1,0 +1,28 @@
+
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "3XU5VHUK72.com.team-kasukabe.layer"
+        ],
+        "components": [
+          {
+            "/": "*",
+            "comment": "Matches all routes"
+          }
+        ]
+      }
+    ]
+  },
+  "activitycontinuation": {
+    "apps": [
+      "3XU5VHUK72.com.team-kasukabe.layer"
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "3XU5VHUK72.com.team-kasukabe.layer"
+    ]
+  }
+}

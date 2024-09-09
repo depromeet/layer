@@ -25,6 +25,10 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>layer</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>layer</string>
@@ -51,6 +55,12 @@
 	<array>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Helvetica-Ultra.ttf</string>
+		<string>Helvetica.ttf</string>
+		<string>PretendardVariable.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>SplashScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -69,11 +79,17 @@
 	<string>Automatic</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_$(BRANCH_KEY)</string>
+	</dict>
+	<key>branch_universal_link_domains</key>
 	<array>
-		<string>Helvetica-Ultra.ttf</string>
-		<string>Helvetica.ttf</string>
-		<string>PretendardVariable.ttf</string>
+		<string>app.layerapp.io</string>
+		<string>layerapp.io</string>
+		<string>layer-five.vercel.app</string>
+		<string>1xdd5-alternate.app.link</string>
 	</array>
 </dict>
 </plist>

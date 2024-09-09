@@ -7,6 +7,7 @@ export default function LoginPage() {
     <WebViewLayout
       pathname="/"
       style={{
+        backgroundColor: "#F2F4F8",
         paddingTop: insets.top,
       }}
     />

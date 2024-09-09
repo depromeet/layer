@@ -22,9 +22,11 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 .xcode.env.local
+Config.xcconfig
 
 # Bundle artifacts
 *.jsbundle
 
 # CocoaPods
 /Pods/
+

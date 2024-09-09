@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import <RNBranch/RNBranch.h>
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
@@ -12,7 +13,10 @@
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
-
+  // Uncomment this line to use the test key instead of the live one.
+  // [RNBranch useTestInstance];
+  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
+  // NSURL *jsCodeLocation;
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
@@ -32,11 +36,14 @@
 
 // Linking API
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  [RNBranch application:application openURL:url options:options];
   return [super application:application openURL:url options:options] || [RCTLinkingManager application:application openURL:url options:options];
 }
 
 // Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
+  [RNBranch continueUserActivity:userActivity];
+
   BOOL result = [RCTLinkingManager application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
   return [super application:application continueUserActivity:userActivity restorationHandler:restorationHandler] || result;
 }
