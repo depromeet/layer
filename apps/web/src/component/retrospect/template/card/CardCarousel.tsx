@@ -33,38 +33,36 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
   };
 
   return (
-    <>
-      <Swiper
-        slidesPerView={"auto"}
-        centeredSlides={true}
-        spaceBetween={16}
-        initialSlide={1}
-        autoplay={{
-          delay: 500,
-          disableOnInteraction: false,
-        }}
-        allowTouchMove={false}
-        modules={[Autoplay]}
-        onSlideChange={(swiper) => {
-          if (swiper.activeIndex === targetSlideIndex) {
-            swiper.autoplay.stop();
-            setIsAnimating(true);
-            setTimeout(() => {
-              navigate("/retrospect/recommend/done", { state: { templateId, spaceId } });
-            }, 2200);
-          }
-        }}
-        onInit={(swiper) => {
-          swiper.autoplay.start();
-        }}
-        className="mySwiper"
-      >
-        {templateArr.map((template, index) => (
-          <SwiperSlide key={index} className={getSlideClassName(index)}>
-            <TemplateCard name={template.templateName} tag={template.title} imgUrl={template.imageUrl} scale={0.8} size="small" />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </>
+    <Swiper
+      slidesPerView={"auto"}
+      centeredSlides={true}
+      spaceBetween={16}
+      initialSlide={1}
+      autoplay={{
+        delay: 500,
+        disableOnInteraction: false,
+      }}
+      allowTouchMove={false}
+      modules={[Autoplay]}
+      onSlideChange={(swiper) => {
+        if (swiper.activeIndex === targetSlideIndex) {
+          swiper.autoplay.stop();
+          setIsAnimating(true);
+          setTimeout(() => {
+            navigate("/retrospect/recommend/done", { state: { templateId, spaceId } });
+          }, 2200);
+        }
+      }}
+      onInit={(swiper) => {
+        swiper.autoplay.start();
+      }}
+      className="mySwiper"
+    >
+      {templateArr.map((template, index) => (
+        <SwiperSlide key={index} className={getSlideClassName(index)}>
+          <TemplateCard name={template.templateName} tag={template.title} imgUrl={template.imageUrl} scale={0.8} size="small" />
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 }
