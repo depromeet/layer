@@ -3,6 +3,7 @@ import { useContext, useRef } from "react";
 
 import { AdvanceQuestionsNum, PhaseContext } from "@/app/write/RetrospectWritePage.tsx";
 import { Icon } from "@/component/common/Icon";
+import { QuestionStatus } from "@/component/write/modal/component";
 import { Answer } from "@/component/write/phase/Write.tsx";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
@@ -34,14 +35,16 @@ export function EntireListModal({ onClose, answers }: EntireListProps) {
       `}
       ref={containerRef}
       onClick={(e) => {
-        if (containerRef.current === e.target) onClose();
+        if (containerRef.current && (containerRef.current as HTMLElement).contains(e.target as HTMLDivElement)) onClose();
       }}
     >
       <div
         css={css`
+          position: relative;
           width: 100%;
           height: fit-content;
-          max-width: 33.5rem;
+          top: 9%;
+          max-width: calc(var(--layout-m-width) - 3rem);
           border-radius: 1.2rem;
           background-color: #f2f4f8;
           padding: 1.3rem 0;
@@ -56,22 +59,13 @@ export function EntireListModal({ onClose, answers }: EntireListProps) {
             margin-bottom: 1rem;
             height: 2.5rem;
             width: 100%;
-            justify-content: center;
+            justify-content: left;
+            padding-left: 1.6rem;
             align-items: center;
           `}
         >
-          <span
-            css={css`
-              font-size: 1.6rem;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              display: -webkit-box;
-              -webkit-line-clamp: 1;
-              -webkit-box-orient: vertical;
-            `}
-          >
-            질문 전체보기
-          </span>
+          <QuestionStatus currentPhase={phase + 1} totalPhase={data?.questions.length} />
+
           <Icon
             icon={"ic_arrow"}
             size={1.2}

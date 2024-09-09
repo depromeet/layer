@@ -10,6 +10,7 @@ import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { Portal } from "@/component/common/Portal";
 import { ItemsButton } from "@/component/write/ItemsButton";
+import { QuestionStatus } from "@/component/write/modal/component";
 import { EntireListModal } from "@/component/write/modal/EntireListModal";
 import { TemporarySaveModal } from "@/component/write/modal/TemporarySaveModal";
 import { Confirm } from "@/component/write/phase/Confirm";
@@ -20,8 +21,11 @@ import { PATHS } from "@/config/paths.ts";
 import { useGetAnswers } from "@/hooks/api/write/useGetAnswers.ts";
 import { useGetTemporaryQuestions } from "@/hooks/api/write/useGetTemporaryQuestions.ts";
 import { useWriteQuestions } from "@/hooks/api/write/useWriteQuestions.ts";
+import { useModal } from "@/hooks/useModal.ts";
+import { useToast } from "@/hooks/useToast.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
 
 export type Answer = {
   questionId: number;
@@ -34,7 +38,9 @@ type EditModeType = "EDIT" | "POST";
 export function Write() {
   /** Util */
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { track } = useMixpanel();
+  const { open } = useModal();
 
   /** Write Local State */
   const { data, incrementPhase, decrementPhase, phase, movePhase, spaceId, retrospectId } = useContext(PhaseContext);
@@ -102,6 +108,49 @@ export function Write() {
     const allFilled = answers.every((answer) => answer.answerContent.trim() !== "");
     setIsAnswerFilled(allFilled);
   }, [answers]);
+
+  /**
+   * NOTE: Tanstack Save Temp User Data
+   * */
+  const mutateSaveTemporaryData = () => {
+    mutate(
+      { data: answers, isTemporarySave: true, spaceId: spaceId, retrospectId: retrospectId },
+      {
+        onSuccess: () => {
+          handleModalClose("temporary-save");
+          toast.success("임시 저장이 완료되었어요!");
+          setPrevAnswers(answers);
+        },
+      },
+    );
+  };
+
+  /**
+   * NOTE: Tanstack Post User Data
+   * */
+  const mutatePostData = () => {
+    mutate(
+      { data: answers, isTemporarySave: false, spaceId: spaceId, retrospectId: retrospectId, method: editMode.current },
+      {
+        onSuccess: () => {
+          navigate("/write/complete", {
+            state: {
+              spaceId: spaceId,
+              retrospectId: retrospectId,
+            },
+          });
+          const plainTextAnswers = answers.filter(({ questionType }) => questionType === "plain_text");
+          const answerLengths = plainTextAnswers.map(({ answerContent }) => answerContent.length);
+          track("WRITE_DONE", {
+            retrospectId,
+            spaceId,
+            answerLengths,
+            averageAnswerLength: Math.round((answerLengths.reduce((acc, length) => acc + length, 0) / plainTextAnswers.length) * 100) / 100,
+          });
+        },
+      },
+    );
+  };
 
   /**
    * NOTE: questionId는 작성 화면에서의 phase를 의미합니다.
@@ -191,21 +240,13 @@ export function Write() {
           {/* FIXME: 디자인 팀에 모달 문구 전달 후, 수정 예정 */}
           <TemporarySaveModal
             title={"회고 작성을 멈출까요?"}
-            content={"작성중인 회고는 임시저장 되어요"}
+            content={"나가기 클릭 시, 임시저장 하지 않은 글은\n따로 저장되지 않아요"}
+            leftButtonText={"임시저장"}
             confirm={() => {
-              mutate(
-                { data: answers, isTemporarySave: true, spaceId: spaceId, retrospectId: retrospectId },
-                {
-                  onSuccess: () => {
-                    handleModalClose("temporary-save");
-                    navigate("/");
-                  },
-                },
-              );
-            }}
-            quit={() => {
               handleModalClose("temporary-save");
+              navigate("/");
             }}
+            quit={mutateSaveTemporaryData}
           />
         </Portal>
       );
@@ -219,7 +260,6 @@ export function Write() {
       <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />
       <DefaultLayout
         theme={isComplete ? "gray" : "default"}
-        title={isComplete ? null : <ItemsButton onClick={() => setEntireModalOpen(true)} />}
         RightComp={
           isComplete ? (
             <span
@@ -230,21 +270,48 @@ export function Write() {
               `}
               onClick={() => movePhase(0)}
             >
-              답변수정
+              수정
             </span>
           ) : (
-            <button
+            <div
               css={css`
-                color: ${isAnswerFilled ? "#73a2ff" : "#CED2DA"};
-                cursor: ${isAnswerFilled ? "pointer" : "not-allowed"};
-                transition: 0.4s all;
-                font-size: 1.6rem;
+                display: flex;
+                align-items: center;
+                column-gap: 1.2rem;
               `}
-              onClick={() => movePhase(data.questions.length)}
-              disabled={!isAnswerFilled}
             >
-              마치기
-            </button>
+              <button
+                css={css`
+                  color: ${hasChanges() ? DESIGN_TOKEN_COLOR.gray600 : DESIGN_TOKEN_COLOR.gray400};
+                  cursor: ${hasChanges() ? "pointer" : "not-allowed"};
+                  transition: 0.4s all;
+                  font-size: 1.6rem;
+                `}
+                onClick={mutateSaveTemporaryData}
+                disabled={!hasChanges()}
+              >
+                저장
+              </button>
+              <div
+                id="split"
+                css={css`
+                  height: 1.3rem;
+                  border: solid 0.04rem ${DESIGN_TOKEN_COLOR.gray500};
+                `}
+              />
+              <button
+                css={css`
+                  color: ${isAnswerFilled ? "#73a2ff" : "#CED2DA"};
+                  cursor: ${isAnswerFilled ? "pointer" : "not-allowed"};
+                  transition: 0.4s all;
+                  font-size: 1.6rem;
+                `}
+                onClick={() => movePhase(data.questions.length)}
+                disabled={!isAnswerFilled}
+              >
+                작성 완료
+              </button>
+            </div>
           )
         }
         LeftComp={
@@ -279,13 +346,12 @@ export function Write() {
                     {
                       number: (
                         <Fragment>
-                          <HeaderProvider>
-                            <HeaderProvider.Description
-                              contents={"사전 질문"}
-                              css={css`
-                                color: #7e7c7c;
-                              `}
-                            />
+                          <HeaderProvider
+                            onlyContainerStyle={css`
+                              row-gap: 1.6rem;
+                            `}
+                          >
+                            <ItemsButton onClick={() => setEntireModalOpen(true)} title={`사전질문 ${AdvanceQuestionsNum - 1}`} />
                             <HeaderProvider.Subject contents={item.question} />
                           </HeaderProvider>
                           <div
@@ -303,13 +369,12 @@ export function Write() {
                       ),
                       range: (
                         <Fragment>
-                          <HeaderProvider>
-                            <HeaderProvider.Description
-                              contents={"사전 질문"}
-                              css={css`
-                                color: #7e7c7c;
-                              `}
-                            />
+                          <HeaderProvider
+                            onlyContainerStyle={css`
+                              row-gap: 1.6rem;
+                            `}
+                          >
+                            <ItemsButton onClick={() => setEntireModalOpen(true)} title={`사전질문 ${AdvanceQuestionsNum}`} />
                             <HeaderProvider.Subject contents={item.question} />
                           </HeaderProvider>
                           <div
@@ -327,20 +392,21 @@ export function Write() {
                       ),
                       plain_text: (
                         <Fragment>
-                          <HeaderProvider>
-                            <HeaderProvider.Description
-                              contents={`{${item.order - (AdvanceQuestionsNum - 1)}}/${data.questions.length - AdvanceQuestionsNum}`}
-                              css={css`
-                                color: #7e7c7c;
-                                font-weight: 500;
-                                letter-spacing: 0.1rem;
-                                font-size: 1.6rem;
-
-                                .emphasis {
-                                  color: black;
-                                }
-                              `}
+                          <HeaderProvider
+                            onlyContainerStyle={css`
+                              row-gap: 1.6rem;
+                            `}
+                          >
+                            <ItemsButton
+                              onClick={() => setEntireModalOpen(true)}
+                              title={
+                                <QuestionStatus
+                                  currentPhase={item.order - (AdvanceQuestionsNum - 1)}
+                                  totalPhase={data.questions.length - AdvanceQuestionsNum}
+                                />
+                              }
                             />
+
                             <HeaderProvider.Subject contents={item.question} />
                           </HeaderProvider>
                           <WDescriptiveTemplate answer={answers[item.order].answerContent} onChange={(e) => handleChange(e)} />
@@ -377,31 +443,17 @@ export function Write() {
             <Button
               colorSchema={"primary"}
               onClick={() =>
-                mutate(
-                  { data: answers, isTemporarySave: false, spaceId: spaceId, retrospectId: retrospectId, method: editMode.current },
-                  {
-                    onSuccess: () => {
-                      navigate("/write/complete", {
-                        state: {
-                          spaceId: spaceId,
-                          retrospectId: retrospectId,
-                        },
-                      });
-                      const plainTextAnswers = answers.filter(({ questionType }) => questionType === "plain_text");
-                      const answerLengths = plainTextAnswers.map(({ answerContent }) => answerContent.length);
-                      track("WRITE_DONE", {
-                        retrospectId,
-                        spaceId,
-                        answerLengths,
-                        averageAnswerLength:
-                          Math.round((answerLengths.reduce((acc, length) => acc + length, 0) / plainTextAnswers.length) * 100) / 100,
-                      });
-                    },
+                open({
+                  title: "회고를 제출할까요?",
+                  contents: "제출하고 난 뒤에는\n더 이상 회고를 수정할 수 없어요",
+                  options: {
+                    buttonText: ["취소", "제출하기"],
                   },
-                )
+                  onConfirm: mutatePostData,
+                })
               }
             >
-              저장하기
+              제출하기
             </Button>
           ) : (
             <Fragment>

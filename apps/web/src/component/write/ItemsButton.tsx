@@ -1,14 +1,19 @@
 import { css } from "@emotion/react";
 
 import { Icon } from "@/component/common/Icon";
+import { Typography } from "@/component/common/typography";
 
-export function ItemsButton({ ...props }) {
+type ItemsButtonProps = {
+  title: string | React.ReactElement;
+} & Omit<React.HTMLAttributes<HTMLButtonElement>, "type">;
+
+export function ItemsButton({ title = "질문 전체보기", ...props }: ItemsButtonProps) {
   return (
     <button
       css={css`
         min-height: 4.2rem;
-        min-width: 16.4rem;
-        padding: 0.9rem 2.6rem;
+        width: fit-content;
+        padding: 0.9rem 1.5rem;
         cursor: pointer;
 
         display: flex;
@@ -21,14 +26,9 @@ export function ItemsButton({ ...props }) {
       `}
       {...props}
     >
-      <span
-        css={css`
-          color: #666b75;
-          font-size: 1.6rem;
-        `}
-      >
-        질문 전체보기
-      </span>
+      <Typography color={"gray900"} variant={"subtitle16SemiBold"}>
+        {title}
+      </Typography>
       <Icon icon={"ic_arrow"} size={1.2} />
     </button>
   );
