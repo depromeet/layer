@@ -2,8 +2,8 @@ import { format, differenceInDays } from "date-fns";
 
 const formatDateAndTime = (dateString: string): string => {
   const date = new Date(dateString);
-  const formattedDate = format(date, "yyyy MM. dd a hh:mm");
-  return formattedDate.replace("AM", "오전").replace("PM", "오후");
+  const formattedDate = format(date, "yyyy.MM.dd HH:mm");
+  return formattedDate;
 };
 
 const formatOnlyDate = (dateString: string): string => {
