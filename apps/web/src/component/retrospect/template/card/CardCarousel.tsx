@@ -56,10 +56,10 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
           <SwiperSlide
             key={index}
             className={
-              index === targetSlideIndex - 1
-                ? `slide-content ${isAnimating ? "left" : ""}`
-                : index === targetSlideIndex
-                  ? `slide-content ${isAnimating ? "animate" : ""}`
+              index === targetSlideIndex - 1 && isAnimating
+                ? "slide-content left"
+                : index === targetSlideIndex && isAnimating
+                  ? "slide-content animate"
                   : ""
             }
           >
