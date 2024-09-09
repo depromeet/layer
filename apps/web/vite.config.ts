@@ -5,7 +5,6 @@ import svgr from "vite-plugin-svgr";
 import path from "path";
 import dotenv from "dotenv";
 import { VitePluginRadar } from "vite-plugin-radar";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 dotenv.config();
 
@@ -25,7 +24,6 @@ export default defineConfig({
         id: process.env.VITE_GOOGLE_ANALYTICS,
       },
     }),
-    tsconfigPaths(),
   ],
   server: {
     host: "0.0.0.0",
@@ -37,9 +35,9 @@ export default defineConfig({
     outDir: "dist", // 빌드 결과가 저장되는 폴더
     sourcemap: true, // 디버깅을 위한 소스맵 생성 (선택 사항)
   },
-  // resolve: {
-  //   alias: {
-  //     "@": path.resolve(__dirname, "./src"),
-  //   },
-  // },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
 });
