@@ -30,6 +30,6 @@ export const TemplateObj = {
     templateName: "무제",
     imageUrl: "https://kr.object.ncloudstorage.com/layer-bucket/template/0908_untitled.png",
   },
-} as const;
+};
 
 export type TemplateKey = keyof typeof TemplateObj;
