@@ -11,51 +11,65 @@ type TemplateCardProps = {
   tag: string;
   imgUrl: string;
   onClick?: () => void;
+  scale?: number;
+  size?: "small" | "default";
 };
 
-export function TemplateCard({ name, tag, imgUrl, onClick }: TemplateCardProps) {
+export function TemplateCard({ name, tag, imgUrl, size = "default", onClick }: TemplateCardProps) {
   return (
     <div
       css={css`
-        padding: 3rem;
+        width: ${size === "small" ? "24rem" : "32rem"};
         aspect-ratio: 1 / 1;
         background: ${DESIGN_TOKEN_COLOR.gray00};
         border-radius: 0.8rem;
-        width: 36rem;
-        cursor: pointer;
       `}
-      onClick={onClick}
     >
-      <Typography variant="S1">{name}</Typography>
-      <Spacing size={1.2} />
-      <Tag>{tag}</Tag>
       <div
         css={css`
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          margin-top: 2rem;
-          gap: 2rem;
+          width: 100%;
+          height: 100%;
+          background: ${DESIGN_TOKEN_COLOR.gray00};
+          cursor: pointer;
+          border-radius: 0.8rem;
+          transform: ${size === "small" && "scale(0.8)"};
+          transform-origin: top left;
         `}
+        onClick={onClick}
       >
-        <div css={css``}>
-          <img
-            src={imgUrl}
+        <div
+          css={css`
+            padding: 2rem;
+            width: ${size === "small" && "125%"};
+            height: ${size === "small" && "125%"};
+          `}
+        >
+          <Typography variant="title20Bold">{name}</Typography>
+          <Spacing size={1.2} />
+          <Tag>{tag}</Tag>
+          <div
             css={css`
-              mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
-              width: 20rem;
-              height: auto;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
             `}
-          />
+          >
+            <img
+              src={imgUrl}
+              css={css`
+                mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
+                width: 60%;
+                height: auto;
+              `}
+            />
+            <ButtonProvider.White>
+              <Typography color="grey800" variant="B1">
+                더 알아보기
+              </Typography>
+            </ButtonProvider.White>
+          </div>
         </div>
-        {/* <ButtonProvider gradient={false}> */}
-        <ButtonProvider.White>
-          <Typography color="grey800" variant="B1">
-            더 알아보기
-          </Typography>
-        </ButtonProvider.White>
-        {/* </ButtonProvider> */}
       </div>
     </div>
   );

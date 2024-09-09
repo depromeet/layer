@@ -38,7 +38,7 @@ export function RecommendTemplatePage() {
         formName: data.formName,
         tag: data.tag,
       });
-      navigate("/retrospect/recommend/done", { state: { templateId: data.formId, spaceId: recommendValue.spaceId } });
+      navigate("/retrospect/recommend/search", { state: { templateId: data.formId, spaceId: recommendValue.spaceId } });
       resetTemplateValue();
       setIsLoading(false);
     } catch (error) {
