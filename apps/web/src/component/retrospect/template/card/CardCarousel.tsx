@@ -25,6 +25,13 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
   const targetSlideIndex = 4; // 멈추고 싶은 n번째 슬라이드 인덱스 (0부터 시작)
   const navigate = useNavigate();
 
+  const getSlideClassName = (index: number): string => {
+    if (isAnimating && index === targetSlideIndex - 1) return "slide-content left";
+    if (isAnimating && index === targetSlideIndex) return "slide-content animate";
+
+    return "";
+  };
+
   return (
     <>
       <Swiper
@@ -53,16 +60,7 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
         className="mySwiper"
       >
         {templateArr.map((template, index) => (
-          <SwiperSlide
-            key={index}
-            className={
-              index === targetSlideIndex - 1 && isAnimating
-                ? "slide-content left"
-                : index === targetSlideIndex && isAnimating
-                  ? "slide-content animate"
-                  : ""
-            }
-          >
+          <SwiperSlide key={index} className={getSlideClassName(index)}>
             <TemplateCard name={template.templateName} tag={template.title} imgUrl={template.imageUrl} scale={0.8} size="small" />
           </SwiperSlide>
         ))}
