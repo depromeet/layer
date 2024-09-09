@@ -12,7 +12,7 @@ export default ({ config }: ConfigContext): ConfigContext["config"] => {
         ...(config?.ios?.config ?? {}),
         usesNonExemptEncryption: false,
         branch: {
-          apiKey: "key_live_itjP2IzCCpusGpEaJZoejcicxrdQXPCx",
+          apiKey: `key_live_${process.env.BRANCH_KEY}`,
         },
       },
       associatedDomains: [
@@ -24,7 +24,7 @@ export default ({ config }: ConfigContext): ConfigContext["config"] => {
     android: {
       config: {
         branch: {
-          apiKey: "key_live_itjP2IzCCpusGpEaJZoejcicxrdQXPCx",
+          apiKey: `key_live_${process.env.BRANCH_KEY}`,
         },
       },
     },
