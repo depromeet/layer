@@ -197,7 +197,14 @@ export function RetrospectBox({
           `}
         >
           <Typography color="gray500" variant="body14Medium">
-            {retrospect.deadline == null ? <>모든 인원 제출 시 마감</> : <>마감일 | {formatDateAndTime(deadline!)}</>}
+            {retrospect.deadline == null ? (
+              <>모든 인원 제출 시 마감</>
+            ) : (
+              <>
+                {" "}
+                {retrospect.retrospectStatus === "DONE" ? "마감일" : "마감 예정일"} | {formatDateAndTime(deadline!)}
+              </>
+            )}
           </Typography>
           <div
             css={css`
