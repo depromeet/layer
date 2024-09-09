@@ -18,9 +18,7 @@ export function Radio({ value, children, ...props }: RadioProps) {
       htmlFor={value}
       css={css`
         font-weight: 600;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        width: fit-content;
         padding: 1.2rem 1.6rem;
         border-radius: 0.6rem;
         background-color: ${radioContext?.isChecked(value) ? DESIGN_SYSTEM_COLOR.theme3 : DESIGN_SYSTEM_COLOR.lightGrey2};
