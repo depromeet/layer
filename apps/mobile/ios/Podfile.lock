@@ -1,11 +1,16 @@
 PODS:
   - Alamofire (5.9.1)
   - boost (1.83.0)
+  - BranchSDK (3.4.4)
   - DoubleConversion (1.1.6)
   - EXConstants (16.0.2):
     - ExpoModulesCore
   - Expo (51.0.32):
     - ExpoModulesCore
+  - ExpoAdapterBranch (8.0.0):
+    - ExpoModulesCore
+    - React-Core
+    - react-native-branch
   - ExpoAsset (10.0.10):
     - ExpoModulesCore
   - ExpoFileSystem (17.0.1):
@@ -117,6 +122,12 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - Mixpanel-swift (4.2.7):
+    - Mixpanel-swift/Complete (= 4.2.7)
+  - Mixpanel-swift/Complete (4.2.7)
+  - MixpanelReactNative (3.0.5):
+    - Mixpanel-swift (= 4.2.7)
+    - React-Core
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1066,6 +1077,13 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-branch (6.2.2):
+    - BranchSDK (= 3.4.4)
+    - React-Core
+  - react-native-config (1.5.3):
+    - react-native-config/App (= 1.5.3)
+  - react-native-config/App (1.5.3):
+    - React-Core
   - react-native-safe-area-context (4.10.5):
     - React-Core
   - react-native-webview (13.8.6):
@@ -1318,6 +1336,8 @@ PODS:
     - React-logger (= 0.74.5)
     - React-perflogger (= 0.74.5)
     - React-utils (= 0.74.5)
+  - RNCAsyncStorage (2.0.0):
+    - React-Core
   - RNCKakaoCore (2.2.6):
     - DoubleConversion
     - glog
@@ -1488,6 +1508,7 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - "EXConstants (from `../../../node_modules/.pnpm/expo-constants@16.0.2_expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7.25.3_@babel+core@7.24.5__encoding@0.1.13_/node_modules/expo-constants/ios`)"
   - "Expo (from `../../../node_modules/.pnpm/expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7.25.3_@babel+core@7.24.5__encoding@0.1.13/node_modules/expo`)"
+  - "ExpoAdapterBranch (from `../../../node_modules/.pnpm/@config-plugins+react-native-branch@8.0.0_expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7_luqyqhuc2pxykg4onuuckfmd2a/node_modules/@config-plugins/react-native-branch/ios`)"
   - "ExpoAsset (from `../../../node_modules/.pnpm/expo-asset@10.0.10_expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7.25.3_@babel+core@7.24.5__encoding@0.1.13_/node_modules/expo-asset/ios`)"
   - "ExpoFileSystem (from `../../../node_modules/.pnpm/expo-file-system@17.0.1_expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7.25.3_@babel+core@7.24.5__encoding@0.1.13_/node_modules/expo-file-system/ios`)"
   - "ExpoFont (from `../../../node_modules/.pnpm/expo-font@12.0.10_expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7.25.3_@babel+core@7.24.5__encoding@0.1.13_/node_modules/expo-font/ios`)"
@@ -1502,6 +1523,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
+  - MixpanelReactNative (from `../node_modules/mixpanel-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
@@ -1529,6 +1551,8 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
+  - react-native-branch (from `../node_modules/react-native-branch`)
+  - react-native-config (from `../node_modules/react-native-config`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
@@ -1554,6 +1578,7 @@ DEPENDENCIES:
   - React-runtimescheduler (from `../node_modules/react-native/ReactCommon/react/renderer/runtimescheduler`)
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCKakaoCore (from `../node_modules/@react-native-kakao/core`)"
   - "RNCKakaoShare (from `../node_modules/@react-native-kakao/share`)"
   - "RNCKakaoSocial (from `../node_modules/@react-native-kakao/social`)"
@@ -1568,6 +1593,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - BranchSDK
     - KakaoSDKAuth
     - KakaoSDKCommon
     - KakaoSDKFriend
@@ -1577,6 +1603,7 @@ SPEC REPOS:
     - KakaoSDKTemplate
     - KakaoSDKUser
     - lottie-ios
+    - Mixpanel-swift
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -1588,6 +1615,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.pnpm/expo-constants@16.0.2_expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7.25.3_@babel+core@7.24.5__encoding@0.1.13_/node_modules/expo-constants/ios"
   Expo:
     :path: "../../../node_modules/.pnpm/expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7.25.3_@babel+core@7.24.5__encoding@0.1.13/node_modules/expo"
+  ExpoAdapterBranch:
+    :path: "../../../node_modules/.pnpm/@config-plugins+react-native-branch@8.0.0_expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7_luqyqhuc2pxykg4onuuckfmd2a/node_modules/@config-plugins/react-native-branch/ios"
   ExpoAsset:
     :path: "../../../node_modules/.pnpm/expo-asset@10.0.10_expo@51.0.32_@babel+core@7.24.5_@babel+preset-env@7.25.3_@babel+core@7.24.5__encoding@0.1.13_/node_modules/expo-asset/ios"
   ExpoFileSystem:
@@ -1617,6 +1646,8 @@ EXTERNAL SOURCES:
     :tag: hermes-2024-06-28-RNv0.74.3-7bda0c267e76d11b68a585f84cfdd65000babf85
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
+  MixpanelReactNative:
+    :path: "../node_modules/mixpanel-react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTDeprecation:
@@ -1667,6 +1698,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   react-native-blur:
     :path: "../node_modules/@react-native-community/blur"
+  react-native-branch:
+    :path: "../node_modules/react-native-branch"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-webview:
@@ -1717,6 +1752,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/utils"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCKakaoCore:
     :path: "../node_modules/@react-native-kakao/core"
   RNCKakaoShare:
@@ -1741,9 +1778,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
+  BranchSDK: 28bec34fb99c53ab8e86b7bf69cc55a4505fe0b3
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   EXConstants: 409690fbfd5afea964e5e9d6c4eb2c2b59222c59
   Expo: 33132a667698a3259a4e6c0af1b4936388e5fa33
+  ExpoAdapterBranch: 0a777cc421574cbb56d35f372e975bc1e625bb48
   ExpoAsset: 323700f291684f110fb55f0d4022a3362ea9f875
   ExpoFileSystem: 80bfe850b1f9922c16905822ecbf97acd711dc51
   ExpoFont: 00756e6c796d8f7ee8d211e29c8b619e75cbf238
@@ -1767,6 +1806,8 @@ SPEC CHECKSUMS:
   KakaoSDKUser: 043bcd7e91454ebf3bf64f150c430e6f65f0a08d
   lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
   lottie-react-native: 4279da8b681e89c29a2adb9f99985d6cf372d49d
+  Mixpanel-swift: 7f5b749dbda2708033d67ff3d7a91710468d4a38
+  MixpanelReactNative: 00d0aa5ebf291f389a87d9583419c4d4e51c5941
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: 3afceddffa65aee666dafd6f0116f1d975db1584
   RCTRequired: ec1239bc9d8bf63e10fb92bd8b26171a9258e0c1
@@ -1792,6 +1833,8 @@ SPEC CHECKSUMS:
   React-logger: 257858bd55f3a4e1bc0cf07ddc8fb9faba6f8c7c
   React-Mapbuffer: 6c1cacdbf40b531f549eba249e531a7d0bfd8e7f
   react-native-blur: 30d91a67da86a4d4d924b0c7c36f6e01479a246b
+  react-native-branch: 1a3a65b8902fcb988c110a60b0dcb56595db7077
+  react-native-config: 8f7283449bbb048902f4e764affbbf24504454af
   react-native-safe-area-context: a240ad4b683349e48b1d51fed1611138d1bdad97
   react-native-webview: 05bae3a03a1e4f59568dfc05286c0ebf8954106c
   React-nativeconfig: ba9a2e54e2f0882cf7882698825052793ed4c851
@@ -1817,6 +1860,7 @@ SPEC CHECKSUMS:
   React-runtimescheduler: cfbe85c3510c541ec6dc815c7729b41304b67961
   React-utils: f242eb7e7889419d979ca0e1c02ccc0ea6e43b29
   ReactCommon: f7da14a8827b72704169a48c929bcde802698361
+  RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
   RNCKakaoCore: 271121ac80392d3ebe06782c5bcab4879cb3ea65
   RNCKakaoShare: 370949ae8f3ee35c3935b05188bbe827a334195c
   RNCKakaoSocial: 9c03b03e30c25b3a33d8ca2595ae7053bdba5b4d

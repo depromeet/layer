@@ -18,6 +18,9 @@ importers:
 
   apps/mobile:
     dependencies:
+      '@config-plugins/react-native-branch':
+        specifier: ^8.0.0
+        version: 8.0.0(expo@51.0.32(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(encoding@0.1.13))
       '@expo/config':
         specifier: ^9.0.3
         version: 9.0.3
@@ -27,6 +30,9 @@ importers:
       '@layer/shared':
         specifier: workspace:^
         version: link:../../packages/shared
+      '@react-native-async-storage/async-storage':
+        specifier: ^2.0.0
+        version: 2.0.0(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))
       '@react-native-community/blur':
         specifier: ^4.4.1
         version: 4.4.1(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
@@ -93,6 +99,9 @@ importers:
       lottie-react-native:
         specifier: ^6.7.2
         version: 6.7.2(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)
+      mixpanel-react-native:
+        specifier: ^3.0.5
+        version: 3.0.5(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -102,6 +111,12 @@ importers:
       react-native:
         specifier: 0.74.5
         version: 0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)
+      react-native-branch:
+        specifier: ^6.2.2
+        version: 6.2.2(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))
+      react-native-config:
+        specifier: ^1.5.3
+        version: 1.5.3
       react-native-dotenv:
         specifier: ^3.4.11
         version: 3.4.11(@babel/runtime@7.25.6)
@@ -154,6 +169,9 @@ importers:
       babel-preset-expo:
         specifier: ^11.0.14
         version: 11.0.14(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       jest:
         specifier: ^29.2.1
         version: 29.7.0(@types/node@20.12.12)(babel-plugin-macros@3.1.0)
@@ -1181,6 +1199,11 @@ packages:
   '@cfcs/core@0.1.0':
     resolution: {integrity: sha512-kvYX0RpL45XTHJ5sW7teNbKeAa7pK3nNqaJPoFfZDPTIBJOkTtRD3QhkBG+O3Hu69a8xeMoPvF6y/RtJ6JUOdA==}
 
+  '@config-plugins/react-native-branch@8.0.0':
+    resolution: {integrity: sha512-lPKpnLx2HZ82FdDQXfSOggmLfrV0sArze9B8Ns2XvuuNPbmJa4+ixyxIBGe2vs9HTj7NBd3e12SOZ4ZG/BUlWw==}
+    peerDependencies:
+      expo: ^51
+
   '@egjs/agent@2.4.3':
     resolution: {integrity: sha512-XvksSENe8wPeFlEVouvrOhKdx8HMniJ3by7sro2uPF3M6QqWwjzVcmvwoPtdjiX8O1lfRoLhQMp1a7NGlVTdIA==}
 
@@ -1427,7 +1450,7 @@ packages:
 
   '@expo/bunyan@4.0.1':
     resolution: {integrity: sha512-+Lla7nYSiHZirgK+U/uYzsLv/X+HaJienbD5AKX1UQZHYfWaP+9uuQluRB4GrEVWF0GZ7vEVp/jzaOT9k/SQlg==}
-    engines: {'0': node >=0.10.0}
+    engines: {node: '>=0.10.0'}
 
   '@expo/cli@0.18.29':
     resolution: {integrity: sha512-X810C48Ss+67RdZU39YEO1khNYo1RmjouRV+vVe0QhMoTe8R6OA3t+XYEdwaNbJ5p/DJN7szfHfNmX2glpC7xg==}
@@ -1933,6 +1956,16 @@ packages:
     resolution: {integrity: sha512-avutXAFL1ehGvAXtPquu0YK5oz6ctS474iM3vNGQIkswrVhdrS52e3uoMQBzZhNRAIE0jBnUyXWNmSjGHhCFcw==}
     peerDependencies:
       react: ^16.8 || ^17.0 || ^18.0
+
+  '@react-native-async-storage/async-storage@1.24.0':
+    resolution: {integrity: sha512-W4/vbwUOYOjco0x3toB8QCr7EjIP6nE9G7o8PMguvvjYT5Awg09lyV4enACRx4s++PPulBiBSjL0KTFx2u0Z/g==}
+    peerDependencies:
+      react-native: ^0.0.0-0 || >=0.60 <1.0
+
+  '@react-native-async-storage/async-storage@2.0.0':
+    resolution: {integrity: sha512-af6H9JjfL6G/PktBfUivvexoiFKQTJGQCtSWxMdivLzNIY94mu9DdiY0JqCSg/LyPCLGKhHPUlRQhNvpu3/KVA==}
+    peerDependencies:
+      react-native: ^0.0.0-0 || >=0.65 <1.0
 
   '@react-native-community/blur@4.4.1':
     resolution: {integrity: sha512-XBSsRiYxE/MOEln2ayunShfJtWztHwUxLFcSL20o+HNNRnuUDv+GXkF6FmM2zE8ZUfrnhQ/zeTqvnuDPGw6O8A==}
@@ -5074,6 +5107,10 @@ packages:
     resolution: {integrity: sha512-yvkRyxmFKEOQ4pNXCmJG5AEQNlXJS5LaONXo5/cLdTZdWvsZ1ioJEonLGAosKlMWE8lwUy/bJzMjcw8az73+Fg==}
     engines: {node: '>=0.10.0'}
 
+  is-plain-obj@2.1.0:
+    resolution: {integrity: sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==}
+    engines: {node: '>=8'}
+
   is-plain-object@2.0.4:
     resolution: {integrity: sha512-h5PpgXkWitc38BBMYawTYMWJHFZJVnBquFE57xFpjB8pJFiF6gZ+bU+WyI/yqXiFR5mdLsgYNaPe8uao6Uv9Og==}
     engines: {node: '>=0.10.0'}
@@ -5490,7 +5527,6 @@ packages:
     resolution: {integrity: sha512-Quz3MvAwHxVYNXsOByL7xI5EB2WYOeFswqaHIA3qOK3isRWTxiplBEocmmru6XmxDB2L7jDNYtYA4FyimoAFEw==}
     engines: {node: '>=8.17.0'}
     hasBin: true
-    bundledDependencies: []
 
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
@@ -5779,6 +5815,10 @@ packages:
   merge-descriptors@1.0.1:
     resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
 
+  merge-options@3.0.4:
+    resolution: {integrity: sha512-2Sug1+knBjkaMsMgf1ctR1Ujx+Ayku4EdJN4Z+C2+JzoeF7A3OZ9KM2GY0CpQS51NR61LTurMJrRKPhSs3ZRTQ==}
+    engines: {node: '>=10'}
+
   merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
 
@@ -5960,6 +6000,9 @@ packages:
 
   mixpanel-browser@2.55.1:
     resolution: {integrity: sha512-NSEPdFSJxoR1OCKWKHbtqd3BeH1c9NjXbEt0tN5TgBEO1nSDji6niU9n4MopAXOP0POET9spjpQKxZtLZKTJwA==}
+
+  mixpanel-react-native@3.0.5:
+    resolution: {integrity: sha512-y6rh5AXy0xZI3kQvwmjt70tAzzPvCkx/6kywIfitI3UTTgbV/wuPeRHkAOxaM8C0jZbiCFtEhE09vGSN4ZutgQ==}
 
   mkdirp@0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
@@ -6712,6 +6755,19 @@ packages:
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
+
+  react-native-branch@6.2.2:
+    resolution: {integrity: sha512-zXc90/IoZKR0RBEhpjLKHnm2rSrZdAuEdMnmGg0tC63n11MUhkHEB78KKnC1ooQV9DBjdyhkhg25D1tA7xdprw==}
+    peerDependencies:
+      react-native: '>= 0.60'
+
+  react-native-config@1.5.3:
+    resolution: {integrity: sha512-3D05Abgk5DfDw9w258EzXvX5AkU7eqj3u9H0H0L4gUga4nYg/zuupcrpGbpF4QeXBcJ84jjs6g8JaEP6VBT7Pg==}
+    peerDependencies:
+      react-native-windows: '>=0.61'
+    peerDependenciesMeta:
+      react-native-windows:
+        optional: true
 
   react-native-dotenv@3.4.11:
     resolution: {integrity: sha512-6vnIE+WHABSeHCaYP6l3O1BOEhWxKH6nHAdV7n/wKn/sciZ64zPPp2NUdEUf1m7g4uuzlLbjgr+6uDt89q2DOg==}
@@ -7958,6 +8014,11 @@ packages:
 
   uuid@10.0.0:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
+    hasBin: true
+
+  uuid@3.3.2:
+    resolution: {integrity: sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==}
+    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
     hasBin: true
 
   uuid@7.0.3:
@@ -9321,6 +9382,10 @@ snapshots:
     dependencies:
       '@egjs/component': 3.0.5
 
+  '@config-plugins/react-native-branch@8.0.0(expo@51.0.32(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(encoding@0.1.13))':
+    dependencies:
+      expo: 51.0.32(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(encoding@0.1.13)
+
   '@egjs/agent@2.4.3': {}
 
   '@egjs/axes@3.9.0':
@@ -10562,6 +10627,16 @@ snapshots:
       '@babel/runtime': 7.25.6
       '@radix-ui/react-compose-refs': 1.0.0(react@18.2.0)
       react: 18.2.0
+
+  '@react-native-async-storage/async-storage@1.24.0(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))':
+    dependencies:
+      merge-options: 3.0.4
+      react-native: 0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)
+
+  '@react-native-async-storage/async-storage@2.0.0(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))':
+    dependencies:
+      merge-options: 3.0.4
+      react-native: 0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)
 
   '@react-native-community/blur@4.4.1(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))(react@18.2.0)':
     dependencies:
@@ -14323,6 +14398,8 @@ snapshots:
 
   is-plain-obj@1.1.0: {}
 
+  is-plain-obj@2.1.0: {}
+
   is-plain-object@2.0.4:
     dependencies:
       isobject: 3.0.1
@@ -15374,6 +15451,10 @@ snapshots:
 
   merge-descriptors@1.0.1: {}
 
+  merge-options@3.0.4:
+    dependencies:
+      is-plain-obj: 2.1.0
+
   merge-stream@2.0.0: {}
 
   merge2@1.4.1: {}
@@ -15661,6 +15742,13 @@ snapshots:
   mixpanel-browser@2.55.1:
     dependencies:
       rrweb: 2.0.0-alpha.13
+
+  mixpanel-react-native@3.0.5(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)):
+    dependencies:
+      '@react-native-async-storage/async-storage': 1.24.0(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0))
+      uuid: 3.3.2
+    transitivePeerDependencies:
+      - react-native
 
   mkdirp@0.5.6:
     dependencies:
@@ -16491,6 +16579,12 @@ snapshots:
       '@types/react': 18.2.79
       react: 18.2.0
       react-base16-styling: 0.9.1
+
+  react-native-branch@6.2.2(react-native@0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)):
+    dependencies:
+      react-native: 0.74.5(@babel/core@7.24.5)(@babel/preset-env@7.25.3(@babel/core@7.24.5))(@types/react@18.2.79)(encoding@0.1.13)(react@18.2.0)
+
+  react-native-config@1.5.3: {}
 
   react-native-dotenv@3.4.11(@babel/runtime@7.25.6):
     dependencies:
@@ -17851,6 +17945,8 @@ snapshots:
   utils-merge@1.0.1: {}
 
   uuid@10.0.0: {}
+
+  uuid@3.3.2: {}
 
   uuid@7.0.3: {}
 
