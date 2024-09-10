@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - develop
+      - chore/path-test
+    paths:
+      - apps/web/**
   pull_request:
     branches:
       - main
