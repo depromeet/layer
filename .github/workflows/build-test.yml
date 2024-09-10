@@ -6,8 +6,6 @@ on:
       - main
       - develop
       - chore/path-test
-    paths:
-      - apps/web/**
   pull_request:
     branches:
       - main
@@ -34,10 +32,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          cd apps/web
           pnpm install
 
       - name: Build
         run: |
-          cd apps/web
           pnpm build
