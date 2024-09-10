@@ -9,6 +9,7 @@ import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { TextArea } from "@/component/common/input";
 import { SelectBox } from "@/component/common/SelectBox";
+import { SelectBoxType } from "@/component/common/SelectBox/SelectBox.tsx";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem";
@@ -32,11 +33,15 @@ type ActionItemProps = {
 };
 
 export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, leaderId, restrospectArr = [] }: ActionItemListViewProps) {
-  const retrospectInfo = restrospectArr.map((item) => ({
-    retrospectId: item.retrospectId,
-    retrospectTitle: item.title,
-    status: item.retrospectStatus,
-  }));
+  const isCompleteRetrospect = restrospectArr.reduce((acc: SelectBoxType["data"], cur) => {
+    if (cur.retrospectStatus === "DONE")
+      acc.push({
+        retrospectId: cur.retrospectId,
+        retrospectTitle: cur.title,
+        status: cur.retrospectStatus,
+      });
+    return acc;
+  }, []);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -180,7 +185,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
                 position: relative;
               `}
             >
-              <SelectBox data={retrospectInfo} onClick={() => {}} value={retrospect} updateRetroSpectData={updateRetroSpectData} />
+              <SelectBox data={isCompleteRetrospect} onClick={() => {}} value={retrospect} updateRetroSpectData={updateRetroSpectData} />
 
               <Spacing size={1.5} />
               <TextArea value={actionItemValue} onChange={handleInputChange} placeholder={"실행목표를 입력해주세요"} height="14.3rem" />

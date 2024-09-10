@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 
 import { TIME_24 } from "@/component/common/dateTimePicker/time.const";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
@@ -12,33 +12,93 @@ type TimePickerProps = {
 };
 export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(function ({ radioControl }, ref) {
   const { curTab, tabs, selectTab } = useTabs(["오전", "오후"] as const);
+  const radioButtonsContainerRef = useRef<HTMLDivElement>(null);
+
+  const pmFirstItemRef = useRef<HTMLLabelElement>(null);
+  const amFirstItemRef = useRef<HTMLLabelElement>(null);
+
+  /**
+   * 탭을 클릭해 scrollIntoView가 작동 중인지에 대한 상태
+   */
+  const isScrollingIntoView = useRef(false);
+
+  useEffect(() => {
+    const checkPmInView = () => {
+      if (isScrollingIntoView.current) {
+        return;
+      }
+
+      const pmFirstClientRect = pmFirstItemRef.current?.getBoundingClientRect();
+      if (pmFirstClientRect && pmFirstClientRect.x < 200) {
+        selectTab("오후");
+      } else {
+        selectTab("오전");
+      }
+    };
+
+    const containerRef = radioButtonsContainerRef.current;
+    containerRef?.addEventListener("scroll", checkPmInView);
+
+    return () => {
+      containerRef?.removeEventListener("scroll", checkPmInView);
+    };
+  }, [selectTab]);
+
   return (
     <div
+      ref={ref}
       css={css`
         display: flex;
         flex-direction: column;
         gap: 2.4rem;
       `}
     >
-      <AmPmTabs tabs={tabs} curTab={curTab} selectTab={selectTab} />
-      <RadioButtonGroup isChecked={radioControl.isTimeChecked} onChange={radioControl.onTimeChange} radioName={"회고 마감 시간"} ref={ref}>
-        {curTab === "오전" &&
-          TIME_24.slice(0, 12).map((time, index) => {
+      <AmPmTabs
+        tabs={tabs}
+        curTab={curTab}
+        selectTab={(tab) => {
+          selectTab(tab);
+          isScrollingIntoView.current = true;
+
+          if (tab === "오후") {
+            pmFirstItemRef.current?.scrollIntoView({ behavior: "smooth", inline: "start" });
+          }
+          if (tab === "오전") {
+            amFirstItemRef.current?.scrollIntoView({ behavior: "smooth", inline: "start" });
+          }
+
+          setTimeout(() => {
+            isScrollingIntoView.current = false;
+          }, 1000);
+        }}
+      />
+      <div
+        css={css`
+          display: flex;
+        `}
+      >
+        <RadioButtonGroup
+          isChecked={radioControl.isTimeChecked}
+          onChange={radioControl.onTimeChange}
+          radioName={"회고 마감 시간"}
+          ref={radioButtonsContainerRef}
+        >
+          {TIME_24.slice(0, 13).map((time, index) => {
             return (
-              <Radio key={index} value={time}>
-                {time}
+              <Radio ref={index === 0 ? amFirstItemRef : null} value={time} key={index}>
+                <span>{time}</span>
               </Radio>
             );
           })}
-        {curTab === "오후" &&
-          TIME_24.slice(12).map((time, index) => {
+          {TIME_24.slice(13).map((time, index) => {
             return (
-              <Radio key={index} value={time}>
-                {`${Number(time.split(":")[0]) - 12}:00`}
+              <Radio ref={index === 0 ? pmFirstItemRef : null} value={time} key={index}>
+                <span>{time}</span>
               </Radio>
             );
           })}
-      </RadioButtonGroup>
+        </RadioButtonGroup>
+      </div>
     </div>
   );
 });

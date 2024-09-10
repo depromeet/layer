@@ -18,7 +18,7 @@ type EVENTS_TO_PROPERTIES = {
     templateId: number;
     spaceId: number;
     title: string;
-    deadline: string;
+    deadline?: string;
   };
 
   TEMPLATE_RECOMMEND: Omit<RecommendTemplateResponse, "formImageUrl">;

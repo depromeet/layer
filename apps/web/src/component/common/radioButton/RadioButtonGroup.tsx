@@ -1,11 +1,10 @@
-import { css, Interpolation, Theme } from "@emotion/react";
+import { css, SerializedStyles } from "@emotion/react";
 import { createContext, forwardRef } from "react";
 
 export type RadioContextState = {
   radioName: string;
   isChecked: (value: string) => boolean;
   onChange: (value: string) => void;
-  radioStyles?: Interpolation<Theme>;
 };
 
 export const RadioContext = createContext<RadioContextState | undefined>(undefined);
@@ -14,11 +13,11 @@ type RadioButtonGroupProps = {
   children: React.ReactNode;
   direction?: "row" | "column";
   gap?: number;
-  styles?: Interpolation<Theme>;
+  styles?: SerializedStyles;
 } & RadioContextState;
 
 export const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps>(function (
-  { children, styles, gap = 0.8, direction = "row", ...props },
+  { children, gap = 0.8, direction = "row", styles, radioName, isChecked, onChange },
   ref,
 ) {
   return (
@@ -34,7 +33,7 @@ export const RadioButtonGroup = forwardRef<HTMLDivElement, RadioButtonGroupProps
         styles,
       ]}
     >
-      <RadioContext.Provider value={props}>{children}</RadioContext.Provider>
+      <RadioContext.Provider value={{ radioName, isChecked, onChange }}>{children}</RadioContext.Provider>
     </div>
   );
 });
