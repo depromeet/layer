@@ -11,10 +11,6 @@
     "build:app": "pnpm build --filter=\"...{./apps/app}\"",
     "build:web": "pnpm build --filter=\"...{./apps/web}\""
   },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
   "dependencies": {
     "lerna": "^8.1.8"
   }
