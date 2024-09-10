@@ -33,8 +33,7 @@ const scaledAchievement = (data: getAnalysisResponse) => {
     ...individual,
     answers: individual.answers.map((answer) => ({
       ...answer,
-      answerContent:
-        answer.questionType === "range" ? `${parseInt(answer.answerContent) / parseInt(ACHIVEMENT_PERCENT[0]) - 1}` ?? "-1" : answer.answerContent,
+      answerContent: answer.questionType === "range" ? calculateScaledAnswer(answer.answerContent, ACHIVEMENT_PERCENT[0]) : answer.answerContent,
     })),
   }));
 
@@ -42,8 +41,7 @@ const scaledAchievement = (data: getAnalysisResponse) => {
     ...question,
     answers: question.answers.map((answer) => ({
       ...answer,
-      answerContent:
-        question.questionType === "range" ? `${parseInt(answer.answerContent) / parseInt(ACHIVEMENT_PERCENT[0]) - 1}` ?? "-1" : answer.answerContent,
+      answerContent: question.questionType === "range" ? calculateScaledAnswer(answer.answerContent, ACHIVEMENT_PERCENT[0]) : answer.answerContent,
     })),
   }));
 
@@ -53,6 +51,17 @@ const scaledAchievement = (data: getAnalysisResponse) => {
     questions: transformedQuestions,
   };
 };
+
+function calculateScaledAnswer(answerContent: string, achievementPercent: string): number {
+  const parsedAnswer = parseFloat(answerContent);
+  const parsedPercent = parseFloat(achievementPercent);
+
+  if (isNaN(parsedAnswer) || isNaN(parsedPercent) || parsedPercent === 0) {
+    return -1;
+  }
+
+  return parsedAnswer / parsedPercent - 1;
+}
 
 export const useGetAnalysisAnswer = ({ spaceId, retrospectId }: getAnalysisAnswer) => {
   const getAnalysisAnswer = () => {
