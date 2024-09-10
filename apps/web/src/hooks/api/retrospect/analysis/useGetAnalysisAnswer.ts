@@ -33,7 +33,8 @@ const scaledAchievement = (data: getAnalysisResponse) => {
     ...individual,
     answers: individual.answers.map((answer) => ({
       ...answer,
-      answerContent: answer.questionType === "range" ? calculateScaledAnswer(answer.answerContent, ACHIVEMENT_PERCENT[0]) : answer.answerContent,
+      answerContent:
+        answer.questionType === "range" ? calculateScaledAnswer(answer.answerContent, ACHIVEMENT_PERCENT[0]).toString() : answer.answerContent,
     })),
   }));
 
@@ -41,7 +42,8 @@ const scaledAchievement = (data: getAnalysisResponse) => {
     ...question,
     answers: question.answers.map((answer) => ({
       ...answer,
-      answerContent: question.questionType === "range" ? calculateScaledAnswer(answer.answerContent, ACHIVEMENT_PERCENT[0]) : answer.answerContent,
+      answerContent:
+        question.questionType === "range" ? calculateScaledAnswer(answer.answerContent, ACHIVEMENT_PERCENT[0]).toString() : answer.answerContent,
     })),
   }));
 
