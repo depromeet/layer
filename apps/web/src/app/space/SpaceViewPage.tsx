@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { PATHS } from "@layer/shared";
 import { useQueries } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { Fragment, useEffect, useState } from "react";
@@ -13,7 +14,6 @@ import { Typography } from "@/component/common/typography";
 import { SpaceCountView, RetrospectBox, ActionItemListView, CreateRetrospectiveSheet } from "@/component/space";
 import { EmptyRetrospect } from "@/component/space/view/EmptyRetrospect";
 import { SpaceAppBarRightComp } from "@/component/space/view/SpaceAppBarRightComp";
-import { PATHS } from "@/config/paths";
 import { useAPiOptionsRecentTeamActionList } from "@/hooks/api/actionItem/useAPiOptionsRecentTeamActionList";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
@@ -82,7 +82,7 @@ export function SpaceViewPage() {
           openBottomSheet({ id: SHEET_ID });
         },
         onConfirm: () => {
-          navigate(PATHS.retrospectCreate(), {
+          void navigate(PATHS.retrospectCreate(), {
             state: { spaceId, templateId: spaceInfo.formId },
           });
         },
@@ -106,7 +106,7 @@ export function SpaceViewPage() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => navigate("/")}
+          onClick={() => navigate(PATHS.home())}
           color={DESIGN_TOKEN_COLOR.gray00}
         />
       }

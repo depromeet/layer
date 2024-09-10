@@ -1,7 +1,7 @@
 {
   "name": "@layer/web",
   "private": true,
-  "version": "1.0.2-SNAPSHOT",
+  "version": "1.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,13 +12,13 @@
     "start": "pnpm build && node server/server.cjs"
   },
   "dependencies": {
-    "@webview-bridge/web": "^1.6.2",
     "@egjs/react-flicking": "^4.11.3",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@hello-pangea/dnd": "^16.6.0",
     "@hotjar/browser": "^1.0.9",
-    "@layer/app": "workspace:^",
+    "@layer/mobile": "workspace:^",
+    "@layer/shared": "workspace:^",
     "@popperjs/core": "^2.11.8",
     "@tanstack/react-query": "^5.49.2",
     "@tanstack/react-query-devtools": "^5.49.2",
@@ -26,6 +26,7 @@
     "@types/mixpanel-browser": "^2.50.0",
     "@types/react-beautiful-dnd": "^13.1.8",
     "@webview-bridge/react-native": "^1.6.2",
+    "@webview-bridge/web": "^1.6.2",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0",
     "crypto-js": "^4.2.0",
@@ -80,7 +81,7 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "typescript": "^5.2.2",
+    "typescript": "~5.3.3",
     "vite": "^5.2.0",
     "vite-plugin-svgr": "^4.2.0"
   }

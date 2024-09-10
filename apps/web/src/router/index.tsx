@@ -40,6 +40,7 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
+import { RecommendSearch } from "@/app/retrospect/template/recommend/RecommendSearch";
 
 type RouteChildren = {
   auth: boolean;
@@ -135,6 +136,11 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/retrospect/recommend",
     element: <RecommendTemplatePage />,
+    auth: true,
+  },
+  {
+    path: "/retrospect/recommend/search",
+    element: <RecommendSearch />,
     auth: true,
   },
   {

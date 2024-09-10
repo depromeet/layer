@@ -36,7 +36,7 @@ export function RecommendDone() {
       }
     >
       <Header title={`해당 템플릿으로\n회고를 진행할까요?`} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
-      <Spacing size={10} />
+      <Spacing size={4} />
       <div
         css={css`
           display: flex;
@@ -52,7 +52,7 @@ export function RecommendDone() {
               onClick={() => navigate("/template", { state: { templateId: templateData.id, spaceId, readOnly: false } })}
             />
           </Tooltip.Trigger>
-          <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
+          <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="bottom-start" offsetY={15} hideOnClick />
         </Tooltip>
       </div>
       <ButtonProvider>

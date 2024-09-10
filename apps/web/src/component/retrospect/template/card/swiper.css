@@ -1,0 +1,37 @@
+.card-carousel .swiper {
+  width: 100%;
+}
+
+.card-carousel .swiper-wrapper {
+  align-items: center;
+}
+
+.card-carousel .swiper-slide {
+  width: fit-content;
+  height: fit-content;
+  background: rgba(0, 0, 0, 0);
+  aspect-ratio: 1 / 1;
+  transition: none !important;
+  transition-delay: 0s !important;
+}
+
+.card-carousel .slide-content {
+  transition: all 0.7s ease-in-out !important;
+}
+
+.card-carousel .animate {
+  transform: scale(1.2) !important;
+  margin-right: 64px !important;
+  margin-left: 48px;
+  z-index: 123123123;
+  transition-delay: 1s !important;
+}
+
+.card-carousel .left {
+  margin-left: -48px !important;
+  transition-delay: 1s !important;
+}
+
+.card-carousel .right {
+  margin-right: 24px !important;
+}

@@ -1,0 +1,9 @@
+{
+  "npmClient": "pnpm",
+  "packages": [
+    ".",
+    "packages/*",
+    "apps/*"
+  ],
+  "version": "1.0.2-SNAPSHOT"
+}

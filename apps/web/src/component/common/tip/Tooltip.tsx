@@ -156,7 +156,7 @@ function Content({
               width: max-content;
               ${animate &&
               css`
-                animation: ${placement === "top-start" || placement === "top-end" ? ANIMATION.FLOAT_UP : ANIMATION.FADE_DOWN} 1.3s ease infinite;
+                animation: ${placement === "top-start" || placement === "top-end" ? ANIMATION.FLOAT_UP : ANIMATION.FLOAT_DOWN} 1.7s ease infinite;
               `}
               opacity: ${isVisible ? 1 : 0};
               visibility: ${isVisible ? "visible" : "hidden"};

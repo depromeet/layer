@@ -129,7 +129,8 @@ export function MembersList() {
     <DefaultLayout
       title="팀원"
       RightComp={
-        isLeader && (
+        isLeader &&
+        data?.length !== 1 && (
           <DropdownMenu onValueChange={(value) => onChangeEditType(value as EditType)} offset={[8, 8]}>
             <DropdownMenu.Trigger asChild={true}>
               <Typography color="gray600" variant="subtitle16SemiBold">
