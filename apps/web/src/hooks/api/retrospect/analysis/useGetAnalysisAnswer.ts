@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { api } from "@/api";
 import { ACHIVEMENT_PERCENT } from "@/component/write/template/write/write.const.ts";
+import { calculateScaledAnswer } from "@/utils/answer/calculateScaledAnswer.ts";
 
 type getAnalysisAnswer = {
   spaceId: string;
@@ -34,7 +35,7 @@ const scaledAchievement = (data: getAnalysisResponse) => {
     answers: individual.answers.map((answer) => ({
       ...answer,
       answerContent:
-        answer.questionType === "range" ? `${parseInt(answer.answerContent) / parseInt(ACHIVEMENT_PERCENT[0]) - 1}` ?? "-1" : answer.answerContent,
+        answer.questionType === "range" ? calculateScaledAnswer(answer.answerContent, ACHIVEMENT_PERCENT[0]).toString() : answer.answerContent,
     })),
   }));
 
@@ -43,7 +44,7 @@ const scaledAchievement = (data: getAnalysisResponse) => {
     answers: question.answers.map((answer) => ({
       ...answer,
       answerContent:
-        question.questionType === "range" ? `${parseInt(answer.answerContent) / parseInt(ACHIVEMENT_PERCENT[0]) - 1}` ?? "-1" : answer.answerContent,
+        question.questionType === "range" ? calculateScaledAnswer(answer.answerContent, ACHIVEMENT_PERCENT[0]).toString() : answer.answerContent,
     })),
   }));
 

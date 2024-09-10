@@ -1,14 +1,16 @@
 import { css } from "@emotion/react";
+import { PropsWithChildren } from "react";
 
 import { Icon } from "@/component/common/Icon";
+import { Typography } from "@/component/common/typography";
 
-export function ItemsButton({ ...props }) {
+export function ItemsButton({ children, ...props }: PropsWithChildren<Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type">>) {
   return (
     <button
       css={css`
         min-height: 4.2rem;
-        min-width: 16.4rem;
-        padding: 0.9rem 2.6rem;
+        width: fit-content;
+        padding: 0.9rem 1.5rem;
         cursor: pointer;
 
         display: flex;
@@ -21,14 +23,9 @@ export function ItemsButton({ ...props }) {
       `}
       {...props}
     >
-      <span
-        css={css`
-          color: #666b75;
-          font-size: 1.6rem;
-        `}
-      >
-        질문 전체보기
-      </span>
+      <Typography color={"gray900"} variant={"subtitle16SemiBold"}>
+        {children}
+      </Typography>
       <Icon icon={"ic_arrow"} size={1.2} />
     </button>
   );
