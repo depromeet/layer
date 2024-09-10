@@ -11,20 +11,6 @@
     "build:app": "pnpm build --filter=\"...{./apps/app}\"",
     "build:web": "pnpm build --filter=\"...{./apps/web}\""
   },
-  "devDependencies": {
-    "typescript": "^5.5.4"
-  },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "typescript"
-      ]
-    }
-  },
   "dependencies": {
     "lerna": "^8.1.8"
   }
