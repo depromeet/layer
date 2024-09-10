@@ -351,7 +351,7 @@ export function Write() {
                               row-gap: 1.6rem;
                             `}
                           >
-                            <ItemsButton onClick={() => setEntireModalOpen(true)} title={`사전질문 ${AdvanceQuestionsNum - 1}`} />
+                            <ItemsButton onClick={() => setEntireModalOpen(true)}>사전질문 {AdvanceQuestionsNum - 1}</ItemsButton>
                             <HeaderProvider.Subject contents={item.question} />
                           </HeaderProvider>
                           <div
@@ -374,7 +374,7 @@ export function Write() {
                               row-gap: 1.6rem;
                             `}
                           >
-                            <ItemsButton onClick={() => setEntireModalOpen(true)} title={`사전질문 ${AdvanceQuestionsNum}`} />
+                            <ItemsButton onClick={() => setEntireModalOpen(true)}>사전질문 {AdvanceQuestionsNum}</ItemsButton>
                             <HeaderProvider.Subject contents={item.question} />
                           </HeaderProvider>
                           <div
@@ -397,15 +397,12 @@ export function Write() {
                               row-gap: 1.6rem;
                             `}
                           >
-                            <ItemsButton
-                              onClick={() => setEntireModalOpen(true)}
-                              title={
-                                <QuestionStatus
-                                  currentPhase={item.order - (AdvanceQuestionsNum - 1)}
-                                  totalPhase={data.questions.length - AdvanceQuestionsNum}
-                                />
-                              }
-                            />
+                            <ItemsButton onClick={() => setEntireModalOpen(true)}>
+                              <QuestionStatus
+                                currentPhase={item.order - (AdvanceQuestionsNum - 1)}
+                                totalPhase={data.questions.length - AdvanceQuestionsNum}
+                              />
+                            </ItemsButton>
 
                             <HeaderProvider.Subject contents={item.question} />
                           </HeaderProvider>

@@ -1,13 +1,10 @@
 import { css } from "@emotion/react";
+import { PropsWithChildren } from "react";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 
-type ItemsButtonProps = {
-  title: string | React.ReactElement;
-} & Omit<React.HTMLAttributes<HTMLButtonElement>, "type">;
-
-export function ItemsButton({ title = "질문 전체보기", ...props }: ItemsButtonProps) {
+export function ItemsButton({ children, ...props }: PropsWithChildren<Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type">>) {
   return (
     <button
       css={css`
@@ -27,7 +24,7 @@ export function ItemsButton({ title = "질문 전체보기", ...props }: ItemsBu
       {...props}
     >
       <Typography color={"gray900"} variant={"subtitle16SemiBold"}>
-        {title}
+        {children}
       </Typography>
       <Icon icon={"ic_arrow"} size={1.2} />
     </button>
