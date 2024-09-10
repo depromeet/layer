@@ -11,12 +11,23 @@ export type AnswerResponseType = {
   }[];
 };
 
+function calculateScaledAnswer(answerContent: string, achievementPercent: string): number {
+  const parsedAnswer = parseFloat(answerContent);
+  const parsedPercent = parseFloat(achievementPercent);
+
+  if (isNaN(parsedAnswer) || isNaN(parsedPercent) || parsedPercent === 0) {
+    return -1;
+  }
+
+  return parsedAnswer / parsedPercent - 1;
+}
+
 export const scaledAchievement = (data: AnswerResponseType) => {
   const answers = data.answers.map((item) =>
     item.questionType === "range"
       ? {
           ...item,
-          answerContent: `${parseInt(item.answerContent) / parseInt(ACHIVEMENT_PERCENT[0]) - 1}` ?? "-1",
+          answerContent: calculateScaledAnswer(item.answerContent, ACHIVEMENT_PERCENT[0]).toString(),
         }
       : item,
   );
