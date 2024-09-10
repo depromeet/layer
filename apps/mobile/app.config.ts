@@ -1,7 +1,4 @@
-import { config } from "dotenv";
-import { ConfigContext } from "@expo/config";
-
-config();
+import { ConfigContext } from "expo/config";
 
 export default ({ config }: ConfigContext): ConfigContext["config"] => {
   return {
@@ -35,7 +32,7 @@ export default ({ config }: ConfigContext): ConfigContext["config"] => {
       [
         "@react-native-kakao/core",
         {
-          nativeAppKey: process.env.KAKAO_NATIVE_APP_KEY,
+          nativeAppKey: process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY,
           android: {},
           ios: {},
         },

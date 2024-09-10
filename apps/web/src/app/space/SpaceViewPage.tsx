@@ -3,6 +3,7 @@ import { PATHS } from "@layer/shared";
 import { useQueries } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { Fragment, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Icon } from "@/component/common/Icon";
@@ -22,12 +23,11 @@ import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useModal } from "@/hooks/useModal";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DualToneLayout } from "@/layout/DualToneLayout";
-import { useTestNatigate } from "@/lib/test-natigate";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 
 export function SpaceViewPage() {
-  const navigate = useTestNatigate();
+  const navigate = useNavigate();
   const memberId = Cookies.get("memberId");
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
@@ -82,7 +82,7 @@ export function SpaceViewPage() {
           openBottomSheet({ id: SHEET_ID });
         },
         onConfirm: () => {
-          navigate(PATHS.retrospectCreate(), {
+          void navigate(PATHS.retrospectCreate(), {
             state: { spaceId, templateId: spaceInfo.formId },
           });
         },
@@ -107,7 +107,7 @@ export function SpaceViewPage() {
             cursor: pointer;
           `}
           onClick={() => {
-            navigate(-1);
+            void navigate(-1);
           }}
           color={DESIGN_TOKEN_COLOR.gray00}
         />

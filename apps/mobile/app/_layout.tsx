@@ -13,7 +13,6 @@ import { initializeKakaoSDK } from "@react-native-kakao/core";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import { KAKAO_NATIVE_APP_KEY } from "@env";
 import { SuspenseProvider } from "@/provider/suspense-provider";
 import { PermissionsAndroid, Platform } from "react-native";
 import { PERMISSIONS } from "react-native-permissions";
@@ -22,8 +21,8 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   useEffect(() => {
-    if (!!KAKAO_NATIVE_APP_KEY) {
-      initializeKakaoSDK(KAKAO_NATIVE_APP_KEY);
+    if (!!process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY) {
+      initializeKakaoSDK(process.env.EXPO_PUBLIC_KAKAO_NATIVE_APP_KEY);
     }
   }, []);
 
@@ -61,6 +60,7 @@ export default function App() {
               screenOptions={{ headerShown: false }}
               initialRouteName="login"
             >
+              <Stack.Screen name="index" />
               <Stack.Screen name="login" />
               <Stack.Screen name="(tabs)" />
             </Stack>
