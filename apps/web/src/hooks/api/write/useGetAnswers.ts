@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { api } from "@/api";
 import { ACHIVEMENT_PERCENT } from "@/component/write/template/write/write.const.ts";
+import { calculateScaledAnswer } from "@/utils/answer/calculateScaledAnswer.ts";
 
 export type AnswerResponseType = {
   answers: {
@@ -16,7 +17,7 @@ export const scaledAchievement = (data: AnswerResponseType) => {
     item.questionType === "range"
       ? {
           ...item,
-          answerContent: `${parseInt(item.answerContent) / parseInt(ACHIVEMENT_PERCENT[0]) - 1}` ?? "-1",
+          answerContent: calculateScaledAnswer(item.answerContent, ACHIVEMENT_PERCENT[0]).toString(),
         }
       : item,
   );

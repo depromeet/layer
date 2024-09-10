@@ -7,7 +7,9 @@ import "swiper/css/navigation";
 import "./swiper.css";
 import { Autoplay } from "swiper/modules";
 import { useState } from "react";
+
 import { TemplateCard } from "@/component/retrospect/template/card/TemplateCard";
+
 import { useNavigate } from "react-router-dom";
 
 type CardCarouselProp = {
@@ -56,7 +58,7 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
       onInit={(swiper) => {
         swiper.autoplay.start();
       }}
-      className="mySwiper"
+      className="card-carousel"
     >
       {templateArr.map((template, index) => (
         <SwiperSlide key={index} className={getSlideClassName(index)}>
