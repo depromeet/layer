@@ -39,8 +39,12 @@ export function DueDate() {
           margin-bottom: 1.2rem;
         `}
       >
-        <Radio value={"has-duedate-neg"}>마감일 미지정</Radio>
-        <Radio value={"has-duedate-pos"}>마감일 지정</Radio>
+        <Radio value={"has-duedate-neg"} rounded="lg">
+          마감일 미지정
+        </Radio>
+        <Radio value={"has-duedate-pos"} rounded="lg">
+          마감일 지정
+        </Radio>
       </RadioButtonGroup>
       {selectedValue === "has-duedate-pos" && (
         <DateTimeInput
