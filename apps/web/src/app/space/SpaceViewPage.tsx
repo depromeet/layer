@@ -106,9 +106,7 @@ export function SpaceViewPage() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => {
-            void navigate(-1);
-          }}
+          onClick={() => navigate(PATHS.home())}
           color={DESIGN_TOKEN_COLOR.gray00}
         />
       }

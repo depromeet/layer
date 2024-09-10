@@ -24,6 +24,7 @@
   --parent-bg-color: inherit;
   --app-bar-height: 5.8rem;
   --nav-bar-height: 5.6rem;
+  --layout-m-width: 48rem;
 }
 
 html {
