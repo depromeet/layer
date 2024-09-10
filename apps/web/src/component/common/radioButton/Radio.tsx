@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useContext } from "react";
+import { forwardRef, useContext } from "react";
 
 import { RadioContext } from "./RadioButtonGroup";
 
@@ -11,10 +11,11 @@ type RadioProps = {
   children: React.ReactNode;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "checked">;
 
-export function Radio({ value, children, ...props }: RadioProps) {
+export const Radio = forwardRef<HTMLLabelElement, RadioProps>(function ({ value, children, ...props }, ref) {
   const radioContext = useContext(RadioContext);
   return (
     <label
+      ref={ref}
       htmlFor={value}
       css={css`
         font-weight: 600;
@@ -44,4 +45,6 @@ export function Radio({ value, children, ...props }: RadioProps) {
       />
     </label>
   );
-}
+});
+
+Radio.displayName = "Radio";
