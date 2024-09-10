@@ -1,10 +1,10 @@
 {
   "name": "layer",
-  "version": "1.0.2-SNAPSHOT",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "web": "pnpm -F @layer/web",
-    "app": "pnpm -F @layer/mobile",
+    "app": "pnpm -F @layer/app",
     "dev": "pnpm -r --parallel run dev",
     "lint": "pnpm -r --parallel run lint",
     "build": "pnpm -r --parallel run build",
@@ -24,8 +24,5 @@
         "typescript"
       ]
     }
-  },
-  "dependencies": {
-    "lerna": "^8.1.8"
   }
 }
