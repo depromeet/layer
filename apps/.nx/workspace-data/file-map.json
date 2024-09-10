@@ -1,0 +1,3416 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.7.0",
+  "deps": {},
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {},
+    "nonProjectFiles": [
+      {
+        "file": ".DS_Store",
+        "hash": "515018283583963403"
+      },
+      {
+        "file": "branch.json",
+        "hash": "16427147158107113099"
+      },
+      {
+        "file": "mobile/.eslintrc.js",
+        "hash": "3832628239068184570"
+      },
+      {
+        "file": "mobile/.gitignore",
+        "hash": "17139766401155910192"
+      },
+      {
+        "file": "mobile/README.md",
+        "hash": "14870044462664364649"
+      },
+      {
+        "file": "mobile/android/.gitignore",
+        "hash": "4781979786618174016"
+      },
+      {
+        "file": "mobile/android/app/build.gradle",
+        "hash": "722748990564645476"
+      },
+      {
+        "file": "mobile/android/app/proguard-rules.pro",
+        "hash": "4481275573118336055"
+      },
+      {
+        "file": "mobile/android/app/src/debug/AndroidManifest.xml",
+        "hash": "1585159791921382059"
+      },
+      {
+        "file": "mobile/android/app/src/main/AndroidManifest.xml",
+        "hash": "15859367138087600658"
+      },
+      {
+        "file": "mobile/android/app/src/main/assets/fonts/Helvetica-Ultra.ttf",
+        "hash": "7588683437846290867"
+      },
+      {
+        "file": "mobile/android/app/src/main/assets/fonts/Helvetica.ttf",
+        "hash": "7425401459682530516"
+      },
+      {
+        "file": "mobile/android/app/src/main/assets/fonts/PretendardVariable.ttf",
+        "hash": "2172610832233657953"
+      },
+      {
+        "file": "mobile/android/app/src/main/java/com/teamkasukabe/layer/MainActivity.kt",
+        "hash": "8805659063780288905"
+      },
+      {
+        "file": "mobile/android/app/src/main/java/com/teamkasukabe/layer/MainApplication.kt",
+        "hash": "12355167529157644654"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/drawable-hdpi/splashscreen_image.png",
+        "hash": "881117479159761337"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/drawable-xhdpi/splashscreen_image.png",
+        "hash": "881117479159761337"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/drawable-xxhdpi/splashscreen_image.png",
+        "hash": "881117479159761337"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/drawable-xxxhdpi/splashscreen_image.png",
+        "hash": "881117479159761337"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/drawable/rn_edit_text_material.xml",
+        "hash": "4466596183044014152"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/drawable/splashscreen.xml",
+        "hash": "16858349519738590080"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+        "hash": "16176709064596667284"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
+        "hash": "16176709064596667284"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+        "hash": "3882709318575568913"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
+        "hash": "10063621163300558160"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png",
+        "hash": "11912364397336885222"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-ldpi/ic_launcher.png",
+        "hash": "13847679819221932127"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+        "hash": "17983856883245979418"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+        "hash": "5687500624403022227"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png",
+        "hash": "17382385324678807966"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+        "hash": "1998314145527719287"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
+        "hash": "8316799143581420331"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png",
+        "hash": "907344626137090508"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+        "hash": "11404919036613944546"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
+        "hash": "3101160864479101072"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png",
+        "hash": "14381738668354707882"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+        "hash": "8566529411463593667"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+        "hash": "2416764830749139835"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png",
+        "hash": "14172554216933958577"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/values-night/colors.xml",
+        "hash": "5530507333983355112"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/values/colors.xml",
+        "hash": "16368569479117383245"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/values/ic_launcher_background.xml",
+        "hash": "14955376483839065915"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/values/strings.xml",
+        "hash": "4317978157956212705"
+      },
+      {
+        "file": "mobile/android/app/src/main/res/values/styles.xml",
+        "hash": "15850510144054130400"
+      },
+      {
+        "file": "mobile/android/build.gradle",
+        "hash": "3151492110649421451"
+      },
+      {
+        "file": "mobile/android/gradle/wrapper/gradle-wrapper.jar",
+        "hash": "11159507676440420948"
+      },
+      {
+        "file": "mobile/android/gradle/wrapper/gradle-wrapper.properties",
+        "hash": "16463632966214074329"
+      },
+      {
+        "file": "mobile/android/gradlew",
+        "hash": "6979324130797723579"
+      },
+      {
+        "file": "mobile/android/gradlew.bat",
+        "hash": "9188834059793722343"
+      },
+      {
+        "file": "mobile/android/link-assets-manifest.json",
+        "hash": "6856488866998073655"
+      },
+      {
+        "file": "mobile/android/settings.gradle",
+        "hash": "5597462160102830318"
+      },
+      {
+        "file": "mobile/app.config.ts",
+        "hash": "15288161971629583282"
+      },
+      {
+        "file": "mobile/app.json",
+        "hash": "1385183558247636879"
+      },
+      {
+        "file": "mobile/app/(tabs)/_layout.tsx",
+        "hash": "6109828076573263169"
+      },
+      {
+        "file": "mobile/app/(tabs)/analysis.tsx",
+        "hash": "1644540603256185513"
+      },
+      {
+        "file": "mobile/app/(tabs)/goals.tsx",
+        "hash": "9158728958107804907"
+      },
+      {
+        "file": "mobile/app/(tabs)/index.tsx",
+        "hash": "4499677239604785093"
+      },
+      {
+        "file": "mobile/app/+html.tsx",
+        "hash": "16521119231804770250"
+      },
+      {
+        "file": "mobile/app/_layout.tsx",
+        "hash": "1697714262649067431"
+      },
+      {
+        "file": "mobile/app/login.tsx",
+        "hash": "7009971250828500525"
+      },
+      {
+        "file": "mobile/app/retrospect/new/index.tsx",
+        "hash": "11501813257525888553"
+      },
+      {
+        "file": "mobile/app/setnickname/[socialType]/index.tsx",
+        "hash": "10179689692296704087"
+      },
+      {
+        "file": "mobile/app/space/[spaceId]/index.tsx",
+        "hash": "4096442766702758512"
+      },
+      {
+        "file": "mobile/app/space/create/index.tsx",
+        "hash": "11235647548289810290"
+      },
+      {
+        "file": "mobile/app/space/index.tsx",
+        "hash": "15839782985044970276"
+      },
+      {
+        "file": "mobile/assets/fonts/Helvetica-Ultra.ttf",
+        "hash": "7588683437846290867"
+      },
+      {
+        "file": "mobile/assets/fonts/Helvetica.ttf",
+        "hash": "7425401459682530516"
+      },
+      {
+        "file": "mobile/assets/fonts/PretendardVariable.ttf",
+        "hash": "2172610832233657953"
+      },
+      {
+        "file": "mobile/assets/images/adaptive-icon.png",
+        "hash": "16102135492459408350"
+      },
+      {
+        "file": "mobile/assets/images/favicon.png",
+        "hash": "10556792184362654649"
+      },
+      {
+        "file": "mobile/assets/images/icon.png",
+        "hash": "4642732999939134671"
+      },
+      {
+        "file": "mobile/assets/images/logo.png",
+        "hash": "10864111271421675942"
+      },
+      {
+        "file": "mobile/assets/images/logo_icon.png",
+        "hash": "7364779355901459037"
+      },
+      {
+        "file": "mobile/assets/images/partial-react-logo.png",
+        "hash": "17138856618252336249"
+      },
+      {
+        "file": "mobile/assets/images/react-logo.png",
+        "hash": "12800764183471362565"
+      },
+      {
+        "file": "mobile/assets/images/react-logo@2x.png",
+        "hash": "10620144842436275618"
+      },
+      {
+        "file": "mobile/assets/images/react-logo@3x.png",
+        "hash": "12902748134652534090"
+      },
+      {
+        "file": "mobile/assets/images/splash.png",
+        "hash": "12160211573040240122"
+      },
+      {
+        "file": "mobile/assets/loading/loading.json",
+        "hash": "3518143181346184706"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/Check_Filled.svg",
+        "hash": "10565359200429614510"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_bad_mark.svg",
+        "hash": "14284862192613579258"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_dissatisfied.svg",
+        "hash": "12087670401469171615"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_empty_analysis.svg",
+        "hash": "7610083539460732455"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_good_mark.svg",
+        "hash": "7761168588310622108"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_improve_mark.svg",
+        "hash": "10776588693817060761"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_logo_gray.svg",
+        "hash": "6087724438256810708"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_neutral.svg",
+        "hash": "973721997881597029"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_satisfied.svg",
+        "hash": "7608012958728667524"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_very_dissatisfied.svg",
+        "hash": "5501989142457150234"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/ic_very_satisfied.svg",
+        "hash": "3561499108751483138"
+      },
+      {
+        "file": "mobile/assets/svgs/analysis/index.ts",
+        "hash": "15759598899561423888"
+      },
+      {
+        "file": "mobile/assets/svgs/bottom-sheet/ic_quit.svg",
+        "hash": "325541784426048270"
+      },
+      {
+        "file": "mobile/assets/svgs/bottom-sheet/index.ts",
+        "hash": "5064492067122064448"
+      },
+      {
+        "file": "mobile/assets/svgs/calendar/ic_next_chevron.svg",
+        "hash": "5620956763171819746"
+      },
+      {
+        "file": "mobile/assets/svgs/calendar/ic_prev_chevron.svg",
+        "hash": "11998369701011771390"
+      },
+      {
+        "file": "mobile/assets/svgs/calendar/index.ts",
+        "hash": "7184999407370770534"
+      },
+      {
+        "file": "mobile/assets/svgs/common/basicProfile.svg",
+        "hash": "5127530382818407980"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_3point.svg",
+        "hash": "1523208986450595800"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_after.svg",
+        "hash": "13851343295494870639"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_apple_logo.svg",
+        "hash": "1034237375472359141"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_arrowLeft.svg",
+        "hash": "5824213914972389182"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_arrow_back.svg",
+        "hash": "13045302391937478754"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_arrow_left.svg",
+        "hash": "4803860942147351941"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_back.svg",
+        "hash": "14192827511126174320"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_back_arrow_white.svg",
+        "hash": "5013057202696400509"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_back_white.svg",
+        "hash": "9529536724282988769"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_barChart.svg",
+        "hash": "6231970228157343877"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_bluePoint.svg",
+        "hash": "10356699253784791874"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_calendar.svg",
+        "hash": "2278427479640239590"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_camera.svg",
+        "hash": "11792583242745545304"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_chart.svg",
+        "hash": "10397600140229427291"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_check.svg",
+        "hash": "13636924954043056796"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_chevron_down.svg",
+        "hash": "9709795313502708202"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_choose_picture.svg",
+        "hash": "1492826787846623464"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_copy.svg",
+        "hash": "3485111484706612789"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_cylinder.svg",
+        "hash": "420831357173768140"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_darkPerson.svg",
+        "hash": "5921952213371107009"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_delete.svg",
+        "hash": "4160767917327140607"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_earth.svg",
+        "hash": "10455406207197027922"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_fault_folder.svg",
+        "hash": "15869765801546711706"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_file.svg",
+        "hash": "4897956239515053424"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_folder.svg",
+        "hash": "9121566692767203493"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_handle.svg",
+        "hash": "9096213336603342592"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_home.svg",
+        "hash": "10902849394414187620"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_info_transparent.svg",
+        "hash": "15231817127258546078"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_kakao.svg",
+        "hash": "6103745613260781832"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_list.svg",
+        "hash": "10775916637292309561"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_minus.svg",
+        "hash": "864013039046164107"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_more.svg",
+        "hash": "10506770355760591608"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_more_arrow.svg",
+        "hash": "18093924007069347622"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_pencil.svg",
+        "hash": "10034828412132739734"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_person.svg",
+        "hash": "7498966577644341535"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_plus.svg",
+        "hash": "6907944220176128309"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_plus_thin.svg",
+        "hash": "7792416425049179183"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_stars.svg",
+        "hash": "2718579285304553030"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_team.svg",
+        "hash": "11963074876063518587"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_template.svg",
+        "hash": "9227634209273353149"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_twoMan.svg",
+        "hash": "10362257052705589750"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_twoMan_blue.svg",
+        "hash": "15610362333724510684"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_user.svg",
+        "hash": "1974823296693463437"
+      },
+      {
+        "file": "mobile/assets/svgs/common/ic_writePen.svg",
+        "hash": "4688419747706317943"
+      },
+      {
+        "file": "mobile/assets/svgs/common/index.ts",
+        "hash": "5340477049091343759"
+      },
+      {
+        "file": "mobile/assets/svgs/empty/ic_clock.svg",
+        "hash": "17204993255767986088"
+      },
+      {
+        "file": "mobile/assets/svgs/empty/ic_empty_list.svg",
+        "hash": "7400913802148904470"
+      },
+      {
+        "file": "mobile/assets/svgs/empty/index.ts",
+        "hash": "8884230186842694893"
+      },
+      {
+        "file": "mobile/assets/svgs/error/ic_error.svg",
+        "hash": "8134442069827788287"
+      },
+      {
+        "file": "mobile/assets/svgs/error/index.ts",
+        "hash": "17361659449541104174"
+      },
+      {
+        "file": "mobile/assets/svgs/index.ts",
+        "hash": "18084389361306284512"
+      },
+      {
+        "file": "mobile/assets/svgs/invite/index.ts",
+        "hash": "1705254544826967627"
+      },
+      {
+        "file": "mobile/assets/svgs/invite/letter-bottom.svg",
+        "hash": "15328886559775321962"
+      },
+      {
+        "file": "mobile/assets/svgs/invite/letter-stamp.svg",
+        "hash": "10618050959048688308"
+      },
+      {
+        "file": "mobile/assets/svgs/invite/letter-top.svg",
+        "hash": "18264819517584226374"
+      },
+      {
+        "file": "mobile/assets/svgs/retrospect/ic_irRegular_color.svg",
+        "hash": "10595817662022892804"
+      },
+      {
+        "file": "mobile/assets/svgs/retrospect/ic_irRegular_white.svg",
+        "hash": "14101897566718278767"
+      },
+      {
+        "file": "mobile/assets/svgs/retrospect/ic_notebook.svg",
+        "hash": "15388415245112305491"
+      },
+      {
+        "file": "mobile/assets/svgs/retrospect/ic_notebook_open.svg",
+        "hash": "16344394959972823924"
+      },
+      {
+        "file": "mobile/assets/svgs/retrospect/ic_regular_color.svg",
+        "hash": "14988427140902791435"
+      },
+      {
+        "file": "mobile/assets/svgs/retrospect/ic_regular_white.svg",
+        "hash": "10171335424632386995"
+      },
+      {
+        "file": "mobile/assets/svgs/retrospect/ic_star.svg",
+        "hash": "12364729639574520646"
+      },
+      {
+        "file": "mobile/assets/svgs/retrospect/index.ts",
+        "hash": "11368561255704451938"
+      },
+      {
+        "file": "mobile/assets/svgs/space/create/empty_sign.svg",
+        "hash": "5710541445975250475"
+      },
+      {
+        "file": "mobile/assets/svgs/space/create/index.ts",
+        "hash": "8047095218017143197"
+      },
+      {
+        "file": "mobile/assets/svgs/space/create/neon_circle.svg",
+        "hash": "1369528878544962081"
+      },
+      {
+        "file": "mobile/assets/svgs/space/create/neon_container.svg",
+        "hash": "7941813436184374631"
+      },
+      {
+        "file": "mobile/assets/svgs/space/create/neon_pencil.svg",
+        "hash": "1270027393815099296"
+      },
+      {
+        "file": "mobile/assets/svgs/space/create/neon_square.svg",
+        "hash": "17220187734112905490"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_chart_color.svg",
+        "hash": "14522910420212786610"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_chart_white.svg",
+        "hash": "14741343800473275024"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_crown.svg",
+        "hash": "16950594595698171150"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_developement_color.svg",
+        "hash": "17193916093750486592"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_developement_white.svg",
+        "hash": "1570158841537770294"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_document_color.svg",
+        "hash": "9369269547602311605"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_document_white.svg",
+        "hash": "8603095582951049206"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_earth_color.svg",
+        "hash": "14926736453740518933"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_earth_white.svg",
+        "hash": "15822211666863082995"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_education_color.svg",
+        "hash": "3053483138703230185"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_education_white.svg",
+        "hash": "6752503471606427006"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_flask_color.svg",
+        "hash": "17320286327953336595"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_flask_white.svg",
+        "hash": "12658202442645562506"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_human_color.svg",
+        "hash": "15015071034203129969"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_human_white.svg",
+        "hash": "8340241702287727174"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_irRegular_color.svg",
+        "hash": "10595817662022892804"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_irRegular_white.svg",
+        "hash": "14101897566718278767"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_list_color.svg",
+        "hash": "16271681930739860276"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_list_white.svg",
+        "hash": "8037034226057768232"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_management_color.svg",
+        "hash": "16598905047887903603"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_management_white.svg",
+        "hash": "2913841320913351568"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_marketing_color.svg",
+        "hash": "2546358604275802233"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_marketing_white.svg",
+        "hash": "16838621874979650162"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_pencil_color.svg",
+        "hash": "14031219358737261418"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_pencil_white.svg",
+        "hash": "11261909160486523076"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_people_color.svg",
+        "hash": "1091356895200913515"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_people_white.svg",
+        "hash": "11622387256438105678"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_recommend_color.svg",
+        "hash": "2594133767611529218"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_recommend_white.svg",
+        "hash": "3467521779390865275"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_regular_color.svg",
+        "hash": "14988427140902791435"
+      },
+      {
+        "file": "mobile/assets/svgs/space/ic_regular_white.svg",
+        "hash": "10171335424632386995"
+      },
+      {
+        "file": "mobile/assets/svgs/space/icon_file_open.svg",
+        "hash": "1046963041296463335"
+      },
+      {
+        "file": "mobile/assets/svgs/space/index.ts",
+        "hash": "10209105103237266713"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/ic_communication.svg",
+        "hash": "286841726114301440"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/ic_emotion_share.svg",
+        "hash": "17091043399846328162"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/ic_improve_problem.svg",
+        "hash": "3380395188493532239"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/ic_indi_share.svg",
+        "hash": "13334452741413379676"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/ic_info.svg",
+        "hash": "2912041866186355456"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/ic_pin.svg",
+        "hash": "13623835058319891482"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/ic_share_history.svg",
+        "hash": "6748551481296426916"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/ic_team_share.svg",
+        "hash": "9724494912104978038"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/ic_time_check.svg",
+        "hash": "8432118751004251418"
+      },
+      {
+        "file": "mobile/assets/svgs/template/list/index.ts",
+        "hash": "13108497034960684764"
+      },
+      {
+        "file": "mobile/assets/svgs/toast/ic_success.svg",
+        "hash": "15186420345147425093"
+      },
+      {
+        "file": "mobile/assets/svgs/toast/ic_warning.svg",
+        "hash": "8926695000554186872"
+      },
+      {
+        "file": "mobile/assets/svgs/toast/index.ts",
+        "hash": "10869584486403262084"
+      },
+      {
+        "file": "mobile/assets/svgs/write/template/emotion/ic_commonly.svg",
+        "hash": "2623316835697514995"
+      },
+      {
+        "file": "mobile/assets/svgs/write/template/emotion/ic_good.svg",
+        "hash": "13542763848374990292"
+      },
+      {
+        "file": "mobile/assets/svgs/write/template/emotion/ic_poor.svg",
+        "hash": "674772848945560681"
+      },
+      {
+        "file": "mobile/assets/svgs/write/template/emotion/ic_very_good.svg",
+        "hash": "3375759857756425931"
+      },
+      {
+        "file": "mobile/assets/svgs/write/template/emotion/ic_very_poor.svg",
+        "hash": "8816640264610219134"
+      },
+      {
+        "file": "mobile/assets/svgs/write/template/ic_essential_star.svg",
+        "hash": "1510113826621151600"
+      },
+      {
+        "file": "mobile/assets/svgs/write/template/ic_write_move_arrow.svg",
+        "hash": "933767200609011552"
+      },
+      {
+        "file": "mobile/assets/svgs/write/template/ic_write_quit.svg",
+        "hash": "7512546320447396342"
+      },
+      {
+        "file": "mobile/assets/svgs/write/template/index.ts",
+        "hash": "3460723713994065992"
+      },
+      {
+        "file": "mobile/babel.config.js",
+        "hash": "11393302563427911932"
+      },
+      {
+        "file": "mobile/bridge/native.ts",
+        "hash": "7606245607818428464"
+      },
+      {
+        "file": "mobile/components/Collapsible.tsx",
+        "hash": "16710623188056203681"
+      },
+      {
+        "file": "mobile/components/ExternalLink.tsx",
+        "hash": "18430746545051851150"
+      },
+      {
+        "file": "mobile/components/HelloWave.tsx",
+        "hash": "4026190346497375675"
+      },
+      {
+        "file": "mobile/components/ParallaxScrollView.tsx",
+        "hash": "16269154491580211866"
+      },
+      {
+        "file": "mobile/components/ThemedText.tsx",
+        "hash": "8838916204566732482"
+      },
+      {
+        "file": "mobile/components/ThemedView.tsx",
+        "hash": "12328710297602153136"
+      },
+      {
+        "file": "mobile/components/__tests__/ThemedText-test.tsx",
+        "hash": "5460384641768239059"
+      },
+      {
+        "file": "mobile/components/__tests__/__snapshots__/ThemedText-test.tsx.snap",
+        "hash": "7137039748800291722"
+      },
+      {
+        "file": "mobile/components/navigation/TabBarIcon.tsx",
+        "hash": "10208209473437966193"
+      },
+      {
+        "file": "mobile/components/splash/index.tsx",
+        "hash": "1969885277651216937"
+      },
+      {
+        "file": "mobile/components/splash/logo.tsx",
+        "hash": "14104864371831202448"
+      },
+      {
+        "file": "mobile/constants/Colors.ts",
+        "hash": "11938689378131257524"
+      },
+      {
+        "file": "mobile/declations.d.ts",
+        "hash": "4392384112382115013"
+      },
+      {
+        "file": "mobile/eas.json",
+        "hash": "15962833493105150630"
+      },
+      {
+        "file": "mobile/env.d.ts",
+        "hash": "5966186720151872840"
+      },
+      {
+        "file": "mobile/hooks/useColorScheme.ts",
+        "hash": "9854634842886202740"
+      },
+      {
+        "file": "mobile/hooks/useColorScheme.web.ts",
+        "hash": "12830243518101808102"
+      },
+      {
+        "file": "mobile/hooks/useThemeColor.ts",
+        "hash": "12324187649835991414"
+      },
+      {
+        "file": "mobile/ios/.gitignore",
+        "hash": "2547718555931618326"
+      },
+      {
+        "file": "mobile/ios/.xcode.env",
+        "hash": "2240437479405059044"
+      },
+      {
+        "file": "mobile/ios/Podfile",
+        "hash": "5877315218999350900"
+      },
+      {
+        "file": "mobile/ios/Podfile.lock",
+        "hash": "128886085836133308"
+      },
+      {
+        "file": "mobile/ios/Podfile.properties.json",
+        "hash": "14370278724857276346"
+      },
+      {
+        "file": "mobile/ios/layer.xcodeproj/project.pbxproj",
+        "hash": "8429056885939132851"
+      },
+      {
+        "file": "mobile/ios/layer.xcodeproj/xcshareddata/xcschemes/layer.xcscheme",
+        "hash": "2066958200219626135"
+      },
+      {
+        "file": "mobile/ios/layer.xcworkspace/contents.xcworkspacedata",
+        "hash": "2472851716527948498"
+      },
+      {
+        "file": "mobile/ios/layer.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+        "hash": "12722229457274558422"
+      },
+      {
+        "file": "mobile/ios/layer/AppDelegate.h",
+        "hash": "792400665824721941"
+      },
+      {
+        "file": "mobile/ios/layer/AppDelegate.mm",
+        "hash": "5888533767421140730"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/1024.png",
+        "hash": "9060694731465202516"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/114.png",
+        "hash": "14845377156292126624"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/120.png",
+        "hash": "13947737053908994516"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/180.png",
+        "hash": "17994970495792702183"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/29.png",
+        "hash": "15225865590520016854"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/40.png",
+        "hash": "9773544251367955654"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/57.png",
+        "hash": "8474104550439802705"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/58.png",
+        "hash": "2526952988040721521"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/60.png",
+        "hash": "10944496685934595964"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/80.png",
+        "hash": "686143315679544799"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/87.png",
+        "hash": "12143331332973342027"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/AppIcon.appiconset/Contents.json",
+        "hash": "14223733867353523907"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/Contents.json",
+        "hash": "6988882422559056195"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/SplashScreen.imageset/Contents.json",
+        "hash": "4247874317787655860"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/SplashScreen.imageset/image.png",
+        "hash": "6252852346511027652"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/SplashScreenBackground.imageset/Contents.json",
+        "hash": "4247874317787655860"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/SplashScreenBackground.imageset/image.png",
+        "hash": "2436970695013080240"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/logo.imageset/Contents.json",
+        "hash": "16795300497563348130"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/logo.imageset/logo 1.png",
+        "hash": "10864111271421675942"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/logo.imageset/logo 2.png",
+        "hash": "10864111271421675942"
+      },
+      {
+        "file": "mobile/ios/layer/Images.xcassets/logo.imageset/logo.png",
+        "hash": "10864111271421675942"
+      },
+      {
+        "file": "mobile/ios/layer/Info.plist",
+        "hash": "942294188822679755"
+      },
+      {
+        "file": "mobile/ios/layer/PrivacyInfo.xcprivacy",
+        "hash": "17701671569511903486"
+      },
+      {
+        "file": "mobile/ios/layer/SplashScreen.storyboard",
+        "hash": "17131240817785791718"
+      },
+      {
+        "file": "mobile/ios/layer/Supporting/Expo.plist",
+        "hash": "1393129532738616283"
+      },
+      {
+        "file": "mobile/ios/layer/layer-Bridging-Header.h",
+        "hash": "8563334651878373343"
+      },
+      {
+        "file": "mobile/ios/layer/layer.entitlements",
+        "hash": "13088906592023285914"
+      },
+      {
+        "file": "mobile/ios/layer/main.m",
+        "hash": "17318292586232496677"
+      },
+      {
+        "file": "mobile/ios/layer/noop-file.swift",
+        "hash": "15309833591389969687"
+      },
+      {
+        "file": "mobile/ios/link-assets-manifest.json",
+        "hash": "6856488866998073655"
+      },
+      {
+        "file": "mobile/layout/webview-layout/index.tsx",
+        "hash": "16293896501210058470"
+      },
+      {
+        "file": "mobile/lib/create-context/index.tsx",
+        "hash": "15165175865260435256"
+      },
+      {
+        "file": "mobile/metro.config.js",
+        "hash": "17436586934648447778"
+      },
+      {
+        "file": "mobile/package.json",
+        "hash": "12847310604103509743"
+      },
+      {
+        "file": "mobile/provider/suspense-provider/index.tsx",
+        "hash": "3570037595431414569"
+      },
+      {
+        "file": "mobile/public/.well-known/apple-app-site-association",
+        "hash": "218428632174763825"
+      },
+      {
+        "file": "mobile/react-native.config.js",
+        "hash": "16291575232648272936"
+      },
+      {
+        "file": "mobile/scripts/reset-project.js",
+        "hash": "237243151441627216"
+      },
+      {
+        "file": "mobile/tsconfig.json",
+        "hash": "13453316570448027213"
+      },
+      {
+        "file": "web/.babelrc",
+        "hash": "8574397940633731610"
+      },
+      {
+        "file": "web/.eslintignore",
+        "hash": "12941045579704534831"
+      },
+      {
+        "file": "web/.eslintrc.cjs",
+        "hash": "10279649997091015931"
+      },
+      {
+        "file": "web/.gitignore",
+        "hash": "16209692324116462897"
+      },
+      {
+        "file": "web/.prettierrc.cjs",
+        "hash": "2948909410561842930"
+      },
+      {
+        "file": "web/README.md",
+        "hash": "3217916130464416313"
+      },
+      {
+        "file": "web/index.html",
+        "hash": "4984435390912766569"
+      },
+      {
+        "file": "web/package.json",
+        "hash": "15099617812103305159"
+      },
+      {
+        "file": "web/public/dark_layer.svg",
+        "hash": "10836313959853413763"
+      },
+      {
+        "file": "web/public/robots.txt",
+        "hash": "10685204604660869582"
+      },
+      {
+        "file": "web/public/vite.svg",
+        "hash": "16046085400642193116"
+      },
+      {
+        "file": "web/public/white_layer.svg",
+        "hash": "10607615046845052070"
+      },
+      {
+        "file": "web/server/server.cjs",
+        "hash": "17483489301346821396"
+      },
+      {
+        "file": "web/src/api/index.ts",
+        "hash": "17339675923512922636"
+      },
+      {
+        "file": "web/src/api/login/index.ts",
+        "hash": "8515016304540663153"
+      },
+      {
+        "file": "web/src/app.tsx",
+        "hash": "5730056007589484346"
+      },
+      {
+        "file": "web/src/app/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "web/src/app/MainPage.tsx",
+        "hash": "10103183636199434611"
+      },
+      {
+        "file": "web/src/app/actionItem/ActionItemEditPage.tsx",
+        "hash": "17513902127766560440"
+      },
+      {
+        "file": "web/src/app/actionItem/ActionItemMorePage.tsx",
+        "hash": "9982809367480451695"
+      },
+      {
+        "file": "web/src/app/error/404.tsx",
+        "hash": "15535598056439796557"
+      },
+      {
+        "file": "web/src/app/home/AnalysisViewPage.tsx",
+        "hash": "8669624674911088268"
+      },
+      {
+        "file": "web/src/app/home/GoalViewPage.tsx",
+        "hash": "2042595186657288076"
+      },
+      {
+        "file": "web/src/app/home/HomePage.tsx",
+        "hash": "6430735597738153072"
+      },
+      {
+        "file": "web/src/app/home/RetrospectViewPage.tsx",
+        "hash": "1442760841234474207"
+      },
+      {
+        "file": "web/src/app/info/FeedBackPage.tsx",
+        "hash": "1501915961926605685"
+      },
+      {
+        "file": "web/src/app/info/HelpPage.tsx",
+        "hash": "15220530019359555455"
+      },
+      {
+        "file": "web/src/app/info/LicensePage.tsx",
+        "hash": "14092781561070261287"
+      },
+      {
+        "file": "web/src/app/info/ModifyMyInfo.tsx",
+        "hash": "9367713422205563637"
+      },
+      {
+        "file": "web/src/app/info/MyInfo.tsx",
+        "hash": "15334549892471535194"
+      },
+      {
+        "file": "web/src/app/info/NoticePage.tsx",
+        "hash": "17788532747050698621"
+      },
+      {
+        "file": "web/src/app/info/PrivacyPolicyPage.tsx",
+        "hash": "14823535270677942091"
+      },
+      {
+        "file": "web/src/app/info/TermsOfServicePage.tsx",
+        "hash": "13175428554574269813"
+      },
+      {
+        "file": "web/src/app/info/UserDeletion.tsx",
+        "hash": "14809732821139658068"
+      },
+      {
+        "file": "web/src/app/login/GoogleLoginRedirection.tsx",
+        "hash": "15245874091653873997"
+      },
+      {
+        "file": "web/src/app/login/KakaoLoginRedirection.tsx",
+        "hash": "11054712625010473080"
+      },
+      {
+        "file": "web/src/app/login/LoginPage.tsx",
+        "hash": "8483990525096780866"
+      },
+      {
+        "file": "web/src/app/login/SetNicknamePage.tsx",
+        "hash": "8268779428990017522"
+      },
+      {
+        "file": "web/src/app/retrospect/analysis/RetrospectAnalysisPage.tsx",
+        "hash": "7995879685990188249"
+      },
+      {
+        "file": "web/src/app/retrospect/template/list/TemplateListPage.tsx",
+        "hash": "11520867758402889624"
+      },
+      {
+        "file": "web/src/app/retrospect/template/recommend/RecommendDonePage.tsx",
+        "hash": "18327903050096945114"
+      },
+      {
+        "file": "web/src/app/retrospect/template/recommend/RecommendSearch.tsx",
+        "hash": "10198004016506491716"
+      },
+      {
+        "file": "web/src/app/retrospect/template/recommend/RecommendTemplatePage.tsx",
+        "hash": "1571342537720482120"
+      },
+      {
+        "file": "web/src/app/retrospectCreate/RetrospectCreate.tsx",
+        "hash": "17879137399488320171"
+      },
+      {
+        "file": "web/src/app/retrospectCreate/RetrospectCreateComplete.tsx",
+        "hash": "3728354059016166127"
+      },
+      {
+        "file": "web/src/app/space/CreateDonePage.tsx",
+        "hash": "4516706367915247455"
+      },
+      {
+        "file": "web/src/app/space/CreateNextPage.tsx",
+        "hash": "18259236169694266108"
+      },
+      {
+        "file": "web/src/app/space/CreateSpacePage.tsx",
+        "hash": "12574053958922153981"
+      },
+      {
+        "file": "web/src/app/space/JoinSpacePage.tsx",
+        "hash": "4129071242970797060"
+      },
+      {
+        "file": "web/src/app/space/SpaceViewPage.tsx",
+        "hash": "2665206523247773749"
+      },
+      {
+        "file": "web/src/app/space/edit/SpaceEditPage.tsx",
+        "hash": "12685454625432402159"
+      },
+      {
+        "file": "web/src/app/space/members/MembersEditListPage.tsx",
+        "hash": "18106019298379505107"
+      },
+      {
+        "file": "web/src/app/space/members/MembersListPage.tsx",
+        "hash": "9185861719404979275"
+      },
+      {
+        "file": "web/src/app/space/space.const.ts",
+        "hash": "15072330239399210487"
+      },
+      {
+        "file": "web/src/app/template/TemplatePage.tsx",
+        "hash": "15461222038057884191"
+      },
+      {
+        "file": "web/src/app/test/Staging.tsx",
+        "hash": "6995697534322080944"
+      },
+      {
+        "file": "web/src/app/write/RetrospectWriteCompletePage.tsx",
+        "hash": "18198911535929603996"
+      },
+      {
+        "file": "web/src/app/write/RetrospectWritePage.tsx",
+        "hash": "3642008115102257837"
+      },
+      {
+        "file": "web/src/app/write/data/checkRetrospect.json",
+        "hash": "11420338303420225106"
+      },
+      {
+        "file": "web/src/assets/imgs/og/retrospectOG.png",
+        "hash": "1103781684675382815"
+      },
+      {
+        "file": "web/src/assets/imgs/space/spaceDefaultImg.png",
+        "hash": "10026144160913839729"
+      },
+      {
+        "file": "web/src/assets/imgs/template/5F.json",
+        "hash": "9974290676151182393"
+      },
+      {
+        "file": "web/src/assets/imgs/template/KPT.json",
+        "hash": "3412805220142172240"
+      },
+      {
+        "file": "web/src/assets/imgs/template/MadSadGlad.json",
+        "hash": "3098157031170365589"
+      },
+      {
+        "file": "web/src/assets/imgs/template/PMI.json",
+        "hash": "743962489274294551"
+      },
+      {
+        "file": "web/src/assets/imgs/template/SSC.json",
+        "hash": "1317832054450470672"
+      },
+      {
+        "file": "web/src/assets/imgs/template/Untitled.json",
+        "hash": "3411974387143397436"
+      },
+      {
+        "file": "web/src/assets/imgs/template/index.ts",
+        "hash": "4583469781936953035"
+      },
+      {
+        "file": "web/src/assets/imgs/write/template/complete/complete_check.svg",
+        "hash": "1866729685863490693"
+      },
+      {
+        "file": "web/src/assets/imgs/write/template/complete/complete_icon.svg",
+        "hash": "13603043307879043137"
+      },
+      {
+        "file": "web/src/assets/imgs/write/template/complete/index.ts",
+        "hash": "14754137568491008757"
+      },
+      {
+        "file": "web/src/assets/imgs/write/template/index.ts",
+        "hash": "16562011181217307091"
+      },
+      {
+        "file": "web/src/assets/lottie/button/loading/loading.json",
+        "hash": "14755327058050354103"
+      },
+      {
+        "file": "web/src/assets/lottie/login/login_carousel_1.json",
+        "hash": "9838411923378450492"
+      },
+      {
+        "file": "web/src/assets/lottie/login/login_carousel_2.json",
+        "hash": "7258334157968915123"
+      },
+      {
+        "file": "web/src/assets/lottie/login/login_carousel_3.json",
+        "hash": "18169191773277279167"
+      },
+      {
+        "file": "web/src/assets/lottie/login/login_carousel_4.json",
+        "hash": "1702044498464092179"
+      },
+      {
+        "file": "web/src/assets/lottie/modal/loading/loading.json",
+        "hash": "3518143181346184706"
+      },
+      {
+        "file": "web/src/assets/lottie/retropsect/create/book_start.json",
+        "hash": "2934776081998596088"
+      },
+      {
+        "file": "web/src/assets/lottie/retropsect/create/speech_bubble_envelope.json",
+        "hash": "2546843324032646300"
+      },
+      {
+        "file": "web/src/assets/lottie/retropsect/list/loading.json",
+        "hash": "5180987526783870082"
+      },
+      {
+        "file": "web/src/assets/lottie/space/create_done.json",
+        "hash": "11347194087910459809"
+      },
+      {
+        "file": "web/src/assets/lottie/space/create_start.json",
+        "hash": "17156926934062571177"
+      },
+      {
+        "file": "web/src/assets/lottie/space/recommend.json",
+        "hash": "706605246165262847"
+      },
+      {
+        "file": "web/src/assets/lottie/template/confetti.json",
+        "hash": "1175807325297453095"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/Check_Filled.svg",
+        "hash": "10565359200429614510"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_bad_mark.svg",
+        "hash": "14284862192613579258"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_dissatisfied.svg",
+        "hash": "12087670401469171615"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_empty_analysis.svg",
+        "hash": "7610083539460732455"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_good_mark.svg",
+        "hash": "7761168588310622108"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_improve_mark.svg",
+        "hash": "10776588693817060761"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_logo_gray.svg",
+        "hash": "6087724438256810708"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_neutral.svg",
+        "hash": "973721997881597029"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_satisfied.svg",
+        "hash": "7608012958728667524"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_very_dissatisfied.svg",
+        "hash": "5501989142457150234"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/ic_very_satisfied.svg",
+        "hash": "3561499108751483138"
+      },
+      {
+        "file": "web/src/assets/svgs/analysis/index.ts",
+        "hash": "15759598899561423888"
+      },
+      {
+        "file": "web/src/assets/svgs/bottom-sheet/ic_quit.svg",
+        "hash": "325541784426048270"
+      },
+      {
+        "file": "web/src/assets/svgs/bottom-sheet/index.ts",
+        "hash": "5064492067122064448"
+      },
+      {
+        "file": "web/src/assets/svgs/calendar/ic_next_chevron.svg",
+        "hash": "5620956763171819746"
+      },
+      {
+        "file": "web/src/assets/svgs/calendar/ic_prev_chevron.svg",
+        "hash": "11998369701011771390"
+      },
+      {
+        "file": "web/src/assets/svgs/calendar/index.ts",
+        "hash": "7184999407370770534"
+      },
+      {
+        "file": "web/src/assets/svgs/common/basicProfile.svg",
+        "hash": "5127530382818407980"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_3point.svg",
+        "hash": "1523208986450595800"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_after.svg",
+        "hash": "13851343295494870639"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_apple_logo.svg",
+        "hash": "1034237375472359141"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_arrowLeft.svg",
+        "hash": "5824213914972389182"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_arrow_back.svg",
+        "hash": "13045302391937478754"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_arrow_left.svg",
+        "hash": "4803860942147351941"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_back.svg",
+        "hash": "14192827511126174320"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_back_arrow_white.svg",
+        "hash": "5013057202696400509"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_back_white.svg",
+        "hash": "9529536724282988769"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_barChart.svg",
+        "hash": "6231970228157343877"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_bluePoint.svg",
+        "hash": "10356699253784791874"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_calendar.svg",
+        "hash": "2278427479640239590"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_camera.svg",
+        "hash": "11792583242745545304"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_chart.svg",
+        "hash": "10397600140229427291"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_check.svg",
+        "hash": "13636924954043056796"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_chevron_down.svg",
+        "hash": "9709795313502708202"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_choose_picture.svg",
+        "hash": "1492826787846623464"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_copy.svg",
+        "hash": "3485111484706612789"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_cylinder.svg",
+        "hash": "420831357173768140"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_darkPerson.svg",
+        "hash": "5921952213371107009"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_delete.svg",
+        "hash": "4160767917327140607"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_earth.svg",
+        "hash": "10455406207197027922"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_fault_folder.svg",
+        "hash": "15869765801546711706"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_file.svg",
+        "hash": "4897956239515053424"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_folder.svg",
+        "hash": "9121566692767203493"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_handle.svg",
+        "hash": "9096213336603342592"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_home.svg",
+        "hash": "10902849394414187620"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_info_transparent.svg",
+        "hash": "15231817127258546078"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_kakao.svg",
+        "hash": "6103745613260781832"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_list.svg",
+        "hash": "10775916637292309561"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_minus.svg",
+        "hash": "864013039046164107"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_more.svg",
+        "hash": "10506770355760591608"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_more_arrow.svg",
+        "hash": "18093924007069347622"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_pencil.svg",
+        "hash": "10034828412132739734"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_person.svg",
+        "hash": "7498966577644341535"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_plus.svg",
+        "hash": "6907944220176128309"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_plus_thin.svg",
+        "hash": "7792416425049179183"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_stars.svg",
+        "hash": "2718579285304553030"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_team.svg",
+        "hash": "11963074876063518587"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_template.svg",
+        "hash": "9227634209273353149"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_twoMan.svg",
+        "hash": "10362257052705589750"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_twoMan_blue.svg",
+        "hash": "15610362333724510684"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_user.svg",
+        "hash": "1974823296693463437"
+      },
+      {
+        "file": "web/src/assets/svgs/common/ic_writePen.svg",
+        "hash": "4688419747706317943"
+      },
+      {
+        "file": "web/src/assets/svgs/common/index.ts",
+        "hash": "5340477049091343759"
+      },
+      {
+        "file": "web/src/assets/svgs/empty/ic_clock.svg",
+        "hash": "17204993255767986088"
+      },
+      {
+        "file": "web/src/assets/svgs/empty/ic_empty_list.svg",
+        "hash": "7400913802148904470"
+      },
+      {
+        "file": "web/src/assets/svgs/empty/index.ts",
+        "hash": "8884230186842694893"
+      },
+      {
+        "file": "web/src/assets/svgs/error/ic_error.svg",
+        "hash": "8134442069827788287"
+      },
+      {
+        "file": "web/src/assets/svgs/error/index.ts",
+        "hash": "17361659449541104174"
+      },
+      {
+        "file": "web/src/assets/svgs/index.ts",
+        "hash": "18084389361306284512"
+      },
+      {
+        "file": "web/src/assets/svgs/invite/index.ts",
+        "hash": "1705254544826967627"
+      },
+      {
+        "file": "web/src/assets/svgs/invite/letter-bottom.svg",
+        "hash": "15328886559775321962"
+      },
+      {
+        "file": "web/src/assets/svgs/invite/letter-stamp.svg",
+        "hash": "10618050959048688308"
+      },
+      {
+        "file": "web/src/assets/svgs/invite/letter-top.svg",
+        "hash": "18264819517584226374"
+      },
+      {
+        "file": "web/src/assets/svgs/retrospect/ic_irRegular_color.svg",
+        "hash": "10595817662022892804"
+      },
+      {
+        "file": "web/src/assets/svgs/retrospect/ic_irRegular_white.svg",
+        "hash": "14101897566718278767"
+      },
+      {
+        "file": "web/src/assets/svgs/retrospect/ic_notebook.svg",
+        "hash": "15388415245112305491"
+      },
+      {
+        "file": "web/src/assets/svgs/retrospect/ic_notebook_open.svg",
+        "hash": "16344394959972823924"
+      },
+      {
+        "file": "web/src/assets/svgs/retrospect/ic_regular_color.svg",
+        "hash": "14988427140902791435"
+      },
+      {
+        "file": "web/src/assets/svgs/retrospect/ic_regular_white.svg",
+        "hash": "10171335424632386995"
+      },
+      {
+        "file": "web/src/assets/svgs/retrospect/ic_star.svg",
+        "hash": "12364729639574520646"
+      },
+      {
+        "file": "web/src/assets/svgs/retrospect/index.ts",
+        "hash": "11368561255704451938"
+      },
+      {
+        "file": "web/src/assets/svgs/space/create/empty_sign.svg",
+        "hash": "5710541445975250475"
+      },
+      {
+        "file": "web/src/assets/svgs/space/create/index.ts",
+        "hash": "8047095218017143197"
+      },
+      {
+        "file": "web/src/assets/svgs/space/create/neon_circle.svg",
+        "hash": "1369528878544962081"
+      },
+      {
+        "file": "web/src/assets/svgs/space/create/neon_container.svg",
+        "hash": "7941813436184374631"
+      },
+      {
+        "file": "web/src/assets/svgs/space/create/neon_pencil.svg",
+        "hash": "1270027393815099296"
+      },
+      {
+        "file": "web/src/assets/svgs/space/create/neon_square.svg",
+        "hash": "17220187734112905490"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_chart_color.svg",
+        "hash": "14522910420212786610"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_chart_white.svg",
+        "hash": "14741343800473275024"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_crown.svg",
+        "hash": "16950594595698171150"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_developement_color.svg",
+        "hash": "17193916093750486592"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_developement_white.svg",
+        "hash": "1570158841537770294"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_document_color.svg",
+        "hash": "9369269547602311605"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_document_white.svg",
+        "hash": "8603095582951049206"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_earth_color.svg",
+        "hash": "14926736453740518933"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_earth_white.svg",
+        "hash": "15822211666863082995"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_education_color.svg",
+        "hash": "3053483138703230185"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_education_white.svg",
+        "hash": "6752503471606427006"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_flask_color.svg",
+        "hash": "17320286327953336595"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_flask_white.svg",
+        "hash": "12658202442645562506"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_human_color.svg",
+        "hash": "15015071034203129969"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_human_white.svg",
+        "hash": "8340241702287727174"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_irRegular_color.svg",
+        "hash": "10595817662022892804"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_irRegular_white.svg",
+        "hash": "14101897566718278767"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_list_color.svg",
+        "hash": "16271681930739860276"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_list_white.svg",
+        "hash": "8037034226057768232"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_management_color.svg",
+        "hash": "16598905047887903603"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_management_white.svg",
+        "hash": "2913841320913351568"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_marketing_color.svg",
+        "hash": "2546358604275802233"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_marketing_white.svg",
+        "hash": "16838621874979650162"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_pencil_color.svg",
+        "hash": "14031219358737261418"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_pencil_white.svg",
+        "hash": "11261909160486523076"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_people_color.svg",
+        "hash": "1091356895200913515"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_people_white.svg",
+        "hash": "11622387256438105678"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_recommend_color.svg",
+        "hash": "2594133767611529218"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_recommend_white.svg",
+        "hash": "3467521779390865275"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_regular_color.svg",
+        "hash": "14988427140902791435"
+      },
+      {
+        "file": "web/src/assets/svgs/space/ic_regular_white.svg",
+        "hash": "10171335424632386995"
+      },
+      {
+        "file": "web/src/assets/svgs/space/icon_file_open.svg",
+        "hash": "1046963041296463335"
+      },
+      {
+        "file": "web/src/assets/svgs/space/index.ts",
+        "hash": "10209105103237266713"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/ic_communication.svg",
+        "hash": "286841726114301440"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/ic_emotion_share.svg",
+        "hash": "17091043399846328162"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/ic_improve_problem.svg",
+        "hash": "3380395188493532239"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/ic_indi_share.svg",
+        "hash": "13334452741413379676"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/ic_info.svg",
+        "hash": "2912041866186355456"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/ic_pin.svg",
+        "hash": "13623835058319891482"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/ic_share_history.svg",
+        "hash": "6748551481296426916"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/ic_team_share.svg",
+        "hash": "9724494912104978038"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/ic_time_check.svg",
+        "hash": "8432118751004251418"
+      },
+      {
+        "file": "web/src/assets/svgs/template/list/index.ts",
+        "hash": "13108497034960684764"
+      },
+      {
+        "file": "web/src/assets/svgs/toast/ic_success.svg",
+        "hash": "15186420345147425093"
+      },
+      {
+        "file": "web/src/assets/svgs/toast/ic_warning.svg",
+        "hash": "8926695000554186872"
+      },
+      {
+        "file": "web/src/assets/svgs/toast/index.ts",
+        "hash": "10869584486403262084"
+      },
+      {
+        "file": "web/src/assets/svgs/write/template/emotion/ic_commonly.svg",
+        "hash": "2623316835697514995"
+      },
+      {
+        "file": "web/src/assets/svgs/write/template/emotion/ic_good.svg",
+        "hash": "13542763848374990292"
+      },
+      {
+        "file": "web/src/assets/svgs/write/template/emotion/ic_poor.svg",
+        "hash": "674772848945560681"
+      },
+      {
+        "file": "web/src/assets/svgs/write/template/emotion/ic_very_good.svg",
+        "hash": "3375759857756425931"
+      },
+      {
+        "file": "web/src/assets/svgs/write/template/emotion/ic_very_poor.svg",
+        "hash": "8816640264610219134"
+      },
+      {
+        "file": "web/src/assets/svgs/write/template/ic_essential_star.svg",
+        "hash": "1510113826621151600"
+      },
+      {
+        "file": "web/src/assets/svgs/write/template/ic_write_move_arrow.svg",
+        "hash": "933767200609011552"
+      },
+      {
+        "file": "web/src/assets/svgs/write/template/ic_write_quit.svg",
+        "hash": "7512546320447396342"
+      },
+      {
+        "file": "web/src/assets/svgs/write/template/index.ts",
+        "hash": "3460723713994065992"
+      },
+      {
+        "file": "web/src/assets/temp.png",
+        "hash": "6992107802947905655"
+      },
+      {
+        "file": "web/src/component/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "web/src/component/BottomSheet/BottomSheet.tsx",
+        "hash": "15869533953596048820"
+      },
+      {
+        "file": "web/src/component/BottomSheet/BottomSheetOption.ts",
+        "hash": "7066325949552219270"
+      },
+      {
+        "file": "web/src/component/BottomSheet/component/BottomSheetContent.tsx",
+        "hash": "5254439671503622459"
+      },
+      {
+        "file": "web/src/component/BottomSheet/component/BottomSheetHeader.tsx",
+        "hash": "10962649129929524011"
+      },
+      {
+        "file": "web/src/component/BottomSheet/component/index.ts",
+        "hash": "12774645669493718491"
+      },
+      {
+        "file": "web/src/component/BottomSheet/index.ts",
+        "hash": "8786640384026571783"
+      },
+      {
+        "file": "web/src/component/actionItem/ActionItemBox.tsx",
+        "hash": "8975000049090303085"
+      },
+      {
+        "file": "web/src/component/actionItem/ActionItemList.tsx",
+        "hash": "10284340925559482206"
+      },
+      {
+        "file": "web/src/component/actionItem/ActionItemModifyBox.tsx",
+        "hash": "17440609804854808177"
+      },
+      {
+        "file": "web/src/component/actionItem/NotActionItemBoxData.tsx",
+        "hash": "14823611494868422820"
+      },
+      {
+        "file": "web/src/component/actionItem/actionItem.const.ts",
+        "hash": "8505574757630931337"
+      },
+      {
+        "file": "web/src/component/common/Card/Card.tsx",
+        "hash": "10754074614908923398"
+      },
+      {
+        "file": "web/src/component/common/Card/ListItemCard.tsx",
+        "hash": "5858934637778727638"
+      },
+      {
+        "file": "web/src/component/common/Card/index.ts",
+        "hash": "14448726941371749058"
+      },
+      {
+        "file": "web/src/component/common/Confetti/Confetti.tsx",
+        "hash": "1921415210444583005"
+      },
+      {
+        "file": "web/src/component/common/Confetti/index.ts",
+        "hash": "7122297728960810974"
+      },
+      {
+        "file": "web/src/component/common/Icon/Icon.tsx",
+        "hash": "4869402729887712023"
+      },
+      {
+        "file": "web/src/component/common/Icon/index.ts",
+        "hash": "251001438589348462"
+      },
+      {
+        "file": "web/src/component/common/ImageUploader/ImageUploader.tsx",
+        "hash": "15869035616349096672"
+      },
+      {
+        "file": "web/src/component/common/ImageUploader/index.ts",
+        "hash": "3267090060183722172"
+      },
+      {
+        "file": "web/src/component/common/Modal/FullModal.tsx",
+        "hash": "3759778452494247747"
+      },
+      {
+        "file": "web/src/component/common/Modal/LoadingModal.tsx",
+        "hash": "16491879411062449367"
+      },
+      {
+        "file": "web/src/component/common/Modal/MidModal.tsx",
+        "hash": "17501780428592003375"
+      },
+      {
+        "file": "web/src/component/common/Modal/Modal.tsx",
+        "hash": "5228359503714463766"
+      },
+      {
+        "file": "web/src/component/common/Modal/index.ts",
+        "hash": "13879081906712669690"
+      },
+      {
+        "file": "web/src/component/common/Portal/Portal.tsx",
+        "hash": "18279417037023593175"
+      },
+      {
+        "file": "web/src/component/common/Portal/index.ts",
+        "hash": "13559012335385537124"
+      },
+      {
+        "file": "web/src/component/common/ProgressBar/ProgressBar.tsx",
+        "hash": "2178414474099053095"
+      },
+      {
+        "file": "web/src/component/common/ProgressBar/index.ts",
+        "hash": "14508212112616534011"
+      },
+      {
+        "file": "web/src/component/common/SelectBox/SelectBox.tsx",
+        "hash": "7001536225107829158"
+      },
+      {
+        "file": "web/src/component/common/SelectBox/index.ts",
+        "hash": "4857862716522001262"
+      },
+      {
+        "file": "web/src/component/common/Spacing/Spacing.tsx",
+        "hash": "11901166606229006400"
+      },
+      {
+        "file": "web/src/component/common/Spacing/index.ts",
+        "hash": "7575845626070516175"
+      },
+      {
+        "file": "web/src/component/common/Toast/Toast.tsx",
+        "hash": "17414696417302857564"
+      },
+      {
+        "file": "web/src/component/common/Toast/ToastItem.tsx",
+        "hash": "3315162330050523701"
+      },
+      {
+        "file": "web/src/component/common/Toast/index.ts",
+        "hash": "5740810485879507554"
+      },
+      {
+        "file": "web/src/component/common/appBar/AppBar.tsx",
+        "hash": "8322893325998842042"
+      },
+      {
+        "file": "web/src/component/common/appBar/UserProfileIcon.tsx",
+        "hash": "8757118863434422647"
+      },
+      {
+        "file": "web/src/component/common/appBar/index.ts",
+        "hash": "15153066469328776119"
+      },
+      {
+        "file": "web/src/component/common/button/Button.tsx",
+        "hash": "3250945820573694190"
+      },
+      {
+        "file": "web/src/component/common/button/ButtonProvider.tsx",
+        "hash": "2677324575089048075"
+      },
+      {
+        "file": "web/src/component/common/button/CategoryButton.tsx",
+        "hash": "10852986480685221138"
+      },
+      {
+        "file": "web/src/component/common/button/FieldButton.tsx",
+        "hash": "1299051181964435076"
+      },
+      {
+        "file": "web/src/component/common/button/IconButton.tsx",
+        "hash": "17788747072535235159"
+      },
+      {
+        "file": "web/src/component/common/button/index.ts",
+        "hash": "12961608070126921693"
+      },
+      {
+        "file": "web/src/component/common/callout/Callout.tsx",
+        "hash": "14290347904379765284"
+      },
+      {
+        "file": "web/src/component/common/checkBox/CheckBox.tsx",
+        "hash": "3647859205647936015"
+      },
+      {
+        "file": "web/src/component/common/checkBox/CheckBoxGroup.tsx",
+        "hash": "9130719226298056625"
+      },
+      {
+        "file": "web/src/component/common/checkBox/index.ts",
+        "hash": "13479754882273767950"
+      },
+      {
+        "file": "web/src/component/common/dateTimePicker/Calendar.tsx",
+        "hash": "11695078893626323654"
+      },
+      {
+        "file": "web/src/component/common/dateTimePicker/DateTimePicker.tsx",
+        "hash": "15223467268161410000"
+      },
+      {
+        "file": "web/src/component/common/dateTimePicker/TimePicker.tsx",
+        "hash": "17022260628874318758"
+      },
+      {
+        "file": "web/src/component/common/dateTimePicker/index.ts",
+        "hash": "9015065739461384113"
+      },
+      {
+        "file": "web/src/component/common/dateTimePicker/time.const.ts",
+        "hash": "15669223316014519106"
+      },
+      {
+        "file": "web/src/component/common/divider/Divider.tsx",
+        "hash": "13567634641832402528"
+      },
+      {
+        "file": "web/src/component/common/divider/index.ts",
+        "hash": "14718357457915349789"
+      },
+      {
+        "file": "web/src/component/common/dragAndDrop/Drag.tsx",
+        "hash": "14174152647924699982"
+      },
+      {
+        "file": "web/src/component/common/dragAndDrop/Drop.tsx",
+        "hash": "3569495901004997850"
+      },
+      {
+        "file": "web/src/component/common/dragAndDrop/index.ts",
+        "hash": "9452830518903677513"
+      },
+      {
+        "file": "web/src/component/common/dropdownMenu/DropdownMenu.tsx",
+        "hash": "1210763078871371163"
+      },
+      {
+        "file": "web/src/component/common/empty/EmptyList.tsx",
+        "hash": "15998846716138525891"
+      },
+      {
+        "file": "web/src/component/common/empty/index.ts",
+        "hash": "15104836213882334324"
+      },
+      {
+        "file": "web/src/component/common/header/Explanation.tsx",
+        "hash": "16833246202400126966"
+      },
+      {
+        "file": "web/src/component/common/header/Header.tsx",
+        "hash": "7316408594308555690"
+      },
+      {
+        "file": "web/src/component/common/header/HeaderProvider.tsx",
+        "hash": "601143547902563952"
+      },
+      {
+        "file": "web/src/component/common/header/Title.tsx",
+        "hash": "7142518132896924866"
+      },
+      {
+        "file": "web/src/component/common/header/index.ts",
+        "hash": "7694037111494072191"
+      },
+      {
+        "file": "web/src/component/common/input/DateTimeInput.tsx",
+        "hash": "9179362159931026173"
+      },
+      {
+        "file": "web/src/component/common/input/Input.tsx",
+        "hash": "6297443615723979245"
+      },
+      {
+        "file": "web/src/component/common/input/InputLabelContainer.tsx",
+        "hash": "7461522576544217754"
+      },
+      {
+        "file": "web/src/component/common/input/Label.tsx",
+        "hash": "14430785620112750519"
+      },
+      {
+        "file": "web/src/component/common/input/TextArea.tsx",
+        "hash": "775079930742399044"
+      },
+      {
+        "file": "web/src/component/common/input/index.ts",
+        "hash": "14270048536693204074"
+      },
+      {
+        "file": "web/src/component/common/input/patterns.const.ts",
+        "hash": "5515264605986051957"
+      },
+      {
+        "file": "web/src/component/common/list/QuestionList.tsx",
+        "hash": "12793370294323504667"
+      },
+      {
+        "file": "web/src/component/common/list/QuestionListItem.tsx",
+        "hash": "2870455313904746527"
+      },
+      {
+        "file": "web/src/component/common/list/index.ts",
+        "hash": "2875017415421565047"
+      },
+      {
+        "file": "web/src/component/common/radioButton/Radio.tsx",
+        "hash": "14872040498564231442"
+      },
+      {
+        "file": "web/src/component/common/radioButton/RadioButtonGroup.tsx",
+        "hash": "4082738088644483907"
+      },
+      {
+        "file": "web/src/component/common/radioButton/index.ts",
+        "hash": "17885290763103235847"
+      },
+      {
+        "file": "web/src/component/common/skeleton/SkeletonCard.tsx",
+        "hash": "17062396326343430987"
+      },
+      {
+        "file": "web/src/component/common/tabs/TabButton.tsx",
+        "hash": "1367146072171154684"
+      },
+      {
+        "file": "web/src/component/common/tabs/Tabs.tsx",
+        "hash": "6578394475504279421"
+      },
+      {
+        "file": "web/src/component/common/tabs/TagButton.tsx",
+        "hash": "14227428299307611839"
+      },
+      {
+        "file": "web/src/component/common/tag/Tag.tsx",
+        "hash": "13743244184917735026"
+      },
+      {
+        "file": "web/src/component/common/tag/index.ts",
+        "hash": "17373830085691100347"
+      },
+      {
+        "file": "web/src/component/common/tip/TipCard.tsx",
+        "hash": "15742377483846160906"
+      },
+      {
+        "file": "web/src/component/common/tip/Tooltip.tsx",
+        "hash": "2155346395730552417"
+      },
+      {
+        "file": "web/src/component/common/tip/index.ts",
+        "hash": "12144739674308013517"
+      },
+      {
+        "file": "web/src/component/common/typography/Typography.tsx",
+        "hash": "13601074466264538541"
+      },
+      {
+        "file": "web/src/component/common/typography/index.ts",
+        "hash": "6083283887913801368"
+      },
+      {
+        "file": "web/src/component/home/EmptyAnalysis.tsx",
+        "hash": "620250526854721358"
+      },
+      {
+        "file": "web/src/component/home/GoMakeReviewButton.tsx",
+        "hash": "8881008511898632857"
+      },
+      {
+        "file": "web/src/component/home/NavigaionBar.tsx",
+        "hash": "7884834229645037762"
+      },
+      {
+        "file": "web/src/component/home/RetrospectSummaryBox.tsx",
+        "hash": "7172873520320228092"
+      },
+      {
+        "file": "web/src/component/home/SpaceOverview.tsx",
+        "hash": "15340923456610229522"
+      },
+      {
+        "file": "web/src/component/home/SummaryInsightBox.tsx",
+        "hash": "3632493221058134528"
+      },
+      {
+        "file": "web/src/component/home/TagBox.tsx",
+        "hash": "15008555665865390005"
+      },
+      {
+        "file": "web/src/component/home/ViewSelectTab.tsx",
+        "hash": "11259552181055302771"
+      },
+      {
+        "file": "web/src/component/home/index.ts",
+        "hash": "12319004109516666794"
+      },
+      {
+        "file": "web/src/component/info/InfoBox.tsx",
+        "hash": "16906809958427468557"
+      },
+      {
+        "file": "web/src/component/info/ServicePolicyBox.tsx",
+        "hash": "7206357447593826609"
+      },
+      {
+        "file": "web/src/component/info/UserBox.tsx",
+        "hash": "4531204222575890833"
+      },
+      {
+        "file": "web/src/component/info/UserManageBox.tsx",
+        "hash": "10439486785339344173"
+      },
+      {
+        "file": "web/src/component/info/VersionBox.tsx",
+        "hash": "8075724402141345185"
+      },
+      {
+        "file": "web/src/component/info/index.ts",
+        "hash": "15353158821214783949"
+      },
+      {
+        "file": "web/src/component/login/LoginCarousel.tsx",
+        "hash": "16923993777985601973"
+      },
+      {
+        "file": "web/src/component/login/LoginSpriteSvg.tsx",
+        "hash": "17461655520064864602"
+      },
+      {
+        "file": "web/src/component/login/SocialLoginArea.tsx",
+        "hash": "2976162891251389280"
+      },
+      {
+        "file": "web/src/component/login/SocialLoginButton.tsx",
+        "hash": "14734501832669096068"
+      },
+      {
+        "file": "web/src/component/login/index.ts",
+        "hash": "10343275399931070909"
+      },
+      {
+        "file": "web/src/component/retrospect/analysis/Analysis.tsx",
+        "hash": "3714372709743821877"
+      },
+      {
+        "file": "web/src/component/retrospect/analysis/GoalCompletionRateChart.tsx",
+        "hash": "5555353532928474647"
+      },
+      {
+        "file": "web/src/component/retrospect/analysis/InsightsBoxSection.tsx",
+        "hash": "3827592204184635133"
+      },
+      {
+        "file": "web/src/component/retrospect/analysis/PersonalForm.tsx",
+        "hash": "8407091829609990404"
+      },
+      {
+        "file": "web/src/component/retrospect/analysis/QuestionForm.tsx",
+        "hash": "4156981846832182568"
+      },
+      {
+        "file": "web/src/component/retrospect/analysis/ResultContainer.tsx",
+        "hash": "14155428580945733049"
+      },
+      {
+        "file": "web/src/component/retrospect/analysis/ResultControlTab.tsx",
+        "hash": "17807522511743276050"
+      },
+      {
+        "file": "web/src/component/retrospect/analysis/TeamSatisfactionChart.tsx",
+        "hash": "17619279976315237620"
+      },
+      {
+        "file": "web/src/component/retrospect/template/card/CardCarousel.tsx",
+        "hash": "6206927747581227326"
+      },
+      {
+        "file": "web/src/component/retrospect/template/card/TemplateCard.tsx",
+        "hash": "1922795431438014694"
+      },
+      {
+        "file": "web/src/component/retrospect/template/card/swiper.css",
+        "hash": "2892866811872545674"
+      },
+      {
+        "file": "web/src/component/retrospect/template/card/template.const.ts",
+        "hash": "10064495712826322014"
+      },
+      {
+        "file": "web/src/component/retrospect/template/list/CustomTemplateList.tsx",
+        "hash": "54691086313413661"
+      },
+      {
+        "file": "web/src/component/retrospect/template/list/CustomTemplateListItem.tsx",
+        "hash": "4676993149864702897"
+      },
+      {
+        "file": "web/src/component/retrospect/template/list/DefaultTemplateListItem.tsx",
+        "hash": "738940841012623071"
+      },
+      {
+        "file": "web/src/component/retrospect/template/list/index.ts",
+        "hash": "6417572203210382808"
+      },
+      {
+        "file": "web/src/component/retrospect/template/recommend/Period.tsx",
+        "hash": "3412228342772793570"
+      },
+      {
+        "file": "web/src/component/retrospect/template/recommend/Periodic.tsx",
+        "hash": "9925949029574862856"
+      },
+      {
+        "file": "web/src/component/retrospect/template/recommend/Purpose.tsx",
+        "hash": "15953130321232302409"
+      },
+      {
+        "file": "web/src/component/retrospect/template/recommend/RecommendDone.tsx",
+        "hash": "12693143782080538030"
+      },
+      {
+        "file": "web/src/component/retrospect/template/recommend/RecommendTemplate.tsx",
+        "hash": "16228197341649326726"
+      },
+      {
+        "file": "web/src/component/retrospect/template/recommend/recommend.const.ts",
+        "hash": "16752285078256370926"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/customTemplate/AddQuestionsBottomSheet.tsx",
+        "hash": "13547969604656249070"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/customTemplate/ConfirmDefaultTemplate.tsx",
+        "hash": "2192021958525156421"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/customTemplate/ConfirmEditTemplate.tsx",
+        "hash": "1134926187971597942"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/customTemplate/EditQuestions.tsx",
+        "hash": "12015379993562467032"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/customTemplate/OrderLabel.tsx",
+        "hash": "393411001082191654"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/customTemplate/QuestionItemCheckbox.tsx",
+        "hash": "13941240329621360645"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/customTemplate/index.ts",
+        "hash": "12093054741595545872"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/customTemplate/questions.const.ts",
+        "hash": "8828072043178316566"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/index.ts",
+        "hash": "887544731720822383"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/steps/CustomTemplate.tsx",
+        "hash": "3949905724690655355"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/steps/DueDate.tsx",
+        "hash": "13936744575630086487"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/steps/MainInfo.tsx",
+        "hash": "5212939832513308474"
+      },
+      {
+        "file": "web/src/component/retrospectCreate/steps/Start.tsx",
+        "hash": "5062269499014362229"
+      },
+      {
+        "file": "web/src/component/space/CreateRetrospectiveSheet.tsx",
+        "hash": "3460381868518575437"
+      },
+      {
+        "file": "web/src/component/space/create/Category.tsx",
+        "hash": "17681423468904219268"
+      },
+      {
+        "file": "web/src/component/space/create/CreateSpace.tsx",
+        "hash": "14020457904547779088"
+      },
+      {
+        "file": "web/src/component/space/create/Field.tsx",
+        "hash": "13999827993216223764"
+      },
+      {
+        "file": "web/src/component/space/create/Home.tsx",
+        "hash": "14382427606127001136"
+      },
+      {
+        "file": "web/src/component/space/create/Info.tsx",
+        "hash": "8050976535784772157"
+      },
+      {
+        "file": "web/src/component/space/create/NeonIllustrator.tsx",
+        "hash": "3800534062297145134"
+      },
+      {
+        "file": "web/src/component/space/create/Thumb.tsx",
+        "hash": "13623750714141387963"
+      },
+      {
+        "file": "web/src/component/space/edit/SpaceEdit.tsx",
+        "hash": "1131366212690506427"
+      },
+      {
+        "file": "web/src/component/space/index.ts",
+        "hash": "16989136861258369705"
+      },
+      {
+        "file": "web/src/component/space/join/JoinLetter.tsx",
+        "hash": "13127012864832580966"
+      },
+      {
+        "file": "web/src/component/space/join/JoinSpace.tsx",
+        "hash": "2357056762561849676"
+      },
+      {
+        "file": "web/src/component/space/members/MemberInviteModal.tsx",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "web/src/component/space/members/MembersEditList.tsx",
+        "hash": "1526889185796870211"
+      },
+      {
+        "file": "web/src/component/space/members/MembersItem.tsx",
+        "hash": "9803215573340311375"
+      },
+      {
+        "file": "web/src/component/space/members/MembersList.tsx",
+        "hash": "18214658956670576930"
+      },
+      {
+        "file": "web/src/component/space/space.const.ts",
+        "hash": "8375349136673665358"
+      },
+      {
+        "file": "web/src/component/space/view/ActionItemListView.tsx",
+        "hash": "11124299440383369493"
+      },
+      {
+        "file": "web/src/component/space/view/EmptyRetrospect.tsx",
+        "hash": "16650019448113581164"
+      },
+      {
+        "file": "web/src/component/space/view/LoadingSpinner.tsx",
+        "hash": "11741105182843821484"
+      },
+      {
+        "file": "web/src/component/space/view/RetrospectBox.tsx",
+        "hash": "4715278711878205457"
+      },
+      {
+        "file": "web/src/component/space/view/RetrospectButton.tsx",
+        "hash": "14747733014576963609"
+      },
+      {
+        "file": "web/src/component/space/view/RetrospectEditModal.tsx",
+        "hash": "14042166816163937358"
+      },
+      {
+        "file": "web/src/component/space/view/RetrospectOptions.tsx",
+        "hash": "13973943198522642193"
+      },
+      {
+        "file": "web/src/component/space/view/SpaceAppBarRightComp.tsx",
+        "hash": "11825396635731922684"
+      },
+      {
+        "file": "web/src/component/space/view/SpaceCountView.tsx",
+        "hash": "2434544752233799405"
+      },
+      {
+        "file": "web/src/component/template/ExampleButton.tsx",
+        "hash": "11603599009264073220"
+      },
+      {
+        "file": "web/src/component/template/PurposeBox.tsx",
+        "hash": "8659631017375072610"
+      },
+      {
+        "file": "web/src/component/template/QuestionBox.tsx",
+        "hash": "12193333502561598767"
+      },
+      {
+        "file": "web/src/component/template/TemplateLottiePicture.tsx",
+        "hash": "9492957501526451567"
+      },
+      {
+        "file": "web/src/component/template/TipBox.tsx",
+        "hash": "5593602335877730913"
+      },
+      {
+        "file": "web/src/component/write/ItemsButton.tsx",
+        "hash": "7303909088399002224"
+      },
+      {
+        "file": "web/src/component/write/QuestionItem.tsx",
+        "hash": "137400183720109484"
+      },
+      {
+        "file": "web/src/component/write/index.ts",
+        "hash": "17860659328166490885"
+      },
+      {
+        "file": "web/src/component/write/modal/EntireListModal.tsx",
+        "hash": "5371083513117661503"
+      },
+      {
+        "file": "web/src/component/write/modal/TemporarySaveModal.tsx",
+        "hash": "10923355476972644180"
+      },
+      {
+        "file": "web/src/component/write/modal/component/QuestionStatus.tsx",
+        "hash": "2525498035758620843"
+      },
+      {
+        "file": "web/src/component/write/modal/component/index.ts",
+        "hash": "3528050849273062527"
+      },
+      {
+        "file": "web/src/component/write/modal/index.ts",
+        "hash": "9936724851953094007"
+      },
+      {
+        "file": "web/src/component/write/phase/Confirm.tsx",
+        "hash": "15093246912833923845"
+      },
+      {
+        "file": "web/src/component/write/phase/Prepare.tsx",
+        "hash": "17202511762715004870"
+      },
+      {
+        "file": "web/src/component/write/phase/Write.tsx",
+        "hash": "12009277759090355502"
+      },
+      {
+        "file": "web/src/component/write/phase/index.ts",
+        "hash": "4983492125237256932"
+      },
+      {
+        "file": "web/src/component/write/template/complete/Achievement.tsx",
+        "hash": "16627548281248064713"
+      },
+      {
+        "file": "web/src/component/write/template/complete/Descriptive.tsx",
+        "hash": "13815085329885437221"
+      },
+      {
+        "file": "web/src/component/write/template/complete/ResultContainer.tsx",
+        "hash": "13317326882955831794"
+      },
+      {
+        "file": "web/src/component/write/template/complete/Satisfaction.tsx",
+        "hash": "9520896616791905173"
+      },
+      {
+        "file": "web/src/component/write/template/complete/index.ts",
+        "hash": "15414355191532213232"
+      },
+      {
+        "file": "web/src/component/write/template/template.const.ts",
+        "hash": "10785468884084077979"
+      },
+      {
+        "file": "web/src/component/write/template/write/Achievement.tsx",
+        "hash": "1284736088291524122"
+      },
+      {
+        "file": "web/src/component/write/template/write/Descriptive.tsx",
+        "hash": "14930773040216691129"
+      },
+      {
+        "file": "web/src/component/write/template/write/Satisfaction.tsx",
+        "hash": "2263579823372706063"
+      },
+      {
+        "file": "web/src/component/write/template/write/index.ts",
+        "hash": "7566329279577785632"
+      },
+      {
+        "file": "web/src/component/write/template/write/write.const.ts",
+        "hash": "10828846205251943755"
+      },
+      {
+        "file": "web/src/config/info.ts",
+        "hash": "4667579632512920199"
+      },
+      {
+        "file": "web/src/config/paths.ts",
+        "hash": "11984734043836407840"
+      },
+      {
+        "file": "web/src/config/storage-keys.ts",
+        "hash": "11217976974519246783"
+      },
+      {
+        "file": "web/src/hooks/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "web/src/hooks/api/actionItem/useAPiOptionsRecentTeamActionList.ts",
+        "hash": "16207685981282446765"
+      },
+      {
+        "file": "web/src/hooks/api/actionItem/useAPiPostActionItemBySpaceId.ts",
+        "hash": "10472202995724229057"
+      },
+      {
+        "file": "web/src/hooks/api/actionItem/useApiOptionsGetTeamActionItemList.ts",
+        "hash": "11163147637074722900"
+      },
+      {
+        "file": "web/src/hooks/api/actionItem/useApiPostActionItem.ts",
+        "hash": "17541980453172492649"
+      },
+      {
+        "file": "web/src/hooks/api/actionItem/useCreateActionItem.ts",
+        "hash": "18125407022417813998"
+      },
+      {
+        "file": "web/src/hooks/api/actionItem/useDeleteActionItemList.ts",
+        "hash": "2703680165222094825"
+      },
+      {
+        "file": "web/src/hooks/api/actionItem/useGetActionItemList.ts",
+        "hash": "11886717499929075155"
+      },
+      {
+        "file": "web/src/hooks/api/actionItem/useGetSpaceActionItemList.ts",
+        "hash": "4511413619193635732"
+      },
+      {
+        "file": "web/src/hooks/api/actionItem/usePatchActionItemList.ts",
+        "hash": "12974418089122417444"
+      },
+      {
+        "file": "web/src/hooks/api/analysis/useApiGetAnalysis.ts",
+        "hash": "13175569575679711348"
+      },
+      {
+        "file": "web/src/hooks/api/analysis/useApiGetMemberAnalysis.ts",
+        "hash": "6195929044478078454"
+      },
+      {
+        "file": "web/src/hooks/api/auth/useApiGetUser.ts",
+        "hash": "8649001014078129235"
+      },
+      {
+        "file": "web/src/hooks/api/login/usePostAppleToken.ts",
+        "hash": "12947699118732047863"
+      },
+      {
+        "file": "web/src/hooks/api/login/usePostGoogleToken.ts",
+        "hash": "13199764278009873123"
+      },
+      {
+        "file": "web/src/hooks/api/login/usePostKakaoToken.ts",
+        "hash": "3928265995339388171"
+      },
+      {
+        "file": "web/src/hooks/api/login/usePostSignIn.ts",
+        "hash": "7481288088763582796"
+      },
+      {
+        "file": "web/src/hooks/api/login/usePostSignOut.ts",
+        "hash": "2408207212034826080"
+      },
+      {
+        "file": "web/src/hooks/api/login/usePostSignUp.ts",
+        "hash": "5006463164504050728"
+      },
+      {
+        "file": "web/src/hooks/api/retrospect/analysis/useGetAnalysisAnswer.ts",
+        "hash": "3877902052690592795"
+      },
+      {
+        "file": "web/src/hooks/api/retrospect/close/useApiCloseRetrospect.ts",
+        "hash": "3155259563105673312"
+      },
+      {
+        "file": "web/src/hooks/api/retrospect/create/usePostRetrospectCreate.ts",
+        "hash": "14256030239920430884"
+      },
+      {
+        "file": "web/src/hooks/api/retrospect/edit/usePatchRetrospect.ts",
+        "hash": "2395287780260550"
+      },
+      {
+        "file": "web/src/hooks/api/retrospect/recommend/useApiRecommendTemplate.ts",
+        "hash": "12837955382659830158"
+      },
+      {
+        "file": "web/src/hooks/api/retrospect/useApiDeleteRetrospect.ts",
+        "hash": "12592424748672403724"
+      },
+      {
+        "file": "web/src/hooks/api/retrospect/useApiOptionsGetRetrospects.ts",
+        "hash": "18419251665563651380"
+      },
+      {
+        "file": "web/src/hooks/api/space/edit/useApiEditSpace.ts",
+        "hash": "5223506334976205327"
+      },
+      {
+        "file": "web/src/hooks/api/space/members/useApiChangeLeader.ts",
+        "hash": "12220822011261283665"
+      },
+      {
+        "file": "web/src/hooks/api/space/members/useApiGetMembers.ts",
+        "hash": "8285549705242896644"
+      },
+      {
+        "file": "web/src/hooks/api/space/members/useApiKickMembers.ts",
+        "hash": "28973910409429389"
+      },
+      {
+        "file": "web/src/hooks/api/space/useApiDeleteSpace.ts",
+        "hash": "11856541469154936694"
+      },
+      {
+        "file": "web/src/hooks/api/space/useApiGetSpace.ts",
+        "hash": "3052349352175103489"
+      },
+      {
+        "file": "web/src/hooks/api/space/useApiGetSpaceList.ts",
+        "hash": "5153085545378719359"
+      },
+      {
+        "file": "web/src/hooks/api/space/useApiJoinSpace.ts",
+        "hash": "18147776462735097024"
+      },
+      {
+        "file": "web/src/hooks/api/space/useApiLeaveSpace.ts",
+        "hash": "6423883715624639496"
+      },
+      {
+        "file": "web/src/hooks/api/space/useApiOptionsGetSpaceInfo.ts",
+        "hash": "12159601252705432777"
+      },
+      {
+        "file": "web/src/hooks/api/space/useApiPostSpace.ts",
+        "hash": "926043843767566995"
+      },
+      {
+        "file": "web/src/hooks/api/space/useGetSpace.ts",
+        "hash": "16928177800848197872"
+      },
+      {
+        "file": "web/src/hooks/api/template/useDeleteCustomTemplate.ts",
+        "hash": "13813119877508211975"
+      },
+      {
+        "file": "web/src/hooks/api/template/useGetCustomTemplate.ts",
+        "hash": "4997088291877590550"
+      },
+      {
+        "file": "web/src/hooks/api/template/useGetCustomTemplateList.ts",
+        "hash": "13933372412167873925"
+      },
+      {
+        "file": "web/src/hooks/api/template/useGetDefaultTemplateList.ts",
+        "hash": "5434565239174734657"
+      },
+      {
+        "file": "web/src/hooks/api/template/useGetSimpleTemplateInfo.ts",
+        "hash": "5416704212618669346"
+      },
+      {
+        "file": "web/src/hooks/api/template/useGetTemplateInfo.ts",
+        "hash": "310107859749479980"
+      },
+      {
+        "file": "web/src/hooks/api/template/usePatchTemplateTitle.ts",
+        "hash": "15896761971940196588"
+      },
+      {
+        "file": "web/src/hooks/api/template/usePostRecentTemplateId.ts",
+        "hash": "8341917229130015961"
+      },
+      {
+        "file": "web/src/hooks/api/user/useDeleteUser.ts",
+        "hash": "9895453451009183942"
+      },
+      {
+        "file": "web/src/hooks/api/user/usePatchUpdateProfile.ts",
+        "hash": "2173815001936139171"
+      },
+      {
+        "file": "web/src/hooks/api/write/useGetAnswers.ts",
+        "hash": "17671070273649229408"
+      },
+      {
+        "file": "web/src/hooks/api/write/useGetQuestions.ts",
+        "hash": "1951041817910036438"
+      },
+      {
+        "file": "web/src/hooks/api/write/useGetTemporaryQuestions.ts",
+        "hash": "1894686309499600686"
+      },
+      {
+        "file": "web/src/hooks/api/write/useWriteQuestions.ts",
+        "hash": "17054612622817999808"
+      },
+      {
+        "file": "web/src/hooks/useBottomSheet.ts",
+        "hash": "16582383911149873068"
+      },
+      {
+        "file": "web/src/hooks/useCheckBox.ts",
+        "hash": "14926392898270567389"
+      },
+      {
+        "file": "web/src/hooks/useCollisionDetection.ts",
+        "hash": "8262034312520482369"
+      },
+      {
+        "file": "web/src/hooks/useDateTimePicker.ts",
+        "hash": "255309244737025539"
+      },
+      {
+        "file": "web/src/hooks/useEditQuestions.ts",
+        "hash": "387445536746635399"
+      },
+      {
+        "file": "web/src/hooks/useFullModal.ts",
+        "hash": "4672572012565349197"
+      },
+      {
+        "file": "web/src/hooks/useInput.ts",
+        "hash": "6480106415205146979"
+      },
+      {
+        "file": "web/src/hooks/useIntersectionObserve.ts",
+        "hash": "6253834083867576404"
+      },
+      {
+        "file": "web/src/hooks/useModal.ts",
+        "hash": "10967087687208712302"
+      },
+      {
+        "file": "web/src/hooks/useMultiStepForm.ts",
+        "hash": "1408916595248968910"
+      },
+      {
+        "file": "web/src/hooks/useRadioButton.ts",
+        "hash": "6658825039662533722"
+      },
+      {
+        "file": "web/src/hooks/useRequiredParams.ts",
+        "hash": "17104678455702858702"
+      },
+      {
+        "file": "web/src/hooks/useTabs.ts",
+        "hash": "7552323224876445396"
+      },
+      {
+        "file": "web/src/hooks/useToast.ts",
+        "hash": "1843996076586188622"
+      },
+      {
+        "file": "web/src/hooks/useValidation.ts",
+        "hash": "9986718154089073121"
+      },
+      {
+        "file": "web/src/layout/DefaultLayout.tsx",
+        "hash": "5607424327459298249"
+      },
+      {
+        "file": "web/src/layout/DualToneLayout.tsx",
+        "hash": "4508627064697553264"
+      },
+      {
+        "file": "web/src/layout/EncryptionLayout.tsx",
+        "hash": "14678400587613697725"
+      },
+      {
+        "file": "web/src/layout/GlobalLayout.tsx",
+        "hash": "6614401743004767459"
+      },
+      {
+        "file": "web/src/layout/HomeLayout.tsx",
+        "hash": "6184497451093447035"
+      },
+      {
+        "file": "web/src/layout/RequireLoginLayout.tsx",
+        "hash": "13366915527281314611"
+      },
+      {
+        "file": "web/src/layout/TemplateLayout.tsx",
+        "hash": "12353062377785167697"
+      },
+      {
+        "file": "web/src/lib/create-context/index.tsx",
+        "hash": "15165175865260435256"
+      },
+      {
+        "file": "web/src/lib/provider/bridge-provider.tsx",
+        "hash": "5155518379761385319"
+      },
+      {
+        "file": "web/src/lib/provider/mix-pannel-provider/event.type.ts",
+        "hash": "3495570256492054499"
+      },
+      {
+        "file": "web/src/lib/provider/mix-pannel-provider/index.tsx",
+        "hash": "11514806731150958186"
+      },
+      {
+        "file": "web/src/lib/tanstack-query/queryClient.ts",
+        "hash": "9402276718687125875"
+      },
+      {
+        "file": "web/src/lib/test-natigate/index.ts",
+        "hash": "10925766285125468598"
+      },
+      {
+        "file": "web/src/router/index.tsx",
+        "hash": "8355145839553896801"
+      },
+      {
+        "file": "web/src/store/auth/authAtom.tsx",
+        "hash": "4305155390005526583"
+      },
+      {
+        "file": "web/src/store/messageAtom.tsx",
+        "hash": "13231910116376890798"
+      },
+      {
+        "file": "web/src/store/modal/modalAtom.ts",
+        "hash": "7590306020815231595"
+      },
+      {
+        "file": "web/src/store/retrospect/retrospectCreate.ts",
+        "hash": "15603626495169137590"
+      },
+      {
+        "file": "web/src/store/retrospect/template/recommend/recommendAtom.ts",
+        "hash": "16814609726236485266"
+      },
+      {
+        "file": "web/src/store/space/spaceAtom.ts",
+        "hash": "5791622226369059678"
+      },
+      {
+        "file": "web/src/store/theme.tsx",
+        "hash": "14925582083273506827"
+      },
+      {
+        "file": "web/src/store/toast/toastAtom.ts",
+        "hash": "16502943323503098761"
+      },
+      {
+        "file": "web/src/style/calendar.css",
+        "hash": "13774482533231524303"
+      },
+      {
+        "file": "web/src/style/common/animation.ts",
+        "hash": "10570792781914567264"
+      },
+      {
+        "file": "web/src/style/common/toast.ts",
+        "hash": "11111079369364331238"
+      },
+      {
+        "file": "web/src/style/designTokens.ts",
+        "hash": "16866019667684441764"
+      },
+      {
+        "file": "web/src/style/global.css",
+        "hash": "14609914141626894792"
+      },
+      {
+        "file": "web/src/style/swiper/swiper.css",
+        "hash": "1287492634621534776"
+      },
+      {
+        "file": "web/src/style/variable.ts",
+        "hash": "15091182240190309294"
+      },
+      {
+        "file": "web/src/svg.d.ts",
+        "hash": "18306325748225058898"
+      },
+      {
+        "file": "web/src/types/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "web/src/types/actionItem/index.ts",
+        "hash": "12718514917146206769"
+      },
+      {
+        "file": "web/src/types/analysis/index.ts",
+        "hash": "13180898119785420410"
+      },
+      {
+        "file": "web/src/types/loginType/index.tsx",
+        "hash": "842602429831165206"
+      },
+      {
+        "file": "web/src/types/modal.ts",
+        "hash": "1400867477822780255"
+      },
+      {
+        "file": "web/src/types/pagination.ts",
+        "hash": "6425153073344698470"
+      },
+      {
+        "file": "web/src/types/retrospect/index.ts",
+        "hash": "3335635286317347027"
+      },
+      {
+        "file": "web/src/types/retrospectCreate/index.ts",
+        "hash": "15603008937282012506"
+      },
+      {
+        "file": "web/src/types/retrospectCreate/recommend.ts",
+        "hash": "17976666314809922285"
+      },
+      {
+        "file": "web/src/types/space.ts",
+        "hash": "6059407455050143133"
+      },
+      {
+        "file": "web/src/types/spaceType/index.ts",
+        "hash": "5990244240002482481"
+      },
+      {
+        "file": "web/src/types/template.ts",
+        "hash": "15635203336746108453"
+      },
+      {
+        "file": "web/src/types/toast.ts",
+        "hash": "10022119269264018981"
+      },
+      {
+        "file": "web/src/types/write/index.ts",
+        "hash": "4857481547689313930"
+      },
+      {
+        "file": "web/src/utils/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "web/src/utils/answer/calculateScaledAnswer.ts",
+        "hash": "182162672394033922"
+      },
+      {
+        "file": "web/src/utils/date/index.ts",
+        "hash": "4347199793423713270"
+      },
+      {
+        "file": "web/src/utils/etc.ts",
+        "hash": "11711607050566713167"
+      },
+      {
+        "file": "web/src/utils/externalStore/create.ts",
+        "hash": "900304669516936343"
+      },
+      {
+        "file": "web/src/utils/externalStore/hook.ts",
+        "hash": "13144106091793673898"
+      },
+      {
+        "file": "web/src/utils/formatDate.ts",
+        "hash": "2502802666558985120"
+      },
+      {
+        "file": "web/src/utils/kakao/sharedKakaoLink.ts",
+        "hash": "629608460810071307"
+      },
+      {
+        "file": "web/src/utils/retrospect/createTemplateArr.ts",
+        "hash": "10112377084061839421"
+      },
+      {
+        "file": "web/src/utils/space/categoryTagKoreanChange.ts",
+        "hash": "4704207833535709275"
+      },
+      {
+        "file": "web/src/utils/space/cryptoKey.ts",
+        "hash": "6309493554027290962"
+      },
+      {
+        "file": "web/src/utils/toast/collapseToast.ts",
+        "hash": "7196640161184356081"
+      },
+      {
+        "file": "web/src/vite-env.d.ts",
+        "hash": "16278681078571345554"
+      },
+      {
+        "file": "web/tsconfig.json",
+        "hash": "1591197751700853135"
+      },
+      {
+        "file": "web/tsconfig.node.json",
+        "hash": "8586866767247417612"
+      },
+      {
+        "file": "web/vercel.json",
+        "hash": "15598029982017197480"
+      },
+      {
+        "file": "web/vite.config.ts",
+        "hash": "11843344321216087442"
+      }
+    ]
+  }
+}
