@@ -18,7 +18,7 @@ module.exports = {
     project: true,
     tsconfigRootDir: __dirname,
   },
-  ignorePatterns: ["postcss.config.cjs", "dist", ".eslintrc.cjs", "**/*.cjs"],
+  ignorePatterns: ["postcss.config.cjs", "dist", ".eslintrc.cjs", "**/*.cjs", "vite.config.ts"],
   plugins: ["react-refresh", "react", "import"],
   rules: {
     "@typescript-eslint/no-unsafe-assignment": "off",
@@ -41,6 +41,8 @@ module.exports = {
         },
       },
     ],
+    "import/no-unresolved": "off",
+    "import/export": "off",
   },
   settings: {
     "import/parsers": {
