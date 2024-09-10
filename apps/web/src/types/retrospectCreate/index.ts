@@ -11,7 +11,7 @@ export type RetrospectCreateReq = {
   title: string;
   introduction?: string;
   questions: Questions;
-  deadline: string;
+  deadline?: string;
   /**
    * 기본 템플릿을 수정한 경우 true
    */
