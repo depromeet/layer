@@ -33,7 +33,11 @@ jobs:
           cache: "pnpm"
 
       - name: Install Dependencies
-        run: pnpm install
+        run: |
+          cd apps/web
+          pnpm install
 
       - name: Build
-        run: pnpm build
+        run: |
+          cd apps/web
+          pnpm build
