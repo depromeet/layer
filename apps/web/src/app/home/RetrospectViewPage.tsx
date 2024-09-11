@@ -13,6 +13,7 @@ import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { useTabs } from "@/hooks/useTabs";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { useTestNatigate } from "@/lib/test-natigate";
+import { EmptySpaceList } from "@/component/space/view/EmptySpaceList";
 
 export function RetrospectViewPage() {
   // const navigate = useNavigate();
@@ -47,6 +48,9 @@ export function RetrospectViewPage() {
     naviagte(PATHS.spaceCreate());
   };
 
+  const isEmptySpaceList =
+    spaceList?.pages.flatMap((page) => page.data).filter((space) => (selectedView === "ALL" ? true : space.category === selectedView)).length === 0;
+
   return (
     <DefaultLayout
       theme="gray"
@@ -59,7 +63,8 @@ export function RetrospectViewPage() {
       RightComp={<UserProfileIcon />}
     >
       <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
-      <GoMakeReviewButton onClick={goToCreateSpace} />
+      <GoMakeReviewButton onClick={goToCreateSpace} isTooltipVisible={isEmptySpaceList} />
+      {isEmptySpaceList && <EmptySpaceList />}
       <div
         css={css`
           display: flex;
