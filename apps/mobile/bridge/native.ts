@@ -8,7 +8,7 @@ import EventEmitter3 from "eventemitter3";
 
 export type SUSPENSE_STATE = { loading: boolean; message?: string };
 
-type POP_ROUTE = { type: "POP" };
+type POP_ROUTE = { type: "POP"; route?: Path };
 type PUSH_ROUTE = { type: "PUSH"; route: Path };
 type REPLACE_ROUTE = { type: "REPLACE"; route: Path };
 
@@ -46,14 +46,21 @@ export const appBridge = bridge({
     });
   },
 
-  async navigate(path: Path | -1, options?: { type?: "PUSH" | "REPLACE" }) {
+  async navigate<T extends Path | -1>(
+    path: T,
+    options?: T extends Path ? { type?: "PUSH" | "REPLACE" } : { route?: Path }
+  ) {
     if (path === -1) {
-      eventEmitter.emit("ROUTE_EVENT", { type: "POP" });
-    } else {
       eventEmitter.emit("ROUTE_EVENT", {
-        type: options?.type ?? "PUSH",
-        route: path,
+        type: "POP",
+        route: (options as { route?: Path })?.route,
       });
+    } else {
+      const routeEvent: ROUTE_EVENT = {
+        type: (options as { type?: "PUSH" | "REPLACE" })?.type ?? "PUSH",
+        route: path,
+      };
+      eventEmitter.emit("ROUTE_EVENT", routeEvent);
     }
   },
 });

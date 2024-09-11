@@ -6,7 +6,6 @@ import { useBridge } from "@/lib/provider/bridge-provider";
 const useTestNatigate = () => {
   const { bridge } = useBridge();
   const navigate = useNavigate();
-
   return bridge.isWebViewBridgeAvailable && bridge?.navigate ? bridge.navigate : navigate;
 };
 
