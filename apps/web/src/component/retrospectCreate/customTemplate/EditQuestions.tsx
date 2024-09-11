@@ -78,6 +78,10 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
   };
 
   const onNext = () => {
+    if (newQuestions.length === 0) {
+      toast.error("최소 1개 이상의 질문으로 구성해주세요");
+      return;
+    }
     saveData();
     goNext();
   };
