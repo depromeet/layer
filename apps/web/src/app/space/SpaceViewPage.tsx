@@ -23,11 +23,13 @@ import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useModal } from "@/hooks/useModal";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DualToneLayout } from "@/layout/DualToneLayout";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 
 export function SpaceViewPage() {
   const navigate = useNavigate();
+  const appNavigate = useTestNatigate();
   const memberId = Cookies.get("memberId");
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
@@ -106,7 +108,7 @@ export function SpaceViewPage() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => navigate(PATHS.home())}
+          onClick={() => appNavigate(-1, { route: PATHS.home() })}
           color={DESIGN_TOKEN_COLOR.gray00}
         />
       }
