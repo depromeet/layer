@@ -61,6 +61,7 @@ type Content = {
   offsetX?: number;
   offsetY?: number;
   hideOnClick?: boolean;
+  autoHide?: boolean;
 };
 
 type ContentProps =
@@ -80,19 +81,20 @@ function Content({
   offsetY = 30,
   modifiers = [],
   hideOnClick = true,
+  autoHide = true,
 }: ContentProps) {
   const context = useContext(TooltipContext);
 
   const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
-    if (isVisible) {
+    if (autoHide && isVisible) {
       const timer = setTimeout(() => {
         setIsVisible(false);
       }, 3000);
 
       return () => clearTimeout(timer);
     }
-  }, [isVisible]);
+  }, [isVisible, autoHide]);
 
   useEffect(() => {
     if (hideOnClick) {
