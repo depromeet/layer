@@ -1,6 +1,6 @@
 import { PropsWithChildren, useCallback, useRef, useState } from "react";
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, Animated } from "react-native";
+import { View, Text, StyleSheet, Animated } from "react-native";
 import LottieView from "lottie-react-native";
 import { BlurView } from "@react-native-community/blur";
 
@@ -32,7 +32,11 @@ const SuspenseProvider = ({ children }: PropsWithChildren) => {
   const handleRoute = useCallback((event: ROUTE_EVENT) => {
     switch (event.type) {
       case "POP":
-        router.canGoBack() && router.back();
+        if (router.canGoBack()) {
+          router.back();
+        } else if (event.route) {
+          router.navigate(event.route);
+        }
         break;
       case "PUSH":
         router.push({
