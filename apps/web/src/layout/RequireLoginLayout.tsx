@@ -1,7 +1,7 @@
 import { PATHS } from "@layer/shared";
 import { useAtom } from "jotai";
 import Cookies from "js-cookie";
-import { Fragment, ReactNode, useEffect } from "react";
+import { Fragment, ReactNode, useCallback, useEffect } from "react";
 
 import { fetchMemberInfo } from "@/api/login";
 import { COOKIE_KEYS } from "@/config/storage-keys";
@@ -19,10 +19,10 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
   const curPath = window.location.pathname;
   const { setPeople } = useMixpanel();
 
-  const redirectLogin = () => {
+  const redirectLogin = useCallback(() => {
     Cookies.set(COOKIE_KEYS.redirectPrevPathKey, curPath);
-    void navigate(PATHS.login());
-  };
+    void navigate(PATHS.login(), { replace: true });
+  }, [curPath, navigate]);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
