@@ -135,7 +135,16 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
             <InsightsBoxSection type="improvementPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
           </>
         ) : (
-          <EmptyList message={<>회고를 작성해야 확인할 수 있어요</>} icon={"ic_empty_list"} iconSize={12} />
+          <EmptyList
+            message={
+              <>
+                회고를 작성하지 않으셨거나 <br />
+                너무 적은 내용을 입력하셨어요
+              </>
+            }
+            icon={"ic_empty_list"}
+            iconSize={12}
+          />
         ))}
     </div>
   );
