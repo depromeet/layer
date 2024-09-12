@@ -7,6 +7,7 @@ import { CardCarousel } from "@/component/retrospect/template/card/CardCarousel"
 import { TemplateKey } from "@/component/retrospect/template/card/template.const";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { chooseParticle } from "@/utils/retrospect/chooseParticle";
 import { createTemplateArr } from "@/utils/retrospect/createTemplateArr";
 
 export function RecommendSearch() {
@@ -16,9 +17,11 @@ export function RecommendSearch() {
 
   if (isLoading) return <LoadingModal />;
 
+  const particle = chooseParticle(data?.name ?? "");
+
   return (
     <DefaultLayout theme="gray">
-      <Header title={`${data?.name}과 어울리는\n회고 템플릿을 찾는중...`} />
+      <Header title={`${data?.name}${particle} 어울리는\n회고 템플릿을 찾는중...`} />
       <Spacing size={13} />
       <div>
         <CardCarousel templateId={templateId} spaceId={spaceId} templateArr={TemplateArr} />
