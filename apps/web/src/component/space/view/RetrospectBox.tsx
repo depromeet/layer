@@ -44,30 +44,34 @@ export function RetrospectBox({
   const { retrospectId, title, introduction, retrospectStatus, writeStatus, analysisStatus, writeCount, totalCount, deadline } = retrospect;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { toast } = useToast();
-  const isAllAnswered = writeCount === totalCount;
 
   const { mutate: retrospectDelete } = useApiDeleteRetrospect();
   const { mutate: retrospectClose, isPending } = useApiCloseRetrospect();
 
   const boxClickFun = () => {
     const { analysisStatus, retrospectStatus, writeStatus } = retrospect;
+
+    const navigateToAnalysis = (defaultTab?: "분석" | "") =>
+      navigate(PATHS.retrospectAnalysis(spaceId, retrospectId), { state: { title, ...(defaultTab && { defaultTab }) } });
+
+    if (analysisStatus === "DONE") {
+      navigateToAnalysis("분석");
+      return;
+    }
+
     if (retrospectStatus === "PROCEEDING") {
-      if (analysisStatus === "NOT_STARTED") {
-        if (writeStatus === "NOT_STARTED" || writeStatus === "PROCEEDING") {
-          navigate(PATHS.write(), {
-            state: {
-              retrospectId,
-              spaceId,
-            },
-          });
-        } else {
-          navigate(PATHS.retrospectAnalysis(spaceId, retrospectId), { state: { title } });
-        }
+      if (analysisStatus === "NOT_STARTED" && (writeStatus === "NOT_STARTED" || writeStatus === "PROCEEDING")) {
+        navigate(PATHS.write(), {
+          state: {
+            retrospectId,
+            spaceId,
+          },
+        });
       } else {
-        navigate(PATHS.retrospectAnalysis(spaceId, retrospectId), { state: { title, defaultTabs: "분석" } });
+        navigateToAnalysis();
       }
     } else {
-      navigate(PATHS.retrospectAnalysis(spaceId, retrospectId), { state: { title, defaultTabs: "분석" } });
+      navigateToAnalysis("분석");
     }
   };
 
