@@ -34,7 +34,6 @@ export function RetrospectBox({
   refetchRestrospectData?: () => void;
   isLeader: boolean;
 }) {
-  console.log(retrospect);
   const { open } = useModal();
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -90,9 +89,6 @@ export function RetrospectBox({
   const modifyBtnClickFun = () => {
     setIsEditModalOpen(true);
   };
-  useEffect(() => {
-    console.log("isOptionsVisible state:", isOptionsVisible);
-  }, [isOptionsVisible]);
 
   const toggleOptionsVisibility = () => {
     setIsOptionsVisible((prev) => !prev);

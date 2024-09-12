@@ -52,6 +52,7 @@ export function SpaceViewPage() {
 
   useEffect(() => {
     if (restrospectArr) {
+      console.log(restrospectArr);
       //FIXME : 더미데이터 삽입
       //setProceedingRetrospects(restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING"));
       //setDoneRetrospects(restrospectArr.filter((retrospect) => retrospect.retrospectStatus === "DONE"));
