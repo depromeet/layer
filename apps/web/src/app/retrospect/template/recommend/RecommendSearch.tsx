@@ -7,6 +7,7 @@ import { CardCarousel } from "@/component/retrospect/template/card/CardCarousel"
 import { TemplateKey } from "@/component/retrospect/template/card/template.const";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { chooseParticle } from "@/utils/retrospect/chooseParticle";
 import { createTemplateArr } from "@/utils/retrospect/createTemplateArr";
 
 export function RecommendSearch() {
