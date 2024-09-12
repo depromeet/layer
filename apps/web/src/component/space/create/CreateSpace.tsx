@@ -1,11 +1,8 @@
 import { css } from "@emotion/react";
-import axios from "axios";
 import { useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
 
-import { api } from "@/api";
 import { Icon } from "@/component/common/Icon";
-import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Category } from "@/component/space/create/Category";
 import { Field } from "@/component/space/create/Field";
@@ -13,6 +10,7 @@ import { Home } from "@/component/space/create/Home";
 import { Info } from "@/component/space/create/Info";
 import { Thumb } from "@/component/space/create/Thumb";
 import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
+import { useApiUploadImage } from "@/hooks/api/space/useApiUploadImage";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { useBridge } from "@/lib/provider/bridge-provider";
 import { useTestNatigate } from "@/lib/test-natigate";
@@ -27,10 +25,11 @@ export function CreateSpace() {
   const [spaceValue, setSpaceValue] = useAtom(spaceState);
   const { mutate, isPending } = useApiPostSpace();
   const { bridge } = useBridge();
+  const { mutate: uploadImage, isPending: isImageUploading } = useApiUploadImage();
 
   useEffect(() => {
     bridge.sendBGColor(spaceValue.step === 0 ? "#212529" : "#FFFFFF").catch(console.error);
-    if (spaceValue.step === LAST_PAGE + 1) {
+    if (spaceValue.submit) {
       mutate({
         ...spaceValue,
       });
@@ -68,31 +67,28 @@ export function CreateSpace() {
     }));
   };
 
-  const handleThumbChange = async (thumbValues: Pick<SpaceValue, "imgUrl">) => {
+  const handleThumbChange = (thumbValues: Pick<SpaceValue, "imgUrl">) => {
     try {
       const { imgUrl } = thumbValues;
 
       if (imgUrl) {
-        const {
-          data: { presignedUrl, imageUrl },
-        } = await api.get<{ presignedUrl: string; imageUrl: string }>("/external/image/presigned?domain=SPACE");
-
-        await axios.put(presignedUrl, imgUrl, {
-          headers: {
-            "Content-Type": "image/png",
+        uploadImage(imgUrl as File, {
+          onSuccess: (imageUrl) => {
+            setSpaceValue((prevValues) => ({
+              ...prevValues,
+              imgUrl: imageUrl,
+              submit: true,
+            }));
+          },
+          onError: (error) => {
+            console.error("이미지 업로드 실패:", error);
           },
         });
-
-        setSpaceValue((prevValues) => ({
-          ...prevValues,
-          imgUrl: imageUrl,
-          step: prevValues.step + 1,
-        }));
       } else {
         setSpaceValue((prevValues) => ({
           ...prevValues,
           imgUrl: null,
-          step: prevValues.step + 1,
+          submit: true,
         }));
       }
     } catch (error) {
@@ -101,15 +97,13 @@ export function CreateSpace() {
   };
 
   const handleBack = useCallback(() => {
-    spaceValue.step > 0
+    void (spaceValue.step > 0
       ? setSpaceValue((prevValues) => ({
           ...prevValues,
           step: prevValues.step - 1,
         }))
-      : navigate(-1);
+      : navigate(-1));
   }, [navigate, setSpaceValue, spaceValue.step]);
-
-  if (isPending) return <LoadingModal />;
 
   return (
     <DefaultLayout
@@ -139,7 +133,7 @@ export function CreateSpace() {
       {spaceValue.step === 1 && <Category onNext={handleCategoryChange} />}
       {spaceValue.step === 2 && <Field onNext={handleFieldChange} />}
       {spaceValue.step === 3 && <Info onNext={handleInfoChange} />}
-      {spaceValue.step === 4 && <Thumb onNext={handleThumbChange} isPending={isPending} />}
+      {spaceValue.step === 4 && <Thumb onNext={handleThumbChange} isPending={isPending || isImageUploading} />}
     </DefaultLayout>
   );
 }

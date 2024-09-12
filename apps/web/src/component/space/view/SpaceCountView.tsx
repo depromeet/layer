@@ -128,7 +128,7 @@ export function SpaceCountView({ mainTemplate, memberCount, isLeader }: SpaceCou
             `}
           >
             <Typography variant="body12Medium" color="gray800">
-              팀원
+              인원
             </Typography>
             <Typography variant="subtitle14SemiBold">{memberCount}명</Typography>
           </div>

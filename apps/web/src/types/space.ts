@@ -9,6 +9,7 @@ export type SpaceValue = {
   introduction?: string;
   imgUrl?: string | File | null;
   step: number;
+  submit?: boolean;
 };
 
 export enum ProjectType {
