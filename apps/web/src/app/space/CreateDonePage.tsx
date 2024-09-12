@@ -64,7 +64,7 @@ export function CreateDonePage() {
       shareKakaoWeb(
         `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
         `${userData.name}님의 회고 초대장`,
-        `함께 회고해요! ${userData.name}님이 팀 레이어 스페이스에 초대했어요`,
+        `함께 회고해요! ${userData.name}님이 ${spaceData?.name} 스페이스에 초대했어요`,
       );
     }
   };
