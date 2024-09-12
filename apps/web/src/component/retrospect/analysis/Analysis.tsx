@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { GoalCompletionRateChart } from "./GoalCompletionRateChart";
 import { InsightsBoxSection } from "./InsightsBoxSection";
@@ -118,34 +118,43 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
             ]}
           />
           <GoalCompletionRateChart goalCompletionRate={data.teamAnalyze.goalCompletionRate} />
-
-          <InsightsBoxSection type="goodPoints" insightArr={data.teamAnalyze.goodPoints} isTeam={true} />
-          <InsightsBoxSection type="badPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
-          <InsightsBoxSection type="improvementPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
+          {data.teamAnalyze.goodPoints && <InsightsBoxSection type="goodPoints" insightArr={data.teamAnalyze.goodPoints} isTeam={true} />}
+          {data.teamAnalyze.badPoints && <InsightsBoxSection type="badPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />}
+          {data.teamAnalyze.improvementPoints && (
+            <InsightsBoxSection type="improvementPoints" insightArr={data.teamAnalyze.improvementPoints} isTeam={true} />
+          )}
         </>
       )}
-      {selectedTab === "personal" &&
-        (data?.individualAnalyze &&
-        data?.individualAnalyze.badPoints !== null &&
-        data?.individualAnalyze.goodPoints !== null &&
-        data?.individualAnalyze.improvementPoints !== null ? (
-          <>
-            <InsightsBoxSection type="goodPoints" insightArr={data.individualAnalyze.goodPoints} isTeam={false} />
-            <InsightsBoxSection type="badPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
-            <InsightsBoxSection type="improvementPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
-          </>
-        ) : (
-          <EmptyList
-            message={
-              <>
-                회고를 작성하지 않으셨거나 <br />
-                너무 적은 내용을 입력하셨어요
-              </>
-            }
-            icon={"ic_empty_list"}
-            iconSize={12}
-          />
-        ))}
+      {selectedTab === "personal" && (
+        <>
+          {data?.individualAnalyze.badPoints == null &&
+          data?.individualAnalyze.goodPoints == null &&
+          data?.individualAnalyze.improvementPoints == null ? (
+            <EmptyList
+              message={
+                <>
+                  회고를 작성하지 않으셨거나 <br />
+                  너무 적은 내용을 입력하셨어요
+                </>
+              }
+              icon={"ic_empty_list"}
+              iconSize={12}
+            />
+          ) : (
+            <>
+              {data?.individualAnalyze.goodPoints && (
+                <InsightsBoxSection type="goodPoints" insightArr={data.individualAnalyze.goodPoints} isTeam={false} />
+              )}
+              {data?.individualAnalyze.badPoints && (
+                <InsightsBoxSection type="badPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
+              )}
+              {data?.individualAnalyze.improvementPoints && (
+                <InsightsBoxSection type="improvementPoints" insightArr={data.individualAnalyze.improvementPoints} isTeam={false} />
+              )}
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
