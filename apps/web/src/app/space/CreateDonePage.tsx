@@ -72,9 +72,9 @@ export function CreateDonePage() {
   const handleCopyClipBoard = async () => {
     try {
       await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`);
-      toast.success("복사 성공!!");
+      toast.success("링크 복사가 완료되었어요!");
     } catch (e) {
-      alert("failed");
+      alert("링크 복사에 실패했어요!");
     }
   };
 
