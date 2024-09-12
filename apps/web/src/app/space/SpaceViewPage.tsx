@@ -108,7 +108,7 @@ export function SpaceViewPage() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => appNavigate(-1, { route: PATHS.home() })}
+          onClick={() => appNavigate(PATHS.home())}
           color={DESIGN_TOKEN_COLOR.gray00}
         />
       }
