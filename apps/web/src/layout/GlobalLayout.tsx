@@ -8,6 +8,7 @@ import { BottomSheet } from "@/component/BottomSheet";
 import { ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Modal } from "@/component/common/Modal";
+import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useToast } from "@/hooks/useToast";
@@ -70,7 +71,6 @@ export default function GlobalLayout() {
 
 const Announcement = ({ onConfirm }: { onConfirm: () => void }) => {
   const { toast } = useToast();
-  const PHONE = "010-3747-4646";
   const EMAIL = "gentlemonster77@likelion.org";
 
   return (
@@ -137,33 +137,6 @@ const Announcement = ({ onConfirm }: { onConfirm: () => void }) => {
           `}
         >
           <Typography variant={"body16Medium"} color={"gray600"}>
-            연락처 :
-          </Typography>
-          <Typography
-            variant={"body16Medium"}
-            color={"blue500"}
-            css={css`
-              text-decoration: underline;
-            `}
-            onClick={async () => {
-              try {
-                await navigator.clipboard.writeText(PHONE.split("-").join(""));
-                toast.success(`연락처가 클립보드에 복사되었습니다`);
-              } catch (e) {
-                toast.success("다시 시도해주세요");
-              }
-            }}
-          >
-            {PHONE}
-          </Typography>
-        </div>
-        <div
-          css={css`
-            display: flex;
-            gap: 1rem;
-          `}
-        >
-          <Typography variant={"body16Medium"} color={"gray600"}>
             이메일 :
           </Typography>
           <Typography
@@ -184,6 +157,10 @@ const Announcement = ({ onConfirm }: { onConfirm: () => void }) => {
             {EMAIL}
           </Typography>
         </div>
+        <Spacing size={3} />
+        <Typography variant={"body16Medium"} color={"gray600"}>
+          감사합니다.
+        </Typography>
       </div>
 
       <ButtonProvider.Primary onClick={onConfirm}>확인</ButtonProvider.Primary>
