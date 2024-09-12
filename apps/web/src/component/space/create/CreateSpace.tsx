@@ -1,11 +1,8 @@
 import { css } from "@emotion/react";
-import axios from "axios";
 import { useAtom } from "jotai";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 
-import { api } from "@/api";
 import { Icon } from "@/component/common/Icon";
-import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Category } from "@/component/space/create/Category";
 import { Field } from "@/component/space/create/Field";
