@@ -177,7 +177,7 @@ export function RetrospectBox({
               toggleOptionsVisibility={toggleOptionsVisibility}
               removeBtnClickFun={removeBtnClickFun}
               modifyBtnClickFun={modifyBtnClickFun}
-              closeBtnClickFun={retrospectStatus === "PROCEEDING" && isAllAnswered ? closeBtnClickFun : undefined}
+              closeBtnClickFun={retrospectStatus === "PROCEEDING" ? closeBtnClickFun : undefined}
               optionsRef={optionsRef}
             />
           )}
