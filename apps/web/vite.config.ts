@@ -4,6 +4,7 @@ import Sitemap from "vite-plugin-sitemap";
 import svgr from "vite-plugin-svgr";
 import path from "path";
 import dotenv from "dotenv";
+import { VitePluginRadar } from "vite-plugin-radar";
 
 dotenv.config();
 
@@ -18,6 +19,11 @@ export default defineConfig({
     }),
     svgr(),
     Sitemap({ hostname: "https://layerapp.io" }),
+    VitePluginRadar({
+      analytics: {
+        id: process.env.VITE_GOOGLE_ANALYTICS,
+      },
+    }),
   ],
   server: {
     host: "0.0.0.0",
