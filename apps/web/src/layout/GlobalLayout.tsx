@@ -55,7 +55,7 @@ export default function GlobalLayout() {
           contents={
             <Announcement
               onConfirm={() => {
-                Cookies.set(SHOW_ANNOUNCEMENT_KEY, "true");
+                Cookies.set(SHOW_ANNOUNCEMENT_KEY, new Date().toISOString(), { expires: 1 });
                 closeBottomSheet();
               }}
             />
