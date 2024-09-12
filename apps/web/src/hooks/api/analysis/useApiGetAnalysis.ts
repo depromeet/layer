@@ -45,5 +45,6 @@ export const useApiGetAnalysis = ({ spaceId, retrospectId }: { spaceId: string; 
   return useQuery({
     queryFn: () => getAnalysis(),
     queryKey: [spaceId, retrospectId],
+    retry: false,
   });
 };
