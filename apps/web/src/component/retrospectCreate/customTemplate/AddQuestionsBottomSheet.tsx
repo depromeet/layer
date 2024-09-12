@@ -101,7 +101,17 @@ export function AddQuestionsBottomSheet({ onClose, handleAddQuestions, maxCount 
               overflow: auto;
             `}
           >
-            <CheckBoxGroup isChecked={isChecked} onChange={toggle} gap={4}>
+            <CheckBoxGroup
+              isChecked={isChecked}
+              onChange={(value) => {
+                if (!isChecked(value) && selectedValues.length >= maxCount) {
+                  toast.error("추가 가능한 질문 개수를 초과했어요");
+                  return;
+                }
+                toggle(value);
+              }}
+              gap={4}
+            >
               {RECOMMENDED_QUESTIONS[curCategoryTab].map((question, index) => {
                 return (
                   <QuestionItemCheckbox value={question} key={index}>

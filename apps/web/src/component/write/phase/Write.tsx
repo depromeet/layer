@@ -336,6 +336,7 @@ export function Write() {
             display: flex;
             flex-direction: column;
             row-gap: 0.8rem;
+            height: 100%;
           `}
         >
           {data?.questions.map((item) => {

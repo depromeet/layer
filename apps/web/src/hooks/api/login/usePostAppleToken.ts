@@ -95,7 +95,7 @@ export const usePostAppleLogin = () => {
         void navigate(PATHS.setNickName("apple"));
       } else {
         toast.error("로그인에 실패했습니다. 다시 시도해주세요.");
-        void navigate(PATHS.login());
+        void navigate(PATHS.login(), { replace: true });
       }
     },
   });
