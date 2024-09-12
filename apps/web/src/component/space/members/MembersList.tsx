@@ -58,7 +58,7 @@ export function MembersList() {
       shareKakaoWeb(
         `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
         `${userData.name}님의 회고 초대장.`,
-        `함께 회고해요! ${userData.name}님이 팀 레이어 스페이스에 초대했어요`,
+        `함께 회고해요! ${userData.name}님이 ${spaceInfo?.name} 스페이스에 초대했어요`,
       );
     }
     close();
@@ -67,10 +67,10 @@ export function MembersList() {
   const handleCopyClipBoard = async () => {
     try {
       await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`);
-      toast.success("복사 성공!!");
+      toast.success("링크 복사가 완료되었어요!");
       close();
     } catch (e) {
-      toast.error("복사 실패!!");
+      toast.error("링크 복사에 실패했어요!");
     }
   };
 
