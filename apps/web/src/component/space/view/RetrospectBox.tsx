@@ -155,7 +155,7 @@ export function RetrospectBox({
           padding: 2rem;
           display: flex;
           flex-direction: column;
-          gap: 0.4rem;
+          gap: 0.3rem;
           position: relative;
           transition: opacity 0.3s ease-out;
           opacity: ${isDeleted ? 0 : 1};
