@@ -16,9 +16,11 @@ export function RecommendSearch() {
 
   if (isLoading) return <LoadingModal />;
 
+  const particle = chooseParticle(data?.name ?? "");
+
   return (
     <DefaultLayout theme="gray">
-      <Header title={`${data?.name}과 어울리는\n회고 템플릿을 찾는중...`} />
+      <Header title={`${data?.name}${particle} 어울리는\n회고 템플릿을 찾는중...`} />
       <Spacing size={13} />
       <div>
         <CardCarousel templateId={templateId} spaceId={spaceId} templateArr={TemplateArr} />
