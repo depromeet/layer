@@ -77,7 +77,7 @@ export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, close
             <InputLabelContainer id={`retro-intro-${retrospectId}`}>
               <Label>회고 마감일</Label>
               <DateTimeInput
-                defaultValue={defaultValue.deadline}
+                defaultValue={defaultValue.deadline!}
                 onValueChange={(value) => {
                   if (value) setDeadline(value);
                 }}
