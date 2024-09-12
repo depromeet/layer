@@ -6,12 +6,13 @@ import { IconType } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
 
 type EmptyListProps = {
+  title?: React.ReactNode;
   message: React.ReactNode;
   icon: IconType;
   iconSize?: number;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export function EmptyList({ message, icon, iconSize = 7.2, children, ...props }: PropsWithChildren<EmptyListProps>) {
+export function EmptyList({ title, message, icon, iconSize = 7.2, children, ...props }: PropsWithChildren<EmptyListProps>) {
   return (
     <div
       css={css`
@@ -25,6 +26,9 @@ export function EmptyList({ message, icon, iconSize = 7.2, children, ...props }:
       {...props}
     >
       <Icon icon={icon} size={iconSize} />
+      <Typography variant="title18Bold" color={"gray900"}>
+        {title}
+      </Typography>
       <div
         css={css`
           text-align: center;

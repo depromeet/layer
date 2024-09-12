@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { RetrospectOptions } from "./RetrospectOptions";
 
@@ -15,6 +16,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 import { formatDateAndTime } from "@/utils/date";
 import { ProceedingTextBox } from "./ProceedingTextBox";
+import { PATHS } from "@layer/shared";
 
 const statusStyles = {
   PROCEEDING: DESIGN_TOKEN_COLOR.blue50,
@@ -34,6 +36,7 @@ export function RetrospectBox({
   refetchRestrospectData?: () => void;
   isLeader: boolean;
 }) {
+  const navigate = useNavigate();
   const { open } = useModal();
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -45,6 +48,28 @@ export function RetrospectBox({
 
   const { mutate: retrospectDelete } = useApiDeleteRetrospect();
   const { mutate: retrospectClose, isPending } = useApiCloseRetrospect();
+
+  const boxClickFun = () => {
+    const { analysisStatus, retrospectStatus, writeStatus } = retrospect;
+    if (retrospectStatus === "PROCEEDING") {
+      if (analysisStatus === "NOT_STARTED") {
+        if (writeStatus === "NOT_STARTED" || writeStatus === "PROCEEDING") {
+          navigate(PATHS.write(), {
+            state: {
+              retrospectId,
+              spaceId,
+            },
+          });
+        } else {
+          navigate(PATHS.retrospectAnalysis(spaceId, retrospectId), { state: { title } });
+        }
+      } else {
+        navigate(PATHS.retrospectAnalysis(spaceId, retrospectId), { state: { title, defaultTabs: "분석" } });
+      }
+    } else {
+      navigate(PATHS.retrospectAnalysis(spaceId, retrospectId), { state: { title, defaultTabs: "분석" } });
+    }
+  };
 
   const closeBtnClickFun = () => {
     open({
@@ -121,6 +146,7 @@ export function RetrospectBox({
       {isPending && <LoadingModal purpose={"선택하신 회고를 마감하고있어요"} />}
       <div
         key={retrospectId}
+        onClick={boxClickFun}
         css={css`
           width: 100%;
           height: auto;
@@ -133,6 +159,7 @@ export function RetrospectBox({
           position: relative;
           transition: opacity 0.3s ease-out;
           opacity: ${isDeleted ? 0 : 1};
+          cursor: pointer;
         `}
       >
         <div

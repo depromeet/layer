@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { GoalCompletionRateChart } from "./GoalCompletionRateChart";
 import { InsightsBoxSection } from "./InsightsBoxSection";
@@ -20,19 +20,21 @@ type AnalysisContainerProps = {
 };
 
 export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: AnalysisContainerProps) {
-  const { data, isLoading } = useApiGetAnalysis({ spaceId, retrospectId });
+  const { data, isError, error, isLoading } = useApiGetAnalysis({ spaceId, retrospectId });
+
+  if (isError) {
+    console.log(error);
+  }
   const [selectedTab, setSelectedTab] = useState<"personal" | "team">("personal");
   if (isLoading) {
     return <LoadingModal />;
   }
+
   {
     /**분석이 진행중일 때**/
   }
   if (hasAIAnalyzed == false) {
     return <AnalysisingComp />;
-  }
-  {
-    /**분석이 결과가 아무것도 없을 때**/
   }
 
   return (
@@ -123,7 +125,10 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
         </>
       )}
       {selectedTab === "personal" &&
-        (data?.individualAnalyze ? (
+        (data?.individualAnalyze &&
+        data?.individualAnalyze.badPoints !== null &&
+        data?.individualAnalyze.goodPoints !== null &&
+        data?.individualAnalyze.improvementPoints !== null ? (
           <>
             <InsightsBoxSection type="goodPoints" insightArr={data.individualAnalyze.goodPoints} isTeam={false} />
             <InsightsBoxSection type="badPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />

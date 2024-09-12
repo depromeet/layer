@@ -5,6 +5,7 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { RetrospectStatus } from "@/types/retrospect";
+import React from "react";
 
 export function RetrospectOptions({
   retrospectStatus,
@@ -24,7 +25,16 @@ export function RetrospectOptions({
   optionsRef: React.RefObject<HTMLDivElement>;
 }) {
   return (
-    <>
+    <div
+      onClick={(event) => event.stopPropagation()}
+      css={css`
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      `}
+    >
       <Icon icon="ic_more" onClick={toggleOptionsVisibility} color={DESIGN_TOKEN_COLOR.gray600} />
       <AnimatePresence>
         {isOptionsVisible && (
@@ -112,6 +122,6 @@ export function RetrospectOptions({
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
