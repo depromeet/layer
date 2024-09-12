@@ -25,7 +25,7 @@ export function CreateSpace() {
   const [spaceValue, setSpaceValue] = useAtom(spaceState);
   const { mutate, isPending } = useApiPostSpace();
   const { bridge } = useBridge();
-  const { uploadImage, isLoading: isImageUploading } = useApiUploadImage();
+  const { mutate: uploadImage, isPending: isImageUploading } = useApiUploadImage();
 
   useEffect(() => {
     bridge.sendBGColor(spaceValue.step === 0 ? "#212529" : "#FFFFFF").catch(console.error);

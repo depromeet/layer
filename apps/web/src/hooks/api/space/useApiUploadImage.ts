@@ -4,7 +4,7 @@ import axios from "axios";
 import { api } from "@/api";
 
 export function useApiUploadImage() {
-  const uploadMutation = useMutation({
+  return useMutation({
     mutationFn: async (imgUrl: File) => {
       const { data: presignedData } = await api.get<{ presignedUrl: string; imageUrl: string }>("/external/image/presigned?domain=SPACE");
 
@@ -17,10 +17,4 @@ export function useApiUploadImage() {
       return presignedData.imageUrl;
     },
   });
-
-  return {
-    uploadImage: uploadMutation.mutate,
-    isLoading: uploadMutation.isPending,
-    isError: uploadMutation.isError,
-  };
 }
