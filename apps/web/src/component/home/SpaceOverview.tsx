@@ -75,6 +75,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
               width: 100%;
               display: flex;
               justify-content: space-between;
+              align-items: center;
               margin-top: 1.4rem;
             `}
           >
@@ -101,16 +102,10 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
                 gap: 0.4rem;
               `}
             >
-              <Icon icon="ic_user" size="2rem" />
-              <div
-                css={css`
-                  margin-top: 0.3rem;
-                `}
-              >
-                <Typography variant="body12Medium" color="gray900">
-                  {memberCount}
-                </Typography>
-              </div>
+              <Icon icon="ic_user" size={1.7} />
+              <Typography variant="body14Medium" color="gray900">
+                {memberCount}
+              </Typography>
             </div>
           </div>
         </div>
