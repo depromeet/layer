@@ -290,7 +290,7 @@ export function Write() {
                 onClick={mutateSaveTemporaryData}
                 disabled={!hasChanges()}
               >
-                저장
+                임시 저장
               </button>
               <div
                 id="split"
