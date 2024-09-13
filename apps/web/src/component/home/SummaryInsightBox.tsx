@@ -17,7 +17,7 @@ type SummaryInsightBoxProps = {
 
 export function SummaryInsightBox({ type, insightArr }: SummaryInsightBoxProps) {
   const transformPoints = transformPointsFun(insightArr);
-
+  if (transformPoints.length === 0) return;
   return (
     <div
       css={css`
@@ -43,9 +43,11 @@ export function SummaryInsightBox({ type, insightArr }: SummaryInsightBoxProps) 
           gap: 1rem;
         `}
       >
-        {transformPoints.map((point, idx) => (
-          <InsightBox key={idx} type={type} insight={point} />
-        ))}
+        {transformPoints
+          .filter((v) => v.point != null)
+          .map((point, idx) => (
+            <InsightBox key={idx} type={type} insight={point} />
+          ))}
       </div>
     </div>
   );
