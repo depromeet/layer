@@ -9,7 +9,7 @@
 
 # [Layer] : WEB FRONTEND
 
-> **개발자 X 디자이너 간 연합 동아리인 디프만의 떡잎마을 방범대팀의 웹 프론트엔드입니다.** <br/> **개발기간: 2024.06 ~ ing**
+> **개발자 X 디자이너 간 연합 동아리인 디프만의 떡잎마을 방범대 팀입니다.** <br/> **개발기간: 2024.06 ~ ing**
 
 ## 👋 배포 주소
 
@@ -24,38 +24,45 @@
 
 ## 🔥 프로젝트 소개
 
-작성부터 AI 분석까지 성장하는 당신을 위한 회고 서비스, Layer는 회고 작성의 어려움과 부담감을 덜어주며, 회고를 통해 성장을 위한 개선점을 설정하고
-효율적으로 회고를 관리하는 데 도움을 주는 서비스에요.
+<mark>작성부터 AI 분석까지 성장하는 당신을 위한 회고 서비스, Layer는 회고 작성의 어려움과 부담감을 덜어주며, 회고를 통해 성장을 위한 개선점을 설정하고
+효율적으로 회고를 관리하는 데 도움을 주는 서비스에요.</mark>
+
+<br>
+
+## 🌊 서비스 플로우
 
 저희 서비스는 다음과 같은 플로우로 회고에 대한 접근성을 크게 향상시켰어요!
 ![image](https://github.com/user-attachments/assets/e21ff69a-06ce-4e69-b6e9-9fe35be70397)
 
-### 1. 회고 스페이스 생성
+<br>
 
-![image](https://github.com/user-attachments/assets/d78fa207-4861-41f3-8b6c-c9962801c906)
-자신만의 회고 스페이스를 만들어 팀 스페이스의 경우, 팀원을 초대할 수 있어요.
+## ✨ 서비스 핵심 기능
 
-### 2. 회고 템플릿 추천
+### 1. 맞춤 템플릿 추천받기
 
-![image](https://github.com/user-attachments/assets/80eac175-ddab-4a64-bc87-4b418cb7de2d)
-회고 템플릿 고르시느라 힘드셨죠? 저희 서비스는 고객에 맞춘 회고 템플릿을 추천해드려요.
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/280bd464-32ef-4282-829d-7e1e76aaf18b">
+<br>
 
-### 3. 질문 생성
+<mark> 회고 템플릿 고르시느라 힘드셨죠? 저희 서비스는 고객에 맞춘 회고 템플릿을 추천해드려요.</mark>
 
-![image](https://github.com/user-attachments/assets/cd24d4f4-1b24-4c69-80a9-b76f244062de)
-템플릿이 마음에 들지 않는다면? 자신의 스타일에 맞게 질문을 커스텀 할 수 있어요.
+### 2. 회고 작성하기
 
-### 4. 회고 작성
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/f1924af0-c6b0-46cf-8925-036b0e32f915">
+<br>
+<mark>템플릿으로 추천받거나 커스텀한 나만의 회고를 작성하실 수 있어요. </mark>
 
-![image](https://github.com/user-attachments/assets/e45a07c9-3c42-4acc-bfb3-9f209d8d68e7)
-스페이스 생성된 회고를 진행하실 수 있어요.
+### 3. 회고 요약 확인하기
 
-### 5. 회고 분석 & 액션 아이템
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/0d3c0f97-52f5-480c-8e5e-f3c58cb2f6cd">
+<br>
+<mark> 회고 내용 정리하느라 힘드셨죠? 우리 팀원이나 내가 작성한 회고를 파악하기 쉽게 정리해드려요. </mark>
 
-![image](https://github.com/user-attachments/assets/06ae9f82-c7d1-493f-9df0-6f6d20d76050)
+### 4. AI 회고 분석
 
-회고 내용 정리하느라 힘드셨죠? 저희 [Layer] 서비스에서 AI를 통해 회고 분석을 진행해드릴게요.
-이 분석을 바탕으로 팀의 액션아이템(목표)를 설정해보고 함께 이를 달성하기 위해 노력해봐요!
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/8864e514-77d0-4e4c-8eb5-1f0b388e2738">
+<br>
+
+<mark> 여기서 끝일까요? 저희 [Layer] 서비스는 한 발 더 나아가, 사용자분께 AI를 통해 회고 분석을 통해 인사이트를 제공해요. <br>이외에도 다양한 기능을 누려보세요!</mark>
 
 ---
 
@@ -76,14 +83,14 @@
 
 ### 1. [Layer] 소개 디스콰이엇
 
-<img width="500" alt="image" src="https://github.com/user-attachments/assets/00fd4ce4-4e2d-4152-93d9-354b8cf7c0c7">
-
-[해당 글로 바로가기](https://disquiet.io/@klmhyeonwoo/makerlog/%ED%9A%8C%EA%B3%A0-%EC%9E%98%ED%95%98%EB%8A%94-%ED%8C%80%EC%97%90%EC%84%9C-%ED%9A%8C%EA%B3%A0-%EC%A7%84%ED%96%89%ED%95%98%EA%B8%B0-%EC%9E%91%EC%84%B1-%EC%A4%91)
-
-### 2. [Layer] 서비스 탄생 배경
-
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/4ba5d5f1-d5b3-4c25-85ce-54db30c91ec2">
 
 [해당 글로 바로가기](https://disquiet.io/product/%EB%A0%88%EC%9D%B4%EC%96%B4)
+
+### 2. [Layer] 서비스 탄생 배경
+
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/00fd4ce4-4e2d-4152-93d9-354b8cf7c0c7">
+
+[해당 글로 바로가기](https://disquiet.io/@klmhyeonwoo/makerlog/%ED%9A%8C%EA%B3%A0-%EC%9E%98%ED%95%98%EB%8A%94-%ED%8C%80%EC%97%90%EC%84%9C-%ED%9A%8C%EA%B3%A0-%EC%A7%84%ED%96%89%ED%95%98%EA%B8%B0-%EC%9E%91%EC%84%B1-%EC%A4%91)
 
 ---
