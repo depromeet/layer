@@ -13,7 +13,7 @@
 
 ## 👋 배포 주소
 
-> **Layer Servie URL** : [Layer 경험하기](https://www.layerapp.io/) <br> > **프론트 Github** : [프론트 Github](https://github.com/depromeet/layer)<br> > **백엔드 Github** : [백엔드 Github](https://github.com/depromeet/layer-server)<br>
+> **Layer Service URL** : [Layer 경험하기](https://www.layerapp.io/) <br> > **프론트 Github** : [프론트 Github](https://github.com/depromeet/layer)<br> > **백엔드 Github** : [백엔드 Github](https://github.com/depromeet/layer-server)<br>
 
 ## 🎉 FRONTEND 팀 소개
 
@@ -33,7 +33,7 @@
 ### 1. 회고 스페이스 생성
 
 ![image](https://github.com/user-attachments/assets/d78fa207-4861-41f3-8b6c-c9962801c906)
-자신만의 회고 스페이스를 만들어 팀원을 초대할 수 있어요.
+자신만의 회고 스페이스를 만들어 팀 스페이스의 경우, 팀원을 초대할 수 있어요.
 
 ### 2. 회고 템플릿 추천
 
@@ -78,12 +78,12 @@
 
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/00fd4ce4-4e2d-4152-93d9-354b8cf7c0c7">
 
-[해당 글로 바로가기](https://disquiet.io/product/%EB%A0%88%EC%9D%B4%EC%96%B4)
+[해당 글로 바로가기](https://disquiet.io/@klmhyeonwoo/makerlog/%ED%9A%8C%EA%B3%A0-%EC%9E%98%ED%95%98%EB%8A%94-%ED%8C%80%EC%97%90%EC%84%9C-%ED%9A%8C%EA%B3%A0-%EC%A7%84%ED%96%89%ED%95%98%EA%B8%B0-%EC%9E%91%EC%84%B1-%EC%A4%91)
 
 ### 2. [Layer] 서비스 탄생 배경
 
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/4ba5d5f1-d5b3-4c25-85ce-54db30c91ec2">
 
-[해당 글로 바로가기](https://disquiet.io/@klmhyeonwoo/makerlog/%ED%9A%8C%EA%B3%A0-%EC%9E%98%ED%95%98%EB%8A%94-%ED%8C%80%EC%97%90%EC%84%9C-%ED%9A%8C%EA%B3%A0-%EC%A7%84%ED%96%89%ED%95%98%EA%B8%B0-%EC%9E%91%EC%84%B1-%EC%A4%91)
+[해당 글로 바로가기](https://disquiet.io/product/%EB%A0%88%EC%9D%B4%EC%96%B4)
 
 ---
