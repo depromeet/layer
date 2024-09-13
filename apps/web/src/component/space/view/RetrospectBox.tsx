@@ -1,7 +1,9 @@
 import { css } from "@emotion/react";
+import { PATHS } from "@layer/shared";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { ProceedingTextBox } from "./ProceedingTextBox";
 import { RetrospectOptions } from "./RetrospectOptions";
 
 import { Icon } from "@/component/common/Icon";
@@ -15,8 +17,6 @@ import { useToast } from "@/hooks/useToast.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 import { formatDateAndTime } from "@/utils/date";
-import { ProceedingTextBox } from "./ProceedingTextBox";
-import { PATHS } from "@layer/shared";
 
 const statusStyles = {
   PROCEEDING: DESIGN_TOKEN_COLOR.blue50,
@@ -63,6 +63,8 @@ export function RetrospectBox({
       if (analysisStatus === "NOT_STARTED" && (writeStatus === "NOT_STARTED" || writeStatus === "PROCEEDING")) {
         navigate(PATHS.write(), {
           state: {
+            title,
+            introduction,
             retrospectId,
             spaceId,
           },
@@ -154,7 +156,7 @@ export function RetrospectBox({
         css={css`
           width: 100%;
           height: auto;
-          background-color: ${retrospect.retrospectStatus === "PROCEEDING" ? statusStyles.PROCEEDING : statusStyles.DONE};
+          background-color: ${retrospectStatus === "PROCEEDING" ? statusStyles.PROCEEDING : statusStyles.DONE};
           border-radius: 1rem;
           padding: 2rem;
           display: flex;
@@ -176,7 +178,7 @@ export function RetrospectBox({
           <ProceedingTextBox writeStatus={writeStatus} analysisStatus={analysisStatus} />
           {isLeader && (
             <RetrospectOptions
-              retrospectStatus={retrospect.retrospectStatus}
+              retrospectStatus={retrospectStatus}
               isOptionsVisible={isOptionsVisible}
               toggleOptionsVisibility={toggleOptionsVisibility}
               removeBtnClickFun={removeBtnClickFun}
@@ -224,12 +226,12 @@ export function RetrospectBox({
           `}
         >
           <Typography color="gray500" variant="body14Medium">
-            {retrospect.deadline == null ? (
+            {!deadline ? (
               <>모든 인원 제출 시 마감</>
             ) : (
               <>
                 {" "}
-                {retrospect.retrospectStatus === "DONE" ? "마감일" : "마감 예정일"} | {formatDateAndTime(deadline!)}
+                {retrospectStatus === "DONE" ? "마감일" : "마감 예정일"} | {formatDateAndTime(deadline)}
               </>
             )}
           </Typography>

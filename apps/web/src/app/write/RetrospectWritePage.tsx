@@ -24,6 +24,8 @@ type PhaseContextProps = {
   decrementPhase: () => void;
   spaceId: number;
   retrospectId: number;
+  title: string;
+  introduction: string;
 };
 
 export const AdvanceQuestionsNum = 2;
@@ -32,6 +34,8 @@ export const PhaseContext = createContext<PhaseContextProps>({
   phase: 1,
   spaceId: -1,
   retrospectId: -1,
+  title: "",
+  introduction: "",
   movePhase: () => {},
   incrementPhase: () => {},
   decrementPhase: () => {},
@@ -48,7 +52,12 @@ function adjustOrder(data: QuestionData): QuestionData {
 
 export function RetrospectWritePage() {
   const location = useLocation();
-  const { spaceId, retrospectId } = location.state as { spaceId: number; retrospectId: number };
+  const { spaceId, retrospectId, title, introduction } = location.state as {
+    spaceId: number;
+    retrospectId: number;
+    title: string;
+    introduction: string;
+  };
   const [phase, setPhase] = useState(-1);
 
   const { data, isLoading } = useGetQuestions({ spaceId: spaceId, retrospectId: retrospectId });
@@ -75,7 +84,9 @@ export function RetrospectWritePage() {
   return (
     <Fragment>
       {isLoading && <LoadingModal purpose={"회고 작성을 위한 데이터를 가져오고 있어요"} />}
-      <PhaseContext.Provider value={{ data: adjustedData ?? defaultData, phase, movePhase, incrementPhase, decrementPhase, spaceId, retrospectId }}>
+      <PhaseContext.Provider
+        value={{ data: adjustedData ?? defaultData, phase, movePhase, incrementPhase, decrementPhase, spaceId, retrospectId, title, introduction }}
+      >
         {phase >= 0 ? <Write /> : <Prepare />}
       </PhaseContext.Provider>
     </Fragment>

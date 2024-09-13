@@ -12,8 +12,8 @@ import { useTestNatigate } from "@/lib/test-natigate";
 
 export function RetrospectCreateComplete() {
   const navigate = useTestNatigate();
-  const locationState = useLocation().state as { spaceId: number; retrospectId: number };
-  const { spaceId, retrospectId } = locationState;
+  const locationState = useLocation().state as { spaceId: number; retrospectId: number; title: string; introduction: string };
+  const { spaceId, retrospectId, title, introduction } = locationState;
   return (
     <DefaultLayout>
       <Spacing size={2.9} />
@@ -39,7 +39,7 @@ export function RetrospectCreateComplete() {
         <ButtonProvider.Primary
           onClick={() => {
             navigate("/write", {
-              state: { spaceId, retrospectId },
+              state: { spaceId, retrospectId, title, introduction },
             });
           }}
         >
