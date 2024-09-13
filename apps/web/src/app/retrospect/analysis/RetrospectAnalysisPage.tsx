@@ -53,15 +53,16 @@ export const RetrospectAnalysisPage = () => {
         </Fragment>
       }
     >
-      {isLoading && <LoadingModal />}
-      {!data || data.individuals.length === 0 ? (
+      {isLoading || !pendingPeopleCnt ? (
+        <LoadingModal />
+      ) : !data || data.individuals.length === 0 ? (
         <EmptyList icon={"ic_clock"} message={"제출된 회고가 없어요"} />
       ) : (
         {
           QUESTIONS: <QuestionForm data={data} />,
           INDIVIDUAL_ANALYSIS: <PersonalForm data={data} />,
           ANALYSIS: data.hasAIAnalyzed ? (
-            <AnalysisContainer spaceId={spaceId!} retrospectId={retrospectId!} hasAIAnalyzed={data.hasAIAnalyzed} />
+            <AnalysisContainer spaceId={spaceId} retrospectId={retrospectId} hasAIAnalyzed={data.hasAIAnalyzed} />
           ) : (
             <PendingAnalysisingComp pendingPeople={pendingPeopleCnt} />
           ),
