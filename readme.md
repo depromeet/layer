@@ -31,7 +31,7 @@
 
 ## 🌊 서비스 플로우
 
-저희 서비스는 다음과 같은 플로우로 회고에 대한 접근성을 크게 향상시켰어요!
+<mark>저희 서비스는 다음과 같은 플로우로 회고에 대한 접근성을 크게 향상시켰어요!</mark>
 ![image](https://github.com/user-attachments/assets/e21ff69a-06ce-4e69-b6e9-9fe35be70397)
 
 <br>
