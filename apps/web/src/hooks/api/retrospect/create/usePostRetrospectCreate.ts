@@ -33,7 +33,7 @@ export const usePostRetrospectCreate = (spaceId: number) => {
       });
 
       navigate(PATHS.completeRetrospectCreate(), {
-        state: { retrospectId, spaceId },
+        state: { retrospectId, spaceId, title: variables?.body?.title, introduction: variables?.body?.introduction },
       });
       resetRetroCreateData();
     },

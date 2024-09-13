@@ -1,7 +1,9 @@
 import { css } from "@emotion/react";
+import { PATHS } from "@layer/shared";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { ProceedingTextBox } from "./ProceedingTextBox";
 import { RetrospectOptions } from "./RetrospectOptions";
 
 import { Icon } from "@/component/common/Icon";
@@ -15,8 +17,6 @@ import { useToast } from "@/hooks/useToast.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 import { formatDateAndTime } from "@/utils/date";
-import { ProceedingTextBox } from "./ProceedingTextBox";
-import { PATHS } from "@layer/shared";
 
 const statusStyles = {
   PROCEEDING: DESIGN_TOKEN_COLOR.blue50,
@@ -63,6 +63,8 @@ export function RetrospectBox({
       if (analysisStatus === "NOT_STARTED" && (writeStatus === "NOT_STARTED" || writeStatus === "PROCEEDING")) {
         navigate(PATHS.write(), {
           state: {
+            title,
+            introduction,
             retrospectId,
             spaceId,
           },
@@ -229,7 +231,7 @@ export function RetrospectBox({
             ) : (
               <>
                 {" "}
-                {retrospect.retrospectStatus === "DONE" ? "마감일" : "마감 예정일"} | {formatDateAndTime(deadline!)}
+                {retrospect.retrospectStatus === "DONE" ? "마감일" : "마감 예정일"} | {formatDateAndTime(deadline)}
               </>
             )}
           </Typography>
