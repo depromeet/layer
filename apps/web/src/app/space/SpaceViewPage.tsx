@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { PATHS } from "@layer/shared";
 import { useQueries } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BottomSheet } from "@/component/BottomSheet";
@@ -22,12 +22,16 @@ import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpa
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useModal } from "@/hooks/useModal";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
-import { DualToneLayout } from "@/layout/DualToneLayout";
+import { DefaultLayout } from "@/layout/DefaultLayout";
 import { useTestNatigate } from "@/lib/test-natigate";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
+import { useCollisionDetection } from "@/hooks/useCollisionDetection";
 
 export function SpaceViewPage() {
+  const appbarRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const isColliding = useCollisionDetection(appbarRef, contentRef);
   const navigate = useNavigate();
   const appNavigate = useTestNatigate();
   const memberId = Cookies.get("memberId");
@@ -99,32 +103,20 @@ export function SpaceViewPage() {
   }
 
   return (
-    <DualToneLayout
-      topTheme="dark"
+    <DefaultLayout
+      theme={isColliding ? "default" : "dark"}
       LeftComp={
-        <Icon
-          size={2.4}
-          icon="ic_arrow_left"
-          css={css`
-            cursor: pointer;
-          `}
-          onClick={() => appNavigate(PATHS.home())}
-          color={DESIGN_TOKEN_COLOR.gray00}
-        />
-      }
-      TopComp={
-        <>
-          <ActionItemListView
-            restrospectArr={restrospectArr ? restrospectArr : []}
-            isPossibleMake={doneRetrospects.length === 0}
-            spaceId={spaceInfo?.id}
-            teamActionList={teamActionList?.teamActionItemList || []}
-            leaderId={spaceInfo?.leader.id}
+        <div ref={appbarRef}>
+          <Icon
+            size={2.4}
+            icon="ic_arrow_left"
+            css={css`
+              cursor: pointer;
+            `}
+            onClick={() => appNavigate(PATHS.home())}
+            color={DESIGN_TOKEN_COLOR.gray00}
           />
-          <Spacing size={1.1} />
-          <SpaceCountView mainTemplate={spaceInfo?.formTag} memberCount={spaceInfo?.memberCount} isLeader={isLeader} />
-          <Spacing size={2.4} />
-        </>
+        </div>
       }
       title={spaceInfo?.name}
       RightComp={
@@ -154,6 +146,18 @@ export function SpaceViewPage() {
         />
       }
     >
+      <div ref={contentRef}>
+        <ActionItemListView
+          restrospectArr={restrospectArr ? restrospectArr : []}
+          isPossibleMake={doneRetrospects.length === 0}
+          spaceId={spaceInfo?.id}
+          teamActionList={teamActionList?.teamActionItemList || []}
+          leaderId={spaceInfo?.leader.id}
+        />
+        <Spacing size={1.1} />
+        <SpaceCountView mainTemplate={spaceInfo?.formTag} memberCount={spaceInfo?.memberCount} isLeader={isLeader} />
+        <Spacing size={2.4} />
+      </div>
       <div
         css={css`
           width: calc(100% + 4rem);
@@ -210,7 +214,7 @@ export function SpaceViewPage() {
               gap: 0.6rem;
             `}
           >
-            <Typography variant="title18Bold">완료된 회고</Typography>
+            <Typography variant="title18Bold">마감된 회고</Typography>
             <Typography variant="title16Bold" color="gray600">
               {doneRetrospects?.length}
             </Typography>
@@ -245,6 +249,6 @@ export function SpaceViewPage() {
         handler={true}
       />
       <Toast />
-    </DualToneLayout>
+    </DefaultLayout>
   );
 }

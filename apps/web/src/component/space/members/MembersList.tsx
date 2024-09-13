@@ -10,10 +10,12 @@ import { Typography } from "@/component/common/typography";
 import { MembersItem } from "@/component/space/members/MembersItem";
 import { useApiGetUser } from "@/hooks/api/auth/useApiGetUser";
 import { useApiGetMemers } from "@/hooks/api/space/members/useApiGetMembers";
+import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { useBridge } from "@/lib/provider/bridge-provider";
+import { ProjectType } from "@/types/space";
 import { shareKakaoWeb } from "@/utils/kakao/sharedKakaoLink";
 import { encryptId } from "@/utils/space/cryptoKey";
 
@@ -21,6 +23,7 @@ export type EditType = "LEADER" | "KICK";
 
 export function MembersList() {
   const { spaceId } = useParams() as { spaceId: string };
+  const { data: spaceInfo, isLoading: spaceInfoLoading } = useApiGetSpace(spaceId);
   const { data, isLoading } = useApiGetMemers(spaceId);
   const { open, close } = useModal();
   const { data: userData } = useApiGetUser();
@@ -33,8 +36,8 @@ export function MembersList() {
     if (bridge.isWebViewBridgeAvailable) {
       await bridge.sendShareToKakao({
         content: {
-          title: `${userData.name}님이 스페이스에 초대했습니다.`,
-          description: "어서오세용~!!",
+          title: `${userData.name}님의 회고 초대장`,
+          description: `함께 회고해요! ${userData.name}님이 팀 레이어 스페이스에 초대했어요`,
           imageUrl: "https://kr.object.ncloudstorage.com/layer-bucket/small_banner.png",
           link: {
             mobileWebUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
@@ -54,8 +57,8 @@ export function MembersList() {
     } else {
       shareKakaoWeb(
         `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
-        `${userData.name}님이 스페이스에 초대했습니다.`,
-        "어서오세용~!!",
+        `${userData.name}님의 회고 초대장.`,
+        `함께 회고해요! ${userData.name}님이 ${spaceInfo?.name} 스페이스에 초대했어요`,
       );
     }
     close();
@@ -64,10 +67,10 @@ export function MembersList() {
   const handleCopyClipBoard = async () => {
     try {
       await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`);
-      toast.success("복사 성공!!");
+      toast.success("링크 복사가 완료되었어요!");
       close();
     } catch (e) {
-      toast.error("복사 실패!!");
+      toast.error("링크 복사에 실패했어요!");
     }
   };
 
@@ -123,12 +126,13 @@ export function MembersList() {
     return data[0].id === userData.memberId && data[0].isLeader;
   }, [data, userData.memberId]);
 
-  if (isLoading) return <LoadingModal />;
+  if (isLoading || spaceInfoLoading) return <LoadingModal />;
 
   return (
     <DefaultLayout
-      title="팀원"
+      title="인원"
       RightComp={
+        spaceInfo?.category === ProjectType.Team &&
         isLeader &&
         data?.length !== 1 && (
           <DropdownMenu onValueChange={(value) => onChangeEditType(value as EditType)} offset={[8, 8]}>
@@ -153,10 +157,10 @@ export function MembersList() {
     >
       <Spacing size={0.5} />
       <Typography color="gray800" variant="body16Medium">
-        {`팀원 ${data?.length}`}
+        {`인원 ${data?.length}`}
       </Typography>
       <Spacing size={2.5} />
-      {isLeader && <MembersItem name="팀원 추가" plus onClick={onInviteMember} />}
+      {spaceInfo?.category === ProjectType.Team && isLeader && <MembersItem name="팀원 추가" plus onClick={onInviteMember} />}
       {data?.map((member) => <MembersItem key={member.id} {...member} />)}
       <Spacing size={3} />
     </DefaultLayout>

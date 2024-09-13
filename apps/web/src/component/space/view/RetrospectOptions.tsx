@@ -4,8 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { RetrospectStatus } from "@/types/retrospect";
+import React from "react";
 
 export function RetrospectOptions({
+  retrospectStatus,
   isOptionsVisible,
   toggleOptionsVisibility,
   removeBtnClickFun,
@@ -13,6 +16,7 @@ export function RetrospectOptions({
   closeBtnClickFun,
   optionsRef,
 }: {
+  retrospectStatus: RetrospectStatus;
   isOptionsVisible: boolean;
   toggleOptionsVisibility: () => void;
   removeBtnClickFun: () => void;
@@ -21,19 +25,28 @@ export function RetrospectOptions({
   optionsRef: React.RefObject<HTMLDivElement>;
 }) {
   return (
-    <>
+    <div
+      onClick={(event) => event.stopPropagation()}
+      css={css`
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      `}
+    >
       <Icon icon="ic_more" onClick={toggleOptionsVisibility} color={DESIGN_TOKEN_COLOR.gray600} />
       <AnimatePresence>
         {isOptionsVisible && (
           <motion.div
-            ref={optionsRef} // ref 연
+            ref={optionsRef}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.3 }}
             css={css`
               position: absolute;
-              top: 100%;
+              top: 35%;
               right: 0;
               background-color: white;
               border-radius: 1.2rem;
@@ -44,7 +57,27 @@ export function RetrospectOptions({
               box-shadow: 0px 4px 12px 0px rgba(6, 8, 12, 0.12);
             `}
           >
-            {closeBtnClickFun && (
+            <button
+              onClick={modifyBtnClickFun}
+              css={css`
+                display: block;
+                height: 4.6rem;
+                width: 100%;
+                text-align: left;
+                cursor: pointer;
+              `}
+            >
+              <Typography
+                variant="subtitle14SemiBold"
+                color="gray800"
+                css={css`
+                  margin-left: 2rem;
+                `}
+              >
+                정보 수정
+              </Typography>
+            </button>
+            {retrospectStatus === "PROCEEDING" && (
               <button
                 onClick={closeBtnClickFun}
                 css={css`
@@ -66,26 +99,6 @@ export function RetrospectOptions({
                 </Typography>
               </button>
             )}
-            <button
-              onClick={modifyBtnClickFun}
-              css={css`
-                display: block;
-                height: 4.6rem;
-                width: 100%;
-                text-align: left;
-                cursor: pointer;
-              `}
-            >
-              <Typography
-                variant="subtitle14SemiBold"
-                color="gray800"
-                css={css`
-                  margin-left: 2rem;
-                `}
-              >
-                회고 수정
-              </Typography>
-            </button>
             <button
               onClick={removeBtnClickFun}
               css={css`
@@ -109,6 +122,6 @@ export function RetrospectOptions({
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }

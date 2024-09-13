@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 /** API 사용 전, ENV 파일을 통해 서버 연동 설정을 해주세요 */
 const API_URL = import.meta.env.VITE_API_URL as string;
 
+export type ErrorResponse = { name: string; message: string };
+
 const baseApi = axios.create({
   baseURL: API_URL,
   timeout: 5000,
@@ -21,8 +23,8 @@ const logOnDev = (message: string) => {
 };
 
 /** API 요청이 실패한 경우 호출되는 함수 */
-const onError = (status: number, message: string) => {
-  const error = { status, message };
+const onError = (status: number, message: string, data?: ErrorResponse) => {
+  const error = { status, message, data };
   throw error;
 };
 
@@ -64,32 +66,32 @@ const onErrorResponse = (error: AxiosError | Error) => {
   if (axios.isAxiosError(error)) {
     const { message } = error;
     const { method, url } = error?.config as AxiosRequestConfig;
-    const { status, statusText } = error?.response as AxiosResponse;
+    const { status, statusText, data } = error?.response as AxiosResponse<ErrorResponse>;
 
     logOnDev(`[API ERROR_RESPONSE ${status} | ${statusText} | ${message}] ${method?.toUpperCase()} ${url}`);
 
     switch (status) {
       case 400:
-        onError(status, "잘못된 요청을 했어요");
+        onError(status, "잘못된 요청을 했어요", data);
         break;
       case 401: {
-        onError(status, "인증을 실패했어요");
+        onError(status, "인증을 실패했어요", data);
         break;
       }
       case 403: {
-        onError(status, "권한이 없는 상태로 접근했어요");
+        onError(status, "권한이 없는 상태로 접근했어요", data);
         break;
       }
       case 404: {
-        onError(status, "찾을 수 없는 페이지를 요청했어요");
+        onError(status, "찾을 수 없는 페이지를 요청했어요", data);
         break;
       }
       case 500: {
-        onError(status, "서버 오류가 발생했어요");
+        onError(status, "서버 오류가 발생했어요", data);
         break;
       }
       default: {
-        onError(status, `기타 에러가 발생했어요 : ${error?.message}`);
+        onError(status, `기타 에러가 발생했어요 : ${error?.message}`, data);
       }
     }
   } else if (error instanceof Error && error?.name === "TimoutError") {

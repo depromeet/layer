@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CreateDone from "@/assets/lottie/space/create_done.json";
 import { ButtonProvider, IconButton } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useApiGetUser } from "@/hooks/api/auth/useApiGetUser";
@@ -20,7 +21,7 @@ import { encryptId } from "@/utils/space/cryptoKey";
 export function CreateDonePage() {
   const navigate = useNavigate();
   const { spaceId } = useLocation().state as { spaceId: string };
-  const { data: spaceData } = useApiGetSpace(spaceId);
+  const { data: spaceData, isLoading } = useApiGetSpace(spaceId);
   const [animate, setAnimate] = useState(spaceData?.category === ProjectType.Individual);
   const { data: userData } = useApiGetUser();
   const { toast } = useToast();
@@ -41,8 +42,8 @@ export function CreateDonePage() {
     if (bridge.isWebViewBridgeAvailable) {
       await bridge.sendShareToKakao({
         content: {
-          title: `${userData.name}님이 스페이스에 초대했습니다.`,
-          description: "어서오세용~!!",
+          title: `${userData.name}님의 회고 초대장`,
+          description: `함께 회고해요! ${userData.name}님이 팀 레이어 스페이스에 초대했어요`,
           imageUrl: "https://kr.object.ncloudstorage.com/layer-bucket/small_banner.png",
           link: {
             mobileWebUrl: `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
@@ -62,8 +63,8 @@ export function CreateDonePage() {
     } else {
       shareKakaoWeb(
         `${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`,
-        `${userData.name}님이 스페이스에 초대했습니다.`,
-        "어서오세용~!!",
+        `${userData.name}님의 회고 초대장`,
+        `함께 회고해요! ${userData.name}님이 ${spaceData?.name} 스페이스에 초대했어요`,
       );
     }
   };
@@ -71,11 +72,13 @@ export function CreateDonePage() {
   const handleCopyClipBoard = async () => {
     try {
       await navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/space/join/${encryptedId}`);
-      toast.success("복사 성공!!");
+      toast.success("링크 복사가 완료되었어요!");
     } catch (e) {
-      alert("failed");
+      alert("링크 복사에 실패했어요!");
     }
   };
+
+  if (isLoading) return <LoadingModal />;
 
   return (
     <>

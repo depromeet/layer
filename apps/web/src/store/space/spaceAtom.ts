@@ -9,6 +9,7 @@ const initialState = {
   introduction: "",
   imgUrl: "",
   step: 0,
+  submit: false,
 };
 
 export const spaceState = atomWithReset<SpaceValue>(initialState);

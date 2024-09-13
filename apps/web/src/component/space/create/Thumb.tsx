@@ -10,7 +10,6 @@ type ThumbValues = Pick<SpaceValue, "imgUrl">;
 
 export function Thumb({ onNext, isPending }: { onNext: (thumbValues: ThumbValues) => void; isPending: boolean }) {
   const [imgFile, setImgFile] = useState<File | null>(null);
-
   return (
     <Fragment>
       <Spacing size={3.2} />

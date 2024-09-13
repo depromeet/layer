@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/useToast";
 type RetrospectEditReq = {
   title: string;
   introduction: string;
-  deadline: string;
+  deadline: string | null;
 };
 
 type PatchRetrospect = { spaceId: number; retrospectId: number; data: RetrospectEditReq };
@@ -25,7 +25,7 @@ export const usePatchRetrospect = (spaceId: string) => {
     onSuccess: async () => {
       toast.success("회고 정보가 수정되었어요!");
       await queryClient.invalidateQueries({
-        queryKey: ["getRetrospects", spaceId], // FIXME - query key 상수화
+        queryKey: ["getRetrospects", spaceId],
       });
     },
   });
