@@ -156,7 +156,7 @@ export function RetrospectBox({
         css={css`
           width: 100%;
           height: auto;
-          background-color: ${retrospect.retrospectStatus === "PROCEEDING" ? statusStyles.PROCEEDING : statusStyles.DONE};
+          background-color: ${retrospectStatus === "PROCEEDING" ? statusStyles.PROCEEDING : statusStyles.DONE};
           border-radius: 1rem;
           padding: 2rem;
           display: flex;
@@ -178,7 +178,7 @@ export function RetrospectBox({
           <ProceedingTextBox writeStatus={writeStatus} analysisStatus={analysisStatus} />
           {isLeader && (
             <RetrospectOptions
-              retrospectStatus={retrospect.retrospectStatus}
+              retrospectStatus={retrospectStatus}
               isOptionsVisible={isOptionsVisible}
               toggleOptionsVisibility={toggleOptionsVisibility}
               removeBtnClickFun={removeBtnClickFun}
@@ -226,12 +226,12 @@ export function RetrospectBox({
           `}
         >
           <Typography color="gray500" variant="body14Medium">
-            {retrospect.deadline == null ? (
+            {!deadline ? (
               <>모든 인원 제출 시 마감</>
             ) : (
               <>
                 {" "}
-                {retrospect.retrospectStatus === "DONE" ? "마감일" : "마감 예정일"} | {formatDateAndTime(deadline)}
+                {retrospectStatus === "DONE" ? "마감일" : "마감 예정일"} | {formatDateAndTime(deadline)}
               </>
             )}
           </Typography>
