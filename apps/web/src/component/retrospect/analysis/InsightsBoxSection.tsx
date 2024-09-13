@@ -34,7 +34,7 @@ export function InsightsBoxSection({ isTeam, type, insightArr }: InsightsBoxProp
           line-height: 3.2rem;
         `}
       >
-        {`${isTeam ? "우리팀" : user.name}`}은{" "}
+        {`${isTeam ? "우리팀" : user.name + "님"}`}은{" "}
         {type === "goodPoints" && (
           <>
             <Typography

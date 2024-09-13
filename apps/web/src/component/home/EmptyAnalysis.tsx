@@ -36,7 +36,7 @@ export function EmptyAnalysis() {
           line-height: 1.5;
         `}
       >
-        완료된 회고가 없어요 <br />
+        분석 완료된 회고가 없어요 <br />
         회고를 진행해 분석을 받아보세요!
       </Typography>
       <Spacing size={3} />
