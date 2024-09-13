@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { RetrospectButton } from "./RetrospectButton";
 import { RetrospectOptions } from "./RetrospectOptions";
 
 import { Icon } from "@/component/common/Icon";
@@ -14,15 +14,13 @@ import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
-import { formatDateAndTime, calculateDeadlineRemaining } from "@/utils/date";
+import { formatDateAndTime } from "@/utils/date";
+import { ProceedingTextBox } from "./ProceedingTextBox";
+import { PATHS } from "@layer/shared";
 
 const statusStyles = {
-  PROCEEDING: {
-    backgroundColor: DESIGN_TOKEN_COLOR.blue50,
-  },
-  DONE: {
-    backgroundColor: DESIGN_TOKEN_COLOR.gray100,
-  },
+  PROCEEDING: DESIGN_TOKEN_COLOR.blue50,
+  DONE: DESIGN_TOKEN_COLOR.gray100,
 };
 
 export function RetrospectBox({
@@ -38,18 +36,44 @@ export function RetrospectBox({
   refetchRestrospectData?: () => void;
   isLeader: boolean;
 }) {
+  const navigate = useNavigate();
   const { open } = useModal();
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const optionsRef = useRef<HTMLDivElement | null>(null);
-  const { retrospectId, title, introduction, retrospectStatus, isWrite, writeCount, totalCount, deadline } = retrospect;
-  const { backgroundColor } = statusStyles[retrospectStatus];
+  const { retrospectId, title, introduction, retrospectStatus, writeStatus, analysisStatus, writeCount, totalCount, deadline } = retrospect;
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { toast } = useToast();
-  const isAllAnswered = writeCount === totalCount;
 
   const { mutate: retrospectDelete } = useApiDeleteRetrospect();
   const { mutate: retrospectClose, isPending } = useApiCloseRetrospect();
+
+  const boxClickFun = () => {
+    const { analysisStatus, retrospectStatus, writeStatus } = retrospect;
+
+    const navigateToAnalysis = (defaultTab?: "분석" | "") =>
+      navigate(PATHS.retrospectAnalysis(spaceId, retrospectId), { state: { title, ...(defaultTab && { defaultTab }) } });
+
+    if (analysisStatus === "DONE") {
+      navigateToAnalysis("분석");
+      return;
+    }
+
+    if (retrospectStatus === "PROCEEDING") {
+      if (analysisStatus === "NOT_STARTED" && (writeStatus === "NOT_STARTED" || writeStatus === "PROCEEDING")) {
+        navigate(PATHS.write(), {
+          state: {
+            retrospectId,
+            spaceId,
+          },
+        });
+      } else {
+        navigateToAnalysis();
+      }
+    } else {
+      navigateToAnalysis("분석");
+    }
+  };
 
   const closeBtnClickFun = () => {
     open({
@@ -126,77 +150,60 @@ export function RetrospectBox({
       {isPending && <LoadingModal purpose={"선택하신 회고를 마감하고있어요"} />}
       <div
         key={retrospectId}
+        onClick={boxClickFun}
         css={css`
           width: 100%;
           height: auto;
-          background-color: ${backgroundColor};
+          background-color: ${retrospect.retrospectStatus === "PROCEEDING" ? statusStyles.PROCEEDING : statusStyles.DONE};
           border-radius: 1rem;
-          padding: 2rem 2rem 1.8rem 2rem;
+          padding: 2rem;
           display: flex;
           flex-direction: column;
-          gap: 0.4rem;
+          gap: 0.3rem;
+          position: relative;
           transition: opacity 0.3s ease-out;
           opacity: ${isDeleted ? 0 : 1};
+          cursor: pointer;
         `}
       >
         <div
           css={css`
             width: 100%;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            position: relative;
           `}
         >
-          <Typography
-            variant="title16Bold"
-            css={css`
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            `}
-          >
-            {title}
-          </Typography>
-          <div
-            css={css`
-              display: flex;
-              align-items: center;
-            `}
-          >
-            {retrospectStatus === "PROCEEDING" && (
-              <Typography
-                css={css`
-                  background-color: ${DESIGN_TOKEN_COLOR.gray00};
-                  padding: 0.4rem 0.8rem;
-                  vertical-align: center;
-                  border-radius: 0.4rem;
-                `}
-                color="blue600"
-                variant="B2_SEMIBOLD"
-              >
-                {calculateDeadlineRemaining(deadline)}
-              </Typography>
-            )}
-            {isLeader && (
-              <RetrospectOptions
-                isOptionsVisible={isOptionsVisible}
-                toggleOptionsVisibility={toggleOptionsVisibility}
-                removeBtnClickFun={removeBtnClickFun}
-                modifyBtnClickFun={modifyBtnClickFun}
-                closeBtnClickFun={retrospectStatus === "PROCEEDING" && isAllAnswered ? closeBtnClickFun : undefined}
-                optionsRef={optionsRef}
-              />
-            )}
-          </div>
+          <ProceedingTextBox writeStatus={writeStatus} analysisStatus={analysisStatus} />
+          {isLeader && (
+            <RetrospectOptions
+              retrospectStatus={retrospect.retrospectStatus}
+              isOptionsVisible={isOptionsVisible}
+              toggleOptionsVisibility={toggleOptionsVisibility}
+              removeBtnClickFun={removeBtnClickFun}
+              modifyBtnClickFun={modifyBtnClickFun}
+              closeBtnClickFun={retrospectStatus === "PROCEEDING" ? closeBtnClickFun : undefined}
+              optionsRef={optionsRef}
+            />
+          )}
         </div>
+        <Typography
+          variant="title16Bold"
+          css={css`
+            margin-top: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          `}
+        >
+          {title}
+        </Typography>
         {introduction && (
           <Typography
             color="gray800"
             variant="body14Medium"
             css={css`
               display: -webkit-box;
-              -webkit-line-clamp: 2;
+              -webkit-line-clamp: 1;
               -webkit-box-orient: vertical;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -205,46 +212,41 @@ export function RetrospectBox({
             {introduction}
           </Typography>
         )}
-
         <div
           css={css`
             margin-top: 0.4rem;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 0.4rem;
             position: relative;
             left: -0.1rem;
           `}
         >
-          <Icon size={1.6} icon="ic_calendar" color={DESIGN_TOKEN_COLOR.gray500} />
           <Typography color="gray500" variant="body14Medium">
-            {formatDateAndTime(deadline)}
+            {retrospect.deadline == null ? (
+              <>모든 인원 제출 시 마감</>
+            ) : (
+              <>
+                {" "}
+                {retrospect.retrospectStatus === "DONE" ? "마감일" : "마감 예정일"} | {formatDateAndTime(deadline!)}
+              </>
+            )}
           </Typography>
-        </div>
-
-        <div
-          css={css`
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            margin-top: 0.6rem;
-          `}
-        >
           <div
             css={css`
-              width: 100%;
-              height: 4rem;
+              height: auto;
               display: flex;
-              align-items: flex-end;
-              gap: 0.3rem;
+              flex-wrap: nowrap;
+              align-items: center;
+              margin-top: 0.1rem;
             `}
           >
             <Icon
               icon={retrospectStatus === "PROCEEDING" ? "ic_person" : "ic_darkPerson"}
               size={2.4}
               css={css`
-                position: relative;
-                top: 0.2rem;
+                margin-right: 0.2rem;
               `}
             />
 
@@ -256,19 +258,15 @@ export function RetrospectBox({
               color="gray500"
               css={css`
                 margin: 0 0.2rem;
+                white-space: nowrap;
               `}
             >
               / {totalCount}
             </Typography>
           </div>
-          <RetrospectButton
-            status={retrospectStatus === "PROCEEDING" && isWrite ? "HAS_WRITING" : retrospectStatus}
-            retrospectId={retrospectId}
-            title={title}
-            spaceId={spaceId}
-          />
         </div>
       </div>
+
       {isEditModalOpen && (
         <RetrospectEditModal
           spaceId={spaceId}

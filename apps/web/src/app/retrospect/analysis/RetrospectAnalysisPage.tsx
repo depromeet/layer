@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
@@ -10,9 +10,10 @@ import { QuestionForm } from "@/component/retrospect/analysis/QuestionForm.tsx";
 import { useGetAnalysisAnswer } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer.ts";
 import { useTabs } from "@/hooks/useTabs";
 import { DualToneLayout } from "@/layout/DualToneLayout";
+import { EmptyList } from "@/component/common/empty";
 
 export const RetrospectAnalysisPage = () => {
-  const { title } = useLocation().state as { title: string };
+  const { title, defaultTab } = useLocation().state as { title: string; defaultTab: "질문" | "개별" | "분석" };
 
   const tabMappings = {
     질문: "QUESTIONS",
@@ -27,6 +28,11 @@ export const RetrospectAnalysisPage = () => {
   const spaceId = queryParams.get("spaceId");
   const retrospectId = queryParams.get("retrospectId");
   const { data, isLoading } = useGetAnalysisAnswer({ spaceId: spaceId!, retrospectId: retrospectId! });
+  useEffect(() => {
+    if (defaultTab) {
+      selectTab(defaultTab);
+    }
+  }, []);
   return (
     <DualToneLayout
       bottomTheme="gray"
@@ -38,13 +44,15 @@ export const RetrospectAnalysisPage = () => {
       }
     >
       {isLoading && <LoadingModal />}
-      {
+      {!data || data.individuals.length === 0 ? (
+        <EmptyList icon={"ic_clock"} message={"제출된 회고가 없어요"} />
+      ) : (
         {
-          QUESTIONS: <QuestionForm data={data!} />,
-          INDIVIDUAL_ANALYSIS: <PersonalForm data={data!} />,
+          QUESTIONS: <QuestionForm data={data} />,
+          INDIVIDUAL_ANALYSIS: <PersonalForm data={data} />,
           ANALYSIS: <AnalysisContainer spaceId={spaceId!} retrospectId={retrospectId!} hasAIAnalyzed={data?.hasAIAnalyzed} />,
         }[selectedTab]
-      }
+      )}
     </DualToneLayout>
   );
 };

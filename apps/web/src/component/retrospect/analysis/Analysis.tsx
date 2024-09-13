@@ -20,19 +20,21 @@ type AnalysisContainerProps = {
 };
 
 export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: AnalysisContainerProps) {
-  const { data, isLoading } = useApiGetAnalysis({ spaceId, retrospectId });
+  const { data, isError, error, isLoading } = useApiGetAnalysis({ spaceId, retrospectId });
+
+  if (isError) {
+    console.log(error);
+  }
   const [selectedTab, setSelectedTab] = useState<"personal" | "team">("personal");
   if (isLoading) {
     return <LoadingModal />;
   }
+
   {
     /**분석이 진행중일 때**/
   }
   if (hasAIAnalyzed == false) {
     return <AnalysisingComp />;
-  }
-  {
-    /**분석이 결과가 아무것도 없을 때**/
   }
 
   return (
@@ -116,22 +118,43 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
             ]}
           />
           <GoalCompletionRateChart goalCompletionRate={data.teamAnalyze.goalCompletionRate} />
-
-          <InsightsBoxSection type="goodPoints" insightArr={data.teamAnalyze.goodPoints} isTeam={true} />
-          <InsightsBoxSection type="badPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
-          <InsightsBoxSection type="improvementPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />
+          {data.teamAnalyze.goodPoints && <InsightsBoxSection type="goodPoints" insightArr={data.teamAnalyze.goodPoints} isTeam={true} />}
+          {data.teamAnalyze.badPoints && <InsightsBoxSection type="badPoints" insightArr={data.teamAnalyze.badPoints} isTeam={true} />}
+          {data.teamAnalyze.improvementPoints && (
+            <InsightsBoxSection type="improvementPoints" insightArr={data.teamAnalyze.improvementPoints} isTeam={true} />
+          )}
         </>
       )}
-      {selectedTab === "personal" &&
-        (data?.individualAnalyze ? (
-          <>
-            <InsightsBoxSection type="goodPoints" insightArr={data.individualAnalyze.goodPoints} isTeam={false} />
-            <InsightsBoxSection type="badPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
-            <InsightsBoxSection type="improvementPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
-          </>
-        ) : (
-          <EmptyList message={<>회고를 작성해야 확인할 수 있어요</>} icon={"ic_empty_list"} iconSize={12} />
-        ))}
+      {selectedTab === "personal" && (
+        <>
+          {data?.individualAnalyze.badPoints == null &&
+          data?.individualAnalyze.goodPoints == null &&
+          data?.individualAnalyze.improvementPoints == null ? (
+            <EmptyList
+              message={
+                <>
+                  회고를 작성하지 않으셨거나 <br />
+                  너무 적은 내용을 입력하셨어요
+                </>
+              }
+              icon={"ic_empty_list"}
+              iconSize={12}
+            />
+          ) : (
+            <>
+              {data?.individualAnalyze.goodPoints && (
+                <InsightsBoxSection type="goodPoints" insightArr={data.individualAnalyze.goodPoints} isTeam={false} />
+              )}
+              {data?.individualAnalyze.badPoints && (
+                <InsightsBoxSection type="badPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
+              )}
+              {data?.individualAnalyze.improvementPoints && (
+                <InsightsBoxSection type="improvementPoints" insightArr={data.individualAnalyze.improvementPoints} isTeam={false} />
+              )}
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }

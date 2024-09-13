@@ -65,5 +65,6 @@ export const useGetAnalysisAnswer = ({ spaceId, retrospectId }: getAnalysisAnswe
   return useQuery({
     queryFn: () => getAnalysisAnswer(),
     queryKey: [spaceId, retrospectId, "analysis"],
+    retry: 1,
   });
 };
