@@ -31,7 +31,7 @@ export const RetrospectAnalysisPage = () => {
   const retrospectId = queryParams.get("retrospectId") as string;
   const { data, isLoading } = useGetAnalysisAnswer({ spaceId: spaceId, retrospectId: retrospectId });
   const { data: spaceInfo } = useApiGetSpacePrivate(Number(spaceId));
-  let pendingPeopleCnt;
+  let pendingPeopleCnt = 0;
 
   if (spaceInfo && data) {
     pendingPeopleCnt = spaceInfo.memberCount - data.individuals.length;
@@ -53,7 +53,7 @@ export const RetrospectAnalysisPage = () => {
         </Fragment>
       }
     >
-      {isLoading || !pendingPeopleCnt ? (
+      {isLoading ? (
         <LoadingModal />
       ) : !data || data.individuals.length === 0 ? (
         <EmptyList icon={"ic_clock"} message={"제출된 회고가 없어요"} />
