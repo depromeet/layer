@@ -8,7 +8,7 @@ import { AnalysisContainer } from "@/component/retrospect/analysis/Analysis";
 import { PersonalForm } from "@/component/retrospect/analysis/PersonalForm.tsx";
 import { QuestionForm } from "@/component/retrospect/analysis/QuestionForm.tsx";
 import { useGetAnalysisAnswer } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer.ts";
-import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
+import { useApiGetSpacePrivate } from "@/hooks/api/space/useGetSpace";
 import { useTabs } from "@/hooks/useTabs";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { EmptyList } from "@/component/common/empty";
@@ -30,7 +30,7 @@ export const RetrospectAnalysisPage = () => {
   const spaceId = queryParams.get("spaceId") as string;
   const retrospectId = queryParams.get("retrospectId") as string;
   const { data, isLoading } = useGetAnalysisAnswer({ spaceId: spaceId, retrospectId: retrospectId });
-  const { data: spaceInfo } = useApiGetSpace(spaceId, true);
+  const { data: spaceInfo } = useApiGetSpacePrivate(Number(spaceId));
   let pendingPeopleCnt;
 
   if (spaceInfo && data) {
