@@ -51,7 +51,7 @@ export function NotActionItemBoxData() {
             }
           `}
         >
-          <Typography>30일간 진행한 회고가 없어요!</Typography>
+          <Typography>설정된 실행목표가 없어요!</Typography>
           <Typography>회고를 진행해 실행목표를 설정해보세요</Typography>
         </div>
         <Spacing size={3} />

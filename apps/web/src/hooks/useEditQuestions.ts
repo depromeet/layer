@@ -27,6 +27,9 @@ export const useEditQuestions = () => {
   };
 
   const handleDeleteConfirm = () => {
+    if (temporarilyDeletedIndexes.length === 0) {
+      return;
+    }
     setNewQuestions((prev) => prev.filter((_, i) => !isTemporarilyDeleted(i)));
     setTemporarilyDeletedIndexes([]);
     toast.success("삭제가 완료되었어요!");

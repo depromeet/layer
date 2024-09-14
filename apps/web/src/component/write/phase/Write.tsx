@@ -43,7 +43,7 @@ export function Write() {
   const { open } = useModal();
 
   /** Write Local State */
-  const { data, incrementPhase, decrementPhase, phase, movePhase, spaceId, retrospectId } = useContext(PhaseContext);
+  const { data, incrementPhase, decrementPhase, phase, movePhase, spaceId, retrospectId, title, introduction } = useContext(PhaseContext);
   const [isEntireModalOpen, setEntireModalOpen] = useState(false);
   const [isTemporarySaveModalOpen, setTemporarySaveModalOpen] = useState(false);
   const [isAnswerFilled, setIsAnswerFilled] = useState(false);
@@ -137,6 +137,8 @@ export function Write() {
             state: {
               spaceId: spaceId,
               retrospectId: retrospectId,
+              title: title,
+              introduction: introduction,
             },
           });
           const plainTextAnswers = answers.filter(({ questionType }) => questionType === "plain_text");
@@ -334,9 +336,9 @@ export function Write() {
             margin-bottom: 0.8rem;
 
             display: flex;
+            flex: 1;
             flex-direction: column;
             row-gap: 0.8rem;
-            height: 100%;
           `}
         >
           {data?.questions.map((item) => {
@@ -423,9 +425,9 @@ export function Write() {
           {isComplete && (
             <Fragment>
               <HeaderProvider>
-                <HeaderProvider.Subject contents={`중간발표 이후 회고`} />
+                <HeaderProvider.Subject contents={title ?? ""} />
                 <HeaderProvider.Description
-                  contents={`방향성 체크 및 팀 내 개선점 구축`}
+                  contents={introduction ?? ""}
                   css={css`
                     color: #7e7c7c;
                   `}

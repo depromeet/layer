@@ -8,9 +8,11 @@ import { AnalysisContainer } from "@/component/retrospect/analysis/Analysis";
 import { PersonalForm } from "@/component/retrospect/analysis/PersonalForm.tsx";
 import { QuestionForm } from "@/component/retrospect/analysis/QuestionForm.tsx";
 import { useGetAnalysisAnswer } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer.ts";
+import { useApiGetSpacePrivate } from "@/hooks/api/space/useGetSpace";
 import { useTabs } from "@/hooks/useTabs";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { EmptyList } from "@/component/common/empty";
+import { PendingAnalysisingComp } from "@/component/retrospect/analysis/PendingAnalysisingComp";
 
 export const RetrospectAnalysisPage = () => {
   const { title, defaultTab } = useLocation().state as { title: string; defaultTab: "질문" | "개별" | "분석" };
@@ -25,14 +27,22 @@ export const RetrospectAnalysisPage = () => {
   const { tabs, curTab, selectTab } = useTabs(tabNames);
   const selectedTab = tabMappings[curTab];
   const queryParams = new URLSearchParams(location.search);
-  const spaceId = queryParams.get("spaceId");
-  const retrospectId = queryParams.get("retrospectId");
-  const { data, isLoading } = useGetAnalysisAnswer({ spaceId: spaceId!, retrospectId: retrospectId! });
+  const spaceId = queryParams.get("spaceId") as string;
+  const retrospectId = queryParams.get("retrospectId") as string;
+  const { data, isLoading } = useGetAnalysisAnswer({ spaceId: spaceId, retrospectId: retrospectId });
+  const { data: spaceInfo } = useApiGetSpacePrivate(Number(spaceId));
+  let pendingPeopleCnt = 0;
+
+  if (spaceInfo && data) {
+    pendingPeopleCnt = spaceInfo.memberCount - data.individuals.length;
+  }
+
   useEffect(() => {
     if (defaultTab) {
       selectTab(defaultTab);
     }
   }, []);
+
   return (
     <DualToneLayout
       bottomTheme="gray"
@@ -43,14 +53,19 @@ export const RetrospectAnalysisPage = () => {
         </Fragment>
       }
     >
-      {isLoading && <LoadingModal />}
-      {!data || data.individuals.length === 0 ? (
+      {isLoading ? (
+        <LoadingModal />
+      ) : !data || data.individuals.length === 0 ? (
         <EmptyList icon={"ic_clock"} message={"제출된 회고가 없어요"} />
       ) : (
         {
           QUESTIONS: <QuestionForm data={data} />,
           INDIVIDUAL_ANALYSIS: <PersonalForm data={data} />,
-          ANALYSIS: <AnalysisContainer spaceId={spaceId!} retrospectId={retrospectId!} hasAIAnalyzed={data?.hasAIAnalyzed} />,
+          ANALYSIS: data.hasAIAnalyzed ? (
+            <AnalysisContainer spaceId={spaceId} retrospectId={retrospectId} hasAIAnalyzed={data.hasAIAnalyzed} />
+          ) : (
+            <PendingAnalysisingComp pendingPeople={pendingPeopleCnt} />
+          ),
         }[selectedTab]
       )}
     </DualToneLayout>
