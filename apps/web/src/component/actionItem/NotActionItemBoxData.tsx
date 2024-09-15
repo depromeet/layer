@@ -1,16 +1,16 @@
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { PATHS } from "@layer/shared";
 
 import { Button } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths.ts";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 
 export function NotActionItemBoxData() {
-  const navigate = useNavigate();
+  const navigate = useTestNatigate();
 
   return (
     <div
@@ -57,7 +57,7 @@ export function NotActionItemBoxData() {
         <Spacing size={3} />
         <Button
           onClick={() => {
-            navigate(PATHS.home());
+            void navigate(PATHS.home());
           }}
           colorSchema={"outline"}
           css={css`
@@ -65,7 +65,7 @@ export function NotActionItemBoxData() {
             padding: 1.3rem 3.65rem;
           `}
         >
-          <Typography variant={"subtitle16SemiBold"} color={"gray800"} onClick={() => navigate(PATHS.home())}>
+          <Typography variant={"subtitle16SemiBold"} color={"gray800"}>
             회고 진행하기
           </Typography>
         </Button>
