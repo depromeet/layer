@@ -1,15 +1,15 @@
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { PATHS } from "@layer/shared";
 
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths";
+import { useTestNatigate } from "@/lib/test-natigate";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function EmptyAnalysis() {
-  const navigate = useNavigate();
+  const navigate = useTestNatigate();
   return (
     <div
       css={css`
@@ -42,7 +42,7 @@ export function EmptyAnalysis() {
       <Spacing size={3} />
       <button
         onClick={() => {
-          navigate(PATHS.home());
+          void navigate(PATHS.home());
         }}
         css={css`
           border: 1px solid ${DESIGN_TOKEN_COLOR.gray300};
