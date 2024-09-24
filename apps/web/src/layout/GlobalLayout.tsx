@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import { Modal } from "@/component/common/Modal";
+import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.ts";
 import { useBridge } from "@/lib/provider/bridge-provider";
 
 const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
@@ -36,6 +37,7 @@ export default function GlobalLayout() {
       `}
     >
       <Modal />
+      <PreventExternalBrowser />
       <Outlet />
     </div>
   );
