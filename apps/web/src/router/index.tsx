@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-d
 
 import { ActionItemEditPage } from "@/app/actionItem/ActionItemEditPage.tsx";
 import { ActionItemMorePage } from "@/app/actionItem/ActionItemMorePage.tsx";
+import { LoginPage as AdminLoginPage } from "@/app/admin/LoginPage.tsx";
 import { Error } from "@/app/error/404.tsx";
 import { AnalysisViewPage } from "@/app/home/AnalysisViewPage";
 import { GoalViewPage } from "@/app/home/GoalViewPage";
@@ -22,6 +23,7 @@ import { SetNickNamePage } from "@/app/login/SetNicknamePage";
 import { RetrospectAnalysisPage } from "@/app/retrospect/analysis/RetrospectAnalysisPage";
 import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
 import { RecommendDonePage } from "@/app/retrospect/template/recommend/RecommendDonePage";
+import { RecommendSearch } from "@/app/retrospect/template/recommend/RecommendSearch";
 import { RecommendTemplatePage } from "@/app/retrospect/template/recommend/RecommendTemplatePage";
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
@@ -40,7 +42,6 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
-import { RecommendSearch } from "@/app/retrospect/template/recommend/RecommendSearch";
 
 type RouteChildren = {
   auth: boolean;
@@ -226,6 +227,11 @@ const routerChildren: RouteChildren[] = [
   {
     path: "/goals/edit",
     element: <ActionItemEditPage />,
+    auth: false,
+  },
+  {
+    path: "/admin",
+    element: <AdminLoginPage />,
     auth: false,
   },
   {
