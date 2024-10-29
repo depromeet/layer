@@ -46,6 +46,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
           id={id || textareaContext?.id}
           css={css`
             flex-grow: 1;
+            overflow: auto;
             ::placeholder {
               color: ${DESIGN_TOKEN_COLOR["gray500"]};
               ${DESIGN_TOKEN_TEXT["body15Medium"]}
