@@ -21,10 +21,10 @@ export default function GlobalLayout() {
   }, []);
 
   useEffect(() => {
-    if (location.pathname !== PATHS.myInfo()) {
-      ChannelService.hideChannelButton();
-    } else {
+    if (location.pathname.startsWith(PATHS.myInfo())) {
       ChannelService.showChannelButton();
+    } else {
+      ChannelService.hideChannelButton();
     }
   }, [location]);
 
