@@ -1,10 +1,12 @@
 import { css } from "@emotion/react";
 import Hotjar from "@hotjar/browser";
+import { PATHS } from "@layer/shared";
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { Modal } from "@/component/common/Modal";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.ts";
+import ChannelService from "@/lib/channel-talk/service";
 import { useBridge } from "@/lib/provider/bridge-provider";
 
 const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
@@ -12,10 +14,19 @@ const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
 
 export default function GlobalLayout() {
   const { safeAreaHeight } = useBridge();
+  const location = useLocation();
 
   useEffect(() => {
     Hotjar.init(siteId, hotjarVersion);
   }, []);
+
+  useEffect(() => {
+    if (location.pathname !== PATHS.myInfo()) {
+      ChannelService.hideChannelButton();
+    } else {
+      ChannelService.showChannelButton();
+    }
+  }, [location]);
 
   return (
     <div
