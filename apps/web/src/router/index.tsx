@@ -22,6 +22,7 @@ import { SetNickNamePage } from "@/app/login/SetNicknamePage";
 import { RetrospectAnalysisPage } from "@/app/retrospect/analysis/RetrospectAnalysisPage";
 import { TemplateListPage } from "@/app/retrospect/template/list/TemplateListPage";
 import { RecommendDonePage } from "@/app/retrospect/template/recommend/RecommendDonePage";
+import { RecommendSearch } from "@/app/retrospect/template/recommend/RecommendSearch";
 import { RecommendTemplatePage } from "@/app/retrospect/template/recommend/RecommendTemplatePage";
 import { RetrospectCreate } from "@/app/retrospectCreate/RetrospectCreate";
 import { RetrospectCreateComplete } from "@/app/retrospectCreate/RetrospectCreateComplete";
@@ -40,7 +41,7 @@ import { RetrospectWritePage } from "@/app/write/RetrospectWritePage.tsx";
 import GlobalLayout from "@/layout/GlobalLayout.tsx";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
-import { RecommendSearch } from "@/app/retrospect/template/recommend/RecommendSearch";
+import ChannelService from "@/lib/channel-talk/service";
 
 type RouteChildren = {
   auth: boolean;
@@ -256,5 +257,9 @@ const router = createBrowserRouter([
 ]);
 
 export const Routers = () => {
+  ChannelService.loadScript();
+  ChannelService.boot({
+    pluginKey: import.meta.env.VITE_CHANNELTALK_PLUGIN_KEY,
+  });
   return <RouterProvider router={router} />;
 };
