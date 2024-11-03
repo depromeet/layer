@@ -7,8 +7,8 @@ export function PreventExternalBrowser({ children }: PropsWithChildren) {
   const isInstagram = agent.includes("Instagram");
 
   if (isKakao) {
-    return <span> 시스템 브라우저를 이용해주세요 </span>;
     window.open(`kakaotalk://web/openExternal?url=${encodeURIComponent(URL)}`);
+    return <span> 시스템 브라우저를 이용해주세요 </span>;
   } else if (isInstagram) {
     /**
      * NOTE: 현재는 해당 인스타그램 인앱 탈출 코드가 작동하지 않는 것 같음
