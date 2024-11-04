@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 
 import { Modal } from "@/component/common/Modal";
-import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.ts";
+import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.tsx";
 import ChannelService from "@/lib/channel-talk/service";
 import { useBridge } from "@/lib/provider/bridge-provider";
 
@@ -48,8 +48,9 @@ export default function GlobalLayout() {
       `}
     >
       <Modal />
-      <PreventExternalBrowser />
-      <Outlet />
+      <PreventExternalBrowser>
+        <Outlet />
+      </PreventExternalBrowser>
     </div>
   );
 }

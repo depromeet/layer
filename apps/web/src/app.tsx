@@ -20,7 +20,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Suspense fallback={<LoadingModal purpose={"데이터를 가져오고 있어요"} />}>
             {/* <ReactQueryDevtools initialIsOpen={false} /> */}
             {/* <DevTools /> */}
-
             <Routers />
             <Toast />
           </Suspense>
