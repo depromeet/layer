@@ -63,12 +63,17 @@ textarea {
   resize: none;
 }
 
+p {
+  margin: 0;
+}
+
 ::-webkit-scrollbar {
   border: none;
   width: 1rem;
   height: 1rem;
   background-color: transparent;
   display: none;
+  scrollbar-width: none; /* for firefox */
 }
 
 ::-webkit-scrollbar-thumb {
