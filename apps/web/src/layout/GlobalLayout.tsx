@@ -62,7 +62,6 @@ export default function GlobalLayout() {
         content={
           <>
             <Typography
-              as="p"
               variant={"body16Medium"}
               color={"gray600"}
               css={css`
@@ -77,7 +76,17 @@ export default function GlobalLayout() {
 
 1. 점검 시간
 
-    2024년 11월 10일(일) 13:00 ~ 22:00
+    `}
+            </Typography>
+            <Typography variant={"subtitle16SemiBold"}>2024년 11월 10일(일) 13:00 ~ 22:00</Typography>
+            <Typography
+              variant={"body16Medium"}
+              color={"gray600"}
+              css={css`
+                white-space: pre-wrap;
+              `}
+            >
+              {`
     ※ 모든 시간은 한국시간 기준입니다.
     ※ 작업 진행상황에 따라 일정은 변경될 수 있습니다.
 
@@ -85,35 +94,17 @@ export default function GlobalLayout() {
 
     레이어 서비스
 
-해당 기간동안 궁금하신 점은`}
+해당 기간동안 궁금하신 점은 `}
             </Typography>
+            <Typography variant={"subtitle16SemiBold"}>마이페이지 하단의 문의하기</Typography>
             <Typography
-              variant={"body16Medium"}
-              color={"blue500"}
-              css={css`
-                text-decoration: underline;
-                cursor: pointer;
-              `}
-              onClick={async () => {
-                try {
-                  await navigator.clipboard.writeText("gentlemonster77@likelion.org");
-                  toast.success("이메일이 클립보드에 복사되었습니다");
-                } catch (e) {
-                  toast.success("다시 시도해주세요");
-                }
-              }}
-            >
-              gentlemonster77@likelion.org
-            </Typography>
-            <Typography
-              as="p"
               variant={"body16Medium"}
               color={"gray600"}
               css={css`
                 white-space: pre-wrap;
               `}
             >
-              {`로 문의를 주시면 빠르게 확인 후 순차적으로 답변 드리겠습니다.
+              {`를 통해 채팅 남겨주시면 빠르게 확인 후 순차적으로 답변 드리겠습니다.
 
 이용에 불편을 드려 죄송합니다.
 보다 안정적인 서비스를 제공하기 위해 노력하는 레이어가 되겠습니다.
