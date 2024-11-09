@@ -64,7 +64,7 @@ export function BottomSheet({ id, title, contents, handler = false, quitButton =
             border-top-right-radius: 1.6rem;
             box-shadow: 0 4rem 4rem rgba(0, 0, 0, 0.25);
             transition: transform 200ms ease-out;
-            z-index: 10001;
+            z-index: 100000000;
             padding: 2rem;
             box-sizing: border-box;
             background-color: #fff;

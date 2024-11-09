@@ -1,15 +1,16 @@
 import { css } from "@emotion/react";
 import Hotjar from "@hotjar/browser";
-import { PATHS } from "@layer/shared";
+// import { PATHS } from "@layer/shared";
 import { useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 import { Announcement } from "@/component/announcement/Announcement";
 import { Modal } from "@/component/common/Modal";
 import { Typography } from "@/component/common/typography";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.tsx";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
-import ChannelService from "@/lib/channel-talk/service";
+// import ChannelService from "@/lib/channel-talk/service";
 import { useBridge } from "@/lib/provider/bridge-provider";
 
 const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
@@ -18,7 +19,6 @@ const SHEET_ID = "announcement";
 
 export default function GlobalLayout() {
   const { safeAreaHeight } = useBridge();
-  const location = useLocation();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
   useEffect(() => {
@@ -26,13 +26,14 @@ export default function GlobalLayout() {
     openBottomSheet({ id: SHEET_ID });
   }, []);
 
-  useEffect(() => {
-    if (location.pathname.startsWith(PATHS.myInfo())) {
-      ChannelService.showChannelButton();
-    } else {
-      ChannelService.hideChannelButton();
-    }
-  }, [location]);
+  /* NOTE - 인프라 이전 기간동안 채널톡 모든 페이지 노출 */
+  // useEffect(() => {
+  //   if (location.pathname.startsWith(PATHS.myInfo())) {
+  //     ChannelService.showChannelButton();
+  //   } else {
+  //     ChannelService.hideChannelButton();
+  //   }
+  // }, [location]);
 
   return (
     <div
@@ -94,7 +95,7 @@ export default function GlobalLayout() {
 
 해당 기간동안 궁금하신 점은 `}
             </Typography>
-            <Typography variant={"subtitle16SemiBold"}>내 정보 페이지 하단의 문의하기</Typography>
+            <Typography variant={"subtitle16SemiBold"}>페이지 하단의 문의하기</Typography>
             <Typography
               variant={"body16Medium"}
               color={"gray600"}
