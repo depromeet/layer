@@ -96,7 +96,7 @@ export default function GlobalLayout() {
 
 해당 기간동안 궁금하신 점은 `}
             </Typography>
-            <Typography variant={"subtitle16SemiBold"}>마이페이지 하단의 문의하기</Typography>
+            <Typography variant={"subtitle16SemiBold"}>내 정보 페이지 하단의 문의하기</Typography>
             <Typography
               variant={"body16Medium"}
               color={"gray600"}
