@@ -9,7 +9,6 @@ import { Modal } from "@/component/common/Modal";
 import { Typography } from "@/component/common/typography";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.tsx";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
-import { useToast } from "@/hooks/useToast";
 import ChannelService from "@/lib/channel-talk/service";
 import { useBridge } from "@/lib/provider/bridge-provider";
 
@@ -21,7 +20,6 @@ export default function GlobalLayout() {
   const { safeAreaHeight } = useBridge();
   const location = useLocation();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
-  const { toast } = useToast();
 
   useEffect(() => {
     Hotjar.init(siteId, hotjarVersion);
