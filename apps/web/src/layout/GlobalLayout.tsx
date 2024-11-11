@@ -1,39 +1,32 @@
 import { css } from "@emotion/react";
 import Hotjar from "@hotjar/browser";
-// import { PATHS } from "@layer/shared";
+import { PATHS } from "@layer/shared";
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
-import { Announcement } from "@/component/announcement/Announcement";
 import { Modal } from "@/component/common/Modal";
-import { Typography } from "@/component/common/typography";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.tsx";
-import { useBottomSheet } from "@/hooks/useBottomSheet";
-// import ChannelService from "@/lib/channel-talk/service";
+import ChannelService from "@/lib/channel-talk/service";
 import { useBridge } from "@/lib/provider/bridge-provider";
 
 const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
 const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
-const SHEET_ID = "announcement";
 
 export default function GlobalLayout() {
+  const location = useLocation();
   const { safeAreaHeight } = useBridge();
-  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
   useEffect(() => {
     Hotjar.init(siteId, hotjarVersion);
-    openBottomSheet({ id: SHEET_ID });
   }, []);
 
-  /* NOTE - 인프라 이전 기간동안 채널톡 모든 페이지 노출 */
-  // useEffect(() => {
-  //   if (location.pathname.startsWith(PATHS.myInfo())) {
-  //     ChannelService.showChannelButton();
-  //   } else {
-  //     ChannelService.hideChannelButton();
-  //   }
-  // }, [location]);
+  useEffect(() => {
+    if (location.pathname.startsWith(PATHS.myInfo())) {
+      ChannelService.showChannelButton();
+    } else {
+      ChannelService.hideChannelButton();
+    }
+  }, [location]);
 
   return (
     <div
@@ -54,65 +47,6 @@ export default function GlobalLayout() {
         ${safeAreaHeight && { height: `calc(100dvh-${safeAreaHeight * 2}px)` }}
       `}
     >
-      <Announcement
-        sheetId={SHEET_ID}
-        onConfirm={closeBottomSheet}
-        title="인프라 이전 안내"
-        content={
-          <>
-            <Typography
-              variant={"body16Medium"}
-              color={"gray600"}
-              css={css`
-                white-space: pre-wrap;
-              `}
-            >
-              {`안녕하세요, 레이어 서비스입니다.
-항상 저희 서비스를 이용해 주셔서 감사드립니다.
-
-서비스 품질 향상을 위한 인프라 이전을 진행하고자 하오니 잠시 양해를 부탁드립니다.
-작업 진행 시간 동안 서비스가 접속이 되지 않거나 느려지는 현상이 있을 수 있으니 이용에 참고하시기 바랍니다.
-
-1. 점검 시간
-
-    `}
-            </Typography>
-            <Typography variant={"subtitle16SemiBold"}>2024년 11월 10일(일) 13:00 ~ 22:00</Typography>
-            <Typography
-              variant={"body16Medium"}
-              color={"gray600"}
-              css={css`
-                white-space: pre-wrap;
-              `}
-            >
-              {`
-    ※ 모든 시간은 한국시간 기준입니다.
-    ※ 작업 진행상황에 따라 일정은 변경될 수 있습니다.
-
-2. 대상 서비스
-
-    레이어 서비스
-
-해당 기간동안 궁금하신 점은 `}
-            </Typography>
-            <Typography variant={"subtitle16SemiBold"}>페이지 하단의 문의하기</Typography>
-            <Typography
-              variant={"body16Medium"}
-              color={"gray600"}
-              css={css`
-                white-space: pre-wrap;
-              `}
-            >
-              {`를 통해 채팅 남겨주시면 빠르게 확인 후 순차적으로 답변 드리겠습니다.
-
-이용에 불편을 드려 죄송합니다.
-보다 안정적인 서비스를 제공하기 위해 노력하는 레이어가 되겠습니다.
-
-감사합니다.`}
-            </Typography>
-          </>
-        }
-      />
       <Modal />
       <PreventExternalBrowser>
         <Outlet />
