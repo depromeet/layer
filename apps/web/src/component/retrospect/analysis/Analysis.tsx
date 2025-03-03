@@ -127,9 +127,9 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
       )}
       {selectedTab === "personal" && (
         <>
-          {data?.individualAnalyze.badPoints == null &&
-          data?.individualAnalyze.goodPoints == null &&
-          data?.individualAnalyze.improvementPoints == null ? (
+          {data?.individualAnalyze?.badPoints == null &&
+          data?.individualAnalyze?.goodPoints == null &&
+          data?.individualAnalyze?.improvementPoints == null ? (
             <EmptyList
               message={
                 <>
@@ -142,13 +142,13 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
             />
           ) : (
             <>
-              {data?.individualAnalyze.goodPoints && (
+              {data?.individualAnalyze?.goodPoints && (
                 <InsightsBoxSection type="goodPoints" insightArr={data.individualAnalyze.goodPoints} isTeam={false} />
               )}
-              {data?.individualAnalyze.badPoints && (
+              {data?.individualAnalyze?.badPoints && (
                 <InsightsBoxSection type="badPoints" insightArr={data.individualAnalyze.badPoints} isTeam={false} />
               )}
-              {data?.individualAnalyze.improvementPoints && (
+              {data?.individualAnalyze?.improvementPoints && (
                 <InsightsBoxSection type="improvementPoints" insightArr={data.individualAnalyze.improvementPoints} isTeam={false} />
               )}
             </>
