@@ -34,6 +34,9 @@ export const RetrospectAnalysisPage = () => {
   let pendingPeopleCnt = 0;
 
   if (spaceInfo && data) {
+    // TODO: 로직을 어떻게 픽스해야할지 서버 개발자들이랑 같이 이야기를 해보아야 함
+    // spaceInfo.memberCount : 스페이스에 들어와있는 멤버 수
+    // data.individuals.length : 현재 해당 회고에 대한 질문 답변 수
     pendingPeopleCnt = spaceInfo.memberCount - data.individuals.length;
   }
 
