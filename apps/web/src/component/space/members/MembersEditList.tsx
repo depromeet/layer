@@ -21,10 +21,13 @@ export function MembersEditList() {
   const { mutate: changeLeader } = useChangeLeader(spaceId);
   const { open } = useModal();
   const [selectedOption, setSelectedOption] = useState("");
+  const [leaderIndex, setLeaderIndex] = useState("");
 
   useEffect(() => {
     if (data) {
-      setSelectedOption(data[0].id);
+      const leaderIndex = data.findIndex((member) => member.isLeader);
+      setLeaderIndex(data[leaderIndex].id);
+      setSelectedOption(data[leaderIndex].id);
     }
   }, [data]);
 
@@ -75,7 +78,7 @@ export function MembersEditList() {
       ))}
       {editType === "LEADER" && (
         <ButtonProvider>
-          <ButtonProvider.Primary onClick={onChangeLeader} disabled={!selectedOption || data![0].id === selectedOption}>
+          <ButtonProvider.Primary onClick={onChangeLeader} disabled={!leaderIndex || leaderIndex === selectedOption}>
             변경
           </ButtonProvider.Primary>
         </ButtonProvider>

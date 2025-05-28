@@ -123,7 +123,9 @@ export function MembersList() {
   const isLeader = useMemo(() => {
     if (!data || data.length === 0) return false;
 
-    return data[0].id === userData.memberId && data[0].isLeader;
+    const leaderIndex = data.findIndex((member) => member.isLeader);
+
+    return data[leaderIndex].id === userData.memberId && data[leaderIndex].isLeader;
   }, [data, userData.memberId]);
 
   if (isLoading || spaceInfoLoading) return <LoadingModal />;
