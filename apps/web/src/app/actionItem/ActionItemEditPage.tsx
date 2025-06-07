@@ -32,18 +32,18 @@ type retrospectInfoType = {
 export function ActionItemEditPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data: retrospectInfo } = location.state as { data: retrospectInfoType[] };
+  const { data: retrospectInfo } = location.state as { data: retrospectInfoType };
   const { mutate: deleteActionItem, isPending: deleteActionItemPending } = useDeleteActionItemList();
   const { mutate: patchActionItem, isPending: patchActionItemPending } = usePatchActionItemList();
   const { mutate: createActionItem, isPending: createActionItemPending } = useCreateActionItem();
   const { open } = useModal();
   const { toast } = useToast();
-  const actionItems = retrospectInfo?.flatMap((item) =>
-    item.actionItemList.map((actionItem) => ({
-      id: actionItem.actionItemId,
-      content: actionItem.content,
-    })),
-  );
+
+  const actionItems = retrospectInfo.actionItemList.map((actionItem) => ({
+    id: actionItem.actionItemId,
+    content: actionItem.content,
+  }));
+
   const [data, setData] = useState(actionItems);
   const isLimit = data.length >= 6;
 
@@ -93,7 +93,7 @@ export function ActionItemEditPage() {
   const handleAdd = () => {
     if (isLimit) return;
     createActionItem(
-      { retrospectId: retrospectInfo[0].retrospectId, content: "" },
+      { retrospectId: retrospectInfo.retrospectId, content: "" },
       {
         onSuccess: (res: AxiosResponse<{ actionItemId: number }>) => {
           try {
@@ -108,7 +108,7 @@ export function ActionItemEditPage() {
 
   const handleComplete = () => {
     patchActionItem(
-      { retrospectId: retrospectInfo[0].retrospectId, actionItems: data },
+      { retrospectId: retrospectInfo.retrospectId, actionItems: data },
       {
         onSuccess: () => {
           toast.success("실행목표 편집이 완료되었어요!");
