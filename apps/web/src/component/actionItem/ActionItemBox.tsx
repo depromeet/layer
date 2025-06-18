@@ -294,9 +294,11 @@ export default function ActionItemBox({
                   variant={"subtitle14SemiBold"}
                   color={"gray800"}
                   onClick={() => {
+                    const selectedRetrospect = retrospectInfo.find((item) => item.retrospectId === id);
+
                     navigate(PATHS.goalsEdit(), {
                       state: {
-                        data: retrospectInfo,
+                        data: selectedRetrospect,
                       },
                     });
                   }}
