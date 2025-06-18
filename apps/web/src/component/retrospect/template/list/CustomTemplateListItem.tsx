@@ -10,7 +10,7 @@ import { DropdownMenu } from "@/component/common/dropdownMenu/DropdownMenu";
 import { TextArea } from "@/component/common/input";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { useDeleteCustomTemplate } from "@/hooks/api/template/useDeleteCustomTemplate";
 import { usePatchTemplateTitle } from "@/hooks/api/template/usePatchTemplateTitle";
 import { useBottomSheet } from "@/hooks/useBottomSheet";

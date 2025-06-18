@@ -11,7 +11,7 @@ import { PurposeBox } from "@/component/template/PurposeBox.tsx";
 import { QuestionBox } from "@/component/template/QuestionBox.tsx";
 import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture.tsx";
 import { TipBox } from "@/component/template/TipBox.tsx";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { useGetTemplateInfo } from "@/hooks/api/template/useGetTemplateInfo.ts";
 import { useCollisionDetection } from "@/hooks/useCollisionDetection.ts";
 import { TemplateLayout } from "@/layout/TemplateLayout.tsx";

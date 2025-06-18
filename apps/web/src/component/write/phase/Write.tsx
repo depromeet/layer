@@ -17,7 +17,6 @@ import { Confirm } from "@/component/write/phase/Confirm";
 import { WAchievementTemplate } from "@/component/write/template/write/Achievement";
 import { WDescriptiveTemplate } from "@/component/write/template/write/Descriptive";
 import { WSatisfactionTemplate } from "@/component/write/template/write/Satisfaction";
-import { PATHS } from "@/config/paths.ts";
 import { useGetAnswers } from "@/hooks/api/write/useGetAnswers.ts";
 import { useGetTemporaryQuestions } from "@/hooks/api/write/useGetTemporaryQuestions.ts";
 import { useWriteQuestions } from "@/hooks/api/write/useWriteQuestions.ts";
@@ -26,6 +25,7 @@ import { useToast } from "@/hooks/useToast.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens.ts";
+import { PATHS } from "@layer/shared";
 
 export type Answer = {
   questionId: number;
@@ -133,7 +133,7 @@ export function Write() {
       { data: answers, isTemporarySave: false, spaceId: spaceId, retrospectId: retrospectId, method: editMode.current },
       {
         onSuccess: () => {
-          navigate("/write/complete", {
+          navigate(PATHS.completeRetrospectWrite(), {
             state: {
               spaceId: spaceId,
               retrospectId: retrospectId,
@@ -246,7 +246,7 @@ export function Write() {
             leftButtonText={"임시저장"}
             confirm={() => {
               handleModalClose("temporary-save");
-              navigate("/");
+              navigate(PATHS.home());
             }}
             quit={mutateSaveTemporaryData}
           />

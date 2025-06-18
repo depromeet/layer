@@ -11,6 +11,7 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { useApiGetSpacePrivate } from "@/hooks/api/space/useGetSpace.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 import { ANIMATION } from "@/style/common/animation.ts";
+import { PATHS } from "@layer/shared";
 
 type UserInfoType = {
   isLogin: boolean;
@@ -22,8 +23,8 @@ type UserInfoType = {
 export function RetrospectWriteCompletePage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { spaceId } = location.state as { spaceId: number; retrospectId: number };
-  const { data, isLoading } = useApiGetSpacePrivate(spaceId);
+  const { spaceId } = location.state as { spaceId: string; retrospectId: number };
+  const { data, isLoading } = useApiGetSpacePrivate(Number(spaceId));
   const isTeam = data?.category === "TEAM";
   const completeWord = isTeam ? "모든 인원의 회고가 제출되면 AI 분석을 시작해요" : "회고가 제출되면 AI 분석을 시작해요";
 
@@ -195,7 +196,7 @@ export function RetrospectWriteCompletePage() {
           )}
         </div>
         <ButtonProvider>
-          <Button onClick={() => navigate(`/space/${spaceId}`)}> 완료 </Button>
+          <Button onClick={() => navigate(PATHS.spaceDetail(spaceId))}> 완료 </Button>
         </ButtonProvider>
       </DefaultLayout>
     </Fragment>

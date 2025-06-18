@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/space/space.const.ts";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";

@@ -17,6 +17,7 @@ import { useBridge } from "@/lib/provider/bridge-provider";
 import { ProjectType } from "@/types/space";
 import { shareKakaoWeb } from "@/utils/kakao/sharedKakaoLink";
 import { encryptId } from "@/utils/space/cryptoKey";
+import { PATHS } from "@layer/shared";
 
 export function CreateDonePage() {
   const navigate = useNavigate();
@@ -175,7 +176,7 @@ export function CreateDonePage() {
           <ButtonProvider>
             <ButtonProvider.Primary
               disabled={spaceData.category === ProjectType.Individual ? false : !animate}
-              onClick={() => navigate(`/space/create/next`, { state: { spaceId } })}
+              onClick={() => navigate(PATHS.spaceCreateNext(), { state: { spaceId } })}
             >
               다음
             </ButtonProvider.Primary>

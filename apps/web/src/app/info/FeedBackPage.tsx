@@ -6,10 +6,10 @@ import { TextArea } from "@/component/common/input";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { WSatisfactionTemplate } from "@/component/write/template/write";
-import { PATHS } from "@/config/paths";
 import { useInput } from "@/hooks/useInput";
 import { useToast } from "@/hooks/useToast";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { PATHS } from "@layer/shared";
 
 export function FeedbackPage() {
   const navigate = useNavigate();

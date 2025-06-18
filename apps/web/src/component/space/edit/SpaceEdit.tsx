@@ -14,6 +14,7 @@ import { useApiEditSpace } from "@/hooks/api/space/edit/useApiEditSpace";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { useInput } from "@/hooks/useInput";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { PATHS } from "@layer/shared";
 
 export function SpaceEdit() {
   const { id } = useParams() as { id: string };
@@ -74,7 +75,7 @@ export function SpaceEdit() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => navigate(`/space/${id}`)}
+          onClick={() => navigate(PATHS.spaceDetail(id))}
         />
       }
     >

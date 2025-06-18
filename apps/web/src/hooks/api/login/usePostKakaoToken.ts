@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 import { KakaoLoginResponse } from "@/types/loginType";
+import { PATHS } from "@layer/shared";
 
 const getKakaoLoginResponse = async (code: string): Promise<KakaoLoginResponse> => {
   const KAKAO_JAVASCRIPT_KEY = import.meta.env.VITE_KAKAO_KEY as string;
@@ -35,7 +36,7 @@ export const usePostKakaoToken = () => {
     },
     onError: (error) => {
       console.log("Sign in failed:", error);
-      navigate("/login");
+      navigate(PATHS.login());
     },
   });
 };
