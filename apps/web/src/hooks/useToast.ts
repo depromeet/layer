@@ -15,9 +15,14 @@ export const useToast = () => {
 
   const emitToast = useCallback(
     (toast: Omit<ToastType, "id">) => {
-      setToastDataState((prev) => [...prev, { ...toast, id: getRandomID() }]);
+      // 중복 메시지 체크
+      const isDuplicate = toastDataState.some((existingToast) => existingToast.content === toast.content && existingToast.type === toast.type);
+
+      if (!isDuplicate) {
+        setToastDataState((prev) => [...prev, { ...toast, id: getRandomID() }]);
+      }
     },
-    [setToastDataState],
+    [setToastDataState, toastDataState],
   );
 
   const toast = {
