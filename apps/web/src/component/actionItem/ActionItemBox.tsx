@@ -10,7 +10,7 @@ import { TextArea } from "@/component/common/input";
 import { SelectBox } from "@/component/common/SelectBox";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths.ts";
+import { PATHS } from "@layer/shared";
 import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem.ts";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 import { useInput } from "@/hooks/useInput.ts";

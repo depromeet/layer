@@ -11,6 +11,7 @@ import { Purpose } from "@/component/retrospect/template/recommend/Purpose";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { recommendTemplateState } from "@/store/retrospect/template/recommend/recommendAtom";
 import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
+import { PATHS } from "@layer/shared";
 
 type CreateSpaceProps = {
   onSubmit: (spaceValue: RecommendTemplateType & { spaceId: string }) => void;
@@ -72,7 +73,7 @@ export function RecommendTemplate({ onSubmit }: CreateSpaceProps) {
             ...prevValues,
             step: prevValues.step - 1,
           }))
-        : navigate(`/space/${spaceId}`);
+        : navigate(PATHS.spaceDetail(spaceId));
     }
   }, [navigate, setTemplateValue, spaceId, templateValue]);
 

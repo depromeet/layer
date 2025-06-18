@@ -8,7 +8,7 @@ import { Card } from "@/component/common/Card";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
 import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture.tsx";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 
 type DefaultTemplateListItemProps = {
   id: number;

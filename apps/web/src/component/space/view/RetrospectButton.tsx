@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { NavigateOptions, useNavigate } from "react-router-dom";
 
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type RetrospectButtonProps = {

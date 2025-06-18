@@ -11,6 +11,7 @@ import { useState } from "react";
 import { TemplateCard } from "@/component/retrospect/template/card/TemplateCard";
 
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "@layer/shared";
 
 type CardCarouselProp = {
   spaceId: string;
@@ -51,7 +52,7 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
           swiper.autoplay.stop();
           setIsAnimating(true);
           setTimeout(() => {
-            navigate("/retrospect/recommend/done", { state: { templateId, spaceId } });
+            navigate(PATHS.retrospectRecommendDone(), { state: { templateId, spaceId } });
           }, 2200);
         }
       }}

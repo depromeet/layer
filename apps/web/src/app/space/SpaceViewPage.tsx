@@ -150,7 +150,7 @@ export function SpaceViewPage() {
         <ActionItemListView
           restrospectArr={restrospectArr ? restrospectArr : []}
           isPossibleMake={doneRetrospects.length === 0}
-          spaceId={spaceInfo?.id}
+          spaceId={spaceInfo?.id as string}
           teamActionList={teamActionList?.teamActionItemList || []}
           leaderId={spaceInfo?.leader.id}
         />

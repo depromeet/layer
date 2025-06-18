@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths.ts";
+import { PATHS } from "@layer/shared";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 import { ANIMATION } from "@/style/common/animation.ts";
 

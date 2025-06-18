@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function NavigationBar() {
@@ -20,7 +20,7 @@ export function NavigationBar() {
           max-width: 48rem;
           max-height: var(--nav-bar-height);
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
-          border-top: 0.1rem solid rgba(6, 8, 12, 0.04);
+          border-top: 0.1rem solid rgba(18, 21, 27, 0.04);
           position: fixed;
           bottom: 0;
           left: 50%;

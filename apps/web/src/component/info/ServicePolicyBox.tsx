@@ -5,7 +5,7 @@ import { InfoBox } from "./InfoBox";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 
 export function ServicePolicyBox() {
   const navigate = useNavigate();

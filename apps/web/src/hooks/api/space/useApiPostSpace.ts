@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useResetAtom } from "jotai/utils";
 import { useNavigate } from "react-router-dom";
-
+import { PATHS } from "@layer/shared";
 import { api } from "@/api";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { spaceState } from "@/store/space/spaceAtom";
@@ -34,7 +34,7 @@ export const useApiPostSpace = () => {
         name: variables.name,
       });
 
-      navigate(`/space/create/done`, { state: { spaceId } });
+      navigate(PATHS.spaceCreateDone(), { state: { spaceId } });
       resetSpaceValue();
     },
     onError: (error) => {

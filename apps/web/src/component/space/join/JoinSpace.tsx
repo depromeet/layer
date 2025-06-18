@@ -9,7 +9,7 @@ import { Header } from "@/component/common/header";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { SocialLoginArea } from "@/component/login";
 import { JoinLetter } from "@/component/space/join/JoinLetter.tsx";
-import { PATHS } from "@/config/paths.ts";
+import { PATHS } from "@layer/shared";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace";
 import { useModal } from "@/hooks/useModal.ts";

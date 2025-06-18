@@ -19,11 +19,12 @@ import { useToast } from "@/hooks/useToast";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ActionItemType } from "@/types/actionItem";
 import { Retrospect } from "@/types/retrospect";
+import { PATHS } from "@layer/shared";
 
 type ActionItemListViewProps = {
   isPossibleMake: boolean;
   teamActionList: ActionItemType[];
-  spaceId: number | undefined;
+  spaceId: string | undefined;
   leaderId: number | undefined;
   restrospectArr: Retrospect[] | [];
 };
@@ -66,7 +67,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
 
   const handleMoreActionItem = () => {
     if (spaceId && leaderId) {
-      navigate("/goals/more", { state: { spaceId, leaderId } });
+      navigate(PATHS.goalsMore(), { state: { spaceId, leaderId } });
     }
   };
 

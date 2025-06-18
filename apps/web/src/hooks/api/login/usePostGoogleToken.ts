@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 import { GoogleLoginResponse } from "@/types/loginType";
+import { PATHS } from "@layer/shared";
 
 const getGoogleLoginResponse = async (code: string): Promise<GoogleLoginResponse> => {
   const CLIENT_ID = import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID as string;
@@ -36,7 +37,7 @@ export const usePostGoogleToken = () => {
     },
     onError: (error) => {
       console.log("Sign in failed:", error);
-      navigate("/login");
+      navigate(PATHS.login());
     },
   });
 };

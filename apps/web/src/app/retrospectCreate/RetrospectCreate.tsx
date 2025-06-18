@@ -10,7 +10,7 @@ import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
 import { DueDate, MainInfo, CustomTemplate, Start } from "@/component/retrospectCreate";
 import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
 import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTemplateId";
 import { useModal } from "@/hooks/useModal";

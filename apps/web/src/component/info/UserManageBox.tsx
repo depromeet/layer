@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { InfoBox } from "./InfoBox";
 
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 import { useDeleteUser } from "@/hooks/api/user/useDeleteUser";
 import { useModal } from "@/hooks/useModal";
