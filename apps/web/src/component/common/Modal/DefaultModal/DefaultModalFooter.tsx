@@ -6,7 +6,7 @@ interface DefaultModalFooterProps {
   leftText?: string;
   rightText?: string;
   leftFunction?: () => void;
-  rightFunction: () => void;
+  rightFunction?: () => void;
 }
 
 export default function DefaultModalFooter({

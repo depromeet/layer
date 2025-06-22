@@ -12,11 +12,13 @@ export const useModal = () => {
   }, [modalDataState, setModalDataState]);
 
   const open = useCallback(
-    ({ contents, title, onConfirm, onClose, overrideActionElements, options }: Omit<ModalType, "isOpen">) => {
+    ({ contents, title, variant, contentsElement, onConfirm, onClose, overrideActionElements, options }: Omit<ModalType, "isOpen">) => {
       setModalDataState({
         isOpen: true,
         title,
+        variant,
         contents,
+        contentsElement,
         onConfirm,
         onClose,
         overrideActionElements,

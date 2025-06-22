@@ -1,23 +1,21 @@
 import { css } from "@emotion/react";
-
-import { Portal } from "@/component/common/Portal";
-
 import { useNavigate } from "react-router-dom";
 
 import DefaultModalFooter from "./DefaultModalFooter";
 import DefaultModalHeader from "./DefaultModalHeader";
 
+import { Portal } from "@/component/common/Portal";
+import { useModal } from "@/hooks/useModal";
 import { ANIMATION } from "@/style/common/animation";
 
-type DefaultModalProps = {
-  title: string;
-  onClose: () => void;
-  onConfirm: () => void;
-  children: React.ReactNode;
-};
-
-export default function DefaultModal({ title, onClose, onConfirm, children }: DefaultModalProps) {
+export default function DefaultModal() {
   const navigate = useNavigate();
+
+  const { modalDataState, close } = useModal();
+
+  const { title, contentsElement, onConfirm } = modalDataState;
+
+  if (!modalDataState.isOpen) return null;
 
   return (
     <Portal id="modal-root">
@@ -50,7 +48,7 @@ export default function DefaultModal({ title, onClose, onConfirm, children }: De
             transition: 0.4s all;
           `}
         >
-          <DefaultModalHeader title={title} onBack={() => navigate(-1)} onClose={onClose} />
+          <DefaultModalHeader title={title} onBack={() => navigate(-1)} onClose={close} />
           <div
             css={css`
               flex: 1;
@@ -58,7 +56,7 @@ export default function DefaultModal({ title, onClose, onConfirm, children }: De
               padding: 2rem 0;
             `}
           >
-            {children}
+            {contentsElement}
           </div>
           <DefaultModalFooter rightFunction={onConfirm} />
         </div>

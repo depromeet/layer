@@ -8,6 +8,7 @@ import { Modal } from "@/component/common/Modal";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.tsx";
 import ChannelService from "@/lib/channel-talk/service";
 import { useBridge } from "@/lib/provider/bridge-provider";
+import { ModalManager } from "@/component/common/ModalManager/ModalManager";
 
 const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
 const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
@@ -47,7 +48,7 @@ export default function GlobalLayout() {
         ${safeAreaHeight && { height: `calc(100dvh-${safeAreaHeight * 2}px)` }}
       `}
     >
-      <Modal />
+      <ModalManager />
       <PreventExternalBrowser>
         <Outlet />
       </PreventExternalBrowser>
