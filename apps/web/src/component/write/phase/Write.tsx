@@ -3,7 +3,7 @@ import { ChangeEvent, Fragment, useContext, useEffect, useRef, useState } from "
 import { Beforeunload } from "react-beforeunload";
 import { useNavigate } from "react-router-dom";
 
-import { AdvanceQuestionsNum, PhaseContext } from "@/app/write/RetrospectWritePage.tsx";
+import { AdvanceQuestionsNum, PhaseContext } from "@/app/mobile/write/RetrospectWritePage";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";

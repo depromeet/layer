@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { TemplateListPageContext } from "@/app/retrospect/template/list/TemplateListPage";
+import { TemplateListPageContext } from "@/app/mobile/retrospect/template/list/TemplateListPage";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";

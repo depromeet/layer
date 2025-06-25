@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import { createContext, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { CustomTemplateContext, RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
+import { CustomTemplateContext, RetrospectCreateContext } from "@/app/mobile/retrospectCreate/RetrospectCreate";
 import { FullModal } from "@/component/common/Modal/FullModal";
 import { ConfirmEditTemplate, EditQuestions, ConfirmDefaultTemplate } from "@/component/retrospectCreate";
 import { useGetCustomTemplate } from "@/hooks/api/template/useGetCustomTemplate";

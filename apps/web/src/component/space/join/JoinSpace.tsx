@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { Fragment, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/space/space.const.ts";
+import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/mobile/space/space.const";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";

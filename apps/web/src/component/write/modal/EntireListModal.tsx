@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useContext, useRef } from "react";
 
-import { AdvanceQuestionsNum, PhaseContext } from "@/app/write/RetrospectWritePage.tsx";
+import { AdvanceQuestionsNum, PhaseContext } from "@/app/mobile/write/RetrospectWritePage";
 import { Icon } from "@/component/common/Icon";
 import { QuestionStatus } from "@/component/write/modal/component";
 import { Answer } from "@/component/write/phase/Write.tsx";

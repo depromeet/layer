@@ -1,4 +1,4 @@
-import { RecommendTemplateResponse } from "@/app/retrospect/template/recommend/RecommendTemplatePage";
+import { RecommendTemplateResponse } from "@/app/mobile/retrospect/template/recommend/RecommendTemplatePage";
 import { RetrospectCreateReq } from "@/types/retrospectCreate";
 import { SpaceValue } from "@/types/space";
 

@@ -3,7 +3,7 @@ import { useContext, useMemo } from "react";
 
 import { CustomTemplateListItem } from "./CustomTemplateListItem";
 
-import { TemplateListPageContext } from "@/app/retrospect/template/list/TemplateListPage";
+import { TemplateListPageContext } from "@/app/mobile/retrospect/template/list/TemplateListPage";
 import { EmptyList } from "@/component/common/empty";
 import { SkeletonCard } from "@/component/common/skeleton/SkeletonCard";
 import { useGetCustomTemplateList } from "@/hooks/api/template/useGetCustomTemplateList";
