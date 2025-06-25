@@ -14,6 +14,7 @@ import { useTabs } from "@/hooks/useTabs";
 import { useToast } from "@/hooks/useToast";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { PATHS } from "@layer/shared";
 
 export const TemplateListPageContext = createContext<{ readOnly: boolean; spaceId: string; isLeader: boolean }>({
   readOnly: false,
@@ -70,7 +71,7 @@ export function TemplateListPage() {
   useEffect(() => {
     if (Object.is(parseInt(spaceId), NaN)) {
       toast.error("스페이스를 찾지 못했어요");
-      navigate("/");
+      navigate(PATHS.home());
       return;
     }
   }, [spaceId]);

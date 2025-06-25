@@ -38,7 +38,7 @@ export function RetrospectCreateComplete() {
         </ButtonProvider.Gray>
         <ButtonProvider.Primary
           onClick={() => {
-            navigate("/write", {
+            navigate(PATHS.write(), {
               state: { spaceId, retrospectId, title, introduction },
             });
           }}

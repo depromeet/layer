@@ -3,7 +3,7 @@ import { useResetAtom } from "jotai/utils";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { RetrospectCreateReq } from "@/types/retrospectCreate";

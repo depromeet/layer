@@ -1,6 +1,6 @@
 import { Fragment, useContext } from "react";
 
-import { PhaseContext } from "@/app/write/RetrospectWritePage.tsx";
+import { PhaseContext } from "@/app/mobile/write/RetrospectWritePage";
 import { Answer } from "@/component/write/phase/Write";
 import { CAchievementTemplate, CDescriptiveTemplate, CSatisfactionTemplate } from "@/component/write/template/complete";
 

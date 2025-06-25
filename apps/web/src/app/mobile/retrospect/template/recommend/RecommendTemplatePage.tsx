@@ -8,6 +8,7 @@ import { RecommendTemplate } from "@/component/retrospect/template/recommend/Rec
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { recommendTemplateState } from "@/store/retrospect/template/recommend/recommendAtom";
 import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
+import { PATHS } from "@layer/shared";
 
 export type RecommendTemplateResponse = {
   formId: number;
@@ -38,7 +39,7 @@ export function RecommendTemplatePage() {
         formName: data.formName,
         tag: data.tag,
       });
-      navigate("/retrospect/recommend/search", { state: { templateId: data.formId, spaceId: recommendValue.spaceId } });
+      navigate(PATHS.retrospectRecommendSearch(), { state: { templateId: data.formId, spaceId: recommendValue.spaceId } });
       resetTemplateValue();
       setIsLoading(false);
     } catch (error) {

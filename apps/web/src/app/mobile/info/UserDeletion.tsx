@@ -6,7 +6,7 @@ import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 

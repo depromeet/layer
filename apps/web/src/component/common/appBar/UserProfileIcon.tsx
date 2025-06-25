@@ -3,7 +3,7 @@ import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
-import { PATHS } from "@/config/paths.ts";
+import { PATHS } from "@layer/shared";
 import { authAtom } from "@/store/auth/authAtom.tsx";
 
 export function UserProfileIcon() {

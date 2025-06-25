@@ -9,6 +9,7 @@ import { useTestNatigate } from "@/lib/test-natigate";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Space } from "@/types/spaceType";
+import { PATHS } from "@layer/shared";
 
 type SpaceOverviewProps = {
   space: Space;
@@ -21,7 +22,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
       <div
         ref={ref}
         onClick={() => {
-          navigate(`/space/${id}`);
+          navigate(PATHS.spaceDetail(id));
         }}
         key={id}
         css={css`
