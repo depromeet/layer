@@ -1,11 +1,8 @@
 export type ModalVariant = "small" | "default";
 
-export type ModalType = {
+type BaseModalType = {
   isOpen: boolean;
-  variant?: ModalVariant;
   title: string;
-  contents: string;
-  contentsElement?: JSX.Element;
   onClose?: () => void;
   onConfirm?: () => void;
   overrideActionElements?: JSX.Element;
@@ -15,3 +12,11 @@ export type ModalType = {
     autoClose?: boolean;
   };
 };
+
+export interface ModalType extends BaseModalType {
+  contents: string;
+}
+
+export interface DefaultModalType extends BaseModalType {
+  contentsElement: JSX.Element | undefined;
+}

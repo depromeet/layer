@@ -1,22 +1,22 @@
 import { useAtom } from "jotai";
 import { useCallback } from "react";
 
-import { modalState } from "@/store/modal/modalAtom";
-import { ModalType } from "@/types/modal";
+import { defaultModalState } from "@/store/modal/modalAtom";
+import { DefaultModalType } from "@/types/modal";
 
-export const useModal = () => {
-  const [modalDataState, setModalDataState] = useAtom(modalState);
+export const useDefaultModal = () => {
+  const [modalDataState, setModalDataState] = useAtom(defaultModalState);
 
   const close = useCallback(() => {
     setModalDataState({ ...modalDataState, isOpen: false });
   }, [modalDataState, setModalDataState]);
 
   const open = useCallback(
-    ({ contents, title, onConfirm, onClose, overrideActionElements, options }: Omit<ModalType, "isOpen">) => {
+    ({ title, contentsElement, onConfirm, onClose, overrideActionElements, options }: Omit<DefaultModalType, "isOpen">) => {
       setModalDataState({
         isOpen: true,
         title,
-        contents,
+        contentsElement,
         onConfirm,
         onClose,
         overrideActionElements,

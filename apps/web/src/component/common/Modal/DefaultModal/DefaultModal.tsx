@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
 
 import DefaultModalFooter from "./DefaultModalFooter";
 import DefaultModalHeader from "./DefaultModalHeader";
@@ -9,8 +8,6 @@ import { useModal } from "@/hooks/useModal";
 import { ANIMATION } from "@/style/common/animation";
 
 export default function DefaultModal() {
-  const navigate = useNavigate();
-
   const { modalDataState, close } = useModal();
 
   const { title, contentsElement, onConfirm } = modalDataState;
@@ -48,7 +45,7 @@ export default function DefaultModal() {
             transition: 0.4s all;
           `}
         >
-          <DefaultModalHeader title={title} onBack={() => navigate(-1)} onClose={close} />
+          <DefaultModalHeader title={title} onBack={close} onClose={close} />
           <div
             css={css`
               flex: 1;

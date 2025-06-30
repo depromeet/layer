@@ -334,11 +334,6 @@ const deviceSpecificRoutes: RouteChildren[] = [
     deviceType: "mobile",
   },
   {
-    path: "/test2",
-    element: <Test2 />,
-    auth: false,
-  },
-  {
     path: "*",
     element: <Error />,
     auth: false,

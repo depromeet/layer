@@ -1,12 +1,24 @@
 import { atom } from "jotai";
 
-import { ModalType } from "@/types/modal";
+import { DefaultModalType, ModalType } from "@/types/modal";
 
 export const modalState = atom<ModalType>({
   isOpen: false,
-  variant: "small",
   title: "",
   contents: "",
+  onClose: () => {},
+  onConfirm: () => {},
+  overrideActionElements: undefined,
+  options: {
+    type: "confirm",
+    buttonText: [],
+    autoClose: true,
+  },
+});
+
+export const defaultModalState = atom<DefaultModalType>({
+  isOpen: false,
+  title: "",
   contentsElement: undefined,
   onClose: () => {},
   onConfirm: () => {},
