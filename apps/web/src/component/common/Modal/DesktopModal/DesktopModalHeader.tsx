@@ -1,16 +1,15 @@
-// src/component/common/modal/DefaultModalHeader.tsx
 import { css } from "@emotion/react";
 
 import { Title } from "@/component/common/header/Title";
 import { Icon } from "@/component/common/Icon";
 
-export type DefaultModalHeaderProps = {
+export type DesktopModalHeaderProps = {
   title: string;
   onBack?: () => void;
   onClose: () => void;
 };
 
-export default function DefaultModalHeader({ title, onBack, onClose }: DefaultModalHeaderProps) {
+export default function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps) {
   return (
     <div
       css={css`

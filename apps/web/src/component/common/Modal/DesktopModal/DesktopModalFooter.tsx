@@ -2,19 +2,19 @@ import { css } from "@emotion/react";
 
 import { Button, ButtonProvider } from "@/component/common/button";
 
-interface DefaultModalFooterProps {
+interface DesktopModalFooterProps {
   leftText?: string;
   rightText?: string;
   leftFunction?: () => void;
   rightFunction?: () => void;
 }
 
-export default function DefaultModalFooter({
+export default function DesktopModalFooter({
   leftText = "취소",
   rightText = "확인",
   leftFunction,
   rightFunction = () => {},
-}: DefaultModalFooterProps) {
+}: DesktopModalFooterProps) {
   return (
     <div
       css={css`

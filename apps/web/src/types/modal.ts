@@ -1,8 +1,9 @@
-export type ModalVariant = "small" | "default";
+import { ReactNode } from "react";
 
-type BaseModalType = {
+export type ModalType = {
   isOpen: boolean;
   title: string;
+  contents: ReactNode;
   onClose?: () => void;
   onConfirm?: () => void;
   overrideActionElements?: JSX.Element;
@@ -12,11 +13,3 @@ type BaseModalType = {
     autoClose?: boolean;
   };
 };
-
-export interface ModalType extends BaseModalType {
-  contents: string;
-}
-
-export interface DefaultModalType extends BaseModalType {
-  contentsElement: JSX.Element | undefined;
-}

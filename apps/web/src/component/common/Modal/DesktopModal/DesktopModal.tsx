@@ -1,16 +1,16 @@
 import { css } from "@emotion/react";
 
-import DefaultModalFooter from "./DefaultModalFooter";
-import DefaultModalHeader from "./DefaultModalHeader";
+import DesktopModalFooter from "./DesktopModalFooter";
+import DesktopModalHeader from "./DesktopModalHeader";
 
 import { Portal } from "@/component/common/Portal";
 import { useModal } from "@/hooks/useModal";
 import { ANIMATION } from "@/style/common/animation";
 
-export default function DefaultModal() {
+export default function DesktopModal() {
   const { modalDataState, close } = useModal();
 
-  const { title, contentsElement, onConfirm } = modalDataState;
+  const { title, contents, onConfirm } = modalDataState;
 
   if (!modalDataState.isOpen) return null;
 
@@ -45,7 +45,7 @@ export default function DefaultModal() {
             transition: 0.4s all;
           `}
         >
-          <DefaultModalHeader title={title} onBack={close} onClose={close} />
+          <DesktopModalHeader title={title} onBack={close} onClose={close} />
           <div
             css={css`
               flex: 1;
@@ -53,9 +53,9 @@ export default function DefaultModal() {
               padding: 2rem 0;
             `}
           >
-            {contentsElement}
+            {contents}
           </div>
-          <DefaultModalFooter rightFunction={onConfirm} />
+          <DesktopModalFooter rightFunction={onConfirm} />
         </div>
       </div>
     </Portal>
