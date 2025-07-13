@@ -44,6 +44,7 @@ import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
 import ChannelService from "@/lib/channel-talk/service";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
+import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
 
 type RouteChildren = {
   auth: boolean;
@@ -90,7 +91,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
   // 홈 관련 라우트 - 데스크탑
   {
     path: "",
-    element: <div>Desktop Home Layout</div>, // TODO: 데스크탑용 홈 레이아웃
+    element: <DesktopHomeLayout />,
     children: [
       {
         path: "",
