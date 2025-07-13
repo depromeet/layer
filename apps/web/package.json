@@ -57,7 +57,7 @@
     "swiper": "^11.1.5",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-radar": "^0.9.6",
-    "vite-plugin-sitemap": "^0.7.1"
+    "vite-plugin-sitemap": "^0.8.2"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.24.7",
