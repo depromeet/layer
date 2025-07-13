@@ -1,10 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import Sitemap from "vite-plugin-sitemap";
 import svgr from "vite-plugin-svgr";
 import path from "path";
 import dotenv from "dotenv";
-import fs from "fs";
 import { VitePluginRadar } from "vite-plugin-radar";
 
 dotenv.config();
@@ -19,15 +17,6 @@ export default defineConfig({
       },
     }),
     svgr(),
-    {
-      name: "ensure-dist-folder",
-      buildStart() {
-        if (!fs.existsSync("dist")) {
-          fs.mkdirSync("dist", { recursive: true });
-        }
-      },
-    },
-    Sitemap({ hostname: "https://layerapp.io" }),
     VitePluginRadar({
       analytics: {
         id: process.env.VITE_GOOGLE_ANALYTICS,
