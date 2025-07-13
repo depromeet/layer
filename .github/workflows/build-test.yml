@@ -35,5 +35,4 @@ jobs:
 
       - name: Build
         run: |
-          mkdir -p apps/web/dist
           pnpm build
