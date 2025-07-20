@@ -1,9 +1,9 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
 
-import LocalNavigationBarFooter from "./LocalNavigationBarFooter";
-import LocalNavigationBarHeader from "./LocalNavigationBarHeader";
-import LocalNavigationBarNav from "./localNavigationBarNav/LocalNavigationBarNav";
+import Footer from "./Footer";
+import Header from "./Header";
+import Navigation from "./Navigation/Navigation";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
@@ -31,11 +31,11 @@ export default function LocalNavigationBar() {
         border-radius: 1.2rem;
       `}
     >
-      <LocalNavigationBarHeader />
+      <Header />
 
-      <LocalNavigationBarNav currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
+      <Navigation currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
 
-      <LocalNavigationBarFooter />
+      <Footer />
     </aside>
   );
 }

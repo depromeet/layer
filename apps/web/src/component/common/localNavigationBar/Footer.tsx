@@ -5,7 +5,7 @@ import { Typography } from "../typography";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function LocalNavigationBarFooter() {
+export default function Footer() {
   return (
     <footer
       css={css`
@@ -23,6 +23,7 @@ export default function LocalNavigationBarFooter() {
           height: 3.6rem;
           gap: 1.2rem;
           padding: 0rem 0.4rem;
+          cursor: pointer;
         `}
       >
         <Icon icon="basicProfile" size={2.4} />
@@ -46,6 +47,7 @@ export default function LocalNavigationBarFooter() {
           height: 3.6rem;
           gap: 0.6rem;
           padding: 0rem 1.6rem;
+          cursor: pointer;
         `}
       >
         <Icon icon="ic_help" size={1.8} />

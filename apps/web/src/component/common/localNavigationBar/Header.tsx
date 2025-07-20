@@ -4,7 +4,7 @@ import { Icon } from "../Icon";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function LocalNavigationBarHeader() {
+export default function Header() {
   return (
     <header
       css={css`
