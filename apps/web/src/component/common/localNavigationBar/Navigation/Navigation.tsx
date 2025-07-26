@@ -16,7 +16,7 @@ export default function Navigation({ currentTab, handleCurrentTabClick }: Naviga
       css={css`
         flex: 1;
         overflow-y: auto;
-        padding: 1rem;
+        padding: 1.2rem;
       `}
     >
       {/* ---------- 홈 ---------- */}
@@ -25,7 +25,7 @@ export default function Navigation({ currentTab, handleCurrentTabClick }: Naviga
       {/* ---------- 내 스페이스 ---------- */}
       <section
         css={css`
-          margin-top: 1.6rem;
+          margin-top: 0.8rem;
         `}
       >
         <HeaderSpaceAddButton />
@@ -33,7 +33,7 @@ export default function Navigation({ currentTab, handleCurrentTabClick }: Naviga
         {/* ---------- 탭 (전체 / 개인 / 팀) ---------- */}
         <SpaceTabs currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
 
-        {/* ---------- 스페이스 리스트 (플레이스홀더) ---------- */}
+        {/* ---------- 스페이스 리스트 ---------- */}
         <SpacesList />
       </section>
     </nav>

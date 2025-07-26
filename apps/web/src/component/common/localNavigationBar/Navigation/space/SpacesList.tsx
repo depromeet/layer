@@ -10,6 +10,9 @@ export default function SpacesList() {
         margin-top: 1rem;
         padding: 0;
         list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
       `}
     >
       {/* Mock data */}

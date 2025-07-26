@@ -15,7 +15,8 @@ export default function Footer() {
         align-items: center;
       `}
     >
-      <div
+      {/* ---------- 프로필 이미지/이름 ---------- */}
+      <button
         css={css`
           display: flex;
           align-items: center;
@@ -24,13 +25,28 @@ export default function Footer() {
           gap: 1.2rem;
           padding: 0rem 0.4rem;
           cursor: pointer;
+          border: none;
+          background: transparent;
+
+          &:focus {
+            border-radius: 0.8rem;
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+          }
+
+          &:hover {
+            border-radius: 0.8rem;
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+            transition: background-color 0.2s ease-in-out;
+          }
         `}
       >
         <Icon icon="basicProfile" size={2.4} />
         <Typography variant="body12Medium" color="gray700">
           {"홍길동"}
         </Typography>
-      </div>
+      </button>
+
+      {/* ---------- 구분선 ---------- */}
       <div
         css={css`
           width: 0.1rem;
@@ -39,7 +55,9 @@ export default function Footer() {
           margin: 0 0.8rem;
         `}
       />
-      <div
+
+      {/* ---------- 헬프 센터 버튼 ---------- */}
+      <button
         css={css`
           display: flex;
           justify-content: center;
@@ -48,13 +66,26 @@ export default function Footer() {
           gap: 0.6rem;
           padding: 0rem 1.6rem;
           cursor: pointer;
+          border: none;
+          background: transparent;
+
+          &:focus {
+            border-radius: 0.8rem;
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+          }
+
+          &:hover {
+            border-radius: 0.8rem;
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+            transition: background-color 0.2s ease-in-out;
+          }
         `}
       >
         <Icon icon="ic_help" size={1.8} />
         <Typography variant="body12Medium" color="gray700">
           헬프 센터
         </Typography>
-      </div>
+      </button>
     </footer>
   );
 }

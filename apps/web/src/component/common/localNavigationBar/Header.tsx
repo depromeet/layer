@@ -11,12 +11,31 @@ export default function Header() {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 2.2rem 1.6rem 1.8rem 2rem;
+        padding: 2.2rem 1.2rem 1.8rem 2rem;
         border-bottom: 1px solid ${DESIGN_TOKEN_COLOR.gray100};
       `}
     >
       <Icon icon="ic_logo" size={6.36} style={{ cursor: "pointer" }} />
-      <Icon icon="ic_arrow_back" size={1.35} style={{ cursor: "pointer" }} />
+
+      <div
+        css={css`
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 3.2rem;
+          height: 3.2rem;
+          padding: 0.7rem;
+          cursor: pointer;
+          transition: background-color 0.2s ease-in-out;
+          border-radius: 0.8rem;
+
+          &:hover {
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+          }
+        `}
+      >
+        <Icon icon="ic_arrow_back" size={1.6} />
+      </div>
     </header>
   );
 }

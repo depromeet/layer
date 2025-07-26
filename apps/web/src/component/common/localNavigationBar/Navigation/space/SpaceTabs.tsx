@@ -16,7 +16,7 @@ export default function SpaceTabs({ currentTab, handleCurrentTabClick }: SpaceTa
       css={css`
         display: flex;
         height: 4.4rem;
-        margin: 0.4rem 0.4rem 0 0.4rem;
+        margin: 0.4rem 0.8rem 0 0.8rem;
         gap: 1.2rem;
       `}
     >

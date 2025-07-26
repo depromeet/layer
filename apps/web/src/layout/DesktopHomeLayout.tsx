@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import { Outlet } from "react-router-dom";
 
 import { LocalNavigationBar } from "@/component/common/localNavigationBar";
@@ -6,7 +7,13 @@ export default function DesktopHomeLayout() {
   return (
     <main>
       <LocalNavigationBar />
-      <Outlet />
+      <section
+        css={css`
+          margin-left: calc(26rem + 2.4rem);
+        `}
+      >
+        <Outlet />
+      </section>
     </main>
   );
 }
