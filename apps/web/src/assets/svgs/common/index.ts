@@ -46,3 +46,4 @@ export { default as ic_twoMan_blue } from "./ic_twoMan_blue.svg?react";
 export { default as ic_minus } from "./ic_minus.svg?react";
 export { default as ic_letter } from "./ic_letter.svg?react";
 export { default as ic_help } from "./ic_help.svg?react";
+export { default as ic_unfold_right } from "./ic_unfold_right.svg?react";
