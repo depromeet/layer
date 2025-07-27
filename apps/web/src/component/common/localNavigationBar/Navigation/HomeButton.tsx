@@ -10,9 +10,6 @@ export default function HomeButton() {
     <button
       css={css`
         width: 100%;
-        list-style: none;
-        margin: 0;
-        padding: 0;
       `}
     >
       <div
@@ -20,13 +17,14 @@ export default function HomeButton() {
           display: flex;
           align-items: center;
           gap: 1.6rem;
-          padding: 0.8rem;
+          height: 3.9rem;
+          padding: 0.4rem 0.8rem;
           background-color: "transparent";
           border-radius: 0.8rem;
+          transition: background-color 0.2s ease-in-out;
           cursor: pointer;
 
           &:hover {
-            transition: background-color 0.2s ease-in-out;
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
           }
         `}

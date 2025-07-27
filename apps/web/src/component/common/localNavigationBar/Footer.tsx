@@ -24,9 +24,10 @@ export default function Footer() {
           height: 3.6rem;
           gap: 1.2rem;
           padding: 0rem 0.4rem;
-          cursor: pointer;
           border: none;
           background: transparent;
+          transition: background-color 0.2s ease-in-out;
+          cursor: pointer;
 
           &:focus {
             border-radius: 0.8rem;
@@ -36,7 +37,6 @@ export default function Footer() {
           &:hover {
             border-radius: 0.8rem;
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
-            transition: background-color 0.2s ease-in-out;
           }
         `}
       >
@@ -65,9 +65,10 @@ export default function Footer() {
           height: 3.6rem;
           gap: 0.6rem;
           padding: 0rem 1.6rem;
-          cursor: pointer;
           border: none;
           background: transparent;
+          transition: background-color 0.2s ease-in-out;
+          cursor: pointer;
 
           &:focus {
             border-radius: 0.8rem;
@@ -77,7 +78,6 @@ export default function Footer() {
           &:hover {
             border-radius: 0.8rem;
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
-            transition: background-color 0.2s ease-in-out;
           }
         `}
       >

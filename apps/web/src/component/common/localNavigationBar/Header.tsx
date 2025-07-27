@@ -25,9 +25,9 @@ export default function Header() {
           width: 3.2rem;
           height: 3.2rem;
           padding: 0.7rem;
-          cursor: pointer;
           transition: background-color 0.2s ease-in-out;
           border-radius: 0.8rem;
+          cursor: pointer;
 
           &:hover {
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
