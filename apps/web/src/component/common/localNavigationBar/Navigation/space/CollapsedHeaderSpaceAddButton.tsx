@@ -1,24 +1,19 @@
 import { css } from "@emotion/react";
 
 import { Icon } from "@/component/common/Icon";
-import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function HeaderSpaceAddButton() {
+export default function CollapsedHeaderSpaceAddButton() {
   return (
     <div
       css={css`
         width: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         padding-bottom: 0.4rem;
-        padding-left: 0.8rem;
       `}
     >
-      <Typography variant="subtitle16SemiBold" color="gray900">
-        내 스페이스
-      </Typography>
       <div
         css={css`
           display: flex;

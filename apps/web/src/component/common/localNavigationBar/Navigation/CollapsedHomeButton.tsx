@@ -1,11 +1,10 @@
 import { css } from "@emotion/react";
 
 import { Icon } from "../../Icon";
-import { Typography } from "../../typography";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function HomeButton() {
+export default function CollapsedHomeButton() {
   return (
     <button
       css={css`
@@ -19,12 +18,12 @@ export default function HomeButton() {
       <div
         css={css`
           display: flex;
-          justify-content: flex-start;
+          justify-content: center;
           align-items: center;
-          width: 100%;
-          height: 3.9rem;
+          width: 3.2rem;
+          height: 3.2rem;
           gap: 1.6rem;
-          padding: 0.4rem 0.8rem;
+          padding: 0.4rem;
           background-color: "transparent";
           border-radius: 0.8rem;
           transition: background-color 0.2s ease-in-out;
@@ -36,10 +35,6 @@ export default function HomeButton() {
         `}
       >
         <Icon icon="ic_home" size={1.4} />
-
-        <Typography variant="subtitle16SemiBold" color="gray900">
-          홈
-        </Typography>
       </div>
       <hr
         css={css`
@@ -49,7 +44,7 @@ export default function HomeButton() {
           height: 1px;
           padding-left: 1.2rem;
           padding-right: 1.2rem;
-          margin: 0.8rem 0.4rem;
+          margin: 1.2rem 0.4rem;
         `}
       />
     </button>

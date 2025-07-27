@@ -1,30 +1,29 @@
 import { css } from "@emotion/react";
 
 import { Icon } from "../Icon";
-import { Typography } from "../typography";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function Footer() {
+export default function CollapsedFooter() {
   return (
     <footer
       css={css`
         border-top: 1px solid ${DESIGN_TOKEN_COLOR.gray100};
-        padding: 0.6rem 2rem;
+        padding: 0.4rem 2rem 1.2rem 2rem;
         display: flex;
-        flex-direction: row;
+        flex-direction: column-reverse;
         align-items: center;
         gap: 0.8rem;
       `}
     >
-      {/* ---------- 프로필 이미지/이름 ---------- */}
+      {/* ---------- 프로필 이미지 ---------- */}
       <button
         css={css`
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 100%;
-          height: 3.6rem;
+          width: auto;
+          height: 3.2rem;
           gap: 1.2rem;
           padding: 0rem 0.4rem;
           border: none;
@@ -43,21 +42,7 @@ export default function Footer() {
         `}
       >
         <Icon icon="basicProfile" size={2.4} />
-
-        <Typography variant="body12Medium" color="gray700">
-          {"홍길동"}
-        </Typography>
       </button>
-
-      {/* ---------- 구분선 ---------- */}
-      <div
-        css={css`
-          width: 0.1rem;
-          height: 1.8rem;
-          background-color: ${DESIGN_TOKEN_COLOR.gray200};
-          margin: 0 0.8rem;
-        `}
-      />
 
       {/* ---------- 헬프 센터 버튼 ---------- */}
       <button
@@ -65,8 +50,8 @@ export default function Footer() {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 100%;
-          height: 3.6rem;
+          width: 3.2rem;
+          height: 3.2rem;
           gap: 0.6rem;
           padding: 0rem 0.4rem;
           border: none;
@@ -85,10 +70,6 @@ export default function Footer() {
         `}
       >
         <Icon icon="ic_help" size={1.8} />
-
-        <Typography variant="body12Medium" color="gray700">
-          헬프 센터
-        </Typography>
       </button>
     </footer>
   );
