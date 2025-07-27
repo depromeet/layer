@@ -5,7 +5,11 @@ import { Typography } from "../../typography";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function HomeButton() {
+interface HomeButtonProps {
+  isCollapsed: boolean;
+}
+
+export default function HomeButton({ isCollapsed }: HomeButtonProps) {
   return (
     <button
       css={css`
@@ -15,10 +19,12 @@ export default function HomeButton() {
       <div
         css={css`
           display: flex;
+          justify-content: ${isCollapsed ? "center" : "flex-start"};
           align-items: center;
-          gap: 1.6rem;
+          width: 100%;
           height: 3.9rem;
-          padding: 0.4rem 0.8rem;
+          gap: 1.6rem;
+          padding: ${isCollapsed ? "0.6rem 0.4rem" : "0.4rem 0.8rem"};
           background-color: "transparent";
           border-radius: 0.8rem;
           transition: background-color 0.2s ease-in-out;
@@ -29,10 +35,13 @@ export default function HomeButton() {
           }
         `}
       >
-        <Icon icon="ic_home" size={1.35} style={{ cursor: "pointer" }} />
-        <Typography variant="subtitle16SemiBold" color="gray900">
-          홈
-        </Typography>
+        <Icon icon="ic_home" size={1.4} style={{ cursor: "pointer" }} />
+
+        {!isCollapsed && (
+          <Typography variant="subtitle16SemiBold" color="gray900">
+            홈
+          </Typography>
+        )}
       </div>
       <hr
         css={css`

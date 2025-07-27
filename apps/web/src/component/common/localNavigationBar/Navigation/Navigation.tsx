@@ -6,11 +6,12 @@ import SpacesList from "./space/SpacesList";
 import SpaceTabs from "./space/SpaceTabs";
 
 interface NavigationProps {
+  isCollapsed: boolean;
   currentTab: "전체" | "개인" | "팀";
   handleCurrentTabClick: (tab: "전체" | "개인" | "팀") => void;
 }
 
-export default function Navigation({ currentTab, handleCurrentTabClick }: NavigationProps) {
+export default function Navigation({ isCollapsed, currentTab, handleCurrentTabClick }: NavigationProps) {
   return (
     <nav
       css={css`
@@ -20,7 +21,7 @@ export default function Navigation({ currentTab, handleCurrentTabClick }: Naviga
       `}
     >
       {/* ---------- 홈 ---------- */}
-      <HomeButton />
+      <HomeButton isCollapsed={isCollapsed} />
 
       {/* ---------- 내 스페이스 ---------- */}
       <section

@@ -39,7 +39,7 @@ export default function LocalNavigationBar() {
     >
       <Header isCollapsed={isCollapsed} handleToggleCollapse={handleToggleCollapse} />
 
-      <Navigation currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
+      <Navigation isCollapsed={isCollapsed} currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
 
       <Footer />
     </aside>
