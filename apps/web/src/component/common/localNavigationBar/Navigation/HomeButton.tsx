@@ -14,6 +14,10 @@ export default function HomeButton({ isCollapsed }: HomeButtonProps) {
     <button
       css={css`
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       `}
     >
       <div
@@ -21,10 +25,10 @@ export default function HomeButton({ isCollapsed }: HomeButtonProps) {
           display: flex;
           justify-content: ${isCollapsed ? "center" : "flex-start"};
           align-items: center;
-          width: 100%;
-          height: 3.9rem;
+          width: ${isCollapsed ? "3.2rem" : "100%"};
+          height: ${isCollapsed ? "3.2rem" : "3.9rem"};
           gap: 1.6rem;
-          padding: ${isCollapsed ? "0.6rem 0.4rem" : "0.4rem 0.8rem"};
+          padding: ${isCollapsed ? "0.4rem" : "0.4rem 0.8rem"};
           background-color: "transparent";
           border-radius: 0.8rem;
           transition: background-color 0.2s ease-in-out;
@@ -35,7 +39,7 @@ export default function HomeButton({ isCollapsed }: HomeButtonProps) {
           }
         `}
       >
-        <Icon icon="ic_home" size={1.4} style={{ cursor: "pointer" }} />
+        <Icon icon="ic_home" size={1.4} />
 
         {!isCollapsed && (
           <Typography variant="subtitle16SemiBold" color="gray900">
@@ -46,9 +50,12 @@ export default function HomeButton({ isCollapsed }: HomeButtonProps) {
       <hr
         css={css`
           background-color: ${DESIGN_TOKEN_COLOR.gray200};
+          width: 100%;
           border: none;
           height: 1px;
-          margin: 0.8rem 0.4rem;
+          padding-left: 1.2rem;
+          padding-right: 1.2rem;
+          margin: ${isCollapsed ? "1.2rem 0.4rem" : "0.8rem 0.4rem"};
         `}
       />
     </button>

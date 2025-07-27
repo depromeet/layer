@@ -17,7 +17,7 @@ export default function Navigation({ isCollapsed, currentTab, handleCurrentTabCl
       css={css`
         flex: 1;
         overflow-y: auto;
-        padding: 1.2rem;
+        padding: ${isCollapsed ? "0.6rem" : "1.2rem"};
       `}
     >
       {/* ---------- 홈 ---------- */}
@@ -26,16 +26,16 @@ export default function Navigation({ isCollapsed, currentTab, handleCurrentTabCl
       {/* ---------- 내 스페이스 ---------- */}
       <section
         css={css`
-          margin-top: 0.8rem;
+          margin-top: ${isCollapsed ? 0 : "0.8rem"};
         `}
       >
-        <HeaderSpaceAddButton />
+        <HeaderSpaceAddButton isCollapsed={isCollapsed} />
 
         {/* ---------- 탭 (전체 / 개인 / 팀) ---------- */}
-        <SpaceTabs currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
+        <SpaceTabs isCollapsed={isCollapsed} currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
 
         {/* ---------- 스페이스 리스트 ---------- */}
-        <SpacesList />
+        <SpacesList isCollapsed={isCollapsed} />
       </section>
     </nav>
   );

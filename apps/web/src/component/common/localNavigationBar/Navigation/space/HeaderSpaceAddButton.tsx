@@ -4,20 +4,27 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function HeaderSpaceAddButton() {
+interface HeaderSpaceAddButtonProps {
+  isCollapsed: boolean;
+}
+
+export default function HeaderSpaceAddButton({ isCollapsed }: HeaderSpaceAddButtonProps) {
   return (
     <div
       css={css`
         width: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content: ${isCollapsed ? "center" : "space-between"};
         align-items: center;
-        padding: 0rem 0rem 0.4rem 0.8rem;
+        padding-bottom: 0.4rem;
+        padding-left: ${isCollapsed ? 0 : "0.8rem"};
       `}
     >
-      <Typography variant="subtitle16SemiBold" color="gray900">
-        내 스페이스
-      </Typography>
+      {!isCollapsed && (
+        <Typography variant="subtitle16SemiBold" color="gray900">
+          내 스페이스
+        </Typography>
+      )}
       <div
         css={css`
           display: flex;

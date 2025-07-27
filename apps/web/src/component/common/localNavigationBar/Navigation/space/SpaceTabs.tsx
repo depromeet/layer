@@ -5,15 +5,16 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { SPACE_TABS } from "../../constants";
 
 interface SpaceTabsProps {
+  isCollapsed: boolean;
   currentTab: "전체" | "개인" | "팀";
   handleCurrentTabClick: (tab: "전체" | "개인" | "팀") => void;
 }
 
-export default function SpaceTabs({ currentTab, handleCurrentTabClick }: SpaceTabsProps) {
+export default function SpaceTabs({ isCollapsed, currentTab, handleCurrentTabClick }: SpaceTabsProps) {
   return (
     <div
       css={css`
-        display: flex;
+        display: ${isCollapsed ? "none" : "flex"};
         height: 4.4rem;
         margin: 0.4rem 0.8rem 0 0.8rem;
         gap: 1.2rem;
