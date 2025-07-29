@@ -1,5 +1,7 @@
+import layoutUtils from "@/utils/layoutUtils";
+
 export const createPaths = (deviceType: "mobile" | "desktop") => {
-  const prefix = deviceType === "mobile" ? "/m" : "/";
+  const prefix = deviceType === "mobile" ? "/m" : "";
 
   return {
     login: () => `${prefix}/login` as const,
@@ -43,7 +45,11 @@ export const createPaths = (deviceType: "mobile" | "desktop") => {
   } as const;
 };
 
-// 기본 모바일 PATHS (기존 호환성 유지)
-export const PATHS = createPaths("mobile");
+/**
+ * 사용자의 디바이스 타입에 따라 경로를 생성합니다.
+ * layoutUtils.getDeviceType()을 사용하여 현재 디바이스 타입을 확인합니다.
+ * 이 함수는 모바일 또는 데스크탑에 따라 다른 경로를 반환합니다.
+ */
+export const PATHS = createPaths(layoutUtils.getDeviceType());
 
 export type Path = ReturnType<(typeof PATHS)[keyof typeof PATHS]>;
