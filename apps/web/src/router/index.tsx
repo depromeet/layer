@@ -366,7 +366,7 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
   if (layoutType === "mobile") {
     return createBrowserRouter([
       {
-        path: "/",
+        path: "/*",
         element: <Navigate to="/m" replace />,
       },
       {
