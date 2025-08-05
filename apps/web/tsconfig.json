@@ -27,10 +27,10 @@
     },
 
     /* Type checking */
-    "types": ["vite-plugin-svgr/client"],
+    "types": ["vite-plugin-svgr/client"], // for vite-plugin-svgr
 
     /* Emotion */
-    "jsxImportSource": "@emotion/react", // for vite-plugin-svgr
+    "jsxImportSource": "@emotion/react",
 
     /* Matter-js library file */
     "allowJs": true
