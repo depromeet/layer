@@ -2,20 +2,19 @@ import { css } from "@emotion/react";
 import { forwardRef } from "react";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
-import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { TagBox } from "@/component/home";
 import { useTestNatigate } from "@/lib/test-natigate";
 import { ANIMATION } from "@/style/common/animation.ts";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 import { Space } from "@/types/spaceType";
+import StatusChips from "@/component/common/StatusChips";
 
 type SpaceOverviewProps = {
   space: Space;
 };
 
 const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
-  ({ space: { id, category, bannerUrl, fieldList, name, introduction, memberCount } }, ref) => {
+  ({ space: { id, bannerUrl, name, introduction, memberCount, proceedingRetrospectCount, retrospectCount } }, ref) => {
     const navigate = useTestNatigate();
     return (
       <div
@@ -63,10 +62,22 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
             height: 100%;
             display: flex;
             flex-direction: column;
-            gap: 0.2rem;
+            gap: 0.6rem;
           `}
         >
-          <Typography variant="title18Bold">{name}</Typography>
+          <div
+            css={css`
+              display: flex;
+              align-items: center;
+
+              & > div:nth-of-type(1) {
+                margin-left: auto;
+              }
+            `}
+          >
+            <Typography variant="title16Bold">{name}</Typography>
+            {proceedingRetrospectCount > 0 && <StatusChips> 진행 중 {proceedingRetrospectCount} </StatusChips>}
+          </div>
           <Typography variant="body14Medium" color="gray600">
             {introduction}
           </Typography>
@@ -76,36 +87,22 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
               display: flex;
               justify-content: space-between;
               align-items: center;
-              margin-top: 1.4rem;
+              margin-top: 0.2rem;
             `}
           >
             <div
               css={css`
+                ${DESIGN_TOKEN_TEXT.body12Medium};
                 display: flex;
                 gap: 0.4rem;
-                width: 87%;
                 overflow-x: auto;
                 white-space: nowrap;
+                color: ${DESIGN_TOKEN_COLOR.gray600};
               `}
             >
-              <TagBox tagName={category} />
-              {fieldList.map((field, idx) => (
-                <TagBox key={idx} tagName={field} />
-              ))}
-            </div>
-            <div
-              css={css`
-                width: auto;
-                height: 2rem;
-                display: flex;
-                align-items: center;
-                gap: 0.4rem;
-              `}
-            >
-              <Icon icon="ic_user" size={1.7} />
-              <Typography variant="body14Medium" color="gray900">
-                {memberCount}
-              </Typography>
+              <span> 멤버 {memberCount}명</span>
+              <span> · </span>
+              <span> 회고 {retrospectCount}개</span>
             </div>
           </div>
         </div>
