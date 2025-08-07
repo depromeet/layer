@@ -6,8 +6,7 @@ import Header from "./Header";
 import Navigation from "./Navigation/Navigation";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-
-export const SPACE_TABS = ["전체", "개인", "팀"] as const;
+import { SPACE_TABS } from "./constants";
 
 export default function LocalNavigationBar() {
   // TODO(prgmr99): 현재 탭을 기준으로 스페이스 리스트 불러오기

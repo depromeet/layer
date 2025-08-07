@@ -1,9 +1,8 @@
 import { css } from "@emotion/react";
 
-import { SPACE_TABS } from "../../LocalNavigationBar";
-
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { SPACE_TABS } from "../../constants";
 
 interface SpaceTabsProps {
   currentTab: "전체" | "개인" | "팀";
