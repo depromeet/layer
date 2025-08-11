@@ -5,7 +5,11 @@ import { Typography } from "../../../typography";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function SpaceAddButton() {
+interface SpaceAddButtonProps {
+  isCollapsed: boolean;
+}
+
+export default function SpaceAddButton({ isCollapsed }: SpaceAddButtonProps) {
   return (
     <button
       css={css`
@@ -18,6 +22,16 @@ export default function SpaceAddButton() {
         border-radius: 0.8rem;
         transition: background-color 0.2s ease-in-out;
         cursor: pointer;
+        opacity: ${isCollapsed ? 0 : 1};
+        visibility: ${isCollapsed ? "hidden" : "visible"};
+        height: ${isCollapsed ? "0" : "auto"};
+        transform: ${isCollapsed ? "scaleY(0)" : "scaleY(1)"};
+        overflow: hidden;
+        transition:
+          background-color 0.2s ease-in-out,
+          opacity 0.3s ease-in-out,
+          height 0.3s ease-in-out,
+          transform 0.3s ease-in-out;
 
         &:hover {
           background-color: ${DESIGN_TOKEN_COLOR.gray100};

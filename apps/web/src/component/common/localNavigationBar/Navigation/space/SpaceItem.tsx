@@ -5,13 +5,15 @@ import { Typography } from "../../../typography";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-const IS_CURRENT_SPACE = false;
+const IS_CURRENT_SPACE = false; // ! 임시변수, 아래의 TODO 완료 후 제거
 
 interface SpaceItemProps {
   isCollapsed: boolean;
 }
 
 export default function SpaceItem({ isCollapsed }: SpaceItemProps) {
+  // TODO(prgmr99): 현재 선택된 스페이스 전역상태 업데이트 로직 추가
+
   return (
     <li
       css={css`

@@ -1,10 +1,8 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
 
-import CollapsedFooter from "./CollapsedFooter";
 import Footer from "./Footer";
-import CollapsedHeader from "./Header/CollapsedHeader";
-import Header from "./Header/Header";
+import Header from "./Header";
 import Navigation from "./Navigation/Navigation";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
@@ -39,11 +37,11 @@ export default function LocalNavigationBar() {
         transition: width 0.3s ease-in-out;
       `}
     >
-      {isCollapsed ? <CollapsedHeader handleToggleCollapse={handleToggleCollapse} /> : <Header handleToggleCollapse={handleToggleCollapse} />}
+      <Header handleToggleCollapse={handleToggleCollapse} isCollapsed={isCollapsed} />
 
       <Navigation isCollapsed={isCollapsed} currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
 
-      {isCollapsed ? <CollapsedFooter /> : <Footer />}
+      <Footer isCollapsed={isCollapsed} />
     </aside>
   );
 }

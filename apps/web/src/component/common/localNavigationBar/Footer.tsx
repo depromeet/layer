@@ -5,14 +5,18 @@ import { Typography } from "../typography";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function Footer() {
+interface FooterProps {
+  isCollapsed: boolean;
+}
+
+export default function Footer({ isCollapsed }: FooterProps) {
   return (
     <footer
       css={css`
         border-top: 1px solid ${DESIGN_TOKEN_COLOR.gray100};
-        padding: 0.6rem 2rem;
+        padding: ${isCollapsed ? "0.4rem 2rem 1.2rem 2rem" : "0.6rem 2rem"};
         display: flex;
-        flex-direction: row;
+        flex-direction: ${isCollapsed ? "column-reverse" : "row"};
         align-items: center;
         gap: 0.8rem;
       `}
@@ -23,8 +27,8 @@ export default function Footer() {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 100%;
-          height: 3.6rem;
+          width: ${isCollapsed ? "auto" : "100%"};
+          height: ${isCollapsed ? "3.2rem" : "3.6rem"};
           gap: 1.2rem;
           padding: 0rem 0.4rem;
           border: none;
@@ -44,20 +48,34 @@ export default function Footer() {
       >
         <Icon icon="basicProfile" size={2.4} />
 
-        <Typography variant="body12Medium" color="gray700">
+        <Typography
+          variant="body12Medium"
+          color="gray700"
+          css={css`
+            display: ${isCollapsed ? "none" : "block"};
+            width: ${isCollapsed ? "0" : "auto"};
+            opacity: ${isCollapsed ? 0 : 1};
+            visibility: ${isCollapsed ? "hidden" : "visible"};
+            transition: opacity 0.3s ease-in-out;
+            overflow: hidden;
+            white-space: nowrap;
+          `}
+        >
           {"홍길동"}
         </Typography>
       </button>
 
       {/* ---------- 구분선 ---------- */}
-      <div
-        css={css`
-          width: 0.1rem;
-          height: 1.8rem;
-          background-color: ${DESIGN_TOKEN_COLOR.gray200};
-          margin: 0 0.8rem;
-        `}
-      />
+      {!isCollapsed && (
+        <div
+          css={css`
+            width: 0.1rem;
+            height: 1.8rem;
+            background-color: ${DESIGN_TOKEN_COLOR.gray200};
+            margin: 0 0.8rem;
+          `}
+        />
+      )}
 
       {/* ---------- 헬프 센터 버튼 ---------- */}
       <button
@@ -65,8 +83,8 @@ export default function Footer() {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 100%;
-          height: 3.6rem;
+          width: ${isCollapsed ? "3.2rem" : "100%"};
+          height: ${isCollapsed ? "3.2rem" : "3.6rem"};
           gap: 0.6rem;
           padding: 0rem 0.4rem;
           border: none;
@@ -86,7 +104,19 @@ export default function Footer() {
       >
         <Icon icon="ic_help" size={1.8} />
 
-        <Typography variant="body12Medium" color="gray700">
+        <Typography
+          variant="body12Medium"
+          color="gray700"
+          css={css`
+            display: ${isCollapsed ? "none" : "block"};
+            width: ${isCollapsed ? "0" : "auto"};
+            opacity: ${isCollapsed ? 0 : 1};
+            visibility: ${isCollapsed ? "hidden" : "visible"};
+            transition: opacity 0.3s ease-in-out;
+            overflow: hidden;
+            white-space: nowrap;
+          `}
+        >
           헬프 센터
         </Typography>
       </button>

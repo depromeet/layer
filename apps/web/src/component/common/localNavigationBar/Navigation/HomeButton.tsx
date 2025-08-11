@@ -5,7 +5,11 @@ import { Typography } from "../../typography";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function HomeButton() {
+interface HomeButtonProps {
+  isCollapsed: boolean;
+}
+
+export default function HomeButton({ isCollapsed }: HomeButtonProps) {
   return (
     <button
       css={css`
@@ -19,12 +23,12 @@ export default function HomeButton() {
       <div
         css={css`
           display: flex;
-          justify-content: flex-start;
+          justify-content: ${isCollapsed ? "center" : "flex-start"};
           align-items: center;
-          width: 100%;
-          height: 3.9rem;
+          width: ${isCollapsed ? "3.2rem" : "100%"};
+          height: ${isCollapsed ? "3.2rem" : "3.9rem"};
           gap: 1.6rem;
-          padding: 0.4rem 0.8rem;
+          padding: ${isCollapsed ? "0.4rem" : "0.4rem 0.8rem"};
           background-color: "transparent";
           border-radius: 0.8rem;
           transition: background-color 0.2s ease-in-out;
@@ -37,7 +41,19 @@ export default function HomeButton() {
       >
         <Icon icon="ic_home" size={1.4} />
 
-        <Typography variant="subtitle16SemiBold" color="gray900">
+        <Typography
+          variant="subtitle16SemiBold"
+          color="gray900"
+          css={css`
+            display: ${isCollapsed ? "none" : "block"};
+            width: ${isCollapsed ? "0" : "auto"};
+            opacity: ${isCollapsed ? 0 : 1};
+            visibility: ${isCollapsed ? "hidden" : "visible"};
+            overflow: hidden;
+            white-space: nowrap;
+            transition: opacity 0.3s ease-in-out;
+          `}
+        >
           홈
         </Typography>
       </div>
@@ -49,7 +65,7 @@ export default function HomeButton() {
           height: 1px;
           padding-left: 1.2rem;
           padding-right: 1.2rem;
-          margin: 0.8rem 0.4rem;
+          margin: ${isCollapsed ? "1.2rem 0.4rem" : "0.8rem 0.4rem"};
         `}
       />
     </button>

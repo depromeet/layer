@@ -8,6 +8,8 @@ interface SpacesListProps {
 }
 
 export default function SpacesList({ isCollapsed }: SpacesListProps) {
+  // TODO(prgmr99): 실제 스페이스 목록 가져오도록 구현
+
   return (
     <ul
       css={css`
@@ -22,7 +24,7 @@ export default function SpacesList({ isCollapsed }: SpacesListProps) {
       {/* Mock data */}
       <SpaceItem isCollapsed={isCollapsed} />
       <SpaceItem isCollapsed={isCollapsed} />
-      {!isCollapsed && <SpaceAddButton />}
+      <SpaceAddButton isCollapsed={isCollapsed} />
     </ul>
   );
 }

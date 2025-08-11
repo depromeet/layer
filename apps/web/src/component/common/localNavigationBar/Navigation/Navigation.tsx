@@ -1,8 +1,6 @@
 import { css } from "@emotion/react";
 
-import CollapsedHomeButton from "./CollapsedHomeButton";
 import HomeButton from "./HomeButton";
-import CollapsedHeaderSpaceAddButton from "./space/CollapsedHeaderSpaceAddButton";
 import HeaderSpaceAddButton from "./space/HeaderSpaceAddButton";
 import SpacesList from "./space/SpacesList";
 import SpaceTabs from "./space/SpaceTabs";
@@ -23,7 +21,7 @@ export default function Navigation({ isCollapsed, currentTab, handleCurrentTabCl
       `}
     >
       {/* ---------- 홈 ---------- */}
-      {isCollapsed ? <CollapsedHomeButton /> : <HomeButton />}
+      <HomeButton isCollapsed={isCollapsed} />
 
       {/* ---------- 내 스페이스 ---------- */}
       <section
@@ -31,10 +29,11 @@ export default function Navigation({ isCollapsed, currentTab, handleCurrentTabCl
           margin-top: ${isCollapsed ? 0 : "0.8rem"};
         `}
       >
-        {isCollapsed ? <CollapsedHeaderSpaceAddButton /> : <HeaderSpaceAddButton />}
+        {/* ---------- 스페이스 추가 버튼 ---------- */}
+        <HeaderSpaceAddButton isCollapsed={isCollapsed} />
 
-        {/* ---------- 탭 (전체 / 개인 / 팀) - 축소시 숨김 ---------- */}
-        {!isCollapsed && <SpaceTabs currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />}
+        {/* ---------- 탭 (전체 / 개인 / 팀) ---------- */}
+        <SpaceTabs currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} isCollapsed={isCollapsed} />
 
         {/* ---------- 스페이스 리스트 ---------- */}
         <SpacesList isCollapsed={isCollapsed} />
