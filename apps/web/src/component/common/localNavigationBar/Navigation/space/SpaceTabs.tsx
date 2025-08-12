@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
+import { useNavigation } from "../../context/NavigationContext";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { SPACE_TABS } from "../../constants";
 
@@ -10,13 +11,32 @@ interface SpaceTabsProps {
 }
 
 export default function SpaceTabs({ currentTab, handleCurrentTabClick }: SpaceTabsProps) {
+  const { isCollapsed } = useNavigation();
+
   return (
     <div
       css={css`
         display: flex;
-        height: 4.4rem;
-        margin: 0.4rem 0.8rem 0 0.8rem;
         gap: 1.2rem;
+        overflow: hidden;
+        transition:
+          height 0.3s ease-in-out,
+          opacity 0.3s ease-in-out,
+          margin 0.3s ease-in-out;
+
+        ${isCollapsed
+          ? css`
+              height: 0;
+              margin: 0;
+              opacity: 0;
+              visibility: hidden;
+            `
+          : css`
+              height: 4.4rem;
+              margin: 0.4rem 0.8rem 0 0.8rem;
+              opacity: 1;
+              visibility: visible;
+            `}
       `}
     >
       {SPACE_TABS.map((tab) => (
