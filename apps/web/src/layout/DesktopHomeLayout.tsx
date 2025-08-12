@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { Outlet } from "react-router-dom";
 
-import LocalNavigationBar from "@/component/common/LocalNavigationBar";
+import LocalNavigationBar from "@/component/common/LocalNavigationBar_backup";
 
 export default function DesktopHomeLayout() {
   return (
