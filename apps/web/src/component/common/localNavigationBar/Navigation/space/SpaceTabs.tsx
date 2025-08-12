@@ -1,16 +1,18 @@
 import { css } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
+import { useNavigation } from "../../context/NavigationContext";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { SPACE_TABS } from "../../constants";
 
 interface SpaceTabsProps {
-  isCollapsed: boolean;
   currentTab: "전체" | "개인" | "팀";
   handleCurrentTabClick: (tab: "전체" | "개인" | "팀") => void;
 }
 
-export default function SpaceTabs({ isCollapsed, currentTab, handleCurrentTabClick }: SpaceTabsProps) {
+export default function SpaceTabs({ currentTab, handleCurrentTabClick }: SpaceTabsProps) {
+  const { isCollapsed } = useNavigation();
+
   return (
     <div
       css={css`

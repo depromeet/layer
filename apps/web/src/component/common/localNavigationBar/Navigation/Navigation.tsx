@@ -4,14 +4,20 @@ import HomeButton from "./HomeButton";
 import HeaderSpaceAddButton from "./space/HeaderSpaceAddButton";
 import SpacesList from "./space/SpacesList";
 import SpaceTabs from "./space/SpaceTabs";
+import { useState } from "react";
+import { SPACE_TABS } from "../constants";
+import { useNavigation } from "../context/NavigationContext";
 
-interface NavigationProps {
-  isCollapsed: boolean;
-  currentTab: "전체" | "개인" | "팀";
-  handleCurrentTabClick: (tab: "전체" | "개인" | "팀") => void;
-}
+export default function Navigation() {
+  const { isCollapsed } = useNavigation();
 
-export default function Navigation({ isCollapsed, currentTab, handleCurrentTabClick }: NavigationProps) {
+  // TODO(prgmr99): 현재 탭을 기준으로 스페이스 리스트 불러오기
+  const [currentTab, setCurrentTab] = useState<"전체" | "개인" | "팀">("전체");
+
+  const handleCurrentTabClick = (tab: (typeof SPACE_TABS)[number]) => {
+    setCurrentTab(tab);
+  };
+
   return (
     <nav
       css={css`
@@ -21,7 +27,7 @@ export default function Navigation({ isCollapsed, currentTab, handleCurrentTabCl
       `}
     >
       {/* ---------- 홈 ---------- */}
-      <HomeButton isCollapsed={isCollapsed} />
+      <HomeButton />
 
       {/* ---------- 내 스페이스 ---------- */}
       <section
@@ -30,13 +36,13 @@ export default function Navigation({ isCollapsed, currentTab, handleCurrentTabCl
         `}
       >
         {/* ---------- 스페이스 추가 버튼 ---------- */}
-        <HeaderSpaceAddButton isCollapsed={isCollapsed} />
+        <HeaderSpaceAddButton />
 
         {/* ---------- 탭 (전체 / 개인 / 팀) ---------- */}
-        <SpaceTabs currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} isCollapsed={isCollapsed} />
+        <SpaceTabs currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
 
         {/* ---------- 스페이스 리스트 ---------- */}
-        <SpacesList isCollapsed={isCollapsed} />
+        <SpacesList />
       </section>
     </nav>
   );

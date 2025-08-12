@@ -1,25 +1,14 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
 
 import Footer from "./Footer";
 import Header from "./Header";
 import Navigation from "./Navigation/Navigation";
+import { NavigationProvider, useNavigation } from "./context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { SPACE_TABS } from "./constants";
 
-export default function LocalNavigationBar() {
-  // TODO(prgmr99): 현재 탭을 기준으로 스페이스 리스트 불러오기
-  const [currentTab, setCurrentTab] = useState<"전체" | "개인" | "팀">("전체");
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
-  const handleCurrentTabClick = (tab: (typeof SPACE_TABS)[number]) => {
-    setCurrentTab(tab);
-  };
-
-  const handleToggleCollapse = () => {
-    setIsCollapsed((prev) => !prev);
-  };
+function LocalNavigationBarContent() {
+  const { isCollapsed } = useNavigation();
 
   return (
     <aside
@@ -37,11 +26,19 @@ export default function LocalNavigationBar() {
         transition: width 0.3s ease-in-out;
       `}
     >
-      <Header handleToggleCollapse={handleToggleCollapse} isCollapsed={isCollapsed} />
+      <Header />
 
-      <Navigation isCollapsed={isCollapsed} currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
+      <Navigation />
 
-      <Footer isCollapsed={isCollapsed} />
+      <Footer />
     </aside>
+  );
+}
+
+export default function LocalNavigationBar() {
+  return (
+    <NavigationProvider>
+      <LocalNavigationBarContent />
+    </NavigationProvider>
   );
 }

@@ -2,14 +2,13 @@ import { css } from "@emotion/react";
 
 import { Icon } from "../Icon";
 import { Typography } from "../typography";
+import { useNavigation } from "./context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-interface FooterProps {
-  isCollapsed: boolean;
-}
+export default function Footer() {
+  const { isCollapsed } = useNavigation();
 
-export default function Footer({ isCollapsed }: FooterProps) {
   return (
     <footer
       css={css`

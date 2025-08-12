@@ -2,14 +2,13 @@ import { css } from "@emotion/react";
 
 import { Icon } from "../../Icon";
 import { Typography } from "../../typography";
+import { useNavigation } from "../context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-interface HomeButtonProps {
-  isCollapsed: boolean;
-}
+export default function HomeButton() {
+  const { isCollapsed } = useNavigation();
 
-export default function HomeButton({ isCollapsed }: HomeButtonProps) {
   return (
     <button
       css={css`

@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 
 import { Icon } from "../Icon";
+import { useNavigation } from "./context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
@@ -12,12 +13,9 @@ const HEADER_CONSTANTS = {
   ANIMATION_DURATION: "0.3s",
 } as const;
 
-interface HeaderProps {
-  isCollapsed: boolean;
-  handleToggleCollapse: () => void;
-}
+export default function Header() {
+  const { isCollapsed, toggleCollapse } = useNavigation();
 
-export default function Header({ isCollapsed, handleToggleCollapse }: HeaderProps) {
   return (
     <header
       css={css`
@@ -85,7 +83,7 @@ export default function Header({ isCollapsed, handleToggleCollapse }: HeaderProp
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
           }
         `}
-        onClick={handleToggleCollapse}
+        onClick={toggleCollapse}
       >
         <Icon
           icon={isCollapsed ? "ic_unfold_right" : "ic_arrow_back"}

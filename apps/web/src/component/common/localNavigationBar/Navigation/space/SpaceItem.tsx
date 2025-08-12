@@ -2,16 +2,14 @@ import { css } from "@emotion/react";
 
 import { Icon } from "../../../Icon";
 import { Typography } from "../../../typography";
+import { useNavigation } from "../../context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 const IS_CURRENT_SPACE = false; // ! 임시변수, 아래의 TODO 완료 후 제거
 
-interface SpaceItemProps {
-  isCollapsed: boolean;
-}
-
-export default function SpaceItem({ isCollapsed }: SpaceItemProps) {
+export default function SpaceItem() {
+  const { isCollapsed } = useNavigation();
   // TODO(prgmr99): 현재 선택된 스페이스 전역상태 업데이트 로직 추가
 
   return (

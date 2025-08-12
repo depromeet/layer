@@ -2,12 +2,11 @@ import { css } from "@emotion/react";
 
 import SpaceAddButton from "./SpaceAddButton";
 import SpaceItem from "./SpaceItem";
+import { useNavigation } from "../../context/NavigationContext";
 
-interface SpacesListProps {
-  isCollapsed: boolean;
-}
+export default function SpacesList() {
+  const { isCollapsed } = useNavigation();
 
-export default function SpacesList({ isCollapsed }: SpacesListProps) {
   // TODO(prgmr99): 실제 스페이스 목록 가져오도록 구현
 
   return (
@@ -22,9 +21,9 @@ export default function SpacesList({ isCollapsed }: SpacesListProps) {
       `}
     >
       {/* Mock data */}
-      <SpaceItem isCollapsed={isCollapsed} />
-      <SpaceItem isCollapsed={isCollapsed} />
-      <SpaceAddButton isCollapsed={isCollapsed} />
+      <SpaceItem />
+      <SpaceItem />
+      <SpaceAddButton />
     </ul>
   );
 }

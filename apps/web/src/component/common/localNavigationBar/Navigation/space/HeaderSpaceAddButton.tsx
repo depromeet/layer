@@ -2,13 +2,12 @@ import { css } from "@emotion/react";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import { useNavigation } from "../../context/NavigationContext";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-interface HeaderSpaceAddButtonProps {
-  isCollapsed: boolean;
-}
+export default function HeaderSpaceAddButton() {
+  const { isCollapsed } = useNavigation();
 
-export default function HeaderSpaceAddButton({ isCollapsed }: HeaderSpaceAddButtonProps) {
   return (
     <div
       css={css`

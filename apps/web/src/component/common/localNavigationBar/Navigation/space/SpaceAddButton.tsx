@@ -2,14 +2,13 @@ import { css } from "@emotion/react";
 
 import { Icon } from "../../../Icon";
 import { Typography } from "../../../typography";
+import { useNavigation } from "../../context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-interface SpaceAddButtonProps {
-  isCollapsed: boolean;
-}
+export default function SpaceAddButton() {
+  const { isCollapsed } = useNavigation();
 
-export default function SpaceAddButton({ isCollapsed }: SpaceAddButtonProps) {
   return (
     <button
       css={css`
