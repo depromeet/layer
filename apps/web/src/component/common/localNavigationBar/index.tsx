@@ -24,6 +24,7 @@ function LocalNavigationBarContent() {
         z-index: 1000;
         border-radius: 1.2rem;
         transition: width 0.3s ease-in-out;
+        will-change: width;
       `}
     >
       <Header />
