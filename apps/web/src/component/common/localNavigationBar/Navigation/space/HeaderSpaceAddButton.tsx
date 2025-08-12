@@ -14,22 +14,41 @@ export default function HeaderSpaceAddButton({ isCollapsed }: HeaderSpaceAddButt
       css={css`
         width: 100%;
         display: flex;
-        justify-content: ${isCollapsed ? "center" : "space-between"};
         align-items: center;
-        padding-left: ${isCollapsed ? "0" : "0.8rem"};
         padding-bottom: 0.4rem;
+
+        ${isCollapsed
+          ? css`
+              justify-content: center;
+              padding-left: 0;
+            `
+          : css`
+              justify-content: space-between;
+              padding-left: 0.8rem;
+            `}
       `}
     >
       <Typography
         variant="subtitle16SemiBold"
         color="gray900"
         css={css`
-          width: ${isCollapsed ? "0" : "auto"};
-          opacity: ${isCollapsed ? 0 : 1};
-          visibility: ${isCollapsed ? "hidden" : "visible"};
-          transition: opacity 0.3s ease-in-out;
           overflow: hidden;
           white-space: nowrap;
+          transition: opacity 0.3s ease-in-out;
+
+          ${isCollapsed
+            ? css`
+                display: none;
+                width: 0;
+                opacity: 0;
+                visibility: hidden;
+              `
+            : css`
+                display: block;
+                width: auto;
+                opacity: 1;
+                visibility: visible;
+              `}
         `}
       >
         내 스페이스

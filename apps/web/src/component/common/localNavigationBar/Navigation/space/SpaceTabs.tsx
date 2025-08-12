@@ -16,15 +16,25 @@ export default function SpaceTabs({ isCollapsed, currentTab, handleCurrentTabCli
       css={css`
         display: flex;
         gap: 1.2rem;
-        height: ${isCollapsed ? "0" : "4.4rem"};
-        margin: ${isCollapsed ? "0" : "0.4rem 0.8rem 0 0.8rem"};
-        opacity: ${isCollapsed ? 0 : 1};
-        visibility: ${isCollapsed ? "hidden" : "visible"};
         overflow: hidden;
         transition:
           height 0.3s ease-in-out,
           opacity 0.3s ease-in-out,
           margin 0.3s ease-in-out;
+
+        ${isCollapsed
+          ? css`
+              height: 0;
+              margin: 0;
+              opacity: 0;
+              visibility: hidden;
+            `
+          : css`
+              height: 4.4rem;
+              margin: 0.4rem 0.8rem 0 0.8rem;
+              opacity: 1;
+              visibility: visible;
+            `}
       `}
     >
       {SPACE_TABS.map((tab) => (

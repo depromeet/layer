@@ -45,13 +45,23 @@ export default function HomeButton({ isCollapsed }: HomeButtonProps) {
           variant="subtitle16SemiBold"
           color="gray900"
           css={css`
-            display: ${isCollapsed ? "none" : "block"};
-            width: ${isCollapsed ? "0" : "auto"};
-            opacity: ${isCollapsed ? 0 : 1};
-            visibility: ${isCollapsed ? "hidden" : "visible"};
             overflow: hidden;
             white-space: nowrap;
             transition: opacity 0.3s ease-in-out;
+
+            ${isCollapsed
+              ? css`
+                  display: none;
+                  width: 0;
+                  opacity: 0;
+                  visibility: hidden;
+                `
+              : css`
+                  display: block;
+                  width: auto;
+                  opacity: 1;
+                  visibility: visible;
+                `}
           `}
         >
           홈

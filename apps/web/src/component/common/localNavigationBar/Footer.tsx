@@ -14,11 +14,22 @@ export default function Footer({ isCollapsed }: FooterProps) {
     <footer
       css={css`
         border-top: 1px solid ${DESIGN_TOKEN_COLOR.gray100};
-        padding: ${isCollapsed ? "0.4rem 2rem 1.2rem 2rem" : "0.6rem 2rem"};
         display: flex;
-        flex-direction: ${isCollapsed ? "column-reverse" : "row"};
         align-items: center;
         gap: 0.8rem;
+        transition:
+          padding 0.3s ease-in-out,
+          gap 0.3s ease-in-out;
+
+        ${isCollapsed
+          ? css`
+              padding: 0.4rem 2rem 1.2rem 2rem;
+              flex-direction: column-reverse;
+            `
+          : css`
+              padding: 0.6rem 2rem;
+              flex-direction: row;
+            `}
       `}
     >
       {/* ---------- 프로필 이미지/이름 ---------- */}
@@ -27,15 +38,26 @@ export default function Footer({ isCollapsed }: FooterProps) {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: ${isCollapsed ? "auto" : "100%"};
-          height: ${isCollapsed ? "3.2rem" : "3.6rem"};
           gap: 1.2rem;
           padding: 0rem 0.4rem;
           border: none;
           background: transparent;
           border-radius: 0.8rem;
-          transition: background-color 0.2s ease-in-out;
           cursor: pointer;
+          transition:
+            background-color 0.2s ease-in-out,
+            width 0.3s ease-in-out,
+            height 0.3s ease-in-out;
+
+          ${isCollapsed
+            ? css`
+                width: auto;
+                height: 3.2rem;
+              `
+            : css`
+                width: 100%;
+                height: 3.6rem;
+              `}
 
           &:focus {
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
@@ -52,13 +74,23 @@ export default function Footer({ isCollapsed }: FooterProps) {
           variant="body12Medium"
           color="gray700"
           css={css`
-            display: ${isCollapsed ? "none" : "block"};
-            width: ${isCollapsed ? "0" : "auto"};
-            opacity: ${isCollapsed ? 0 : 1};
-            visibility: ${isCollapsed ? "hidden" : "visible"};
-            transition: opacity 0.3s ease-in-out;
             overflow: hidden;
             white-space: nowrap;
+            transition: opacity 0.3s ease-in-out;
+
+            ${isCollapsed
+              ? css`
+                  display: none;
+                  width: 0;
+                  opacity: 0;
+                  visibility: hidden;
+                `
+              : css`
+                  display: block;
+                  width: auto;
+                  opacity: 1;
+                  visibility: visible;
+                `}
           `}
         >
           {"홍길동"}
@@ -83,15 +115,26 @@ export default function Footer({ isCollapsed }: FooterProps) {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: ${isCollapsed ? "3.2rem" : "100%"};
-          height: ${isCollapsed ? "3.2rem" : "3.6rem"};
           gap: 0.6rem;
           padding: 0rem 0.4rem;
           border: none;
           background: transparent;
           border-radius: 0.8rem;
-          transition: background-color 0.2s ease-in-out;
           cursor: pointer;
+          transition:
+            background-color 0.2s ease-in-out,
+            width 0.3s ease-in-out,
+            height 0.3s ease-in-out;
+
+          ${isCollapsed
+            ? css`
+                width: 3.2rem;
+                height: 3.2rem;
+              `
+            : css`
+                width: 100%;
+                height: 3.6rem;
+              `}
 
           &:focus {
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
@@ -108,13 +151,23 @@ export default function Footer({ isCollapsed }: FooterProps) {
           variant="body12Medium"
           color="gray700"
           css={css`
-            display: ${isCollapsed ? "none" : "block"};
-            width: ${isCollapsed ? "0" : "auto"};
-            opacity: ${isCollapsed ? 0 : 1};
-            visibility: ${isCollapsed ? "hidden" : "visible"};
-            transition: opacity 0.3s ease-in-out;
             overflow: hidden;
             white-space: nowrap;
+            transition: opacity 0.3s ease-in-out;
+
+            ${isCollapsed
+              ? css`
+                  display: none;
+                  width: 0;
+                  opacity: 0;
+                  visibility: hidden;
+                `
+              : css`
+                  display: block;
+                  width: auto;
+                  opacity: 1;
+                  visibility: visible;
+                `}
           `}
         >
           헬프 센터

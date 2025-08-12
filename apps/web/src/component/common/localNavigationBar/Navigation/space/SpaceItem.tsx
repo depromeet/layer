@@ -18,16 +18,25 @@ export default function SpaceItem({ isCollapsed }: SpaceItemProps) {
     <li
       css={css`
         display: flex;
-        justify-content: ${isCollapsed ? "center" : "flex-start"};
         align-items: center;
         gap: 1rem;
         width: 100%;
-        height: ${isCollapsed ? "4.8rem" : "5.6rem"};
         background-color: ${IS_CURRENT_SPACE ? DESIGN_TOKEN_COLOR.gray100 : "transparent"};
-        padding: ${isCollapsed ? 0 : "0.7rem 0.4rem"};
         border-radius: 0.8rem;
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
+
+        ${isCollapsed
+          ? css`
+              justify-content: center;
+              height: 4.8rem;
+              padding: 0;
+            `
+          : css`
+              justify-content: flex-start;
+              height: 5.6rem;
+              padding: 0.7rem 0.4rem;
+            `}
 
         &:hover {
           background-color: ${DESIGN_TOKEN_COLOR.gray100};
@@ -48,40 +57,52 @@ export default function SpaceItem({ isCollapsed }: SpaceItemProps) {
       </div>
 
       {/* ---------- 스페이스 이름/설명 ---------- */}
-      {!isCollapsed && (
-        <div
+      <div
+        css={css`
+          flex-direction: column;
+          gap: 0.2rem;
+          flex: 0.9;
+          min-width: 0;
+          transition: opacity 0.3s ease-in-out;
+
+          ${isCollapsed
+            ? css`
+                display: none;
+                opacity: 0;
+                visibility: hidden;
+                width: 0;
+              `
+            : css`
+                display: flex;
+                opacity: 1;
+                visibility: visible;
+                width: auto;
+              `}
+        `}
+      >
+        <Typography
+          variant="subtitle14SemiBold"
+          color="gray900"
           css={css`
-            display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
-            flex: 0.9;
-            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           `}
         >
-          <Typography
-            variant="subtitle14SemiBold"
-            color="gray900"
-            css={css`
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            `}
-          >
-            스페이스 이름 1
-          </Typography>
-          <Typography
-            variant="body12Medium"
-            color="gray600"
-            css={css`
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            `}
-          >
-            스페이스 설명
-          </Typography>
-        </div>
-      )}
+          스페이스 이름 1
+        </Typography>
+        <Typography
+          variant="body12Medium"
+          color="gray600"
+          css={css`
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          `}
+        >
+          스페이스 설명
+        </Typography>
+      </div>
     </li>
   );
 }
