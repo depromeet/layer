@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-import { AdvanceQuestionsNum } from "@/app/write/RetrospectWritePage.tsx";
+import { AdvanceQuestionsNum } from "@/app/mobile/write/RetrospectWritePage";
 import { Icon } from "@/component/common/Icon";
 
 type QuestionItemProps = {

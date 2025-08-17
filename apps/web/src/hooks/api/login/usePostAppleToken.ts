@@ -4,7 +4,7 @@ import { useSetAtom } from "jotai";
 import Cookies from "js-cookie";
 
 import { api } from "@/api";
-import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/space/space.const.ts";
+import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/mobile/space/space.const";
 import { COOKIE_KEYS } from "@/config/storage-keys";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";

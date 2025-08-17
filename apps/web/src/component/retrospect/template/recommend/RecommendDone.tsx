@@ -8,7 +8,7 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
 import { Tooltip } from "@/component/common/tip";
 import { TemplateCard } from "@/component/retrospect/template/card/TemplateCard";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { useGetSimpleTemplateInfo } from "@/hooks/api/template/useGetSimpleTemplateInfo";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 
@@ -31,7 +31,7 @@ export function RecommendDone() {
           css={css`
             cursor: pointer;
           `}
-          onClick={() => navigate(`/space/${spaceId}`)}
+          onClick={() => navigate(PATHS.spaceDetail(spaceId))}
         />
       }
     >
@@ -49,7 +49,7 @@ export function RecommendDone() {
               name={templateData.templateName}
               tag={templateData.title}
               imgUrl={templateData.imageUrl}
-              onClick={() => navigate("/template", { state: { templateId: templateData.id, spaceId, readOnly: false } })}
+              onClick={() => navigate(PATHS.viewDetailTemplate(), { state: { templateId: templateData.id, spaceId, readOnly: false } })}
             />
           </Tooltip.Trigger>
           <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="bottom-start" offsetY={15} hideOnClick />

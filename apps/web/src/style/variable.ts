@@ -109,6 +109,7 @@ export const DESIGN_SYSTEM_TEXT = {
   },
 } as const;
 
+// FIXME: 레거시 디자인 토큰 - 마이그레이션 및 삭제 필요
 export const DESIGN_SYSTEM_COLOR = {
   themeBackground: {
     dark: "#212529",

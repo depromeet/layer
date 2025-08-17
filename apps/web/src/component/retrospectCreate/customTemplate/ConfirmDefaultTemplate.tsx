@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useContext } from "react";
 
-import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
+import { RetrospectCreateContext } from "@/app/mobile/retrospectCreate/RetrospectCreate";
 import { ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
 import { Header } from "@/component/common/header";

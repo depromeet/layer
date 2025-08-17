@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { TemplateListPageContext } from "@/app/retrospect/template/list/TemplateListPage";
+import { TemplateListPageContext } from "@/app/mobile/retrospect/template/list/TemplateListPage";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
@@ -10,7 +10,7 @@ import { DropdownMenu } from "@/component/common/dropdownMenu/DropdownMenu";
 import { TextArea } from "@/component/common/input";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 import { useDeleteCustomTemplate } from "@/hooks/api/template/useDeleteCustomTemplate";
 import { usePatchTemplateTitle } from "@/hooks/api/template/usePatchTemplateTitle";
 import { useBottomSheet } from "@/hooks/useBottomSheet";

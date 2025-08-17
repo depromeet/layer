@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { PATHS } from "@layer/shared";
 
 type RightCompProps = {
-  spaceId: string | undefined;
+  spaceId: string;
   onDeleteClick: () => void;
   isTooltipVisible: boolean;
   onClickPlus: () => void;
@@ -33,7 +34,7 @@ export function SpaceAppBarRightComp({ spaceId, onDeleteClick, isTooltipVisible,
   const navigate = useNavigate();
 
   const handleModifyFun = () => {
-    navigate(`/space/edit/${spaceId}`);
+    navigate(PATHS.spaceEdit(spaceId) as string);
     setIsBoxVisible((prev) => !prev);
   };
 

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { useToast } from "@/hooks/useToast";
+import { PATHS } from "@layer/shared";
 
 export const useApiLeaveSpace = () => {
   const { toast } = useToast();
@@ -16,7 +17,7 @@ export const useApiLeaveSpace = () => {
   return useMutation({
     mutationFn: (spaceId: string) => apiSpaceLeave(spaceId),
     onSuccess: () => {
-      navigate("/");
+      navigate(PATHS.home());
     },
     onError: (error) => {
       toast.error(error.message);

@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { useSetAtom } from "jotai";
 import { useContext, useState } from "react";
 
-import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
+import { RetrospectCreateContext } from "@/app/mobile/retrospectCreate/RetrospectCreate";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { DateTimeInput } from "@/component/common/input/DateTimeInput";
