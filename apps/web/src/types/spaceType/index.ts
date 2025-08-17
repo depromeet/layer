@@ -9,4 +9,6 @@ export type Space = {
   bannerUrl: string;
   memberCount: number;
   leader: { id: number; name: string };
+  proceedingRetrospectCount: number;
+  retrospectCount: number;
 };
