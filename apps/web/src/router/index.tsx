@@ -119,7 +119,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
   },
   {
     path: "login",
-    element: <div>Desktop Login</div>, // TODO: 데스크탑용 로그인
+    element: <LoginPage />, // TODO: 데스크탑용 로그인(임시로 기존 로그인 페이지 사용)
     auth: false,
     deviceType: "desktop",
   },
