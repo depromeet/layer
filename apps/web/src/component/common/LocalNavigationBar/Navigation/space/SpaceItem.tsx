@@ -1,13 +1,14 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 
-import { Icon } from "../../../Icon";
 import { Typography } from "../../../typography";
 import { useNavigation } from "../../context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Space } from "@/types/spaceType";
 import { currentSpaceState } from "@/store/space/spaceAtom";
+
+import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 
 interface SpaceItemProps {
   space: Space;
@@ -16,7 +17,7 @@ interface SpaceItemProps {
 export default function SpaceItem({ space }: SpaceItemProps) {
   const { isCollapsed } = useNavigation();
 
-  const { name, introduction, id } = space;
+  const { id, name, introduction, bannerUrl } = space;
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
@@ -62,11 +63,22 @@ export default function SpaceItem({ space }: SpaceItemProps) {
           width: 3.6rem;
           height: 3.6rem;
           background-color: ${DESIGN_TOKEN_COLOR.gray200};
-          padding: 0.6rem;
           border-radius: 50%;
         `}
       >
-        <Icon icon="ic_management_white" size={2.4} />
+        <img
+          src={bannerUrl}
+          alt={`${name}Image`}
+          onError={(e) => {
+            e.currentTarget.src = spaceDefaultImg;
+          }}
+          css={css`
+            width: 3.6rem;
+            height: 3.6rem;
+            border-radius: 100%;
+            object-fit: cover;
+          `}
+        />
       </div>
 
       {/* ---------- 스페이스 이름/설명 ---------- */}
