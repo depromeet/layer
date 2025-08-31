@@ -5,7 +5,7 @@ import HeaderSpaceAddButton from "./space/HeaderSpaceAddButton";
 import SpacesList from "./space/SpacesList";
 import SpaceTabs from "./space/SpaceTabs";
 import { useState } from "react";
-import { SPACE_TABS } from "../constants";
+import { PROJECT_CATEGORY_MAP } from "../constants";
 import { useNavigation } from "../context/NavigationContext";
 
 export default function Navigation() {
@@ -14,7 +14,7 @@ export default function Navigation() {
   // TODO(prgmr99): 현재 탭을 기준으로 스페이스 리스트 불러오기
   const [currentTab, setCurrentTab] = useState<"전체" | "개인" | "팀">("전체");
 
-  const handleCurrentTabClick = (tab: (typeof SPACE_TABS)[number]) => {
+  const handleCurrentTabClick = (tab: keyof typeof PROJECT_CATEGORY_MAP) => {
     setCurrentTab(tab);
   };
 
@@ -42,7 +42,7 @@ export default function Navigation() {
         <SpaceTabs currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
 
         {/* ---------- 스페이스 리스트 ---------- */}
-        <SpacesList />
+        <SpacesList currentTab={currentTab} />
       </section>
     </nav>
   );

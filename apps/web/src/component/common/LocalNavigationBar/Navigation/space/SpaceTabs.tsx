@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
 import { useNavigation } from "../../context/NavigationContext";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { SPACE_TABS } from "../../constants";
+import { CATEGORY_NAMES } from "../../constants";
 
 interface SpaceTabsProps {
   currentTab: "전체" | "개인" | "팀";
@@ -39,7 +39,7 @@ export default function SpaceTabs({ currentTab, handleCurrentTabClick }: SpaceTa
             `}
       `}
     >
-      {SPACE_TABS.map((tab) => (
+      {CATEGORY_NAMES.map((tab) => (
         <button
           key={tab}
           onClick={() => handleCurrentTabClick(tab)}

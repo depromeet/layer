@@ -1,1 +1,3 @@
-export const SPACE_TABS = ["전체", "개인", "팀"] as const;
+export const PROJECT_CATEGORY_MAP = { 전체: "ALL", 개인: "INDIVIDUAL", 팀: "TEAM" } as const;
+
+export const CATEGORY_NAMES = Object.keys(PROJECT_CATEGORY_MAP) as Array<keyof typeof PROJECT_CATEGORY_MAP>;

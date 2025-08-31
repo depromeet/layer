@@ -5,11 +5,19 @@ import { Typography } from "../../../typography";
 import { useNavigation } from "../../context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Space } from "@/types/spaceType";
 
 const IS_CURRENT_SPACE = false; // ! 임시변수, 아래의 TODO 완료 후 제거
 
-export default function SpaceItem() {
+interface SpaceItemProps {
+  space: Space;
+}
+
+export default function SpaceItem({ space }: SpaceItemProps) {
   const { isCollapsed } = useNavigation();
+
+  const { name, introduction } = space;
+
   // TODO(prgmr99): 현재 선택된 스페이스 전역상태 업데이트 로직 추가
 
   return (
@@ -87,7 +95,7 @@ export default function SpaceItem() {
             text-overflow: ellipsis;
           `}
         >
-          스페이스 이름 1
+          {name}
         </Typography>
         <Typography
           variant="body12Medium"
@@ -98,7 +106,7 @@ export default function SpaceItem() {
             text-overflow: ellipsis;
           `}
         >
-          스페이스 설명
+          {introduction}
         </Typography>
       </div>
     </li>
