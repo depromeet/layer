@@ -63,6 +63,8 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
         gap: 0.4rem;
         margin-top: 1rem;
         padding: 0;
+        flex: 1;
+        overflow-y: auto;
       `}
     >
       {spaces.map((space) => (
@@ -72,7 +74,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
 
       {hasNextPage && <div ref={observerRef} style={{ height: "1px" }} />}
 
-      {/* TODO: 로딩 UI 디자인 확인 필요 */}
+      {/* TODO: 로딩 UI 디자인 확인 필요 (임시 적용)*/}
       {isFetchingNextPage && <LoadingSpinner />}
     </ul>
   );
