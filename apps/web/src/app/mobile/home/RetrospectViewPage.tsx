@@ -14,20 +14,23 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 import { useTestNatigate } from "@/lib/test-natigate";
 import { EmptySpaceList } from "@/component/space/view/EmptySpaceList";
 
+const PROJECT_CATEGORY_MAP = {
+  전체: "ALL",
+  개인: "INDIVIDUAL",
+  팀: "TEAM",
+} as const;
+
+const CATEGORY_NAMES = Object.keys(PROJECT_CATEGORY_MAP) as Array<keyof typeof PROJECT_CATEGORY_MAP>;
+
 export function RetrospectViewPage() {
   // const navigate = useNavigate();
-  const naviagte = useTestNatigate();
+  const navigate = useTestNatigate(); // TODO(prgmr99): 오탈자 확인
 
-  const tabMappings = {
-    전체: "ALL",
-    개인: "INDIVIDUAL",
-    팀: "TEAM",
-  } as const;
-  const tabNames = Object.keys(tabMappings) as Array<keyof typeof tabMappings>;
-  const { tabs, curTab, selectTab } = useTabs(tabNames);
-  const selectedView = tabMappings[curTab];
+  const { tabs, curTab, selectTab } = useTabs(CATEGORY_NAMES);
+  const currentCategory = PROJECT_CATEGORY_MAP[curTab];
 
-  const { data: spaceList, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useApiGetSpaceList(selectedView);
+  const { data: spaceList, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useApiGetSpaceList(currentCategory);
+
   const observer = useRef<IntersectionObserver | null>(null);
 
   const lastElementRef = useCallback(
@@ -44,11 +47,12 @@ export function RetrospectViewPage() {
   );
 
   const goToCreateSpace = () => {
-    naviagte(PATHS.spaceCreate());
+    navigate(PATHS.spaceCreate());
   };
 
   const isEmptySpaceList =
-    spaceList?.pages.flatMap((page) => page.data).filter((space) => (selectedView === "ALL" ? true : space.category === selectedView)).length === 0;
+    spaceList?.pages.flatMap((page) => page.data).filter((space) => (currentCategory === "ALL" ? true : space.category === currentCategory))
+      .length === 0;
 
   return (
     <DefaultLayout
@@ -76,7 +80,7 @@ export function RetrospectViewPage() {
       >
         {spaceList?.pages
           .flatMap((page) => page.data)
-          .filter((space) => (selectedView === "ALL" ? true : space.category === selectedView))
+          .filter((space) => (currentCategory === "ALL" ? true : space.category === currentCategory))
           .map((space, idx) => (
             <SpaceOverview
               key={space.id}

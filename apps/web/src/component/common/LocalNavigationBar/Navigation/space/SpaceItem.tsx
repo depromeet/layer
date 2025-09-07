@@ -1,16 +1,31 @@
 import { css } from "@emotion/react";
+import { useAtom } from "jotai";
 
-import { Icon } from "../../../Icon";
 import { Typography } from "../../../typography";
 import { useNavigation } from "../../context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Space } from "@/types/spaceType";
+import { currentSpaceState } from "@/store/space/spaceAtom";
 
-const IS_CURRENT_SPACE = false; // ! 임시변수, 아래의 TODO 완료 후 제거
+import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 
-export default function SpaceItem() {
+interface SpaceItemProps {
+  space: Space;
+}
+
+export default function SpaceItem({ space }: SpaceItemProps) {
   const { isCollapsed } = useNavigation();
-  // TODO(prgmr99): 현재 선택된 스페이스 전역상태 업데이트 로직 추가
+
+  const { id, name, introduction, bannerUrl } = space;
+
+  const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
+
+  const isCurrent = String(currentSpace?.id) === String(id);
+
+  const handleSelectSpace = () => {
+    setCurrentSpace(space);
+  };
 
   return (
     <li
@@ -19,7 +34,7 @@ export default function SpaceItem() {
         align-items: center;
         gap: 1rem;
         width: 100%;
-        background-color: ${IS_CURRENT_SPACE ? DESIGN_TOKEN_COLOR.gray100 : "transparent"};
+        background-color: ${isCurrent ? DESIGN_TOKEN_COLOR.gray100 : "transparent"};
         border-radius: 0.8rem;
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
@@ -40,6 +55,7 @@ export default function SpaceItem() {
           background-color: ${DESIGN_TOKEN_COLOR.gray100};
         }
       `}
+      onClick={handleSelectSpace}
     >
       {/* ---------- 스페이스 이미지/아이콘 ---------- */}
       <div
@@ -47,11 +63,22 @@ export default function SpaceItem() {
           width: 3.6rem;
           height: 3.6rem;
           background-color: ${DESIGN_TOKEN_COLOR.gray200};
-          padding: 0.6rem;
           border-radius: 50%;
         `}
       >
-        <Icon icon="ic_management_white" size={2.4} />
+        <img
+          src={bannerUrl}
+          alt={`${name}Image`}
+          onError={(e) => {
+            e.currentTarget.src = spaceDefaultImg;
+          }}
+          css={css`
+            width: 3.6rem;
+            height: 3.6rem;
+            border-radius: 100%;
+            object-fit: cover;
+          `}
+        />
       </div>
 
       {/* ---------- 스페이스 이름/설명 ---------- */}
@@ -87,7 +114,7 @@ export default function SpaceItem() {
             text-overflow: ellipsis;
           `}
         >
-          스페이스 이름 1
+          {name}
         </Typography>
         <Typography
           variant="body12Medium"
@@ -98,7 +125,7 @@ export default function SpaceItem() {
             text-overflow: ellipsis;
           `}
         >
-          스페이스 설명
+          {introduction}
         </Typography>
       </div>
     </li>

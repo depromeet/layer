@@ -5,24 +5,25 @@ import HeaderSpaceAddButton from "./space/HeaderSpaceAddButton";
 import SpacesList from "./space/SpacesList";
 import SpaceTabs from "./space/SpaceTabs";
 import { useState } from "react";
-import { SPACE_TABS } from "../constants";
+import { PROJECT_CATEGORY_MAP } from "../constants";
 import { useNavigation } from "../context/NavigationContext";
 
 export default function Navigation() {
   const { isCollapsed } = useNavigation();
 
-  // TODO(prgmr99): 현재 탭을 기준으로 스페이스 리스트 불러오기
   const [currentTab, setCurrentTab] = useState<"전체" | "개인" | "팀">("전체");
 
-  const handleCurrentTabClick = (tab: (typeof SPACE_TABS)[number]) => {
+  const handleCurrentTabClick = (tab: keyof typeof PROJECT_CATEGORY_MAP) => {
     setCurrentTab(tab);
   };
 
   return (
     <nav
       css={css`
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
         flex: 1;
-        overflow-y: auto;
         padding: ${isCollapsed ? "0.6rem" : "1.2rem"};
       `}
     >
@@ -32,6 +33,10 @@ export default function Navigation() {
       {/* ---------- 내 스페이스 ---------- */}
       <section
         css={css`
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
+          flex: 1;
           margin-top: ${isCollapsed ? 0 : "0.8rem"};
         `}
       >
@@ -42,7 +47,7 @@ export default function Navigation() {
         <SpaceTabs currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
 
         {/* ---------- 스페이스 리스트 ---------- */}
-        <SpacesList />
+        <SpacesList currentTab={currentTab} />
       </section>
     </nav>
   );
