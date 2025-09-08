@@ -45,6 +45,7 @@ import ChannelService from "@/lib/channel-talk/service";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
 import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
+import { HomePage } from "@/app/desktop/home/HomePage";
 
 type RouteChildren = {
   auth: boolean;
@@ -95,7 +96,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
     children: [
       {
         path: "",
-        element: <div>Desktop Home</div>, // TODO: 데스크탑용 홈
+        element: <HomePage />,
       },
       {
         path: "analysis",

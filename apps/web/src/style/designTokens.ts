@@ -49,6 +49,11 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "400",
     lineHeight: "140%",
   },
+  body13Bold: {
+    fontSize: "1.3rem",
+    fontWeight: "600",
+    lineHeight: "150%",
+  },
   body13Medium: {
     fontSize: "1.3rem",
     fontWeight: "400",
