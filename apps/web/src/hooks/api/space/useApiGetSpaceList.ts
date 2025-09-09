@@ -1,4 +1,4 @@
-import { InfiniteData, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions } from "@tanstack/react-query";
+import { useInfiniteQuery, UseInfiniteQueryOptions } from "@tanstack/react-query";
 
 import { api } from "@/api";
 import { Space } from "@/types/spaceType";
@@ -13,12 +13,7 @@ type SpaceFetchResponse = {
 
 type UseApiGetSpaceListOptions = {
   pageSize?: number;
-};
-
-type UseApiGetSpaceListQueryOptions = Omit<
-  UseInfiniteQueryOptions<SpaceFetchResponse, Error, InfiniteData<SpaceFetchResponse, unknown>, SpaceFetchResponse, QueryKey, unknown>,
-  "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam"
->;
+} & Omit<UseInfiniteQueryOptions<SpaceFetchResponse>, "queryKey" | "queryFn" | "initialPageParam" | "getNextPageParam" | "select">;
 
 const DEFAULT_PAGE_SIZE = 5;
 
@@ -38,8 +33,8 @@ export const spaceFetch = async (cursorId: number, category: string, pageSize: n
   return response.data;
 };
 
-export const useApiGetSpaceList = (category: string, options?: UseApiGetSpaceListOptions, queryOptions?: UseApiGetSpaceListQueryOptions) => {
-  const { pageSize = DEFAULT_PAGE_SIZE } = options || {};
+export const useApiGetSpaceList = (category: string, options?: UseApiGetSpaceListOptions) => {
+  const { pageSize = DEFAULT_PAGE_SIZE, ...queryOptions } = options || {};
 
   return useInfiniteQuery<SpaceFetchResponse>({
     queryKey: ["spaces", category],

@@ -26,7 +26,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
     isPending,
     isFetchingNextPage,
     fetchNextPage,
-  } = useApiGetSpaceList(currentCategory, undefined, {
+  } = useApiGetSpaceList(currentCategory, {
     refetchOnWindowFocus: false,
   });
 
