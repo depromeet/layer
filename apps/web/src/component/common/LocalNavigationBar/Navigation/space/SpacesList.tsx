@@ -8,6 +8,7 @@ import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { PROJECT_CATEGORY_MAP } from "../../constants";
 import { useEffect, useRef } from "react";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
+import { queryOptions } from "@tanstack/react-query";
 
 interface SpacesListProps {
   currentTab: "전체" | "개인" | "팀";
@@ -20,7 +21,15 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
 
   const observerRef = useRef<HTMLDivElement>(null);
 
-  const { data: spaceData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useApiGetSpaceList(currentCategory);
+  const {
+    data: spaceData,
+    hasNextPage,
+    isPending,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useApiGetSpaceList(currentCategory, undefined, {
+    refetchOnWindowFocus: false,
+  });
 
   const spaces = spaceData?.pages.flatMap((page) => page.data) ?? [];
 
@@ -50,7 +59,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
     };
   }, [hasNextPage, fetchNextPage]);
 
-  if (isFetching && !isFetchingNextPage) {
+  if (isPending && !isFetchingNextPage) {
     return <LoadingSpinner />;
   }
 

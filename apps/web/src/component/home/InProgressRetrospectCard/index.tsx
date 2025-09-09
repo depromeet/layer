@@ -21,7 +21,6 @@ export default function InProgressRetrospectCard({ title, description, createdAt
         padding: 1.6rem;
         background-color: white;
         border-radius: 1.2rem;
-        border: 1px solid #f1f3f5;
         transition: all 0.2s ease;
         cursor: pointer;
         flex: 1;
