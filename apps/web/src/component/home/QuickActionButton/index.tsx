@@ -18,6 +18,12 @@ export default function QuickActionButton({ action }: QuickActionButtonProps) {
         background-color: white;
         border-radius: 9.9rem;
         cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: #f8f9fa;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
       `}
     >
       <Icon icon="ic_template" size={2.4} color="blue600" />

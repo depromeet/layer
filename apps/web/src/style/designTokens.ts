@@ -1,4 +1,9 @@
 export const DESIGN_TOKEN_TEXT = {
+  heading28Bold: {
+    fontSize: "2.8rem",
+    fontWeight: "700",
+    lineHeight: "150%",
+  },
   heading24Bold: {
     fontSize: "2.4rem",
     fontWeight: "700",

@@ -16,7 +16,7 @@ export function HomePage() {
           text-align: center;
         `}
       >
-        <Typography color="gray900" variant="T2">
+        <Typography color="gray900" variant="heading28Bold">
           내 회고 리포트
         </Typography>
 

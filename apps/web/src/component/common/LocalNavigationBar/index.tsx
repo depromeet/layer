@@ -3,11 +3,11 @@ import { css } from "@emotion/react";
 import Footer from "./Footer";
 import Header from "./Header";
 import Navigation from "./Navigation/Navigation";
-import { NavigationProvider, useNavigation } from "./context/NavigationContext";
+import { useNavigation } from "./context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-function LocalNavigationBarContent() {
+export default function LocalNavigationBar() {
   const { isCollapsed } = useNavigation();
 
   return (
@@ -33,13 +33,5 @@ function LocalNavigationBarContent() {
 
       <Footer />
     </aside>
-  );
-}
-
-export default function LocalNavigationBar() {
-  return (
-    <NavigationProvider>
-      <LocalNavigationBarContent />
-    </NavigationProvider>
   );
 }
