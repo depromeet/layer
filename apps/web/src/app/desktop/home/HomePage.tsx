@@ -1,39 +1,20 @@
-import { Typography } from "@/component/common/typography";
-import QuickActionButton from "@/component/home/QuickActionButton";
 import { css } from "@emotion/react";
+
+import HomePageHeader from "@/component/home/HomePageHeader";
+import InProgressRetrospectsWrapper from "@/component/home/InProgressRetrospectsWrapper";
 
 export function HomePage() {
   return (
     <section
       css={css`
         width: "100%";
+        margin: 0 auto;
+        max-width: 92.8rem;
       `}
     >
-      <header
-        css={css`
-          padding-top: 4.5rem;
-          margin: 0 auto;
-          text-align: center;
-        `}
-      >
-        <Typography color="gray900" variant="heading28Bold">
-          내 회고 리포트
-        </Typography>
+      <HomePageHeader />
 
-        <section
-          css={css`
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.8rem;
-            margin-top: 1.5rem;
-          `}
-        >
-          <QuickActionButton action="작성 예정 회고보기" />
-          <QuickActionButton action="회고 생성하기" />
-          <QuickActionButton action="회고 작성하기" />
-        </section>
-      </header>
+      <InProgressRetrospectsWrapper />
     </section>
   );
 }
