@@ -20,15 +20,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
 
   const observerRef = useRef<HTMLDivElement>(null);
 
-  const {
-    data: spaceData,
-    hasNextPage,
-    isPending,
-    isFetchingNextPage,
-    fetchNextPage,
-  } = useApiGetSpaceList(currentCategory, {
-    refetchOnWindowFocus: false,
-  });
+  const { data: spaceData, hasNextPage, isPending, isFetchingNextPage, fetchNextPage } = useApiGetSpaceList(currentCategory);
 
   const spaces = spaceData?.pages.flatMap((page) => page.data) ?? [];
 
