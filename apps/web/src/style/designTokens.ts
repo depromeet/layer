@@ -1,4 +1,9 @@
 export const DESIGN_TOKEN_TEXT = {
+  heading28Bold: {
+    fontSize: "2.8rem",
+    fontWeight: "700",
+    lineHeight: "150%",
+  },
   heading24Bold: {
     fontSize: "2.4rem",
     fontWeight: "700",
@@ -39,6 +44,11 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "400",
     lineHeight: "140%",
   },
+  body15Bold: {
+    fontSize: "1.5rem",
+    fontWeight: "700",
+    lineHeight: "140%",
+  },
   body15Medium: {
     fontSize: "1.5rem",
     fontWeight: "400",
@@ -48,6 +58,11 @@ export const DESIGN_TOKEN_TEXT = {
     fontSize: "1.4rem",
     fontWeight: "400",
     lineHeight: "140%",
+  },
+  body13Bold: {
+    fontSize: "1.3rem",
+    fontWeight: "600",
+    lineHeight: "150%",
   },
   body13Medium: {
     fontSize: "1.3rem",

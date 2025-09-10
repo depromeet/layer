@@ -51,6 +51,7 @@ export function SpaceViewPage() {
     queries: [useApiOptionsGetRetrospects(spaceId), useApiOptionsGetSpaceInfo(spaceId), useAPiOptionsRecentTeamActionList(spaceId)],
   });
 
+  // TODO: 상태 관리 useQueries로 통합 관리하도록 개선
   const [proceedingRetrospects, setProceedingRetrospects] = useState<Retrospect[]>([]);
   const [doneRetrospects, setDoneRetrospects] = useState<Retrospect[]>([]);
 
