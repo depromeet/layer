@@ -46,7 +46,6 @@ import { useDeviceType } from "@/hooks/useDeviceType";
 import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
 import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
 import DesktopLoginPage from "@/app/desktop/login/DesktopLoginPage";
-import { HomePage } from "@/app/desktop/home/HomePage";
 
 type RouteChildren = {
   auth: boolean;
@@ -97,7 +96,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
     children: [
       {
         path: "",
-        element: <HomePage />,
+        element: <div>Desktop Home</div>, // TODO: 데스크탑용 홈
       },
       {
         path: "analysis",
