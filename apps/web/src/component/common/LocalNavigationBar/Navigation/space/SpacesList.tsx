@@ -20,7 +20,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
 
   const observerRef = useRef<HTMLDivElement>(null);
 
-  const { data: spaceData, hasNextPage, isFetching, isFetchingNextPage, fetchNextPage } = useApiGetSpaceList(currentCategory);
+  const { data: spaceData, hasNextPage, isPending, isFetchingNextPage, fetchNextPage } = useApiGetSpaceList(currentCategory);
 
   const spaces = spaceData?.pages.flatMap((page) => page.data) ?? [];
 
@@ -50,7 +50,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
     };
   }, [hasNextPage, fetchNextPage]);
 
-  if (isFetching && !isFetchingNextPage) {
+  if (isPending && !isFetchingNextPage) {
     return <LoadingSpinner />;
   }
 
