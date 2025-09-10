@@ -77,7 +77,12 @@ export function SocialLoginArea({
   };
 
   return (
-    <div {...props}>
+    <div
+      {...props}
+      css={css`
+        width: 100%;
+      `}
+    >
       <ButtonProvider onlyContainerStyle={onlyContainerStyle} isProgress={isPending}>
         <SocialLoginButton type="kakao" handler={kakaoLogin} />
         {/* <SocialLoginButton type="apple" handler={appleLogin} /> */}
