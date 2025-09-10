@@ -45,6 +45,7 @@ import ChannelService from "@/lib/channel-talk/service";
 import { useDeviceType } from "@/hooks/useDeviceType";
 import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
 import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
+import DesktopLoginPage from "@/app/desktop/login/DesktopLoginPage";
 
 type RouteChildren = {
   auth: boolean;
@@ -119,7 +120,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
   },
   {
     path: "login",
-    element: <LoginPage />, // TODO: 데스크탑용 로그인(임시로 기존 로그인 페이지 사용)
+    element: <DesktopLoginPage />, // TODO: 데스크탑용 로그인(임시로 기존 로그인 페이지 사용)
     auth: false,
     deviceType: "desktop",
   },
