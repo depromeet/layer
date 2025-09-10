@@ -46,7 +46,7 @@ export const ButtonProvider = ({
               `
             : css`
                 flex-direction: column;
-                row-gap: 0.6rem;
+                row-gap: 1rem;
               `}
           position: sticky;
           bottom: 0;
