@@ -16,14 +16,13 @@ export default function InProgressRetrospectCard({ title, description, createdAt
       css={css`
         display: flex;
         flex-direction: column;
-        max-width: 28rem;
+        width: 30rem;
         height: 13.8rem;
         padding: 1.6rem;
         background-color: white;
         border-radius: 1.2rem;
         transition: all 0.2s ease;
         cursor: pointer;
-        flex: 1;
 
         &:hover {
           border-color: #e9ecef;
