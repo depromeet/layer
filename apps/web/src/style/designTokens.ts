@@ -49,6 +49,11 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "700",
     lineHeight: "140%",
   },
+  body15SemiBold: {
+    fontSize: "1.5rem",
+    fontWeight: "500",
+    lineHeight: "140%",
+  },
   body15Medium: {
     fontSize: "1.5rem",
     fontWeight: "400",

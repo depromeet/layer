@@ -27,7 +27,7 @@ export default function InProgressRetrospectsWrapper() {
         작성중인 회고 ({retrospects?.length || 0})
       </Typography>
 
-      {/* ---------- Swiper 컨테이너 ---------- */}
+      {/* ---------- 작성중인 회고 컨텐츠 ---------- */}
       <Swiper
         modules={[Navigation]}
         spaceBetween={12}
