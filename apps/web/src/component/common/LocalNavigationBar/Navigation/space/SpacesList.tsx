@@ -74,7 +74,6 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
 
       {hasNextPage && <div ref={observerRef} style={{ height: "1px" }} />}
 
-      {/* TODO: 로딩 UI 디자인 확인 필요 (임시 적용)*/}
       {isFetchingNextPage && <LoadingSpinner />}
     </ul>
   );
