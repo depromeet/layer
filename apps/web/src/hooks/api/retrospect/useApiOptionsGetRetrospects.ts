@@ -1,4 +1,3 @@
-import { status } from "./../../../component/actionItem/actionItem.const";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 
 import { api } from "@/api";
@@ -15,7 +14,7 @@ const spaceRetrospectFetch = async (spaceId: string | undefined) => {
 };
 
 const getAllRetrospectsFetch = async () => {
-  const response = await api.get<RetrospectResponse>("/retrospect");
+  const response = await api.get<RetrospectResponse>("/retrospects");
   return response.data;
 };
 

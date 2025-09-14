@@ -10,19 +10,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { useGetAllRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 
-// 테스트용 더미 데이터
-const DUMMY_RETROSPECTS = [
-  { id: 1, title: "중간발표 이후 회고", description: "중간발표 과정 및 팀의 커뮤니케이션 과정", createdAt: "2024.07.30 10:00", memberCount: 4 },
-  { id: 2, title: "프로젝트 기획 회고", description: "기획 단계에서의 문제점 및 개선 방안 논의", createdAt: "2024.08.01 14:00", memberCount: 4 },
-  { id: 3, title: "1차 스프린트 회고", description: "개발 과정에서의 기술적 어려움과 해결 과정", createdAt: "2024.08.05 16:00", memberCount: 4 },
-  { id: 4, title: "디자인 시안 리뷰 회고", description: "디자인팀과 협업하며 발생한 이슈들", createdAt: "2024.08.10 11:00", memberCount: 4 },
-];
-
 export default function InProgressRetrospectsWrapper() {
   // * 작성중인 모든 회고 리스트 요청
   const { data: retrospects } = useGetAllRetrospects({
     select: (data) => data.retrospects.filter((retrospect) => retrospect.writeStatus === "PROCEEDING"),
   });
+
+  console.log("retrospects", retrospects);
 
   return (
     <section
@@ -134,14 +128,9 @@ export default function InProgressRetrospectsWrapper() {
           }
         `}
       >
-        {DUMMY_RETROSPECTS.map((retrospect) => (
-          <SwiperSlide key={retrospect.id}>
-            <InProgressRetrospectCard
-              title={retrospect.title}
-              description={retrospect.description}
-              createdAt={retrospect.createdAt}
-              memberCount={retrospect.memberCount}
-            />
+        {retrospects?.map((retrospect) => (
+          <SwiperSlide key={retrospect.retrospectId}>
+            <InProgressRetrospectCard retrospect={retrospect} />
           </SwiperSlide>
         ))}
       </Swiper>
