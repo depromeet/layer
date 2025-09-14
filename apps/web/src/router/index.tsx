@@ -47,6 +47,7 @@ import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
 import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
 import DesktopLoginPage from "@/app/desktop/login/DesktopLoginPage";
 import { HomePage } from "@/app/desktop/home/HomePage";
+import RetroSpectSpacePage from "@/app/desktop/retrospectSpace/RetroSpectSpacePage";
 
 type RouteChildren = {
   auth: boolean;
@@ -106,6 +107,10 @@ const deviceSpecificRoutes: RouteChildren[] = [
       {
         path: "goals",
         element: <div>Desktop Goals</div>, // TODO: 데스크탑용 목표
+      },
+      {
+        path: "retrospectSpace",
+        element: <RetroSpectSpacePage />, // TODO: 데스크탑용 회고
       },
     ],
     auth: true,
