@@ -107,6 +107,7 @@ export const DESIGN_TOKEN_TEXT = {
 } as const;
 
 export const DESIGN_TOKEN_COLOR = {
+  white: "#FFFFFF",
   themeBackground: {
     dark: "#212529",
     gray: "#F2F4F8",
