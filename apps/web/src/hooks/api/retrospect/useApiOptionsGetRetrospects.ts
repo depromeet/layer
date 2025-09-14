@@ -1,23 +1,39 @@
-import { UseQueryOptions } from "@tanstack/react-query";
+import { status } from "./../../../component/actionItem/actionItem.const";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 
 import { api } from "@/api";
 import { Retrospect } from "@/types/retrospect";
 
-export type RestrospectResponse = {
+export type RetrospectResponse = {
   layerCount: number;
   retrospects: Retrospect[];
 };
 
-const spaceRestrospectFetch = async (spaceId: string | undefined) => {
-  const response = await api.get<RestrospectResponse>(`/space/${spaceId}/retrospect`);
+const spaceRetrospectFetch = async (spaceId: string | undefined) => {
+  const response = await api.get<RetrospectResponse>(`/space/${spaceId}/retrospect`);
   return response.data;
 };
 
-export const useApiOptionsGetRetrospects = (spaceId?: string): UseQueryOptions<RestrospectResponse, Error, RestrospectResponse["retrospects"]> => ({
+const getAllRetrospectsFetch = async () => {
+  const response = await api.get<RetrospectResponse>("/retrospect");
+  return response.data;
+};
+
+export const useApiOptionsGetRetrospects = (spaceId?: string): UseQueryOptions<RetrospectResponse, Error, RetrospectResponse["retrospects"]> => ({
   queryKey: ["getRetrospects", spaceId!],
-  queryFn: () => spaceRestrospectFetch(spaceId),
+  queryFn: () => spaceRetrospectFetch(spaceId),
   select(data) {
     return data.retrospects;
   },
   enabled: !!spaceId,
 });
+
+// * 모든 회고 리스트 요청 API 훅
+export const useGetAllRetrospects = (options?: Partial<UseQueryOptions<RetrospectResponse, Error, RetrospectResponse["retrospects"]>>) => {
+  return useQuery({
+    queryKey: ["getAllRetrospects"],
+    queryFn: getAllRetrospectsFetch,
+    select: (data) => data.retrospects,
+    ...options,
+  });
+};

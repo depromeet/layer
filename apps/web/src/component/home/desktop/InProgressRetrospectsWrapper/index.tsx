@@ -8,6 +8,7 @@ import { Navigation } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import { useGetAllRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 
 // 테스트용 더미 데이터
 const DUMMY_RETROSPECTS = [
@@ -18,6 +19,11 @@ const DUMMY_RETROSPECTS = [
 ];
 
 export default function InProgressRetrospectsWrapper() {
+  // * 작성중인 모든 회고 리스트 요청
+  const { data: retrospects } = useGetAllRetrospects({
+    select: (data) => data.retrospects.filter((retrospect) => retrospect.writeStatus === "PROCEEDING"),
+  });
+
   return (
     <section
       css={css`
@@ -26,7 +32,7 @@ export default function InProgressRetrospectsWrapper() {
     >
       {/* ---------- 제목 ---------- */}
       <Typography variant="body15Bold" color="gray800">
-        작성중인 회고 ({DUMMY_RETROSPECTS.length})
+        작성중인 회고 ({retrospects?.length || 0})
       </Typography>
 
       {/* ---------- Swiper 컨테이너 ---------- */}
