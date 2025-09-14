@@ -128,11 +128,30 @@ export default function InProgressRetrospectsWrapper() {
           }
         `}
       >
-        {retrospects?.map((retrospect) => (
-          <SwiperSlide key={retrospect.retrospectId}>
-            <InProgressRetrospectCard retrospect={retrospect} />
-          </SwiperSlide>
-        ))}
+        {retrospects && retrospects.length > 0 ? (
+          retrospects.map((retrospect) => (
+            <SwiperSlide key={retrospect.retrospectId}>
+              <InProgressRetrospectCard retrospect={retrospect} />
+            </SwiperSlide>
+          ))
+        ) : (
+          <div
+            css={css`
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 100%;
+              height: 13.8rem;
+              background-color: ${DESIGN_TOKEN_COLOR.gray100};
+              border-radius: 1.2rem;
+              border: 1px dashed ${DESIGN_TOKEN_COLOR.gray500};
+            `}
+          >
+            <Typography variant="body14Medium" color="gray800">
+              작성중인 회고가 없습니다.
+            </Typography>
+          </div>
+        )}
       </Swiper>
     </section>
   );
