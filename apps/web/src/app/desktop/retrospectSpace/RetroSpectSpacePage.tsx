@@ -9,6 +9,7 @@ export default function RetroSpectSpacePage() {
     <section
       css={css`
         width: 100%;
+        height: 100vh;
         padding: 28px 40px 0 40px;
         display: flex;
         flex-direction: column;
@@ -20,6 +21,8 @@ export default function RetroSpectSpacePage() {
         css={css`
           display: flex;
           justify-content: space-between;
+          flex: 1;
+          overflow: hidden;
         `}
       >
         <div

@@ -16,11 +16,14 @@ export default function ActionItems() {
   return (
     <section
       css={css`
+        flex: 1;
         width: 100%;
         max-width: 30.6rem;
         background-color: ${DESIGN_TOKEN_COLOR.gray00};
         border-radius: 1.2rem;
         padding: 1.8rem;
+        display: flex;
+        flex-direction: column;
       `}
     >
       <div
@@ -32,6 +35,7 @@ export default function ActionItems() {
           padding-bottom: 1.2rem;
           margin-bottom: 1.2rem;
           border-bottom: 1px solid ${DESIGN_TOKEN_COLOR.gray100};
+          flex-shrink: 0;
         `}
       >
         <Typography variant="title16Bold">실행목표</Typography>
@@ -39,7 +43,16 @@ export default function ActionItems() {
       </div>
 
       <GoalTab currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
-      <GoalList currentTab={currentTab} />
+      <div
+        css={css`
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        `}
+      >
+        <GoalList currentTab={currentTab} />
+      </div>
     </section>
   );
 }
