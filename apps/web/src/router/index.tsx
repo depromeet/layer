@@ -47,6 +47,7 @@ import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
 import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
 import DesktopLoginPage from "@/app/desktop/login/DesktopLoginPage";
 import { HomePage } from "@/app/desktop/home/HomePage";
+import { RetrospectTestPage } from "@/app/desktop/retrospect/RetrospectTestPage";
 
 type RouteChildren = {
   auth: boolean;
@@ -155,7 +156,6 @@ const deviceSpecificRoutes: RouteChildren[] = [
     auth: false,
     deviceType: "mobile",
   },
-
   // 닉네임 설정 - 모바일
   {
     path: "setnickname/:socialType",
@@ -218,6 +218,27 @@ const deviceSpecificRoutes: RouteChildren[] = [
     element: <MembersEditListPage />,
     auth: true,
     deviceType: "mobile",
+  },
+  // 스페이스 관련 - 데스크탑
+  {
+    path: "",
+    element: <DesktopHomeLayout />,
+    children: [
+      {
+        path: "space/:spaceId",
+        element: <RetrospectTestPage />,
+      },
+      {
+        path: "analysis",
+        element: <div>Desktop Analysis</div>, // TODO: 데스크탑용 분석
+      },
+      {
+        path: "goals",
+        element: <div>Desktop Goals</div>, // TODO: 데스크탑용 목표
+      },
+    ],
+    auth: true,
+    deviceType: "desktop",
   },
 
   // 회고 생성 - 모바일

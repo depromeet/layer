@@ -19,6 +19,7 @@ type ConfirmDefaultTemplateProps = {
 export function ConfirmDefaultTemplate({ goEdit }: ConfirmDefaultTemplateProps) {
   const { goNext } = useContext(RetrospectCreateContext);
   const { title, tag, questions: originalQuestions } = useContext(TemplateContext);
+  console.log(originalQuestions);
 
   return (
     <>
