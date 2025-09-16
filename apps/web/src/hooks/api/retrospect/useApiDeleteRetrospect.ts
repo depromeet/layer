@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/api";
-import { RestrospectResponse } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
+import { RetrospectResponse } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useToast } from "@/hooks/useToast";
 
 export const useApiDeleteRetrospect = () => {
@@ -19,7 +19,7 @@ export const useApiDeleteRetrospect = () => {
     onMutate: async (variables) => {
       await queryClient.cancelQueries({ queryKey: ["getRetrospects", variables.spaceId] });
       const prevList = queryClient.getQueryData(["getRetrospects", variables.spaceId]);
-      queryClient.setQueryData(["getRetrospects", variables.spaceId], (old: RestrospectResponse) => {
+      queryClient.setQueryData(["getRetrospects", variables.spaceId], (old: RetrospectResponse) => {
         return {
           ...old,
           retrospects: old.retrospects.filter((item) => item.retrospectId !== Number(variables.retrospectId)),
