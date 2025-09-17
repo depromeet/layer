@@ -48,6 +48,7 @@ import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
 import DesktopLoginPage from "@/app/desktop/login/DesktopLoginPage";
 import { HomePage } from "@/app/desktop/home/HomePage";
 import { RetrospectTestPage } from "@/app/desktop/retrospect/RetrospectTestPage";
+import DesktopSetNickNamePage from "@/app/desktop/login/DesktopSetNickNamePage";
 
 type RouteChildren = {
   auth: boolean;
@@ -162,6 +163,13 @@ const deviceSpecificRoutes: RouteChildren[] = [
     element: <SetNickNamePage />,
     auth: false,
     deviceType: "mobile",
+  },
+  // 닉네임 설정 - 데스크탑
+  {
+    path: "setnickname/:socialType",
+    element: <DesktopSetNickNamePage />,
+    auth: false,
+    deviceType: "desktop",
   },
 
   // 스페이스 관련 - 모바일

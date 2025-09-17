@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { ActionItemList } from "@/component/actionItem/ActionItemList.tsx";
+import { ActionItemList } from "@/component/ActionItem/ActionItemList.tsx";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";

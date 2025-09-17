@@ -3,8 +3,8 @@ import Cookies from "js-cookie";
 import { Fragment } from "react";
 import { useLocation } from "react-router-dom";
 
-import { status } from "@/component/actionItem/actionItem.const.ts";
-import ActionItemBox from "@/component/actionItem/ActionItemBox.tsx";
+import { status } from "@/component/ActionItem/actionItem.const.ts";
+import ActionItemBox from "@/component/ActionItem/ActionItemBox.tsx";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Callout } from "@/component/common/callout/Callout.tsx";
 import { Icon } from "@/component/common/Icon";
