@@ -10,19 +10,30 @@ export default function RetroSpectSpacePage() {
       css={css`
         width: 100%;
         height: 100vh;
-        padding: 28px 40px 0 40px;
+        padding: 28px 20px 0 20px;
         display: flex;
         flex-direction: column;
         gap: 1.8rem;
+
+        /* 모바일 대응 */
+        @media (max-width: 979px) {
+          gap: 1.6rem;
+        }
       `}
     >
       <RetrospectSpaceHeader />
+
+      {/* 데스크탑 레이아웃 (980px 이상) */}
       <div
         css={css`
           display: flex;
           justify-content: space-between;
           flex: 1;
           overflow: hidden;
+
+          @media (max-width: 979px) {
+            display: none;
+          }
         `}
       >
         <div
@@ -34,7 +45,32 @@ export default function RetroSpectSpacePage() {
           <InProgressRetrospects />
           <CompletedRetrospects />
         </div>
+        <ActionItems />
+      </div>
 
+      {/* 모바일 레이아웃 (980px 미만) */}
+      <div
+        css={css`
+          display: none;
+          gap: 2.4rem;
+          flex: 1;
+          overflow-y: auto;
+
+          @media (max-width: 979px) {
+            display: flex;
+          }
+        `}
+      >
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+          `}
+        >
+          <InProgressRetrospects />
+          <CompletedRetrospects />
+        </div>
         <ActionItems />
       </div>
     </section>

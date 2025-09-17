@@ -96,29 +96,56 @@ export default function GoalCard({ title, todoList, status }: GoalCardProps) {
             gap: 0.8rem;
           `}
         >
-          {todoList.map((todo) => (
+          {todoList.length === 0 ? (
             <div
-              key={todo}
               css={css`
                 display: flex;
                 align-items: center;
-                gap: 0.6rem;
+                gap: 0.8rem;
               `}
             >
               <div
                 css={css`
-                  width: 3.5px;
-                  height: 3.5px;
-                  border-radius: 50%;
-                  background-color: ${DESIGN_TOKEN_COLOR.gray400};
-                  flex-shrink: 0;
+                  width: 1.2rem;
+                  height: 1.2rem;
+                  background-color: ${DESIGN_TOKEN_COLOR.gray100};
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 0.4rem;
                 `}
-              />
-              <Typography variant="body14Medium" color="gray900">
-                {todo}
+              >
+                <Icon icon="ic_plus" size={0.8} color={DESIGN_TOKEN_COLOR.gray500} />
+              </div>
+              <Typography variant="body14Medium" color="gray500">
+                실행목표 추가하기
               </Typography>
             </div>
-          ))}
+          ) : (
+            todoList.map((todo) => (
+              <div
+                key={todo}
+                css={css`
+                  display: flex;
+                  align-items: center;
+                  gap: 0.6rem;
+                `}
+              >
+                <div
+                  css={css`
+                    width: 3.5px;
+                    height: 3.5px;
+                    border-radius: 50%;
+                    background-color: ${DESIGN_TOKEN_COLOR.gray400};
+                    flex-shrink: 0;
+                  `}
+                />
+                <Typography variant="body14Medium" color="gray900">
+                  {todo}
+                </Typography>
+              </div>
+            ))
+          )}
         </Typography>
       </div>
     </div>

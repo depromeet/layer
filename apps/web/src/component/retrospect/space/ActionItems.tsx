@@ -19,6 +19,7 @@ export default function ActionItems() {
         flex: 1;
         width: 100%;
         max-width: 30.6rem;
+        min-width: 28.6rem;
         background-color: ${DESIGN_TOKEN_COLOR.gray00};
         border-radius: 1.2rem;
         padding: 1.8rem;
@@ -48,7 +49,8 @@ export default function ActionItems() {
           flex: 1;
           display: flex;
           flex-direction: column;
-          overflow: hidden;
+          overflow-y: auto;
+          overflow-x: hidden;
         `}
       >
         <GoalList currentTab={currentTab} />

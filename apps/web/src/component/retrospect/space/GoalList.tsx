@@ -18,24 +18,24 @@ interface GoalListProps {
 
 export default function GoalList({ currentTab }: GoalListProps) {
   const [inProgressGoals, setInProgressGoals] = useState<Goal[]>([
-    // {
-    //   id: "1",
-    //   title: "스프린트 1회차 이후 회고",
-    //   todoList: ["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "'린'분석 북 스터디 진행"],
-    //   status: "실행 중",
-    // },
-    // {
-    //   id: "2",
-    //   title: "스프린트 2회차 이후 회고",
-    //   todoList: ["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "'린'분석 북 스터디 진행"],
-    //   status: "실행 중",
-    // },
-    // {
-    //   id: "3",
-    //   title: "스프린트 3회차 이후 회고",
-    //   todoList: ["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "'린'분석 북 스터디 진행"],
-    //   status: "실행 중",
-    // },
+    {
+      id: "1",
+      title: "스프린트 1회차 이후 회고",
+      todoList: [],
+      status: "실행 중",
+    },
+    {
+      id: "2",
+      title: "스프린트 2회차 이후 회고",
+      todoList: ["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "'린'분석 북 스터디 진행"],
+      status: "실행 중",
+    },
+    {
+      id: "3",
+      title: "스프린트 3회차 이후 회고",
+      todoList: ["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "'린'분석 북 스터디 진행"],
+      status: "실행 중",
+    },
   ]);
 
   const [pastGoals, setPastGoals] = useState<Goal[]>([
