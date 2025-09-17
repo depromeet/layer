@@ -2,15 +2,17 @@ import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Retrospect } from "@/types/retrospect";
+import { formatDateAndTime } from "@/utils/date";
+import { ProceedingTextBox } from "@/component/space/view/ProceedingTextBox";
 
 interface InProgressRetrospectCardProps {
-  title: string;
-  description: string;
-  createdAt: string;
-  memberCount?: number;
+  retrospect: Retrospect;
 }
 
-export default function InProgressRetrospectCard({ title, description, createdAt, memberCount = 0 }: InProgressRetrospectCardProps) {
+export default function InProgressRetrospectCard({ retrospect }: InProgressRetrospectCardProps) {
+  const { title, introduction, deadline, totalCount, writeCount, writeStatus, analysisStatus } = retrospect;
+
   return (
     <section
       css={css`
@@ -40,24 +42,7 @@ export default function InProgressRetrospectCard({ title, description, createdAt
           margin-bottom: 1.2rem;
         `}
       >
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: fit-content;
-            height: 2.2rem;
-            padding: 0.3rem 0.6rem;
-            background-color: ${DESIGN_TOKEN_COLOR.gray200};
-            border-radius: 0.4rem;
-            border: 0.0883rem solid;
-            border-color: ${DESIGN_TOKEN_COLOR.gray400};
-          `}
-        >
-          <Typography variant="caption11Medium" color="gray700">
-            작성 전
-          </Typography>
-        </div>
+        <ProceedingTextBox writeStatus={writeStatus} analysisStatus={analysisStatus} />
         <Icon icon="ic_more" size={2.0} color={DESIGN_TOKEN_COLOR.gray500} />
       </div>
 
@@ -83,7 +68,7 @@ export default function InProgressRetrospectCard({ title, description, createdAt
             white-space: nowrap;
           `}
         >
-          {description}
+          {introduction}
         </Typography>
       </div>
 
@@ -96,23 +81,21 @@ export default function InProgressRetrospectCard({ title, description, createdAt
         `}
       >
         <Typography variant="body12SemiBold" color="gray500">
-          마감 예정 | {createdAt}
+          마감 예정 | {deadline ? formatDateAndTime(deadline) : "없음"}
         </Typography>
 
-        {memberCount > 0 && (
-          <div
-            css={css`
-              display: flex;
-              align-items: center;
-              gap: 0.2rem;
-            `}
-          >
-            <Icon icon="ic_person" size={1.8} color={DESIGN_TOKEN_COLOR.blue600} />
-            <Typography variant="body12SemiBold" color="gray500">
-              {memberCount} / {10}
-            </Typography>
-          </div>
-        )}
+        <div
+          css={css`
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+          `}
+        >
+          <Icon icon="ic_person" size={1.8} color={DESIGN_TOKEN_COLOR.blue600} />
+          <Typography variant="body12SemiBold" color="gray500">
+            {writeCount} / {totalCount}
+          </Typography>
+        </div>
       </div>
     </section>
   );

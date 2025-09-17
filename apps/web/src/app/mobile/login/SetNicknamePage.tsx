@@ -10,12 +10,14 @@ import { useInput } from "@/hooks/useInput";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { SocialLoginKind } from "@/types/loginType";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 export function SetNickNamePage() {
   const { value: nickName, handleInputChange } = useInput("");
   const maxLength = 10;
   const { mutate: signUpMutation, isPending } = usePostSignUp();
   const { socialType } = useRequiredParams<{ socialType: SocialLoginKind }>();
+  const { isMobile } = useDeviceType();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -27,7 +29,7 @@ export function SetNickNamePage() {
 
   return (
     <DefaultLayout appBarVisible={false}>
-      <Spacing size={8.8} />
+      {isMobile && <Spacing size={8.8} />}
 
       <Typography variant="T4">회고 시작 전,</Typography>
       <Spacing size={0.3} />
