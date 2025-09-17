@@ -10,13 +10,13 @@ import { DesktopDateTimePicker } from "./DesktopDateTimePicker";
 
 const DATE_INPUT_ID = "due-date";
 
-type DateTimeInput = {
+type DesktopDateTimeInput = {
   disablePast?: boolean;
   onValueChange: (isoString?: string) => void;
   defaultValue?: string | Date;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "defaultValue">;
 
-export function DesktopDateTimeInput({ onValueChange, disablePast = true, defaultValue, ...props }: DateTimeInput) {
+export function DesktopDateTimeInput({ onValueChange, disablePast = true, defaultValue, ...props }: DesktopDateTimeInput) {
   const COLOR_MAP = {
     default: {
       text: "gray500",
