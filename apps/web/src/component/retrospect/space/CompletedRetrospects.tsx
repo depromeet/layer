@@ -5,35 +5,46 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
 import { useState } from "react";
-
-interface Retrospect {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: string;
-  memberCount: number;
-}
+import { Retrospect } from "@/types/retrospect";
 
 export default function CompletedRetrospects() {
   const [retrospects, setRetrospects] = useState<Retrospect[]>([
-    // { id: "1", title: "중간발표 이후 회고", description: "중간발표 과정 및 팀의 커뮤니케이션 과정", createdAt: "2024.07.30 10:00", memberCount: 4 },
-    // {
-    //   id: "2",
-    //   title: "프로젝트 기획 회고",
-    //   description: "기획 단계에서의 문제점 및 개선 방안 논의",
-    //   createdAt: "2024.08.01 14:00",
-    //   memberCount: 4,
-    // },
-    // {
-    //   id: "3",
-    //   title: "1차 스프린트 회고",
-    //   description: "개발 과정에서의 기술적 어려움과 해결 과정",
-    //   createdAt: "2024.08.05 16:00",
-    //   memberCount: 4,
-    // },
-    // { id: "4", title: "디자인 시안 리뷰 회고", description: "디자인팀과 협업하며 발생한 이슈들", createdAt: "2024.08.10 11:00", memberCount: 4 },
-    // { id: "5", title: "디자인 시안 리뷰 회고", description: "디자인팀과 협업하며 발생한 이슈들", createdAt: "2024.08.10 11:00", memberCount: 4 },
-    // { id: "6", title: "디자인 시안 리뷰 회고", description: "디자인팀과 협업하며 발생한 이슈들", createdAt: "2024.08.10 11:00", memberCount: 4 },
+    {
+      retrospectId: 11,
+      title: "중간발표 이후 회고",
+      introduction: "중간발표 과정 및 팀의 커뮤니케이션 과정",
+      writeStatus: "DONE",
+      retrospectStatus: "DONE",
+      analysisStatus: "DONE",
+      totalCount: 4,
+      writeCount: 4,
+      createdAt: "2024.07.30 10:00",
+      deadline: "2024.08.05 23:59"
+    },
+    {
+      retrospectId: 12,
+      title: "프로젝트 기획 회고",
+      introduction: "기획 단계에서의 문제점 및 개선 방안 논의",
+      writeStatus: "DONE",
+      retrospectStatus: "DONE",
+      analysisStatus: "DONE",
+      totalCount: 4,
+      writeCount: 4,
+      createdAt: "2024.08.01 14:00",
+      deadline: "2024.08.10 23:59"
+    },
+    {
+      retrospectId: 13,
+      title: "1차 스프린트 회고",
+      introduction: "개발 과정에서의 기술적 어려움과 해결 과정",
+      writeStatus: "DONE",
+      retrospectStatus: "DONE",
+      analysisStatus: "DONE",
+      totalCount: 4,
+      writeCount: 4,
+      createdAt: "2024.08.05 16:00",
+      deadline: null
+    }
   ]);
 
   const handleOnDragEnd = (result: DropResult) => {
@@ -102,7 +113,7 @@ export default function CompletedRetrospects() {
                 `}
               >
                 {retrospects.map((retrospect, index) => (
-                  <Draggable key={retrospect.id} draggableId={retrospect.id} index={index}>
+                  <Draggable key={retrospect.retrospectId.toString()} draggableId={retrospect.retrospectId.toString()} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -127,10 +138,7 @@ export default function CompletedRetrospects() {
                         `}
                       >
                         <InProgressRetrospectCard
-                          title={retrospect.title}
-                          description={retrospect.description}
-                          createdAt={retrospect.createdAt}
-                          memberCount={retrospect.memberCount}
+                          retrospect={retrospect}
                         />
                       </div>
                     )}

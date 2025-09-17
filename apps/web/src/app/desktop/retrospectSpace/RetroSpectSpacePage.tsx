@@ -63,10 +63,10 @@ export default function RetroSpectSpacePage() {
             gap: 4rem;
           `}
         >
-          <InProgressRetrospects />
-          <CompletedRetrospects />
+          {/* <InProgressRetrospects /> */}
+          {/* <CompletedRetrospects /> */}
         </div>
-        <ActionItems />
+        {/* <ActionItems /> */}
       </div>
     </section>
   );
