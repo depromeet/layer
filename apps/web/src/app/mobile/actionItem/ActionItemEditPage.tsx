@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 import { Fragment, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { ActionItemModifyBox } from "@/component/actionItem/ActionItemModifyBox.tsx";
+import { ActionItemModifyBox } from "@/component/ActionItem/ActionItemModifyBox.tsx";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
