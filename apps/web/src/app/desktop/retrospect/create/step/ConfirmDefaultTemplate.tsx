@@ -19,82 +19,73 @@ export function ConfirmDefaultTemplate() {
     <>
       <Header title={"대표 템플릿으로 회고를 진행할까요?"} contents="가장 최근에 선택한 회고 템플릿이에요" />
       <Spacing size={4} />
-      <form
+      <div
         css={css`
+          position: relative;
           display: flex;
           flex-direction: column;
-          flex: 1 1 0;
+          border: 1px solid #dfe3ea;
+          border-radius: 1.2rem;
+          padding: 2rem;
           overflow-y: auto;
         `}
       >
-        <div
+        <Typography
+          variant={"S1"}
           css={css`
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #dfe3ea;
-            border-radius: 1.2rem;
-            padding: 2rem;
-            overflow-y: auto;
+            padding-right: 13rem;
           `}
         >
-          <Typography
-            variant={"S1"}
-            css={css`
-              padding-right: 13rem;
-            `}
-          >
-            {title}
-          </Typography>
-          <Tag styles="margin-top: 0.8rem">{tag}</Tag>
-          <Spacing size={3} />
-          <div
-            css={css`
-              overflow-y: auto;
-              margin-bottom: -2rem;
-              padding: 1.2rem 0;
-              padding-bottom: 2rem;
-            `}
-          >
-            <QuestionList>
-              {questions.map(({ questionContent }, index) => (
-                <QuestionListItem key={index} order={index + 1} content={questionContent} />
-              ))}
-            </QuestionList>
-          </div>
-          <button
-            type="button"
-            css={css`
-              position: absolute;
-              top: 2rem;
-              right: 2rem;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              border: 1px solid #dfe3ea;
-              border-radius: 3rem;
-              padding: 1.2rem 1.6rem 1.2rem 1.2rem;
-              font-size: 1.4rem;
-              line-height: 140%;
-              color: ${DESIGN_TOKEN_COLOR.gray700};
-              font-weight: 600;
-            `}
-          >
-            <Icon
-              icon="ic_write"
-              size={2}
-              css={css`
-                margin-right: 0.8rem;
-              `}
-            />
-            질문 수정
-          </button>
+          {title}
+        </Typography>
+        <Tag styles="margin-top: 0.8rem">{tag}</Tag>
+        <Spacing size={3} />
+        <div
+          css={css`
+            overflow-y: auto;
+            margin-bottom: -2rem;
+            padding: 1.2rem 0;
+            padding-bottom: 2rem;
+          `}
+        >
+          <QuestionList>
+            {questions.map(({ questionContent }, index) => (
+              <QuestionListItem key={index} order={index + 1} content={questionContent} />
+            ))}
+          </QuestionList>
         </div>
-        <ButtonProvider sort={"horizontal"}>
-          <ButtonProvider.Gray>템플릿 변경</ButtonProvider.Gray>
-          <ButtonProvider.Primary>진행하기</ButtonProvider.Primary>
-        </ButtonProvider>
-      </form>
+        <button
+          type="button"
+          css={css`
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #dfe3ea;
+            border-radius: 3rem;
+            padding: 1.2rem 1.6rem 1.2rem 1.2rem;
+            font-size: 1.4rem;
+            line-height: 140%;
+            color: ${DESIGN_TOKEN_COLOR.gray700};
+            font-weight: 600;
+          `}
+        >
+          <Icon
+            icon="ic_write"
+            size={2}
+            css={css`
+              margin-right: 0.8rem;
+            `}
+          />
+          질문 수정
+        </button>
+      </div>
+      <ButtonProvider sort={"horizontal"}>
+        <ButtonProvider.Gray>템플릿 변경</ButtonProvider.Gray>
+        <ButtonProvider.Primary>진행하기</ButtonProvider.Primary>
+      </ButtonProvider>
     </>
   );
 }
