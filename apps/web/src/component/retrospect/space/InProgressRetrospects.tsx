@@ -31,11 +31,11 @@ export default function InProgressRetrospects() {
       css={css`
         width: 100%;
         margin: 0 auto;
-        max-width: 92.8rem;
         height: 100%;
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        min-width: 30rem;
       `}
     >
       <Typography variant="title16Bold">진행중인 회고 {retrospects.length}</Typography>

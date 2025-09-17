@@ -14,11 +14,6 @@ export default function RetroSpectSpacePage() {
         display: flex;
         flex-direction: column;
         gap: 1.8rem;
-
-        /* 모바일 대응 */
-        @media (max-width: 979px) {
-          gap: 1.6rem;
-        }
       `}
     >
       <RetrospectSpaceHeader />
@@ -39,7 +34,7 @@ export default function RetroSpectSpacePage() {
         <div
           css={css`
             display: flex;
-            gap: 4rem;
+            gap: 5rem;
           `}
         >
           <InProgressRetrospects />
