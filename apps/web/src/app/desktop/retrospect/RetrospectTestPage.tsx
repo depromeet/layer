@@ -7,6 +7,10 @@ import { RetrospectCreatePage } from "./create/RetrospectCreate";
 export function RetrospectTestPage() {
   const { open } = useModal();
 
+  /**
+   * 임시로 contents로 '회고 생성'폼을 지정했습니다.
+   * 템플릿 변경, 전역 데이터 전달을 위해 설계에 대해 고민중입니다.
+   */
   const handleRetrospectCreate = () => {
     open({
       title: "",

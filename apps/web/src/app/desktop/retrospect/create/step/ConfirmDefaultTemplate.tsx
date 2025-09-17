@@ -6,10 +6,9 @@ import { Typography } from "@/component/common/typography";
 import { Tag } from "@/component/common/tag";
 import { Spacing } from "@/component/common/Spacing";
 import { ButtonProvider } from "@/component/common/button";
-import { Icon } from "@/component/common/Icon";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import QuestionEditButton from "@/app/desktop/component/retrospect/QuestionEditButton";
 
-export function ConfirmDefaultTemplate() {
+export function ConfirmDefaultTemplate({ onNext }: { onNext: () => void }) {
   // TODO 실제 템플릿id로 변경 필요
   const {
     data: { title, tag, questions },
@@ -54,37 +53,17 @@ export function ConfirmDefaultTemplate() {
             ))}
           </QuestionList>
         </div>
-        <button
-          type="button"
-          css={css`
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #dfe3ea;
-            border-radius: 3rem;
-            padding: 1.2rem 1.6rem 1.2rem 1.2rem;
-            font-size: 1.4rem;
-            line-height: 140%;
-            color: ${DESIGN_TOKEN_COLOR.gray700};
-            font-weight: 600;
-          `}
-        >
-          <Icon
-            icon="ic_write"
-            size={2}
-            css={css`
-              margin-right: 0.8rem;
-            `}
-          />
-          질문 수정
-        </button>
+        <QuestionEditButton />
       </div>
       <ButtonProvider sort={"horizontal"}>
         <ButtonProvider.Gray>템플릿 변경</ButtonProvider.Gray>
-        <ButtonProvider.Primary>진행하기</ButtonProvider.Primary>
+        <ButtonProvider.Primary
+          onClick={() => {
+            onNext();
+          }}
+        >
+          진행하기
+        </ButtonProvider.Primary>
       </ButtonProvider>
     </>
   );

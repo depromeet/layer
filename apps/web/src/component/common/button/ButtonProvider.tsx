@@ -53,7 +53,7 @@ export const ButtonProvider = ({
               `}
           position: sticky;
           bottom: 0;
-          padding: ${deviceType === "desktop" ? "0.8rem 0 1.6rem 0" : "4rem 0 2rem 0"};
+          padding: ${deviceType === "desktop" ? "0.8rem 0 1.6rem" : "4rem 0 2rem"};
           margin-top: auto;
           z-index: 10000;
         `,

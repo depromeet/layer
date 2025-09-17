@@ -7,7 +7,7 @@ import { useRadioButton } from "@/hooks/useRadioButton";
 import { css } from "@emotion/react";
 import { useState } from "react";
 
-function DueDate() {
+function DueDate({ onPrev, onNext }: { onPrev: () => void; onNext: () => void }) {
   const [selectedDateTime, setSelectedDateTime] = useState<string>();
   const { selectedValue, isChecked, onChange } = useRadioButton();
   return (
@@ -45,8 +45,21 @@ function DueDate() {
       </div>
 
       <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Gray>이전</ButtonProvider.Gray>
-        <ButtonProvider.Primary disabled={!selectedValue}>다음</ButtonProvider.Primary>
+        <ButtonProvider.Gray
+          onClick={() => {
+            onPrev();
+          }}
+        >
+          이전
+        </ButtonProvider.Gray>
+        <ButtonProvider.Primary
+          onClick={() => {
+            onNext();
+          }}
+          disabled={!selectedValue}
+        >
+          다음
+        </ButtonProvider.Primary>
       </ButtonProvider>
     </>
   );

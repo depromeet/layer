@@ -6,7 +6,30 @@ import { css } from "@emotion/react";
 import DueDate from "./step/DueDate";
 
 export function RetrospectCreatePage() {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(0);
+
+  /* 템플릿 변경 및 진행 */
+  const handleConfirmTemplateChange = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+
+  /* 회고 이름, 한 줄 설명*/
+  const handleBackToMainInfo = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
+
+  const handleMainInfo = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+
+  /* 회고 마감일 */
+  const handleBackToDueDate = () => {
+    setStep((prevStep) => prevStep - 1);
+  };
+
+  const handleDueDate = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
 
   return (
     <form
@@ -17,10 +40,10 @@ export function RetrospectCreatePage() {
         overflow-y: auto;
       `}
     >
-      <ProgressBar curPage={step} lastPage={3} />
-      {step === 1 ? <ConfirmDefaultTemplate /> : null}
-      {step === 2 ? <MainInfo /> : null}
-      {step === 3 ? <DueDate /> : null}
+      <ProgressBar curPage={step + 1} lastPage={3} />
+      {step === 0 ? <ConfirmDefaultTemplate onNext={handleConfirmTemplateChange} /> : null}
+      {step === 1 ? <MainInfo onPrev={handleBackToMainInfo} onNext={handleMainInfo} /> : null}
+      {step === 2 ? <DueDate onPrev={handleBackToDueDate} onNext={handleDueDate} /> : null}
     </form>
   );
 }

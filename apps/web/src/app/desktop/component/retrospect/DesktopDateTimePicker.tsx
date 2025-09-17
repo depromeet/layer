@@ -70,12 +70,11 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: Da
       >
         <Calendar defaultValue={defaultValue} onChange={onSelectDate} tileDisabled={tileDisabled} />
       </div>
+      {/**
+       * TODO 날짜 선택 저장 플로우를 여쭤본 상태입니다.
+       * 앱에서의 완료 버튼 로직을 TimePicker에서 진행할 예정입니다.
+       */}
       {date && <TimePicker ref={timePickerRef} radioControl={radioControl} />}
-      {/* <ButtonProvider gradient={false}>
-        <ButtonProvider.Primary onClick={handleClickSave} disabled={!date}>
-          완료
-        </ButtonProvider.Primary>
-      </ButtonProvider> */}
     </div>
   );
 }

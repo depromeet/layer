@@ -8,7 +8,7 @@ import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 
-function MainInfo() {
+function MainInfo({ onPrev, onNext }: { onPrev: () => void; onNext: () => void }) {
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { value: title, handleInputChange: handleNameChange } = useInput(retroCreateData.title);
   const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(retroCreateData.introduction);
@@ -38,8 +38,21 @@ function MainInfo() {
       />
 
       <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Gray>이전</ButtonProvider.Gray>
-        <ButtonProvider.Primary disabled={!title}>다음</ButtonProvider.Primary>
+        <ButtonProvider.Gray
+          onClick={() => {
+            onPrev();
+          }}
+        >
+          이전
+        </ButtonProvider.Gray>
+        <ButtonProvider.Primary
+          onClick={() => {
+            onNext();
+          }}
+          disabled={!title}
+        >
+          다음
+        </ButtonProvider.Primary>
       </ButtonProvider>
     </>
   );
