@@ -2,9 +2,9 @@ import { css } from "@emotion/react";
 import Cookies from "js-cookie";
 import { Fragment } from "react";
 
-import { status } from "@/component/actionItem/actionItem.const.ts";
-import ActionItemBox from "@/component/actionItem/ActionItemBox.tsx";
-import { NotActionItemBoxData } from "@/component/actionItem/NotActionItemBoxData.tsx";
+import { status } from "@/component/ActionItem/actionItem.const.ts";
+import ActionItemBox from "@/component/ActionItem/ActionItemBox.tsx";
+import { NotActionItemBoxData } from "@/component/ActionItem/NotActionItemBoxData.tsx";
 import { UserProfileIcon } from "@/component/common/appBar";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { TabButton } from "@/component/common/tabs/TabButton.tsx";
