@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/useToast";
 import { getTimeStringFromDate } from "@/utils/formatDate";
 import { useDeviceType } from "@/hooks/useDeviceType";
 
-type DateTimePickerProps = {
+type DesktopDateTimePickerProps = {
   /**
    * Pass a function to determine if a certain day should be displayed as disabled.
    *
@@ -21,7 +21,7 @@ type DateTimePickerProps = {
   onSave: (dateTime?: string) => void;
 };
 
-export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: DateTimePickerProps) {
+export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: DesktopDateTimePickerProps) {
   const { toast } = useToast();
   const defaultDate = useMemo(() => (typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue), [defaultValue]);
   const { onSelectDate, radioControl, date, dateTime } = useDateTimePicker(defaultDate, getTimeStringFromDate(defaultDate));
@@ -34,6 +34,7 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: Da
     }
   }, [date]);
 
+  /*TODO 날짜선택 저장 로직 구현 필요 */
   const handleClickSave = () => {
     if (dateTime && isPast(dateTime)) {
       toast.error("과거는 선택할 수 없어요");
