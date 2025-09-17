@@ -1,12 +1,10 @@
 import { css } from "@emotion/react";
-import { isPast } from "date-fns";
 import { useEffect, useMemo, useRef } from "react";
 import type { CalendarProps } from "react-calendar";
 
 import { Calendar } from "@/component/common/dateTimePicker/Calendar";
 import { TimePicker } from "@/component/common/dateTimePicker/TimePicker";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
-import { useToast } from "@/hooks/useToast";
 import { getTimeStringFromDate } from "@/utils/formatDate";
 import { useDeviceType } from "@/hooks/useDeviceType";
 
@@ -21,10 +19,9 @@ type DesktopDateTimePickerProps = {
   onSave: (dateTime?: string) => void;
 };
 
-export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: DesktopDateTimePickerProps) {
-  const { toast } = useToast();
+export function DesktopDateTimePicker({ defaultValue, tileDisabled }: DesktopDateTimePickerProps) {
   const defaultDate = useMemo(() => (typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue), [defaultValue]);
-  const { onSelectDate, radioControl, date, dateTime } = useDateTimePicker(defaultDate, getTimeStringFromDate(defaultDate));
+  const { onSelectDate, radioControl, date } = useDateTimePicker(defaultDate, getTimeStringFromDate(defaultDate));
   const timePickerRef = useRef<HTMLDivElement>(null);
   const { deviceType } = useDeviceType();
 
@@ -33,15 +30,6 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: De
       timePickerRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [date]);
-
-  /*TODO 날짜선택 저장 로직 구현 필요 */
-  const handleClickSave = () => {
-    if (dateTime && isPast(dateTime)) {
-      toast.error("과거는 선택할 수 없어요");
-      return;
-    }
-    onSave(dateTime);
-  };
 
   return (
     <div

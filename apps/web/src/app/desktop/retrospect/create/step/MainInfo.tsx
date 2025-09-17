@@ -9,7 +9,7 @@ import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 
 function MainInfo({ onPrev, onNext }: { onPrev: () => void; onNext: () => void }) {
-  const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const [retroCreateData, _] = useAtom(retrospectCreateAtom);
   const { value: title, handleInputChange: handleNameChange } = useInput(retroCreateData.title);
   const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(retroCreateData.introduction);
   return (

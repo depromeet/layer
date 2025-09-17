@@ -8,7 +8,7 @@ import { css } from "@emotion/react";
 import { useState } from "react";
 
 function DueDate({ onPrev, onNext }: { onPrev: () => void; onNext: () => void }) {
-  const [selectedDateTime, setSelectedDateTime] = useState<string>();
+  const [_, setSelectedDateTime] = useState<string>();
   const { selectedValue, isChecked, onChange } = useRadioButton();
   return (
     <>

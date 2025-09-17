@@ -1,4 +1,4 @@
-import { css, SerializedStyles } from "@emotion/react";
+import { css } from "@emotion/react";
 import { forwardRef, useContext } from "react";
 
 import { RadioContext } from "./RadioButtonGroup";
