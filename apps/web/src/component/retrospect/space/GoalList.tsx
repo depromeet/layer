@@ -17,7 +17,7 @@ interface GoalListProps {
 }
 
 export default function GoalList({ currentTab }: GoalListProps) {
-  const [inProgressGoals, setInProgressGoals] = useState<Goal[]>([
+  const [inProgressGoals] = useState<Goal[]>([
     {
       id: "1",
       title: "스프린트 1회차 이후 회고",
@@ -38,7 +38,7 @@ export default function GoalList({ currentTab }: GoalListProps) {
     },
   ]);
 
-  const [pastGoals, setPastGoals] = useState<Goal[]>([
+  const [pastGoals] = useState<Goal[]>([
     {
       id: "4",
       title: "스프린트 3회차 이후 회고",

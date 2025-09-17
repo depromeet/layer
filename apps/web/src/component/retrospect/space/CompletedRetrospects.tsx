@@ -6,8 +6,16 @@ import { css } from "@emotion/react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
 import { useState } from "react";
 
+interface Retrospect {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  memberCount: number;
+}
+
 export default function CompletedRetrospects() {
-  const [retrospects, setRetrospects] = useState([
+  const [retrospects, setRetrospects] = useState<Retrospect[]>([
     // { id: "1", title: "중간발표 이후 회고", description: "중간발표 과정 및 팀의 커뮤니케이션 과정", createdAt: "2024.07.30 10:00", memberCount: 4 },
     // {
     //   id: "2",

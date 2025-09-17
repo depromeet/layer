@@ -50,7 +50,7 @@ export default function RetrospectSpaceHeader() {
             >
               <Icon icon={"ic_plus"} size={1.2} color={DESIGN_TOKEN_COLOR.gray00} />
 
-              <Typography variant="body14Bold" color={DESIGN_TOKEN_COLOR.gray00}>
+              <Typography variant="body14Bold" color="gray00">
                 회고 추가하기
               </Typography>
             </div>
@@ -70,7 +70,7 @@ export default function RetrospectSpaceHeader() {
             >
               <Icon icon={"ic_document_color"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
 
-              <Typography variant="body14Bold" color={DESIGN_TOKEN_COLOR.gray600}>
+              <Typography variant="body14Bold" color="gray600">
                 KPT
               </Typography>
               <Icon icon={"ic_chevron_down"} size={1.6} color={DESIGN_TOKEN_COLOR.gray600} />
@@ -91,7 +91,7 @@ export default function RetrospectSpaceHeader() {
             >
               <Icon icon={"ic_team"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
 
-              <Typography variant="body14Bold" color={DESIGN_TOKEN_COLOR.gray600}>
+              <Typography variant="body14Bold" color="gray600">
                 11
               </Typography>
               <Icon icon={"ic_chevron_down"} size={1.6} color={DESIGN_TOKEN_COLOR.gray600} />
