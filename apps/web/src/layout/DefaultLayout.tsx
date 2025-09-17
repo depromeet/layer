@@ -1,8 +1,9 @@
 import { css } from "@emotion/react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import { AppBar, AppBarProps } from "@/component/common/appBar";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 type DefaultLayoutProps = AppBarProps & {
   appBarVisible?: boolean;
@@ -10,12 +11,20 @@ type DefaultLayoutProps = AppBarProps & {
 };
 
 export function DefaultLayout({ children, title, theme = "default", height, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
+  const { isMobile } = useDeviceType();
+  const [initialHeight, setInitialHeight] = useState("100dvh"); // default device type : mobile
+
+  useEffect(() => {
+    setInitialHeight(isMobile ? "100dvh" : "100%");
+  }, [isMobile]);
+
   return (
     <div
       css={css`
         --parent-bg-color: ${DESIGN_TOKEN_COLOR.themeBackground[theme]};
         background-color: var(--parent-bg-color);
         overflow-y: auto;
+        height: 100%;
         max-height: 100dvh;
       `}
     >
@@ -26,7 +35,7 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
           flex: 1 1 0;
           display: flex;
           flex-direction: column;
-          height: 100dvh;
+          height: ${initialHeight};
           padding: ${height ?? "var(--app-bar-height)"} 2rem 0 2rem;
           overflow-y: auto;
           overflow-x: hidden;
