@@ -9,25 +9,25 @@ import { useDeviceType } from "@/hooks/useDeviceType";
 type CalendarProps = ReactCalendarProps;
 
 export function Calendar({ ...props }: CalendarProps) {
-  const { deviceType } = useDeviceType();
+  const { isDesktop } = useDeviceType();
   return (
     <ReactCalendar
       css={css`
-        font-size: ${deviceType === "desktop" ? "1.2rem" : ""};
-        line-height: ${deviceType === "desktop" ? "140%" : ""};
+        font-size: ${isDesktop ? "1.2rem" : ""};
+        line-height: ${isDesktop ? "140%" : ""};
 
         .react-calendar__navigation {
-          font-size: ${deviceType === "desktop" ? "1.4rem" : ""};
-          line-height: ${deviceType === "desktop" ? "140%" : ""};
-          margin-bottom: ${deviceType === "desktop" ? "1.2rem" : ""};
-          height: ${deviceType === "desktop" ? "2.8rem" : ""};
+          font-size: ${isDesktop ? "1.4rem" : ""};
+          line-height: ${isDesktop ? "140%" : ""};
+          margin-bottom: ${isDesktop ? "1.2rem" : ""};
+          height: ${isDesktop ? "2.8rem" : ""};
         }
 
         .react-calendar__month-view__weekdays {
-          margin-bottom: ${deviceType === "desktop" ? "1.2rem" : ""};
+          margin-bottom: ${isDesktop ? "1.2rem" : ""};
         }
         .react-calendar__month-view__days {
-          gap: ${deviceType === "desktop" ? "0.55rem" : ""};
+          gap: ${isDesktop ? "0.55rem" : ""};
         }
       `}
       calendarType={"gregory"}

@@ -35,7 +35,7 @@ export const ButtonProvider = ({
   gradient = true,
   ...props
 }: PropsWithChildren<ButtonProviderProps>) => {
-  const { deviceType } = useDeviceType();
+  const { isDesktop } = useDeviceType();
 
   return (
     <div
@@ -53,7 +53,7 @@ export const ButtonProvider = ({
               `}
           position: sticky;
           bottom: 0;
-          padding: ${deviceType === "desktop" ? "0.8rem 0 1.6rem" : "4rem 0 2rem"};
+          padding: ${isDesktop ? "0.8rem 0 1.6rem" : "4rem 0 2rem"};
           margin-top: auto;
           z-index: 10000;
         `,
@@ -68,7 +68,7 @@ export const ButtonProvider = ({
             left: 0;
             right: 0;
             bottom: 0;
-            margin: ${deviceType === "desktop" ? "" : "0 -2rem"};
+            margin: ${isDesktop ? "" : "0 -2rem"};
             z-index: -1;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--parent-bg-color) 57.38%);
           `}

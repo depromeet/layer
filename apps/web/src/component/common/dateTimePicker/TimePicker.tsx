@@ -12,7 +12,7 @@ type TimePickerProps = {
   radioControl: ReturnType<typeof useDateTimePicker>["radioControl"];
 };
 export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(function ({ radioControl }, ref) {
-  const { deviceType } = useDeviceType();
+  const { isDesktop } = useDeviceType();
   const { curTab, tabs, selectTab } = useTabs(["오전", "오후"] as const);
   const radioButtonsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +52,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(function (
       css={css`
         display: flex;
         flex-direction: column;
-        gap: ${deviceType === "desktop" ? "1.2rem" : "2.4rem"};
+        gap: ${isDesktop ? "1.2rem" : "2.4rem"};
       `}
     >
       <AmPmTabs
@@ -110,7 +110,7 @@ TimePicker.displayName = "TimePicker";
 type AmPmTabsProps<T extends string> = ReturnType<typeof useTabs<T>>;
 
 function AmPmTabs<T extends string>({ tabs, curTab, selectTab }: AmPmTabsProps<T>) {
-  const { deviceType } = useDeviceType();
+  const { isDesktop } = useDeviceType();
   return (
     <div
       css={css`
@@ -120,7 +120,7 @@ function AmPmTabs<T extends string>({ tabs, curTab, selectTab }: AmPmTabsProps<T
     >
       {tabs.map((tab, index) => (
         <button type="button" onClick={() => selectTab(tab)} key={index}>
-          <Typography color={tab === curTab ? "dark" : "grey2"} variant={deviceType === "desktop" ? "body12Bold" : "S2"}>
+          <Typography color={tab === curTab ? "dark" : "grey2"} variant={isDesktop ? "body12Bold" : "S2"}>
             {tab}
           </Typography>
         </button>

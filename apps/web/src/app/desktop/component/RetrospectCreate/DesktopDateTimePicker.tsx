@@ -23,7 +23,7 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled }: DesktopDat
   const defaultDate = useMemo(() => (typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue), [defaultValue]);
   const { onSelectDate, radioControl, date } = useDateTimePicker(defaultDate, getTimeStringFromDate(defaultDate));
   const timePickerRef = useRef<HTMLDivElement>(null);
-  const { deviceType } = useDeviceType();
+  const { isDesktop } = useDeviceType();
 
   useEffect(() => {
     if (date) {
@@ -48,7 +48,7 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled }: DesktopDat
           0 4px 12px 0 rgba(6, 8, 12, 0.12),
           0 4px 8px 0 rgba(6, 8, 12, 0.08);
         z-index: 10;
-        gap: ${deviceType === "desktop" ? "1.6rem" : "2.8rem"};
+        gap: ${isDesktop ? "1.6rem" : "2.8rem"};
       `}
     >
       <div

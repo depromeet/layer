@@ -14,7 +14,7 @@ type HeaderProps = {
 type ThemeSet = "white" | "primary";
 
 export function Header({ theme = "primary", title, contents }: HeaderProps) {
-  const { deviceType } = useDeviceType();
+  const { isDesktop } = useDeviceType();
 
   const themeSet: Record<ThemeSet, { titleColor: keyof typeof DESIGN_SYSTEM_COLOR; contentsColor: keyof typeof DESIGN_SYSTEM_COLOR }> = {
     primary: {
@@ -50,8 +50,8 @@ export function Header({ theme = "primary", title, contents }: HeaderProps) {
         css={css`
           display: flex;
           flex-direction: column;
-          row-gap: ${deviceType === "desktop" ? "0.8rem" : "1.2rem"};
-          margin-top: ${deviceType === "desktop" ? "" : "2rem"};
+          row-gap: ${isDesktop ? "0.8rem" : "1.2rem"};
+          margin-top: ${isDesktop ? "" : "2rem"};
         `}
       >
         <div
