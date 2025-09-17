@@ -8,7 +8,7 @@ import { TypographyProps } from "@/component/common/typography/Typography.tsx";
 export type ThemeSet = "white" | "primary";
 export type HeaderProps = {
   theme?: ThemeSet;
-  contents: ReactNode | string;
+  contents: string;
   type?: string;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "type"> &
   Omit<TypographyProps, "children">;
