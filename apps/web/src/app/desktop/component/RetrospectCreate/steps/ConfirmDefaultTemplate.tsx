@@ -6,7 +6,7 @@ import { Typography } from "@/component/common/typography";
 import { Tag } from "@/component/common/tag";
 import { Spacing } from "@/component/common/Spacing";
 import { ButtonProvider } from "@/component/common/button";
-import QuestionEditButton from "@/app/desktop/component/retrospect/QuestionEditButton";
+import QuestionEditButton from "@/app/desktop/component/RetrospectCreate/QuestionEditButton";
 
 export function ConfirmDefaultTemplate({ onNext }: { onNext: () => void }) {
   // TODO 실제 템플릿id로 변경 필요

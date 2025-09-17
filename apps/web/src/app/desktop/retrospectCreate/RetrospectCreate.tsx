@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { ConfirmDefaultTemplate } from "./step/ConfirmDefaultTemplate";
-import MainInfo from "./step/MainInfo";
+import { ConfirmDefaultTemplate } from "../component/RetrospectCreate/steps/ConfirmDefaultTemplate";
+import MainInfo from "../component/RetrospectCreate/steps/MainInfo";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { css } from "@emotion/react";
-import DueDate from "./step/DueDate";
+import DueDate from "../component/RetrospectCreate/steps/DueDate";
 
-export function RetrospectCreatePage() {
+export function RetrospectCreate() {
   const [step, setStep] = useState(0);
 
   /* 템플릿 변경 및 진행 */

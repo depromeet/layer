@@ -1,9 +1,12 @@
 import DesktopFunnelModal from "@/component/common/Modal/DesktopFunnelModal";
 import { useModal } from "@/hooks/useModal";
 import { css } from "@emotion/react";
-import { RetrospectCreatePage } from "./create/RetrospectCreate";
+import { RetrospectCreate } from "../retrospectCreate/RetrospectCreate";
 
-// 회고 생성 모달을 위한 임시 페이지입니다.
+/**
+ * 회고 생성 모달을 위한 임시 페이지입니다.
+ * 추후 analysis, template 폴더 생성 후 작업할 예정입니다.
+ */
 export function RetrospectTestPage() {
   const { open } = useModal();
 
@@ -14,7 +17,7 @@ export function RetrospectTestPage() {
   const handleRetrospectCreate = () => {
     open({
       title: "",
-      contents: <RetrospectCreatePage />,
+      contents: <RetrospectCreate />,
     });
   };
 
