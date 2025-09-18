@@ -20,18 +20,24 @@ export default function ActionItemsWrapper() {
           gap: 0.7rem;
         `}
       >
-        <Typography variant="body15Bold" color="gray800">
+        <Typography
+          variant="body15Bold"
+          color="gray800"
+          css={css`
+            display: flex;
+            align-items: center;
+
+            &::after {
+              content: "";
+              width: 0.1rem;
+              height: 0.9rem;
+              background-color: ${DESIGN_TOKEN_COLOR.gray500};
+              margin-left: 0.7rem;
+            }
+          `}
+        >
           실행목표
         </Typography>
-        <hr
-          css={css`
-            width: 0.1rem;
-            height: 0.9rem;
-            background-color: ${DESIGN_TOKEN_COLOR.gray500};
-            margin: 0;
-            border: none;
-          `}
-        />
         <Typography variant="body15SemiBold" color="gray800">
           {2}개의 실행목표가 진행중이에요
         </Typography>

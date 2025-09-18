@@ -126,6 +126,7 @@ export default function InProgressRetrospectsWrapper() {
           }
         `}
       >
+        {/* TODO: 로딩 분기 추가 */}
         {retrospects && retrospects.length > 0 ? (
           retrospects.map((retrospect) => (
             <SwiperSlide key={retrospect.retrospectId}>
