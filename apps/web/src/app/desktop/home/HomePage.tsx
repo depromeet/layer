@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 
 import HomePageHeader from "@/component/home/desktop/HomePageHeader";
 import InProgressRetrospectsWrapper from "@/component/home/desktop/InProgressRetrospectsWrapper";
-import ActionItemsWrapper from "@/component/home/ActionItemsWrapper";
+import ActionItemsWrapper from "@/component/home/desktop/ActionItemsWrapper";
 
 export function HomePage() {
   return (
