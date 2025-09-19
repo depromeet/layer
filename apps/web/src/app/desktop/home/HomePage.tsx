@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 
-import HomePageHeader from "@/component/home/desktop/HomePageHeader";
-import InProgressRetrospectsWrapper from "@/component/home/desktop/InProgressRetrospectsWrapper";
-import ActionItemsWrapper from "@/component/home/desktop/ActionItemsWrapper";
+import HomePageHeader from "@/app/desktop/component/home/HomePageHeader";
+import InProgressRetrospectsWrapper from "@/app/desktop/component/home/InProgressRetrospectsWrapper";
+import ActionItemsWrapper from "@/app/desktop/component/home/ActionItemsWrapper";
 
 export function HomePage() {
   return (
