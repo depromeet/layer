@@ -2,14 +2,28 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import ActionItemBox from "../ActionItemBox";
+import Cookies from "js-cookie";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import { useGetActionItemList } from "@/hooks/api/actionItem/useGetActionItemList";
 
 export default function ActionItemsWrapper() {
+  // * 본인 memberId 가져오기
+  const memberId = Cookies.get("memberId");
+
+  // * 실행목표 리스트 요청
+  const { data: myActionItems, isPending: isMyActionItemsPending } = useGetActionItemList({
+    memberId: memberId as string,
+    options: {
+      enabled: !!memberId,
+      select: (data) => data.actionItems,
+    },
+  });
+
   return (
     <section
       css={css`
@@ -45,7 +59,7 @@ export default function ActionItemsWrapper() {
           실행목표
         </Typography>
         <Typography variant="body15SemiBold" color="gray800">
-          {2}개의 실행목표가 진행중이에요
+          {myActionItems?.length ?? 0}개의 실행목표가 진행중이에요
         </Typography>
       </section>
 
@@ -98,6 +112,7 @@ export default function ActionItemsWrapper() {
           .swiper-slide {
             height: auto;
             display: flex;
+            align-items: flex-start;
           }
 
           .swiper-button-prev,
@@ -137,18 +152,11 @@ export default function ActionItemsWrapper() {
           }
         `}
       >
-        <SwiperSlide>
-          <ActionItemBox />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ActionItemBox />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ActionItemBox />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ActionItemBox />
-        </SwiperSlide>
+        {myActionItems?.map((actionItem) => (
+          <SwiperSlide>
+            <ActionItemBox actionItem={actionItem} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </section>
   );

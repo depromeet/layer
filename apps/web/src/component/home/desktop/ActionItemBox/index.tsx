@@ -1,8 +1,16 @@
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { PersonalActionItemType } from "@/types/actionItem";
+import { formatOnlyDate } from "@/utils/date";
 import { css } from "@emotion/react";
 
-export default function ActionItemBox() {
+type ActionItemBoxProps = {
+  actionItem: PersonalActionItemType;
+};
+
+export default function ActionItemBox({ actionItem }: ActionItemBoxProps) {
+  const { retrospectTitle, spaceName, deadline, actionItemList } = actionItem;
+
   return (
     <section
       css={css`
@@ -22,10 +30,10 @@ export default function ActionItemBox() {
         `}
       >
         <Typography variant="title16Bold" color="gray900">
-          중간발표 이후 회고
+          {retrospectTitle}
         </Typography>
         <Typography variant="body14Medium" color="gray500">
-          떡잎방범대 | 회고 마감일 2024.06.30
+          {spaceName} | 회고 마감일 {deadline ? formatOnlyDate(deadline) : "없음"}
         </Typography>
       </div>
 
@@ -46,35 +54,18 @@ export default function ActionItemBox() {
           }
         `}
       >
-        <li
-          css={css`
-            padding-left: 0.8rem;
-          `}
-        >
-          <Typography variant="body16Medium" color="gray900">
-            긴 회의시간 줄이기
-          </Typography>
-        </li>
-
-        <li
-          css={css`
-            padding-left: 0.8rem;
-          `}
-        >
-          <Typography variant="body16Medium" color="gray900">
-            회의 후 내용 꼭 기록해두기
-          </Typography>
-        </li>
-
-        <li
-          css={css`
-            padding-left: 0.8rem;
-          `}
-        >
-          <Typography variant="body16Medium" color="gray900">
-            '린 분석' 북 스터디 진행
-          </Typography>
-        </li>
+        {actionItemList.map((actionItem) => (
+          <li
+            key={actionItem.actionItemId}
+            css={css`
+              padding-left: 0.8rem;
+            `}
+          >
+            <Typography variant="body16Medium" color="gray900">
+              {actionItem.content}
+            </Typography>
+          </li>
+        ))}
       </ul>
     </section>
   );
