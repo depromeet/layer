@@ -27,7 +27,7 @@ export default function InProgressRetrospectsWrapper() {
         작성중인 회고 ({retrospects?.length || 0})
       </Typography>
 
-      {/* ---------- Swiper 컨테이너 ---------- */}
+      {/* ---------- 작성중인 회고 컨텐츠 ---------- */}
       <Swiper
         modules={[Navigation]}
         spaceBetween={12}
@@ -126,6 +126,7 @@ export default function InProgressRetrospectsWrapper() {
           }
         `}
       >
+        {/* TODO: 로딩 분기 추가 */}
         {retrospects && retrospects.length > 0 ? (
           retrospects.map((retrospect) => (
             <SwiperSlide key={retrospect.retrospectId}>
