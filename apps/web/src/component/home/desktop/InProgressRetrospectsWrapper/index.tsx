@@ -9,10 +9,11 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { useGetAllRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
+import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 
 export default function InProgressRetrospectsWrapper() {
   // * 작성중인 모든 회고 리스트 요청
-  const { data: retrospects } = useGetAllRetrospects({
+  const { data: retrospects, isPending: isRetrospectsPending } = useGetAllRetrospects({
     select: (data) => data.retrospects.filter((retrospect) => retrospect.writeStatus === "PROCEEDING"),
   });
 
@@ -126,14 +127,21 @@ export default function InProgressRetrospectsWrapper() {
           }
         `}
       >
-        {/* TODO: 로딩 분기 추가 */}
-        {retrospects && retrospects.length > 0 ? (
-          retrospects.map((retrospect) => (
-            <SwiperSlide key={retrospect.retrospectId}>
-              <InProgressRetrospectCard retrospect={retrospect} />
-            </SwiperSlide>
-          ))
-        ) : (
+        {isRetrospectsPending ? (
+          <div
+            css={css`
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 100%;
+              height: 13.8rem;
+              border-radius: 1.2rem;
+              border: 1px dashed ${DESIGN_TOKEN_COLOR.gray500};
+            `}
+          >
+            <LoadingSpinner />
+          </div>
+        ) : !retrospects || retrospects.length === 0 ? (
           <div
             css={css`
               display: flex;
@@ -150,6 +158,12 @@ export default function InProgressRetrospectsWrapper() {
               작성중인 회고가 없습니다.
             </Typography>
           </div>
+        ) : (
+          retrospects.map((retrospect) => (
+            <SwiperSlide key={retrospect.retrospectId}>
+              <InProgressRetrospectCard retrospect={retrospect} />
+            </SwiperSlide>
+          ))
         )}
       </Swiper>
     </section>

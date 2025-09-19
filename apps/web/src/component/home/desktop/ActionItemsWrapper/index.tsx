@@ -164,7 +164,7 @@ export default function ActionItemsWrapper() {
           >
             <LoadingSpinner />
           </div>
-        ) : myActionItems?.length === 0 ? (
+        ) : !myActionItems || myActionItems.length === 0 ? (
           <div
             css={css`
               position: absolute;
@@ -186,7 +186,7 @@ export default function ActionItemsWrapper() {
             </Typography>
           </div>
         ) : (
-          myActionItems?.map((actionItem, index) => (
+          myActionItems.map((actionItem, index) => (
             <SwiperSlide key={`${actionItem.retrospectId}-${index}`}>
               <ActionItemBox actionItem={actionItem} />
             </SwiperSlide>
