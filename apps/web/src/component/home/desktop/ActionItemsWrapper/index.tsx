@@ -63,8 +63,33 @@ export default function ActionItemsWrapper() {
           border-radius: 1.6rem;
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
           position: relative;
-          overflow-x: hidden;
-          overflow-y: hidden;
+          overflow: hidden;
+
+          /* 좌측 오버플로우 가리기 */
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3.2rem;
+            height: 100%;
+            background-color: ${DESIGN_TOKEN_COLOR.gray00};
+            z-index: 5;
+            pointer-events: none;
+          }
+
+          /* 우측 오버플로우 가리기 */
+          &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 3.2rem;
+            height: 100%;
+            background-color: ${DESIGN_TOKEN_COLOR.gray00};
+            z-index: 5;
+            pointer-events: none;
+          }
 
           .swiper-wrapper {
             align-items: stretch;
