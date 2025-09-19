@@ -3,6 +3,12 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import ActionItemBox from "../ActionItemBox";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
+
 export default function ActionItemsWrapper() {
   return (
     <section
@@ -44,22 +50,81 @@ export default function ActionItemsWrapper() {
       </section>
 
       {/* ---------- 실행목표 컨텐츠 ---------- */}
-      <section
-        id="action-item-contents"
+
+      <Swiper
+        modules={[Navigation]}
+        spaceBetween={16}
+        slidesPerView={3}
+        navigation
         css={css`
-          display: flex;
-          justify-content: space-between;
           height: 27.6rem;
           margin-top: 1.2rem;
           padding: 2.4rem 3.2rem;
           border-radius: 1.6rem;
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
+          position: relative;
+          overflow-x: hidden;
+          overflow-y: hidden;
+
+          .swiper-wrapper {
+            align-items: stretch;
+          }
+
+          .swiper-slide {
+            height: auto;
+            display: flex;
+          }
+
+          .swiper-button-prev,
+          .swiper-button-next {
+            width: 4.8rem;
+            height: 4.8rem;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid ${DESIGN_TOKEN_COLOR.gray200};
+            top: 60%;
+            transform: translateY(-50%);
+            z-index: 10;
+
+            &::after {
+              font-size: 1.6rem;
+              font-weight: bold;
+              color: ${DESIGN_TOKEN_COLOR.gray600};
+            }
+
+            &:hover {
+              background: ${DESIGN_TOKEN_COLOR.gray100};
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            &.swiper-button-disabled {
+              opacity: 0;
+            }
+          }
+
+          .swiper-button-prev {
+            left: 0.8rem;
+          }
+
+          .swiper-button-next {
+            right: 0.8rem;
+          }
         `}
       >
-        <ActionItemBox />
-        <ActionItemBox />
-        <ActionItemBox />
-      </section>
+        <SwiperSlide>
+          <ActionItemBox />
+        </SwiperSlide>
+        <SwiperSlide>
+          <ActionItemBox />
+        </SwiperSlide>
+        <SwiperSlide>
+          <ActionItemBox />
+        </SwiperSlide>
+        <SwiperSlide>
+          <ActionItemBox />
+        </SwiperSlide>
+      </Swiper>
     </section>
   );
 }

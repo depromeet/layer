@@ -11,6 +11,7 @@ export function HomePage() {
         width: "100%";
         margin: 0 auto;
         max-width: 92.8rem;
+        min-width: 92.8rem;
       `}
     >
       {/* ---------- 헤더 ---------- */}

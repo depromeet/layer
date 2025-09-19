@@ -4,7 +4,11 @@ import { css } from "@emotion/react";
 
 export default function ActionItemBox() {
   return (
-    <section>
+    <section
+      css={css`
+        width: 27.7rem;
+      `}
+    >
       {/* ---------- 회고 제목 ---------- */}
       <div
         css={css`

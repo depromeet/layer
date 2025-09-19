@@ -118,11 +118,11 @@ export default function InProgressRetrospectsWrapper() {
           }
 
           .swiper-button-prev {
-            left: 1.6rem;
+            left: 0.8rem;
           }
 
           .swiper-button-next {
-            right: 1.6rem;
+            right: 0.8rem;
           }
         `}
       >
