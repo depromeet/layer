@@ -1,5 +1,5 @@
 import { css, Interpolation, Theme } from "@emotion/react";
-import { Children, cloneElement, isValidElement, PropsWithChildren } from "react";
+import { Children, cloneElement, isValidElement, PropsWithChildren, ReactNode } from "react";
 
 import { Explanation } from "@/component/common/header/Explanation.tsx";
 import { Title } from "@/component/common/header/Title.tsx";
@@ -8,7 +8,7 @@ import { TypographyProps } from "@/component/common/typography/Typography.tsx";
 export type ThemeSet = "white" | "primary";
 export type HeaderProps = {
   theme?: ThemeSet;
-  contents: string;
+  contents: ReactNode | string;
   type?: string;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "type"> &
   Omit<TypographyProps, "children">;

@@ -14,6 +14,7 @@ export type ButtonProps = {
 export function Button({ children, isProgress = false, colorSchema = "primary", disabled = false, ...props }: PropsWithChildren<ButtonProps>) {
   return (
     <button
+      type="button"
       css={css`
         border-radius: 1.2rem;
         color: white;

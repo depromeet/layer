@@ -1,7 +1,9 @@
+import { ReactNode } from "react";
+
 export type ModalType = {
   isOpen: boolean;
   title: string;
-  contents: string;
+  contents: ReactNode | string;
   onClose?: () => void;
   onConfirm?: () => void;
   overrideActionElements?: JSX.Element;
