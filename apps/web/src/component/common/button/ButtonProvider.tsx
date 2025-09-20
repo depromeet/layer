@@ -2,6 +2,7 @@ import { css, Interpolation, Theme } from "@emotion/react";
 import { Children, cloneElement, isValidElement, PropsWithChildren } from "react";
 
 import { Button, ButtonProps } from "@/component/common/button/Button.tsx";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 type SortSet = "vertical" | "horizontal";
 
@@ -34,6 +35,8 @@ export const ButtonProvider = ({
   gradient = true,
   ...props
 }: PropsWithChildren<ButtonProviderProps>) => {
+  const { isDesktop } = useDeviceType();
+
   return (
     <div
       css={[
@@ -50,8 +53,7 @@ export const ButtonProvider = ({
               `}
           position: sticky;
           bottom: 0;
-
-          padding: 4rem 0 2rem 0;
+          padding: ${isDesktop ? "0.8rem 0 1.6rem" : "4rem 0 2rem"};
           margin-top: auto;
           z-index: 10000;
         `,
@@ -66,7 +68,7 @@ export const ButtonProvider = ({
             left: 0;
             right: 0;
             bottom: 0;
-            margin: 0 -2rem;
+            margin: ${isDesktop ? "" : "0 -2rem"};
             z-index: -1;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--parent-bg-color) 57.38%);
           `}
