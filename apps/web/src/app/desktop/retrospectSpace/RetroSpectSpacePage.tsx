@@ -44,7 +44,7 @@ export default function RetroSpectSpacePage() {
         <ActionItems />
       </div>
 
-      {/* 모바일 레이아웃 (980px 미만) */}
+      {/* 태블릿 레이아웃 (980px 미만) */}
       <div
         css={css`
           display: none;
