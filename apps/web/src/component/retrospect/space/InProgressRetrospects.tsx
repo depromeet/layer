@@ -48,14 +48,15 @@ export default function InProgressRetrospects() {
     },
   ]);
 
-  const handleOnDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
+  const handleOnDragEnd = ({ source, destination }: DropResult) => {
+    if (!destination) return;
 
-    const items = Array.from(retrospects);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setRetrospects(items);
+    setRetrospects(prev => {
+      const reorderedItem = prev[source.index];
+      return prev
+        .toSpliced(source.index, 1)
+        .toSpliced(destination.index, 0, reorderedItem);
+    });
   };
 
   return (
