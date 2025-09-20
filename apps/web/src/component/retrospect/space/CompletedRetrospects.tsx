@@ -1,6 +1,6 @@
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import InProgressRetrospectCard from "@/component/home/desktop/InProgressRetrospectCard";
+import InProgressRetrospectCard from "@/app/desktop/component/home/InProgressRetrospectCard";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
@@ -51,11 +51,9 @@ export default function CompletedRetrospects() {
   const handleOnDragEnd = ({ source, destination }: DropResult) => {
     if (!destination) return;
 
-    setRetrospects(prev => {
+    setRetrospects((prev) => {
       const reorderedItem = prev[source.index];
-      return prev
-        .toSpliced(source.index, 1)
-        .toSpliced(destination.index, 0, reorderedItem);
+      return prev.toSpliced(source.index, 1).toSpliced(destination.index, 0, reorderedItem);
     });
   };
 
