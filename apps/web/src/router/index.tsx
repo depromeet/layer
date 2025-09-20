@@ -47,11 +47,8 @@ import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
 import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
 import DesktopLoginPage from "@/app/desktop/login/DesktopLoginPage";
 import { HomePage } from "@/app/desktop/home/HomePage";
-<<<<<<< HEAD
 import RetroSpectSpacePage from "@/app/desktop/retrospectSpace/RetroSpectSpacePage";
-=======
 import { RetrospectTestPage } from "@/app/desktop/retrospect/RetrospectTestPage";
->>>>>>> 2a73b3893f96438259d86c3ec1c6818599407373
 import DesktopSetNickNamePage from "@/app/desktop/login/DesktopSetNickNamePage";
 
 type RouteChildren = {
