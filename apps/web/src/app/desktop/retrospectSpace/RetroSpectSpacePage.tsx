@@ -10,7 +10,7 @@ export default function RetroSpectSpacePage() {
       css={css`
         width: 100%;
         height: 100vh;
-        padding: 28px 20px 0 20px;
+        padding: 2.8rem 2rem 0 2rem;
         display: flex;
         flex-direction: column;
         gap: 1.8rem;
