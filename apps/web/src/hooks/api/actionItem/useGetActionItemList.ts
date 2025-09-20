@@ -1,30 +1,23 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
 import { api } from "@/api";
+import { PersonalActionItemListType } from "@/types/actionItem";
 
-type PersonalActionItemListType = {
-  actionItems: {
-    retrospectId: number;
-    retrospectTitle: string;
-    spaceId: number;
-    spaceName: string;
-    status: "PROCEEDING" | "DONE";
-    deadline: string;
-    actionItemList: {
-      actionItemId: number;
-      content: string;
-    }[];
-  }[];
-};
-
-export const useGetActionItemList = ({ memberId }: { memberId: string }) => {
+export const useGetActionItemList = <TData = PersonalActionItemListType>({
+  memberId,
+  options,
+}: {
+  memberId: string;
+  options?: Omit<UseQueryOptions<PersonalActionItemListType, Error, TData>, "queryKey" | "queryFn">;
+}) => {
   const getActionItemList = () => {
     const res = api.get<PersonalActionItemListType>(`/api/action-item/member?currentMemberId=${memberId}`).then((res) => res.data);
     return res;
   };
 
-  return useQuery({
+  return useQuery<PersonalActionItemListType, Error, TData>({
     queryFn: () => getActionItemList(),
     queryKey: [memberId],
+    ...options,
   });
 };
