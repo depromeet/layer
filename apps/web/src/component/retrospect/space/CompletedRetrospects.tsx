@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Retrospect } from "@/types/retrospect";
 
 export default function CompletedRetrospects() {
+  // TODO: API 연결 후 데이터 추가
   const [retrospects, setRetrospects] = useState<Retrospect[]>([
     {
       retrospectId: 11,
@@ -19,7 +20,7 @@ export default function CompletedRetrospects() {
       totalCount: 4,
       writeCount: 4,
       createdAt: "2024.07.30 10:00",
-      deadline: "2024.08.05 23:59"
+      deadline: "2024.08.05 23:59",
     },
     {
       retrospectId: 12,
@@ -31,7 +32,7 @@ export default function CompletedRetrospects() {
       totalCount: 4,
       writeCount: 4,
       createdAt: "2024.08.01 14:00",
-      deadline: "2024.08.10 23:59"
+      deadline: "2024.08.10 23:59",
     },
     {
       retrospectId: 13,
@@ -43,8 +44,8 @@ export default function CompletedRetrospects() {
       totalCount: 4,
       writeCount: 4,
       createdAt: "2024.08.05 16:00",
-      deadline: null
-    }
+      deadline: null,
+    },
   ]);
 
   const handleOnDragEnd = (result: DropResult) => {
@@ -137,9 +138,7 @@ export default function CompletedRetrospects() {
                           }
                         `}
                       >
-                        <InProgressRetrospectCard
-                          retrospect={retrospect}
-                        />
+                        <InProgressRetrospectCard retrospect={retrospect} />
                       </div>
                     )}
                   </Draggable>

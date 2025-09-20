@@ -17,6 +17,7 @@ interface GoalListProps {
 }
 
 export default function GoalList({ currentTab }: GoalListProps) {
+  // TODO: API 연결 후 데이터 추가
   const [inProgressGoals] = useState<Goal[]>([
     {
       id: "1",
@@ -38,6 +39,7 @@ export default function GoalList({ currentTab }: GoalListProps) {
     },
   ]);
 
+  // TODO: API 연결 후 데이터 추가
   const [pastGoals] = useState<Goal[]>([
     {
       id: "4",
