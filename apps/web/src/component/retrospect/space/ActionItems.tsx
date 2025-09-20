@@ -6,10 +6,14 @@ import GoalTab from "./GoalTab";
 import GoalList from "./GoalList";
 import { useState } from "react";
 
-export default function ActionItems() {
-  const [currentTab, setCurrentTab] = useState<"진행중" | "지난">("진행중");
+interface ActionItemsProps {
+  currentTab: "진행중" | "지난";
+}
 
-  const handleCurrentTabClick = (tab: "진행중" | "지난") => {
+export default function ActionItems() {
+  const [currentTab, setCurrentTab] = useState<ActionItemsProps["currentTab"]>("진행중");
+
+  const handleCurrentTabClick = (tab: ActionItemsProps["currentTab"]) => {
     setCurrentTab(tab);
   };
 
