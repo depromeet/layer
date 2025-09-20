@@ -14,6 +14,7 @@ export default function RetroSpectSpacePage() {
         display: flex;
         flex-direction: column;
         gap: 1.8rem;
+        min-width: 92.8rem;
       `}
     >
       <RetrospectSpaceHeader />
