@@ -112,7 +112,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
       },
       {
         path: "retrospectSpace",
-        element: <RetroSpectSpacePage />, // TODO: 데스크탑용 회고
+        element: <RetroSpectSpacePage />,
       },
     ],
     auth: true,
