@@ -5,8 +5,6 @@ export default function HomePageHeader() {
   return (
     <header
       css={css`
-        padding-top: 4.5rem;
-        margin: 0 auto;
         text-align: center;
       `}
     >
