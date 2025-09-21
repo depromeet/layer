@@ -1,8 +1,9 @@
 import { Typography } from "@/component/common/typography";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import AnalyticsSummaryBox from "./AnalyticsSummaryBox";
 import { Point } from "@/types/analysis";
+import { getAnalysisConfig } from "@/utils/analysis/getAnalysisConfig";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type AnalyticsBoxProps = {
   type: "good" | "bad" | "improvement";
@@ -10,34 +11,7 @@ type AnalyticsBoxProps = {
 };
 
 export default function AnalyticsBox({ type, analysis }: AnalyticsBoxProps) {
-  console.log("analysis", analysis);
-
-  const getAnalyticsConfig = (type: "good" | "bad" | "improvement") => {
-    switch (type) {
-      case "good":
-        return {
-          icon: "👍",
-          title: "잘 하고 있어요",
-        };
-      case "bad":
-        return {
-          icon: "😢",
-          title: "이런 점은 부족해요",
-        };
-      case "improvement":
-        return {
-          icon: "🙌",
-          title: "개선이 필요해요",
-        };
-      default:
-        return {
-          icon: "👍",
-          title: "잘 하고 있어요",
-        };
-    }
-  };
-
-  const config = getAnalyticsConfig(type);
+  const config = getAnalysisConfig(type);
 
   return (
     <article
@@ -66,7 +40,7 @@ export default function AnalyticsBox({ type, analysis }: AnalyticsBoxProps) {
             font-size: 1.8rem;
           `}
         >
-          {config.icon}
+          {config.emoji}
         </div>
         <Typography variant="title18Bold">{config.title}</Typography>
       </section>
@@ -80,7 +54,7 @@ export default function AnalyticsBox({ type, analysis }: AnalyticsBoxProps) {
         `}
       >
         {analysis.map((item) => (
-          <AnalyticsSummaryBox key={item.spaceId} type={type} />
+          <AnalyticsSummaryBox key={item.spaceId} type={type} analysis={item} />
         ))}
       </section>
     </article>
