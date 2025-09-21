@@ -3,7 +3,11 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 
-export default function AnalyticsSummaryBox() {
+type AnalyticsSummaryBoxProps = {
+  type: "good" | "bad" | "improvement";
+};
+
+export default function AnalyticsSummaryBox({ type }: AnalyticsSummaryBoxProps) {
   return (
     <section
       css={css`

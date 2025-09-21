@@ -2,9 +2,11 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import AnalyticsBox from "../AnalyticsBox";
+import { useApiGetMemberAnalysis } from "@/hooks/api/analysis/useApiGetMemberAnalysis";
+import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 
 export default function AnalyticsWrapper() {
-  // TODO: 분석 결과 API 요청 추가
+  const { data: myAnalysis, isPending: isMyAnalysisPending } = useApiGetMemberAnalysis();
 
   return (
     <article
@@ -41,13 +43,14 @@ export default function AnalyticsWrapper() {
           분석
         </Typography>
         <Typography variant="body15SemiBold" color="gray800">
-          {2}개의 회고가 진행중이에요!
+          {myAnalysis?.recentAnalyzes.length ?? 0}개의 회고가 진행중이에요!
         </Typography>
       </section>
 
       {/* ---------- 분석 컨텐츠 ---------- */}
       <article
         css={css`
+          position: relative;
           display: flex;
           justify-content: space-between;
           height: 36.6rem;
@@ -57,9 +60,28 @@ export default function AnalyticsWrapper() {
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
         `}
       >
-        <AnalyticsBox />
-        <AnalyticsBox />
-        <AnalyticsBox />
+        {isMyAnalysisPending && (
+          <div
+            css={css`
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            `}
+          >
+            <LoadingSpinner />
+          </div>
+        )}
+
+        {!isMyAnalysisPending && myAnalysis && (
+          <>
+            <AnalyticsBox type="good" analysis={myAnalysis.goodAnalyzes} />
+            <AnalyticsBox type="bad" analysis={myAnalysis.badAnalyzes} />
+            <AnalyticsBox type="improvement" analysis={myAnalysis.improvementAnalyzes} />
+          </>
+        )}
+
+        {!isMyAnalysisPending && !myAnalysis && <div>분석 결과가 없습니다.</div>}
       </article>
     </article>
   );
