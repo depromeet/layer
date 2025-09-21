@@ -6,7 +6,49 @@ import { useApiGetMemberAnalysis } from "@/hooks/api/analysis/useApiGetMemberAna
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 
 export default function AnalyticsWrapper() {
-  const { data: myAnalysis, isPending: isMyAnalysisPending } = useApiGetMemberAnalysis();
+  const { data: myAnalysis, isPending: isMyAnalysisPending, isError: isMyAnalysisError } = useApiGetMemberAnalysis();
+
+  // 컨텐츠 렌더링 함수
+  const renderContent = () => {
+    // * ---------- 로딩 중일 때 ---------- * //
+    if (isMyAnalysisPending) {
+      return (
+        <div
+          css={css`
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          `}
+        >
+          <LoadingSpinner />
+        </div>
+      );
+    }
+
+    // * ---------- 에러가 발생했을 때 ---------- * //
+    if (isMyAnalysisError) {
+      return <Typography variant="body15Medium">분석 결과를 불러오는 중 오류가 발생했어요.</Typography>;
+    }
+
+    // * ---------- 데이터가 있을 때 ---------- * //
+    if (myAnalysis) {
+      if (myAnalysis.goodAnalyzes.length === 0 && myAnalysis.badAnalyzes.length === 0 && myAnalysis.improvementAnalyzes.length === 0) {
+        return <Typography variant="body15Medium">분석 결과가 없습니다.</Typography>;
+      }
+
+      return (
+        <>
+          <AnalyticsBox type="good" analysis={myAnalysis.goodAnalyzes} />
+          <AnalyticsBox type="bad" analysis={myAnalysis.badAnalyzes} />
+          <AnalyticsBox type="improvement" analysis={myAnalysis.improvementAnalyzes} />
+        </>
+      );
+    }
+
+    // * ---------- 에러 또는 데이터 없음 ---------- * //
+    return <Typography variant="body15Medium">분석 결과가 없습니다.</Typography>;
+  };
 
   return (
     <article
@@ -60,28 +102,7 @@ export default function AnalyticsWrapper() {
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
         `}
       >
-        {isMyAnalysisPending && (
-          <div
-            css={css`
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-            `}
-          >
-            <LoadingSpinner />
-          </div>
-        )}
-
-        {!isMyAnalysisPending && myAnalysis && (
-          <>
-            <AnalyticsBox type="good" analysis={myAnalysis.goodAnalyzes} />
-            <AnalyticsBox type="bad" analysis={myAnalysis.badAnalyzes} />
-            <AnalyticsBox type="improvement" analysis={myAnalysis.improvementAnalyzes} />
-          </>
-        )}
-
-        {!isMyAnalysisPending && !myAnalysis && <div>분석 결과가 없습니다.</div>}
+        {renderContent()}
       </article>
     </article>
   );
