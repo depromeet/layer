@@ -7,12 +7,14 @@ import { PATHS } from "@layer/shared";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { RetrospectCreateReq } from "@/types/retrospectCreate";
+import { useDeviceType } from "@/hooks/useDeviceType";
 
 type PostRetrospect = { spaceId: number; body: RetrospectCreateReq };
 
 type RetrospectCreateRes = { retrospectId: number };
 
 export const usePostRetrospectCreate = (spaceId: number) => {
+  const { isDesktop } = useDeviceType();
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
   const navigate = useNavigate();
   const { track } = useMixpanel();
@@ -32,7 +34,7 @@ export const usePostRetrospectCreate = (spaceId: number) => {
         spaceId,
       });
 
-      navigate(PATHS.completeRetrospectCreate(), {
+      navigate(isDesktop ? PATHS.DesktopcompleteRetrospectCreate() : PATHS.completeRetrospectCreate(), {
         state: { retrospectId, spaceId, title: variables?.body?.title, introduction: variables?.body?.introduction },
       });
       resetRetroCreateData();

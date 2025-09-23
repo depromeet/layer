@@ -5,11 +5,28 @@ import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { Spacing } from "@/component/common/Spacing";
 import { useRadioButton } from "@/hooks/useRadioButton";
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useSetAtom } from "jotai";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
 
-function DueDate({ onPrev, onNext }: { onPrev: () => void; onNext: () => void }) {
-  const [_, setSelectedDateTime] = useState<string>();
+function DueDate() {
+  const { goPrev } = useContext(RetrospectCreateContext);
+  const setRetroCreateData = useSetAtom(retrospectCreateAtom);
+  const [selectedDateTime, setSelectedDateTime] = useState<string>();
   const { selectedValue, isChecked, onChange } = useRadioButton();
+
+  const onNext = () => {
+    setRetroCreateData((prev) => ({ ...prev, deadline: selectedDateTime }));
+  };
+
+  const getButtonText = () => {
+    if ((selectedValue === "has-duedate-pos" && selectedDateTime) || selectedValue === "has-duedate-neg") {
+      return "완료";
+    }
+    return "다음";
+  };
+
   return (
     <>
       <Header title={"회고는\n언제까지 작성할까요?"} />
@@ -47,18 +64,17 @@ function DueDate({ onPrev, onNext }: { onPrev: () => void; onNext: () => void })
       <ButtonProvider sort={"horizontal"}>
         <ButtonProvider.Gray
           onClick={() => {
-            onPrev();
+            goPrev();
           }}
         >
           이전
         </ButtonProvider.Gray>
         <ButtonProvider.Primary
-          onClick={() => {
-            onNext();
-          }}
-          disabled={!selectedValue}
+          onClick={onNext}
+          disabled={(selectedValue === "has-duedate-pos" && !selectedDateTime) || !selectedValue}
+          type="submit"
         >
-          다음
+          {getButtonText()}
         </ButtonProvider.Primary>
       </ButtonProvider>
     </>
