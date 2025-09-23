@@ -26,7 +26,6 @@ export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseM
   }, [currentStep, totalStepsCnt, steps, redirectPath]);
 
   const goPrev = useCallback(() => {
-    console.log("goPrev가 실행되나?");
     if (currentStepIndex === 0 && isMobile) {
       navigate(-1);
       return;
@@ -41,11 +40,6 @@ export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseM
     },
     [steps, setCurrentStepIndex],
   );
-
-  // console.log("totalStepsCnt : " + totalStepsCnt);
-  // console.log("currentStep : " + currentStep);
-  // console.log("currentStepIndex : " + currentStepIndex);
-  // console.log("isLastStep : " + isLastStep);
 
   return useMemo(
     () => ({
