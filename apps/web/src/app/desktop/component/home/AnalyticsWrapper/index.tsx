@@ -2,9 +2,53 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import AnalyticsBox from "../AnalyticsBox";
+import { useApiGetMemberAnalysis } from "@/hooks/api/analysis/useApiGetMemberAnalysis";
+import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 
 export default function AnalyticsWrapper() {
-  // TODO: 분석 결과 API 요청 추가
+  const { data: myAnalysis, isPending: isMyAnalysisPending, isError: isMyAnalysisError } = useApiGetMemberAnalysis();
+
+  // 컨텐츠 렌더링 함수
+  const renderContent = () => {
+    // * ---------- 로딩 중일 때 ---------- * //
+    if (isMyAnalysisPending) {
+      return (
+        <div
+          css={css`
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          `}
+        >
+          <LoadingSpinner />
+        </div>
+      );
+    }
+
+    // * ---------- 에러가 발생했을 때 ---------- * //
+    if (isMyAnalysisError) {
+      return <Typography variant="body15Medium">분석 결과를 불러오는 중 오류가 발생했어요.</Typography>;
+    }
+
+    // * ---------- 데이터가 있을 때 ---------- * //
+    if (myAnalysis) {
+      if (myAnalysis.goodAnalyzes.length === 0 && myAnalysis.badAnalyzes.length === 0 && myAnalysis.improvementAnalyzes.length === 0) {
+        return <Typography variant="body15Medium">분석 결과가 없습니다.</Typography>;
+      }
+
+      return (
+        <>
+          <AnalyticsBox type="good" analysis={myAnalysis.goodAnalyzes} />
+          <AnalyticsBox type="bad" analysis={myAnalysis.badAnalyzes} />
+          <AnalyticsBox type="improvement" analysis={myAnalysis.improvementAnalyzes} />
+        </>
+      );
+    }
+
+    // * ---------- 에러 또는 데이터 없음 ---------- * //
+    return <Typography variant="body15Medium">분석 결과가 없습니다.</Typography>;
+  };
 
   return (
     <article
@@ -41,13 +85,14 @@ export default function AnalyticsWrapper() {
           분석
         </Typography>
         <Typography variant="body15SemiBold" color="gray800">
-          {2}개의 회고가 진행중이에요!
+          {myAnalysis?.recentAnalyzes.length ?? 0}개의 회고가 진행중이에요!
         </Typography>
       </section>
 
       {/* ---------- 분석 컨텐츠 ---------- */}
       <article
         css={css`
+          position: relative;
           display: flex;
           justify-content: space-between;
           height: 36.6rem;
@@ -57,9 +102,7 @@ export default function AnalyticsWrapper() {
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
         `}
       >
-        <AnalyticsBox />
-        <AnalyticsBox />
-        <AnalyticsBox />
+        {renderContent()}
       </article>
     </article>
   );

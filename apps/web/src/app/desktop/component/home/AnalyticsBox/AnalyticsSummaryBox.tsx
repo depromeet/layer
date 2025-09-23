@@ -1,9 +1,20 @@
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Point } from "@/types/analysis";
+import { getAnalysisConfig } from "@/utils/analysis/getAnalysisConfig";
 import { css } from "@emotion/react";
 
-export default function AnalyticsSummaryBox() {
+type AnalyticsSummaryBoxProps = {
+  type: "good" | "bad" | "improvement";
+  analysis: Point;
+};
+
+export default function AnalyticsSummaryBox({ type, analysis }: AnalyticsSummaryBoxProps) {
+  const { spaceName, retrospectTitle } = analysis;
+
+  const config = getAnalysisConfig(type);
+
   return (
     <section
       css={css`
@@ -15,7 +26,7 @@ export default function AnalyticsSummaryBox() {
         border-radius: 1.2rem;
       `}
     >
-      <Icon icon="ic_success" color={DESIGN_TOKEN_COLOR.gray800} />
+      <Icon icon={config.icon} color={DESIGN_TOKEN_COLOR.gray800} size={1.6} />
       <section
         css={css`
           display: flex;
@@ -34,7 +45,7 @@ export default function AnalyticsSummaryBox() {
           `}
         >
           <Typography variant="subtitle14SemiBold" color="gray800">
-            회의 내용 문서화
+            {config.title}
           </Typography>
           <Typography
             variant="body12SemiBold"
@@ -45,11 +56,11 @@ export default function AnalyticsSummaryBox() {
               white-space: nowrap;
             `}
           >
-            중간발표 이후 회고 | {"떡잎방범대"}
+            {retrospectTitle} | {spaceName}
           </Typography>
         </div>
 
-        {/* TODO: IconButton 컴포넌트 생성 */}
+        {/* TODO: Space 분석으로 이동 구현 */}
         <div
           css={css`
             display: flex;
