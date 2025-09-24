@@ -20,12 +20,7 @@ function DueDate() {
     setRetroCreateData((prev) => ({ ...prev, deadline: selectedDateTime }));
   };
 
-  const getButtonText = () => {
-    if ((selectedValue === "has-duedate-pos" && selectedDateTime) || selectedValue === "has-duedate-neg") {
-      return "완료";
-    }
-    return "다음";
-  };
+  const buttonText = (selectedValue === "has-duedate-pos" && selectedDateTime) || selectedValue === "has-duedate-neg" ? "완료" : "다음";
 
   return (
     <>
@@ -74,7 +69,7 @@ function DueDate() {
           disabled={(selectedValue === "has-duedate-pos" && !selectedDateTime) || !selectedValue}
           type="submit"
         >
-          {getButtonText()}
+          {buttonText}
         </ButtonProvider.Primary>
       </ButtonProvider>
     </>
