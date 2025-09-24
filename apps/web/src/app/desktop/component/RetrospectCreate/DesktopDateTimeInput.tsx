@@ -7,6 +7,7 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { isBeforeToday } from "@/utils/formatDate";
 import { DesktopDateTimePicker } from "./DesktopDateTimePicker";
+import { COLOR_MAP } from "./constants";
 
 const DATE_INPUT_ID = "due-date";
 
@@ -82,6 +83,7 @@ export function DesktopDateTimeInput({ onValueChange, disablePast = true, defaul
           onSave={(dateTime) => {
             setDateTime(dateTime);
             onValueChange(dateTime);
+            setDatePickerOpen(false);
           }}
         />
       )}

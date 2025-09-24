@@ -21,6 +21,8 @@ export const createPaths = (deviceType: "mobile" | "desktop") => {
     write: () => `${prefix}/write` as const,
     completeRetrospectWrite: () => `${prefix}/write/complete` as const,
     completeRetrospectCreate: () => `${prefix}/retrospect/complete` as const,
+    /*TODO 회고 생성 후 실제 스페이스 URL로 변경 */
+    DesktopcompleteRetrospectCreate: () => `${prefix}/` as const,
     template: (spaceId: string) =>
       `${prefix}/space/${spaceId}/templates` as const,
     viewDetailTemplate: () => `${prefix}/template` as const,

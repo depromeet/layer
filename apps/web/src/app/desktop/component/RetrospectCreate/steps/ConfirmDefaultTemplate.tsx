@@ -7,12 +7,24 @@ import { Tag } from "@/component/common/tag";
 import { Spacing } from "@/component/common/Spacing";
 import { ButtonProvider } from "@/component/common/button";
 import QuestionEditButton from "@/app/desktop/component/RetrospectCreate/QuestionEditButton";
+import { useContext, useEffect } from "react";
+import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
+import { useAtom } from "jotai";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
-export function ConfirmDefaultTemplate({ onNext }: { onNext: () => void }) {
-  // TODO 실제 템플릿id로 변경 필요
+export function ConfirmDefaultTemplate() {
+  const { goNext } = useContext(RetrospectCreateContext);
+  const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+
+  /* TODO 실제 템플릿id로 변경 필요 */
   const {
     data: { title, tag, questions },
   } = useGetCustomTemplate(10000);
+
+  useEffect(() => {
+    if (retroCreateData.questions.length > 0) return;
+    setRetroCreateData((prev) => ({ ...prev, questions }));
+  }, []);
 
   return (
     <>
@@ -59,7 +71,7 @@ export function ConfirmDefaultTemplate({ onNext }: { onNext: () => void }) {
         <ButtonProvider.Gray>템플릿 변경</ButtonProvider.Gray>
         <ButtonProvider.Primary
           onClick={() => {
-            onNext();
+            goNext();
           }}
         >
           진행하기

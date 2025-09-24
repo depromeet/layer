@@ -1,4 +1,4 @@
-const COLOR_MAP = {
+export const COLOR_MAP = {
   default: {
     text: "gray500",
     border: "gray300",

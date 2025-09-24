@@ -1,3 +1,4 @@
+import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
@@ -7,11 +8,19 @@ import { useInput } from "@/hooks/useInput";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
+import { useContext } from "react";
 
-function MainInfo({ onPrev, onNext }: { onPrev: () => void; onNext: () => void }) {
-  const [retroCreateData, _] = useAtom(retrospectCreateAtom);
+function MainInfo() {
+  const { goNext, goPrev } = useContext(RetrospectCreateContext);
+  const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { value: title, handleInputChange: handleNameChange } = useInput(retroCreateData.title);
   const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(retroCreateData.introduction);
+
+  const handleDataSave = () => {
+    setRetroCreateData((prev) => ({ ...prev, title, introduction }));
+    goNext();
+  };
+
   return (
     <>
       <Header title={"회고의\n 이름은 무엇인가요?"} />
@@ -40,17 +49,12 @@ function MainInfo({ onPrev, onNext }: { onPrev: () => void; onNext: () => void }
       <ButtonProvider sort={"horizontal"}>
         <ButtonProvider.Gray
           onClick={() => {
-            onPrev();
+            goPrev();
           }}
         >
           이전
         </ButtonProvider.Gray>
-        <ButtonProvider.Primary
-          onClick={() => {
-            onNext();
-          }}
-          disabled={!title}
-        >
+        <ButtonProvider.Primary onClick={handleDataSave} disabled={!title}>
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>
