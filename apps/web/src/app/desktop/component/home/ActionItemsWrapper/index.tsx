@@ -26,7 +26,7 @@ export default function ActionItemsWrapper() {
   });
 
   return (
-    <section
+    <article
       css={css`
         margin-top: 4.8rem;
       `}
@@ -65,7 +65,6 @@ export default function ActionItemsWrapper() {
       </section>
 
       {/* ---------- 실행목표 컨텐츠 ---------- */}
-
       <Swiper
         modules={[Navigation]}
         spaceBetween={16}
@@ -193,6 +192,6 @@ export default function ActionItemsWrapper() {
           ))
         )}
       </Swiper>
-    </section>
+    </article>
   );
 }
