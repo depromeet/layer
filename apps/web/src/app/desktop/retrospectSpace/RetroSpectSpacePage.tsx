@@ -1,0 +1,74 @@
+import ActionItems from "@/component/retrospect/space/ActionItems";
+import CompletedRetrospects from "@/component/retrospect/space/CompletedRetrospects";
+import InProgressRetrospects from "@/component/retrospect/space/InProgressRetrospects";
+import RetrospectSpaceHeader from "@/component/retrospect/space/RetrospectSpaceHeader";
+import { css } from "@emotion/react";
+
+export default function RetroSpectSpacePage() {
+  return (
+    <section
+      css={css`
+        width: 100%;
+        height: 100vh;
+        padding: 2.8rem 2rem 0 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.8rem;
+        min-width: 92.8rem;
+      `}
+    >
+      <RetrospectSpaceHeader />
+
+      {/* 데스크탑 레이아웃 (980px 이상) */}
+      <div
+        css={css`
+          display: flex;
+          justify-content: space-between;
+          flex: 1;
+          overflow: hidden;
+
+          @media (max-width: 979px) {
+            display: none;
+          }
+        `}
+      >
+        <div
+          css={css`
+            display: flex;
+            gap: 5rem;
+          `}
+        >
+          <InProgressRetrospects />
+          <CompletedRetrospects />
+        </div>
+        <ActionItems />
+      </div>
+
+      {/* 태블릿 레이아웃 (980px 미만) */}
+      <div
+        css={css`
+          display: none;
+          gap: 2.4rem;
+          flex: 1;
+          overflow-y: auto;
+
+          @media (max-width: 979px) {
+            display: flex;
+          }
+        `}
+      >
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+          `}
+        >
+          <InProgressRetrospects />
+          <CompletedRetrospects />
+        </div>
+        <ActionItems />
+      </div>
+    </section>
+  );
+}
