@@ -16,12 +16,11 @@ interface SpaceItemProps {
 
 export default function SpaceItem({ space }: SpaceItemProps) {
   const { isCollapsed } = useNavigation();
-
-  const { id, name, introduction, bannerUrl } = space;
+  const { id: spaceId, name, introduction, bannerUrl } = space;
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
-  const isCurrent = String(currentSpace?.id) === String(id);
+  const isCurrent = String(currentSpace?.id) === String(spaceId);
 
   const handleSelectSpace = () => {
     setCurrentSpace(space);
