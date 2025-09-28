@@ -46,7 +46,6 @@ export default function RetrospectSpaceHeader() {
                 padding: 0.8rem 1.2rem;
                 background-color: ${DESIGN_TOKEN_COLOR.blue600};
                 border-radius: 0.8rem;
-                display: flex;
                 align-items: center;
                 justify-content: center;
                 gap: 0.4rem;
@@ -65,7 +64,6 @@ export default function RetrospectSpaceHeader() {
                 display: flex;
                 padding: 0.8rem 1.2rem;
                 border-radius: 0.8rem;
-                display: flex;
                 align-items: center;
                 justify-content: center;
                 gap: 0.4rem;
@@ -86,7 +84,6 @@ export default function RetrospectSpaceHeader() {
                 display: flex;
                 padding: 0.8rem 1.2rem;
                 border-radius: 0.8rem;
-                display: flex;
                 align-items: center;
                 justify-content: center;
                 gap: 0.4rem;

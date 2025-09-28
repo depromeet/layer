@@ -6,18 +6,11 @@ import { css } from "@emotion/react";
 
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import RetrospectSection from "./RetrospectSection";
-import { Typography } from "@/component/common/typography";
-import { useAtomValue } from "jotai";
-import { currentSpaceState } from "@/store/space/spaceAtom";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { Icon } from "@/component/common/Icon";
+
+import AnalysisOverviewHeader from "./AnalysisOverviewHeader";
 
 export default function AnalysisOverview() {
   const { spaceId } = useParams();
-
-  const currentSelectedSpace = useAtomValue(currentSpaceState);
-
-  const { name, introduction } = currentSelectedSpace || {};
 
   // * 스페이스 회고 목록 조회
   const { data: retrospects, isPending: isRetrospectsPending } = useQuery(useApiOptionsGetRetrospects(spaceId));
@@ -36,23 +29,7 @@ export default function AnalysisOverview() {
         box-sizing: border-box;
       `}
     >
-      <section>
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-          `}
-        >
-          <Typography variant="heading24Bold" color="gray900">
-            {name}
-          </Typography>
-          <Icon icon="ic_more" size={2.0} color={DESIGN_TOKEN_COLOR.gray900} />
-        </div>
-        <Typography variant="body14SemiBold" color="gray700" style={{ marginTop: "0.4rem" }}>
-          {introduction}
-        </Typography>
-      </section>
+      <AnalysisOverviewHeader />
 
       <RetrospectSection
         title="진행중인 회고"
