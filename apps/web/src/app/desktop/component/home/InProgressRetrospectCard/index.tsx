@@ -18,7 +18,7 @@ export default function InProgressRetrospectCard({ retrospect }: InProgressRetro
       css={css`
         display: flex;
         flex-direction: column;
-        width: 30rem;
+        width: 29.6rem;
         height: 13.8rem;
         padding: 1.6rem;
         background-color: white;
