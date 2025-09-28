@@ -1,18 +1,18 @@
 import { MidModal } from "../MidModal";
 
-type LogoutModalProps = {
+type DeleteAccountConfirmModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
 };
 
-export function LogoutModal({ isOpen, onClose, onConfirm }: LogoutModalProps) {
+export function DeleteAccountConfirmModal({ isOpen, onClose, onConfirm }: DeleteAccountConfirmModalProps) {
   if (!isOpen) return null;
 
   return (
     <MidModal
-      title="로그아웃"
-      content="정말 로그아웃 하시겠어요?"
+      title="계정 탈퇴"
+      content="계정 탈퇴시 모든 회고 정보가 날아가요.&#10;정말 계정 탈퇴를 진행하시겠어요?"
       leftText="아니요"
       rightText="네"
       leftFun={onClose}

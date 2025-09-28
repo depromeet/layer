@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { Icon } from "../Icon";
 import { Typography } from "../typography";
 import { AcountSettingsModal } from "../Modal/UserSetting/AcountSettingsModal";
+import { FeedbackModal } from "../Modal/UserSetting/FeedbackModal";
+import { LogoutModal } from "../Modal/UserSetting/LogoutModal";
 import { useNavigation } from "./context/NavigationContext";
 import { UserProfileDropdown } from "./UserProfileDropdown";
 
@@ -13,6 +15,8 @@ export default function Footer() {
   const { isCollapsed } = useNavigation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAccountSettingsModalOpen, setIsAccountSettingsModalOpen] = useState(false);
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -52,7 +56,7 @@ export default function Footer() {
   };
 
   const handleFeedback = () => {
-    // 평가 및 피드백 로직
+    setIsFeedbackModalOpen(true);
     setIsDropdownOpen(false);
   };
 
@@ -62,7 +66,7 @@ export default function Footer() {
   };
 
   const handleLogout = () => {
-    // 로그아웃 로직
+    setIsLogoutModalOpen(true);
     setIsDropdownOpen(false);
   };
 
@@ -255,6 +259,21 @@ export default function Footer() {
 
       {/* 계정설정 모달 */}
       <AcountSettingsModal isOpen={isAccountSettingsModalOpen} onClose={handleAccountSettingsClose} />
+
+      {/* 평가 및 피드백 모달 */}
+      <FeedbackModal isOpen={isFeedbackModalOpen} onClose={() => setIsFeedbackModalOpen(false)} />
+
+      {/* 로그아웃 모달 */}
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={() => {
+          // TODO: 실제 로그아웃 로직 구현
+          console.log("로그아웃 확정");
+          setIsLogoutModalOpen(false);
+          // 여기에 실제 로그아웃 API 호출 등을 추가
+        }}
+      />
     </footer>
   );
 }

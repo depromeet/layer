@@ -11,6 +11,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ANIMATION } from "@/style/common/animation";
 import { Input, InputLabelContainer, Label } from "@/component/common/input";
 import { useInput } from "@/hooks/useInput";
+import { DeleteAccountConfirmModal } from "./DeleteAccountConfirmModal";
 
 type AccountSettingsModalProps = {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
   if (!isOpen) return null;
 
   const [modalView, setModalView] = useState<"settings" | "deleteAccount">("settings");
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const nameInput = useInput("홍길동");
   const [deleteReasons, setDeleteReasons] = useState({
     notUseful: false,
@@ -323,9 +325,9 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
                 `}
                 onClick={() => {
                   if (modalView === "deleteAccount") {
-                    // TODO: 계정 삭제 로직 구현
-                    console.log("계정 삭제", { deleteReasons, feedback: feedbackInput.value });
-                    onClose();
+                    if (hasSelectedReason) {
+                      setShowConfirmModal(true);
+                    }
                   } else {
                     // TODO: 설정 저장 로직 구현
                     console.log("설정 저장");
@@ -341,6 +343,18 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
           </footer>
         </div>
       </div>
+
+      {/* 계정 탈퇴 확인 모달 */}
+      <DeleteAccountConfirmModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={() => {
+          // TODO: 실제 계정 삭제 로직 구현
+          console.log("계정 삭제 확정", { deleteReasons, feedback: feedbackInput.value });
+          setShowConfirmModal(false);
+          onClose();
+        }}
+      />
     </Portal>
   );
 }
