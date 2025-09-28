@@ -78,7 +78,7 @@ export default function InProgressRetrospects() {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 4rem 2rem;
+            padding: 1.6rem 2rem 4rem;
             text-align: center;
             gap: 2.4rem;
           `}
@@ -111,7 +111,7 @@ export default function InProgressRetrospects() {
                   display: flex;
                   flex-direction: column;
                   gap: 1.6rem;
-                  margin-top: 2.4rem;
+                  padding-top: 1.6rem;
                   flex: 1;
                   overflow-y: auto;
                   overflow-x: hidden;
@@ -131,7 +131,6 @@ export default function InProgressRetrospects() {
                           `
                             opacity: 0.8;
                             transform: rotate(5deg);
-                            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
                           `}
 
                           /* 평상시 스타일 */
@@ -139,7 +138,6 @@ export default function InProgressRetrospects() {
 
                           &:hover {
                             transform: translateY(-2px);
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                           }
                         `}
                       >

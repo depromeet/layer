@@ -6,9 +6,18 @@ import { css } from "@emotion/react";
 
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import RetrospectSection from "./RetrospectSection";
+import { Typography } from "@/component/common/typography";
+import { useAtomValue } from "jotai";
+import { currentSpaceState } from "@/store/space/spaceAtom";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Icon } from "@/component/common/Icon";
 
 export default function AnalysisOverview() {
   const { spaceId } = useParams();
+
+  const currentSelectedSpace = useAtomValue(currentSpaceState);
+
+  const { name } = currentSelectedSpace || {};
 
   // * 스페이스 회고 목록 조회
   const { data: retrospects, isPending: isRetrospectsPending } = useQuery(useApiOptionsGetRetrospects(spaceId));
@@ -28,6 +37,19 @@ export default function AnalysisOverview() {
         box-sizing: border-box;
       `}
     >
+      <section
+        css={css`
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+        `}
+      >
+        <Typography variant="heading24Bold" color="gray900">
+          {name}
+        </Typography>
+        <Icon icon="ic_more" size={2.0} color={DESIGN_TOKEN_COLOR.gray900} />
+      </section>
+
       <RetrospectSection
         title="진행중인 회고"
         isLoading={isRetrospectsPending}

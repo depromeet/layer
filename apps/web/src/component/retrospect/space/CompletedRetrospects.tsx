@@ -105,7 +105,7 @@ export default function CompletedRetrospects() {
                   display: flex;
                   flex-direction: column;
                   gap: 1.6rem;
-                  margin-top: 2.4rem;
+                  padding-top: 1.6rem;
                   flex: 1;
                   overflow-y: auto;
                   overflow-x: hidden;
@@ -125,7 +125,6 @@ export default function CompletedRetrospects() {
                           `
                           opacity: 0.8;
                           transform: rotate(5deg);
-                          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
                         `}
 
                           /* 평상시 스타일 */
@@ -133,7 +132,6 @@ export default function CompletedRetrospects() {
 
                           &:hover {
                             transform: translateY(-2px);
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                           }
                         `}
                       >
