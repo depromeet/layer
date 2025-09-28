@@ -35,7 +35,7 @@ export default function InProgressRetrospectsWrapper() {
         slidesPerView={3}
         navigation
         css={css`
-          margin-top: 1.6rem;
+          margin-top: 1.2rem;
           width: 100%;
           position: relative;
           overflow-x: visible;

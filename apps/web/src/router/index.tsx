@@ -112,7 +112,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
         element: <div>Desktop Goals</div>, // TODO: 데스크탑용 목표
       },
       {
-        path: "retrospectSpace",
+        path: "retrospectSpace/:spaceId",
         element: <RetroSpectSpacePage />,
       },
     ],

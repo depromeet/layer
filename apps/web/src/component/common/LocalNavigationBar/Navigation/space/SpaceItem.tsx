@@ -9,21 +9,48 @@ import { Space } from "@/types/spaceType";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface SpaceItemProps {
   space: Space;
 }
 
+// 상태별 스타일 정의
+const SPACE_ITEM_STYLES = {
+  backgroundColor: {
+    default: "transparent",
+    currentInSpace: DESIGN_TOKEN_COLOR.gray100,
+    currentInHome: "transparent",
+  },
+  hover: DESIGN_TOKEN_COLOR.gray100,
+};
+
 export default function SpaceItem({ space }: SpaceItemProps) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { isCollapsed } = useNavigation();
   const { id: spaceId, name, introduction, bannerUrl } = space;
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
+  const isHome = location.pathname === "/";
   const isCurrent = String(currentSpace?.id) === String(spaceId);
+
+  const getBackgroundColor = () => {
+    if (isCurrent) {
+      return SPACE_ITEM_STYLES.backgroundColor.currentInSpace;
+    }
+
+    if (isHome) {
+      return SPACE_ITEM_STYLES.backgroundColor.currentInHome;
+    }
+
+    return SPACE_ITEM_STYLES.backgroundColor.default;
+  };
 
   const handleSelectSpace = () => {
     setCurrentSpace(space);
+    navigate(`/retrospectSpace/${spaceId}`);
   };
 
   return (
@@ -33,7 +60,7 @@ export default function SpaceItem({ space }: SpaceItemProps) {
         align-items: center;
         gap: 1rem;
         width: 100%;
-        background-color: ${isCurrent ? DESIGN_TOKEN_COLOR.gray100 : "transparent"};
+        background-color: ${getBackgroundColor()};
         border-radius: 0.8rem;
         cursor: pointer;
         transition: background-color 0.2s ease-in-out;
@@ -51,7 +78,7 @@ export default function SpaceItem({ space }: SpaceItemProps) {
             `}
 
         &:hover {
-          background-color: ${DESIGN_TOKEN_COLOR.gray100};
+          background-color: ${SPACE_ITEM_STYLES.hover};
         }
       `}
       onClick={handleSelectSpace}
