@@ -2,8 +2,9 @@ import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
-import InProgressRetrospectCard from "../../home/InProgressRetrospectCard";
+
 import type { Retrospect } from "@/types/retrospect"; // Retrospect 타입을 가져옵니다.
+import RetrospectCard from "../../home/InProgressRetrospectCard";
 
 interface RetrospectSectionProps {
   title: string;
@@ -70,7 +71,7 @@ export default function RetrospectSection({ title, isLoading, retrospects, empty
             </Typography>
           </div>
         ) : (
-          retrospects.map((retrospect) => <InProgressRetrospectCard key={retrospect.retrospectId} retrospect={retrospect} />)
+          retrospects.map((retrospect) => <RetrospectCard key={retrospect.retrospectId} retrospect={retrospect} />)
         )}
       </section>
     </>

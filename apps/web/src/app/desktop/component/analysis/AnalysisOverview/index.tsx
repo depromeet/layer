@@ -17,7 +17,7 @@ export default function AnalysisOverview() {
 
   const currentSelectedSpace = useAtomValue(currentSpaceState);
 
-  const { name } = currentSelectedSpace || {};
+  const { name, introduction } = currentSelectedSpace || {};
 
   // * 스페이스 회고 목록 조회
   const { data: retrospects, isPending: isRetrospectsPending } = useQuery(useApiOptionsGetRetrospects(spaceId));
@@ -32,22 +32,26 @@ export default function AnalysisOverview() {
     <section
       css={css`
         width: 34.4rem;
-        margin-top: 3.2rem;
         padding: 0 3rem 3.2rem 1.8rem;
         box-sizing: border-box;
       `}
     >
-      <section
-        css={css`
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
-        `}
-      >
-        <Typography variant="heading24Bold" color="gray900">
-          {name}
+      <section>
+        <div
+          css={css`
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+          `}
+        >
+          <Typography variant="heading24Bold" color="gray900">
+            {name}
+          </Typography>
+          <Icon icon="ic_more" size={2.0} color={DESIGN_TOKEN_COLOR.gray900} />
+        </div>
+        <Typography variant="body14SemiBold" color="gray700" style={{ marginTop: "0.4rem" }}>
+          {introduction}
         </Typography>
-        <Icon icon="ic_more" size={2.0} color={DESIGN_TOKEN_COLOR.gray900} />
       </section>
 
       <RetrospectSection

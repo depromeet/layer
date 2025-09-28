@@ -1,9 +1,15 @@
 import { Icon } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
+import { currentSpaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
+import { useAtomValue } from "jotai";
 
 export default function RetrospectSpaceHeader() {
+  const currentSpace = useAtomValue(currentSpaceState);
+
+  const { name, introduction } = currentSpace || {};
+
   return (
     <section
       css={css`
@@ -27,7 +33,7 @@ export default function RetrospectSpaceHeader() {
             justify-content: space-between;
           `}
         >
-          <Typography variant="heading24Bold">떡잎마을방범대 </Typography>
+          <Typography variant="heading24Bold">{name}</Typography>
           <div
             css={css`
               display: flex;
@@ -50,7 +56,7 @@ export default function RetrospectSpaceHeader() {
             >
               <Icon icon={"ic_plus"} size={1.2} color={DESIGN_TOKEN_COLOR.gray00} />
 
-              <Typography variant="body14Bold" color="gray00">
+              <Typography variant="body14SemiBold" color="gray00">
                 회고 추가하기
               </Typography>
             </div>
@@ -70,7 +76,7 @@ export default function RetrospectSpaceHeader() {
             >
               <Icon icon={"ic_document_color"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
 
-              <Typography variant="body14Bold" color="gray600">
+              <Typography variant="body14SemiBold" color="gray600">
                 KPT
               </Typography>
               <Icon icon={"ic_chevron_down"} size={1.6} color={DESIGN_TOKEN_COLOR.gray600} />
@@ -91,14 +97,14 @@ export default function RetrospectSpaceHeader() {
             >
               <Icon icon={"ic_team"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
 
-              <Typography variant="body14Bold" color="gray600">
+              <Typography variant="body14SemiBold" color="gray600">
                 11
               </Typography>
               <Icon icon={"ic_chevron_down"} size={1.6} color={DESIGN_TOKEN_COLOR.gray600} />
             </div>
           </div>
         </div>
-        <Typography variant="body14Medium">IT 연합동아리 디프만 15기의 프로젝트 방향성 세우기</Typography>
+        <Typography variant="body14Medium">{introduction}</Typography>
       </div>
     </section>
   );

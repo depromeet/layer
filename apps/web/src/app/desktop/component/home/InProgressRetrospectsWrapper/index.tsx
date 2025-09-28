@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
-import InProgressRetrospectCard from "../InProgressRetrospectCard";
+
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { useGetAllRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
+import RetrospectCard from "../InProgressRetrospectCard";
 
 export default function InProgressRetrospectsWrapper() {
   // * 작성중인 모든 회고 리스트 요청
@@ -161,7 +162,7 @@ export default function InProgressRetrospectsWrapper() {
         ) : (
           retrospects.map((retrospect) => (
             <SwiperSlide key={retrospect.retrospectId}>
-              <InProgressRetrospectCard retrospect={retrospect} />
+              <RetrospectCard retrospect={retrospect} />
             </SwiperSlide>
           ))
         )}
