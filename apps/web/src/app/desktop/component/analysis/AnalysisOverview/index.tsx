@@ -1,34 +1,46 @@
+import { useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+
 import { css } from "@emotion/react";
 
-import ActionItems from "@/component/retrospect/space/ActionItems";
-import CompletedRetrospects from "@/component/retrospect/space/CompletedRetrospects";
-import InProgressRetrospects from "@/component/retrospect/space/InProgressRetrospects";
+import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
+import RetrospectSection from "./RetrospectSection";
 
 export default function AnalysisOverview() {
+  const { spaceId } = useParams();
+
+  // * 스페이스 회고 목록 조회
+  const { data: retrospects, isPending: isRetrospectsPending } = useQuery(useApiOptionsGetRetrospects(spaceId));
+
+  // * 진행중인 회고 필터링
+  const proceedingRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [], [retrospects]);
+
+  // * 마감된 회고 필터링
+  const closedRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "DONE") || [], [retrospects]);
+
   return (
     <section
       css={css`
-        display: none;
-        gap: 2.4rem;
-        flex: 1;
-        overflow-y: auto;
-
-        @media (max-width: 979px) {
-          display: flex;
-        }
+        width: 34.4rem;
+        margin-top: 3.2rem;
+        padding: 0 3rem 3.2rem 1.8rem;
+        box-sizing: border-box;
       `}
     >
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          gap: 4rem;
-        `}
-      >
-        <InProgressRetrospects />
-        <CompletedRetrospects />
-      </div>
-      <ActionItems />
+      <RetrospectSection
+        title="진행중인 회고"
+        isLoading={isRetrospectsPending}
+        retrospects={proceedingRetrospects}
+        emptyMessage="작성중인 회고가 없습니다."
+      />
+
+      <RetrospectSection
+        title="마감된 회고"
+        isLoading={isRetrospectsPending}
+        retrospects={closedRetrospects}
+        emptyMessage="마감된 회고가 없습니다."
+      />
     </section>
   );
 }

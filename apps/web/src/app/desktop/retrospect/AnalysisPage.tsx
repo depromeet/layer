@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import InProgressRetrospectsWrapper from "../component/analysis/AnalysisOverview/InProgressRetrospectsWrapper";
+import AnalysisOverview from "../component/analysis/AnalysisOverview";
 
 export default function AnalysisPage() {
   return (
@@ -8,7 +8,7 @@ export default function AnalysisPage() {
         padding: 2.8rem 0;
       `}
     >
-      <InProgressRetrospectsWrapper />
+      <AnalysisOverview />
     </section>
   );
 }
