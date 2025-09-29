@@ -1,12 +1,8 @@
 import { JoinSpace } from "@/component/space/join/JoinSpace";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { css } from "@emotion/react";
-import { getDevice } from "kr-corekit";
 
 export function JoinSpacePage() {
-  const { isDesktop, isMobile } = getDevice();
-
-
   return (
     <section
       css={css`
