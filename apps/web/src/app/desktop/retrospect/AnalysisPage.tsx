@@ -12,7 +12,6 @@ export default function AnalysisPage() {
     <section
       css={css`
         display: flex;
-        height: 100vh;
       `}
     >
       <AnalysisOverview spaceId={spaceId} />

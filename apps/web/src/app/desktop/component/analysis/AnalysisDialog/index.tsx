@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 import AnalysisHeader from "./AnalysisHeader";
+import AnalysisContent from "./AnalysisContent";
 
 export const ANALYSIS_MENU_TABS = ["질문", "개별", "분석"] as const;
 export type AnalysisTab = (typeof ANALYSIS_MENU_TABS)[number];
@@ -29,6 +30,8 @@ export default function AnalysisDialog({ spaceId }: AnalysisDialogProps) {
       `}
     >
       <AnalysisHeader selectedTab={selectedTab} handleTabClick={handleTabClick} />
+
+      <AnalysisContent />
     </article>
   );
 }
