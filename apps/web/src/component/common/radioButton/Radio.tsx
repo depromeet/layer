@@ -5,7 +5,7 @@ import { RadioContext } from "./RadioButtonGroup";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { useDeviceType } from "@/hooks/useDeviceType";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type RadioProps = {
   value: string;
@@ -15,7 +15,7 @@ type RadioProps = {
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "checked" | "size">;
 
 export const Radio = forwardRef<HTMLLabelElement, RadioProps>(function ({ value, rounded = "sm", size = "sm", children, ...props }, ref) {
-  const { isDesktop } = useDeviceType();
+  const { isDesktop } = getDeviceType();
   const radioContext = useContext(RadioContext);
 
   const STYLE_MAP = {

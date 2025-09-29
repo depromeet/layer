@@ -6,9 +6,9 @@ import { Calendar } from "@/component/common/dateTimePicker/Calendar";
 import { TimePicker } from "@/component/common/dateTimePicker/TimePicker";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { getTimeStringFromDate } from "@/utils/formatDate";
-import { useDeviceType } from "@/hooks/useDeviceType";
 import { isPast } from "date-fns";
 import { useToast } from "@/hooks/useToast";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type DesktopDateTimePickerProps = {
   /**
@@ -26,7 +26,7 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: De
   const defaultDate = useMemo(() => (typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue), [defaultValue]);
   const { onSelectDate, radioControl, date, dateTime, time } = useDateTimePicker(defaultDate, getTimeStringFromDate(defaultDate));
   const timePickerRef = useRef<HTMLDivElement>(null);
-  const { isDesktop } = useDeviceType();
+  const { isDesktop } = getDeviceType();
 
   useEffect(() => {
     if (date) {

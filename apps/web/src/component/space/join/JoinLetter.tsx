@@ -10,9 +10,9 @@ type JoinLetterProps = {
   space: string;
   description: string;
   imgUrl: string;
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export function JoinLetter({ space, description, imgUrl }: JoinLetterProps) {
+export function JoinLetter({ space, description, imgUrl, ...props }: JoinLetterProps) {
   const [_, setRender] = useState(false);
 
   useEffect(() => {
@@ -74,6 +74,7 @@ export function JoinLetter({ space, description, imgUrl }: JoinLetterProps) {
           }
         }
       `}
+      {...props}
     >
       <div id="invite-card-top">
         <Icon icon={"letterTop"} size={30} />

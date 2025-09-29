@@ -10,14 +10,14 @@ import { useInput } from "@/hooks/useInput";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { SocialLoginKind } from "@/types/loginType";
-import { useDeviceType } from "@/hooks/useDeviceType";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 export function SetNickNamePage() {
   const { value: nickName, handleInputChange } = useInput("");
   const maxLength = 10;
   const { mutate: signUpMutation, isPending } = usePostSignUp();
   const { socialType } = useRequiredParams<{ socialType: SocialLoginKind }>();
-  const { isMobile } = useDeviceType();
+  const { isMobile } = getDeviceType();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();

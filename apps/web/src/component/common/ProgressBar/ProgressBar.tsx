@@ -1,4 +1,4 @@
-import { useDeviceType } from "@/hooks/useDeviceType";
+import { getDeviceType } from "@/utils/deviceUtils";
 import { css } from "@emotion/react";
 import { Fragment } from "react";
 
@@ -8,7 +8,7 @@ type ProgressBarProps = {
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "type">;
 
 export function ProgressBar({ curPage, lastPage, ...props }: ProgressBarProps) {
-  const { isDesktop } = useDeviceType();
+  const { isDesktop } = getDeviceType();
   if (curPage > lastPage) curPage = lastPage;
 
   const segments = Array.from({ length: lastPage }, (_, i) => i < curPage);

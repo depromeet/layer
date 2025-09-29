@@ -2,6 +2,8 @@ import { css } from "@emotion/react";
 import { Outlet } from "react-router-dom";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Modal } from "@/component/common/Modal";
+import { PreventExternalBrowser } from "@/helper/preventExternalBrowser";
 
 export default function DesktopGlobalLayout() {
   return (
@@ -15,7 +17,10 @@ export default function DesktopGlobalLayout() {
       `}
     >
       {/* #444에서 작업한 새로운 모달 프레임 추가 */}
-      <Outlet />
+      <Modal />
+      <PreventExternalBrowser>
+        <Outlet />
+      </PreventExternalBrowser>
     </div>
   );
 }
