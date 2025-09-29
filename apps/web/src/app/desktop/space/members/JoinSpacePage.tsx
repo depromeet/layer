@@ -6,7 +6,6 @@ import { getDevice } from "kr-corekit";
 export function JoinSpacePage() {
   const { isDesktop, isMobile } = getDevice();
 
-  console.log(isDesktop, isMobile);
 
   return (
     <section
