@@ -112,7 +112,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
         element: <RetroSpectSpacePage />,
       },
       {
-        path: "retrospectSpace/:spaceId/analysis/:retrospectId",
+        path: "retrospect/analysis",
         element: <AnalysisPage />,
       },
     ],

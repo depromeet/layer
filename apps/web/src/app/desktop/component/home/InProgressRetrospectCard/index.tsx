@@ -21,7 +21,7 @@ export default function RetrospectCard({ retrospect, spaceId }: InProgressRetros
     // TODO: spaceId가 없는 경우 처리(예: 홈 화면 최상단의 카드 클릭 시)
 
     if (spaceId) {
-      navigate(`/retrospectSpace/${spaceId}/analysis/${retrospectId}`);
+      navigate(`/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}`);
     }
   };
 

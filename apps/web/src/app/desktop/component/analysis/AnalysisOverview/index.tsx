@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
 import { css } from "@emotion/react";
@@ -10,10 +10,11 @@ import RetrospectSection from "./RetrospectSection";
 import AnalysisOverviewHeader from "./AnalysisOverviewHeader";
 
 export default function AnalysisOverview() {
-  const { spaceId } = useParams();
+  const [searchParams] = useSearchParams();
+  const spaceId = searchParams.get("spaceId");
 
   // * 스페이스 회고 목록 조회
-  const { data: retrospects, isPending: isRetrospectsPending } = useQuery(useApiOptionsGetRetrospects(spaceId));
+  const { data: retrospects, isPending: isRetrospectsPending } = useQuery(useApiOptionsGetRetrospects(spaceId || undefined));
 
   // * 진행중인 회고 필터링
   const proceedingRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [], [retrospects]);
