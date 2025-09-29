@@ -3,7 +3,7 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import type { Retrospect } from "@/types/retrospect";
-import RetrospectCard from "../../home/InProgressRetrospectCard";
+import RetrospectCard from "../../home/RetrospectCard";
 
 interface RetrospectSectionProps {
   title: string;
