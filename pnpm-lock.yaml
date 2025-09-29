@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       kr-corekit:
-        specifier: ^0.0.5
-        version: 0.0.5
+        specifier: ^0.0.8
+        version: 0.0.8
       lerna:
         specifier: ^8.1.8
         version: 8.1.8(@swc/core@1.7.26)(babel-plugin-macros@3.1.0)(encoding@0.1.13)
@@ -5577,8 +5577,8 @@ packages:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
     engines: {node: '>=6'}
 
-  kr-corekit@0.0.5:
-    resolution: {integrity: sha512-nuAfH2PIWOtURF4ljAMQmoZqci6DcJp3R+WE/4AMJfElaKmrR42jSZGXo7wG1/jo7ntwCuyA5xC8WSVPHNBx2g==}
+  kr-corekit@0.0.8:
+    resolution: {integrity: sha512-7GzCWdsMFj5I1zOiWjmR3pInbfbq7K8r8hPHOqmDsdwyx4qPxYxlL8gRhXnRYNyE06VGAXIuepYYBjwdUZMfqQ==}
 
   lerna@8.1.8:
     resolution: {integrity: sha512-Rmo5ShMx73xM2CUcRixjmpZIXB7ZFlWEul1YvJyx/rH4onAwDHtUGD7Rx4NZYL8QSRiQHroglM2Oyq+WqA4BYg==}
@@ -15098,7 +15098,7 @@ snapshots:
 
   kleur@3.0.3: {}
 
-  kr-corekit@0.0.5: {}
+  kr-corekit@0.0.8: {}
 
   lerna@8.1.8(@swc/core@1.7.26)(babel-plugin-macros@3.1.0)(encoding@0.1.13):
     dependencies:
