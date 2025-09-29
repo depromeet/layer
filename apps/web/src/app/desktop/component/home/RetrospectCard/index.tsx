@@ -21,7 +21,6 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
   const handleCardClick = () => {
     // TODO: spaceId가 없는 경우 처리(예: 홈 화면 최상단의 카드 클릭 시)
 
-    // TODO: PATH 상수 사용하도록 변경
     if (spaceId) {
       navigate(PATHS.retrospectAnalysis(spaceId, retrospectId, title));
     }
