@@ -33,14 +33,14 @@ export default function AnalysisOverview() {
 
       <RetrospectSection
         title="진행중인 회고"
-        isLoading={isRetrospectsPending}
+        isPending={isRetrospectsPending}
         retrospects={proceedingRetrospects}
         emptyMessage="작성중인 회고가 없습니다."
       />
 
       <RetrospectSection
         title="마감된 회고"
-        isLoading={isRetrospectsPending}
+        isPending={isRetrospectsPending}
         retrospects={closedRetrospects}
         emptyMessage="마감된 회고가 없습니다."
       />

@@ -108,12 +108,10 @@ const deviceSpecificRoutes: RouteChildren[] = [
         element: <div>Desktop Goals</div>,
       },
       {
-        // 스페이스 페이지: 회고 목록을 보여줌
         path: "retrospectSpace/:spaceId",
         element: <RetroSpectSpacePage />,
       },
       {
-        // 분석 페이지: 독립된 페이지로 렌더링됨
         path: "retrospectSpace/:spaceId/analysis/:retrospectId",
         element: <AnalysisPage />,
       },

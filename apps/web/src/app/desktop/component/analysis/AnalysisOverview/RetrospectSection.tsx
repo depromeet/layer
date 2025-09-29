@@ -2,18 +2,71 @@ import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
-
-import type { Retrospect } from "@/types/retrospect"; // Retrospect 타입을 가져옵니다.
+import type { Retrospect } from "@/types/retrospect";
 import RetrospectCard from "../../home/InProgressRetrospectCard";
 
 interface RetrospectSectionProps {
   title: string;
-  isLoading: boolean;
+  isPending: boolean;
   retrospects: Retrospect[];
   emptyMessage: string;
 }
 
-export default function RetrospectSection({ title, isLoading, retrospects, emptyMessage }: RetrospectSectionProps) {
+const determineStatus = (isPending: boolean, retrospects: Retrospect[]): "loading" | "empty" | "success" => {
+  if (isPending) {
+    return "loading";
+  }
+  if (retrospects.length === 0) {
+    return "empty";
+  }
+  return "success";
+};
+
+export default function RetrospectSection({ title, isPending, retrospects, emptyMessage }: RetrospectSectionProps) {
+  const status = determineStatus(isPending, retrospects);
+
+  const contentMap = {
+    // * Loading 상태인 경우
+    loading: (
+      <div
+        css={css`
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 13.8rem;
+          border-radius: 1.2rem;
+          border: 1px dashed ${DESIGN_TOKEN_COLOR.gray500};
+        `}
+      >
+        <LoadingSpinner />
+      </div>
+    ),
+
+    // * 회고가 없는 경우
+    empty: (
+      <div
+        css={css`
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 13.8rem;
+          background-color: ${DESIGN_TOKEN_COLOR.gray100};
+          border-radius: 1.2rem;
+          border: 1px dashed ${DESIGN_TOKEN_COLOR.gray500};
+        `}
+      >
+        <Typography variant="body14Medium" color="gray800">
+          {emptyMessage}
+        </Typography>
+      </div>
+    ),
+
+    // * 회고가 있는 경우
+    success: retrospects.map((retrospect) => <RetrospectCard key={retrospect.retrospectId} retrospect={retrospect} />),
+  };
+
   return (
     <>
       {/* ---------- 제목 ---------- */}
@@ -37,42 +90,12 @@ export default function RetrospectSection({ title, isLoading, retrospects, empty
       <section
         css={css`
           margin-top: 1.6rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.2rem;
         `}
       >
-        {isLoading ? (
-          <div
-            css={css`
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 100%;
-              height: 13.8rem;
-              border-radius: 1.2rem;
-              border: 1px dashed ${DESIGN_TOKEN_COLOR.gray500};
-            `}
-          >
-            <LoadingSpinner />
-          </div>
-        ) : retrospects.length === 0 ? (
-          <div
-            css={css`
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 100%;
-              height: 13.8rem;
-              background-color: ${DESIGN_TOKEN_COLOR.gray100};
-              border-radius: 1.2rem;
-              border: 1px dashed ${DESIGN_TOKEN_COLOR.gray500};
-            `}
-          >
-            <Typography variant="body14Medium" color="gray800">
-              {emptyMessage}
-            </Typography>
-          </div>
-        ) : (
-          retrospects.map((retrospect) => <RetrospectCard key={retrospect.retrospectId} retrospect={retrospect} />)
-        )}
+        {contentMap[status]}
       </section>
     </>
   );
