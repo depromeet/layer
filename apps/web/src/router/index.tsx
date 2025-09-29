@@ -50,6 +50,7 @@ import { HomePage } from "@/app/desktop/home/HomePage";
 import RetroSpectSpacePage from "@/app/desktop/retrospectSpace/RetroSpectSpacePage";
 import { RetrospectTestPage } from "@/app/desktop/retrospect/RetrospectTestPage";
 import DesktopSetNickNamePage from "@/app/desktop/login/DesktopSetNickNamePage";
+import AnalysisPage from "@/app/desktop/retrospect/AnalysisPage";
 
 type RouteChildren = {
   auth: boolean;
@@ -103,16 +104,16 @@ const deviceSpecificRoutes: RouteChildren[] = [
         element: <HomePage />,
       },
       {
-        path: "analysis",
-        element: <div>Desktop Analysis</div>, // TODO: 데스크탑용 분석
-      },
-      {
         path: "goals",
-        element: <div>Desktop Goals</div>, // TODO: 데스크탑용 목표
+        element: <div>Desktop Goals</div>,
       },
       {
-        path: "retrospectSpace",
+        path: "retrospectSpace/:spaceId",
         element: <RetroSpectSpacePage />,
+      },
+      {
+        path: "retrospect/analysis",
+        element: <AnalysisPage />,
       },
     ],
     auth: true,

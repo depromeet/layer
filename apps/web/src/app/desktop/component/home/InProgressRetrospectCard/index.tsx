@@ -5,20 +5,32 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 import { formatDateAndTime } from "@/utils/date";
 import { ProceedingTextBox } from "@/component/space/view/ProceedingTextBox";
+import { useNavigate } from "react-router-dom";
 
 interface InProgressRetrospectCardProps {
   retrospect: Retrospect;
+  spaceId?: string;
 }
 
-export default function InProgressRetrospectCard({ retrospect }: InProgressRetrospectCardProps) {
-  const { title, introduction, deadline, totalCount, writeCount, writeStatus, analysisStatus } = retrospect;
+export default function RetrospectCard({ retrospect, spaceId }: InProgressRetrospectCardProps) {
+  const navigate = useNavigate();
+
+  const { retrospectId, title, introduction, deadline, totalCount, writeCount, writeStatus, analysisStatus } = retrospect;
+
+  const handleCardClick = () => {
+    // TODO: spaceId가 없는 경우 처리(예: 홈 화면 최상단의 카드 클릭 시)
+
+    if (spaceId) {
+      navigate(`/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}`);
+    }
+  };
 
   return (
     <section
       css={css`
         display: flex;
         flex-direction: column;
-        width: 30rem;
+        width: 29.6rem;
         height: 13.8rem;
         padding: 1.6rem;
         background-color: white;
@@ -32,6 +44,7 @@ export default function InProgressRetrospectCard({ retrospect }: InProgressRetro
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
       `}
+      onClick={handleCardClick}
     >
       {/* ---------- 상단 라벨 ---------- */}
       <div
