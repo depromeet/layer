@@ -10,6 +10,9 @@ import { currentSpaceState } from "@/store/space/spaceAtom";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Icon } from "@/component/common/Icon";
+import { ToggleMenu } from "@/component/common/toggleMenu";
+import useToggleMenu from "@/hooks/useToggleMenu";
 
 interface SpaceItemProps {
   space: Space;
@@ -30,11 +33,13 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   const navigate = useNavigate();
   const { isCollapsed } = useNavigation();
   const { id: spaceId, name, introduction, bannerUrl } = space;
+  const { showMenu, activeItemId, setActiveItemId, isShowMenu } = useToggleMenu();
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
   const isHome = location.pathname === "/";
   const isCurrent = String(currentSpace?.id) === String(spaceId);
+  const isActiveMenu = isShowMenu && activeItemId === spaceId;
 
   const getBackgroundColor = () => {
     if (isCurrent) {
@@ -51,6 +56,30 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   const handleSelectSpace = () => {
     setCurrentSpace(space);
     navigate(`/retrospectSpace/${spaceId}`);
+  };
+
+  /**
+   * @description 토글 메뉴 표시 함수
+   * @param event - 클릭 이벤트
+   */
+  const handleShowToggleMenu = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    showMenu(event);
+    setActiveItemId(spaceId);
+  };
+
+  /**
+   * @description 스페이스 수정 함수
+   */
+  const handleEditSpace = () => {
+    // TODO: 스페이스 수정 로직 추가
+  };
+
+  /**
+   * @description 스페이스 삭제 함수
+   */
+  const handleDeleteSpace = () => {
+    // TODO: 스페이스 삭제 로직 추가
   };
 
   return (
@@ -79,6 +108,10 @@ export default function SpaceItem({ space }: SpaceItemProps) {
 
         &:hover {
           background-color: ${SPACE_ITEM_STYLES.hover};
+
+          #space-item-more-icon {
+            visibility: visible;
+          }
         }
       `}
       onClick={handleSelectSpace}
@@ -153,6 +186,50 @@ export default function SpaceItem({ space }: SpaceItemProps) {
         >
           {introduction}
         </Typography>
+      </div>
+
+      <div onClick={handleShowToggleMenu}>
+        <Icon
+          id="space-item-more-icon"
+          icon="ic_more"
+          size={1.8}
+          css={css`
+            visibility: ${isActiveMenu ? "visible" : "hidden"};
+            cursor: pointer;
+            margin-left: auto;
+            color: ${DESIGN_TOKEN_COLOR.gray500};
+          `}
+        />
+        {/* 아이템 요소 안에서 동작하기 때문에 현재 선택된 아이디의 메뉴만 노출시켜줘요 */}
+        {isActiveMenu && (
+          <ToggleMenu>
+            <button
+              css={css`
+                display: block;
+                width: 100%;
+                padding: 1rem 0;
+                text-align: left;
+              `}
+            >
+              <Typography variant="subtitle14SemiBold" onClick={handleEditSpace}>
+                스페이스 수정
+              </Typography>
+            </button>
+            <button
+              onClick={() => {}}
+              css={css`
+                display: block;
+                width: 100%;
+                padding: 1.3rem 0;
+                text-align: left;
+              `}
+            >
+              <Typography variant="subtitle14SemiBold" color="red500" onClick={handleDeleteSpace}>
+                스페이스 삭제
+              </Typography>
+            </button>
+          </ToggleMenu>
+        )}
       </div>
     </li>
   );
