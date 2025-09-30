@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from "react";
 
 import { AppBar, AppBarProps } from "@/component/common/appBar";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { useDeviceType } from "@/hooks/useDeviceType";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type DefaultLayoutProps = AppBarProps & {
   appBarVisible?: boolean;
@@ -11,7 +11,7 @@ type DefaultLayoutProps = AppBarProps & {
 };
 
 export function DefaultLayout({ children, title, theme = "default", height, appBarVisible = true, LeftComp, RightComp }: DefaultLayoutProps) {
-  const { isMobile } = useDeviceType();
+  const { isMobile } = getDeviceType();
   const [initialHeight, setInitialHeight] = useState("100dvh"); // default device type : mobile
 
   useEffect(() => {

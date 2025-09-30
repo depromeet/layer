@@ -1,61 +1,47 @@
-import { Typography } from "@/component/common/typography";
-import InProgressRetrospectCard from "@/app/desktop/component/home/InProgressRetrospectCard";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useParams } from "react-router-dom";
 import { css } from "@emotion/react";
+
+import { Typography } from "@/component/common/typography";
+
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
-import { useState } from "react";
+
 import { Icon } from "@/component/common/Icon";
+import { useQuery } from "@tanstack/react-query";
+import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
+import { useEffect, useMemo, useState } from "react";
+import RetrospectCard from "@/app/desktop/component/home/InProgressRetrospectCard";
 import { Retrospect } from "@/types/retrospect";
 
 export default function InProgressRetrospects() {
-  // TODO: API 연결 후 데이터 추가
-  const [retrospects, setRetrospects] = useState<Retrospect[]>([
-    {
-      retrospectId: 1,
-      title: "중간발표 이후 회고",
-      introduction: "중간발표 과정 및 팀의 커뮤니케이션 과정",
-      writeStatus: "PROCEEDING",
-      retrospectStatus: "PROCEEDING",
-      analysisStatus: "NOT_STARTED",
-      totalCount: 4,
-      writeCount: 2,
-      createdAt: "2024.07.30 10:00",
-      deadline: "2024.08.05 23:59",
-    },
-    {
-      retrospectId: 2,
-      title: "프로젝트 기획 회고",
-      introduction: "기획 단계에서의 문제점 및 개선 방안 논의",
-      writeStatus: "PROCEEDING",
-      retrospectStatus: "PROCEEDING",
-      analysisStatus: "NOT_STARTED",
-      totalCount: 4,
-      writeCount: 1,
-      createdAt: "2024.08.01 14:00",
-      deadline: "2024.08.10 23:59",
-    },
-    {
-      retrospectId: 3,
-      title: "1차 스프린트 회고",
-      introduction: "개발 과정에서의 기술적 어려움과 해결 과정",
-      writeStatus: "PROCEEDING",
-      retrospectStatus: "PROCEEDING",
-      analysisStatus: "NOT_STARTED",
-      totalCount: 4,
-      writeCount: 3,
-      createdAt: "2024.08.05 16:00",
-      deadline: null,
-    },
-  ]);
+  const { spaceId } = useParams();
+
+  // * 스페이스 회고 목록 조회
+  const { data: retrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
+
+  const proceedingRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [], [retrospects]);
+
+  const [displayedRetrospects, setDisplayedRetrospects] = useState<Retrospect[]>([]);
 
   const handleOnDragEnd = ({ source, destination }: DropResult) => {
     if (!destination) return;
 
-    setRetrospects((prev) => {
-      const reorderedItem = prev[source.index];
-      return prev.toSpliced(source.index, 1).toSpliced(destination.index, 0, reorderedItem);
+    setDisplayedRetrospects((prev) => {
+      const items = Array.from(prev);
+      const [reorderedItem] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, reorderedItem);
+      return items;
     });
+
+    // TODO: 여기서 변경된 순서를 서버에 저장하는 API를 호출 필요
   };
+
+  useEffect(() => {
+    if (proceedingRetrospects) {
+      const proceeding = proceedingRetrospects.filter((r) => r.retrospectStatus === "PROCEEDING");
+      setDisplayedRetrospects(proceeding);
+    }
+  }, [proceedingRetrospects]);
 
   return (
     <section
@@ -69,16 +55,16 @@ export default function InProgressRetrospects() {
         min-width: 30rem;
       `}
     >
-      <Typography variant="title16Bold">진행중인 회고 {retrospects.length}</Typography>
+      <Typography variant="title16Bold">진행중인 회고 {proceedingRetrospects.length}</Typography>
 
-      {retrospects.length === 0 ? (
+      {proceedingRetrospects.length === 0 ? (
         <div
           css={css`
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 4rem 2rem;
+            padding: 1.6rem 2rem 4rem;
             text-align: center;
             gap: 2.4rem;
           `}
@@ -111,14 +97,14 @@ export default function InProgressRetrospects() {
                   display: flex;
                   flex-direction: column;
                   gap: 1.6rem;
-                  margin-top: 2.4rem;
+                  padding-top: 1.6rem;
                   flex: 1;
                   overflow-y: auto;
                   overflow-x: hidden;
                   padding-bottom: 2rem;
                 `}
               >
-                {retrospects.map((retrospect, index) => (
+                {displayedRetrospects.map((retrospect, index) => (
                   <Draggable key={retrospect.retrospectId.toString()} draggableId={retrospect.retrospectId.toString()} index={index}>
                     {(provided, snapshot) => (
                       <div
@@ -131,7 +117,6 @@ export default function InProgressRetrospects() {
                           `
                             opacity: 0.8;
                             transform: rotate(5deg);
-                            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
                           `}
 
                           /* 평상시 스타일 */
@@ -139,11 +124,10 @@ export default function InProgressRetrospects() {
 
                           &:hover {
                             transform: translateY(-2px);
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                           }
                         `}
                       >
-                        <InProgressRetrospectCard retrospect={retrospect} />
+                        <RetrospectCard retrospect={retrospect} spaceId={spaceId} />
                       </div>
                     )}
                   </Draggable>

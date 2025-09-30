@@ -61,7 +61,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
         flex-direction: column;
         align-items: ${isCollapsed ? "center" : "flex-start"};
         gap: 0.4rem;
-        margin-top: 1rem;
+        margin-top: 1.2rem;
         padding: 0;
         flex: 1;
         overflow-y: auto;
