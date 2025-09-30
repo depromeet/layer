@@ -1,20 +1,59 @@
 import { css } from "@emotion/react";
-
 import { Portal } from "@/component/common/Portal";
-import { useModal } from "@/hooks/useModal";
 import { ANIMATION } from "@/style/common/animation";
 import DesktopFunnelModalHeader from "./DesktopFunnelModalHeader";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { useModal } from "@/hooks/useModal";
+import { RetrospectCreate } from "@/app/desktop/retrospectCreate/RetrospectCreate";
+import TemplatePage from "@/app/desktop/retrospect/template/TemplatePage";
 
 export default function DesktopFunnelModal() {
-  const { modalDataState, close } = useModal();
+  const { open, close } = useModal();
+  const { funnelModalState, closeFunnelModal } = useFunnelModal();
 
-  const { title } = modalDataState;
+  if (!funnelModalState.isOpen) return null;
 
-  const renderContent = () => {
-    return modalDataState.contents;
+  // TODO 현재 모달 콘텐츠에 따른 메세지로 변경되어야합니다.
+  // 현재는 임시로 회고 생성 중단에 대한 메세지로 구현
+  const handleClose = () => {
+    open({
+      title: "회고 생성을 중단하시겠어요?",
+      contents: "선택한 템플릿은 임시저장 되어요",
+      options: {
+        buttonText: ["취소", "나가기"],
+      },
+
+      onClose: () => {
+        close();
+      },
+      onConfirm: () => {
+        closeFunnelModal();
+      },
+    });
   };
 
-  if (!modalDataState.isOpen) return null;
+  // 현재 스텝에 따라 컴포넌트 결정
+  const getStepConfig = () => {
+    switch (funnelModalState.currentStep) {
+      case "retrospectCreate":
+        return {
+          title: "",
+          content: <RetrospectCreate />,
+        };
+      case "template":
+        return {
+          title: "",
+          content: <TemplatePage />,
+        };
+      default:
+        return {
+          title: "",
+          content: null,
+        };
+    }
+  };
+
+  const { title, content } = getStepConfig();
 
   return (
     <Portal id="modal-root">
@@ -47,8 +86,8 @@ export default function DesktopFunnelModal() {
             transition: 0.4s all;
           `}
         >
-          <DesktopFunnelModalHeader title={title} onClose={close} />
-          {renderContent()}
+          <DesktopFunnelModalHeader title={title} onClose={handleClose} />
+          {content}
         </div>
       </div>
     </Portal>

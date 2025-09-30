@@ -1,7 +1,10 @@
-import DesktopFunnelModal from "@/component/common/Modal/DesktopFunnelModal";
 import { useModal } from "@/hooks/useModal";
 import { css } from "@emotion/react";
-import { RetrospectCreate } from "../retrospectCreate/RetrospectCreate";
+import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
+import { useQueries } from "@tanstack/react-query";
+import { useRequiredParams } from "@/hooks/useRequiredParams";
+import DesktopFunnelModal from "@/component/common/Modal/DesktopFunnelModal";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
 
 /**
  * 회고 생성 모달을 위한 임시 페이지입니다.
@@ -9,16 +12,29 @@ import { RetrospectCreate } from "../retrospectCreate/RetrospectCreate";
  */
 export function RetrospectTestPage() {
   const { open } = useModal();
+  const { openFunnelModal } = useFunnelModal();
+  const { spaceId } = useRequiredParams<{ spaceId: string }>();
 
-  /**
-   * 임시로 contents로 '회고 생성'폼을 지정했습니다.
-   * 템플릿 변경, 전역 데이터 전달을 위해 설계에 대해 고민중입니다.
-   */
+  const [{ data: spaceInfo }] = useQueries({
+    queries: [useApiOptionsGetSpaceInfo(spaceId)],
+  });
+
   const handleRetrospectCreate = () => {
-    open({
-      title: "",
-      contents: <RetrospectCreate />,
-    });
+    if (spaceInfo?.formId) {
+      open({
+        title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
+        contents: "",
+        options: {
+          buttonText: ["다시 하기", "진행하기"],
+        },
+        onConfirm: () => {
+          openFunnelModal("retrospectCreate");
+        },
+        onClose: () => {
+          openFunnelModal("template");
+        },
+      });
+    }
   };
 
   return (
