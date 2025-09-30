@@ -1,11 +1,11 @@
+import { FunnelModalType } from "@/types/modal";
 import { atom } from "jotai";
 
-export interface FunnelModalState {
-  isOpen: boolean;
-  currentStep: "retrospectCreate" | "template" | "analysis" | null;
-}
-
-export const funnelModalState = atom<FunnelModalState>({
+export const FunnelModalState = atom<FunnelModalType>({
   isOpen: false,
-  currentStep: null,
+  title: "",
+  step: "",
+  contents: "",
+  onClose: () => {},
+  onConfirm: () => {},
 });

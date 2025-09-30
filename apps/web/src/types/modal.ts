@@ -13,3 +13,12 @@ export type ModalType = {
     autoClose?: boolean;
   };
 };
+
+export type FunnelModalType = {
+  isOpen: boolean;
+  title: string;
+  step: string;
+  contents: ReactNode | string;
+  onClose?: () => void;
+  onConfirm?: () => void;
+};

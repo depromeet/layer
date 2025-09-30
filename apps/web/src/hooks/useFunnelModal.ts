@@ -1,35 +1,39 @@
-// hooks/useFunnelModal.ts
 import { useAtom } from "jotai";
 import { useCallback } from "react";
-import { funnelModalState } from "@/store/modal/funnelModalAtom";
-
-type FunnelStep = "retrospectCreate" | "template" | "analysis" | null;
+import { FunnelModalType } from "@/types/modal";
+import { FunnelModalState } from "@/store/modal/funnelModalAtom";
 
 export const useFunnelModal = () => {
-  const [state, setState] = useAtom(funnelModalState);
+  const [state, setState] = useAtom(FunnelModalState);
 
   const openFunnelModal = useCallback(
-    (step: FunnelStep) => {
-      setState({ isOpen: true, currentStep: step });
+    ({ title, step, contents, onConfirm, onClose }: Omit<FunnelModalType, "isOpen">) => {
+      setState({
+        isOpen: true,
+        title,
+        step,
+        contents,
+        onConfirm,
+        onClose,
+      });
     },
     [setState],
   );
 
   const closeFunnelModal = useCallback(() => {
-    setState({ isOpen: false, currentStep: null });
+    setState({
+      isOpen: false,
+      title: "",
+      step: "",
+      contents: null,
+      onClose: () => {},
+      onConfirm: () => {},
+    });
   }, [setState]);
-
-  const setFunnelStep = useCallback(
-    (step: FunnelStep) => {
-      setState((prev) => ({ ...prev, currentStep: step }));
-    },
-    [setState],
-  );
 
   return {
     funnelModalState: state,
     openFunnelModal,
     closeFunnelModal,
-    setFunnelStep,
   };
 };

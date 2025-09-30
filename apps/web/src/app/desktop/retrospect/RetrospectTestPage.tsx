@@ -3,8 +3,9 @@ import { css } from "@emotion/react";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useQueries } from "@tanstack/react-query";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
-import DesktopFunnelModal from "@/component/common/Modal/DesktopFunnelModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { RetrospectCreate } from "../retrospectCreate/RetrospectCreate";
+import TemplatePage from "./template/TemplatePage";
 
 /**
  * 회고 생성 모달을 위한 임시 페이지입니다.
@@ -28,10 +29,18 @@ export function RetrospectTestPage() {
           buttonText: ["다시 하기", "진행하기"],
         },
         onConfirm: () => {
-          openFunnelModal("retrospectCreate");
+          openFunnelModal({
+            title: "",
+            step: "retrospectCreate",
+            contents: <RetrospectCreate />,
+          });
         },
         onClose: () => {
-          openFunnelModal("template");
+          openFunnelModal({
+            title: "",
+            step: "template",
+            contents: <TemplatePage />,
+          });
         },
       });
     }
@@ -48,7 +57,6 @@ export function RetrospectTestPage() {
       >
         회고 생성 버튼
       </button>
-      <DesktopFunnelModal />
     </div>
   );
 }

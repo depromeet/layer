@@ -4,8 +4,6 @@ import { ANIMATION } from "@/style/common/animation";
 import DesktopFunnelModalHeader from "./DesktopFunnelModalHeader";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useModal } from "@/hooks/useModal";
-import { RetrospectCreate } from "@/app/desktop/retrospectCreate/RetrospectCreate";
-import TemplatePage from "@/app/desktop/retrospect/template/TemplatePage";
 
 export default function DesktopFunnelModal() {
   const { open, close } = useModal();
@@ -31,29 +29,6 @@ export default function DesktopFunnelModal() {
       },
     });
   };
-
-  // 현재 스텝에 따라 컴포넌트 결정
-  const getStepConfig = () => {
-    switch (funnelModalState.currentStep) {
-      case "retrospectCreate":
-        return {
-          title: "",
-          content: <RetrospectCreate />,
-        };
-      case "template":
-        return {
-          title: "",
-          content: <TemplatePage />,
-        };
-      default:
-        return {
-          title: "",
-          content: null,
-        };
-    }
-  };
-
-  const { title, content } = getStepConfig();
 
   return (
     <Portal id="modal-root">
@@ -86,8 +61,8 @@ export default function DesktopFunnelModal() {
             transition: 0.4s all;
           `}
         >
-          <DesktopFunnelModalHeader title={title} onClose={handleClose} />
-          {content}
+          <DesktopFunnelModalHeader title={funnelModalState.title} onClose={handleClose} />
+          {funnelModalState.contents}
         </div>
       </div>
     </Portal>
