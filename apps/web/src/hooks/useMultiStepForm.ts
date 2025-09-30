@@ -1,6 +1,6 @@
+import { getDeviceType } from "@/utils/deviceUtils";
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDeviceType } from "./useDeviceType";
 
 type UseMultiStepForm<T extends string> = {
   steps: readonly T[];
@@ -8,7 +8,7 @@ type UseMultiStepForm<T extends string> = {
 };
 
 export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseMultiStepForm<T>) => {
-  const { isMobile } = useDeviceType();
+  const { isMobile } = getDeviceType();
   const navigate = useNavigate();
   const totalStepsCnt = useMemo(() => steps.length, [steps]);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);

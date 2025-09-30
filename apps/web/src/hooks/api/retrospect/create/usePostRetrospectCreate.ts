@@ -7,15 +7,15 @@ import { PATHS } from "@layer/shared";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { RetrospectCreateReq } from "@/types/retrospectCreate";
-import { useDeviceType } from "@/hooks/useDeviceType";
 import { useToast } from "@/hooks/useToast";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type PostRetrospect = { spaceId: number; body: RetrospectCreateReq };
 
 type RetrospectCreateRes = { retrospectId: number };
 
 export const usePostRetrospectCreate = (spaceId: number) => {
-  const { isDesktop } = useDeviceType();
+  const { isDesktop } = getDeviceType();
   const { toast } = useToast();
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
   const navigate = useNavigate();

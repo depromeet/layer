@@ -4,12 +4,12 @@ import type { CalendarProps as ReactCalendarProps } from "react-calendar";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
-import { useDeviceType } from "@/hooks/useDeviceType";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type CalendarProps = ReactCalendarProps;
 
 export function Calendar({ ...props }: CalendarProps) {
-  const { isDesktop } = useDeviceType();
+  const { isDesktop } = getDeviceType();
   return (
     <ReactCalendar
       css={css`
