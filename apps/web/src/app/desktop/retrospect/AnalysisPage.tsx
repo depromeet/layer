@@ -7,16 +7,18 @@ export default function AnalysisPage() {
   const [searchParams] = useSearchParams();
 
   const spaceId = searchParams.get("spaceId");
+  const retrospectId = searchParams.get("retrospectId");
 
   return (
     <section
       css={css`
         display: flex;
+        overflow-x: hidden;
       `}
     >
       <AnalysisOverview spaceId={spaceId} />
 
-      <AnalysisDialog spaceId={spaceId} />
+      <AnalysisDialog spaceId={spaceId} retrospectId={retrospectId} />
     </section>
   );
 }

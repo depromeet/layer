@@ -3,6 +3,7 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { ANALYSIS_MENU_TABS, AnalysisTab } from ".";
+import { useSearchParams } from "react-router-dom";
 
 type AnalysisHeaderProps = {
   selectedTab: AnalysisTab;
@@ -10,6 +11,10 @@ type AnalysisHeaderProps = {
 };
 
 export default function AnalysisHeader({ selectedTab, handleTabClick }: AnalysisHeaderProps) {
+  const [searchParams] = useSearchParams();
+
+  const title = searchParams.get("title");
+
   return (
     <section
       css={css`
@@ -40,10 +45,9 @@ export default function AnalysisHeader({ selectedTab, handleTabClick }: Analysis
         />
       </section>
 
-      {/* TODO: 실제 회고 제목 적용 */}
       {/* ---------- 제목 ---------- */}
       <Typography variant="heading24Bold" color="gray900">
-        중간발표 이후 회고
+        {title}
       </Typography>
 
       <div
