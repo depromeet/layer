@@ -16,6 +16,7 @@ import { useModal } from "@/hooks/useModal.ts";
 import { useToast } from "@/hooks/useToast.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { decryptId } from "@/utils/space/cryptoKey";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 export function JoinSpace() {
   const { id } = useParams() as { id: string };
@@ -25,6 +26,7 @@ export function JoinSpace() {
   const { toast } = useToast();
   const { open, close } = useModal();
   const navigate = useNavigate();
+  const { isDesktop } = getDeviceType();
 
   useEffect(() => {
     return () => close();
@@ -45,7 +47,19 @@ export function JoinSpace() {
           <span id="team">{data?.name}</span>
         </span>
         <Header title={`${data?.leader.name}님이\n${data?.name} 팀에 초대했어요!`} contents={`${data?.name} 팀에서 함께 회고를 진행해볼까요?`} />
-        <JoinLetter space={data!.name} description={data!.introduction} imgUrl={data!.bannerUrl} />
+        <JoinLetter
+          space={data!.name}
+          description={data!.introduction}
+          imgUrl={data!.bannerUrl}
+          css={css`
+            ${isDesktop &&
+            css`
+              top: 55%;
+              scale: 0.85;
+              transform-origin: top left;
+            `}
+          `}
+        />
         <ButtonProvider isProgress={isPending}>
           <ButtonProvider.Primary
             onClick={() =>

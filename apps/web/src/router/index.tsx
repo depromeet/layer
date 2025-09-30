@@ -30,7 +30,8 @@ import { CreateDonePage } from "@/app/mobile/space/CreateDonePage";
 import { CreateNextPage } from "@/app/mobile/space/CreateNextPage";
 import { CreateSpacePage } from "@/app/mobile/space/CreateSpacePage";
 import { SpaceEditPage } from "@/app/mobile/space/edit/SpaceEditPage";
-import { JoinSpacePage } from "@/app/mobile/space/JoinSpacePage";
+import { JoinSpacePage as JoinMobileSpacePage } from "@/app/mobile/space/JoinSpacePage";
+import { JoinSpacePage as JoinDesktopSpacePage } from "@/app/desktop/space/members/JoinSpacePage";
 import { MembersEditListPage } from "@/app/mobile/space/members/MembersEditListPage";
 import { MembersListPage } from "@/app/mobile/space/members/MembersListPage";
 import { SpaceViewPage } from "@/app/mobile/space/SpaceViewPage";
@@ -42,18 +43,22 @@ import MobileGlobalLayout from "@/layout/MobileGlobalLayout";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
 import ChannelService from "@/lib/channel-talk/service";
-import { useDeviceType } from "@/hooks/useDeviceType";
 import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
 import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
 import DesktopLoginPage from "@/app/desktop/login/DesktopLoginPage";
 import { HomePage } from "@/app/desktop/home/HomePage";
+import RetroSpectSpacePage from "@/app/desktop/retrospectSpace/RetroSpectSpacePage";
 import { RetrospectTestPage } from "@/app/desktop/retrospect/RetrospectTestPage";
 import DesktopSetNickNamePage from "@/app/desktop/login/DesktopSetNickNamePage";
+import AnalysisPage from "@/app/desktop/retrospect/AnalysisPage";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type RouteChildren = {
   auth: boolean;
   deviceType?: "mobile" | "desktop";
 } & RouteObject;
+
+const { isDesktop } = getDeviceType();
 
 // 공통 라우트 (모바일/데스크탑 구분 없음)
 const commonRoutes: RouteChildren[] = [
@@ -65,6 +70,11 @@ const commonRoutes: RouteChildren[] = [
   {
     path: "api/auth/oauth2/google",
     element: <GoogleLoginRedirection />,
+    auth: false,
+  },
+  {
+    path: "space/join/:id",
+    element: isDesktop ? <JoinDesktopSpacePage /> : <JoinMobileSpacePage />,
     auth: false,
   },
 ];
@@ -102,12 +112,16 @@ const deviceSpecificRoutes: RouteChildren[] = [
         element: <HomePage />,
       },
       {
-        path: "analysis",
-        element: <div>Desktop Analysis</div>, // TODO: 데스크탑용 분석
+        path: "goals",
+        element: <div>Desktop Goals</div>,
       },
       {
-        path: "goals",
-        element: <div>Desktop Goals</div>, // TODO: 데스크탑용 목표
+        path: "retrospectSpace/:spaceId",
+        element: <RetroSpectSpacePage />,
+      },
+      {
+        path: "retrospect/analysis",
+        element: <AnalysisPage />,
       },
     ],
     auth: true,
@@ -189,12 +203,6 @@ const deviceSpecificRoutes: RouteChildren[] = [
     path: "space/create/next",
     element: <CreateNextPage />,
     auth: true,
-    deviceType: "mobile",
-  },
-  {
-    path: "space/join/:id",
-    element: <JoinSpacePage />,
-    auth: false,
     deviceType: "mobile",
   },
   {
@@ -432,7 +440,7 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
 };
 
 export const Routers = () => {
-  const { deviceType } = useDeviceType();
+  const { deviceType } = getDeviceType();
   ChannelService.loadScript();
   ChannelService.boot({
     pluginKey: import.meta.env.VITE_CHANNELTALK_PLUGIN_KEY,

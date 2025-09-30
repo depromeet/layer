@@ -6,7 +6,9 @@ import { Calendar } from "@/component/common/dateTimePicker/Calendar";
 import { TimePicker } from "@/component/common/dateTimePicker/TimePicker";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { getTimeStringFromDate } from "@/utils/formatDate";
-import { useDeviceType } from "@/hooks/useDeviceType";
+import { isPast } from "date-fns";
+import { useToast } from "@/hooks/useToast";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type DesktopDateTimePickerProps = {
   /**
@@ -19,17 +21,34 @@ type DesktopDateTimePickerProps = {
   onSave: (dateTime?: string) => void;
 };
 
-export function DesktopDateTimePicker({ defaultValue, tileDisabled }: DesktopDateTimePickerProps) {
+export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: DesktopDateTimePickerProps) {
+  const { toast } = useToast();
   const defaultDate = useMemo(() => (typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue), [defaultValue]);
-  const { onSelectDate, radioControl, date } = useDateTimePicker(defaultDate, getTimeStringFromDate(defaultDate));
+  const { onSelectDate, radioControl, date, dateTime, time } = useDateTimePicker(defaultDate, getTimeStringFromDate(defaultDate));
   const timePickerRef = useRef<HTMLDivElement>(null);
-  const { isDesktop } = useDeviceType();
+  const { isDesktop } = getDeviceType();
 
   useEffect(() => {
     if (date) {
       timePickerRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [date]);
+
+  /* 데스크탑에서 시간 변경 상태를 감지 후 저장 로직 */
+  useEffect(() => {
+    if (isDesktop && dateTime && time) {
+      handleClickSave();
+    }
+  }, [dateTime, isDesktop, time]);
+
+  const handleClickSave = () => {
+    if (dateTime && isPast(dateTime)) {
+      toast.error("과거는 선택할 수 없어요");
+      return;
+    }
+
+    onSave(dateTime);
+  };
 
   return (
     <div

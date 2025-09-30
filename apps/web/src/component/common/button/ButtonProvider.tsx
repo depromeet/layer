@@ -2,7 +2,7 @@ import { css, Interpolation, Theme } from "@emotion/react";
 import { Children, cloneElement, isValidElement, PropsWithChildren } from "react";
 
 import { Button, ButtonProps } from "@/component/common/button/Button.tsx";
-import { useDeviceType } from "@/hooks/useDeviceType";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type SortSet = "vertical" | "horizontal";
 
@@ -35,7 +35,7 @@ export const ButtonProvider = ({
   gradient = true,
   ...props
 }: PropsWithChildren<ButtonProviderProps>) => {
-  const { isDesktop } = useDeviceType();
+  const { isDesktop } = getDeviceType();
 
   return (
     <div

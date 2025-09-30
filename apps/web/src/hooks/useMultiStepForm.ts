@@ -1,3 +1,4 @@
+import { getDeviceType } from "@/utils/deviceUtils";
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,10 +8,12 @@ type UseMultiStepForm<T extends string> = {
 };
 
 export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseMultiStepForm<T>) => {
+  const { isMobile } = getDeviceType();
   const navigate = useNavigate();
   const totalStepsCnt = useMemo(() => steps.length, [steps]);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const currentStep: T = useMemo(() => steps[currentStepIndex], [currentStepIndex, steps]);
+  const isLastStep = useMemo(() => currentStepIndex === totalStepsCnt - 1, [currentStepIndex, totalStepsCnt]);
 
   const goNext = useCallback(() => {
     if (isLastStep) {
@@ -23,7 +26,7 @@ export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseM
   }, [currentStep, totalStepsCnt, steps, redirectPath]);
 
   const goPrev = useCallback(() => {
-    if (currentStepIndex === 0) {
+    if (currentStepIndex === 0 && isMobile) {
       navigate(-1);
       return;
     }
@@ -37,8 +40,6 @@ export const useMultiStepForm = <T extends string>({ steps, redirectPath }: UseM
     },
     [steps, setCurrentStepIndex],
   );
-
-  const isLastStep = useMemo(() => currentStepIndex === totalStepsCnt - 1, [currentStepIndex, totalStepsCnt]);
 
   return useMemo(
     () => ({

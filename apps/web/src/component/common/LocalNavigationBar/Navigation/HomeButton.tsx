@@ -5,9 +5,22 @@ import { Typography } from "../../typography";
 import { useNavigation } from "../context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSetAtom } from "jotai";
+import { currentSpaceState } from "@/store/space/spaceAtom";
 
 export default function HomeButton() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { isCollapsed } = useNavigation();
+
+  const setCurrentSpace = useSetAtom(currentSpaceState);
+
+  const handleHomeButtonClick = () => {
+    setCurrentSpace(null);
+    navigate("/");
+  };
 
   return (
     <button
@@ -18,6 +31,7 @@ export default function HomeButton() {
         justify-content: center;
         align-items: center;
       `}
+      onClick={handleHomeButtonClick}
     >
       <div
         css={css`
@@ -28,7 +42,7 @@ export default function HomeButton() {
           height: ${isCollapsed ? "3.2rem" : "3.9rem"};
           gap: 1.6rem;
           padding: ${isCollapsed ? "0.4rem" : "0.4rem 0.8rem"};
-          background-color: "transparent";
+          background-color: ${location.pathname === "/" ? DESIGN_TOKEN_COLOR.gray100 : "transparent"};
           border-radius: 0.8rem;
           transition: background-color 0.2s ease-in-out;
           cursor: pointer;

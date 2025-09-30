@@ -6,13 +6,13 @@ import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { Typography } from "@/component/common/typography";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { useTabs } from "@/hooks/useTabs";
-import { useDeviceType } from "@/hooks/useDeviceType";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type TimePickerProps = {
   radioControl: ReturnType<typeof useDateTimePicker>["radioControl"];
 };
 export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(function ({ radioControl }, ref) {
-  const { isDesktop } = useDeviceType();
+  const { isDesktop } = getDeviceType();
   const { curTab, tabs, selectTab } = useTabs(["오전", "오후"] as const);
   const radioButtonsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -110,7 +110,7 @@ TimePicker.displayName = "TimePicker";
 type AmPmTabsProps<T extends string> = ReturnType<typeof useTabs<T>>;
 
 function AmPmTabs<T extends string>({ tabs, curTab, selectTab }: AmPmTabsProps<T>) {
-  const { isDesktop } = useDeviceType();
+  const { isDesktop } = getDeviceType();
   return (
     <div
       css={css`

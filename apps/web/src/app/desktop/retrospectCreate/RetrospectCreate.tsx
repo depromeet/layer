@@ -1,49 +1,75 @@
-import { useState } from "react";
+import { createContext, useCallback } from "react";
 import { ConfirmDefaultTemplate } from "../component/RetrospectCreate/steps/ConfirmDefaultTemplate";
 import MainInfo from "../component/RetrospectCreate/steps/MainInfo";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { css } from "@emotion/react";
 import DueDate from "../component/RetrospectCreate/steps/DueDate";
+import { useMultiStepForm } from "@/hooks/useMultiStepForm";
+import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
+import { useLocation } from "react-router-dom";
+import { useAtomValue } from "jotai";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
+
+const PAGE_STEPS = ["confirmTemplate", "mainInfo", "dueDate"] as const;
+const CUSTOM_TEMPLATE_STEPS = ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const;
+
+type UseMultiStepFormContextState<T extends (typeof CUSTOM_TEMPLATE_STEPS)[number] | (typeof PAGE_STEPS)[number]> = ReturnType<
+  typeof useMultiStepForm<T>
+>;
+
+type RetrospectCreateContextState = UseMultiStepFormContextState<(typeof PAGE_STEPS)[number]> & {
+  confirmQuitPage?: () => void;
+  isMutatePending: boolean;
+};
+
+export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({} as RetrospectCreateContextState);
 
 export function RetrospectCreate() {
-  const [step, setStep] = useState(0);
+  const locationState = useLocation().state as { spaceId: number; templateId: number; saveTemplateId?: boolean };
 
-  /* 템플릿 변경 및 진행 */
-  const handleConfirmTemplateChange = () => {
-    setStep((prevStep) => prevStep + 1);
+  /* TODO 샐제 spaceId, templateId , saveTemplateId으로 교체 필요 */
+  const { spaceId, templateId } = locationState || {
+    spaceId: 540, // 기본값
+    templateId: 10000, // 기본값
+    saveTemplateId: undefined,
   };
 
-  /* 회고 이름, 한 줄 설명*/
-  const handleBackToMainInfo = () => {
-    setStep((prevStep) => prevStep - 1);
-  };
+  const retroCreateData = useAtomValue(retrospectCreateAtom);
+  const { mutate: postRetrospectCreate, isPending } = usePostRetrospectCreate(spaceId);
 
-  const handleMainInfo = () => {
-    setStep((prevStep) => prevStep + 1);
-  };
+  const pageState = useMultiStepForm({
+    steps: PAGE_STEPS,
+  });
 
-  /* 회고 마감일 */
-  const handleBackToDueDate = () => {
-    setStep((prevStep) => prevStep - 1);
-  };
-
-  const handleDueDate = () => {
-    setStep((prevStep) => prevStep + 1);
-  };
+  const handleSubmit = useCallback(() => {
+    if (!pageState.isLastStep) return;
+    const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
+    postRetrospectCreate({
+      spaceId,
+      body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateId },
+    });
+  }, [retroCreateData.deadline]);
 
   return (
-    <form
-      css={css`
-        display: flex;
-        flex-direction: column;
-        flex: 1 1 0;
-        overflow-y: auto;
-      `}
-    >
-      <ProgressBar curPage={step + 1} lastPage={3} />
-      {step === 0 ? <ConfirmDefaultTemplate onNext={handleConfirmTemplateChange} /> : null}
-      {step === 1 ? <MainInfo onPrev={handleBackToMainInfo} onNext={handleMainInfo} /> : null}
-      {step === 2 ? <DueDate onPrev={handleBackToDueDate} onNext={handleDueDate} /> : null}
-    </form>
+    <RetrospectCreateContext.Provider value={{ ...pageState, isMutatePending: isPending }}>
+      <form
+        css={css`
+          display: flex;
+          flex-direction: column;
+          flex: 1 1 0;
+          overflow-y: auto;
+        `}
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
+        <ProgressBar curPage={pageState.currentStepIndex + 1} lastPage={pageState.totalStepsCnt} />
+        {pageState.currentStep === "confirmTemplate" ? <ConfirmDefaultTemplate /> : null}
+        {pageState.currentStep === "mainInfo" ? <MainInfo /> : null}
+        {pageState.currentStep === "dueDate" ? <DueDate /> : null}
+      </form>
+    </RetrospectCreateContext.Provider>
   );
 }
