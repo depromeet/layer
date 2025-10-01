@@ -5,6 +5,7 @@ import LocalNavigationBar from "@/component/common/LocalNavigationBar";
 import { NavigationProvider, useNavigation } from "@/component/common/LocalNavigationBar/context/NavigationContext";
 import { Modal } from "@/component/common/Modal";
 import DesktopFunnelModal from "@/component/common/Modal/DesktopFunnelModal";
+import DesktopActionModal from "@/component/common/Modal/DesktopActionModal";
 
 function DesktopHomeLayoutContent() {
   const { isCollapsed } = useNavigation();
@@ -29,6 +30,7 @@ export default function DesktopHomeLayout() {
     <>
       <Modal />
       <DesktopFunnelModal />
+      <DesktopActionModal />
       <NavigationProvider>
         <DesktopHomeLayoutContent />
       </NavigationProvider>

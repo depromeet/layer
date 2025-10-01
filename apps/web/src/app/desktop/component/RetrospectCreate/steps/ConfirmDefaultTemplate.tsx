@@ -11,10 +11,12 @@ import { useContext, useEffect } from "react";
 import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
 import { useAtom } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { useActionModal } from "@/hooks/useActionModal";
 
 export function ConfirmDefaultTemplate() {
   const { goNext } = useContext(RetrospectCreateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const { openActionModal } = useActionModal();
 
   /* TODO 실제 템플릿id로 변경 필요 */
   const {
@@ -25,6 +27,13 @@ export function ConfirmDefaultTemplate() {
     if (retroCreateData.questions.length > 0) return;
     setRetroCreateData((prev) => ({ ...prev, questions }));
   }, []);
+
+  const handleChangeTemplate = () => {
+    openActionModal({
+      title: "",
+      contents: <div>템블릿 선택 모달 테스트</div>,
+    });
+  };
 
   return (
     <>
@@ -68,7 +77,7 @@ export function ConfirmDefaultTemplate() {
         <QuestionEditButton />
       </div>
       <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Gray>템플릿 변경</ButtonProvider.Gray>
+        <ButtonProvider.Gray onClick={handleChangeTemplate}>템플릿 변경</ButtonProvider.Gray>
         <ButtonProvider.Primary
           onClick={() => {
             goNext();

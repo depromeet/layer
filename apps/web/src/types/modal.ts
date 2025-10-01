@@ -22,3 +22,11 @@ export type FunnelModalType = {
   onClose?: () => void;
   onConfirm?: () => void;
 };
+
+export type ActionModalType = {
+  isOpen: boolean;
+  title: string;
+  contents: ReactNode | string;
+  onClose?: () => void;
+  onConfirm?: () => void;
+};

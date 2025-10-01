@@ -10,7 +10,7 @@ export type DesktopModalHeaderProps = {
   onClose: () => void;
 };
 
-export default function DesktopFunnelModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps) {
+export default function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps) {
   return (
     <div
       css={css`

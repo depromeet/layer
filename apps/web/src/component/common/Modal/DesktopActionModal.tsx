@@ -1,33 +1,16 @@
 import { css } from "@emotion/react";
 import { Portal } from "@/component/common/Portal";
 import { ANIMATION } from "@/style/common/animation";
-import { useFunnelModal } from "@/hooks/useFunnelModal";
-import { useModal } from "@/hooks/useModal";
 import DesktopModalHeader from "./DesktopModalHeader";
+import { useActionModal } from "@/hooks/useActionModal";
 
-export default function DesktopFunnelModal() {
-  const { open, close } = useModal();
-  const { funnelModalState, closeFunnelModal } = useFunnelModal();
+export default function DesktopActionModal() {
+  const { actionModalState, closeActionModal } = useActionModal();
 
-  if (!funnelModalState.isOpen) return null;
+  if (!actionModalState.isOpen) return null;
 
-  // TODO 현재 모달 콘텐츠에 따른 메세지로 변경되어야합니다.
-  // 현재는 임시로 회고 생성 중단에 대한 메세지로 구현
   const handleClose = () => {
-    open({
-      title: "회고 생성을 중단하시겠어요?",
-      contents: "선택한 템플릿은 임시저장 되어요",
-      options: {
-        buttonText: ["취소", "나가기"],
-      },
-
-      onClose: () => {
-        close();
-      },
-      onConfirm: () => {
-        closeFunnelModal();
-      },
-    });
+    closeActionModal();
   };
 
   return (
@@ -48,8 +31,8 @@ export default function DesktopFunnelModal() {
       >
         <div
           css={css`
-            width: 52rem;
-            height: 65.2rem;
+            width: 37.5rem;
+            min-height: 28rem;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -61,8 +44,8 @@ export default function DesktopFunnelModal() {
             transition: 0.4s all;
           `}
         >
-          <DesktopModalHeader title={funnelModalState.title} onClose={handleClose} />
-          {funnelModalState.contents}
+          <DesktopModalHeader title={actionModalState.title} onClose={handleClose} />
+          {actionModalState.contents}
         </div>
       </div>
     </Portal>

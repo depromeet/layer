@@ -26,7 +26,7 @@ export function RetrospectTestPage() {
         title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
         contents: "",
         options: {
-          buttonText: ["다시 하기", "진행하기"],
+          buttonText: ["재설정", "진행하기"],
         },
         onConfirm: () => {
           openFunnelModal({
