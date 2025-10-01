@@ -14,6 +14,7 @@ export default function AnalysisPage() {
       css={css`
         display: flex;
         overflow-x: hidden;
+        height: 100vh;
       `}
     >
       <AnalysisOverview spaceId={spaceId} />

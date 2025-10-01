@@ -40,7 +40,7 @@ export default function AnalysisDialog({ spaceId, retrospectId }: AnalysisDialog
 
       {isPendingAnalysisData && <LoadingSpinner />}
 
-      {!isPendingAnalysisData && analysisData && <AnalysisContent analysisData={analysisData} />}
+      {!isPendingAnalysisData && analysisData && <AnalysisContent selectedTab={selectedTab} analysisData={analysisData} />}
     </article>
   );
 }

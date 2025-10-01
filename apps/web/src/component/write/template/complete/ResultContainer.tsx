@@ -20,7 +20,7 @@ export function ResultContainer({ name, question, children, ...props }: PropsWit
         height: ${isDesktop ? "11rem" : "auto"};
         margin-top: 2.4rem;
         border-radius: 0.78rem;
-        padding: ${isDesktop ? "1.2rem" : "1.9rem 2rem 1.7rem 2rem"};
+        padding: ${isDesktop ? (name ? "1.2rem" : "1.6rem") : "1.9rem 2rem 1.7rem 2rem"};
         min-height: fit-content;
         box-shadow: 0 3.886px 11.657px 0 rgba(33, 37, 41, 0.04);
         font-size: 1.6rem;
@@ -40,11 +40,12 @@ export function ResultContainer({ name, question, children, ...props }: PropsWit
           >
             {question}
           </span>
+
           <div
             id="line"
             css={css`
               width: 100%;
-              border: solid 0.01rem #eee;
+              border: ${isDesktop ? "none" : "solid 0.01rem #eee"};
               background: transparent;
               border-radius: 5rem;
               margin: 1.3rem 0;
