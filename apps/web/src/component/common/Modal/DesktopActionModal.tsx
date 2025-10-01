@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 import { Portal } from "@/component/common/Portal";
 import { ANIMATION } from "@/style/common/animation";
-import DesktopModalHeader from "./DesktopModalHeader";
 import { useActionModal } from "@/hooks/useActionModal";
+import DesktopActionModalHeader from "./DesktopActionModalHeader";
 
 export default function DesktopActionModal() {
   const { actionModalState, closeActionModal } = useActionModal();
@@ -39,12 +39,11 @@ export default function DesktopActionModal() {
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            padding: 2.4rem 2.4rem 0;
             animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
             transition: 0.4s all;
           `}
         >
-          <DesktopModalHeader title={actionModalState.title} onClose={handleClose} />
+          <DesktopActionModalHeader title={actionModalState.title} onClose={handleClose} />
           {actionModalState.contents}
         </div>
       </div>

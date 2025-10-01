@@ -3,7 +3,7 @@ import { Portal } from "@/component/common/Portal";
 import { ANIMATION } from "@/style/common/animation";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useModal } from "@/hooks/useModal";
-import DesktopModalHeader from "./DesktopModalHeader";
+import DesktopFunnelModalHeader from "./DesktopFunnelModalHeader";
 
 export default function DesktopFunnelModal() {
   const { open, close } = useModal();
@@ -61,7 +61,7 @@ export default function DesktopFunnelModal() {
             transition: 0.4s all;
           `}
         >
-          <DesktopModalHeader title={funnelModalState.title} onClose={handleClose} />
+          <DesktopFunnelModalHeader title={funnelModalState.title} onClose={handleClose} />
           {funnelModalState.contents}
         </div>
       </div>

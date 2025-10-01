@@ -1,9 +1,9 @@
 import { createContext, useCallback } from "react";
-import { ConfirmDefaultTemplate } from "../component/RetrospectCreate/steps/ConfirmDefaultTemplate";
-import MainInfo from "../component/RetrospectCreate/steps/MainInfo";
+import { ConfirmDefaultTemplate } from "../component/retrospectCreate/steps/ConfirmDefaultTemplate";
+import MainInfo from "../component/retrospectCreate/steps/MainInfo";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { css } from "@emotion/react";
-import DueDate from "../component/RetrospectCreate/steps/DueDate";
+import DueDate from "../component/retrospectCreate/steps/DueDate";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
 import { useLocation } from "react-router-dom";

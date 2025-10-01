@@ -1,6 +1,6 @@
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
-import { DesktopDateTimeInput } from "@/app/desktop/component/RetrospectCreate/DesktopDateTimeInput";
+import { DesktopDateTimeInput } from "@/app/desktop/component/retrospectCreate/DesktopDateTimeInput";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { Spacing } from "@/component/common/Spacing";
 import { useRadioButton } from "@/hooks/useRadioButton";

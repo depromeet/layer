@@ -6,12 +6,13 @@ import { Typography } from "@/component/common/typography";
 import { Tag } from "@/component/common/tag";
 import { Spacing } from "@/component/common/Spacing";
 import { ButtonProvider } from "@/component/common/button";
-import QuestionEditButton from "@/app/desktop/component/RetrospectCreate/QuestionEditButton";
+import QuestionEditButton from "@/app/desktop/component/retrospectCreate/QuestionEditButton";
 import { useContext, useEffect } from "react";
 import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
 import { useAtom } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { useActionModal } from "@/hooks/useActionModal";
+import ChoiceTemplate from "../../retrospect/template";
 
 export function ConfirmDefaultTemplate() {
   const { goNext } = useContext(RetrospectCreateContext);
@@ -31,7 +32,7 @@ export function ConfirmDefaultTemplate() {
   const handleChangeTemplate = () => {
     openActionModal({
       title: "",
-      contents: <div>템블릿 선택 모달 테스트</div>,
+      contents: <ChoiceTemplate />,
     });
   };
 

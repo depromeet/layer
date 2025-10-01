@@ -10,9 +10,9 @@ export type DesktopModalHeaderProps = {
   onClose: () => void;
 };
 
-export default function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps) {
+export default function DesktopFunnelModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps) {
   return (
-    <div
+    <header
       css={css`
         display: flex;
         align-items: center;
@@ -81,6 +81,6 @@ export default function DesktopModalHeader({ title, onBack, onClose }: DesktopMo
           onClick={onClose}
         />
       </button>
-    </div>
+    </header>
   );
 }
