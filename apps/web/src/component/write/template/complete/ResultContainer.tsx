@@ -3,6 +3,7 @@ import React, { Fragment, PropsWithChildren } from "react";
 
 import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type ResultContainerProps = {
   question?: string;
@@ -10,13 +11,16 @@ type ResultContainerProps = {
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "type">;
 
 export function ResultContainer({ name, question, children, ...props }: PropsWithChildren<ResultContainerProps>) {
+  const { isDesktop } = getDeviceType();
+
   return (
     <div
       css={css`
         width: 100%;
+        height: ${isDesktop ? "11rem" : "auto"};
         margin-top: 2.4rem;
         border-radius: 0.78rem;
-        padding: 1.9rem 2rem 1.7rem 2rem;
+        padding: ${isDesktop ? "1.2rem" : "1.9rem 2rem 1.7rem 2rem"};
         min-height: fit-content;
         box-shadow: 0 3.886px 11.657px 0 rgba(33, 37, 41, 0.04);
         font-size: 1.6rem;
@@ -59,7 +63,7 @@ export function ResultContainer({ name, question, children, ...props }: PropsWit
         css={css`
           display: flex;
           justify-content: center;
-          column-gap: 0.8rem;
+          column-gap: ${isDesktop ? "0.3rem" : "0.8rem"};
         `}
       >
         {children}

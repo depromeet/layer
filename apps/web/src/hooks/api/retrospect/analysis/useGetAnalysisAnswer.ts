@@ -5,28 +5,36 @@ import { ACHIVEMENT_PERCENT } from "@/component/write/template/write/write.const
 import { calculateScaledAnswer } from "@/utils/answer/calculateScaledAnswer.ts";
 
 type getAnalysisAnswer = {
-  spaceId: string;
-  retrospectId: string;
+  spaceId: string | null;
+  retrospectId: string | null;
 };
+
+export interface IndividualsAnswersType {
+  answerContent: string;
+  questionContent: string;
+  questionType: string;
+}
+
+export interface AnswersType {
+  name: string;
+  answerContent: string;
+}
+
+export interface IndividualsType {
+  name: string;
+  answers: IndividualsAnswersType[];
+}
+
+export interface QuestionsType {
+  questionContent: string;
+  questionType: string;
+  answers: AnswersType[];
+}
 
 export type getAnalysisResponse = {
   hasAIAnalyzed: boolean;
-  individuals: {
-    name: string;
-    answers: {
-      answerContent: string;
-      questionContent: string;
-      questionType: string;
-    }[];
-  }[];
-  questions: {
-    questionContent: string;
-    questionType: string;
-    answers: {
-      name: string;
-      answerContent: string;
-    }[];
-  }[];
+  individuals: IndividualsType[];
+  questions: QuestionsType[];
 };
 
 const scaledAchievement = (data: getAnalysisResponse) => {
@@ -66,5 +74,6 @@ export const useGetAnalysisAnswer = ({ spaceId, retrospectId }: getAnalysisAnswe
     queryFn: () => getAnalysisAnswer(),
     queryKey: [spaceId, retrospectId, "analysis"],
     retry: 1,
+    enabled: !!spaceId && !!retrospectId,
   });
 };

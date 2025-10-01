@@ -1,18 +1,16 @@
 import { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-
 import { css } from "@emotion/react";
-
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
-import RetrospectSection from "./RetrospectSection";
 
+import RetrospectSection from "./RetrospectSection";
 import AnalysisOverviewHeader from "./AnalysisOverviewHeader";
 
-export default function AnalysisOverview() {
-  const [searchParams] = useSearchParams();
-  const spaceId = searchParams.get("spaceId");
+type AnalysisOverviewProps = {
+  spaceId: string | null;
+};
 
+export default function AnalysisOverview({ spaceId }: AnalysisOverviewProps) {
   // * 스페이스 회고 목록 조회
   const { data: retrospects, isPending: isRetrospectsPending } = useQuery(useApiOptionsGetRetrospects(spaceId || undefined));
 
@@ -26,7 +24,7 @@ export default function AnalysisOverview() {
     <section
       css={css`
         width: 34.4rem;
-        padding: 0 3rem 3.2rem 1.8rem;
+        padding: 2.8rem 3rem 3.2rem 1.8rem;
         box-sizing: border-box;
       `}
     >

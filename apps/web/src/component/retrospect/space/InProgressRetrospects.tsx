@@ -10,8 +10,9 @@ import { Icon } from "@/component/common/Icon";
 import { useQuery } from "@tanstack/react-query";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useEffect, useMemo, useState } from "react";
-import RetrospectCard from "@/app/desktop/component/home/InProgressRetrospectCard";
+
 import { Retrospect } from "@/types/retrospect";
+import RetrospectCard from "@/app/desktop/component/home/RetrospectCard";
 
 export default function InProgressRetrospects() {
   const { spaceId } = useParams();
