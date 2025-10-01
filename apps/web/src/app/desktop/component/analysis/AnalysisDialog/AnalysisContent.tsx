@@ -1,66 +1,20 @@
-import { Typography } from "@/component/common/typography";
-import { CAchievementTemplate, CDescriptiveTemplate, CSatisfactionTemplate } from "@/component/write/template/complete";
-import { AnswersType, getAnalysisResponse, QuestionsType } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { css } from "@emotion/react";
+import { getAnalysisResponse } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer";
+import AnalysisQuestionsTab from "./AnalysisQuestionsTab";
+import AnalysisIndividualTab from "./AnalysisIndividualTab";
 
 type AnalysisContentProps = {
+  selectedTab: "질문" | "개별" | "분석";
   analysisData: getAnalysisResponse;
 };
 
-export default function AnalysisContent({ analysisData }: AnalysisContentProps) {
-  const { questions } = analysisData;
-
-  const renderQuestionComponent = (question: QuestionsType) => {
-    const { questionType, answers } = question;
-
-    return answers.map((answer: AnswersType, index: number) => {
-      const { name, answerContent } = answer;
-
-      switch (questionType) {
-        case "number":
-          return <CSatisfactionTemplate key={index} name={name} index={parseInt(answerContent)} />;
-        case "range":
-          return <CAchievementTemplate key={index} name={name} index={parseInt(answerContent)} />;
-        case "plain_text":
-          return <CDescriptiveTemplate key={index} name={name} answer={answerContent} />;
-        default:
-          return null;
-      }
-    });
-  };
+export default function AnalysisContent({ selectedTab, analysisData }: AnalysisContentProps) {
+  const { questions, individuals } = analysisData;
 
   return (
-    <section
-      css={css`
-        flex: 1;
-        display: flex;
-        gap: 2rem;
-        overflow-x: auto;
-        overflow-y: auto;
-        min-height: 80vh;
-      `}
-    >
-      {questions.map((question: QuestionsType, questionIndex: number) => (
-        <article
-          key={questionIndex}
-          css={css`
-            flex-shrink: 0;
-            width: 34rem;
-            height: 100%;
-            background-color: ${DESIGN_TOKEN_COLOR.gray100};
-            border-radius: 1.2rem;
-            margin-top: 2rem;
-            padding: 2rem 1.6rem;
-          `}
-        >
-          <Typography variant="body15Normal" color="gray900">
-            {question.questionContent}
-          </Typography>
-
-          <article>{renderQuestionComponent(question)}</article>
-        </article>
-      ))}
-    </section>
+    <>
+      {selectedTab === "질문" && <AnalysisQuestionsTab questions={questions} />}
+      {selectedTab === "개별" && <AnalysisIndividualTab individuals={individuals} />}
+      {selectedTab === "분석" && <div>분석 탭 컴포넌트 (추후 구현)</div>}
+    </>
   );
 }
