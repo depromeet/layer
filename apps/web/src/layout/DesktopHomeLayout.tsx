@@ -3,6 +3,8 @@ import { Outlet } from "react-router-dom";
 
 import LocalNavigationBar from "@/component/common/LocalNavigationBar";
 import { NavigationProvider, useNavigation } from "@/component/common/LocalNavigationBar/context/NavigationContext";
+import { Modal } from "@/component/common/Modal";
+import DesktopFunnelModal from "@/component/common/Modal/DesktopFunnelModal";
 
 function DesktopHomeLayoutContent() {
   const { isCollapsed } = useNavigation();
@@ -24,8 +26,12 @@ function DesktopHomeLayoutContent() {
 
 export default function DesktopHomeLayout() {
   return (
-    <NavigationProvider>
-      <DesktopHomeLayoutContent />
-    </NavigationProvider>
+    <>
+      <Modal />
+      <DesktopFunnelModal />
+      <NavigationProvider>
+        <DesktopHomeLayoutContent />
+      </NavigationProvider>
+    </>
   );
 }
