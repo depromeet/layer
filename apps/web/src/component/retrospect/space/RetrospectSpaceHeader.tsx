@@ -1,14 +1,75 @@
+import { RecommendTemplatePage } from "@/app/desktop/retrospect/template/RecommendTemplatePage";
+import { RetrospectCreate } from "@/app/desktop/retrospectCreate/RetrospectCreate";
 import { Icon } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
+import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { useModal } from "@/hooks/useModal";
+import { useRequiredParams } from "@/hooks/useRequiredParams";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
-import { useAtomValue } from "jotai";
+import { useQueries } from "@tanstack/react-query";
+import { useAtom, useAtomValue } from "jotai";
+import { useEffect } from "react";
 
 export default function RetrospectSpaceHeader() {
+  const { open } = useModal();
+  const { openFunnelModal } = useFunnelModal();
   const currentSpace = useAtomValue(currentSpaceState);
+  const { spaceId } = useRequiredParams<{ spaceId: string }>();
+
+  const [_, setRetrospectValue] = useAtom(retrospectInitialState);
 
   const { name, introduction } = currentSpace || {};
+
+  const [{ data: spaceInfo }] = useQueries({
+    queries: [useApiOptionsGetSpaceInfo(spaceId)],
+  });
+
+  useEffect(() => {
+    setRetrospectValue((prev) => ({
+      ...prev,
+      spaceId,
+    }));
+  }, [spaceId, setRetrospectValue]);
+
+  const handleRetrospectCreate = () => {
+    if (spaceInfo?.formId) {
+      setRetrospectValue((prev) => ({
+        ...prev,
+        templateId: String(spaceInfo.formId),
+      }));
+
+      open({
+        title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
+        contents: "",
+        options: {
+          buttonText: ["재설정", "진행하기"],
+        },
+        onConfirm: () => {
+          openFunnelModal({
+            title: "",
+            step: "retrospectCreate",
+            contents: <RetrospectCreate />,
+          });
+        },
+        onClose: () => {
+          setRetrospectValue((prev) => ({
+            ...prev,
+            templateId: "",
+          }));
+
+          openFunnelModal({
+            title: "",
+            step: "template",
+            contents: <RecommendTemplatePage />,
+          });
+        },
+      });
+    }
+  };
 
   return (
     <section
@@ -52,6 +113,7 @@ export default function RetrospectSpaceHeader() {
                 cursor: pointer;
                 color: ${DESIGN_TOKEN_COLOR.gray00};
               `}
+              onClick={handleRetrospectCreate}
             >
               <Icon icon={"ic_plus"} size={1.2} color={DESIGN_TOKEN_COLOR.gray00} />
 
