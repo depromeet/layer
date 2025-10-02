@@ -36,7 +36,7 @@ export const usePostRetrospectCreate = (spaceId: number) => {
         spaceId,
       });
 
-      navigate(isDesktop ? PATHS.DesktopcompleteRetrospectCreate() : PATHS.completeRetrospectCreate(), {
+      navigate(isDesktop ? PATHS.DesktopcompleteRetrospectCreate(String(spaceId)) : PATHS.completeRetrospectCreate(), {
         state: { retrospectId, spaceId, title: variables?.body?.title, introduction: variables?.body?.introduction },
       });
       resetRetroCreateData();

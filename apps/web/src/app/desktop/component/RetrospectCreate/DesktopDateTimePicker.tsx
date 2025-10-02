@@ -57,7 +57,7 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: De
         top: -15rem;
         right: 6rem;
         width: 26rem;
-        height: 33.8rem;
+        min-height: 33.8rem;
         display: flex;
         flex-direction: column;
         padding: 1.6rem 1.2rem;
@@ -72,7 +72,7 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: De
     >
       <div
         css={css`
-          height: 23.3rem;
+          min-height: 23.3rem;
         `}
       >
         <Calendar defaultValue={defaultValue} onChange={onSelectDate} tileDisabled={tileDisabled} />
