@@ -4,7 +4,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { recommendTemplateState } from "@/store/retrospect/template/recommend/recommendAtom";
 import { PeriodicType, RecommendTemplateType } from "@/types/retrospectCreate/recommend";
 import { css } from "@emotion/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { useState } from "react";
 
 interface PeriodicProps {
@@ -15,7 +15,6 @@ interface PeriodicProps {
 export function Periodic({ onNext, onPrev }: PeriodicProps) {
   const { periodic } = useAtomValue(recommendTemplateState);
   const [selectedPeriodic, setSeletedPeriodic] = useState(periodic);
-  const [templateValue, setTemplateValue] = useAtom(recommendTemplateState);
 
   const handleButtonClick = (select: PeriodicType) => {
     setSeletedPeriodic(select);

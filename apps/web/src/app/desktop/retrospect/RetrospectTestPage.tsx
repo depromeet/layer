@@ -5,10 +5,10 @@ import { useQueries } from "@tanstack/react-query";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { RetrospectCreate } from "../retrospectCreate/RetrospectCreate";
-import TemplatePage from "./template/TemplatePage";
 import { useAtom } from "jotai";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { useEffect } from "react";
+import { RecommendTemplatePage } from "./template/RecommendTemplatePage";
 
 /**
  * 회고 생성 모달을 위한 임시 페이지입니다.
@@ -35,7 +35,7 @@ export function RetrospectTestPage() {
     if (spaceInfo?.formId) {
       setRetrospectValue((prev) => ({
         ...prev,
-        templateId: spaceInfo.formId,
+        templateId: String(spaceInfo.formId),
       }));
 
       open({
@@ -54,13 +54,13 @@ export function RetrospectTestPage() {
         onClose: () => {
           setRetrospectValue((prev) => ({
             ...prev,
-            templateId: -1,
+            templateId: "",
           }));
 
           openFunnelModal({
             title: "",
             step: "template",
-            contents: <TemplatePage />,
+            contents: <RecommendTemplatePage />,
           });
         },
       });

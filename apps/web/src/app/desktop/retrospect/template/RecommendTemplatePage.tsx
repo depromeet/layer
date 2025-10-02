@@ -8,11 +8,13 @@ import { useState } from "react";
 import { RecommendTemplate } from "../../component/retrospect/template/recommend";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { RecommendSearch } from "../../component/retrospect/template/recommend/Search";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 
 export function RecommendTemplatePage() {
   const resetTemplateValue = useResetAtom(recommendTemplateState);
   const { openFunnelModal } = useFunnelModal();
   const [isLoading, setIsLoading] = useState(false);
+  const { track } = useMixpanel();
 
   const onSubmit = async (recommendValue: RecommendTemplateType & { spaceId: string }) => {
     try {
@@ -25,7 +27,11 @@ export function RecommendTemplatePage() {
           purpose: purpose.join(","),
         },
       });
-
+      track("TEMPLATE_RECOMMEND", {
+        formId: data.formId,
+        formName: data.formName,
+        tag: data.tag,
+      });
       resetTemplateValue();
       setIsLoading(false);
 
