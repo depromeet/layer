@@ -10,6 +10,7 @@ type SatisfactionProps = { name: string; question?: never; index: number } | { q
 
 export function CSatisfactionTemplate({ name, question, index: SatisfactionIdx }: SatisfactionProps) {
   const emotions: IconType[] = ["ic_very_poor", "ic_poor", "ic_commonly", "ic_good", "ic_very_good"];
+
   return (
     <ResultContainer question={question} name={name}>
       {emotions.map((item, index) => {

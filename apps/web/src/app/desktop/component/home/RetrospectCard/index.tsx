@@ -6,13 +6,14 @@ import { Retrospect } from "@/types/retrospect";
 import { formatDateAndTime } from "@/utils/date";
 import { ProceedingTextBox } from "@/component/space/view/ProceedingTextBox";
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "@layer/shared";
 
-interface InProgressRetrospectCardProps {
+interface RetrospectCardProps {
   retrospect: Retrospect;
   spaceId?: string;
 }
 
-export default function RetrospectCard({ retrospect, spaceId }: InProgressRetrospectCardProps) {
+export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardProps) {
   const navigate = useNavigate();
 
   const { retrospectId, title, introduction, deadline, totalCount, writeCount, writeStatus, analysisStatus } = retrospect;
@@ -21,7 +22,7 @@ export default function RetrospectCard({ retrospect, spaceId }: InProgressRetros
     // TODO: spaceId가 없는 경우 처리(예: 홈 화면 최상단의 카드 클릭 시)
 
     if (spaceId) {
-      navigate(`/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}`);
+      navigate(PATHS.retrospectAnalysis(spaceId, retrospectId, title));
     }
   };
 

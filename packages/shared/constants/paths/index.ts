@@ -43,8 +43,14 @@ export const createPaths = () => {
     termsofservice: () => `${prefix}/myinfo/termsofservice` as const,
     privacypolicy: () => `${prefix}/myinfo/privacypolicy` as const,
     feedback: () => `${prefix}/myinfo/feedback` as const,
-    retrospectAnalysis: (spaceId: string, retrospectId: number) =>
-      `${prefix}/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}` as const,
+    retrospectAnalysis: (
+      spaceId: string,
+      retrospectId: number,
+      title?: string
+    ) => {
+      const baseUrl = `${prefix}/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}`;
+      return title ? `${baseUrl}&title=${encodeURIComponent(title)}` : baseUrl;
+    },
   } as const;
 };
 

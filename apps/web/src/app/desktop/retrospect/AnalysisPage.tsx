@@ -1,16 +1,25 @@
 import { css } from "@emotion/react";
 import AnalysisOverview from "../component/analysis/AnalysisOverview";
+import { useSearchParams } from "react-router-dom";
+import AnalysisDialog from "../component/analysis/AnalysisDialog";
 
 export default function AnalysisPage() {
+  const [searchParams] = useSearchParams();
+
+  const spaceId = searchParams.get("spaceId");
+  const retrospectId = searchParams.get("retrospectId");
+
   return (
     <section
       css={css`
-        /* padding: 2.8rem 0; */
-        padding-top: 2.8rem;
+        display: flex;
+        overflow-x: hidden;
         height: 100vh;
       `}
     >
-      <AnalysisOverview />
+      <AnalysisOverview spaceId={spaceId} />
+
+      <AnalysisDialog spaceId={spaceId} retrospectId={retrospectId} />
     </section>
   );
 }
