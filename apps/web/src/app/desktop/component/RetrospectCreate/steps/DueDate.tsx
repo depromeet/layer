@@ -11,7 +11,7 @@ import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
 
 function DueDate() {
-  const { goPrev } = useContext(RetrospectCreateContext);
+  const { goPrev, isMutatePending } = useContext(RetrospectCreateContext);
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
   const [selectedDateTime, setSelectedDateTime] = useState<string>();
   const { selectedValue, isChecked, onChange } = useRadioButton();
@@ -56,14 +56,8 @@ function DueDate() {
         )}
       </div>
 
-      <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Gray
-          onClick={() => {
-            goPrev();
-          }}
-        >
-          이전
-        </ButtonProvider.Gray>
+      <ButtonProvider sort={"horizontal"} isProgress={isMutatePending}>
+        <ButtonProvider.Gray onClick={goPrev}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary
           onClick={onNext}
           disabled={(selectedValue === "has-duedate-pos" && !selectedDateTime) || !selectedValue}

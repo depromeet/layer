@@ -11,6 +11,7 @@ import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 
 export function RecommendSearch() {
   const { templateId, spaceId } = useAtomValue(retrospectInitialState);
+  console.log("templateId : " + templateId);
   const TemplateArr = createTemplateArr(templateId as unknown as TemplateKey);
   const { data, isLoading } = useApiGetSpace(spaceId);
 

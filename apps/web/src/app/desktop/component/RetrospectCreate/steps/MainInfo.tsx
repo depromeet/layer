@@ -47,13 +47,7 @@ function MainInfo() {
       />
 
       <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Gray
-          onClick={() => {
-            goPrev();
-          }}
-        >
-          이전
-        </ButtonProvider.Gray>
+        <ButtonProvider.Gray onClick={goPrev}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={handleDataSave} disabled={!title}>
           다음
         </ButtonProvider.Primary>

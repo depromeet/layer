@@ -10,7 +10,6 @@ import { useAtomValue } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
-import { useFunnelModal } from "@/hooks/useFunnelModal";
 
 const PAGE_STEPS = ["confirmTemplate", "mainInfo", "dueDate"] as const;
 const CUSTOM_TEMPLATE_STEPS = ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const;
@@ -28,7 +27,6 @@ export const RetrospectCreateContext = createContext<RetrospectCreateContextStat
 
 export function RetrospectCreate() {
   const { spaceId, templateId } = useAtomValue(retrospectInitialState);
-  const { closeFunnelModal } = useFunnelModal();
   const spaceIdNumber = Number(spaceId);
   const templateIdNumber = Number(templateId);
 
@@ -46,7 +44,6 @@ export function RetrospectCreate() {
       spaceId: spaceIdNumber,
       body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateIdNumber },
     });
-    closeFunnelModal();
   }, [retroCreateData.deadline]);
 
   return (

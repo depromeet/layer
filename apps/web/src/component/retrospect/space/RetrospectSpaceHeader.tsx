@@ -36,6 +36,7 @@ export default function RetrospectSpaceHeader() {
   }, [spaceId, setRetrospectValue]);
 
   const handleRetrospectCreate = () => {
+    console.log("spaceInfo?.formId : " + spaceInfo?.formId);
     if (spaceInfo?.formId) {
       setRetrospectValue((prev) => ({
         ...prev,
@@ -56,11 +57,6 @@ export default function RetrospectSpaceHeader() {
           });
         },
         onClose: () => {
-          setRetrospectValue((prev) => ({
-            ...prev,
-            templateId: "",
-          }));
-
           openFunnelModal({
             title: "",
             step: "template",

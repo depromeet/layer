@@ -80,13 +80,7 @@ export function ConfirmDefaultTemplate() {
       </div>
       <ButtonProvider sort={"horizontal"}>
         <ButtonProvider.Gray onClick={handleChangeTemplate}>템플릿 변경</ButtonProvider.Gray>
-        <ButtonProvider.Primary
-          onClick={() => {
-            goNext();
-          }}
-        >
-          진행하기
-        </ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={goNext}>진행하기</ButtonProvider.Primary>
       </ButtonProvider>
     </>
   );
