@@ -6,6 +6,9 @@ import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { RetrospectCreate } from "../retrospectCreate/RetrospectCreate";
 import TemplatePage from "./template/TemplatePage";
+import { useAtom } from "jotai";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
+import { useEffect } from "react";
 
 /**
  * 회고 생성 모달을 위한 임시 페이지입니다.
@@ -15,13 +18,26 @@ export function RetrospectTestPage() {
   const { open } = useModal();
   const { openFunnelModal } = useFunnelModal();
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
+  const [_, setRetrospectValue] = useAtom(retrospectInitialState);
 
   const [{ data: spaceInfo }] = useQueries({
     queries: [useApiOptionsGetSpaceInfo(spaceId)],
   });
 
+  useEffect(() => {
+    setRetrospectValue((prev) => ({
+      ...prev,
+      spaceId,
+    }));
+  }, [spaceId, setRetrospectValue]);
+
   const handleRetrospectCreate = () => {
     if (spaceInfo?.formId) {
+      setRetrospectValue((prev) => ({
+        ...prev,
+        templateId: spaceInfo.formId,
+      }));
+
       open({
         title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
         contents: "",
@@ -36,6 +52,11 @@ export function RetrospectTestPage() {
           });
         },
         onClose: () => {
+          setRetrospectValue((prev) => ({
+            ...prev,
+            templateId: -1,
+          }));
+
           openFunnelModal({
             title: "",
             step: "template",

@@ -24,7 +24,7 @@ export const useFunnelModal = () => {
     setState({
       isOpen: false,
       title: "",
-      step: "",
+      step: null,
       contents: null,
       onClose: () => {},
       onConfirm: () => {},

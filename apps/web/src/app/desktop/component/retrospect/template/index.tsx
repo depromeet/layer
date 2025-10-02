@@ -4,10 +4,30 @@ import { useActionModal } from "@/hooks/useActionModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
+import { RecommendTemplatePage } from "@/app/desktop/retrospect/template/RecommendTemplatePage";
 
 function ChoiceTemplate() {
   const { openFunnelModal } = useFunnelModal();
   const { closeActionModal } = useActionModal();
+
+  const handleMoveToRecommendTemplate = () => {
+    openFunnelModal({
+      title: "",
+      step: "recommendTemplate",
+      contents: <RecommendTemplatePage />,
+    });
+    closeActionModal();
+  };
+
+  const handleMoveToListTemplate = () => {
+    openFunnelModal({
+      title: "",
+      step: "recommendTemplate",
+      contents: <div>템플릿 리스트 플로우</div>,
+    });
+    closeActionModal();
+  };
+
   return (
     <div
       css={css`
@@ -31,14 +51,7 @@ function ChoiceTemplate() {
         `}
       >
         <button
-          onClick={() => {
-            openFunnelModal({
-              title: "",
-              step: "template",
-              contents: <div>템플릿 추천 플로우</div>,
-            });
-            closeActionModal();
-          }}
+          onClick={handleMoveToRecommendTemplate}
           css={css`
             width: 16.3rem;
             background-color: #f6f8fa;
@@ -62,14 +75,7 @@ function ChoiceTemplate() {
           </Typography>
         </button>
         <button
-          onClick={() => {
-            openFunnelModal({
-              title: "",
-              step: "template",
-              contents: <div>템플릿 리스트 추천 플로우</div>,
-            });
-            closeActionModal();
-          }}
+          onClick={handleMoveToListTemplate}
           css={css`
             width: 16.3rem;
             background-color: #f6f8fa;
@@ -88,7 +94,7 @@ function ChoiceTemplate() {
           `}
         >
           <Icon icon="ic_list" size={4.8} color={DESIGN_TOKEN_COLOR.purple600} />
-          <Typography variant="body16Medium">리스트보기</Typography>
+          <Typography variant="body16Medium">리스트 보기</Typography>
         </button>
       </div>
     </div>

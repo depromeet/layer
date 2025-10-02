@@ -12,7 +12,7 @@ export type DesktopModalHeaderProps = {
 
 export default function DesktopFunnelModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps) {
   return (
-    <header
+    <div
       css={css`
         display: flex;
         align-items: center;
@@ -81,6 +81,6 @@ export default function DesktopFunnelModalHeader({ title, onBack, onClose }: Des
           onClick={onClose}
         />
       </button>
-    </header>
+    </div>
   );
 }

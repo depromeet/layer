@@ -9,20 +9,21 @@ import { ButtonProvider } from "@/component/common/button";
 import QuestionEditButton from "@/app/desktop/component/retrospectCreate/QuestionEditButton";
 import { useContext, useEffect } from "react";
 import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { useActionModal } from "@/hooks/useActionModal";
 import ChoiceTemplate from "../../retrospect/template";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 
 export function ConfirmDefaultTemplate() {
   const { goNext } = useContext(RetrospectCreateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { openActionModal } = useActionModal();
+  const { templateId } = useAtomValue(retrospectInitialState);
 
-  /* TODO 실제 템플릿id로 변경 필요 */
   const {
     data: { title, tag, questions },
-  } = useGetCustomTemplate(10000);
+  } = useGetCustomTemplate(Number(templateId));
 
   useEffect(() => {
     if (retroCreateData.questions.length > 0) return;

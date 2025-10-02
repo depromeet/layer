@@ -4,7 +4,7 @@ import { atom } from "jotai";
 export const FunnelModalState = atom<FunnelModalType>({
   isOpen: false,
   title: "",
-  step: "",
+  step: null,
   contents: "",
   onClose: () => {},
   onConfirm: () => {},
