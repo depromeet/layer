@@ -72,14 +72,7 @@ function RecommendDone() {
       >
         <Tooltip>
           <Tooltip.Trigger>
-            <TemplateCard
-              name={templateData.templateName}
-              tag={templateData.title}
-              imgUrl={templateData.imageUrl}
-              onClick={() => {
-                console.log("fsnaofnoas");
-              }}
-            />
+            <TemplateCard name={templateData.templateName} tag={templateData.title} imgUrl={templateData.imageUrl} onClick={() => {}} />
           </Tooltip.Trigger>
           <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
         </Tooltip>

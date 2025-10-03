@@ -15,7 +15,6 @@ export const usePostRecentTemplateId = (spaceId: number) => {
   return useMutation({
     mutationFn: postRecentTemplateId,
     onSuccess: async () => {
-      console.log("fnsiaofnoisanofa");
       await queryClient.invalidateQueries({
         queryKey: ["getSpaceInfo", String(spaceId)], //FIXME - query key 상수화
       });
