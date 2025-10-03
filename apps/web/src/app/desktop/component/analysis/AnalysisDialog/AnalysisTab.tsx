@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { useState } from "react";
 
 import TeamIndividualToggle from "./TeamIndividualToggle";
+import AnalysisIndividualContents from "./AnalysisIndividualContents";
 
 type ViewType = "개인" | "팀";
 
@@ -31,7 +32,7 @@ export default function AnalysisTab() {
           flex: 1;
         `}
       >
-        {selectedView === "개인" ? <div>개인 분석 콘텐츠</div> : <div>팀 분석 콘텐츠</div>}
+        {selectedView === "개인" ? <AnalysisIndividualContents /> : <div>팀 분석 콘텐츠</div>}
       </div>
     </section>
   );

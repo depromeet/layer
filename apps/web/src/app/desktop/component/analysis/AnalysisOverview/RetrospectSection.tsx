@@ -78,10 +78,10 @@ export default function RetrospectSection({ title, isPending, retrospects, empty
           margin-top: 2.4rem;
         `}
       >
-        <Typography variant="title16Bold2" color="gray900">
+        <Typography variant="title16Strong" color="gray900">
           {title}
         </Typography>
-        <Typography variant="title16Bold2" color="gray600">
+        <Typography variant="title16Strong" color="gray600">
           {retrospects.length}
         </Typography>
       </section>
