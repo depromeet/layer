@@ -10,6 +10,7 @@ import { RetrospectCreateReq } from "@/types/retrospectCreate";
 import { useToast } from "@/hooks/useToast";
 import { getDeviceType } from "@/utils/deviceUtils";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { queryClient } from "@/lib/tanstack-query/queryClient";
 
 type PostRetrospect = { spaceId: number; body: RetrospectCreateReq };
 
@@ -42,6 +43,9 @@ export const usePostRetrospectCreate = (spaceId: number) => {
         state: { retrospectId, spaceId, title: variables?.body?.title, introduction: variables?.body?.introduction },
       });
       resetRetroCreateData();
+      queryClient.invalidateQueries({
+        queryKey: ["getRetrospects", String(spaceId)],
+      });
       isDesktop && closeFunnelModal();
       isDesktop && toast.success("회고가 생성되었어요!");
     },

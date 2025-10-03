@@ -11,8 +11,7 @@ import { currentSpaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { useQueries } from "@tanstack/react-query";
-import { useAtom, useAtomValue } from "jotai";
-import { useEffect } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
 
 export default function RetrospectSpaceHeader() {
   const { open } = useModal();
@@ -20,7 +19,7 @@ export default function RetrospectSpaceHeader() {
   const currentSpace = useAtomValue(currentSpaceState);
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
 
-  const [_, setRetrospectValue] = useAtom(retrospectInitialState);
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
 
   const { name, introduction } = currentSpace || {};
 
@@ -28,15 +27,7 @@ export default function RetrospectSpaceHeader() {
     queries: [useApiOptionsGetSpaceInfo(spaceId)],
   });
 
-  useEffect(() => {
-    setRetrospectValue((prev) => ({
-      ...prev,
-      spaceId,
-    }));
-  }, [spaceId, setRetrospectValue]);
-
   const handleRetrospectCreate = () => {
-    console.log("spaceInfo?.formId : " + spaceInfo?.formId);
     if (spaceInfo?.formId) {
       setRetrospectValue((prev) => ({
         ...prev,
@@ -133,7 +124,7 @@ export default function RetrospectSpaceHeader() {
               <Icon icon={"ic_document_color"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
 
               <Typography variant="body14SemiBold" color="gray600">
-                KPT
+                {spaceInfo?.formTag}
               </Typography>
               <Icon icon={"ic_chevron_down"} size={1.6} color={DESIGN_TOKEN_COLOR.gray600} />
             </div>
@@ -153,7 +144,7 @@ export default function RetrospectSpaceHeader() {
               <Icon icon={"ic_team"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
 
               <Typography variant="body14SemiBold" color="gray600">
-                11
+                {spaceInfo?.memberCount}
               </Typography>
               <Icon icon={"ic_chevron_down"} size={1.6} color={DESIGN_TOKEN_COLOR.gray600} />
             </div>

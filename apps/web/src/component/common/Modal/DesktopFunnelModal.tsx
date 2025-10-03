@@ -4,15 +4,25 @@ import { ANIMATION } from "@/style/common/animation";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useModal } from "@/hooks/useModal";
 import DesktopFunnelModalHeader from "./DesktopFunnelModalHeader";
+import { useAtomValue } from "jotai";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
+import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTemplateId";
+import { useResetAtom } from "jotai/utils";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
 export default function DesktopFunnelModal() {
   const { open, close } = useModal();
   const { funnelModalState, closeFunnelModal } = useFunnelModal();
+  const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
+  const { spaceId, templateId } = useAtomValue(retrospectInitialState);
+  const { mutate: postRecentTemplateId } = usePostRecentTemplateId(Number(spaceId));
 
-  if (!funnelModalState.isOpen) return null;
+  const quitPage = () => {
+    postRecentTemplateId({ formId: Number(templateId), spaceId: Number(spaceId) });
+    resetRetroCreateData();
+    closeFunnelModal();
+  };
 
-  // TODO 현재 모달 콘텐츠에 따른 메세지로 변경되어야합니다.
-  // 현재는 임시로 회고 생성 중단에 대한 메세지로 구현
   const handleClose = () => {
     open({
       title: "회고 생성을 중단하시겠어요?",
@@ -25,10 +35,12 @@ export default function DesktopFunnelModal() {
         close();
       },
       onConfirm: () => {
-        closeFunnelModal();
+        quitPage();
       },
     });
   };
+
+  if (!funnelModalState.isOpen) return null;
 
   return (
     <Portal id="modal-root">

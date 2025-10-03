@@ -34,11 +34,12 @@ export function RecommendTemplate({ onSubmit }: CreateSpaceProps) {
   }, [templateValue]);
 
   const handlePeriodicChange = (periodicValues: Pick<RecommendTemplateType, "periodic">) => {
+    const stepIncrement = periodicValues.periodic === "REGULAR" ? 1 : 2;
     setTemplateValue((prevValues) => {
       return {
         ...prevValues,
         ...periodicValues,
-        step: prevValues.step + 1,
+        step: prevValues.step + stepIncrement,
       };
     });
   };
@@ -66,17 +67,21 @@ export function RecommendTemplate({ onSubmit }: CreateSpaceProps) {
         step: "retrospectCreate",
         contents: <RetrospectCreate />,
       });
-
       openActionModal({
         title: "",
         contents: <ChoiceTemplate />,
       });
-    } else {
-      setTemplateValue((prev) => ({
-        ...prev,
-        step: prev.step - 1,
-      }));
+      return;
     }
+
+    const { step, periodic } = templateValue;
+    const shouldSkipTwoSteps = step === LAST_PAGE && periodic === "IRREGULAR";
+    const decreaseAmount = shouldSkipTwoSteps ? 2 : 1;
+
+    setTemplateValue((prev) => ({
+      ...prev,
+      step: prev.step - decreaseAmount,
+    }));
   };
 
   return (

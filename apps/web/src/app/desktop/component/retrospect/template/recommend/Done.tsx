@@ -4,7 +4,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { useGetSimpleTemplateInfo } from "@/hooks/api/template/useGetSimpleTemplateInfo";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { css } from "@emotion/react";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { Tooltip } from "@/component/common/tip";
 import { ButtonProvider } from "@/component/common/button";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
@@ -16,9 +16,10 @@ import { useActionModal } from "@/hooks/useActionModal";
 import ChoiceTemplate from "..";
 
 function RecommendDone() {
-  const { templateId, spaceId } = useAtomValue(retrospectInitialState);
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
+  const { tempTemplateId, spaceId } = useAtomValue(retrospectInitialState);
   const { data } = useApiGetSpace(spaceId);
-  const { data: templateData, isLoading } = useGetSimpleTemplateInfo(templateId);
+  const { data: templateData, isLoading } = useGetSimpleTemplateInfo(tempTemplateId);
   const { openFunnelModal } = useFunnelModal();
   const { openActionModal } = useActionModal();
 
@@ -40,6 +41,12 @@ function RecommendDone() {
   };
 
   const handleMoveToConfirmTemplate = () => {
+    setRetrospectValue((prev) => ({
+      ...prev,
+      templateId: prev.tempTemplateId,
+      saveTemplateId: true,
+    }));
+
     openFunnelModal({
       title: "",
       step: "retrospectCreate",

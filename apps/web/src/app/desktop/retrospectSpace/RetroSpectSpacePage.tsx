@@ -2,9 +2,23 @@ import ActionItems from "@/component/retrospect/space/ActionItems";
 import CompletedRetrospects from "@/component/retrospect/space/CompletedRetrospects";
 import InProgressRetrospects from "@/component/retrospect/space/InProgressRetrospects";
 import RetrospectSpaceHeader from "@/component/retrospect/space/RetrospectSpaceHeader";
+import { useRequiredParams } from "@/hooks/useRequiredParams";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { css } from "@emotion/react";
+import { useSetAtom } from "jotai";
+import { useEffect } from "react";
 
 export default function RetroSpectSpacePage() {
+  const { spaceId } = useRequiredParams<{ spaceId: string }>();
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
+
+  useEffect(() => {
+    setRetrospectValue((prev) => ({
+      ...prev,
+      spaceId,
+    }));
+  }, [spaceId, setRetrospectValue]);
+
   return (
     <section
       css={css`

@@ -9,8 +9,11 @@ import { RecommendTemplate } from "../../component/retrospect/template/recommend
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { RecommendSearch } from "../../component/retrospect/template/recommend/Search";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
+import { useSetAtom } from "jotai";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 
 export function RecommendTemplatePage() {
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
   const resetTemplateValue = useResetAtom(recommendTemplateState);
   const { openFunnelModal } = useFunnelModal();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +30,12 @@ export function RecommendTemplatePage() {
           purpose: purpose.join(","),
         },
       });
+
+      setRetrospectValue((prev) => ({
+        ...prev,
+        tempTemplateId: String(data.formId),
+      }));
+
       track("TEMPLATE_RECOMMEND", {
         formId: data.formId,
         formName: data.formName,
@@ -38,7 +47,7 @@ export function RecommendTemplatePage() {
       openFunnelModal({
         title: "",
         step: "recommendTemplate",
-        contents: <RecommendSearch />,
+        contents: <RecommendSearch newTempTemplateId={String(data.formId)} />,
       });
     } catch (error) {
       console.log(error);
