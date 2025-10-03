@@ -10,7 +10,7 @@ import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { useContext } from "react";
 
-function MainInfo() {
+export function MainInfo() {
   const { goNext, goPrev } = useContext(RetrospectCreateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { value: title, handleInputChange: handleNameChange } = useInput(retroCreateData.title);
@@ -55,5 +55,3 @@ function MainInfo() {
     </>
   );
 }
-
-export default MainInfo;

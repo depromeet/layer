@@ -10,7 +10,7 @@ import { useSetAtom } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
 
-function DueDate() {
+export function DueDate() {
   const { goPrev, isMutatePending } = useContext(RetrospectCreateContext);
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
   const [selectedDateTime, setSelectedDateTime] = useState<string>();
@@ -69,5 +69,3 @@ function DueDate() {
     </>
   );
 }
-
-export default DueDate;
