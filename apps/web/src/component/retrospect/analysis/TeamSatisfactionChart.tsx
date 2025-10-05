@@ -16,9 +16,35 @@ const COLORS = [
 
 type TeamSatisfactionChartProps = {
   satisfactionLevels: number[];
+  /** 커스텀 CSS 스타일 */
+  customStyles?: {
+    container?: any;
+    title?: any;
+    chartContainer?: any;
+    legend?: any;
+  };
+  /** 차트 크기 설정 */
+  chartSize?: {
+    width: number;
+    height: number;
+    innerRadius: number;
+    outerRadius: number;
+  };
+  /** 레이아웃 타입 */
+  layout?: "default" | "compact";
 };
 
-export function TeamSatisfactionChart({ satisfactionLevels }: TeamSatisfactionChartProps) {
+export function TeamSatisfactionChart({
+  satisfactionLevels,
+  customStyles = {},
+  chartSize = {
+    width: 240,
+    height: 240,
+    innerRadius: 45,
+    outerRadius: 90,
+  },
+  layout = "default",
+}: TeamSatisfactionChartProps) {
   const data = useMemo(() => {
     const levels = [
       { name: "매우 만족", value: satisfactionLevels[0], color: COLORS[0] },
@@ -34,26 +60,35 @@ export function TeamSatisfactionChart({ satisfactionLevels }: TeamSatisfactionCh
   const dominantCategory = data[0]?.name || "";
   const dominantColor = data[0]?.color || COLORS[2];
 
+  // 기본 스타일
+  const defaultContainerStyles = css`
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.8rem;
+    padding: ${layout === "compact" ? "1.6rem" : "2.8rem"};
+    padding-bottom: 0;
+    background-color: ${layout === "compact" ? "transparent" : DESIGN_TOKEN_COLOR.gray00};
+    position: relative;
+  `;
+
+  const defaultTitleStyles = css`
+    line-height: 2.6rem;
+    margin-bottom: ${layout === "compact" ? "1.6rem" : "2rem"};
+  `;
+
+  const defaultChartContainerStyles = css`
+    display: flex;
+    justify-content: ${layout === "compact" ? "center" : "space-between"};
+    width: ${layout === "compact" ? "100%" : "120%"};
+    transform: ${layout === "compact" ? "none" : "translateX(-10%)"};
+    flex-direction: ${layout === "compact" ? "column" : "row"};
+    align-items: ${layout === "compact" ? "center" : "flex-start"};
+    gap: ${layout === "compact" ? "6.3rem" : "0"};
+  `;
+
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-        border-radius: 0.8rem;
-        padding: 2.8rem;
-        padding-bottom: 0;
-        border-radius: 0.8rem;
-        background-color: ${DESIGN_TOKEN_COLOR.gray00};
-        position: relative;
-      `}
-    >
-      <Typography
-        variant="subtitle18SemiBold"
-        color="gray900"
-        css={css`
-          line-height: 2.6rem;
-        `}
-      >
+    <div css={[defaultContainerStyles, customStyles.container]}>
+      <Typography variant="subtitle18SemiBold" color="gray900" css={[defaultTitleStyles, customStyles.title]}>
         우리 팀은 <br />
         진행상황에 대해 대부분{" "}
         <span
@@ -65,22 +100,25 @@ export function TeamSatisfactionChart({ satisfactionLevels }: TeamSatisfactionCh
         </span>
         해요
       </Typography>
-      <div
-        css={css`
-          display: flex;
-          justify-content: space-between;
-          width: 120%;
-          transform: translateX(-10%);
-        `}
-      >
+      <div css={[defaultChartContainerStyles, customStyles.chartContainer]}>
         <PieChart
-          width={240}
-          height={240}
+          width={chartSize.width}
+          height={chartSize.height}
           css={css`
-            width: 60%;
+            width: ${layout === "compact" ? "auto" : "60%"};
           `}
         >
-          <Pie data={data} cx={120} cy={120} innerRadius={45} outerRadius={90} startAngle={90} endAngle={450} dataKey="value" stroke="none">
+          <Pie
+            data={data}
+            cx={chartSize.width / 2}
+            cy={chartSize.height / 2}
+            innerRadius={chartSize.innerRadius}
+            outerRadius={chartSize.outerRadius}
+            startAngle={90}
+            endAngle={450}
+            dataKey="value"
+            stroke="none"
+          >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.color} />
             ))}
@@ -88,14 +126,19 @@ export function TeamSatisfactionChart({ satisfactionLevels }: TeamSatisfactionCh
           <Tooltip />
         </PieChart>
         <div
-          css={css`
-            width: 40%;
-            height: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 1rem;
-          `}
+          css={[
+            css`
+              width: ${layout === "compact" ? "100%" : "40%"};
+              height: auto;
+              display: flex;
+              flex-direction: ${layout === "compact" ? "row" : "column"};
+              justify-content: ${layout === "compact" ? "center" : "center"};
+              align-items: ${layout === "compact" ? "center" : "flex-start"};
+              gap: ${layout === "compact" ? "2rem" : "1rem"};
+              flex-wrap: ${layout === "compact" ? "wrap" : "nowrap"};
+            `,
+            customStyles.legend,
+          ]}
         >
           {data.map((item) => (
             <LegendInfo key={item.name} type={item.name} value={item.value} />
