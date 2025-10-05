@@ -84,11 +84,11 @@ export default function AnalysisIndividualContents() {
               &::after {
                 content: "";
                 position: absolute;
-                right: 0; /* 첫 번째 섹션의 오른쪽 끝에 배치 */
+                right: 0;
                 top: 50%;
-                transform: translateY(-50%) translateX(50%); /* 중앙으로 이동 */
+                transform: translateY(-50%) translateX(50%);
                 width: 1px;
-                height: 100%; /* 전체 높이의 60% */
+                height: 100%;
                 background-color: ${DESIGN_TOKEN_COLOR.gray300};
               }
             `}
