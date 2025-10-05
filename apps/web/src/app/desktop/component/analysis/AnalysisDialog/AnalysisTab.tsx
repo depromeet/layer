@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import TeamIndividualToggle from "./TeamIndividualToggle";
 import AnalysisIndividualContents from "./AnalysisIndividualContents";
+import AnalysisTeamContents from "./AnalysisTeamContents";
 
 type ViewType = "개인" | "팀";
 
@@ -32,7 +33,7 @@ export default function AnalysisTab() {
           flex: 1;
         `}
       >
-        {selectedView === "개인" ? <AnalysisIndividualContents /> : <div>팀 분석 콘텐츠</div>}
+        {selectedView === "개인" ? <AnalysisIndividualContents /> : <AnalysisTeamContents />}
       </div>
     </section>
   );
