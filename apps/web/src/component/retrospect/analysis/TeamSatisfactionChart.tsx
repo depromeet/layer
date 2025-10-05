@@ -1,18 +1,10 @@
 import { css } from "@emotion/react";
-import { useMemo } from "react";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-
-const COLORS = [
-  DESIGN_TOKEN_COLOR.blue600,
-  DESIGN_TOKEN_COLOR.blue500,
-  DESIGN_TOKEN_COLOR.blue400,
-  DESIGN_TOKEN_COLOR.blue700,
-  DESIGN_TOKEN_COLOR.blue800,
-];
+import { useSatisfactionData } from "@/hooks/useSatisfactionData";
 
 type TeamSatisfactionChartProps = {
   satisfactionLevels: number[];
@@ -45,20 +37,7 @@ export function TeamSatisfactionChart({
   },
   layout = "default",
 }: TeamSatisfactionChartProps) {
-  const data = useMemo(() => {
-    const levels = [
-      { name: "매우 만족", value: satisfactionLevels[0], color: COLORS[0] },
-      { name: "만족", value: satisfactionLevels[1], color: COLORS[1] },
-      { name: "보통", value: satisfactionLevels[2], color: COLORS[2] },
-      { name: "불만족", value: satisfactionLevels[3], color: COLORS[3] },
-      { name: "매우 불만족", value: satisfactionLevels[4], color: COLORS[4] },
-    ];
-
-    return levels.filter((level) => level.value > 0).sort((a, b) => b.value - a.value);
-  }, [satisfactionLevels]);
-
-  const dominantCategory = data[0]?.name || "";
-  const dominantColor = data[0]?.color || COLORS[2];
+  const { data, dominantCategory, dominantColor } = useSatisfactionData(satisfactionLevels);
 
   // 기본 스타일
   const defaultContainerStyles = css`
