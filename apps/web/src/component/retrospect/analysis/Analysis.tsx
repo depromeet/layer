@@ -159,7 +159,7 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
   );
 }
 
-function AnalysisingComp() {
+export function AnalysisingComp() {
   return (
     <div
       css={css`
