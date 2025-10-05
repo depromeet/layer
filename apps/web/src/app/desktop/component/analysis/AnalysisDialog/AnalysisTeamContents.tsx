@@ -13,7 +13,7 @@ const achievementPercentage = 78; // TODO: 실제 목표달성률 할당 (0-100 
 
 const PADDING_SUM = 8;
 
-export default function AnalysisIndividualContents() {
+export default function AnalysisTeamContents() {
   return (
     <section
       css={css`
@@ -54,7 +54,7 @@ export default function AnalysisIndividualContents() {
             진행상황
           </Typography>
           <Typography variant="body14SemiBold" color="gray800">
-            나는 진행사항에 대해 이렇게 생각해요!
+            우리팀의 진행상황에 대해 이렇게 생각해요!
           </Typography>
         </section>
 
@@ -85,11 +85,11 @@ export default function AnalysisIndividualContents() {
               &::after {
                 content: "";
                 position: absolute;
-                right: 0;
+                right: 0; /* 첫 번째 섹션의 오른쪽 끝에 배치 */
                 top: 50%;
-                transform: translateY(-50%) translateX(50%);
+                transform: translateY(-50%) translateX(50%); /* 중앙으로 이동 */
                 width: 1px;
-                height: 100%;
+                height: 100%; /* 전체 높이의 60% */
                 background-color: ${DESIGN_TOKEN_COLOR.gray300};
               }
             `}
@@ -103,6 +103,7 @@ export default function AnalysisIndividualContents() {
                 {"만족해요"}
               </Typography>
             </div>
+
             <div
               css={css`
                 display: flex;
@@ -289,7 +290,7 @@ export default function AnalysisIndividualContents() {
       </article>
 
       {/* ---------- 회고 ---------- */}
-      <RetrospectsOverview description="나는 이렇게 회고 하고 있어요!" />
+      <RetrospectsOverview description="우리팀은 이렇게 회고 하고 있어요!" />
     </section>
   );
 }
