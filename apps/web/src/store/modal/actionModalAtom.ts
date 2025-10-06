@@ -1,10 +1,9 @@
-import { FunnelModalType } from "@/types/modal";
+import { ActionModalType } from "@/types/modal";
 import { atom } from "jotai";
 
-export const FunnelModalState = atom<FunnelModalType>({
+export const ActionModalState = atom<ActionModalType>({
   isOpen: false,
   title: "",
-  step: null,
   contents: "",
   onClose: () => {},
   onConfirm: () => {},

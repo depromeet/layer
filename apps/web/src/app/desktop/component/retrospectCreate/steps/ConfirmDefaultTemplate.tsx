@@ -6,29 +6,41 @@ import { Typography } from "@/component/common/typography";
 import { Tag } from "@/component/common/tag";
 import { Spacing } from "@/component/common/Spacing";
 import { ButtonProvider } from "@/component/common/button";
-import QuestionEditButton from "@/app/desktop/component/RetrospectCreate/QuestionEditButton";
+import QuestionEditButton from "@/app/desktop/component/retrospectCreate/QuestionEditButton";
 import { useContext, useEffect } from "react";
-import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
-import { useAtom } from "jotai";
+
+import { useAtom, useAtomValue } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { useActionModal } from "@/hooks/useActionModal";
+import { ChoiceTemplate } from "@/app/desktop/component/retrospect/choice";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
+import { RetrospectCreateContext } from "..";
 
 export function ConfirmDefaultTemplate() {
+  const { templateId, saveTemplateId } = useAtomValue(retrospectInitialState);
   const { goNext } = useContext(RetrospectCreateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  const { openActionModal } = useActionModal();
 
-  /* TODO 실제 템플릿id로 변경 필요 */
   const {
     data: { title, tag, questions },
-  } = useGetCustomTemplate(10000);
+  } = useGetCustomTemplate(Number(templateId));
 
   useEffect(() => {
     if (retroCreateData.questions.length > 0) return;
     setRetroCreateData((prev) => ({ ...prev, questions }));
   }, []);
 
+  const handleChangeTemplate = () => {
+    openActionModal({
+      title: "",
+      contents: <ChoiceTemplate />,
+    });
+  };
+
   return (
     <>
-      <Header title={"대표 템플릿으로 회고를 진행할까요?"} contents="가장 최근에 선택한 회고 템플릿이에요" />
+      <Header title={`${saveTemplateId ? "해당" : "대표"} 템플릿으로 회고를 진행할까요?`} contents="가장 최근에 선택한 회고 템플릿이에요" />
       <Spacing size={4} />
       <div
         css={css`
@@ -68,14 +80,8 @@ export function ConfirmDefaultTemplate() {
         <QuestionEditButton />
       </div>
       <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Gray>템플릿 변경</ButtonProvider.Gray>
-        <ButtonProvider.Primary
-          onClick={() => {
-            goNext();
-          }}
-        >
-          진행하기
-        </ButtonProvider.Primary>
+        <ButtonProvider.Gray onClick={handleChangeTemplate}>템플릿 변경</ButtonProvider.Gray>
+        <ButtonProvider.Primary onClick={goNext}>진행하기</ButtonProvider.Primary>
       </ButtonProvider>
     </>
   );

@@ -16,7 +16,7 @@ export const usePostRecentTemplateId = (spaceId: number) => {
     mutationFn: postRecentTemplateId,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["getSpaceInfo", spaceId], //FIXME - query key 상수화
+        queryKey: ["getSpaceInfo", String(spaceId)], //FIXME - query key 상수화
       });
     },
   });

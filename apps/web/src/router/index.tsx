@@ -48,7 +48,6 @@ import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
 import DesktopLoginPage from "@/app/desktop/login/DesktopLoginPage";
 import { HomePage } from "@/app/desktop/home/HomePage";
 import RetroSpectSpacePage from "@/app/desktop/retrospectSpace/RetroSpectSpacePage";
-import { RetrospectTestPage } from "@/app/desktop/retrospect/RetrospectTestPage";
 import DesktopSetNickNamePage from "@/app/desktop/login/DesktopSetNickNamePage";
 import AnalysisPage from "@/app/desktop/retrospect/AnalysisPage";
 import { getDeviceType } from "@/utils/deviceUtils";
@@ -234,27 +233,6 @@ const deviceSpecificRoutes: RouteChildren[] = [
     element: <MembersEditListPage />,
     auth: true,
     deviceType: "mobile",
-  },
-  // 스페이스 관련 - 데스크탑
-  {
-    path: "",
-    element: <DesktopHomeLayout />,
-    children: [
-      {
-        path: "space/:spaceId",
-        element: <RetrospectTestPage />,
-      },
-      {
-        path: "analysis",
-        element: <div>Desktop Analysis</div>, // TODO: 데스크탑용 분석
-      },
-      {
-        path: "goals",
-        element: <div>Desktop Goals</div>, // TODO: 데스크탑용 목표
-      },
-    ],
-    auth: true,
-    deviceType: "desktop",
   },
 
   // 회고 생성 - 모바일

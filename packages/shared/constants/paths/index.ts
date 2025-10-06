@@ -23,7 +23,8 @@ export const createPaths = () => {
     completeRetrospectWrite: () => `${prefix}/write/complete` as const,
     completeRetrospectCreate: () => `${prefix}/retrospect/complete` as const,
     /*TODO 회고 생성 후 실제 스페이스 URL로 변경 */
-    DesktopcompleteRetrospectCreate: () => `${prefix}/` as const,
+    DesktopcompleteRetrospectCreate: (spaceId: string) =>
+      `${prefix}/retrospectSpace/${spaceId}` as const,
     template: (spaceId: string) =>
       `${prefix}/space/${spaceId}/templates` as const,
     viewDetailTemplate: () => `${prefix}/template` as const,

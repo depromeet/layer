@@ -14,10 +14,20 @@ export type ModalType = {
   };
 };
 
+type FunnelStep = "retrospectCreate" | "template" | "recommendTemplate" | "listTemplate";
+
 export type FunnelModalType = {
   isOpen: boolean;
   title: string;
-  step: string;
+  step: FunnelStep | null;
+  contents: ReactNode | string;
+  onClose?: () => void;
+  onConfirm?: () => void;
+};
+
+export type ActionModalType = {
+  isOpen: boolean;
+  title: string;
   contents: ReactNode | string;
   onClose?: () => void;
   onConfirm?: () => void;
