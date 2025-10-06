@@ -1,9 +1,9 @@
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { recommendTemplateState } from "@/store/retrospect/template/recommend/recommendAtom";
 import { useAtom, useSetAtom } from "jotai";
-import { Periodic } from "./recommend/Periodic";
-import { Period } from "./recommend/Period";
-import { Purpose } from "./recommend/Purpose";
+import { Periodic } from "./Periodic";
+import { Period } from "./Period";
+import { Purpose } from "./Purpose";
 import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
 import { useEffect, useState } from "react";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
@@ -17,7 +17,7 @@ import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { useResetAtom } from "jotai/utils";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
-import { RecommendSearch } from "./recommend/Search";
+import { RecommendSearch } from "./Search";
 
 const LAST_PAGE = 2;
 

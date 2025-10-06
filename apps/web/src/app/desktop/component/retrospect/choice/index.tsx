@@ -4,7 +4,7 @@ import { useActionModal } from "@/hooks/useActionModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
-import { RecommendTemplate } from "../template";
+import { RecommendTemplate } from "../template/recommend";
 
 export function ChoiceTemplate() {
   const { openFunnelModal } = useFunnelModal();

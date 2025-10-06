@@ -1,4 +1,4 @@
-import { RecommendTemplate } from "@/app/desktop/component/retrospect/template";
+import { RecommendTemplate } from "@/app/desktop/component/retrospect/template/recommend";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 
 import { Icon } from "@/component/common/Icon/Icon";
