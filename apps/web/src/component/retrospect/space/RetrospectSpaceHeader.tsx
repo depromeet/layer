@@ -1,5 +1,5 @@
-import { RecommendTemplatePage } from "@/app/desktop/retrospect/template/RecommendTemplatePage";
-import { RetrospectCreate } from "@/app/desktop/retrospectCreate/RetrospectCreate";
+import { RecommendTemplate } from "@/app/desktop/component/retrospect/template";
+import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 
 import { Icon } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
@@ -52,7 +52,7 @@ export default function RetrospectSpaceHeader() {
           openFunnelModal({
             title: "",
             step: "template",
-            contents: <RecommendTemplatePage />,
+            contents: <RecommendTemplate />,
           });
         },
       });

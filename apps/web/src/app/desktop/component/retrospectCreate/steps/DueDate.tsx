@@ -8,7 +8,7 @@ import { css } from "@emotion/react";
 import { useContext, useState } from "react";
 import { useSetAtom } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
-import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
+import { RetrospectCreateContext } from "..";
 
 export function DueDate() {
   const { goPrev, isMutatePending } = useContext(RetrospectCreateContext);

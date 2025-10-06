@@ -1,104 +1,143 @@
-import { Icon } from "@/component/common/Icon";
-import { Typography } from "@/component/common/typography";
-import { useActionModal } from "@/hooks/useActionModal";
+import { ProgressBar } from "@/component/common/ProgressBar";
+import { recommendTemplateState } from "@/store/retrospect/template/recommend/recommendAtom";
+import { useAtom, useSetAtom } from "jotai";
+import { Periodic } from "./recommend/Periodic";
+import { Period } from "./recommend/Period";
+import { Purpose } from "./recommend/Purpose";
+import { RecommendTemplateType } from "@/types/retrospectCreate/recommend";
+import { useEffect, useState } from "react";
+import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { css } from "@emotion/react";
-import { RecommendTemplatePage } from "@/app/desktop/retrospect/template/RecommendTemplatePage";
+import { useActionModal } from "@/hooks/useActionModal";
+import { ChoiceTemplate } from "@/app/desktop/component/retrospect/choice";
+import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
+import { api } from "@/api";
+import { RecommendTemplateResponse } from "@/app/mobile/retrospect/template/recommend/RecommendTemplatePage";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
+import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
+import { useResetAtom } from "jotai/utils";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
+import { RecommendSearch } from "./recommend/Search";
 
-function ChoiceTemplate() {
+const LAST_PAGE = 2;
+
+export function RecommendTemplate() {
+  const [templateValue, setTemplateValue] = useAtom(recommendTemplateState);
+  const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { openFunnelModal } = useFunnelModal();
-  const { closeActionModal } = useActionModal();
+  const { openActionModal } = useActionModal();
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
+  const resetTemplateValue = useResetAtom(recommendTemplateState);
+  const [isLoading, setIsLoading] = useState(false);
+  const { track } = useMixpanel();
 
-  const handleMoveToRecommendTemplate = () => {
-    openFunnelModal({
-      title: "",
-      step: "recommendTemplate",
-      contents: <RecommendTemplatePage />,
-    });
-    closeActionModal();
+  const onSubmit = async (recommendValue: RecommendTemplateType & { spaceId: string }) => {
+    try {
+      setIsLoading(true);
+      const { period, periodic, purpose } = recommendValue;
+      const { data } = await api.get<RecommendTemplateResponse>(`/form/recommend`, {
+        params: {
+          periodic,
+          period,
+          purpose: purpose.join(","),
+        },
+      });
+
+      setRetrospectValue((prev) => ({
+        ...prev,
+        tempTemplateId: String(data.formId),
+      }));
+
+      track("TEMPLATE_RECOMMEND", {
+        formId: data.formId,
+        formName: data.formName,
+        tag: data.tag,
+      });
+      resetTemplateValue();
+      setIsLoading(false);
+
+      openFunnelModal({
+        title: "",
+        step: "recommendTemplate",
+        contents: <RecommendSearch newTempTemplateId={String(data.formId)} />,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleMoveToListTemplate = () => {
-    openFunnelModal({
-      title: "",
-      step: "recommendTemplate",
-      contents: <div>템플릿 리스트 플로우</div>,
+  useEffect(() => {
+    if (templateValue.step === LAST_PAGE + 1) {
+      onSubmit({
+        ...templateValue,
+        ...{ spaceId },
+      });
+    }
+  }, [templateValue]);
+
+  const handlePeriodicChange = (periodicValues: Pick<RecommendTemplateType, "periodic">) => {
+    const stepIncrement = periodicValues.periodic === "REGULAR" ? 1 : 2;
+    setTemplateValue((prevValues) => {
+      return {
+        ...prevValues,
+        ...periodicValues,
+        step: prevValues.step + stepIncrement,
+      };
     });
-    closeActionModal();
   };
+
+  const handlePeriodChange = (periodicValues: Pick<RecommendTemplateType, "period">) => {
+    setTemplateValue((prevValues) => ({
+      ...prevValues,
+      ...periodicValues,
+      step: prevValues.step + 1,
+    }));
+  };
+
+  const handlePurposeChange = (purposeValues: Pick<RecommendTemplateType, "purpose">) => {
+    setTemplateValue((prevValues) => ({
+      ...prevValues,
+      ...purposeValues,
+      step: prevValues.step + 1,
+    }));
+  };
+
+  const handleMoveToPrev = () => {
+    if (templateValue.step === 0) {
+      openFunnelModal({
+        title: "",
+        step: "retrospectCreate",
+        contents: <RetrospectCreate />,
+      });
+      openActionModal({
+        title: "",
+        contents: <ChoiceTemplate />,
+      });
+      return;
+    }
+
+    const { step, periodic } = templateValue;
+    const shouldSkipTwoSteps = step === LAST_PAGE && periodic === "IRREGULAR";
+    const decreaseAmount = shouldSkipTwoSteps ? 2 : 1;
+
+    setTemplateValue((prev) => ({
+      ...prev,
+      step: prev.step - decreaseAmount,
+    }));
+  };
+
+  if (isLoading) return <LoadingModal />;
 
   return (
-    <div
-      css={css`
-        padding: 0 2rem 2rem;
-      `}
-    >
-      <div
-        css={css`
-          text-align: center;
-        `}
-      >
-        <Typography variant="title20Bold2">변경 방식을 선택해주세요</Typography>
-      </div>
-      <div
-        css={css`
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          margin-top: 1.3rem;
-        `}
-      >
-        <button
-          onClick={handleMoveToRecommendTemplate}
-          css={css`
-            width: 16.3rem;
-            background-color: #f6f8fa;
-            border-radius: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.6rem;
-            padding: 3.65rem 0;
-            &:hover {
-              background-color: ${DESIGN_TOKEN_COLOR.blue600};
-              span {
-                color: ${DESIGN_TOKEN_COLOR.gray00};
-              }
-            }
-          `}
-        >
-          <Icon icon="ic_stars" size={4.8} />
-          <Typography as="span" variant="body16Medium" color="black">
-            추천받기
-          </Typography>
-        </button>
-        <button
-          onClick={handleMoveToListTemplate}
-          css={css`
-            width: 16.3rem;
-            background-color: #f6f8fa;
-            border-radius: 1.2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.6rem;
-            padding: 3.65rem 0;
-            &:hover {
-              background-color: ${DESIGN_TOKEN_COLOR.blue600};
-              span {
-                color: ${DESIGN_TOKEN_COLOR.gray00};
-              }
-            }
-          `}
-        >
-          <Icon icon="ic_list" size={4.8} color={DESIGN_TOKEN_COLOR.purple600} />
-          <Typography variant="body16Medium">리스트 보기</Typography>
-        </button>
-      </div>
-    </div>
+    <>
+      {templateValue.step <= LAST_PAGE && <ProgressBar curPage={templateValue.step + 1} lastPage={LAST_PAGE + 1} />}
+      {
+        {
+          0: <Periodic onNext={handlePeriodicChange} onPrev={handleMoveToPrev} />,
+          1: <Period onNext={handlePeriodChange} onPrev={handleMoveToPrev} />,
+          2: <Purpose onNext={handlePurposeChange} onPrev={handleMoveToPrev} />,
+        }[templateValue.step]
+      }
+    </>
   );
 }
-
-export default ChoiceTemplate;

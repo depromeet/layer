@@ -25,9 +25,9 @@ export function TemplateCard({ name, tag, imgUrl, size = "default", onClick }: T
         width: ${size === "small" ? "24rem" : "32rem"};
         aspect-ratio: 1 / 1;
         background: ${DESIGN_TOKEN_COLOR.gray00};
-        border: ${isDesktop && "1px solid #DFE3EA"};
+        border: ${isDesktop && "0.1rem solid #DFE3EA"};
         border-radius: 0.8rem;
-        box-shadow: ${isDesktop && "0 2.866px 8.597px 0 rgba(0, 0, 0, 0.08)"};
+        box-shadow: ${isDesktop && "0 0.286rem 0.8597rem 0 rgba(0, 0, 0, 0.08)"};
       `}
     >
       <div

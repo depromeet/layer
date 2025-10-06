@@ -12,9 +12,9 @@ import { useContext, useEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { useActionModal } from "@/hooks/useActionModal";
-import ChoiceTemplate from "../../retrospect/template";
+import { ChoiceTemplate } from "@/app/desktop/component/retrospect/choice";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
-import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
+import { RetrospectCreateContext } from "..";
 
 export function ConfirmDefaultTemplate() {
   const { templateId, saveTemplateId } = useAtomValue(retrospectInitialState);
