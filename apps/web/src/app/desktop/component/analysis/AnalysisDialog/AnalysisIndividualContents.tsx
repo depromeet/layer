@@ -19,6 +19,7 @@ type AnalysisIndividualContentsProps = {
 };
 
 export default function AnalysisIndividualContents({ individualAnalysis }: AnalysisIndividualContentsProps) {
+  // TODO: 백엔드에 추가 API(개인) 수정 요청함. 백엔드 완료 후 작업 진행
   return (
     <section
       css={css`
