@@ -9,6 +9,11 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "700",
     lineHeight: "150%",
   },
+  title22Bold: {
+    fontSize: "2.2rem",
+    fontWeight: "700",
+    lineHeight: "150%",
+  },
   title20Bold: {
     fontSize: "2.0rem",
     fontWeight: "600",
@@ -44,6 +49,11 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "500",
     lineHeight: "140%",
   },
+  subtitle14Bold: {
+    fontSize: "1.4rem",
+    fontWeight: "700",
+    lineHeight: "140%",
+  },
   subtitle14SemiBold: {
     fontSize: "1.4rem",
     fontWeight: "500",
@@ -77,6 +87,11 @@ export const DESIGN_TOKEN_TEXT = {
   body14Strong: {
     fontSize: "1.4rem",
     fontWeight: "700",
+    lineHeight: "150%",
+  },
+  body14Bold: {
+    fontSize: "1.4rem",
+    fontWeight: "600",
     lineHeight: "150%",
   },
   body14SemiBold: {

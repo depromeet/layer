@@ -2,13 +2,19 @@ import { css, Interpolation, Theme } from "@emotion/react";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type TagProps = {
   children: React.ReactNode;
+  size?: "small" | "default";
   styles?: Interpolation<Theme>;
 };
 
-export function Tag({ children, styles }: TagProps) {
+export function Tag({ children, size, styles }: TagProps) {
+  const { isDesktop } = getDeviceType();
+
+  const sizeVariant = isDesktop ? (size === "small" ? "caption10Bold" : "body14Bold") : "body12SemiBold";
+
   return (
     <div
       css={[
@@ -24,7 +30,7 @@ export function Tag({ children, styles }: TagProps) {
         styles,
       ]}
     >
-      <Typography variant={"body12SemiBold"} color={"gray800"}>
+      <Typography variant={sizeVariant} color={"gray800"}>
         {children}
       </Typography>
     </div>

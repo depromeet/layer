@@ -68,7 +68,7 @@ export default function DesktopFunnelModal() {
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            padding: 2.4rem 2.4rem 0;
+            padding: 0 2.4rem;
             animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
             transition: 0.4s all;
           `}

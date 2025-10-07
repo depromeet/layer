@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
-import { Title } from "@/component/common/header/Title";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Typography } from "../typography";
 
 export type DesktopModalHeaderProps = {
   title: string;
@@ -16,9 +16,14 @@ export default function DesktopFunnelModalHeader({ title, onBack, onClose }: Des
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1001;
+        padding-top: 2.4rem;
+        background-color: #fff;
       `}
     >
-      {onBack ? (
+      {onBack && (
         <button
           onClick={onBack}
           css={css`
@@ -38,21 +43,14 @@ export default function DesktopFunnelModalHeader({ title, onBack, onClose }: Des
             onClick={onBack}
           />
         </button>
-      ) : (
-        <div
-          css={css`
-            width: 1.5rem;
-          `}
-        />
       )}
-
       <div
         css={css`
           flex: 1;
           margin: 0 0.5rem;
         `}
       >
-        <Title type="modal" contents={title} />
+        <Typography variant="title22Bold">{title}</Typography>
       </div>
 
       <button
@@ -60,7 +58,6 @@ export default function DesktopFunnelModalHeader({ title, onBack, onClose }: Des
         css={css`
           display: flex;
           align-items: center;
-          padding: 0.4rem;
           cursor: pointer;
           transition: background-color 0.2s ease-in-out;
           border-radius: 0.4rem;
@@ -78,6 +75,7 @@ export default function DesktopFunnelModalHeader({ title, onBack, onClose }: Des
             }
           `}
           onClick={onClose}
+          size={"2.4rem"}
         />
       </button>
     </div>

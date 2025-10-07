@@ -4,9 +4,10 @@ import { useActionModal } from "@/hooks/useActionModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
-import { RecommendTemplate } from "../template/recommend";
+import { TemplateList } from "../template/list";
+import { TemplateRecommend } from "../template/recommend";
 
-export function ChoiceTemplate() {
+export function TemplateChoice() {
   const { openFunnelModal } = useFunnelModal();
   const { closeActionModal } = useActionModal();
 
@@ -14,16 +15,16 @@ export function ChoiceTemplate() {
     openFunnelModal({
       title: "",
       step: "recommendTemplate",
-      contents: <RecommendTemplate />,
+      contents: <TemplateRecommend />,
     });
     closeActionModal();
   };
 
   const handleMoveToListTemplate = () => {
     openFunnelModal({
-      title: "",
+      title: "템플릿 리스트",
       step: "recommendTemplate",
-      contents: <div>템플릿 리스트 플로우</div>,
+      contents: <TemplateList />,
     });
     closeActionModal();
   };
