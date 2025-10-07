@@ -13,12 +13,13 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Retrospect } from "@/types/retrospect";
 import RetrospectCard from "@/app/desktop/component/home/RetrospectCard";
+import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 
 export default function InProgressRetrospects() {
   const { spaceId } = useParams();
 
   // * 스페이스 회고 목록 조회
-  const { data: retrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
+  const { data: retrospects, isPending: isPendingRetrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
 
   const proceedingRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [], [retrospects]);
 
@@ -34,7 +35,7 @@ export default function InProgressRetrospects() {
       return items;
     });
 
-    // TODO: 여기서 변경된 순서를 서버에 저장하는 API를 호출 필요
+    // TODO(supersett): 여기서 변경된 순서를 서버에 저장하는 API를 호출 필요
   };
 
   useEffect(() => {
@@ -43,6 +44,10 @@ export default function InProgressRetrospects() {
       setDisplayedRetrospects(proceeding);
     }
   }, [proceedingRetrospects]);
+
+  if (isPendingRetrospects) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <section
