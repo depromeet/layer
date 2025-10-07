@@ -12,6 +12,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useApiGetAnalysis } from "@/hooks/api/analysis/useApiGetAnalysis";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type AnalysisContainerProps = {
   spaceId: string;
@@ -160,10 +161,12 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
 }
 
 export function AnalysisingComp() {
+  const { isDesktop } = getDeviceType();
+
   return (
     <div
       css={css`
-        height: 100dvh;
+        height: ${isDesktop ? "80vh" : "100dvh"};
         display: flex;
         flex-direction: column;
         justify-content: center;
