@@ -2,18 +2,21 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
-import { ANALYSIS_MENU_TABS, AnalysisTab } from ".";
+import { TEAM_ANALYSIS_MENU_TABS, PERSONAL_ANALYSIS_MENU_TABS, AnalysisTab } from ".";
 import { useSearchParams } from "react-router-dom";
 
 type AnalysisHeaderProps = {
   selectedTab: AnalysisTab;
+  isPersonal: boolean;
   handleTabClick: (tab: AnalysisTab) => void;
 };
 
-export default function AnalysisHeader({ selectedTab, handleTabClick }: AnalysisHeaderProps) {
+export default function AnalysisHeader({ selectedTab, isPersonal, handleTabClick }: AnalysisHeaderProps) {
   const [searchParams] = useSearchParams();
 
   const title = searchParams.get("title");
+
+  const menuTabs = isPersonal ? PERSONAL_ANALYSIS_MENU_TABS : TEAM_ANALYSIS_MENU_TABS;
 
   return (
     <section
@@ -62,7 +65,7 @@ export default function AnalysisHeader({ selectedTab, handleTabClick }: Analysis
           border-bottom: 1px solid ${DESIGN_TOKEN_COLOR.gray200};
         `}
       >
-        {ANALYSIS_MENU_TABS.map((tab) => (
+        {menuTabs.map((tab) => (
           <button
             key={tab}
             onClick={() => handleTabClick(tab)}
