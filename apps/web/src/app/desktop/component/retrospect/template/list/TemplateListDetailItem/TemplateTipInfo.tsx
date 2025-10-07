@@ -1,5 +1,5 @@
 import { Icon } from "@/component/common/Icon";
-import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 
 interface TemplateTipInfoProps {

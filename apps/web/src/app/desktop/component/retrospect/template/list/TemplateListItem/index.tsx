@@ -17,7 +17,7 @@ type DesktopTemplateListItemProps = {
 };
 
 export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateListItemProps) {
-  const { spaceId, readOnly } = useContext(TemplateListPageContext);
+  const { readOnly } = useContext(TemplateListPageContext);
   const { openFunnelModal } = useFunnelModal();
 
   const handleClickDetail = () => {

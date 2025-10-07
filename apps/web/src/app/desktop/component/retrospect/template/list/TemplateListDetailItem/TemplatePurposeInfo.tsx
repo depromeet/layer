@@ -9,7 +9,6 @@ interface TemplatePurposeInfoProps {
 }
 
 function TemplatePurposeInfo({ templatePurposeResponseList }: TemplatePurposeInfoProps) {
-  console.log(templatePurposeResponseList);
   return (
     <div
       css={css`
