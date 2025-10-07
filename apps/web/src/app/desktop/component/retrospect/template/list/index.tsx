@@ -3,15 +3,15 @@ import { useTabs } from "@/hooks/useTabs";
 import { useToast } from "@/hooks/useToast";
 import { css } from "@emotion/react";
 import { createContext, useEffect, useRef } from "react";
-import { TemplateListTabs } from "./TemplateListTabs";
-import { TemplateListTabButton } from "./TemplateListTabButton";
+import { TemplateListTabButton } from "./TemplateListTab/TemplateListTabButton";
 import { CustomTemplateList } from "@/component/retrospect/template/list";
-import { DesktopTemplateListItem } from "./DesktopTemplateListItem";
 import { useGetDefaultTemplateList } from "@/hooks/api/template/useGetDefaultTemplateList";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { formatTitle } from "@/utils/retrospect/formatTitle";
+import { TemplateListItem } from "./TemplateListItem";
+import { TemplateListTab } from "./TemplateListTab";
 
 export const TemplateListPageContext = createContext<{ readOnly: boolean; spaceId: string; isLeader: boolean }>({
   readOnly: false,
@@ -38,7 +38,7 @@ export function TemplateList() {
   return (
     <>
       {/* ---------- 템플릿 탭 UI ---------- */}
-      <TemplateListTabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TemplateListTabButton} />
+      <TemplateListTab tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TemplateListTabButton} />
 
       {/* ---------- 템플릿 카드 리스트 UI ---------- */}
       <div
@@ -62,8 +62,6 @@ export function TemplateList() {
               카드를 클릭하면 자세한 내용을 확인할 수 있어요
             </Typography>
           </div>
-
-          {/* ---------- 템플릿 카드 리스트 UI  ---------- */}
           <ul
             css={css`
               display: grid;
@@ -79,7 +77,7 @@ export function TemplateList() {
                 기본: (
                   <>
                     {templates.map((template) => (
-                      <DesktopTemplateListItem
+                      <TemplateListItem
                         key={template.id}
                         id={template.id}
                         title={formatTitle(template.title, template.id)}

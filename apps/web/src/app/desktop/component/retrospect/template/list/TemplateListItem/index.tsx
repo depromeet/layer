@@ -1,12 +1,12 @@
 import { css } from "@emotion/react";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { PATHS } from "@layer/shared";
-import { TemplateListPageContext } from ".";
+import { TemplateListPageContext } from "..";
 import { Typography } from "@/component/common/typography";
 import { Tag } from "@/component/common/tag";
 import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import TemplateListDetailItem from "../TemplateListDetailItem";
 
 type DesktopTemplateListItemProps = {
   id: number;
@@ -16,17 +16,16 @@ type DesktopTemplateListItemProps = {
   date?: string;
 };
 
-export function DesktopTemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateListItemProps) {
+export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateListItemProps) {
   const { spaceId, readOnly } = useContext(TemplateListPageContext);
-  const navigate = useNavigate();
+  const { openFunnelModal } = useFunnelModal();
 
   const handleClickDetail = () => {
-    navigate(PATHS.viewDetailTemplate(), {
-      state: {
-        spaceId,
-        templateId: id,
-        readOnly,
-      },
+    openFunnelModal({
+      title,
+      step: "listTemplateDetail",
+      contents: <TemplateListDetailItem templateId={id} />,
+      templateTag: tag,
     });
   };
 

@@ -23,7 +23,7 @@ export function TemplateChoice() {
   const handleMoveToListTemplate = () => {
     openFunnelModal({
       title: "템플릿 리스트",
-      step: "recommendTemplate",
+      step: "listTemplate",
       contents: <TemplateList />,
     });
     closeActionModal();

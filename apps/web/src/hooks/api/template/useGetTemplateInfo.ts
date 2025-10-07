@@ -22,6 +22,8 @@ type InfoReponse = {
   title: string;
 };
 
+export type TemplatePurpose = InfoReponse["templatePurposeResponseList"][number];
+
 export const useGetTemplateInfo = ({ templateId }: { templateId: number }) => {
   const getTemplateInfo = () => {
     const res = api.get<InfoReponse>(`/api/template/${templateId}/detail-info`).then((res) => res.data);
