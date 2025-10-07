@@ -1,19 +1,17 @@
-import { Icon, IconType } from "@/component/common/Icon/Icon";
+import { Icon } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
-import { SATISTFACTION_COLOR } from "@/component/write/template/template.const";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import RetrospectsOverview from "./RetrospectsOverview";
 
-const EMOTIONS: IconType[] = ["ic_very_poor", "ic_poor", "ic_commonly", "ic_good", "ic_very_good"];
+import { TeamSatisfactionChart } from "@/component/retrospect/analysis/TeamSatisfactionChart";
 
-const SatisfactionIdx = 3; // TODO: 실제 만족도 할당
 const achievementPercentage = 78; // TODO: 실제 목표달성률 할당 (0-100 사이의 숫자)
 
 const PADDING_SUM = 8;
 
-export default function AnalysisIndividualContents() {
+export default function AnalysisTeamContents() {
   return (
     <section
       css={css`
@@ -54,7 +52,7 @@ export default function AnalysisIndividualContents() {
             진행상황
           </Typography>
           <Typography variant="body14SemiBold" color="gray800">
-            나는 진행사항에 대해 이렇게 생각해요!
+            우리팀의 진행상황에 대해 이렇게 생각해요!
           </Typography>
         </section>
 
@@ -62,7 +60,7 @@ export default function AnalysisIndividualContents() {
         <section
           css={css`
             width: 100%;
-            height: 22rem;
+            height: 24rem;
             display: flex;
             flex-shrink: 0;
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
@@ -74,22 +72,22 @@ export default function AnalysisIndividualContents() {
           {/* ---------- 진행상황 만족도 ---------- */}
           <section
             css={css`
+              position: relative;
               flex: 1;
               height: 100%;
               display: flex;
               flex-direction: column;
-              gap: 5rem;
-              position: relative;
+              gap: 1rem;
 
               /* ---------- 구분선 (Pseudo-element) ---------- */
               &::after {
                 content: "";
                 position: absolute;
-                right: 0;
+                right: 0; /* 첫 번째 섹션의 오른쪽 끝에 배치 */
                 top: 50%;
-                transform: translateY(-50%) translateX(50%);
+                transform: translateY(-50%) translateX(50%); /* 중앙으로 이동 */
                 width: 1px;
-                height: 100%;
+                height: 100%; /* 전체 높이의 60% */
                 background-color: ${DESIGN_TOKEN_COLOR.gray300};
               }
             `}
@@ -103,32 +101,41 @@ export default function AnalysisIndividualContents() {
                 {"만족해요"}
               </Typography>
             </div>
-            <div
-              css={css`
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 1.2rem;
-              `}
-            >
-              {EMOTIONS.map((item, index) => {
-                return (
-                  <div key={index}>
-                    <Icon
-                      icon={item}
-                      size={5.2}
-                      css={css`
-                        circle,
-                        ellipse {
-                          fill: ${SatisfactionIdx === index && SATISTFACTION_COLOR[SatisfactionIdx]};
-                          transition: 0.4s all;
-                        }
-                      `}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+
+            {/* ---------- 차트 컨테이너 ---------- */}
+            <TeamSatisfactionChart
+              satisfactionLevels={[5, 4, 3, 2, 1]}
+              layout="compact"
+              chartSize={{
+                width: 160,
+                height: 160,
+                innerRadius: 35,
+                outerRadius: 65,
+              }}
+              customStyles={{
+                container: css`
+                  padding: 0;
+                  background-color: transparent;
+                  gap: 0;
+                `,
+                title: css`
+                  display: none;
+                `,
+                chartContainer: css`
+                  flex-direction: row;
+                  justify-content: center;
+                  gap: 6.3rem;
+                  align-items: center;
+                  width: 100%;
+                `,
+                legend: css`
+                  display: flex;
+                  flex-direction: column;
+                  gap: 1rem;
+                  width: auto;
+                `,
+              }}
+            />
           </section>
 
           {/* ---------- 목표달성률 ---------- */}
@@ -289,7 +296,7 @@ export default function AnalysisIndividualContents() {
       </article>
 
       {/* ---------- 회고 ---------- */}
-      <RetrospectsOverview description="나는 이렇게 회고 하고 있어요!" />
+      <RetrospectsOverview description="우리팀은 이렇게 회고 하고 있어요!" />
     </section>
   );
 }
