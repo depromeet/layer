@@ -29,8 +29,6 @@ export default function AnalysisTab({ analysisData }: AnalysisTabProps) {
     retrospectId: retrospectId || "",
   });
 
-  console.log("analysisData", analysisData);
-
   const [selectedView, setSelectedView] = useState<ViewType>("개인");
 
   const handleToggle = (view: ViewType) => {
