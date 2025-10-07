@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, SerializedStyles } from "@emotion/react";
 import React, { Fragment, PropsWithChildren } from "react";
 
 import { Spacing } from "@/component/common/Spacing";
@@ -8,10 +8,13 @@ import { getDeviceType } from "@/utils/deviceUtils";
 type ResultContainerProps = {
   question?: string;
   name?: string;
+  customCss?: SerializedStyles;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "type">;
 
-export function ResultContainer({ name, question, children, ...props }: PropsWithChildren<ResultContainerProps>) {
+export function ResultContainer({ name, question, children, customCss, ...props }: PropsWithChildren<ResultContainerProps>) {
   const { isDesktop } = getDeviceType();
+
+  const noNameAndQuestion = !name && !question;
 
   return (
     <div
@@ -26,10 +29,11 @@ export function ResultContainer({ name, question, children, ...props }: PropsWit
         font-size: 1.6rem;
         color: #212529;
         background: white;
+        ${customCss}
       `}
       {...props}
     >
-      {question ? (
+      {question && (
         <Fragment>
           <span
             id="question"
@@ -52,7 +56,9 @@ export function ResultContainer({ name, question, children, ...props }: PropsWit
             `}
           />
         </Fragment>
-      ) : (
+      )}
+
+      {name && (
         <Fragment>
           <Tag>{name}</Tag>
           <Spacing id="space" size={1.2} />
@@ -62,8 +68,10 @@ export function ResultContainer({ name, question, children, ...props }: PropsWit
       <div
         id="children"
         css={css`
+          height: ${noNameAndQuestion ? "100%" : "auto"};
           display: flex;
           justify-content: center;
+          align-items: ${noNameAndQuestion ? "center" : "flex-start"};
           column-gap: ${isDesktop ? "0.3rem" : "0.8rem"};
         `}
       >

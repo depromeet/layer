@@ -5,10 +5,15 @@ import { ACHIEVEMENT_COLOR_DEFAULT_COLOR } from "@/component/write/template/temp
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 import { getDeviceType } from "@/utils/deviceUtils";
 
-type ProgressBarProps = { name: string; question?: never; index: number } | { question: string; name?: never; index: number };
+type ProgressBarProps =
+  | { name: string; question?: never; index: number }
+  | { question: string; name?: never; index: number }
+  | { question?: never; name?: never; index: number };
 
 export function CAchievementTemplate({ name, question, index: AchivementIdx = -1 }: ProgressBarProps) {
   const { isDesktop } = getDeviceType();
+
+  const noNameAndQuestion = !name && !question;
 
   // * 0퍼센트 텍스트 스타일 함수
   const getPercentTextStyle = (currentIndex: number) => {
@@ -36,7 +41,7 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = -1
     <ResultContainer
       question={question}
       name={name}
-      css={css`
+      customCss={css`
         #line,
         #space {
           margin-bottom: ${isDesktop ? "3rem" : "3.5rem"};
@@ -49,6 +54,7 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = -1
           css={css`
             width: 100%;
             display: flex;
+            margin-top: ${noNameAndQuestion ? "1rem" : "0rem"};
             align-items: center;
             position: relative;
             color: #b3b3b3;
