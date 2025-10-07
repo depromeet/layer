@@ -68,6 +68,7 @@ export function TemplateList() {
               grid-template-columns: repeat(2, 1fr);
               gap: 1.2rem;
               margin-top: 2rem;
+              padding-bottom: 2.4rem;
 
               // TODO 카드 리스트 반응형 대응을 해야할지..?
             `}
