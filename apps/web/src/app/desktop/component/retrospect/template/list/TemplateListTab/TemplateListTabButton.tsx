@@ -6,11 +6,15 @@ import { TabProps } from ".";
 
 export function TemplateListTabButton<T extends string>({ tab, curTab, selectTab }: TabProps<T>) {
   const isActive = tab === curTab;
+  const moveToQuestion = curTab === "질문구성";
 
   return (
-    <button
+    <a
+      // TODO a태그의 내부링크로 이동시키지만 추가적인 작업에서 어떻게 대응할지 고민중입니다.
+      href={moveToQuestion ? "#template_question" : undefined}
       onClick={() => selectTab(tab)}
       css={css`
+        text-decoration: none;
         color: ${tab === curTab ? DESIGN_SYSTEM_COLOR.dark : DESIGN_SYSTEM_COLOR.lightGrey};
         padding: 0 0.4rem 0.8rem;
         position: relative;
@@ -33,6 +37,6 @@ export function TemplateListTabButton<T extends string>({ tab, curTab, selectTab
       >
         {tab}
       </Typography>
-    </button>
+    </a>
   );
 }

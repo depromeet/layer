@@ -16,6 +16,7 @@ export function TemplateQuestion({ templateId, templateDetailQuestionList }: Tem
 
   return (
     <div
+      id="template_question"
       css={css`
         margin-top: 4rem;
         padding-bottom: 3.2rem;

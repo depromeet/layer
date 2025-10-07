@@ -12,6 +12,7 @@ import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { formatTitle } from "@/utils/retrospect/formatTitle";
 import { TemplateListItem } from "./TemplateListItem";
 import { TemplateListTab } from "./TemplateListTab";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export const TemplateListPageContext = createContext<{ readOnly: boolean; spaceId: string; isLeader: boolean }>({
   readOnly: false,
@@ -53,7 +54,7 @@ export function TemplateList() {
               align-items: center;
               gap: 0.8rem;
               padding: 0.8rem 1.2rem;
-              background-color: #edf0f4;
+              background-color: ${DESIGN_TOKEN_COLOR.gray200};
               border-radius: 0.8rem;
             `}
           >
