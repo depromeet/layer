@@ -2,19 +2,18 @@ import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 
-interface TemplateTipInfoProps {
+interface TemplateTipProps {
   tipTitle: string;
   tipDescription: string;
 }
 
-function TemplateTipInfo({ tipTitle, tipDescription }: TemplateTipInfoProps) {
+export function TemplateTip({ tipTitle, tipDescription }: TemplateTipProps) {
   return (
     <div
       css={css`
         margin-top: 4rem;
       `}
     >
-      {/* ---------- 탭 UI ---------- */}
       <div
         css={css`
           display: flex;
@@ -68,5 +67,3 @@ function TemplateTipInfo({ tipTitle, tipDescription }: TemplateTipInfoProps) {
     </div>
   );
 }
-
-export default TemplateTipInfo;

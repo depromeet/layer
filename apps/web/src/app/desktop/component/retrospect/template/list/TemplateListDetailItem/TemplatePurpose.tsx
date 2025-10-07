@@ -1,14 +1,14 @@
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { TemplatePurpose } from "@/hooks/api/template/useGetTemplateInfo";
+import { TemplatePurposeType } from "@/hooks/api/template/useGetTemplateInfo";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 
-interface TemplatePurposeInfoProps {
-  templatePurposeResponseList: TemplatePurpose[];
+interface TemplatePurposeProps {
+  templatePurposeResponseList: TemplatePurposeType[];
 }
 
-function TemplatePurposeInfo({ templatePurposeResponseList }: TemplatePurposeInfoProps) {
+export function TemplatePurpose({ templatePurposeResponseList }: TemplatePurposeProps) {
   return (
     <div
       css={css`
@@ -58,5 +58,3 @@ function TemplatePurposeInfo({ templatePurposeResponseList }: TemplatePurposeInf
     </div>
   );
 }
-
-export default TemplatePurposeInfo;

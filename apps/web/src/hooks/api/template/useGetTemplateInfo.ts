@@ -22,7 +22,8 @@ type InfoReponse = {
   title: string;
 };
 
-export type TemplatePurpose = InfoReponse["templatePurposeResponseList"][number];
+export type TemplatePurposeType = InfoReponse["templatePurposeResponseList"][number];
+export type TemplateQuestionType = InfoReponse["templateDetailQuestionList"][number];
 
 export const useGetTemplateInfo = ({ templateId }: { templateId: number }) => {
   const getTemplateInfo = () => {
