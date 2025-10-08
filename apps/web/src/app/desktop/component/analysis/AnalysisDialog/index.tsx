@@ -51,6 +51,7 @@ export default function AnalysisDialog({ spaceId, retrospectId, isOverviewVisibl
         border-bottom-left-radius: 1.2rem;
         overflow: hidden;
         transition: flex 0.3s ease-in-out;
+        min-width: 85rem;
       `}
     >
       <AnalysisHeader
