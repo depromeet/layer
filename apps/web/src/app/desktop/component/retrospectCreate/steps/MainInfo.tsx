@@ -1,4 +1,3 @@
-import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
@@ -9,8 +8,9 @@ import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 import { useContext } from "react";
+import { RetrospectCreateContext } from "..";
 
-function MainInfo() {
+export function MainInfo() {
   const { goNext, goPrev } = useContext(RetrospectCreateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { value: title, handleInputChange: handleNameChange } = useInput(retroCreateData.title);
@@ -47,13 +47,7 @@ function MainInfo() {
       />
 
       <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Gray
-          onClick={() => {
-            goPrev();
-          }}
-        >
-          이전
-        </ButtonProvider.Gray>
+        <ButtonProvider.Gray onClick={goPrev}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={handleDataSave} disabled={!title}>
           다음
         </ButtonProvider.Primary>
@@ -61,5 +55,3 @@ function MainInfo() {
     </>
   );
 }
-
-export default MainInfo;

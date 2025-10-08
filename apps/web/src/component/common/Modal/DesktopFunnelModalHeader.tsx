@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-
 import { Title } from "@/component/common/header/Title";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";

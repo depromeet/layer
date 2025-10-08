@@ -1,6 +1,7 @@
 import { getAnalysisResponse } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer";
 import AnalysisQuestionsTab from "./AnalysisQuestionsTab";
 import AnalysisIndividualTab from "./AnalysisIndividualTab";
+import AnalysisTab from "./AnalysisTab";
 
 type AnalysisContentProps = {
   selectedTab: "질문" | "개별" | "분석";
@@ -14,7 +15,7 @@ export default function AnalysisContent({ selectedTab, analysisData }: AnalysisC
     <>
       {selectedTab === "질문" && <AnalysisQuestionsTab questions={questions} />}
       {selectedTab === "개별" && <AnalysisIndividualTab individuals={individuals} />}
-      {selectedTab === "분석" && <div>분석 탭 컴포넌트 (추후 구현)</div>}
+      {selectedTab === "분석" && <AnalysisTab />}
     </>
   );
 }

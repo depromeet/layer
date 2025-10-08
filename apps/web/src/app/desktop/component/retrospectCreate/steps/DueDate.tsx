@@ -1,6 +1,6 @@
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
-import { DesktopDateTimeInput } from "@/app/desktop/component/RetrospectCreate/DesktopDateTimeInput";
+import { DesktopDateTimeInput } from "@/app/desktop/component/retrospectCreate/DesktopDateTimeInput";
 import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { Spacing } from "@/component/common/Spacing";
 import { useRadioButton } from "@/hooks/useRadioButton";
@@ -8,10 +8,10 @@ import { css } from "@emotion/react";
 import { useContext, useState } from "react";
 import { useSetAtom } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
-import { RetrospectCreateContext } from "@/app/desktop/retrospectCreate/RetrospectCreate";
+import { RetrospectCreateContext } from "..";
 
-function DueDate() {
-  const { goPrev } = useContext(RetrospectCreateContext);
+export function DueDate() {
+  const { goPrev, isMutatePending } = useContext(RetrospectCreateContext);
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
   const [selectedDateTime, setSelectedDateTime] = useState<string>();
   const { selectedValue, isChecked, onChange } = useRadioButton();
@@ -56,14 +56,8 @@ function DueDate() {
         )}
       </div>
 
-      <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Gray
-          onClick={() => {
-            goPrev();
-          }}
-        >
-          이전
-        </ButtonProvider.Gray>
+      <ButtonProvider sort={"horizontal"} isProgress={isMutatePending}>
+        <ButtonProvider.Gray onClick={goPrev}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary
           onClick={onNext}
           disabled={(selectedValue === "has-duedate-pos" && !selectedDateTime) || !selectedValue}
@@ -75,5 +69,3 @@ function DueDate() {
     </>
   );
 }
-
-export default DueDate;
