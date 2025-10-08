@@ -10,6 +10,9 @@ import { currentSpaceState } from "@/store/space/spaceAtom";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Icon } from "@/component/common/Icon";
+import { ToggleMenu } from "@/component/common/toggleMenu";
+import useToggleMenu from "@/hooks/useToggleMenu";
 
 interface SpaceItemProps {
   space: Space;
@@ -30,6 +33,7 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   const navigate = useNavigate();
   const { isCollapsed } = useNavigation();
   const { id: spaceId, name, introduction, bannerUrl } = space;
+  const { showMenu, hideMenu, isShowMenu } = useToggleMenu();
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
@@ -51,6 +55,31 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   const handleSelectSpace = () => {
     setCurrentSpace(space);
     navigate(`/retrospectSpace/${spaceId}`);
+  };
+
+  /**
+   * @description 토글 메뉴 표시 함수
+   * @param event - 클릭 이벤트
+   */
+  const handleShowToggleMenu = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    showMenu(event);
+  };
+
+  /**
+   * @description 스페이스 수정 함수
+   */
+  const handleEditSpace = () => {
+    // TODO: 스페이스 수정 로직 추가
+    hideMenu();
+  };
+
+  /**
+   * @description 스페이스 삭제 함수
+   */
+  const handleDeleteSpace = () => {
+    // TODO: 스페이스 삭제 로직 추가
+    alert("삭제 버튼 클릭!");
   };
 
   return (
@@ -79,6 +108,10 @@ export default function SpaceItem({ space }: SpaceItemProps) {
 
         &:hover {
           background-color: ${SPACE_ITEM_STYLES.hover};
+
+          #space-item-more-icon {
+            visibility: visible;
+          }
         }
       `}
       onClick={handleSelectSpace}
@@ -153,6 +186,33 @@ export default function SpaceItem({ space }: SpaceItemProps) {
         >
           {introduction}
         </Typography>
+      </div>
+
+      <div
+        onClick={handleShowToggleMenu}
+        css={css`
+          margin-left: auto;
+        `}
+      >
+        <Icon
+          id="space-item-more-icon"
+          icon="ic_more"
+          size={1.8}
+          css={css`
+            visibility: ${isShowMenu ? "visible" : "hidden"};
+            cursor: pointer;
+            margin-left: auto;
+            color: ${DESIGN_TOKEN_COLOR.gray500};
+          `}
+        />
+        {isShowMenu && (
+          <ToggleMenu>
+            <ToggleMenu.Button onClick={handleEditSpace}> 스페이스 수정 </ToggleMenu.Button>
+            <ToggleMenu.Button variant="subtitle14SemiBold" color="red500" onClick={handleDeleteSpace}>
+              스페이스 삭제
+            </ToggleMenu.Button>
+          </ToggleMenu>
+        )}
       </div>
     </li>
   );
