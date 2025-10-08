@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { css } from "@emotion/react";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
@@ -7,8 +7,9 @@ import AnalysisContent from "./AnalysisContent";
 import { useGetAnalysisAnswer } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 
-export const ANALYSIS_MENU_TABS = ["질문", "개별", "분석"] as const;
-export type AnalysisTab = (typeof ANALYSIS_MENU_TABS)[number];
+export const TEAM_ANALYSIS_MENU_TABS = ["질문", "개별", "분석"] as const;
+export const PERSONAL_ANALYSIS_MENU_TABS = ["회고", "분석"] as const;
+export type AnalysisTab = (typeof TEAM_ANALYSIS_MENU_TABS)[number] | (typeof PERSONAL_ANALYSIS_MENU_TABS)[number];
 
 type AnalysisDialogProps = {
   spaceId: string | null;
@@ -16,13 +17,26 @@ type AnalysisDialogProps = {
 };
 
 export default function AnalysisDialog({ spaceId, retrospectId }: AnalysisDialogProps) {
-  const [selectedTab, setSelectedTab] = useState<AnalysisTab>(ANALYSIS_MENU_TABS[0]);
-
   const { data: analysisData, isPending: isPendingAnalysisData } = useGetAnalysisAnswer({ spaceId: spaceId, retrospectId: retrospectId });
+
+  const isPersonal = Boolean(analysisData?.individuals.length === 1);
+
+  const initialTab = useMemo(() => {
+    return isPersonal ? PERSONAL_ANALYSIS_MENU_TABS[0] : TEAM_ANALYSIS_MENU_TABS[0];
+  }, [isPersonal]);
+
+  const [selectedTab, setSelectedTab] = useState<AnalysisTab>(initialTab);
 
   const handleTabClick = (tab: AnalysisTab) => {
     setSelectedTab(tab);
   };
+
+  useEffect(() => {
+    const currentTabs = isPersonal ? PERSONAL_ANALYSIS_MENU_TABS : TEAM_ANALYSIS_MENU_TABS;
+    if (!currentTabs.includes(selectedTab as any)) {
+      setSelectedTab(currentTabs[0]);
+    }
+  }, [isPersonal, selectedTab]);
 
   return (
     <article
@@ -36,7 +50,7 @@ export default function AnalysisDialog({ spaceId, retrospectId }: AnalysisDialog
         overflow: hidden;
       `}
     >
-      <AnalysisHeader selectedTab={selectedTab} handleTabClick={handleTabClick} />
+      <AnalysisHeader selectedTab={selectedTab} isPersonal={isPersonal} handleTabClick={handleTabClick} />
 
       {isPendingAnalysisData && <LoadingSpinner />}
 
