@@ -10,6 +10,7 @@ import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTempl
 import { useResetAtom } from "jotai/utils";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { FUNNEL_STEP_BACK_CONFIG, FUNNEL_STEPS_WITH_BACK } from "@/app/desktop/component/retrospect/template/constants";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export default function DesktopFunnelModal() {
   const { open, close } = useModal();
@@ -38,20 +39,23 @@ export default function DesktopFunnelModal() {
   };
 
   const handleClose = () => {
-    open({
-      title: "회고 생성을 중단하시겠어요?",
-      contents: "선택한 템플릿은 임시저장 되어요",
-      options: {
-        buttonText: ["취소", "나가기"],
-      },
-
-      onClose: () => {
-        close();
-      },
-      onConfirm: () => {
-        quitPage();
-      },
-    });
+    if (funnelModalState.step === "retrospectCreate") {
+      open({
+        title: "회고 생성을 중단하시겠어요?",
+        contents: "선택한 템플릿은 임시저장 되어요",
+        options: {
+          buttonText: ["취소", "나가기"],
+        },
+        onClose: () => {
+          close();
+        },
+        onConfirm: () => {
+          quitPage();
+        },
+      });
+    } else {
+      closeFunnelModal();
+    }
   };
 
   return (
@@ -77,7 +81,7 @@ export default function DesktopFunnelModal() {
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            background-color: #fff;
+            background-color: ${funnelModalState.step === "retrospectWrite" ? DESIGN_TOKEN_COLOR.gray900 : "#fff"};
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             padding: 0 2.4rem;

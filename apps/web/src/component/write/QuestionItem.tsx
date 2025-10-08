@@ -2,12 +2,14 @@ import { css } from "@emotion/react";
 
 import { AdvanceQuestionsNum } from "@/app/mobile/write/RetrospectWritePage";
 import { Icon } from "@/component/common/Icon";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type QuestionItemProps = {
   index: number;
   contents: string;
 };
 export function QuestionItem({ index, contents }: QuestionItemProps) {
+  const { isDesktop } = getDeviceType();
   // FIXME: 추후 디자인 토큰에 따라 색상 및 폰트 크기 설정 진행
   return (
     <div
@@ -28,8 +30,9 @@ export function QuestionItem({ index, contents }: QuestionItemProps) {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.4rem;
-          font-weight: 500;
+          font-size: ${isDesktop ? "1.6rem" : "1.4rem"};
+          font-weight: ${isDesktop ? "600" : "500"};
+          line-height: ${isDesktop && "140%"};
         `}
         id="questions-index"
       >
