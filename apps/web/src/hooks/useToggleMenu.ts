@@ -1,20 +1,16 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { atom, useAtom } from "jotai";
 import useClickOutside from "./useClickOutside";
 
 const clickPositionAtom = atom({ top: 0, left: 0, right: 0, height: 0 });
-const toggleMenuStateAtom = atom(false);
-const activeItemIdAtom = atom("");
+const openInstanceAtom = atom<symbol | null>(null);
 
 export default function useToggleMenu() {
   const toggleRef = useRef<HTMLDivElement | null>(null);
-  const [isShowMenu, setIsShowMenu] = useAtom(toggleMenuStateAtom);
   const [clickPosition, setClickPosition] = useAtom(clickPositionAtom);
-  const [activeItemId, setActiveItemId] = useAtom(activeItemIdAtom);
-
-  useClickOutside(toggleRef, () => {
-    hideMenu();
-  });
+  const [openInstanceId, setOpenInstanceId] = useAtom(openInstanceAtom);
+  const instanceId = useRef(Symbol()).current;
+  const isShowMenu = openInstanceId === instanceId;
 
   const showMenu = (event: React.MouseEvent) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -24,13 +20,24 @@ export default function useToggleMenu() {
       right: rect.right,
       height: rect.height,
     });
-    setIsShowMenu((prev) => !prev);
+    setOpenInstanceId((prev) => (prev === instanceId ? null : instanceId));
   };
 
   const hideMenu = () => {
-    setIsShowMenu(false);
-    setActiveItemId("");
+    setOpenInstanceId(null);
   };
+
+  useClickOutside(toggleRef, () => {
+    if (openInstanceId !== instanceId) {
+      setOpenInstanceId(null);
+    }
+  });
+
+  useEffect(() => {
+    return () => {
+      setOpenInstanceId((prev) => (prev === instanceId ? null : prev));
+    };
+  }, [instanceId, setOpenInstanceId]);
 
   return {
     toggleRef,
@@ -38,8 +45,5 @@ export default function useToggleMenu() {
     showMenu,
     hideMenu,
     clickPosition,
-
-    activeItemId,
-    setActiveItemId,
   };
 }
