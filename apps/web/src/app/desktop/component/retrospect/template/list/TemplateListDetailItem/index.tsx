@@ -20,7 +20,7 @@ function TemplateListDetailItem({ templateId }: { templateId: number }) {
   const { openFunnelModal } = useFunnelModal();
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
-  const handleSelectTelplate = () => {
+  const handleSelectTemplate = () => {
     setRetrospectValue((prev) => ({
       ...prev,
       tempTemplateId: String(templateId),
@@ -52,7 +52,7 @@ function TemplateListDetailItem({ templateId }: { templateId: number }) {
       <TemplateQuestion templateId={templateId} templateDetailQuestionList={data.templateDetailQuestionList} />
 
       <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Primary onClick={handleSelectTelplate}>선택하기</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={handleSelectTemplate}>선택하기</ButtonProvider.Primary>
       </ButtonProvider>
     </>
   );
