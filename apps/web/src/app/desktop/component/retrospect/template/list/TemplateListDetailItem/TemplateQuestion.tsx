@@ -14,6 +14,8 @@ export function TemplateQuestion({ templateId, templateDetailQuestionList }: Tem
   const templateSet = [10000, 10001, 10002, 10003, 10004, 10005];
   const isProvidedTemplateSet = templateSet.includes(templateId);
 
+  if (templateDetailQuestionList.length === 0) return null;
+
   return (
     <div
       id="template_question"

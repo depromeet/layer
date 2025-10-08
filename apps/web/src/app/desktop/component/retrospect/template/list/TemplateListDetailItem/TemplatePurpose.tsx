@@ -9,6 +9,8 @@ interface TemplatePurposeProps {
 }
 
 export function TemplatePurpose({ templatePurposeResponseList }: TemplatePurposeProps) {
+  if (templatePurposeResponseList.length === 0) return null;
+
   return (
     <div
       css={css`

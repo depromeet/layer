@@ -8,11 +8,31 @@ import { TemplatePurpose } from "./TemplatePurpose";
 import { TemplateTip } from "./TemplateTip";
 import { ButtonProvider } from "@/component/common/button";
 import { TemplateQuestion } from "./TemplateQuestion";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { useSetAtom } from "jotai";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
+import { TemplateListConform } from "../TemplateListConform";
 
 function TemplateListDetailItem({ templateId }: { templateId: number }) {
   const { tabs, curTab, selectTab } = useTabs(["기본", "질문구성"] as const);
   const { data } = useGetTemplateInfo({ templateId: templateId });
   const { heading, description } = splitTemplateIntroduction(data.introduction);
+  const { openFunnelModal } = useFunnelModal();
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
+
+  const handleSelectTelplate = () => {
+    setRetrospectValue((prev) => ({
+      ...prev,
+      tempTemplateId: String(templateId),
+      saveTemplateId: true,
+    }));
+
+    openFunnelModal({
+      title: "",
+      step: "recommendTemplate",
+      contents: <TemplateListConform />,
+    });
+  };
 
   return (
     <>
@@ -32,7 +52,7 @@ function TemplateListDetailItem({ templateId }: { templateId: number }) {
       <TemplateQuestion templateId={templateId} templateDetailQuestionList={data.templateDetailQuestionList} />
 
       <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Primary>선택하기</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={handleSelectTelplate}>선택하기</ButtonProvider.Primary>
       </ButtonProvider>
     </>
   );
