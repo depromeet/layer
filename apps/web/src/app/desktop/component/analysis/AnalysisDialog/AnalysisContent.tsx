@@ -15,7 +15,7 @@ export default function AnalysisContent({ selectedTab, analysisData }: AnalysisC
     <>
       {selectedTab === "질문" && <AnalysisQuestionsTab questions={questions} />}
       {selectedTab === "개별" && <AnalysisIndividualTab individuals={individuals} />}
-      {selectedTab === "분석" && <AnalysisTab />}
+      {selectedTab === "분석" && <AnalysisTab analysisData={analysisData} />}
     </>
   );
 }

@@ -10,12 +10,13 @@ import { useEffect, useMemo, useState } from "react";
 
 import { Retrospect } from "@/types/retrospect";
 import RetrospectCard from "@/app/desktop/component/home/RetrospectCard";
+import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 
 export default function CompletedRetrospects() {
   const { spaceId } = useParams();
 
   // * 스페이스 회고 목록 조회
-  const { data: retrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
+  const { data: retrospects, isPending: isPendingRetrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
 
   // * 마감된 회고 필터링
   const completedRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "DONE") || [], [retrospects]);
@@ -41,6 +42,10 @@ export default function CompletedRetrospects() {
       setDisplayedRetrospects(completed);
     }
   }, [completedRetrospects]);
+
+  if (isPendingRetrospects) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <section
