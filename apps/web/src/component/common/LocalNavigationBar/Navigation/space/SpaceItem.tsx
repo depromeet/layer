@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
 
 import { Typography } from "../../../typography";
 import { useNavigation } from "../../context/NavigationContext";
@@ -9,10 +10,10 @@ import { Space } from "@/types/spaceType";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
-import { useLocation, useNavigate } from "react-router-dom";
 import { Icon } from "@/component/common/Icon";
 import { ToggleMenu } from "@/component/common/toggleMenu";
 import useToggleMenu from "@/hooks/useToggleMenu";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 interface SpaceItemProps {
   space: Space;
@@ -31,11 +32,21 @@ const SPACE_ITEM_STYLES = {
 export default function SpaceItem({ space }: SpaceItemProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { isCollapsed } = useNavigation();
   const { id: spaceId, name, introduction, bannerUrl } = space;
   const { showMenu, hideMenu, isShowMenu } = useToggleMenu();
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
+
+  // URL의 spaceId와 현재 space 동기화
+  useEffect(() => {
+    const urlSpaceId = searchParams.get("spaceId") || location.pathname.match(/\/retrospectSpace\/(\d+)/)?.[1];
+
+    if (urlSpaceId && String(spaceId) === urlSpaceId && (!currentSpace || String(currentSpace.id) !== urlSpaceId)) {
+      setCurrentSpace(space);
+    }
+  }, [location.pathname, searchParams, spaceId, space, currentSpace, setCurrentSpace]);
 
   const isHome = location.pathname === "/";
   const isCurrent = String(currentSpace?.id) === String(spaceId);
