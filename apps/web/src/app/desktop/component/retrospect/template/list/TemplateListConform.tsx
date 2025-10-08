@@ -7,33 +7,22 @@ import { css } from "@emotion/react";
 import { useAtomValue, useSetAtom } from "jotai";
 import { Tooltip } from "@/component/common/tip";
 import { ButtonProvider } from "@/component/common/button";
-import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
-import { chooseParticle } from "@/utils/retrospect/chooseParticle";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { TemplateCard } from "../card/TemplateCard";
 import { useActionModal } from "@/hooks/useActionModal";
 import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 
-function RecommendDone() {
+export function TemplateListConform() {
   const setRetrospectValue = useSetAtom(retrospectInitialState);
-  const { tempTemplateId, spaceId } = useAtomValue(retrospectInitialState);
-  const { data } = useApiGetSpace(spaceId);
+  const { tempTemplateId } = useAtomValue(retrospectInitialState);
   const { data: templateData, isLoading } = useGetSimpleTemplateInfo(tempTemplateId);
   const { openFunnelModal } = useFunnelModal();
   const { openActionModal } = useActionModal();
 
   if (isLoading) return <LoadingModal />;
 
-  const particle = chooseParticle(data?.name ?? "");
-
   const handleMoveToChangeTemplate = () => {
-    openFunnelModal({
-      title: "",
-      step: "retrospectCreate",
-      contents: <RetrospectCreate />,
-    });
-
     openActionModal({
       title: "",
       contents: <TemplateChoice />,
@@ -62,7 +51,7 @@ function RecommendDone() {
         height: 100%;
       `}
     >
-      <Header title={`${data?.name}${particle} 어울리는\n회고 템플릿을 찾았어요!`} />
+      <Header title={"해당 템플릿으로\n회고를 진행할까요?"} />
       <Spacing size={12} />
       <div
         css={css`
@@ -84,5 +73,3 @@ function RecommendDone() {
     </main>
   );
 }
-
-export default RecommendDone;

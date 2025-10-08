@@ -1,24 +1,30 @@
 import { css } from "@emotion/react";
-import { Title } from "@/component/common/header/Title";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Typography } from "../typography";
 
 export type DesktopModalHeaderProps = {
   title: string;
+  tag?: string;
   onBack?: () => void;
   onClose: () => void;
 };
 
-export default function DesktopFunnelModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps) {
+export default function DesktopFunnelModalHeader({ title, tag, onBack, onClose }: DesktopModalHeaderProps) {
   return (
     <div
       css={css`
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1001;
+        padding-top: 2.4rem;
+        background-color: #fff;
       `}
     >
-      {onBack ? (
+      {onBack && (
         <button
           onClick={onBack}
           css={css`
@@ -36,23 +42,36 @@ export default function DesktopFunnelModalHeader({ title, onBack, onClose }: Des
               }
             `}
             onClick={onBack}
+            size={2.4}
           />
         </button>
-      ) : (
-        <div
-          css={css`
-            width: 1.5rem;
-          `}
-        />
       )}
-
       <div
         css={css`
+          display: flex;
           flex: 1;
-          margin: 0 0.5rem;
+          align-items: center;
+          margin-left: ${onBack && "1.2rem"};
         `}
       >
-        <Title type="modal" contents={title} />
+        <Typography variant="title22Bold">{title}</Typography>
+        {onBack && (
+          <span
+            css={css`
+              display: inline-block;
+              font-size: 1.2rem;
+              font-weight: 600;
+              line-height: 140%;
+              padding: 0.4rem 0.8rem;
+              background-color: ${DESIGN_TOKEN_COLOR.blue600};
+              border-radius: 0.4rem;
+              color: #fff;
+              margin-left: 1.2rem;
+            `}
+          >
+            {tag}
+          </span>
+        )}
       </div>
 
       <button
@@ -60,7 +79,6 @@ export default function DesktopFunnelModalHeader({ title, onBack, onClose }: Des
         css={css`
           display: flex;
           align-items: center;
-          padding: 0.4rem;
           cursor: pointer;
           transition: background-color 0.2s ease-in-out;
           border-radius: 0.4rem;
@@ -78,6 +96,7 @@ export default function DesktopFunnelModalHeader({ title, onBack, onClose }: Des
             }
           `}
           onClick={onClose}
+          size={"2.4rem"}
         />
       </button>
     </div>

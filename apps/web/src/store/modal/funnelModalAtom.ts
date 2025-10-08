@@ -6,6 +6,7 @@ export const FunnelModalState = atom<FunnelModalType>({
   title: "",
   step: null,
   contents: "",
+  templateTag: "",
   onClose: () => {},
   onConfirm: () => {},
 });

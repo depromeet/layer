@@ -9,13 +9,27 @@ import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTemplateId";
 import { useResetAtom } from "jotai/utils";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { FUNNEL_STEP_BACK_CONFIG, FUNNEL_STEPS_WITH_BACK } from "@/app/desktop/component/retrospect/template/constants";
 
 export default function DesktopFunnelModal() {
   const { open, close } = useModal();
-  const { funnelModalState, closeFunnelModal } = useFunnelModal();
+  const { funnelModalState, openFunnelModal, closeFunnelModal } = useFunnelModal();
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
   const { spaceId, templateId } = useAtomValue(retrospectInitialState);
   const { mutate: postRecentTemplateId } = usePostRecentTemplateId(Number(spaceId));
+
+  if (!funnelModalState.isOpen) return null;
+
+  const shouldShowBack = FUNNEL_STEPS_WITH_BACK.includes(funnelModalState.step || "");
+  const handleBack = () => {
+    const backConfig = FUNNEL_STEP_BACK_CONFIG[funnelModalState.step as keyof typeof FUNNEL_STEP_BACK_CONFIG];
+
+    openFunnelModal({
+      title: backConfig.title,
+      step: backConfig.step,
+      contents: backConfig.contents,
+    });
+  };
 
   const quitPage = () => {
     postRecentTemplateId({ formId: Number(templateId), spaceId: Number(spaceId) });
@@ -39,8 +53,6 @@ export default function DesktopFunnelModal() {
       },
     });
   };
-
-  if (!funnelModalState.isOpen) return null;
 
   return (
     <Portal id="modal-root">
@@ -68,12 +80,17 @@ export default function DesktopFunnelModal() {
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            padding: 2.4rem 2.4rem 0;
+            padding: 0 2.4rem;
             animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
             transition: 0.4s all;
           `}
         >
-          <DesktopFunnelModalHeader title={funnelModalState.title} onClose={handleClose} />
+          <DesktopFunnelModalHeader
+            title={funnelModalState.title}
+            onClose={handleClose}
+            onBack={shouldShowBack ? handleBack : undefined}
+            tag={funnelModalState.templateTag}
+          />
           {funnelModalState.contents}
         </div>
       </div>

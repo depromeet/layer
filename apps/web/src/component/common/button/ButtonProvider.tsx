@@ -54,6 +54,7 @@ export const ButtonProvider = ({
           position: sticky;
           bottom: 0;
           padding: ${isDesktop ? "0.8rem 0 1.6rem" : "4rem 0 2rem"};
+          background-color: ${isDesktop && "#fff"};
           margin-top: auto;
           z-index: 10000;
         `,
