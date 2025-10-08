@@ -9,8 +9,7 @@ import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTemplateId";
 import { useResetAtom } from "jotai/utils";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
-import { FUNNEL_STEPS_WITH_BACK } from "@/app/desktop/component/retrospect/template/constants";
-import { TemplateList } from "@/app/desktop/component/retrospect/template/list";
+import { FUNNEL_STEP_BACK_CONFIG, FUNNEL_STEPS_WITH_BACK } from "@/app/desktop/component/retrospect/template/constants";
 
 export default function DesktopFunnelModal() {
   const { open, close } = useModal();
@@ -22,12 +21,13 @@ export default function DesktopFunnelModal() {
   if (!funnelModalState.isOpen) return null;
 
   const shouldShowBack = FUNNEL_STEPS_WITH_BACK.includes(funnelModalState.step || "");
-
   const handleBack = () => {
+    const backConfig = FUNNEL_STEP_BACK_CONFIG[funnelModalState.step as keyof typeof FUNNEL_STEP_BACK_CONFIG];
+
     openFunnelModal({
-      title: "템플릿 리스트",
-      step: "listTemplate",
-      contents: <TemplateList />,
+      title: backConfig.title,
+      step: backConfig.step,
+      contents: backConfig.contents,
     });
   };
 
