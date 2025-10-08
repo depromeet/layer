@@ -14,9 +14,11 @@ export type AnalysisTab = (typeof TEAM_ANALYSIS_MENU_TABS)[number] | (typeof PER
 type AnalysisDialogProps = {
   spaceId: string | null;
   retrospectId: string | null;
+  isOverviewVisible: boolean;
+  onToggleOverview: () => void;
 };
 
-export default function AnalysisDialog({ spaceId, retrospectId }: AnalysisDialogProps) {
+export default function AnalysisDialog({ spaceId, retrospectId, isOverviewVisible, onToggleOverview }: AnalysisDialogProps) {
   const { data: analysisData, isPending: isPendingAnalysisData } = useGetAnalysisAnswer({ spaceId: spaceId, retrospectId: retrospectId });
 
   const isPersonal = Boolean(analysisData?.individuals.length === 1);
@@ -41,16 +43,23 @@ export default function AnalysisDialog({ spaceId, retrospectId }: AnalysisDialog
   return (
     <article
       css={css`
-        width: 100%;
+        flex: 1;
         height: 100vh;
         padding: 2.4rem 3.2rem;
         background-color: ${DESIGN_TOKEN_COLOR.gray00};
         border-top-left-radius: 1.2rem;
         border-bottom-left-radius: 1.2rem;
         overflow: hidden;
+        transition: flex 0.3s ease-in-out;
       `}
     >
-      <AnalysisHeader selectedTab={selectedTab} isPersonal={isPersonal} handleTabClick={handleTabClick} />
+      <AnalysisHeader
+        selectedTab={selectedTab}
+        isPersonal={isPersonal}
+        isOverviewVisible={isOverviewVisible}
+        handleTabClick={handleTabClick}
+        onToggleOverview={onToggleOverview}
+      />
 
       {isPendingAnalysisData && <LoadingSpinner />}
 

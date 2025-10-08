@@ -8,10 +8,12 @@ import { useSearchParams } from "react-router-dom";
 type AnalysisHeaderProps = {
   selectedTab: AnalysisTab;
   isPersonal: boolean;
+  isOverviewVisible: boolean;
   handleTabClick: (tab: AnalysisTab) => void;
+  onToggleOverview: () => void;
 };
 
-export default function AnalysisHeader({ selectedTab, isPersonal, handleTabClick }: AnalysisHeaderProps) {
+export default function AnalysisHeader({ selectedTab, isPersonal, isOverviewVisible, handleTabClick, onToggleOverview }: AnalysisHeaderProps) {
   const [searchParams] = useSearchParams();
 
   const title = searchParams.get("title");
@@ -40,8 +42,9 @@ export default function AnalysisHeader({ selectedTab, isPersonal, handleTabClick
           `}
         />
         <Icon
-          icon="ic_expand"
+          icon={isOverviewVisible ? "ic_expand" : "ic_shrink"}
           size={2.0}
+          onClick={onToggleOverview}
           css={css`
             cursor: pointer;
           `}
