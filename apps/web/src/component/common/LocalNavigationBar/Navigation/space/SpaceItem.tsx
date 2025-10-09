@@ -40,7 +40,7 @@ export default function SpaceItem({ space, refresh }: SpaceItemProps) {
   const { id: spaceId, name, introduction, bannerUrl } = space;
   const { showMenu, isShowMenu } = useToggleMenu();
   const { open } = useModal();
-  const { mutate: deleteSpace, isSuccess, isPending } = useApiDeleteSpace();
+  const { mutate: deleteSpace, isSuccess } = useApiDeleteSpace();
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
