@@ -11,9 +11,15 @@ import { currentSpaceState } from "@/store/space/spaceAtom";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import useToggleMenu from "@/hooks/useToggleMenu";
+import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
+import { useModal } from "@/hooks/useModal";
+import { ToggleMenu } from "@/component/common/toggleMenu";
+import { Icon } from "@/component/common/Icon";
 
 interface SpaceItemProps {
   space: Space;
+  refresh: () => void;
 }
 
 // 상태별 스타일 정의
@@ -26,12 +32,15 @@ const SPACE_ITEM_STYLES = {
   hover: DESIGN_TOKEN_COLOR.gray100,
 };
 
-export default function SpaceItem({ space }: SpaceItemProps) {
+export default function SpaceItem({ space, refresh }: SpaceItemProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { isCollapsed } = useNavigation();
   const { id: spaceId, name, introduction, bannerUrl } = space;
+  const { showMenu, isShowMenu } = useToggleMenu();
+  const { open } = useModal();
+  const { mutate: deleteSpace, isSuccess } = useApiDeleteSpace();
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
@@ -53,6 +62,31 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   const handleSelectSpace = () => {
     setCurrentSpace(space);
     navigate(`/retrospectSpace/${spaceId}`);
+  };
+
+  /**
+   * @description 토글 메뉴 표시 함수
+   * @param event - 클릭 이벤트
+   */
+  const handleShowToggleMenu = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    showMenu(event);
+  };
+
+  /**
+   * @description 스페이스 수정 함수
+   */
+  const handleEditSpace = () => {};
+
+  /**
+   * @description 스페이스 삭제 함수
+   */
+  const handleDeleteSpace = () => {
+    open({
+      title: "스페이스를 삭제하시겠어요?",
+      contents: "스페이스를 다시 되돌릴 수 없어요",
+      onConfirm: () => deleteSpace(spaceId),
+    });
   };
 
   /**
@@ -81,6 +115,13 @@ export default function SpaceItem({ space }: SpaceItemProps) {
     }
   }, [location.pathname, searchParams, spaceId, space, currentSpace, setCurrentSpace]);
 
+  useEffect(() => {
+    // 삭제 요청 성공 시에, 스페이스 리스트를 새로고침 합니다.
+    if (isSuccess) {
+      refresh();
+    }
+  }, [isSuccess]);
+
   return (
     <li
       css={css`
@@ -107,6 +148,10 @@ export default function SpaceItem({ space }: SpaceItemProps) {
 
         &:hover {
           background-color: ${SPACE_ITEM_STYLES.hover};
+
+          #space-item-more-icon {
+            visibility: visible;
+          }
         }
       `}
       onClick={handleSelectSpace}
@@ -181,6 +226,33 @@ export default function SpaceItem({ space }: SpaceItemProps) {
         >
           {introduction}
         </Typography>
+      </div>
+
+      <div
+        onClick={handleShowToggleMenu}
+        css={css`
+          margin-left: auto;
+        `}
+      >
+        <Icon
+          id="space-item-more-icon"
+          icon="ic_more"
+          size={1.8}
+          css={css`
+            visibility: ${isShowMenu ? "visible" : "hidden"};
+            cursor: pointer;
+            margin-left: auto;
+            color: ${DESIGN_TOKEN_COLOR.gray500};
+          `}
+        />
+        {isShowMenu && (
+          <ToggleMenu>
+            <ToggleMenu.Button onClick={handleEditSpace}> 스페이스 수정 </ToggleMenu.Button>
+            <ToggleMenu.Button variant="subtitle14SemiBold" color="red500" onClick={handleDeleteSpace}>
+              스페이스 삭제
+            </ToggleMenu.Button>
+          </ToggleMenu>
+        )}
       </div>
     </li>
   );
