@@ -9,8 +9,6 @@ type AnalysisIndividualTabProps = {
 };
 
 export default function AnalysisIndividualTab({ individuals }: AnalysisIndividualTabProps) {
-  console.log("individuals", individuals);
-
   const renderQuestionComponent = (answer: IndividualsAnswersType, index: number) => {
     const { questionContent, questionType, answerContent } = answer;
 
