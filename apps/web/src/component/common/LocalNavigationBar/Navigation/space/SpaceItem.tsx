@@ -13,9 +13,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Icon } from "@/component/common/Icon";
 import { ToggleMenu } from "@/component/common/toggleMenu";
 import useToggleMenu from "@/hooks/useToggleMenu";
+import { useModal } from "@/hooks/useModal";
+import { useApiDeleteSpace } from "@/hooks/api/space/useApiDeleteSpace";
+import { useEffect } from "react";
 
 interface SpaceItemProps {
   space: Space;
+  refresh: () => void;
 }
 
 // 상태별 스타일 정의
@@ -28,12 +32,14 @@ const SPACE_ITEM_STYLES = {
   hover: DESIGN_TOKEN_COLOR.gray100,
 };
 
-export default function SpaceItem({ space }: SpaceItemProps) {
+export default function SpaceItem({ space, refresh }: SpaceItemProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { isCollapsed } = useNavigation();
   const { id: spaceId, name, introduction, bannerUrl } = space;
-  const { showMenu, hideMenu, isShowMenu } = useToggleMenu();
+  const { showMenu, isShowMenu } = useToggleMenu();
+  const { open } = useModal();
+  const { mutate: deleteSpace, isSuccess, isPending } = useApiDeleteSpace();
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
@@ -69,18 +75,25 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   /**
    * @description 스페이스 수정 함수
    */
-  const handleEditSpace = () => {
-    // TODO: 스페이스 수정 로직 추가
-    hideMenu();
-  };
+  const handleEditSpace = () => {};
 
   /**
    * @description 스페이스 삭제 함수
    */
   const handleDeleteSpace = () => {
-    // TODO: 스페이스 삭제 로직 추가
-    alert("삭제 버튼 클릭!");
+    open({
+      title: "스페이스를 삭제하시겠어요?",
+      contents: "스페이스를 다시 되돌릴 수 없어요",
+      onConfirm: () => deleteSpace(spaceId),
+    });
   };
+
+  useEffect(() => {
+    // 삭제 요청 성공 시에, 스페이스 리스트를 새로고침 합니다.
+    if (isSuccess) {
+      refresh();
+    }
+  }, [isSuccess]);
 
   return (
     <li
