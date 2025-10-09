@@ -10,7 +10,7 @@ import { PATHS } from "@layer/shared";
 
 interface RetrospectCardProps {
   retrospect: Retrospect;
-  spaceId?: string;
+  spaceId?: string | null;
 }
 
 export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardProps) {

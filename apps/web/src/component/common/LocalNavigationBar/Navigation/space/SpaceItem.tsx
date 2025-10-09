@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
 
 import { Typography } from "../../../typography";
 import { useNavigation } from "../../context/NavigationContext";
@@ -9,10 +10,7 @@ import { Space } from "@/types/spaceType";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Icon } from "@/component/common/Icon";
-import { ToggleMenu } from "@/component/common/toggleMenu";
-import useToggleMenu from "@/hooks/useToggleMenu";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 interface SpaceItemProps {
   space: Space;
@@ -31,9 +29,9 @@ const SPACE_ITEM_STYLES = {
 export default function SpaceItem({ space }: SpaceItemProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { isCollapsed } = useNavigation();
   const { id: spaceId, name, introduction, bannerUrl } = space;
-  const { showMenu, hideMenu, isShowMenu } = useToggleMenu();
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
@@ -58,29 +56,30 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   };
 
   /**
-   * @description 토글 메뉴 표시 함수
-   * @param event - 클릭 이벤트
+   * 현재 URL과 상태를 동기화하는 효과
+   * - URL의 spaceId와 현재 선택된 스페이스가 다를 때만 상태를 업데이트
+   * - URL에 spaceId가 없으면 동기화하지 않음
    */
-  const handleShowToggleMenu = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    showMenu(event);
-  };
+  useEffect(() => {
+    const urlSpaceId = searchParams.get("spaceId") || location.pathname.match(/\/retrospectSpace\/(\d+)/)?.[1];
 
-  /**
-   * @description 스페이스 수정 함수
-   */
-  const handleEditSpace = () => {
-    // TODO: 스페이스 수정 로직 추가
-    hideMenu();
-  };
+    // * URL에서 spaceId를 찾을 수 없으면 동기화 불필요
+    if (!urlSpaceId) return;
 
-  /**
-   * @description 스페이스 삭제 함수
-   */
-  const handleDeleteSpace = () => {
-    // TODO: 스페이스 삭제 로직 추가
-    alert("삭제 버튼 클릭!");
-  };
+    // * 현재 SpaceItem이 URL의 spaceId와 일치하는지 확인
+    const isMatchingSpace = String(spaceId) === urlSpaceId;
+
+    if (!isMatchingSpace) return;
+
+    // * 현재 선택된 스페이스가 없거나 URL과 다른 경우에만 동기화
+    const hasNoCurrentSpace = !currentSpace;
+    const isDifferentSpace = currentSpace && String(currentSpace.id) !== urlSpaceId;
+    const needsSync = hasNoCurrentSpace || isDifferentSpace;
+
+    if (needsSync) {
+      setCurrentSpace(space);
+    }
+  }, [location.pathname, searchParams, spaceId, space, currentSpace, setCurrentSpace]);
 
   return (
     <li
@@ -108,10 +107,6 @@ export default function SpaceItem({ space }: SpaceItemProps) {
 
         &:hover {
           background-color: ${SPACE_ITEM_STYLES.hover};
-
-          #space-item-more-icon {
-            visibility: visible;
-          }
         }
       `}
       onClick={handleSelectSpace}
@@ -186,33 +181,6 @@ export default function SpaceItem({ space }: SpaceItemProps) {
         >
           {introduction}
         </Typography>
-      </div>
-
-      <div
-        onClick={handleShowToggleMenu}
-        css={css`
-          margin-left: auto;
-        `}
-      >
-        <Icon
-          id="space-item-more-icon"
-          icon="ic_more"
-          size={1.8}
-          css={css`
-            visibility: ${isShowMenu ? "visible" : "hidden"};
-            cursor: pointer;
-            margin-left: auto;
-            color: ${DESIGN_TOKEN_COLOR.gray500};
-          `}
-        />
-        {isShowMenu && (
-          <ToggleMenu>
-            <ToggleMenu.Button onClick={handleEditSpace}> 스페이스 수정 </ToggleMenu.Button>
-            <ToggleMenu.Button variant="subtitle14SemiBold" color="red500" onClick={handleDeleteSpace}>
-              스페이스 삭제
-            </ToggleMenu.Button>
-          </ToggleMenu>
-        )}
       </div>
     </li>
   );

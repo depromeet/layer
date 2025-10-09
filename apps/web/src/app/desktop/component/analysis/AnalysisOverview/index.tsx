@@ -42,6 +42,7 @@ export default function AnalysisOverview({ spaceId }: AnalysisOverviewProps) {
         isPending={isRetrospectsPending}
         retrospects={closedRetrospects}
         emptyMessage="마감된 회고가 없습니다."
+        spaceId={spaceId}
       />
     </section>
   );
