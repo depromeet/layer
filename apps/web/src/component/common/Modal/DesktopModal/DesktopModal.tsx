@@ -1,11 +1,24 @@
 import { css } from "@emotion/react";
 
-import DesktopModalFooter from "./DesktopModalFooter";
-import DesktopModalHeader from "./DesktopModalHeader";
-
 import { Portal } from "@/component/common/Portal";
 import { useModal } from "@/hooks/useModal";
 import { ANIMATION } from "@/style/common/animation";
+import { Button, ButtonProvider } from "../../button";
+import { Icon } from "../../Icon";
+import { Title } from "../../header/Title";
+
+type DesktopModalHeaderProps = {
+  title: string;
+  onBack?: () => void;
+  onClose: () => void;
+};
+
+type DesktopModalFooterProps = {
+  leftText?: string;
+  rightText?: string;
+  leftFunction?: () => void;
+  rightFunction?: () => void;
+};
 
 export default function DesktopModal() {
   const { modalDataState, close } = useModal();
@@ -59,5 +72,104 @@ export default function DesktopModal() {
         </div>
       </div>
     </Portal>
+  );
+}
+
+function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps) {
+  return (
+    <div
+      css={css`
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      `}
+    >
+      {onBack ? (
+        <button
+          onClick={onBack}
+          css={css`
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+          `}
+        >
+          <Icon
+            icon={"ic_arrow_back_white"}
+            css={css`
+              path {
+                fill: #212329;
+                transition: 0.4s all;
+              }
+            `}
+            onClick={onBack}
+          />
+        </button>
+      ) : (
+        <div
+          css={css`
+            width: 1.5rem;
+          `}
+        />
+      )}
+
+      <div
+        css={css`
+          flex: 1;
+          margin: 0 0.5rem;
+        `}
+      >
+        <Title type="modal" contents={title} />
+      </div>
+
+      <button
+        onClick={onClose}
+        css={css`
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+        `}
+      >
+        <Icon
+          icon={"ic_quit"}
+          css={css`
+            path {
+              fill: #212329;
+              transition: 0.4s all;
+            }
+          `}
+          onClick={onClose}
+        />
+      </button>
+    </div>
+  );
+}
+
+function DesktopModalFooter({ leftText = "취소", rightText = "확인", leftFunction, rightFunction = () => {} }: DesktopModalFooterProps) {
+  return (
+    <div
+      css={css`
+        width: 100%;
+        align-content: flex-end;
+      `}
+    >
+      <ButtonProvider
+        sort={"horizontal"}
+        onlyContainerStyle={css`
+          padding: 0;
+          div:nth-of-type(1) {
+            display: none;
+          }
+        `}
+      >
+        {leftFunction && (
+          <Button colorSchema={"gray"} onClick={leftFunction}>
+            {leftText}
+          </Button>
+        )}
+        <Button colorSchema={"primary"} onClick={rightFunction}>
+          {rightText}
+        </Button>
+      </ButtonProvider>
+    </div>
   );
 }
