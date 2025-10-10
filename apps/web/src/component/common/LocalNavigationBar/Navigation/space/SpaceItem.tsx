@@ -232,6 +232,22 @@ export default function SpaceItem({ space, refresh }: SpaceItemProps) {
         onClick={handleShowToggleMenu}
         css={css`
           margin-left: auto;
+          min-width: 0;
+          transition: opacity 0.3s ease-in-out;
+
+          ${isCollapsed
+            ? css`
+                display: none;
+                opacity: 0;
+                visibility: hidden;
+                width: 0;
+              `
+            : css`
+                display: flex;
+                opacity: 1;
+                visibility: visible;
+                width: auto;
+              `}
         `}
       >
         <Icon
