@@ -1,11 +1,11 @@
 import { css } from "@emotion/react";
 
 import { Portal } from "@/component/common/Portal";
-import { useModal } from "@/hooks/useModal";
 import { ANIMATION } from "@/style/common/animation";
 import { Button, ButtonProvider } from "../../button";
 import { Icon } from "../../Icon";
 import { Title } from "../../header/Title";
+import { useDesktopBasicModal } from "@/hooks/useDesktopBasicModal";
 
 type DesktopModalHeaderProps = {
   title: string;
@@ -21,7 +21,7 @@ type DesktopModalFooterProps = {
 };
 
 export default function DesktopModal() {
-  const { modalDataState, close } = useModal();
+  const { modalDataState, close } = useDesktopBasicModal();
 
   const { title, contents, onConfirm } = modalDataState;
 

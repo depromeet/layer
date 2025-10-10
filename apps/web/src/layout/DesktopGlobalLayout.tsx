@@ -1,7 +1,6 @@
 import { css } from "@emotion/react";
 import { Outlet } from "react-router-dom";
 
-import DesktopModal from "@/component/common/Modal/DesktopModal/DesktopModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Modal } from "@/component/common/Modal";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser";
@@ -18,7 +17,6 @@ export default function DesktopGlobalLayout() {
       `}
     >
       <Modal />
-      <DesktopModal />
       <PreventExternalBrowser>
         <Outlet />
       </PreventExternalBrowser>

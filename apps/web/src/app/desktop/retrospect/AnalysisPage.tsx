@@ -47,7 +47,6 @@ export default function AnalysisPage() {
             opacity 0.3s ease-in-out;
           overflow: hidden;
           will-change: width, opacity;
-          min-width: 34.4rem;
         `}
       >
         <AnalysisOverview spaceId={spaceId} />
