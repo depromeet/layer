@@ -3,7 +3,8 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { TEAM_ANALYSIS_MENU_TABS, PERSONAL_ANALYSIS_MENU_TABS, AnalysisTab } from ".";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { PATHS } from "@layer/shared";
 
 type AnalysisHeaderProps = {
   selectedTab: AnalysisTab;
@@ -15,10 +16,16 @@ type AnalysisHeaderProps = {
 
 export default function AnalysisHeader({ selectedTab, isPersonal, isOverviewVisible, handleTabClick, onToggleOverview }: AnalysisHeaderProps) {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const title = searchParams.get("title");
+  const spaceId = searchParams.get("spaceId");
 
   const menuTabs = isPersonal ? PERSONAL_ANALYSIS_MENU_TABS : TEAM_ANALYSIS_MENU_TABS;
+
+  const handleClose = () => {
+    navigate(PATHS.DesktopcompleteRetrospectCreate(spaceId as string));
+  };
 
   return (
     <section
@@ -40,6 +47,7 @@ export default function AnalysisHeader({ selectedTab, isPersonal, isOverviewVisi
           css={css`
             cursor: pointer;
           `}
+          onClick={handleClose}
         />
         <Icon
           icon={isOverviewVisible ? "ic_expand" : "ic_shrink"}
