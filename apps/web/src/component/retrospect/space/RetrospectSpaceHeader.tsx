@@ -1,8 +1,8 @@
 import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
-
 import { Icon } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
+import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useActionModal } from "@/hooks/useActionModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
@@ -83,7 +83,16 @@ export default function RetrospectSpaceHeader() {
             justify-content: space-between;
           `}
         >
-          <Typography variant="heading24Bold">{name}</Typography>
+          <div
+            css={css`
+              display: flex;
+              align-items: center;
+              column-gap: 0.6rem;
+            `}
+          >
+            <Typography variant="heading24Bold">{name}</Typography>
+            <SpaceManageToggleMenu spaceId={spaceId} iconSize={2.4} iconColor={"gray900"} />
+          </div>
           <div
             css={css`
               display: flex;
