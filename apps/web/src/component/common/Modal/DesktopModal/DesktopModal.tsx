@@ -151,9 +151,9 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
 
 function DesktopModalFooter({ leftFunction, rightFunction = () => {}, options }: DesktopModalFooterProps) {
   const DEFAULT_BUTTON_TEXT = ["취소", "확인"];
-  const { buttonText = DEFAULT_BUTTON_TEXT, enableFooter = false } = options || { buttonText: DEFAULT_BUTTON_TEXT };
+  const { buttonText = DEFAULT_BUTTON_TEXT, enableFooter = true } = options || { buttonText: DEFAULT_BUTTON_TEXT };
 
-  if (enableFooter) return null;
+  if (!enableFooter) return null;
 
   return (
     <div

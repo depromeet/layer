@@ -43,7 +43,7 @@ export default function SpaceManageToggleMenu({
       contents: <ModifySpacePage />,
       onClose: initializeSearchQuery,
       options: {
-        enableFooter: true,
+        enableFooter: false,
       },
     });
   };
