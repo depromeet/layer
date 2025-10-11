@@ -2,8 +2,8 @@ import { css } from "@emotion/react";
 import { useContext, useMemo } from "react";
 
 import { CustomTemplateListItem } from "./CustomTemplateListItem";
+import { TemplateListPageContext } from "@/app/desktop/component/retrospect/template/list";
 
-import { TemplateListPageContext } from "@/app/mobile/retrospect/template/list/TemplateListPage";
 import { EmptyList } from "@/component/common/empty";
 import { SkeletonCard } from "@/component/common/skeleton/SkeletonCard";
 import { useGetCustomTemplateList } from "@/hooks/api/template/useGetCustomTemplateList";
@@ -12,8 +12,8 @@ import { formatDateToString } from "@/utils/formatDate";
 
 export function CustomTemplateList() {
   const { spaceId } = useContext(TemplateListPageContext);
-
   const { data, fetchNextPage, hasNextPage } = useGetCustomTemplateList(+spaceId);
+
   const targetDivRef = useIntersectionObserve({
     options: { threshold: 0.5 },
     onIntersect: async () => {
@@ -31,7 +31,10 @@ export function CustomTemplateList() {
           iconSize={14}
           message={"아직 커스텀 템플릿이 없어요"}
           css={css`
-            margin-top: -7rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
           `}
         />
       ) : (
