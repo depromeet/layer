@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { TemplateListPageContext } from "@/app/desktop/component/retrospect/template/list";
 import { BottomSheet } from "@/component/BottomSheet";
@@ -32,7 +31,7 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
   const MENU_DELETE = "delete";
   const SHEET_ID = `modifyTemplateSheet_${id}`;
 
-  const { spaceId, readOnly, isLeader } = useContext(TemplateListPageContext);
+  const { spaceId, readOnly } = useContext(TemplateListPageContext);
   const { open } = useModal();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { value: templateTitle, handleInputChange: handleChangeTitle } = useInput(title);
