@@ -112,6 +112,49 @@ interface MemberSelectionItemProps {
 }
 
 function MemberSelectionItem({ member, isSelected, onLeaderSelect, onMemberDelete, viewType }: MemberSelectionItemProps) {
+  function LeaderChangeButton({ isSelected, onLeaderSelect }: { isSelected: boolean; onLeaderSelect: () => void }) {
+    return (
+      <div
+        onClick={onLeaderSelect}
+        css={css`
+          width: 2rem;
+          height: 2rem;
+          border-radius: 50%;
+          border: 2px solid ${isSelected ? DESIGN_TOKEN_COLOR.blue600 : DESIGN_TOKEN_COLOR.gray300};
+          background-color: ${isSelected ? DESIGN_TOKEN_COLOR.blue600 : DESIGN_TOKEN_COLOR.white};
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        `}
+      >
+        {isSelected && <Icon icon="ic_check" color={DESIGN_TOKEN_COLOR.white} />}
+      </div>
+    );
+  }
+
+  function DeleteButton({ onMemberDelete }: { onMemberDelete: () => void }) {
+    return (
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onMemberDelete();
+        }}
+        css={css`
+          padding: 0.6rem 1.2rem;
+          border-radius: 0.6rem;
+          background-color: ${DESIGN_TOKEN_COLOR.gray100};
+          cursor: pointer;
+          transition: all 0.2s ease;
+        `}
+      >
+        <Typography variant="body14Medium" color="gray900">
+          삭제
+        </Typography>
+      </button>
+    );
+  }
+
   return (
     <div
       css={css`
@@ -184,40 +227,9 @@ function MemberSelectionItem({ member, isSelected, onLeaderSelect, onMemberDelet
         `}
       >
         {viewType === "leaderChange" ? (
-          <div
-            onClick={onLeaderSelect}
-            css={css`
-              width: 2rem;
-              height: 2rem;
-              border-radius: 50%;
-              border: 2px solid ${isSelected ? DESIGN_TOKEN_COLOR.blue600 : DESIGN_TOKEN_COLOR.gray300};
-              background-color: ${isSelected ? DESIGN_TOKEN_COLOR.blue600 : DESIGN_TOKEN_COLOR.white};
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              cursor: pointer;
-            `}
-          >
-            {isSelected && <Icon icon="ic_check" color={DESIGN_TOKEN_COLOR.white} />}
-          </div>
+          <LeaderChangeButton isSelected={isSelected} onLeaderSelect={onLeaderSelect} />
         ) : (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onMemberDelete();
-            }}
-            css={css`
-              padding: 0.6rem 1.2rem;
-              border-radius: 0.6rem;
-              background-color: ${DESIGN_TOKEN_COLOR.gray100};
-              cursor: pointer;
-              transition: all 0.2s ease;
-            `}
-          >
-            <Typography variant="body14Medium" color="gray900">
-              삭제
-            </Typography>
-          </button>
+          <DeleteButton onMemberDelete={onMemberDelete} />
         )}
       </div>
     </div>
