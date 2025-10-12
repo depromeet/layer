@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useActionModal } from "@/hooks/useActionModal";
-import { ChoiceTemplate } from "@/app/desktop/component/retrospect/choice";
+import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 import { api } from "@/api";
 import { RecommendTemplateResponse } from "@/app/mobile/retrospect/template/recommend/RecommendTemplatePage";
@@ -21,7 +21,7 @@ import { RecommendSearch } from "./Search";
 
 const LAST_PAGE = 2;
 
-export function RecommendTemplate() {
+export function TemplateRecommend() {
   const [templateValue, setTemplateValue] = useAtom(recommendTemplateState);
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { openFunnelModal } = useFunnelModal();
@@ -111,7 +111,7 @@ export function RecommendTemplate() {
       });
       openActionModal({
         title: "",
-        contents: <ChoiceTemplate />,
+        contents: <TemplateChoice />,
       });
       return;
     }

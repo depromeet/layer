@@ -1,9 +1,10 @@
-import { RecommendTemplate } from "@/app/desktop/component/retrospect/template/recommend";
+import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 
 import { Icon } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
+import { useActionModal } from "@/hooks/useActionModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useModal } from "@/hooks/useModal";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
@@ -18,6 +19,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 export default function RetrospectSpaceHeader() {
   const { open } = useModal();
   const { openFunnelModal } = useFunnelModal();
+  const { openActionModal } = useActionModal();
   const currentSpace = useAtomValue(currentSpaceState);
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
 
@@ -50,10 +52,9 @@ export default function RetrospectSpaceHeader() {
           });
         },
         onClose: () => {
-          openFunnelModal({
+          openActionModal({
             title: "",
-            step: "template",
-            contents: <RecommendTemplate />,
+            contents: <TemplateChoice />,
           });
         },
       });

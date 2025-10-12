@@ -24,7 +24,7 @@ export default function DesktopActionModalHeader({ title, onBack, onClose }: Des
           min-height: 4rem;
         `}
       >
-        {onBack ? (
+        {onBack && (
           <button
             onClick={onBack}
             css={css`
@@ -44,18 +44,11 @@ export default function DesktopActionModalHeader({ title, onBack, onClose }: Des
               onClick={onBack}
             />
           </button>
-        ) : (
-          <div
-            css={css`
-              width: 1.5rem;
-            `}
-          />
         )}
-
         <div
           css={css`
             flex: 1;
-            margin: 0 0.5rem;
+            margin-left: 0.5rem;
           `}
         >
           <Title type="modal" contents={title} />

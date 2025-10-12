@@ -1,13 +1,17 @@
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Insight } from "@/types/analysis";
 import { css } from "@emotion/react";
 
 type RetrospectsOverviewProps = {
   description: string;
+  goodPoints: Insight[];
+  badPoints: Insight[];
+  improvementPoints: Insight[];
 };
 
-export default function RetrospectsOverview({ description }: RetrospectsOverviewProps) {
+export default function RetrospectsOverview({ description, goodPoints, badPoints, improvementPoints }: RetrospectsOverviewProps) {
   return (
     <article>
       {/* ---------- 제목 ---------- */}
@@ -81,8 +85,7 @@ export default function RetrospectsOverview({ description }: RetrospectsOverview
                 gap: 0.8rem;
               `}
             >
-              {/* 긍정적 항목들 */}
-              {["회의 내용 문서화", "꾸준한 글 작성", "적극적인 피드백"].map((item, index) => (
+              {goodPoints.map((item, index) => (
                 <div
                   key={index}
                   css={css`
@@ -97,7 +100,7 @@ export default function RetrospectsOverview({ description }: RetrospectsOverview
                 >
                   <Icon icon="ic_good_mark" size={1.6} />
                   <Typography variant="subtitle14Bold" color="gray800">
-                    {item}
+                    {item.content}
                   </Typography>
                 </div>
               ))}
@@ -123,8 +126,7 @@ export default function RetrospectsOverview({ description }: RetrospectsOverview
                 gap: 0.8rem;
               `}
             >
-              {/* 부족한 항목들 */}
-              {["짧은 회의 늘어짐", "회의 시간 준수", "꾸준한 글 작성"].map((item, index) => (
+              {badPoints.map((item, index) => (
                 <div
                   key={index}
                   css={css`
@@ -139,7 +141,7 @@ export default function RetrospectsOverview({ description }: RetrospectsOverview
                 >
                   <Icon icon="ic_bad_mark_red" size={1.6} />
                   <Typography variant="subtitle14Bold" color="gray800">
-                    {item}
+                    {item.content}
                   </Typography>
                 </div>
               ))}
@@ -165,8 +167,7 @@ export default function RetrospectsOverview({ description }: RetrospectsOverview
                 gap: 0.8rem;
               `}
             >
-              {/* 개선 필요 항목들 */}
-              {["설득력 갖추기", "꾸준한 자기계발", "적극적인 피드백"].map((item, index) => (
+              {improvementPoints.map((item, index) => (
                 <div
                   key={index}
                   css={css`
@@ -181,7 +182,7 @@ export default function RetrospectsOverview({ description }: RetrospectsOverview
                 >
                   <Icon icon="ic_improve_blue_mark" size={1.6} />
                   <Typography variant="subtitle14Bold" color="gray800">
-                    {item}
+                    {item.content}
                   </Typography>
                 </div>
               ))}

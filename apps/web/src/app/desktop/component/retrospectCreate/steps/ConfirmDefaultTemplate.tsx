@@ -12,7 +12,7 @@ import { useContext, useEffect } from "react";
 import { useAtom, useAtomValue } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { useActionModal } from "@/hooks/useActionModal";
-import { ChoiceTemplate } from "@/app/desktop/component/retrospect/choice";
+import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { RetrospectCreateContext } from "..";
 
@@ -34,7 +34,7 @@ export function ConfirmDefaultTemplate() {
   const handleChangeTemplate = () => {
     openActionModal({
       title: "",
-      contents: <ChoiceTemplate />,
+      contents: <TemplateChoice />,
     });
   };
 

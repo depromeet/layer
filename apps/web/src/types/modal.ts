@@ -14,13 +14,14 @@ export type ModalType = {
   };
 };
 
-type FunnelStep = "retrospectCreate" | "template" | "recommendTemplate" | "listTemplate";
+type FunnelStep = "retrospectCreate" | "template" | "recommendTemplate" | "listTemplate" | "listTemplateDetail";
 
 export type FunnelModalType = {
   isOpen: boolean;
   title: string;
   step: FunnelStep | null;
   contents: ReactNode | string;
+  templateTag?: string;
   onClose?: () => void;
   onConfirm?: () => void;
 };

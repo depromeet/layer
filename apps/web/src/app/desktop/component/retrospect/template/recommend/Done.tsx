@@ -12,7 +12,7 @@ import { chooseParticle } from "@/utils/retrospect/chooseParticle";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { TemplateCard } from "../card/TemplateCard";
 import { useActionModal } from "@/hooks/useActionModal";
-import { ChoiceTemplate } from "@/app/desktop/component/retrospect/choice";
+import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 
 function RecommendDone() {
@@ -36,7 +36,7 @@ function RecommendDone() {
 
     openActionModal({
       title: "",
-      contents: <ChoiceTemplate />,
+      contents: <TemplateChoice />,
     });
   };
 
