@@ -12,6 +12,7 @@ import { currentSpaceState } from "@/store/space/spaceAtom";
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
+import { isSpaceLeader } from "@/utils/userUtil";
 
 interface SpaceItemProps {
   space: Space;
@@ -32,7 +33,8 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { isCollapsed } = useNavigation();
-  const { id: spaceId, name, introduction, bannerUrl } = space;
+  const { id: spaceId, name, introduction, bannerUrl, leader } = space;
+  const isLeader = isSpaceLeader(leader?.id);
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
@@ -84,6 +86,7 @@ export default function SpaceItem({ space }: SpaceItemProps) {
 
   return (
     <li
+      tabIndex={0}
       css={css`
         display: flex;
         align-items: center;
@@ -106,11 +109,23 @@ export default function SpaceItem({ space }: SpaceItemProps) {
               padding: 0.7rem 0.4rem;
             `}
 
+        .space-manage-toggle-menu {
+          visibility: hidden;
+          opacity: 0;
+          transition:
+            visibility 0.3s,
+            opacity 0.3s;
+        }
+
         &:hover {
           background-color: ${SPACE_ITEM_STYLES.hover};
+        }
 
-          #space-item-more-icon {
+        &:hover,
+        &:focus-within {
+          .space-manage-toggle-menu {
             visibility: visible;
+            opacity: 1;
           }
         }
       `}
@@ -209,7 +224,7 @@ export default function SpaceItem({ space }: SpaceItemProps) {
               `}
         `}
       >
-        <SpaceManageToggleMenu spaceId={spaceId} iconSize={1.8} iconColor="gray500" />
+        {isLeader && <SpaceManageToggleMenu spaceId={spaceId} iconSize={1.8} iconColor="gray500" />}
       </div>
     </li>
   );

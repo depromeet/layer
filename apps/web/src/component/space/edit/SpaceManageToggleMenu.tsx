@@ -61,11 +61,13 @@ export default function SpaceManageToggleMenu({
 
   return (
     <div
+      className="space-manage-toggle-menu"
       onClick={handleShowToggleMenu}
       css={css`
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: all 0.4s;
       `}
     >
       <Icon

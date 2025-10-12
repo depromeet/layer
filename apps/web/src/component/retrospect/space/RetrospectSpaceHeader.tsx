@@ -11,6 +11,7 @@ import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { isSpaceLeader } from "@/utils/userUtil";
 import { css } from "@emotion/react";
 import { useQueries } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -24,7 +25,8 @@ export default function RetrospectSpaceHeader() {
 
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
-  const { name, introduction } = currentSpace || {};
+  const { name, introduction, leader } = currentSpace || {};
+  const isLeader = isSpaceLeader(leader?.id);
 
   const [{ data: spaceInfo }] = useQueries({
     queries: [useApiOptionsGetSpaceInfo(spaceId)],
@@ -91,7 +93,7 @@ export default function RetrospectSpaceHeader() {
             `}
           >
             <Typography variant="heading24Bold">{name}</Typography>
-            <SpaceManageToggleMenu spaceId={spaceId} iconSize={2.4} iconColor={"gray900"} />
+            {isLeader && <SpaceManageToggleMenu spaceId={spaceId} iconSize={2.4} iconColor={"gray900"} />}
           </div>
           <div
             css={css`

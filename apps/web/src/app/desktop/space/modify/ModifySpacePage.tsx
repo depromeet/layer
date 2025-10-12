@@ -26,6 +26,10 @@ export default function ModifySpacePage() {
   } = useModifySpace({ id: spaceId });
   const { close: closeDesktopModal } = useDesktopBasicModal();
 
+  const initialName = data?.name || "";
+  const initialIntroduction = data?.introduction || "";
+  const isUnchanged = name === initialName && introduction === initialIntroduction;
+
   if (isLoading || isPending) return <LoadingModal />;
 
   return (
@@ -68,7 +72,9 @@ export default function ModifySpacePage() {
         >
           취소
         </ButtonProvider.Gray>
-        <ButtonProvider.Primary onClick={onSubmitEditSpace}>완료</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={onSubmitEditSpace} disabled={isUnchanged}>
+          완료
+        </ButtonProvider.Primary>
       </ButtonProvider>
     </section>
   );
