@@ -8,7 +8,16 @@ export const useDesktopBasicModal = () => {
   const [modalDataState, setModalDataState] = useAtom(desktopBasicModalState);
 
   const close = useCallback(() => {
-    setModalDataState({ ...modalDataState, isOpen: false });
+    setModalDataState({
+      ...modalDataState,
+      isOpen: false,
+      options: {
+        type: "confirm",
+        buttonText: [],
+        autoClose: true,
+        enableFooter: true,
+      },
+    });
   }, [modalDataState, setModalDataState]);
 
   const open = useCallback(

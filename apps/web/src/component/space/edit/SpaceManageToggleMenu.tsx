@@ -18,7 +18,7 @@ export default function SpaceManageToggleMenu({
   iconSize?: number;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
 }) {
-  const { isShowMenu, showMenu } = useToggleMenu();
+  const { isShowMenu, showMenu, hideMenu } = useToggleMenu();
   const navigate = useNavigate();
   const { open: openDesktopModal } = useDesktopBasicModal();
   const { open: openAlertModal } = useModal();
@@ -46,6 +46,7 @@ export default function SpaceManageToggleMenu({
         enableFooter: false,
       },
     });
+    hideMenu();
   };
 
   /**
@@ -67,7 +68,6 @@ export default function SpaceManageToggleMenu({
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.4s;
       `}
     >
       <Icon
