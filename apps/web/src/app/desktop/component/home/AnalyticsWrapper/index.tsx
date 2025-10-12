@@ -95,7 +95,6 @@ export default function AnalyticsWrapper() {
           position: relative;
           display: flex;
           justify-content: space-between;
-          height: 36.6rem;
           margin-top: 1.2rem;
           padding: 2.4rem 3.2rem;
           border-radius: 1.6rem;
