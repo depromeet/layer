@@ -6,6 +6,7 @@ import { Button, ButtonProvider } from "../../button";
 import { Icon } from "../../Icon";
 import { Title } from "../../header/Title";
 import { useDesktopBasicModal } from "@/hooks/useDesktopBasicModal";
+import { ModalType } from "@/types/modal";
 
 type DesktopModalHeaderProps = {
   title: string;
@@ -14,18 +15,22 @@ type DesktopModalHeaderProps = {
 };
 
 type DesktopModalFooterProps = {
-  leftText?: string;
-  rightText?: string;
   leftFunction?: () => void;
   rightFunction?: () => void;
+  options?: ModalType["options"];
 };
 
 export default function DesktopModal() {
   const { modalDataState, close } = useDesktopBasicModal();
 
-  const { title, contents, onConfirm } = modalDataState;
+  const { title, contents, onConfirm, onClose, options } = modalDataState;
 
   if (!modalDataState.isOpen) return null;
+
+  const closeDesktopModal = () => {
+    close();
+    onClose?.();
+  };
 
   return (
     <Portal id="modal-root">
@@ -58,7 +63,7 @@ export default function DesktopModal() {
             transition: 0.4s all;
           `}
         >
-          <DesktopModalHeader title={title} onBack={close} onClose={close} />
+          <DesktopModalHeader title={title} onBack={close} onClose={closeDesktopModal} />
           <div
             css={css`
               flex: 1;
@@ -68,7 +73,7 @@ export default function DesktopModal() {
           >
             {contents}
           </div>
-          <DesktopModalFooter rightFunction={onConfirm} />
+          <DesktopModalFooter rightFunction={onConfirm} leftFunction={closeDesktopModal} options={options} />
         </div>
       </div>
     </Portal>
@@ -144,7 +149,12 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
   );
 }
 
-function DesktopModalFooter({ leftText = "취소", rightText = "확인", leftFunction, rightFunction = () => {} }: DesktopModalFooterProps) {
+function DesktopModalFooter({ leftFunction, rightFunction = () => {}, options }: DesktopModalFooterProps) {
+  const DEFAULT_BUTTON_TEXT = ["취소", "확인"];
+  const { buttonText = DEFAULT_BUTTON_TEXT, enableFooter = true } = options || { buttonText: DEFAULT_BUTTON_TEXT };
+
+  if (!enableFooter) return null;
+
   return (
     <div
       css={css`
@@ -163,11 +173,11 @@ function DesktopModalFooter({ leftText = "취소", rightText = "확인", leftFun
       >
         {leftFunction && (
           <Button colorSchema={"gray"} onClick={leftFunction}>
-            {leftText}
+            {buttonText[0]}
           </Button>
         )}
         <Button colorSchema={"primary"} onClick={rightFunction}>
-          {rightText}
+          {buttonText[1]}
         </Button>
       </ButtonProvider>
     </div>

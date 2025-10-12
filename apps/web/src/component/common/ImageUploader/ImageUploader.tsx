@@ -1,9 +1,10 @@
 import { css } from "@emotion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import DefaultSpaceImgUrl from "@/assets/imgs/space/spaceDefaultImg.png";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type ImageUploaderProps = {
   defaultImg?: string;
@@ -12,6 +13,11 @@ type ImageUploaderProps = {
 
 export const ImageUploader = ({ defaultImg, setImgFile }: ImageUploaderProps) => {
   const [imgUrl, setImgUrl] = useState(defaultImg || DefaultSpaceImgUrl);
+  const { isDesktop } = getDeviceType();
+
+  useEffect(() => {
+    setImgUrl(defaultImg || DefaultSpaceImgUrl);
+  }, [defaultImg]);
 
   const ref = useRef<HTMLInputElement>(null);
 
@@ -44,8 +50,8 @@ export const ImageUploader = ({ defaultImg, setImgFile }: ImageUploaderProps) =>
           position: relative;
           img {
             object-fit: cover;
-            width: 18rem;
-            height: 18rem;
+            width: ${isDesktop ? "12rem" : "18rem"};
+            height: ${isDesktop ? "12rem" : "18rem"};
             border-radius: 50%;
             overflow: hidden;
             margin-bottom: 1rem;
