@@ -8,6 +8,8 @@ import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { PROJECT_CATEGORY_MAP } from "../../constants";
 import { useEffect, useRef } from "react";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
+import { useDesktopBasicModal } from "@/hooks/useDesktopBasicModal";
+import AddSpacePage from "@/app/desktop/space/add/AddSpacePage";
 
 interface SpacesListProps {
   currentTab: "전체" | "개인" | "팀";
@@ -23,6 +25,18 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
   const { data: spaceData, hasNextPage, isPending, isFetchingNextPage, fetchNextPage } = useApiGetSpaceList(currentCategory);
 
   const spaces = spaceData?.pages.flatMap((page) => page.data) ?? [];
+
+  const { open: openDesktopModal } = useDesktopBasicModal();
+
+  const handleOpenSpaceAdd = () => {
+    openDesktopModal({
+      title: "",
+      contents: <AddSpacePage />,
+      options: {
+        enableFooter: false,
+      },
+    });
+  };
 
   useEffect(() => {
     const element = observerRef.current;
@@ -70,7 +84,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
       {spaces.map((space) => (
         <SpaceItem key={space.id} space={space} />
       ))}
-      <SpaceAddButton />
+      <SpaceAddButton onClick={handleOpenSpaceAdd} />
 
       {hasNextPage && <div ref={observerRef} style={{ height: "1px" }} />}
 
