@@ -6,11 +6,9 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import RetrospectsOverview from "./RetrospectsOverview";
 import { IndividualAnalyzeType } from "@/hooks/api/analysis/useApiGetAnalysis";
+import { useSatisfactionData } from "@/hooks/useSatisfactionData";
 
 const EMOTIONS: IconType[] = ["ic_very_poor", "ic_poor", "ic_commonly", "ic_good", "ic_very_good"];
-
-const SatisfactionIdx = 3; // TODO: 실제 만족도 할당
-const achievementPercentage = 78; // TODO: 실제 목표달성률 할당 (0-100 사이의 숫자)
 
 const PADDING_SUM = 8;
 
@@ -19,7 +17,10 @@ type AnalysisIndividualContentsProps = {
 };
 
 export default function AnalysisIndividualContents({ individualAnalysis }: AnalysisIndividualContentsProps) {
-  // TODO: 백엔드에 추가 API(개인) 수정 요청함. 백엔드 완료 후 작업 진행
+  const { dominantCategory } = useSatisfactionData(
+    individualAnalysis ? Array.from({ length: 5 }, (_, index) => (individualAnalysis.score === 4 - index ? 1 : 0)) : [0, 0, 0, 0, 0],
+  );
+
   return (
     <section
       css={css`
@@ -104,37 +105,38 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
               <Typography variant="title18Bold" color="gray900">
                 진행상황에 대해 대부분{" "}
               </Typography>
-              {/* TODO: 실제 만족도 할당 */}
               <Typography variant="title18Bold" color="blue600">
-                {"만족해요"}
+                {dominantCategory}
               </Typography>
             </div>
-            <div
-              css={css`
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 1.2rem;
-              `}
-            >
-              {EMOTIONS.map((item, index) => {
-                return (
-                  <div key={index}>
-                    <Icon
-                      icon={item}
-                      size={5.2}
-                      css={css`
-                        circle,
-                        ellipse {
-                          fill: ${SatisfactionIdx === index && SATISTFACTION_COLOR[SatisfactionIdx]};
-                          transition: 0.4s all;
-                        }
-                      `}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            {individualAnalysis && (
+              <div
+                css={css`
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 1.2rem;
+                `}
+              >
+                {EMOTIONS.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <Icon
+                        icon={item}
+                        size={5.2}
+                        css={css`
+                          circle,
+                          ellipse {
+                            fill: ${individualAnalysis.score === index && SATISTFACTION_COLOR[individualAnalysis.score]};
+                            transition: 0.4s all;
+                          }
+                        `}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </section>
 
           {/* ---------- 목표달성률 ---------- */}
@@ -152,9 +154,8 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                 <Typography variant="title18Bold" color="gray900">
                   목표달성률은{" "}
                 </Typography>
-                {/* TODO: 실제 목표달성률 할당 */}
                 <Typography variant="title18Bold" color="blue600">
-                  {achievementPercentage}%
+                  {individualAnalysis.goalCompletionRate}%
                 </Typography>
 
                 <Typography variant="title18Bold" color="gray900">
@@ -174,7 +175,7 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                   css={css`
                     position: absolute;
                     top: -5rem;
-                    left: ${achievementPercentage - PADDING_SUM}%; /* 비율에 따라 동적 위치 */
+                    left: ${individualAnalysis.goalCompletionRate - PADDING_SUM}%; /* 비율에 따라 동적 위치 */
                     transform: translateX(-50%); /* 중앙 정렬 */
                     background-color: white;
                     border-radius: 1.6rem;
@@ -202,7 +203,7 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                 >
                   <Icon icon="ic_person" size={2.0} color={DESIGN_TOKEN_COLOR.blue600} />
                   <Typography variant="title16Bold" color="gray900">
-                    {achievementPercentage}%
+                    {individualAnalysis.goalCompletionRate}%
                   </Typography>
                 </div>
 
@@ -224,13 +225,13 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                       // 각 구간의 끝점 (20, 40, 60, 80, 100)
                       const segmentEnd = (index + 1) * 20;
 
-                      if (achievementPercentage <= segmentStart) {
+                      if (individualAnalysis.goalCompletionRate <= segmentStart) {
                         return 0; // 비율이 구간 시작점보다 작으면 비움
-                      } else if (achievementPercentage >= segmentEnd) {
+                      } else if (individualAnalysis.goalCompletionRate >= segmentEnd) {
                         return 1; // 비율이 구간 끝점보다 크면 완전히 채움
                       } else {
                         // 비율이 구간 내에 있으면 부분적으로 채움
-                        return (achievementPercentage - segmentStart) / 20;
+                        return (individualAnalysis.goalCompletionRate - segmentStart) / 20;
                       }
                     };
 
@@ -256,7 +257,6 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                             width: ${fillRatio * 100}%;
                             height: 100%;
                             background-color: #6b9eff;
-                            border-radius: inherit;
                             transition: width 0.3s ease;
                           `}
                         />
