@@ -73,7 +73,7 @@ export default function DesktopModal() {
           >
             {contents}
           </div>
-          <DesktopModalFooter rightFunction={onConfirm} leftFunction={closeDesktopModal} options={options} />
+          <DesktopModalFooter rightFunction={onConfirm} leftFunction={onClose} options={options} />
         </div>
       </div>
     </Portal>
@@ -149,11 +149,10 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
   );
 }
 
-function DesktopModalFooter({ leftFunction, rightFunction = () => {}, options }: DesktopModalFooterProps) {
+function DesktopModalFooter({ leftFunction, rightFunction = () => {}, options = {} }: DesktopModalFooterProps) {
   const DEFAULT_BUTTON_TEXT = ["취소", "확인"];
-  const { buttonText = DEFAULT_BUTTON_TEXT, enableFooter = true } = options || { buttonText: DEFAULT_BUTTON_TEXT };
 
-  if (!enableFooter) return null;
+  if (!options.enableFooter) return null;
 
   return (
     <div
@@ -173,11 +172,11 @@ function DesktopModalFooter({ leftFunction, rightFunction = () => {}, options }:
       >
         {leftFunction && (
           <Button colorSchema={"gray"} onClick={leftFunction}>
-            {buttonText[0]}
+            {options?.buttonText?.[0] ?? DEFAULT_BUTTON_TEXT[0]}
           </Button>
         )}
         <Button colorSchema={"primary"} onClick={rightFunction}>
-          {buttonText[1]}
+          {options?.buttonText?.[1] ?? DEFAULT_BUTTON_TEXT[1]}
         </Button>
       </ButtonProvider>
     </div>
