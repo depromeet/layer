@@ -10,16 +10,16 @@ type ViewType = "leaderChange" | "memberDelete";
 
 interface MemberSelectionViewProps {
   members: Member[];
-  currentLeaderId: string;
+  currentLeaderId: number;
   onBack: () => void;
-  onConfirm: (selectedId: string) => void;
+  onConfirm: (selectedId: number) => void;
   viewType: ViewType;
 }
 
 export function MemberSelectionView({ members, currentLeaderId, onBack, onConfirm, viewType }: MemberSelectionViewProps) {
-  const [selectedMemberId, setSelectedMemberId] = useState(viewType === "leaderChange" ? currentLeaderId : "");
+  const [selectedMemberId, setSelectedMemberId] = useState<number | null>(viewType === "leaderChange" ? currentLeaderId : null);
 
-  const handleLeaderSelect = (memberId: string) => {
+  const handleLeaderSelect = (memberId: number) => {
     if (viewType === "leaderChange") {
       setSelectedMemberId(memberId);
     }
@@ -27,11 +27,11 @@ export function MemberSelectionView({ members, currentLeaderId, onBack, onConfir
 
   const handleLeaderChangeConfirm = () => {
     if (viewType === "leaderChange") {
-      onConfirm(selectedMemberId);
+      onConfirm(selectedMemberId as number);
     }
   };
 
-  const handleMemberDelete = (memberId: string) => {
+  const handleMemberDelete = (memberId: number) => {
     if (viewType === "memberDelete") {
       onConfirm(memberId);
     }
@@ -238,9 +238,9 @@ function MemberSelectionItem({ member, isSelected, onLeaderSelect, onMemberDelet
 
 interface LeaderChangeViewProps {
   members: Member[];
-  currentLeaderId: string;
+  currentLeaderId: number;
   onBack: () => void;
-  onConfirm: (newLeaderId: string) => void;
+  onConfirm: (newLeaderId: number) => void;
 }
 
 export function LeaderChangeView({ members, currentLeaderId, onBack, onConfirm }: LeaderChangeViewProps) {
@@ -249,11 +249,15 @@ export function LeaderChangeView({ members, currentLeaderId, onBack, onConfirm }
 
 interface MemberDeleteViewProps {
   members: Member[];
-  currentLeaderId: string;
+  currentLeaderId: number;
   onBack: () => void;
-  onDelete: (memberId: string) => void;
+  onDelete: (memberId: number) => void;
 }
 
 export function MemberDeleteView({ members, currentLeaderId, onBack, onDelete }: MemberDeleteViewProps) {
-  return <MemberSelectionView members={members} currentLeaderId={currentLeaderId} onBack={onBack} onConfirm={onDelete} viewType="memberDelete" />;
+  // 리더는 삭제할 수 없음
+  const filteredMembers = members.filter((member) => !member.isLeader);
+  return (
+    <MemberSelectionView members={filteredMembers} currentLeaderId={currentLeaderId} onBack={onBack} onConfirm={onDelete} viewType="memberDelete" />
+  );
 }

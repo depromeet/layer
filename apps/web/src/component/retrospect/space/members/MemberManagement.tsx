@@ -1,34 +1,58 @@
 import React, { useState, useRef, useEffect } from "react";
 import { css } from "@emotion/react";
+import Cookies from "js-cookie";
 import { MemberManagementButton } from "./MemberManagementButton";
 import { MemberManagementDropdown } from "./MemberManagementDropdown";
 import { MemberManagementHeader } from "./MemberManagementHeader";
 import { AddMemberButton } from "./AddMemberButton";
-import { MemberList, Member } from "./MemberList";
+import { MemberList } from "./MemberList";
 import { LeaderChangeView, MemberDeleteView } from "./MemberActionView";
 import { LeaderChangeConfirmModal } from "./LeaderChangeConfirmModal";
 import { MemberDeleteConfirmModal } from "./MemberDeleteConfirmModal";
+import { useChangeLeader } from "@/hooks/api/space/members/useApiChangeLeader";
+import { useApiKickMember } from "@/hooks/api/space/members/useApiKickMembers";
+import { useApiGetMemers } from "@/hooks/api/space/members/useApiGetMembers";
+import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
+import { useQueries } from "@tanstack/react-query";
 
-const MOCK_MEMBERS: Member[] = Array.from({ length: 20 }, (_, index) => ({
-  id: `member-${index}`,
-  name: "홍길동",
-  isLeader: index === 0,
-}));
+export default function MemberManagement({ spaceId }: { spaceId: string }) {
+  const [{ data: spaceInfo }] = useQueries({
+    queries: [useApiOptionsGetSpaceInfo(spaceId)],
+  });
 
-export default function MemberManagement() {
+  const { data: membersData } = useApiGetMemers(spaceId);
+  const members =
+    membersData?.map((member) => ({
+      ...member,
+      id: Number(member.id),
+    })) || [];
+  const memberId = Number(Cookies.get("memberId"));
+  const isCurrentUserLeader = members?.find((m) => m.id === memberId)?.isLeader || false;
+  const memberCount = spaceInfo?.memberCount || 0;
+
   const [isOpen, setIsOpen] = useState(false); // 팀원 관리 드롭다운 열림 여부
   const [isEditOpen, setIsEditOpen] = useState(false); // 팀원 관리 드롭다운 내부 편집 버튼 열림 여부
 
   // 팀원 관리 드롭다운 내부 뷰 타입
   // main: 팀원 관리 뷰, leaderChange: 대표자 변경 뷰, memberDelete: 팀원 삭제 뷰
   const [currentView, setCurrentView] = useState<"main" | "leaderChange" | "memberDelete">("main");
-  const [currentLeaderId, setCurrentLeaderId] = useState("member-0");
+  const [currentLeaderId, setCurrentLeaderId] = useState<number | null>(null);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [selectedLeaderId, setSelectedLeaderId] = useState("member-0");
+  const [selectedLeaderId, setSelectedLeaderId] = useState<number | null>(null);
   const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] = useState(false);
-  const [selectedDeleteMemberId, setSelectedDeleteMemberId] = useState("");
+  const [selectedDeleteMemberId, setSelectedDeleteMemberId] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const editDropdownRef = useRef<HTMLDivElement>(null);
+
+  const { mutate: changeLeader } = useChangeLeader(spaceId);
+  const { mutate: kickMember } = useApiKickMember(spaceId);
+
+  useEffect(() => {
+    const leaderId = members.find((m) => m.isLeader)?.id;
+    if (leaderId) {
+      setCurrentLeaderId(leaderId);
+    }
+  }, [members]);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -60,30 +84,48 @@ export default function MemberManagement() {
   };
 
   // 대표자 변경 시 모달 열기
-  const handleLeaderChange = (newLeaderId: string) => {
+  const handleLeaderChange = (newLeaderId: number) => {
     setSelectedLeaderId(newLeaderId);
     setIsConfirmModalOpen(true);
   };
 
   // 대표자 변경 시 모달 확인 버튼 클릭 시 대표자 변경
   const handleConfirmLeaderChange = () => {
-    setCurrentLeaderId(selectedLeaderId);
-    setIsConfirmModalOpen(false);
-    setCurrentView("main");
+    changeLeader(
+      {
+        spaceId,
+        memberId: String(selectedLeaderId),
+      },
+      {
+        onSuccess: () => {
+          setCurrentLeaderId(selectedLeaderId);
+          setIsConfirmModalOpen(false);
+          setCurrentView("main");
+        },
+      },
+    );
   };
 
   // 팀원 삭제 시 모달 열기
-  const handleMemberDelete = (memberId: string) => {
+  const handleMemberDelete = (memberId: number) => {
     setSelectedDeleteMemberId(memberId);
     setIsDeleteConfirmModalOpen(true);
   };
 
   // 팀원 삭제 시 모달 확인 버튼 클릭 시 팀원 삭제
   const handleConfirmMemberDelete = () => {
-    // TODO: 삭제 로직 구현
-    console.log("팀원 삭제:", selectedDeleteMemberId);
-    setIsDeleteConfirmModalOpen(false);
-    setCurrentView("main");
+    kickMember(
+      {
+        spaceId,
+        memberId: String(selectedDeleteMemberId),
+      },
+      {
+        onSuccess: () => {
+          setIsDeleteConfirmModalOpen(false);
+          setCurrentView("main");
+        },
+      },
+    );
   };
 
   // 팀원 관리 드롭다운 외부 클릭 시 뷰 닫기
@@ -113,7 +155,7 @@ export default function MemberManagement() {
         display: inline-block;
       `}
     >
-      <MemberManagementButton onClick={handleClick} memberCount={MOCK_MEMBERS.length} />
+      <MemberManagementButton onClick={handleClick} memberCount={memberCount} />
 
       {isOpen && (
         <MemberManagementDropdown>
@@ -129,6 +171,7 @@ export default function MemberManagement() {
                   onEditClick={handleEditClick}
                   editDropdownRef={editDropdownRef}
                   onEditAction={handleEditAction}
+                  isLeader={isCurrentUserLeader}
                 />
               </div>
               <div
@@ -139,7 +182,7 @@ export default function MemberManagement() {
                 `}
               >
                 <AddMemberButton onClick={handleAddMember} />
-                <MemberList members={MOCK_MEMBERS} onMemberClick={handleMemberClick} />
+                <MemberList members={members} onMemberClick={handleMemberClick} />
               </div>
             </>
           ) : currentView === "leaderChange" ? (
@@ -150,8 +193,8 @@ export default function MemberManagement() {
               `}
             >
               <LeaderChangeView
-                members={MOCK_MEMBERS}
-                currentLeaderId={currentLeaderId}
+                members={members}
+                currentLeaderId={currentLeaderId as number}
                 onBack={() => setCurrentView("main")}
                 onConfirm={handleLeaderChange}
               />
@@ -164,8 +207,8 @@ export default function MemberManagement() {
               `}
             >
               <MemberDeleteView
-                members={MOCK_MEMBERS}
-                currentLeaderId={currentLeaderId}
+                members={members}
+                currentLeaderId={currentLeaderId as number}
                 onBack={() => setCurrentView("main")}
                 onDelete={handleMemberDelete}
               />

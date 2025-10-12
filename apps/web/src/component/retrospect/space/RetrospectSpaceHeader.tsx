@@ -25,7 +25,7 @@ export default function RetrospectSpaceHeader() {
 
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
-  const { name, introduction } = currentSpace || {};
+  const { name } = currentSpace || {};
 
   const [{ data: spaceInfo }] = useQueries({
     queries: [useApiOptionsGetSpaceInfo(spaceId)],
@@ -132,11 +132,10 @@ export default function RetrospectSpaceHeader() {
               <Icon icon={"ic_chevron_down"} size={1.6} color={DESIGN_TOKEN_COLOR.gray600} />
             </div>
 
-            <MemberManagement />
+            <MemberManagement spaceId={spaceId} />
           </div>
         </div>
       </div>
-      <Typography variant="body14Medium">{introduction}</Typography>
     </section>
   );
 }

@@ -4,9 +4,9 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 
 export type Member = {
-  id: string;
+  id: number;
   name: string;
-  avatar?: string;
+  avatar?: string | null;
   isLeader?: boolean;
 };
 

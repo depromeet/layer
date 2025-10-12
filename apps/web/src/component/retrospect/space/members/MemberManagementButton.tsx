@@ -9,7 +9,7 @@ interface MemberManagementButtonProps {
   memberCount?: number;
 }
 
-export function MemberManagementButton({ onClick, memberCount = 20 }: MemberManagementButtonProps) {
+export function MemberManagementButton({ onClick, memberCount }: MemberManagementButtonProps) {
   return (
     <div
       onClick={onClick}

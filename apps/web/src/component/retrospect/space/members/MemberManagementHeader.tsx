@@ -8,9 +8,10 @@ interface MemberManagementHeaderProps {
   onEditClick: (e: React.MouseEvent) => void;
   editDropdownRef: React.RefObject<HTMLDivElement>;
   onEditAction: (action: string) => void;
+  isLeader: boolean;
 }
 
-export function MemberManagementHeader({ isEditOpen, onEditClick, editDropdownRef, onEditAction }: MemberManagementHeaderProps) {
+export function MemberManagementHeader({ isEditOpen, onEditClick, editDropdownRef, onEditAction, isLeader }: MemberManagementHeaderProps) {
   return (
     <div
       css={css`
@@ -34,34 +35,36 @@ export function MemberManagementHeader({ isEditOpen, onEditClick, editDropdownRe
           4
         </Typography>
       </div>
-      <div
-        css={css`
-          position: relative;
-        `}
-      >
+      {isLeader && (
         <div
-          onClick={onEditClick}
           css={css`
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding: 0.4rem 0.8rem;
-            border-radius: 0.6rem;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-
-            &:hover {
-              background-color: ${DESIGN_TOKEN_COLOR.gray100};
-            }
+            position: relative;
           `}
         >
-          <Typography variant="body14Medium" color="gray600">
-            편집
-          </Typography>
-        </div>
+          <div
+            onClick={onEditClick}
+            css={css`
+              display: flex;
+              align-items: center;
+              gap: 0.4rem;
+              padding: 0.4rem 0.8rem;
+              border-radius: 0.6rem;
+              cursor: pointer;
+              transition: background-color 0.2s ease;
 
-        {isEditOpen && <EditDropdown ref={editDropdownRef} onEditAction={onEditAction} />}
-      </div>
+              &:hover {
+                background-color: ${DESIGN_TOKEN_COLOR.gray100};
+              }
+            `}
+          >
+            <Typography variant="body14Medium" color="gray600">
+              편집
+            </Typography>
+          </div>
+
+          {isEditOpen && <EditDropdown ref={editDropdownRef} onEditAction={onEditAction} />}
+        </div>
+      )}
     </div>
   );
 }
