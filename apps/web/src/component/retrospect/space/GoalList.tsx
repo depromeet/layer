@@ -15,9 +15,9 @@ interface GoalListProps {
 
 export default function GoalList({ currentTab }: GoalListProps) {
   const params = useParams();
-
   const spaceId = params.spaceId as string;
 
+  // * 팀 실행목표 리스트 조회
   const { data } = useQuery(useApiOptionsGetTeamActionItemList(spaceId));
 
   // TODO: 실제 상태에 따라 필터링 로직 추가
@@ -59,7 +59,12 @@ export default function GoalList({ currentTab }: GoalListProps) {
         >
           {currentGoals?.map((goal, index) => (
             <div key={goal.retrospectId}>
-              <GoalCard title={goal.retrospectTitle} todoList={goal.actionItemList.map((item) => item.content)} status={goal.status} />
+              <GoalCard
+                spaceId={spaceId}
+                title={goal.retrospectTitle}
+                todoList={goal.actionItemList.map((item) => item.content)}
+                status={goal.status}
+              />
               {index < currentGoals.length - 1 && (
                 <div
                   css={css`

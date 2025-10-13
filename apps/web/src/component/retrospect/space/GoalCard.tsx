@@ -2,12 +2,14 @@ import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import ActionItemManageToggleMenu from "./ActionItemManageToggleMenu";
 
-interface GoalCardProps {
+type GoalCardProps = {
+  spaceId: string;
   title: string;
   todoList: string[];
   status: "PROCEEDING" | "DONE" | string;
-}
+};
 
 const STATUS_CONFIG = {
   PROCEEDING: {
@@ -27,13 +29,13 @@ const STATUS_CONFIG = {
   },
 };
 
-export default function GoalCard({ title, todoList, status }: GoalCardProps) {
-  const getStatusConfig = (status: string) => {
-    if (status === "PROCEEDING") return STATUS_CONFIG.PROCEEDING;
-    if (status === "DONE") return STATUS_CONFIG.DONE;
-    return STATUS_CONFIG.DEFAULT;
-  };
+const getStatusConfig = (status: string) => {
+  if (status === "PROCEEDING") return STATUS_CONFIG.PROCEEDING;
+  if (status === "DONE") return STATUS_CONFIG.DONE;
+  return STATUS_CONFIG.DEFAULT;
+};
 
+export default function GoalCard({ spaceId, title, todoList, status }: GoalCardProps) {
   const statusStyle = getStatusConfig(status);
 
   return (
@@ -80,7 +82,7 @@ export default function GoalCard({ title, todoList, status }: GoalCardProps) {
           `}
         >
           <Icon icon="ic_plus" size={1.2} color={DESIGN_TOKEN_COLOR.gray500} />
-          <Icon icon="ic_more" size={2.0} color={DESIGN_TOKEN_COLOR.gray500} />
+          <ActionItemManageToggleMenu spaceId={spaceId} />
         </div>
       </div>
 

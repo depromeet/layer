@@ -5,7 +5,7 @@ import { ANIMATION } from "@/style/common/animation";
 import { Button, ButtonProvider } from "../../button";
 import { Icon } from "../../Icon";
 import { Title } from "../../header/Title";
-import { useDesktopBasicModal } from "@/hooks/useDesktopBasicModal";
+import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { ModalType } from "@/types/modal";
 
 type DesktopModalHeaderProps = {

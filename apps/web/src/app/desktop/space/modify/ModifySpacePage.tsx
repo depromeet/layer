@@ -4,7 +4,7 @@ import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
 import useModifySpace from "@/hooks/app/space/useModifySpace";
-import { useDesktopBasicModal } from "@/hooks/useDesktopBasicModal";
+import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { css } from "@emotion/react";
 import { useSearchParams } from "react-router-dom";
 
