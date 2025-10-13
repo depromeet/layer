@@ -4,9 +4,9 @@ import { Portal } from "@/component/common/Portal";
 import { ANIMATION } from "@/style/common/animation";
 import { Button, ButtonProvider } from "../../button";
 import { Icon } from "../../Icon";
-import { Title } from "../../header/Title";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { ModalType } from "@/types/modal";
+import { Typography } from "../../typography";
 
 type DesktopModalHeaderProps = {
   title: string;
@@ -15,8 +15,7 @@ type DesktopModalHeaderProps = {
 };
 
 type DesktopModalFooterProps = {
-  leftFunction?: () => void;
-  rightFunction?: () => void;
+  onConfirm?: () => void;
   options?: ModalType["options"];
 };
 
@@ -56,9 +55,9 @@ export default function DesktopModal() {
             flex-direction: column;
             overflow-y: auto;
             background-color: #fff;
-            border-radius: 8px;
+            border-radius: 2rem;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            padding: 2rem;
+            padding: 2.4rem;
             animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
             transition: 0.4s all;
           `}
@@ -73,7 +72,7 @@ export default function DesktopModal() {
           >
             {contents}
           </div>
-          <DesktopModalFooter rightFunction={onConfirm} leftFunction={onClose} options={options} />
+          <DesktopModalFooter onConfirm={onConfirm} options={options} />
         </div>
       </div>
     </Portal>
@@ -100,6 +99,7 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
         >
           <Icon
             icon={"ic_arrow_back_white"}
+            size={2.4}
             css={css`
               path {
                 fill: #212329;
@@ -112,7 +112,7 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
       ) : (
         <div
           css={css`
-            width: 1.5rem;
+            width: 1.8rem;
           `}
         />
       )}
@@ -120,10 +120,12 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
       <div
         css={css`
           flex: 1;
-          margin: 0 0.5rem;
+          margin: 0 0.5rem 0 1.2rem;
         `}
       >
-        <Title type="modal" contents={title} />
+        <Typography variant="title22Bold" color="gray900">
+          {title}
+        </Typography>
       </div>
 
       <button
@@ -136,6 +138,7 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
       >
         <Icon
           icon={"ic_quit"}
+          size={2.4}
           css={css`
             path {
               fill: #212329;
@@ -149,7 +152,7 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
   );
 }
 
-function DesktopModalFooter({ leftFunction, rightFunction = () => {}, options = {} }: DesktopModalFooterProps) {
+function DesktopModalFooter({ onConfirm = () => {}, options = {} }: DesktopModalFooterProps) {
   const DEFAULT_BUTTON_TEXT = ["취소", "확인"];
 
   if (!options.enableFooter) return null;
@@ -170,12 +173,12 @@ function DesktopModalFooter({ leftFunction, rightFunction = () => {}, options = 
           }
         `}
       >
-        {leftFunction && (
-          <Button colorSchema={"gray"} onClick={leftFunction}>
+        {options.footerLeftFunction && (
+          <Button colorSchema={"gray"} onClick={options.footerLeftFunction}>
             {options?.buttonText?.[0] ?? DEFAULT_BUTTON_TEXT[0]}
           </Button>
         )}
-        <Button colorSchema={"primary"} onClick={rightFunction}>
+        <Button colorSchema={"primary"} onClick={onConfirm}>
           {options?.buttonText?.[1] ?? DEFAULT_BUTTON_TEXT[1]}
         </Button>
       </ButtonProvider>

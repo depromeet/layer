@@ -7,6 +7,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 import useToggleMenu from "@/hooks/useToggleMenu";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
+import ActionItemsEditSection from "./ActionItemsEditSection";
 
 export default function ActionItemManageToggleMenu({
   //   spaceId,
@@ -18,7 +19,7 @@ export default function ActionItemManageToggleMenu({
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
 }) {
   const { isShowMenu, showMenu, hideMenu } = useToggleMenu();
-  const { open: openDesktopModal } = useDesktopBasicModal();
+  const { open: openDesktopModal, close } = useDesktopBasicModal();
 
   /**
    * @description 토글 메뉴 표시 함수
@@ -35,10 +36,11 @@ export default function ActionItemManageToggleMenu({
   const handleEditActionItem = () => {
     openDesktopModal({
       title: "실행목표 편집",
-      contents: "dd",
+      contents: <ActionItemsEditSection />,
+      onConfirm: () => close(),
       onClose: () => {},
       options: {
-        enableFooter: false,
+        enableFooter: true,
       },
     });
     hideMenu();

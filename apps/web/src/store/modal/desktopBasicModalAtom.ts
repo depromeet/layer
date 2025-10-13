@@ -13,5 +13,6 @@ export const desktopBasicModalState = atom<ModalType>({
     buttonText: [],
     autoClose: true,
     enableFooter: true,
+    footerLeftFunction: undefined,
   },
 });
