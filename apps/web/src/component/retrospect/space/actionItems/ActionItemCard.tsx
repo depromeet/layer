@@ -4,7 +4,7 @@ import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import ActionItemManageToggleMenu from "./ActionItemManageToggleMenu";
 
-type GoalCardProps = {
+type ActionItemCardProps = {
   spaceId: string;
   title: string;
   todoList: string[];
@@ -35,7 +35,7 @@ const getStatusConfig = (status: string) => {
   return STATUS_CONFIG.DEFAULT;
 };
 
-export default function GoalCard({ spaceId, title, todoList, status }: GoalCardProps) {
+export default function ActionItemCard({ spaceId, title, todoList, status }: ActionItemCardProps) {
   const statusStyle = getStatusConfig(status);
 
   return (

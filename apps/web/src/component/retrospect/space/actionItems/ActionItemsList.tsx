@@ -7,24 +7,22 @@ import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useApiOptionsGetTeamActionItemList";
 
-import GoalCard from "./GoalCard";
+import ActionItemCard from "./ActionItemCard";
 
-interface GoalListProps {
+type ActionItemsListProps = {
   currentTab: "진행중" | "지난";
-}
+};
 
-export default function GoalList({ currentTab }: GoalListProps) {
+export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
   const params = useParams();
   const spaceId = params.spaceId as string;
 
   // * 팀 실행목표 리스트 조회
   const { data } = useQuery(useApiOptionsGetTeamActionItemList(spaceId));
 
-  // TODO: 실제 상태에 따라 필터링 로직 추가
-  const inProgressGoals = data?.teamActionItemList.filter((goal) => goal.status === "PROCEEDING");
-  const pastGoals = data?.teamActionItemList.filter((goal) => goal.status === "DONE");
-
-  const currentGoals = currentTab === "진행중" ? inProgressGoals : pastGoals;
+  const inProgressActionItems = data?.teamActionItemList.filter((goal) => goal.status === "PROCEEDING");
+  const doneActionItems = data?.teamActionItemList.filter((goal) => goal.status === "DONE");
+  const currentActionItems = currentTab === "진행중" ? inProgressActionItems : doneActionItems;
 
   return (
     <section
@@ -32,7 +30,7 @@ export default function GoalList({ currentTab }: GoalListProps) {
         width: 100%;
       `}
     >
-      {currentGoals?.length === 0 ? (
+      {currentActionItems?.length === 0 ? (
         <div
           css={css`
             display: flex;
@@ -57,15 +55,15 @@ export default function GoalList({ currentTab }: GoalListProps) {
             margin-top: 1.2rem;
           `}
         >
-          {currentGoals?.map((goal, index) => (
+          {currentActionItems?.map((goal, index) => (
             <div key={goal.retrospectId}>
-              <GoalCard
+              <ActionItemCard
                 spaceId={spaceId}
                 title={goal.retrospectTitle}
                 todoList={goal.actionItemList.map((item) => item.content)}
                 status={goal.status}
               />
-              {index < currentGoals.length - 1 && (
+              {index < currentActionItems.length - 1 && (
                 <div
                   css={css`
                     width: 100%;
