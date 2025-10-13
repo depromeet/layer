@@ -6,22 +6,35 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 interface GoalCardProps {
   title: string;
   todoList: string[];
-  status: "실행 중" | "완료";
+  status: "PROCEEDING" | "DONE" | string;
 }
 
 const STATUS_CONFIG = {
-  "실행 중": {
+  PROCEEDING: {
     backgroundColor: DESIGN_TOKEN_COLOR.blue100,
     textColor: "blue600" as const,
+    label: "진행 중",
   },
-  완료: {
+  DONE: {
     backgroundColor: DESIGN_TOKEN_COLOR.green100,
     textColor: "green700" as const,
+    label: "완료",
+  },
+  DEFAULT: {
+    backgroundColor: DESIGN_TOKEN_COLOR.gray100,
+    textColor: "gray600" as const,
+    label: "미정",
   },
 };
 
 export default function GoalCard({ title, todoList, status }: GoalCardProps) {
-  const statusStyle = STATUS_CONFIG[status];
+  const getStatusConfig = (status: string) => {
+    if (status === "PROCEEDING") return STATUS_CONFIG.PROCEEDING;
+    if (status === "DONE") return STATUS_CONFIG.DONE;
+    return STATUS_CONFIG.DEFAULT;
+  };
+
+  const statusStyle = getStatusConfig(status);
 
   return (
     <div
@@ -56,7 +69,7 @@ export default function GoalCard({ title, todoList, status }: GoalCardProps) {
           `}
         >
           <Typography variant="body11SemiBold" color={statusStyle.textColor}>
-            {status}
+            {statusStyle.label}
           </Typography>
         </div>
         <div
