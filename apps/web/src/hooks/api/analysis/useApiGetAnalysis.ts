@@ -7,6 +7,8 @@ import { AxiosResponse } from "axios";
 import { ErrorResponse } from "react-router-dom";
 
 export type IndividualAnalyzeType = {
+  score: number;
+  goalCompletionRate: number;
   goodPoints: Insight[];
   badPoints: Insight[];
   improvementPoints: Insight[];

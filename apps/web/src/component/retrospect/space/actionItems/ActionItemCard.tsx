@@ -2,26 +2,45 @@ import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import ActionItemManageToggleMenu from "./ActionItemManageToggleMenu";
 
-interface GoalCardProps {
+type ActionItemCardProps = {
+  spaceId: string;
+  retrospectId: number;
   title: string;
-  todoList: string[];
-  status: "실행 중" | "완료";
-}
+  todoList: {
+    actionItemId: number;
+    content: string;
+  }[];
+  status: "PROCEEDING" | "DONE" | string;
+};
 
 const STATUS_CONFIG = {
-  "실행 중": {
+  PROCEEDING: {
     backgroundColor: DESIGN_TOKEN_COLOR.blue100,
     textColor: "blue600" as const,
+    label: "진행 중",
   },
-  완료: {
+  DONE: {
     backgroundColor: DESIGN_TOKEN_COLOR.green100,
     textColor: "green700" as const,
+    label: "완료",
+  },
+  DEFAULT: {
+    backgroundColor: DESIGN_TOKEN_COLOR.gray100,
+    textColor: "gray600" as const,
+    label: "미정",
   },
 };
 
-export default function GoalCard({ title, todoList, status }: GoalCardProps) {
-  const statusStyle = STATUS_CONFIG[status];
+const getStatusConfig = (status: string) => {
+  if (status === "PROCEEDING") return STATUS_CONFIG.PROCEEDING;
+  if (status === "DONE") return STATUS_CONFIG.DONE;
+  return STATUS_CONFIG.DEFAULT;
+};
+
+export default function ActionItemCard({ spaceId, retrospectId, title, todoList, status }: ActionItemCardProps) {
+  const statusStyle = getStatusConfig(status);
 
   return (
     <div
@@ -56,7 +75,7 @@ export default function GoalCard({ title, todoList, status }: GoalCardProps) {
           `}
         >
           <Typography variant="body11SemiBold" color={statusStyle.textColor}>
-            {status}
+            {statusStyle.label}
           </Typography>
         </div>
         <div
@@ -67,7 +86,7 @@ export default function GoalCard({ title, todoList, status }: GoalCardProps) {
           `}
         >
           <Icon icon="ic_plus" size={1.2} color={DESIGN_TOKEN_COLOR.gray500} />
-          <Icon icon="ic_more" size={2.0} color={DESIGN_TOKEN_COLOR.gray500} />
+          <ActionItemManageToggleMenu spaceId={spaceId} retrospectId={retrospectId} todoList={todoList} />
         </div>
       </div>
 
@@ -124,7 +143,7 @@ export default function GoalCard({ title, todoList, status }: GoalCardProps) {
           ) : (
             todoList.map((todo) => (
               <div
-                key={todo}
+                key={todo.actionItemId}
                 css={css`
                   display: flex;
                   align-items: center;
@@ -141,7 +160,7 @@ export default function GoalCard({ title, todoList, status }: GoalCardProps) {
                   `}
                 />
                 <Typography variant="body14Medium" color="gray900">
-                  {todo}
+                  {todo.content}
                 </Typography>
               </div>
             ))

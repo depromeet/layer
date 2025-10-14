@@ -1,8 +1,8 @@
 import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
-
 import { Icon } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
+import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useActionModal } from "@/hooks/useActionModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
@@ -11,6 +11,7 @@ import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { isSpaceLeader } from "@/utils/userUtil";
 import { css } from "@emotion/react";
 import MemberManagement from "./members/MemberManagement";
 import { useQueries } from "@tanstack/react-query";
@@ -25,7 +26,8 @@ export default function RetrospectSpaceHeader() {
 
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
-  const { name } = currentSpace || {};
+  const { name, introduction, leader } = currentSpace || {};
+  const isLeader = isSpaceLeader(leader?.id);
 
   const [{ data: spaceInfo }] = useQueries({
     queries: [useApiOptionsGetSpaceInfo(spaceId)],
@@ -84,7 +86,16 @@ export default function RetrospectSpaceHeader() {
             justify-content: space-between;
           `}
         >
-          <Typography variant="heading24Bold">{name}</Typography>
+          <div
+            css={css`
+              display: flex;
+              align-items: center;
+              column-gap: 0.6rem;
+            `}
+          >
+            <Typography variant="heading24Bold">{name}</Typography>
+            {isLeader && <SpaceManageToggleMenu spaceId={spaceId} iconSize={2.4} iconColor={"gray900"} />}
+          </div>
           <div
             css={css`
               display: flex;
