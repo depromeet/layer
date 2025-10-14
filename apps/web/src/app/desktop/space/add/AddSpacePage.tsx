@@ -15,7 +15,8 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ProjectType } from "@/types/space";
 import { css } from "@emotion/react";
 import { useAtom, useAtomValue } from "jotai";
-import { createContext, Fragment, useContext, useState } from "react";
+import { useResetAtom } from "jotai/utils";
+import { createContext, Fragment, useContext, useEffect, useState } from "react";
 
 // 각 단계에서 필요한 상태와 함수를 Context로 관리해요
 // 해당 Context는 AddSpacePage 컴포넌트에서 세팅이 이루어져요
@@ -86,17 +87,17 @@ function InputSpaceInfoFunnel() {
   const [createSpaceInfoAtom, setCreateSpaceInfoAtom] = useAtom(createSpaceState);
   // TODO : @jae1n - 퍼널 이야기 후, atom 관리로 체계 일부 변경 필요
   const { value: title, handleInputChange: handleNameChange } = useInput(createSpaceInfoAtom.title);
-  const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(createSpaceInfoAtom.description);
+  const { value: description, handleInputChange: handleDescriptionChange } = useInput(createSpaceInfoAtom.description);
   const { track } = useMixpanel();
 
   const handleDataSave = () => {
     // FIXME: 무언가 이제는 불필요한 믹스패널 트래커같은데.. 일단 보류
     track("RETROSPECT_CREATE_MAININFO", {
       titleLength: title.length,
-      introLength: introduction.length,
+      introLength: description.length,
     });
     nextPhase();
-    setCreateSpaceInfoAtom((prev) => ({ ...prev, title, introduction }));
+    setCreateSpaceInfoAtom((prev) => ({ ...prev, title, description }));
   };
 
   return (
@@ -119,7 +120,7 @@ function InputSpaceInfoFunnel() {
           <InputLabelContainer id="name">
             <Label>한 줄 설명</Label>
             <TextArea
-              value={introduction}
+              value={description}
               onChange={handleDescriptionChange}
               maxLength={20}
               count
@@ -247,6 +248,11 @@ export default function AddSpacePage() {
   const isFirstPhase = phase === 0;
   const nextPhase = () => setPhase((prev) => (prev > TOTAL_PHASE - 1 ? prev : prev + 1));
   const prevPhase = () => setPhase((prev) => (prev < 1 ? prev : prev - 1));
+  const resetCreateSpaceAtom = useResetAtom(createSpaceState);
+
+  useEffect(() => {
+    return () => resetCreateSpaceAtom();
+  }, []);
 
   return (
     <PhaseContext.Provider
