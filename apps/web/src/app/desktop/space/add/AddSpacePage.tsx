@@ -10,11 +10,11 @@ import { Typography } from "@/component/common/typography";
 import { categoryMap } from "@/component/space/space.const";
 import { useInput } from "@/hooks/useInput";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
-import { spaceState } from "@/store/space/spaceAtom";
+import { createSpaceState, spaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ProjectType } from "@/types/space";
 import { css } from "@emotion/react";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { createContext, Fragment, useContext, useState } from "react";
 
 // 각 단계에서 필요한 상태와 함수를 Context로 관리해요
@@ -83,17 +83,20 @@ function SelectSpaceTypeFunnel() {
 // 2단계 퍼널: 프로젝트 정보 입력
 function InputSpaceInfoFunnel() {
   const { nextPhase, prevPhase } = useContext(PhaseContext);
-  // TODO : @jae1n - 퍼널 이야기 후, atom 관리로 변경 예정
-  const { value: title, handleInputChange: handleNameChange } = useInput("");
-  const { value: introduction, handleInputChange: handleDescriptionChange } = useInput("");
+  const [createSpaceInfoAtom, setCreateSpaceInfoAtom] = useAtom(createSpaceState);
+  // TODO : @jae1n - 퍼널 이야기 후, atom 관리로 체계 일부 변경 필요
+  const { value: title, handleInputChange: handleNameChange } = useInput(createSpaceInfoAtom.title);
+  const { value: introduction, handleInputChange: handleDescriptionChange } = useInput(createSpaceInfoAtom.description);
   const { track } = useMixpanel();
 
   const handleDataSave = () => {
+    // FIXME: 무언가 이제는 불필요한 믹스패널 트래커같은데.. 일단 보류
     track("RETROSPECT_CREATE_MAININFO", {
       titleLength: title.length,
       introLength: introduction.length,
     });
     nextPhase();
+    setCreateSpaceInfoAtom((prev) => ({ ...prev, title, introduction }));
   };
 
   return (
@@ -150,7 +153,7 @@ function InputSpaceInfoFunnel() {
 function SelectRetrospectTemplateFunnel() {
   const { prevPhase, nextPhase } = useContext(PhaseContext);
   // TODO: @jae1n - 프로젝트 유형에 따른 텍스트 변경 필요
-  const title = "프로젝트";
+  const { title } = useAtomValue(createSpaceState);
   const [templateType, setTemplateType] = useState<"recommendation" | "list">("recommendation");
 
   const TEMPLATE_SELECTION_OPTIONS: Array<{
