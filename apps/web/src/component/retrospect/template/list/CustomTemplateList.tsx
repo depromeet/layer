@@ -2,16 +2,22 @@ import { css } from "@emotion/react";
 import { useContext, useMemo } from "react";
 
 import { CustomTemplateListItem } from "./CustomTemplateListItem";
-import { TemplateListPageContext } from "@/app/desktop/component/retrospect/template/list";
+import { TemplateListPageContext as DesktopTemplateListPageContext } from "@/app/desktop/component/retrospect/template/list";
+import { TemplateListPageContext as MobileTemplateListPageContext } from "@/app/mobile/retrospect/template/list/TemplateListPage";
 
 import { EmptyList } from "@/component/common/empty";
 import { SkeletonCard } from "@/component/common/skeleton/SkeletonCard";
 import { useGetCustomTemplateList } from "@/hooks/api/template/useGetCustomTemplateList";
 import { useIntersectionObserve } from "@/hooks/useIntersectionObserve";
 import { formatDateToString } from "@/utils/formatDate";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 export function CustomTemplateList() {
-  const { spaceId } = useContext(TemplateListPageContext);
+  const { isDesktop } = getDeviceType();
+  const desktopContext = useContext(DesktopTemplateListPageContext);
+  const mobileContext = useContext(MobileTemplateListPageContext);
+  const { spaceId } = isDesktop ? desktopContext : mobileContext;
+
   const { data, fetchNextPage, hasNextPage } = useGetCustomTemplateList(+spaceId);
 
   const targetDivRef = useIntersectionObserve({
