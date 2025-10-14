@@ -20,7 +20,6 @@ function CustomTemplateListDetailItem({ templateId }: { templateId: number }) {
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
   const handleSelectTemplate = () => {
-    console.log("templateId", templateId);
     setRetrospectValue((prev) => ({
       ...prev,
       templateId: String(templateId),
