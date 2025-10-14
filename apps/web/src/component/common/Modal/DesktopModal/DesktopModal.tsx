@@ -67,7 +67,7 @@ export default function DesktopModal() {
             css={css`
               flex: 1;
               overflow-y: auto;
-              padding: 2rem 2.4rem;
+              padding: 2rem 2.4rem 0rem 2.4rem;
             `}
           >
             {contents}

@@ -17,8 +17,8 @@ export type ExtendedActionItemType = {
 };
 
 export type TeamActionItemType = {
-  retrospectId: string;
-  retrospectTitle: string;
+  spaceId: string;
+  spaceName: string;
   teamActionItemList: ExtendedActionItemType[];
 };
 

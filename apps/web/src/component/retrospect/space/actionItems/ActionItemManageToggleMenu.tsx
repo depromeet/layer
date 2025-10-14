@@ -9,15 +9,24 @@ import useToggleMenu from "@/hooks/useToggleMenu";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import ActionItemsEditSection from "./ActionItemsEditSection";
 
-export default function ActionItemManageToggleMenu({
-  //   spaceId,
-  iconSize = 1.8,
-  iconColor = "gray900",
-}: {
+type ActionItemManageToggleMenuProps = {
   spaceId: string;
+  retrospectId: number;
+  todoList: {
+    actionItemId: number;
+    content: string;
+  }[];
   iconSize?: number;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
-}) {
+};
+
+export default function ActionItemManageToggleMenu({
+  spaceId,
+  retrospectId,
+  todoList,
+  iconSize = 1.8,
+  iconColor = "gray900",
+}: ActionItemManageToggleMenuProps) {
   const { isShowMenu, showMenu, hideMenu } = useToggleMenu();
   const { open: openDesktopModal, close } = useDesktopBasicModal();
 
@@ -36,11 +45,23 @@ export default function ActionItemManageToggleMenu({
   const handleEditActionItem = () => {
     openDesktopModal({
       title: "실행목표 편집",
-      contents: <ActionItemsEditSection />,
-      onConfirm: () => close(),
+      contents: (
+        <ActionItemsEditSection
+          spaceId={spaceId}
+          retrospectId={retrospectId}
+          todoList={todoList.map((item) => ({
+            actionItemId: item.actionItemId.toString(),
+            content: item.content,
+          }))}
+          onClose={close}
+        />
+      ),
+      onConfirm: () => {},
       onClose: () => {},
       options: {
-        enableFooter: true,
+        enableFooter: false,
+        needsBackButton: true,
+        backButtonCallback: () => close(),
       },
     });
     hideMenu();
