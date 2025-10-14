@@ -57,7 +57,7 @@ export default function DesktopModal() {
             background-color: #fff;
             border-radius: 2rem;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            padding: 2.4rem;
+            padding: 2.4rem 0;
             animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
             transition: 0.4s all;
           `}
@@ -67,7 +67,7 @@ export default function DesktopModal() {
             css={css`
               flex: 1;
               overflow-y: auto;
-              padding: 2rem 0;
+              padding: 2rem 2.4rem;
             `}
           >
             {contents}
@@ -86,6 +86,7 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 0 2.4rem;
       `}
     >
       {onBack ? (
@@ -162,6 +163,7 @@ function DesktopModalFooter({ onConfirm = () => {}, options = {} }: DesktopModal
       css={css`
         width: 100%;
         align-content: flex-end;
+        padding: 0 2.4rem;
       `}
     >
       <ButtonProvider
