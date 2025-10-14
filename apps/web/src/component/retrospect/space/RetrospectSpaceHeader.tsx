@@ -26,7 +26,7 @@ export default function RetrospectSpaceHeader() {
 
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
-  const { name, introduction, leader } = currentSpace || {};
+  const { name, leader } = currentSpace || {};
   const isLeader = isSpaceLeader(leader?.id);
 
   const [{ data: spaceInfo }] = useQueries({
