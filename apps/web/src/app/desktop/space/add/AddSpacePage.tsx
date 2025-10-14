@@ -273,7 +273,13 @@ export default function AddSpacePage() {
           height: 100%;
         `}
       >
-        <ProgressBar curPage={phase + 1} lastPage={TOTAL_PHASE} />
+        <ProgressBar
+          curPage={phase + 1}
+          lastPage={TOTAL_PHASE}
+          css={css`
+            margin-top: 0rem;
+          `}
+        />
         {
           {
             0: <SelectSpaceTypeFunnel />,

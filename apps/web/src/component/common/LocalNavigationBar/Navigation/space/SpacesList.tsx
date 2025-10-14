@@ -8,8 +8,8 @@ import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { PROJECT_CATEGORY_MAP } from "../../constants";
 import { useEffect, useRef } from "react";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
-import { useDesktopBasicModal } from "@/hooks/useDesktopBasicModal";
 import AddSpacePage from "@/app/desktop/space/add/AddSpacePage";
+import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 
 interface SpacesListProps {
   currentTab: "전체" | "개인" | "팀";
