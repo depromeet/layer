@@ -59,8 +59,9 @@ export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
             <div key={goal.retrospectId}>
               <ActionItemCard
                 spaceId={spaceId}
+                retrospectId={goal.retrospectId}
                 title={goal.retrospectTitle}
-                todoList={goal.actionItemList.map((item) => item.content)}
+                todoList={goal.actionItemList}
                 status={goal.status}
               />
               {index < currentActionItems.length - 1 && (

@@ -6,8 +6,12 @@ import ActionItemManageToggleMenu from "./ActionItemManageToggleMenu";
 
 type ActionItemCardProps = {
   spaceId: string;
+  retrospectId: number;
   title: string;
-  todoList: string[];
+  todoList: {
+    actionItemId: number;
+    content: string;
+  }[];
   status: "PROCEEDING" | "DONE" | string;
 };
 
@@ -35,7 +39,7 @@ const getStatusConfig = (status: string) => {
   return STATUS_CONFIG.DEFAULT;
 };
 
-export default function ActionItemCard({ spaceId, title, todoList, status }: ActionItemCardProps) {
+export default function ActionItemCard({ spaceId, retrospectId, title, todoList, status }: ActionItemCardProps) {
   const statusStyle = getStatusConfig(status);
 
   return (
@@ -82,7 +86,7 @@ export default function ActionItemCard({ spaceId, title, todoList, status }: Act
           `}
         >
           <Icon icon="ic_plus" size={1.2} color={DESIGN_TOKEN_COLOR.gray500} />
-          <ActionItemManageToggleMenu spaceId={spaceId} />
+          <ActionItemManageToggleMenu spaceId={spaceId} retrospectId={retrospectId} todoList={todoList} />
         </div>
       </div>
 
@@ -139,7 +143,7 @@ export default function ActionItemCard({ spaceId, title, todoList, status }: Act
           ) : (
             todoList.map((todo) => (
               <div
-                key={todo}
+                key={todo.actionItemId}
                 css={css`
                   display: flex;
                   align-items: center;
@@ -156,7 +160,7 @@ export default function ActionItemCard({ spaceId, title, todoList, status }: Act
                   `}
                 />
                 <Typography variant="body14Medium" color="gray900">
-                  {todo}
+                  {todo.content}
                 </Typography>
               </div>
             ))
