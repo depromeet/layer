@@ -12,7 +12,9 @@ export type ModalType = {
     buttonText?: string[];
     autoClose?: boolean;
     enableFooter?: boolean;
-    footerLeftFunction?: () => void;
+    needsBackButton?: boolean;
+    backButtonCallback?: () => void;
+    footerLeftCallback?: () => void;
   };
 };
 

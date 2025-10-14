@@ -15,6 +15,8 @@ export default function useDesktopBasicModal() {
         type: "confirm",
         buttonText: [],
         autoClose: true,
+        needsBackButton: false,
+        backButtonCallback: undefined,
         enableFooter: true,
       },
     });

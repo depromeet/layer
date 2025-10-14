@@ -10,8 +10,8 @@ import { Typography } from "../../typography";
 
 type DesktopModalHeaderProps = {
   title: string;
-  onBack?: () => void;
   onClose: () => void;
+  options?: ModalType["options"];
 };
 
 type DesktopModalFooterProps = {
@@ -62,7 +62,7 @@ export default function DesktopModal() {
             transition: 0.4s all;
           `}
         >
-          <DesktopModalHeader title={title} onBack={close} onClose={closeDesktopModal} />
+          <DesktopModalHeader title={title} onClose={closeDesktopModal} />
           <div
             css={css`
               flex: 1;
@@ -79,7 +79,7 @@ export default function DesktopModal() {
   );
 }
 
-function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps) {
+function DesktopModalHeader({ title, onClose, options }: DesktopModalHeaderProps) {
   return (
     <div
       css={css`
@@ -89,9 +89,9 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
         padding: 0 2.4rem;
       `}
     >
-      {onBack ? (
+      {options?.needsBackButton ? (
         <button
-          onClick={onBack}
+          onClick={options?.backButtonCallback}
           css={css`
             display: flex;
             align-items: center;
@@ -107,7 +107,6 @@ function DesktopModalHeader({ title, onBack, onClose }: DesktopModalHeaderProps)
                 transition: 0.4s all;
               }
             `}
-            onClick={onBack}
           />
         </button>
       ) : (
@@ -175,8 +174,8 @@ function DesktopModalFooter({ onConfirm = () => {}, options = {} }: DesktopModal
           }
         `}
       >
-        {options.footerLeftFunction && (
-          <Button colorSchema={"gray"} onClick={options.footerLeftFunction}>
+        {options.footerLeftCallback && (
+          <Button colorSchema={"gray"} onClick={options.footerLeftCallback}>
             {options?.buttonText?.[0] ?? DEFAULT_BUTTON_TEXT[0]}
           </Button>
         )}
