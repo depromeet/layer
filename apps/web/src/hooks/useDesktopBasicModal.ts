@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { ModalType } from "@/types/modal";
 import { desktopBasicModalState } from "@/store/modal/desktopBasicModalAtom";
 
-export const useDesktopBasicModal = () => {
+export default function useDesktopBasicModal() {
   const [modalDataState, setModalDataState] = useAtom(desktopBasicModalState);
 
   const close = useCallback(() => {
@@ -15,6 +15,8 @@ export const useDesktopBasicModal = () => {
         type: "confirm",
         buttonText: [],
         autoClose: true,
+        needsBackButton: false,
+        backButtonCallback: undefined,
         enableFooter: true,
       },
     });
@@ -43,4 +45,4 @@ export const useDesktopBasicModal = () => {
     close,
     modalDataState,
   };
-};
+}

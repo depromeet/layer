@@ -2,7 +2,7 @@ import ModifySpacePage from "@/app/desktop/space/modify/ModifySpacePage";
 import { Icon } from "@/component/common/Icon";
 import { ToggleMenu } from "@/component/common/toggleMenu";
 import useModifySpace from "@/hooks/app/space/useModifySpace";
-import { useDesktopBasicModal } from "@/hooks/useDesktopBasicModal";
+import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { useModal } from "@/hooks/useModal";
 import useToggleMenu from "@/hooks/useToggleMenu";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
