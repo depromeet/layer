@@ -6,7 +6,7 @@ import { useNavigation } from "../../context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-export default function SpaceAddButton() {
+export default function SpaceAddButton({ ...props }: React.HTMLAttributes<HTMLButtonElement>) {
   const { isCollapsed } = useNavigation();
 
   return (
@@ -45,6 +45,7 @@ export default function SpaceAddButton() {
           background-color: ${DESIGN_TOKEN_COLOR.gray100};
         }
       `}
+      {...props}
     >
       <div
         css={css`

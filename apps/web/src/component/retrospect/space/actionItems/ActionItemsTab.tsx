@@ -2,14 +2,14 @@ import { css } from "@emotion/react";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-interface GoalTabProps {
+type ActionItemsTabProps = {
   currentTab: "진행중" | "지난";
   handleCurrentTabClick: (tab: "진행중" | "지난") => void;
-}
+};
 
-const GOAL_TAB_NAMES = ["진행중", "지난"] as const;
+const ACTION_ITEMS_TAB_NAMES = ["진행중", "지난"] as const;
 
-export default function GoalTab({ currentTab, handleCurrentTabClick }: GoalTabProps) {
+export default function ActionItemsTab({ currentTab, handleCurrentTabClick }: ActionItemsTabProps) {
   return (
     <div
       css={css`
@@ -18,7 +18,7 @@ export default function GoalTab({ currentTab, handleCurrentTabClick }: GoalTabPr
         margin-bottom: 2.4rem;
       `}
     >
-      {GOAL_TAB_NAMES.map((tab) => (
+      {ACTION_ITEMS_TAB_NAMES.map((tab) => (
         <button
           key={tab}
           onClick={() => handleCurrentTabClick(tab)}

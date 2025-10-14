@@ -20,8 +20,9 @@ export default function AnalysisTeamContents({ teamAnalyze }: AnalysisTeamConten
   const { dominantCategory } = useSatisfactionData(
     teamAnalyze
       ? [teamAnalyze.scoreFive, teamAnalyze.scoreFour, teamAnalyze.scoreThree, teamAnalyze.scoreTwo, teamAnalyze.scoreOne]
-      : [5, 4, 3, 2, 1],
+      : [0, 0, 0, 0, 0],
   );
+
   return (
     <section
       css={css`
