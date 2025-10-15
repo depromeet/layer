@@ -5,10 +5,11 @@ import { Typography } from "@/component/common/typography";
 import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { Retrospect } from "@/types/retrospect";
 import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
+import { ExtendedActionItemType } from "@/types/actionItem";
 
 type ActionItemAddSectionProps = {
   spaceId: string;
@@ -16,6 +17,7 @@ type ActionItemAddSectionProps = {
 };
 
 export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAddSectionProps) {
+  const queryClient = useQueryClient();
   const { data: retrospectOptions } = useQuery(useApiOptionsGetRetrospects(spaceId));
 
   const [selectedRetrospect, setSelectedRetrospect] = useState<Retrospect>();
@@ -69,7 +71,34 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
           content,
         },
         {
-          onSuccess: () => {
+          onSuccess: async (response) => {
+            const previousData: { spaceId: string; spaceName: string; teamActionItemList: ExtendedActionItemType[] } | undefined =
+              await queryClient.getQueryData(["getTeamActionItemList", spaceId]);
+
+            if (previousData) {
+              const newActionItem = {
+                actionItemId: response.data.actionItemId,
+                content: content,
+              };
+
+              const updatedData = {
+                ...previousData,
+                teamActionItemList: previousData.teamActionItemList.map((retrospect) => {
+                  if (retrospect.retrospectId === selectedRetrospect.retrospectId) {
+                    return {
+                      ...retrospect,
+                      actionItemList: [...retrospect.actionItemList, newActionItem],
+                    };
+                  }
+                  return retrospect;
+                }),
+              };
+
+              queryClient.setQueryData(["getTeamActionItemList", spaceId], updatedData);
+            } else {
+              queryClient.invalidateQueries({ queryKey: ["getTeamActionItemList", spaceId] });
+            }
+
             onClose();
           },
         },
