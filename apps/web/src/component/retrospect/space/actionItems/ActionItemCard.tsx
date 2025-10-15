@@ -3,6 +3,7 @@ import { Typography } from "@/component/common/typography";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import ActionItemManageToggleMenu from "./ActionItemManageToggleMenu";
+import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 
 type ActionItemCardProps = {
   spaceId: string;
@@ -40,7 +41,17 @@ const getStatusConfig = (status: string) => {
 };
 
 export default function ActionItemCard({ spaceId, retrospectId, title, todoList, status }: ActionItemCardProps) {
+  const { open: openDesktopModal, close } = useDesktopBasicModal();
+
   const statusStyle = getStatusConfig(status);
+
+  const handleAddActionItem = () => {
+    openDesktopModal({
+      title: "실행목표 추가",
+      contents: <div>실행목표 추가 컨텐츠</div>,
+      onClose: close,
+    });
+  };
 
   return (
     <div
@@ -50,7 +61,6 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
         background-color: white;
         border-radius: 1.2rem;
         transition: all 0.2s ease;
-        cursor: pointer;
       `}
     >
       {/* ---------- 상단 라벨 ---------- */}
@@ -85,7 +95,22 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
             align-items: center;
           `}
         >
-          <Icon icon="ic_plus" size={1.2} color={DESIGN_TOKEN_COLOR.gray500} />
+          <button
+            type="button"
+            css={css`
+              cursor: pointer;
+            `}
+            onClick={handleAddActionItem}
+          >
+            <Icon
+              icon="ic_plus"
+              size={1.4}
+              css={css`
+                margin-top: 0.3rem;
+                color: ${DESIGN_TOKEN_COLOR.gray500};
+              `}
+            />
+          </button>
           <ActionItemManageToggleMenu spaceId={spaceId} retrospectId={retrospectId} todoList={todoList} />
         </div>
       </div>
