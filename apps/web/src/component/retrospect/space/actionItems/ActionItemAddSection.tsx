@@ -8,6 +8,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useQuery } from "@tanstack/react-query";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { Retrospect } from "@/types/retrospect";
+import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
 
 type ActionItemAddSectionProps = {
   spaceId: string;
@@ -21,6 +22,8 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
   const [content, setContent] = useState<string>("");
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
+
+  const { mutate: createActionItem, isPending: isPendingCreateActionItem } = useApiPostActionItem();
 
   const handleRetrospectSelect = (option: Retrospect) => {
     setSelectedRetrospect(option);
@@ -59,8 +62,19 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
   };
 
   const handleComplete = () => {
-    console.log("Selected retrospect:", selectedRetrospect);
-    console.log("Content:", content);
+    if (selectedRetrospect) {
+      createActionItem(
+        {
+          retrospectId: selectedRetrospect.retrospectId,
+          content,
+        },
+        {
+          onSuccess: () => {
+            onClose();
+          },
+        },
+      );
+    }
   };
 
   useEffect(() => {
@@ -243,15 +257,12 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
         onlyContainerStyle={css`
           padding: 0;
           margin-top: 2.4rem;
-          div:nth-of-type(1) {
-            display: none;
-          }
         `}
       >
-        <Button colorSchema={"gray"} onClick={handleCancel}>
+        <Button colorSchema={"gray"} onClick={handleCancel} disabled={isPendingCreateActionItem}>
           취소
         </Button>
-        <Button colorSchema={"primary"} onClick={handleComplete}>
+        <Button colorSchema={"primary"} onClick={handleComplete} disabled={isPendingCreateActionItem} isProgress={isPendingCreateActionItem}>
           완료
         </Button>
       </ButtonProvider>
