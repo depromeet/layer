@@ -4,6 +4,7 @@ import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import ActionItemManageToggleMenu from "./ActionItemManageToggleMenu";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
+import ActionItemAddSection from "./ActionItemAddSection";
 
 type ActionItemCardProps = {
   spaceId: string;
@@ -48,8 +49,11 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
   const handleAddActionItem = () => {
     openDesktopModal({
       title: "실행목표 추가",
-      contents: <div>실행목표 추가 컨텐츠</div>,
+      contents: <ActionItemAddSection onClose={close} />,
       onClose: close,
+      options: {
+        enableFooter: false,
+      },
     });
   };
 
