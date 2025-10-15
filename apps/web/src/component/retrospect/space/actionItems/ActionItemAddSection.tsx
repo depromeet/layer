@@ -3,22 +3,26 @@ import { TextArea } from "@/component/common/input";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useQuery } from "@tanstack/react-query";
+import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
+import { Retrospect } from "@/types/retrospect";
 
 type ActionItemAddSectionProps = {
+  spaceId: string;
   onClose: () => void;
 };
 
-export default function ActionItemAddSection({ onClose }: ActionItemAddSectionProps) {
-  const [selectedRetrospect, setSelectedRetrospect] = useState<string>("스프린트 1차 이후 회고");
+export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAddSectionProps) {
+  const { data: retrospectOptions } = useQuery(useApiOptionsGetRetrospects(spaceId));
+
+  const [selectedRetrospect, setSelectedRetrospect] = useState<Retrospect>();
   const [content, setContent] = useState<string>("");
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
 
-  const retrospectOptions = ["스프린트 1차 이후 회고", "스프린트 2차 이후 회고", "분기별 회고"];
-
-  const handleRetrospectSelect = (option: string) => {
+  const handleRetrospectSelect = (option: Retrospect) => {
     setSelectedRetrospect(option);
     handleCloseDropdown();
   };
@@ -46,7 +50,11 @@ export default function ActionItemAddSection({ onClose }: ActionItemAddSectionPr
 
   const handleCancel = () => {
     onClose();
-    setSelectedRetrospect("스프린트 1차 이후 회고");
+
+    if (retrospectOptions && retrospectOptions.length > 0) {
+      setSelectedRetrospect(retrospectOptions[0]);
+    }
+
     setContent("");
   };
 
@@ -54,6 +62,12 @@ export default function ActionItemAddSection({ onClose }: ActionItemAddSectionPr
     console.log("Selected retrospect:", selectedRetrospect);
     console.log("Content:", content);
   };
+
+  useEffect(() => {
+    if (retrospectOptions && retrospectOptions.length > 0 && !selectedRetrospect) {
+      setSelectedRetrospect(retrospectOptions[0]);
+    }
+  }, [retrospectOptions, selectedRetrospect]);
 
   return (
     <>
@@ -88,7 +102,7 @@ export default function ActionItemAddSection({ onClose }: ActionItemAddSectionPr
             `}
           >
             <Typography variant="body15Medium" color="gray800">
-              {selectedRetrospect}
+              {selectedRetrospect?.title || "회고를 선택해주세요"}
             </Typography>
             <Icon
               icon="ic_back"
@@ -143,54 +157,55 @@ export default function ActionItemAddSection({ onClose }: ActionItemAddSectionPr
                 }
               `}
             >
-              {retrospectOptions.map((option, index) => (
-                <div
-                  key={index}
-                  onClick={() => handleRetrospectSelect(option)}
-                  css={css`
-                    align-content: center;
-                    height: 4.2rem;
-                    padding: 0.8rem 2rem;
-                    cursor: pointer;
+              {retrospectOptions &&
+                retrospectOptions.map((option, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleRetrospectSelect(option)}
+                    css={css`
+                      align-content: center;
+                      height: 4.2rem;
+                      padding: 0.8rem 2rem;
+                      cursor: pointer;
 
-                    /* 순차적 애니메이션 효과 */
-                    animation: ${isClosing ? "itemFadeOut" : "itemFadeIn"} 0.15s ease-out;
-                    animation-delay: ${isClosing ? (retrospectOptions.length - index - 1) * 0.03 : index * 0.05}s;
-                    animation-fill-mode: both;
+                      /* 순차적 애니메이션 효과 */
+                      animation: ${isClosing ? "itemFadeOut" : "itemFadeIn"} 0.15s ease-out;
+                      animation-delay: ${isClosing ? (retrospectOptions.length - index - 1) * 0.03 : index * 0.05}s;
+                      animation-fill-mode: both;
 
-                    @keyframes itemFadeIn {
-                      from {
-                        opacity: 0;
-                        transform: translateY(-5px);
+                      @keyframes itemFadeIn {
+                        from {
+                          opacity: 0;
+                          transform: translateY(-5px);
+                        }
+                        to {
+                          opacity: 1;
+                          transform: translateY(0);
+                        }
                       }
-                      to {
-                        opacity: 1;
-                        transform: translateY(0);
-                      }
-                    }
 
-                    @keyframes itemFadeOut {
-                      from {
-                        opacity: 1;
-                        transform: translateY(0);
+                      @keyframes itemFadeOut {
+                        from {
+                          opacity: 1;
+                          transform: translateY(0);
+                        }
+                        to {
+                          opacity: 0;
+                          transform: translateY(-5px);
+                        }
                       }
-                      to {
-                        opacity: 0;
-                        transform: translateY(-5px);
-                      }
-                    }
 
-                    &:hover {
-                      background-color: ${DESIGN_TOKEN_COLOR.gray100};
-                      transition: background-color 0.2s ease-in-out;
-                    }
-                  `}
-                >
-                  <Typography variant="body15Medium" color="gray800">
-                    {option}
-                  </Typography>
-                </div>
-              ))}
+                      &:hover {
+                        background-color: ${DESIGN_TOKEN_COLOR.gray100};
+                        transition: background-color 0.2s ease-in-out;
+                      }
+                    `}
+                  >
+                    <Typography variant="body15Medium" color="gray800">
+                      {option.title}
+                    </Typography>
+                  </div>
+                ))}
             </section>
           )}
         </article>
