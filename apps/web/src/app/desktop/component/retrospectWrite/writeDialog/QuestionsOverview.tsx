@@ -52,6 +52,7 @@ export function QuestionsOverview() {
         >
           {data?.questions.map((question, index) => (
             <li
+              key={index}
               css={css`
                 display: flex;
                 align-items: center;
