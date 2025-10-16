@@ -8,7 +8,7 @@ import { ProceedingTextBox } from "@/component/space/view/ProceedingTextBox";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@layer/shared";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
-import RetrospectWrite from "../../retrospectWrite";
+import { Prepare } from "../../retrospectWrite/prepare";
 
 interface RetrospectCardProps {
   retrospect: Retrospect;
@@ -30,14 +30,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
       openFunnelModal({
         title: "",
         step: "retrospectWrite",
-        contents: (
-          <RetrospectWrite
-            spaceId={Number(spaceId)}
-            retrospectId={retrospect.retrospectId}
-            title={retrospect.title}
-            introduction={retrospect.introduction}
-          />
-        ),
+        contents: <Prepare spaceId={Number(spaceId)} retrospectId={retrospect.retrospectId} title={title} introduction={introduction} />,
       });
     }
 

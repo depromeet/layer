@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { PhaseContext } from "..";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { Header } from "@/component/common/header";
 import { css } from "@emotion/react";
@@ -11,12 +9,36 @@ import { Button, ButtonProvider } from "@/component/common/button";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@layer/shared";
+import { useGetQuestions } from "@/hooks/api/write/useGetQuestions";
+import { LoadingModal } from "@/component/common/Modal/LoadingModal";
+import { retrospectWriteAtom } from "@/store/retrospect/retrospectWrite";
+import { useSetAtom } from "jotai";
 
-export function Prepare() {
-  const { incrementPhase, data, retrospectId, spaceId } = useContext(PhaseContext);
+interface PrepareProps {
+  spaceId: number;
+  retrospectId: number;
+  title: string;
+  introduction: string;
+}
+
+export function Prepare({ spaceId, retrospectId, title, introduction }: PrepareProps) {
+  const { data, isLoading } = useGetQuestions({ spaceId: spaceId, retrospectId: retrospectId });
   const { closeFunnelModal } = useFunnelModal();
   const navigate = useNavigate();
   const { track } = useMixpanel();
+  const setRetrospectWriteValue = useSetAtom(retrospectWriteAtom);
+
+  const handSaveInfo = () => {
+    setRetrospectWriteValue((prev) => ({
+      ...prev,
+      spaceId,
+      retrospectId,
+      title,
+      introduction,
+    }));
+  };
+
+  if (isLoading) return <LoadingModal purpose={"회고 작성을 위한 데이터를 가져오고 있어요"} />;
 
   return (
     <>
@@ -90,12 +112,12 @@ export function Prepare() {
         <Button
           colorSchema={"white"}
           onClick={() => {
-            incrementPhase();
             closeFunnelModal();
+            handSaveInfo();
             navigate(PATHS.retrospectWrite());
             track("WRITE_START", {
-              retrospectId,
               spaceId,
+              retrospectId,
             });
           }}
         >
