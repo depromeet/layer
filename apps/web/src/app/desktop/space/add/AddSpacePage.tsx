@@ -1,4 +1,4 @@
-import { ButtonProvider, CategoryButton } from "@/component/common/button";
+import { ButtonProvider, CategoryButton, FieldButton } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { IconType } from "@/component/common/Icon/Icon";
@@ -8,6 +8,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { TipCard } from "@/component/common/tip";
 import { Typography } from "@/component/common/typography";
 import { categoryMap } from "@/component/space/space.const";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useInput } from "@/hooks/useInput";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { createSpaceState, spaceState } from "@/store/space/spaceAtom";
@@ -17,23 +18,45 @@ import { css } from "@emotion/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { createContext, Fragment, useContext, useEffect, useState } from "react";
+import { TemplateList } from "../../component/retrospect/template/list";
+import { useToast } from "@/hooks/useToast";
+import { PeriodType, PurposeType } from "@/types/retrospectCreate/recommend";
+import { periodArr, periodMap, purposeArr, purposeMap } from "@/component/retrospect/template/recommend/recommend.const";
 
-// 각 단계에서 필요한 상태와 함수를 Context로 관리해요
-// 해당 Context는 AddSpacePage 컴포넌트에서 세팅이 이루어져요
-const PhaseContext = createContext<{
+interface phaseContextType {
   phase: number;
+  flow: "INFO" | "RECOMMEND" | "SELECTED_LIST";
+  period: PeriodType | null;
+  periodic: "REGULAR" | "IRREGULAR" | "";
+  purpose: PurposeType[];
   setPhase: (phase: number) => void;
+  setPurpose: (purpose: PurposeType[] | ((prev: PurposeType[]) => PurposeType[])) => void;
+  setPeriod: (period: PeriodType | null) => void;
+  setPeriodic: (periodic: "REGULAR" | "IRREGULAR" | "") => void;
+  setFlow: (flow: "INFO" | "RECOMMEND" | "SELECTED_LIST", phase?: number) => void;
   isLastPhase: boolean;
   isFirstPhase: boolean;
   nextPhase: () => void;
   prevPhase: () => void;
-}>({
+}
+
+// 각 단계에서 필요한 상태와 함수를 Context로 관리해요
+// 해당 Context는 AddSpacePage 컴포넌트에서 세팅이 이루어져요
+const PhaseContext = createContext<phaseContextType>({
   phase: 0,
-  setPhase: () => {},
+  period: null,
+  periodic: "REGULAR",
+  purpose: [],
+  flow: "INFO",
   isLastPhase: false,
   isFirstPhase: true,
+  setPhase: () => {},
+  setPurpose: () => {},
   nextPhase: () => {},
   prevPhase: () => {},
+  setFlow: () => {},
+  setPeriod: () => {},
+  setPeriodic: () => {},
 });
 
 // 1단계 퍼널: 프로젝트 유형 선택
@@ -151,11 +174,29 @@ function InputSpaceInfoFunnel() {
   );
 }
 
+// 3단계 퍼널: 회고 템플릿 선택
 function SelectRetrospectTemplateFunnel() {
-  const { prevPhase, nextPhase } = useContext(PhaseContext);
+  const { openFunnelModal } = useFunnelModal();
+  const { prevPhase, nextPhase, setFlow } = useContext(PhaseContext);
   // TODO: @jae1n - 프로젝트 유형에 따른 텍스트 변경 필요
   const { title } = useAtomValue(createSpaceState);
   const [templateType, setTemplateType] = useState<"recommendation" | "list">("recommendation");
+  const { toast } = useToast();
+
+  const handleMoveToCreateRetrospect = () => {
+    if (templateType === "list") {
+      openFunnelModal({
+        title: "템플릿 리스트",
+        step: "listTemplate",
+        contents: <TemplateList />,
+      });
+    } else if (templateType === "recommendation") {
+      nextPhase();
+      setFlow("RECOMMEND");
+    } else {
+      toast.error("템플릿 선택이 올바르지 않아요, 다시 시도해주세요.");
+    }
+  };
 
   const TEMPLATE_SELECTION_OPTIONS: Array<{
     id: string;
@@ -232,7 +273,7 @@ function SelectRetrospectTemplateFunnel() {
         sort="horizontal"
       >
         <ButtonProvider.Gray onClick={prevPhase}>이전</ButtonProvider.Gray>
-        <ButtonProvider.Primary onClick={nextPhase} disabled={!templateType}>
+        <ButtonProvider.Primary onClick={handleMoveToCreateRetrospect} disabled={!templateType}>
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>
@@ -240,13 +281,151 @@ function SelectRetrospectTemplateFunnel() {
   );
 }
 
-export default function AddSpacePage() {
-  const TOTAL_PHASE = 3;
-  const [phase, setPhase] = useState(0);
+// 4-1단계 퍼널 : 회고 템플릿 추천
+function TemplateRecommendFunnel() {
+  const { nextPhase, setFlow, periodic, setPeriodic } = useContext(PhaseContext);
 
+  return (
+    <Fragment>
+      <Header title={`어떤 패턴으로\n회고를 작성하시나요?`} />
+      <Spacing size={4} />
+      <div
+        css={css`
+          display: flex;
+        `}
+      >
+        <CategoryButton
+          category={{ name: "주기적 작성", icon_color: "ic_regular_color", icon_white: "ic_regular_white" }}
+          onClick={() => setPeriodic("REGULAR")}
+          isClicked={periodic === "REGULAR"}
+        />
+        <Spacing size={0.8} direction="horizontal" />
+        <CategoryButton
+          category={{ name: "불규칙적 작성", icon_color: "ic_irRegular_color", icon_white: "ic_irRegular_white" }}
+          onClick={() => setPeriodic("IRREGULAR")}
+          isClicked={periodic === "IRREGULAR"}
+        />
+      </div>
+      <ButtonProvider
+        onlyContainerStyle={css`
+          padding: 0;
+        `}
+        sort="horizontal"
+      >
+        <ButtonProvider.Gray onClick={() => setFlow("INFO", 2)} disabled={periodic === ""}>
+          이전
+        </ButtonProvider.Gray>
+        <ButtonProvider.Primary onClick={nextPhase} disabled={periodic === ""}>
+          다음
+        </ButtonProvider.Primary>
+      </ButtonProvider>
+    </Fragment>
+  );
+}
+
+// 4-2단계 퍼널 : 회고 템플릿 추천 - 주기 선택
+function TemplateSelectedPeriodFunnel() {
+  const { prevPhase, setPeriod, period, nextPhase } = useContext(PhaseContext);
+
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      `}
+    >
+      <Header title={`어떤 주기로\n회고를 작성하시나요?`} />
+      <Spacing size={4} />
+      <div
+        css={css`
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+        `}
+      >
+        {periodArr.map((item) => (
+          <FieldButton key={item} field={periodMap[item]} onClick={() => setPeriod(item)} isChecked={period === item} />
+        ))}
+      </div>
+      <ButtonProvider
+        sort={"horizontal"}
+        onlyContainerStyle={css`
+          padding: 0;
+        `}
+      >
+        <ButtonProvider.Gray onClick={prevPhase}>이전</ButtonProvider.Gray>
+        <ButtonProvider.Primary onClick={nextPhase} disabled={period === null}>
+          다음
+        </ButtonProvider.Primary>
+      </ButtonProvider>
+    </div>
+  );
+}
+
+// 4-3단계 퍼널 : 회고 템플릿 추천 - 목적 선택
+function SelectedRetrospectPurposeFunnel() {
+  const { purpose, setPurpose, prevPhase } = useContext(PhaseContext);
+  const { toast } = useToast();
+
+  const handleSelectPurpose = (item: PurposeType) => {
+    if (purpose?.includes(item)) {
+      setPurpose(purpose?.filter((pre) => pre !== item));
+    } else {
+      if (purpose?.length! <= 2) {
+        setPurpose((pre: PurposeType[]) => [...pre, item]);
+      } else {
+        toast.error("최대 3개까지 선택 가능해요");
+      }
+    }
+  };
+
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      `}
+    >
+      <Header title={`회고를 하는\n목적이 무엇인가요?`} contents="최대 3개까지 선택가능해요" />
+      <Spacing size={4} />
+      <div
+        css={css`
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.8rem;
+        `}
+      >
+        {purposeArr.map((item) => (
+          <FieldButton key={item} field={purposeMap[item]} onClick={() => handleSelectPurpose(item)} isChecked={purpose?.includes(item)} size={1.8} />
+        ))}
+      </div>
+      <ButtonProvider sort={"horizontal"}>
+        <ButtonProvider.Gray onClick={prevPhase}>이전</ButtonProvider.Gray>
+        <ButtonProvider.Primary onClick={() => {}} disabled={purpose?.length === 0}>
+          다음
+        </ButtonProvider.Primary>
+      </ButtonProvider>
+    </div>
+  );
+}
+
+export default function AddSpacePage() {
+  const PHASE_TOTAL_SET = {
+    INFO: 3,
+    RECOMMEND: 3,
+    SELECTED_LIST: 3,
+  };
+  const [flow, setFlow] = useState<"INFO" | "RECOMMEND" | "SELECTED_LIST">("INFO");
+  const [period, setPeriod] = useState<PeriodType | null>(null);
+  const [periodic, setPeriodic] = useState<"REGULAR" | "IRREGULAR" | "">("REGULAR");
+  const [purpose, setPurpose] = useState<PurposeType[]>([]);
+  const TOTAL_PHASE = PHASE_TOTAL_SET[flow];
+  const [phase, setPhase] = useState(0);
   const isLastPhase = phase === TOTAL_PHASE - 1;
   const isFirstPhase = phase === 0;
-  const nextPhase = () => setPhase((prev) => (prev > TOTAL_PHASE - 1 ? prev : prev + 1));
+  const nextPhase = () => setPhase((prev) => prev + 1);
   const prevPhase = () => setPhase((prev) => (prev < 1 ? prev : prev - 1));
   const resetCreateSpaceAtom = useResetAtom(createSpaceState);
 
@@ -256,14 +435,27 @@ export default function AddSpacePage() {
 
   return (
     <PhaseContext.Provider
-      value={{
-        phase: phase,
-        setPhase: (phase: number) => setPhase(phase),
-        isLastPhase,
-        isFirstPhase,
-        nextPhase,
-        prevPhase,
-      }}
+      value={
+        {
+          phase: phase,
+          flow: flow,
+          period,
+          periodic,
+          purpose,
+          setPhase: (phase) => setPhase(phase),
+          setPeriod: (period) => setPeriod(period),
+          setPeriodic: (periodic) => setPeriodic(periodic),
+          setPurpose: (purpose) => setPurpose(purpose),
+          isLastPhase,
+          isFirstPhase,
+          nextPhase,
+          prevPhase,
+          setFlow: (flow, phase) => {
+            setFlow(flow);
+            setPhase(phase ?? 0);
+          },
+        } as phaseContextType
+      }
     >
       <section
         css={css`
@@ -282,10 +474,20 @@ export default function AddSpacePage() {
         />
         {
           {
-            0: <SelectSpaceTypeFunnel />,
-            1: <InputSpaceInfoFunnel />,
-            2: <SelectRetrospectTemplateFunnel />,
-          }[phase]
+            INFO: {
+              0: <SelectSpaceTypeFunnel />,
+              1: <InputSpaceInfoFunnel />,
+              2: <SelectRetrospectTemplateFunnel />,
+            }[phase],
+            SELECTED_LIST: {
+              0: <></>,
+            }[phase],
+            RECOMMEND: {
+              0: <TemplateRecommendFunnel />,
+              1: <TemplateSelectedPeriodFunnel />,
+              2: <SelectedRetrospectPurposeFunnel />,
+            }[phase],
+          }[flow]
         }
       </section>
     </PhaseContext.Provider>
