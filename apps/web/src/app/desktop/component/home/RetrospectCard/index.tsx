@@ -12,7 +12,7 @@ import { Prepare } from "../../retrospectWrite/prepare";
 
 interface RetrospectCardProps {
   retrospect: Retrospect;
-  spaceId?: string;
+  spaceId?: string | null;
 }
 
 export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardProps) {
@@ -25,7 +25,6 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
     // TODO: spaceId가 없는 경우 처리(예: 홈 화면 최상단의 카드 클릭 시)
 
     // 진행중인 회고 클릭 시
-
     if (spaceId && retrospectStatus === "PROCEEDING") {
       openFunnelModal({
         title: "",

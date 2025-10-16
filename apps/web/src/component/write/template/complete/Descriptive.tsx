@@ -3,7 +3,10 @@ import { css } from "@emotion/react";
 import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
 import { getDeviceType } from "@/utils/deviceUtils";
 
-type DescriptiveTemplateProps = { name: string; question?: never; answer: string } | { question: string; name?: never; answer: string };
+type DescriptiveTemplateProps =
+  | { name: string; question?: never; answer: string }
+  | { question: string; name?: never; answer: string }
+  | { question?: never; name?: never; answer: string };
 
 export function CDescriptiveTemplate({ name, question, answer }: DescriptiveTemplateProps) {
   const { isDesktop } = getDeviceType();

@@ -57,9 +57,11 @@ export function ToastItem({ type, content, id, duration = 3000 }: ToastType) {
         onClick={handleClick}
         css={css`
           animation: 0.7s forwards ${isClosing ? ANIMATION.FADE_OUT : "none"};
-          width: 33.5rem;
-          padding: 0rem 2rem;
-          height: 5.8rem;
+          width: fit-content;
+          padding-top: 1.3rem;
+          padding-bottom: 1.3rem;
+          padding-inline: 2rem;
+          white-space: nowrap;
           border-radius: 1.2rem;
           margin-bottom: 1rem;
           display: flex;

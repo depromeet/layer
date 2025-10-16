@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { TemplateListPageContext } from "@/app/mobile/retrospect/template/list/TemplateListPage";
+import { TemplateListPageContext } from "@/app/desktop/component/retrospect/template/list";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
@@ -16,6 +16,9 @@ import { usePatchTemplateTitle } from "@/hooks/api/template/usePatchTemplateTitl
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useInput } from "@/hooks/useInput";
 import { useModal } from "@/hooks/useModal";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import CustomTemplateListDetailItem from "@/app/desktop/component/retrospect/template/list/CustomTemplateListDetailItem";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type CustomTemplateListItem = {
   id: number;
@@ -25,17 +28,20 @@ type CustomTemplateListItem = {
 };
 
 export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateListItem) {
+  const { openFunnelModal } = useFunnelModal();
+  const navigate = useNavigate();
+
   const MENU_EDIT = "edit-name";
   const MENU_DELETE = "delete";
   const SHEET_ID = `modifyTemplateSheet_${id}`;
 
   const { spaceId, readOnly, isLeader } = useContext(TemplateListPageContext);
-  const navigate = useNavigate();
   const { open } = useModal();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { value: templateTitle, handleInputChange: handleChangeTitle } = useInput(title);
   const { mutate: patchTemplateTitle } = usePatchTemplateTitle(+spaceId);
   const { mutate: deleteCustomTemplate } = useDeleteCustomTemplate(+spaceId);
+  const { isDesktop } = getDeviceType();
 
   const handleSubmitTitle = () => {
     patchTemplateTitle({ formId: id, formTitle: templateTitle });
@@ -59,12 +65,11 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
   };
 
   const handleClickDetail = () => {
-    navigate(PATHS.viewDetailTemplate(), {
-      state: {
-        spaceId,
-        templateId: id,
-        readOnly,
-      },
+    openFunnelModal({
+      title,
+      step: "listTemplateDetail",
+      contents: <CustomTemplateListDetailItem templateId={id} />,
+      templateTag: tag,
     });
   };
 
@@ -88,7 +93,7 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
             css={css`
               display: flex;
               flex-direction: column;
-              gap: 1.2rem;
+              gap: ${isDesktop ? "4rem" : "1.2rem"};
             `}
           >
             <div
@@ -97,7 +102,7 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
                 justify-content: space-between;
               `}
             >
-              <Typography variant="S2">{title}</Typography>
+              <Typography variant={isDesktop ? "subtitle14SemiBold" : "S2"}>{title}</Typography>
               {readOnly && isLeader && (
                 <DropdownMenu onValueChange={(value) => handleOptionSelect(value)}>
                   <DropdownMenu.Trigger />
@@ -114,22 +119,39 @@ export function CustomTemplateListItem({ id, title, tag, date }: CustomTemplateL
                 </DropdownMenu>
               )}
             </div>
-            <Tag>{tag}</Tag>
-            <div
-              css={
-                readOnly &&
-                css`
-                  align-self: flex-end;
-                  margin-top: -0.6rem;
-                `
-              }
-            >
-              <Typography variant={"body14Medium"} color={"gray600"}>
-                {date}
-              </Typography>
-            </div>
+            {isDesktop ? (
+              <div
+                css={css`
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                `}
+              >
+                <Tag>{tag}</Tag>
+                <Typography variant={"body14Medium"} color={"gray500"}>
+                  {date}
+                </Typography>
+              </div>
+            ) : (
+              <>
+                <Tag>{tag}</Tag>
+                <div
+                  css={
+                    readOnly &&
+                    css`
+                      align-self: flex-end;
+                      margin-top: -0.6rem;
+                    `
+                  }
+                >
+                  <Typography variant={"body14Medium"} color={"gray600"}>
+                    {date}
+                  </Typography>
+                </div>
+              </>
+            )}
           </div>
-          {!readOnly && (
+          {!isDesktop && !readOnly && (
             <Button
               colorSchema={"outline"}
               onClick={(e) => {

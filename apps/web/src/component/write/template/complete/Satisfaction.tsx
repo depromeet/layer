@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import type { SerializedStyles } from "@emotion/react";
 
 import * as icons from "@/assets/svgs";
 import { Icon } from "@/component/common/Icon";
@@ -6,13 +7,16 @@ import { ResultContainer } from "@/component/write/template/complete/ResultConta
 import { SATISTFACTION_COLOR } from "@/component/write/template/template.const.ts";
 
 type IconType = keyof typeof icons;
-type SatisfactionProps = { name: string; question?: never; index: number } | { question: string; name?: never; index: number };
+type SatisfactionProps =
+  | { name: string; question?: never; index: number; css?: SerializedStyles }
+  | { question: string; name?: never; index: number; css?: SerializedStyles }
+  | { question?: never; name?: never; index: number; css?: SerializedStyles };
 
-export function CSatisfactionTemplate({ name, question, index: SatisfactionIdx }: SatisfactionProps) {
+export function CSatisfactionTemplate({ name, question, index: SatisfactionIdx, css: customCss }: SatisfactionProps) {
   const emotions: IconType[] = ["ic_very_poor", "ic_poor", "ic_commonly", "ic_good", "ic_very_good"];
 
   return (
-    <ResultContainer question={question} name={name}>
+    <ResultContainer question={question} name={name} customCss={customCss}>
       {emotions.map((item, index) => {
         return (
           <div key={index}>

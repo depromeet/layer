@@ -16,7 +16,6 @@ export default function DesktopGlobalLayout() {
         background-color: ${DESIGN_TOKEN_COLOR.gray100};
       `}
     >
-      {/* #444에서 작업한 새로운 모달 프레임 추가 */}
       <Modal />
       <PreventExternalBrowser>
         <Outlet />

@@ -1,4 +1,4 @@
-import ActionItems from "@/component/retrospect/space/ActionItems";
+import ActionItems from "@/component/retrospect/space/actionItems/ActionItems";
 import CompletedRetrospects from "@/component/retrospect/space/CompletedRetrospects";
 import InProgressRetrospects from "@/component/retrospect/space/InProgressRetrospects";
 import RetrospectSpaceHeader from "@/component/retrospect/space/RetrospectSpaceHeader";

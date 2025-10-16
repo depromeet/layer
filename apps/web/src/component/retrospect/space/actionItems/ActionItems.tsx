@@ -1,10 +1,12 @@
+import { useState } from "react";
+
 import { Typography } from "@/component/common/typography";
 import { css } from "@emotion/react";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import GoalTab from "./GoalTab";
-import GoalList from "./GoalList";
-import { useState } from "react";
+
+import ActionItemsTab from "./ActionItemsTab";
+import ActionItemsList from "./ActionItemsList";
 
 interface ActionItemsProps {
   currentTab: "진행중" | "지난";
@@ -47,7 +49,7 @@ export default function ActionItems() {
         <Icon icon="ic_info_transparent" size="2rem" />
       </div>
 
-      <GoalTab currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
+      <ActionItemsTab currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
       <div
         css={css`
           flex: 1;
@@ -57,7 +59,7 @@ export default function ActionItems() {
           overflow-x: hidden;
         `}
       >
-        <GoalList currentTab={currentTab} />
+        <ActionItemsList currentTab={currentTab} />
       </div>
     </section>
   );
