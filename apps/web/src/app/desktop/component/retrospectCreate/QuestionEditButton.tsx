@@ -2,6 +2,7 @@ import { Icon } from "@/component/common/Icon";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
+import QuestionEditSection from "./QuestionEditSection";
 
 function QuestionEditButton() {
   const { open, close } = useDesktopBasicModal();
@@ -9,7 +10,7 @@ function QuestionEditButton() {
   const handleEditButtonClick = () => {
     open({
       title: "질문 리스트",
-      contents: <>내용</>,
+      contents: <QuestionEditSection />,
       options: {
         enableFooter: false,
         needsBackButton: true,
