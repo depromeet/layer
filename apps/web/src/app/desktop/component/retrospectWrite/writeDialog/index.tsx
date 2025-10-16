@@ -5,13 +5,18 @@ import { WriteDialogContent } from "./WriteDialogContent";
 import { WriteDialogHeader } from "./WriteDialogHeader";
 import { QuestionsOverview } from "./QuestionsOverview";
 
-export function WriteDialog() {
+interface WriteDialogProps {
+  isOverviewVisible: boolean;
+  handleToggleOverview: () => void;
+}
+
+export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDialogProps) {
   return (
     <div
       css={css`
         display: flex;
+        flex: 1;
         flex-direction: column;
-        width: 100%;
         height: 100vh;
         padding: 2rem 4rem 2.4rem 2.4rem;
         background-color: ${DESIGN_TOKEN_COLOR.gray00};
@@ -21,7 +26,7 @@ export function WriteDialog() {
       `}
     >
       {/* -------- 회고 작성 헤더 UI -------- */}
-      <WriteDialogHeader />
+      <WriteDialogHeader isOverviewVisible={isOverviewVisible} handleToggleOverview={handleToggleOverview} />
 
       <div
         css={css`

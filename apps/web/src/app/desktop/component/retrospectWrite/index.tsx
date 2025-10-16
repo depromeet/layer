@@ -3,9 +3,8 @@ import { QuestionData } from "@/types/write";
 
 import { createContext, useEffect, useState } from "react";
 import { WriteDialog } from "./writeDialog";
-import { retrospectWriteAtom } from "@/store/retrospect/retrospectWrite";
-import { useAtomValue } from "jotai";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
+import { useSearchParams } from "react-router-dom";
 
 export type PhaseContextProps = {
   data: QuestionData;
@@ -16,8 +15,8 @@ export type PhaseContextProps = {
   decrementPhase: () => void;
   spaceId: number;
   retrospectId: number;
-  title: string;
-  introduction: string;
+  title: string | null;
+  introduction: string | null;
 };
 
 export const AdvanceQuestionsNum = 2;
@@ -44,10 +43,20 @@ function adjustOrder(data: QuestionData): QuestionData {
   };
 }
 
-function RetrospectWrite() {
-  const { spaceId, retrospectId, title, introduction } = useAtomValue(retrospectWriteAtom);
+interface RetrospectWriteProps {
+  isOverviewVisible: boolean;
+  handleToggleOverview: () => void;
+}
+
+function RetrospectWrite({ isOverviewVisible, handleToggleOverview }: RetrospectWriteProps) {
+  const [searchParams] = useSearchParams();
+  const spaceId = searchParams.get("spaceId");
+  const retrospectId = searchParams.get("retrospectId");
+  const title = searchParams.get("title");
+  const introduction = searchParams.get("introduction");
+
   const [phase, setPhase] = useState(0);
-  const { data, isLoading } = useGetQuestions({ spaceId: spaceId, retrospectId: retrospectId });
+  const { data, isLoading } = useGetQuestions({ spaceId: Number(spaceId), retrospectId: Number(retrospectId) });
   const defaultData: QuestionData = { isTemporarySaved: false, questions: [] };
   const [adjustedData, setAdjustedData] = useState<QuestionData>();
 
@@ -85,13 +94,13 @@ function RetrospectWrite() {
           movePhase,
           incrementPhase,
           decrementPhase,
-          spaceId,
-          retrospectId,
+          spaceId: Number(spaceId),
+          retrospectId: Number(retrospectId),
           title,
           introduction,
         }}
       >
-        <WriteDialog />
+        <WriteDialog isOverviewVisible={isOverviewVisible} handleToggleOverview={handleToggleOverview} />
       </PhaseContext.Provider>
     </>
   );

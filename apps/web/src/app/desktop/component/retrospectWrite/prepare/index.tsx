@@ -114,7 +114,7 @@ export function Prepare({ spaceId, retrospectId, title, introduction }: PrepareP
           onClick={() => {
             closeFunnelModal();
             handSaveInfo();
-            navigate(PATHS.retrospectWrite());
+            navigate(PATHS.retrospectWrite(String(spaceId), retrospectId, title, introduction));
             track("WRITE_START", {
               spaceId,
               retrospectId,

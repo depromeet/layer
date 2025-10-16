@@ -53,7 +53,19 @@ export const createPaths = () => {
       const baseUrl = `${prefix}/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}`;
       return title ? `${baseUrl}&title=${encodeURIComponent(title)}` : baseUrl;
     },
-    retrospectWrite: () => `${prefix}/retrospect/write`,
+    retrospectWrite: (
+      spaceId: string,
+      retrospectId: number,
+      title?: string,
+      introduction?: string
+    ) => {
+      let baseurl = `${prefix}/retrospect/write?spaceId=${spaceId}&retrospectId=${retrospectId}`;
+      if (title) baseurl += `&title=${encodeURIComponent(title)}`;
+      if (introduction)
+        baseurl += `&introduction=${encodeURIComponent(introduction)}`;
+
+      return baseurl;
+    },
   } as const;
 };
 
