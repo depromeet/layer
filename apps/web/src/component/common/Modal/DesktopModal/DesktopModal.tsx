@@ -43,7 +43,7 @@ export default function DesktopModal() {
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index: 10000;
+          z-index: 10001;
           background-color: rgba(0, 0, 0, 0.5);
         `}
       >
@@ -62,7 +62,7 @@ export default function DesktopModal() {
             transition: 0.4s all;
           `}
         >
-          <DesktopModalHeader title={title} onClose={closeDesktopModal} />
+          <DesktopModalHeader title={title} onClose={closeDesktopModal} options={options} />
           <div
             css={css`
               flex: 1;

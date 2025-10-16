@@ -78,7 +78,7 @@ export default function DesktopFunnelModal() {
             flex-direction: column;
             overflow-y: auto;
             background-color: #fff;
-            border-radius: 8px;
+            border-radius: 2rem;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             padding: 0 2.4rem;
             animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
