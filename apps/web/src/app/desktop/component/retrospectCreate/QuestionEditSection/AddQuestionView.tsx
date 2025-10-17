@@ -24,7 +24,7 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
   const { tabs, curTab, selectTab } = useTabs(["직접작성", "추천질문"] as const);
   const { value: customQuestion, handleInputChange: handleCustomChange, resetInput } = useInput();
   const { tabs: categoryTabs, curTab: curCategoryTab, selectTab: selectCategoryTab } = useTabs(QUESTION_TYPES);
-  const { selectedValues, isChecked, toggle, resetChecked } = useCheckBox();
+  const { selectedValuesWithAtom, isCheckedWithAtom, toggleWithAtom } = useCheckBox();
 
   const handleDirectAdd = () => {
     if (customQuestion.trim()) {
@@ -34,9 +34,8 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
   };
 
   const handleRecommendedAdd = () => {
-    if (selectedValues.length > 0) {
-      onAddMultipleQuestions(selectedValues);
-      resetChecked();
+    if (selectedValuesWithAtom.length > 0) {
+      onAddMultipleQuestions(selectedValuesWithAtom);
     }
   };
 
@@ -95,13 +94,13 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
             `}
           >
             <CheckBoxGroup
-              isChecked={isChecked}
+              isChecked={isCheckedWithAtom}
               onChange={(value) => {
-                if (!isChecked(value) && selectedValues.length >= maxCount) {
+                if (!isCheckedWithAtom(value) && selectedValuesWithAtom.length >= maxCount) {
                   toast.error("추가 가능한 질문 개수를 초과했어요");
                   return;
                 }
-                toggle(value);
+                toggleWithAtom(value);
               }}
               gap={4}
             >
@@ -123,7 +122,7 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
         `}
       >
         <ButtonProvider.Primary onClick={curTab === "직접작성" ? handleDirectAdd : handleRecommendedAdd}>
-          {selectedValues.length > 0 ? (
+          {selectedValuesWithAtom.length > 0 ? (
             <span>
               추가하기{" "}
               <span
@@ -131,7 +130,7 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
                   color: ${DESIGN_TOKEN_COLOR.blue600};
                 `}
               >
-                {selectedValues.length}
+                {selectedValuesWithAtom.length}
               </span>
             </span>
           ) : (
