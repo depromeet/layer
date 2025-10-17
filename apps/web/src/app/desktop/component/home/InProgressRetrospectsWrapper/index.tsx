@@ -10,7 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { useGetAllRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
-import RetrospectCard from "../InProgressRetrospectCard";
+import RetrospectCard from "../RetrospectCard";
 
 export default function InProgressRetrospectsWrapper() {
   // * 작성중인 모든 회고 리스트 요청

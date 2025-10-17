@@ -5,10 +5,21 @@ export type ActionItemType = {
   retrospectName: string;
 };
 
-export type TeamActionItemType = {
-  retrospectId: string;
+export type ExtendedActionItemType = {
+  retrospectId: number;
   retrospectTitle: string;
-  teamActionItemList: ActionItemType[];
+  deadline: string;
+  status: "PROCEEDING" | "DONE";
+  actionItemList: {
+    actionItemId: number;
+    content: string;
+  }[];
+};
+
+export type TeamActionItemType = {
+  spaceId: string;
+  spaceName: string;
+  teamActionItemList: ExtendedActionItemType[];
 };
 
 export type PersonalActionItemType = {

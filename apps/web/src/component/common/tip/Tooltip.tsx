@@ -8,6 +8,7 @@ import { Portal } from "@/component/common/Portal";
 import { Typography } from "@/component/common/typography";
 import { ANIMATION } from "@/style/common/animation";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type TooltipContextState = {
   referenceEl: HTMLDivElement | null;
@@ -84,6 +85,7 @@ function Content({
   autoHide = true,
 }: ContentProps) {
   const context = useContext(TooltipContext);
+  const { isDesktop } = getDeviceType();
 
   const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
@@ -148,10 +150,14 @@ function Content({
       {asChild ? (
         children
       ) : (
-        <div ref={(el) => context.setPopperEl(el)} style={styles.popper} {...attributes.popper}>
+        <div ref={(el) => context.setPopperEl(el)} style={{ ...styles.popper, zIndex: isDesktop ? 100001 : undefined }} {...attributes.popper}>
           <div
             css={css`
               position: relative;
+              ${isDesktop &&
+              css`
+                z-index: 100001;
+              `}
               background-color: ${DESIGN_SYSTEM_COLOR.blue600};
               padding: 1rem 1.4rem;
               border-radius: 1.2rem;

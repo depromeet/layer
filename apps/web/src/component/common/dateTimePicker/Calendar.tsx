@@ -13,14 +13,14 @@ export function Calendar({ ...props }: CalendarProps) {
   return (
     <ReactCalendar
       css={css`
-        font-size: ${isDesktop ? "1.2rem" : ""};
-        line-height: ${isDesktop ? "140%" : ""};
+        font-size: ${isDesktop && "1.2rem"};
+        line-height: ${isDesktop && "140%"};
 
         .react-calendar__navigation {
-          font-size: ${isDesktop ? "1.4rem" : ""};
-          line-height: ${isDesktop ? "140%" : ""};
-          margin-bottom: ${isDesktop ? "1.2rem" : ""};
-          height: ${isDesktop ? "2.8rem" : ""};
+          font-size: ${isDesktop && "1.4rem"};
+          line-height: ${isDesktop && "140%"};
+          margin-bottom: ${isDesktop && "1.2rem"};
+          height: ${isDesktop && "2.8rem"};
         }
 
         .react-calendar__month-view__weekdays {

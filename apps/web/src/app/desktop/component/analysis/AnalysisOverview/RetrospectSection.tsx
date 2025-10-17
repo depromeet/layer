@@ -3,13 +3,14 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import type { Retrospect } from "@/types/retrospect";
-import RetrospectCard from "../../home/InProgressRetrospectCard";
+import RetrospectCard from "../../home/RetrospectCard";
 
 interface RetrospectSectionProps {
   title: string;
   isPending: boolean;
   retrospects: Retrospect[];
   emptyMessage: string;
+  spaceId?: string | null;
 }
 
 const determineStatus = (isPending: boolean, retrospects: Retrospect[]): "loading" | "empty" | "success" => {
@@ -22,7 +23,7 @@ const determineStatus = (isPending: boolean, retrospects: Retrospect[]): "loadin
   return "success";
 };
 
-export default function RetrospectSection({ title, isPending, retrospects, emptyMessage }: RetrospectSectionProps) {
+export default function RetrospectSection({ title, isPending, retrospects, emptyMessage, spaceId }: RetrospectSectionProps) {
   const status = determineStatus(isPending, retrospects);
 
   const contentMap = {
@@ -64,7 +65,7 @@ export default function RetrospectSection({ title, isPending, retrospects, empty
     ),
 
     // * 회고가 있는 경우
-    success: retrospects.map((retrospect) => <RetrospectCard key={retrospect.retrospectId} retrospect={retrospect} />),
+    success: retrospects.map((retrospect) => <RetrospectCard key={retrospect.retrospectId} retrospect={retrospect} spaceId={spaceId} />),
   };
 
   return (
@@ -78,10 +79,10 @@ export default function RetrospectSection({ title, isPending, retrospects, empty
           margin-top: 2.4rem;
         `}
       >
-        <Typography variant="title16Bold2" color="gray900">
+        <Typography variant="title16Strong" color="gray900">
           {title}
         </Typography>
-        <Typography variant="title16Bold2" color="gray600">
+        <Typography variant="title16Strong" color="gray600">
           {retrospects.length}
         </Typography>
       </section>

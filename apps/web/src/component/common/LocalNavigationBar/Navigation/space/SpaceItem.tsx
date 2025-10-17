@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
 
 import { Typography } from "../../../typography";
 import { useNavigation } from "../../context/NavigationContext";
@@ -9,7 +10,9 @@ import { Space } from "@/types/spaceType";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
+import { isSpaceLeader } from "@/utils/userUtil";
 
 interface SpaceItemProps {
   space: Space;
@@ -28,8 +31,10 @@ const SPACE_ITEM_STYLES = {
 export default function SpaceItem({ space }: SpaceItemProps) {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { isCollapsed } = useNavigation();
-  const { id: spaceId, name, introduction, bannerUrl } = space;
+  const { id: spaceId, name, introduction, bannerUrl, leader } = space;
+  const isLeader = isSpaceLeader(leader?.id);
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
@@ -53,8 +58,35 @@ export default function SpaceItem({ space }: SpaceItemProps) {
     navigate(`/retrospectSpace/${spaceId}`);
   };
 
+  /**
+   * 현재 URL과 상태를 동기화하는 효과
+   * - URL의 spaceId와 현재 선택된 스페이스가 다를 때만 상태를 업데이트
+   * - URL에 spaceId가 없으면 동기화하지 않음
+   */
+  useEffect(() => {
+    const urlSpaceId = searchParams.get("spaceId") || location.pathname.match(/\/retrospectSpace\/(\d+)/)?.[1];
+
+    // * URL에서 spaceId를 찾을 수 없으면 동기화 불필요
+    if (!urlSpaceId) return;
+
+    // * 현재 SpaceItem이 URL의 spaceId와 일치하는지 확인
+    const isMatchingSpace = String(spaceId) === urlSpaceId;
+
+    if (!isMatchingSpace) return;
+
+    // * 현재 선택된 스페이스가 없거나 URL과 다른 경우에만 동기화
+    const hasNoCurrentSpace = !currentSpace;
+    const isDifferentSpace = currentSpace && String(currentSpace.id) !== urlSpaceId;
+    const needsSync = hasNoCurrentSpace || isDifferentSpace;
+
+    if (needsSync) {
+      setCurrentSpace(space);
+    }
+  }, [location.pathname, searchParams, spaceId, space, currentSpace, setCurrentSpace]);
+
   return (
     <li
+      tabIndex={0}
       css={css`
         display: flex;
         align-items: center;
@@ -77,8 +109,24 @@ export default function SpaceItem({ space }: SpaceItemProps) {
               padding: 0.7rem 0.4rem;
             `}
 
+        .space-manage-toggle-menu {
+          visibility: hidden;
+          opacity: 0;
+          transition:
+            visibility 0.3s,
+            opacity 0.3s;
+        }
+
         &:hover {
           background-color: ${SPACE_ITEM_STYLES.hover};
+        }
+
+        &:hover,
+        &:focus-within {
+          .space-manage-toggle-menu {
+            visibility: visible;
+            opacity: 1;
+          }
         }
       `}
       onClick={handleSelectSpace}
@@ -153,6 +201,30 @@ export default function SpaceItem({ space }: SpaceItemProps) {
         >
           {introduction}
         </Typography>
+      </div>
+
+      <div
+        css={css`
+          margin-left: auto;
+          min-width: 0;
+          transition: opacity 0.3s ease-in-out;
+
+          ${isCollapsed
+            ? css`
+                display: none;
+                opacity: 0;
+                visibility: hidden;
+                width: 0;
+              `
+            : css`
+                display: flex;
+                opacity: 1;
+                visibility: visible;
+                width: auto;
+              `}
+        `}
+      >
+        {isLeader && <SpaceManageToggleMenu spaceId={spaceId} iconSize={1.8} iconColor="gray500" />}
       </div>
     </li>
   );

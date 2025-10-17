@@ -79,6 +79,8 @@ export function Button({ children, isProgress = false, colorSchema = "primary", 
           css={css`
             width: auto;
             height: 13rem;
+            position: relative;
+            right: 0.5rem;
           `}
         />
       ) : (

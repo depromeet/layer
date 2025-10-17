@@ -34,7 +34,22 @@ export default function AnalyticsWrapper() {
     // * ---------- 데이터가 있을 때 ---------- * //
     if (myAnalysis) {
       if (myAnalysis.goodAnalyzes.length === 0 && myAnalysis.badAnalyzes.length === 0 && myAnalysis.improvementAnalyzes.length === 0) {
-        return <Typography variant="body15Medium">분석 결과가 없습니다.</Typography>;
+        return (
+          <section
+            css={css`
+              width: 100%;
+              height: 20rem;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: ${DESIGN_TOKEN_COLOR.gray00};
+            `}
+          >
+            <Typography variant="body14Medium" color="gray700">
+              분석 결과가 없습니다.
+            </Typography>
+          </section>
+        );
       }
 
       return (
@@ -47,7 +62,22 @@ export default function AnalyticsWrapper() {
     }
 
     // * ---------- 에러 또는 데이터 없음 ---------- * //
-    return <Typography variant="body15Medium">분석 결과가 없습니다.</Typography>;
+    return (
+      <section
+        css={css`
+          width: 100%;
+          height: 20rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: ${DESIGN_TOKEN_COLOR.gray00};
+        `}
+      >
+        <Typography variant="body14Medium" color="gray700">
+          분석 결과가 없습니다.
+        </Typography>
+      </section>
+    );
   };
 
   return (
@@ -95,7 +125,6 @@ export default function AnalyticsWrapper() {
           position: relative;
           display: flex;
           justify-content: space-between;
-          height: 36.6rem;
           margin-top: 1.2rem;
           padding: 2.4rem 3.2rem;
           border-radius: 1.6rem;

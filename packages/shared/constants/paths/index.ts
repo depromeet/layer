@@ -22,8 +22,10 @@ export const createPaths = () => {
     write: () => `${prefix}/write` as const,
     completeRetrospectWrite: () => `${prefix}/write/complete` as const,
     completeRetrospectCreate: () => `${prefix}/retrospect/complete` as const,
-    /*TODO 회고 생성 후 실제 스페이스 URL로 변경 */
-    DesktopcompleteRetrospectCreate: () => `${prefix}/` as const,
+    /* TODO 회고 생성 후 실제 스페이스 URL로 변경 */
+    // TODO: 경로 논의가 필요함
+    DesktopcompleteRetrospectCreate: (spaceId: string) =>
+      `${prefix}/retrospectSpace/${spaceId}` as const,
     template: (spaceId: string) =>
       `${prefix}/space/${spaceId}/templates` as const,
     viewDetailTemplate: () => `${prefix}/template` as const,
@@ -43,8 +45,14 @@ export const createPaths = () => {
     termsofservice: () => `${prefix}/myinfo/termsofservice` as const,
     privacypolicy: () => `${prefix}/myinfo/privacypolicy` as const,
     feedback: () => `${prefix}/myinfo/feedback` as const,
-    retrospectAnalysis: (spaceId: string, retrospectId: number) =>
-      `${prefix}/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}` as const,
+    retrospectAnalysis: (
+      spaceId: string,
+      retrospectId: number,
+      title?: string
+    ) => {
+      const baseUrl = `${prefix}/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}`;
+      return title ? `${baseUrl}&title=${encodeURIComponent(title)}` : baseUrl;
+    },
   } as const;
 };
 

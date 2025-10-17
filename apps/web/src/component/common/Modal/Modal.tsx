@@ -7,10 +7,12 @@ import { Portal } from "@/component/common/Portal";
 import { Typography } from "@/component/common/typography";
 import { useModal } from "@/hooks/useModal";
 import { ANIMATION } from "@/style/common/animation.ts";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 export function Modal() {
   const { modalDataState, close } = useModal();
   const containerRef = useRef<HTMLDivElement>(null);
+  const { isDesktop } = getDeviceType();
 
   if (!modalDataState.isOpen) return null;
   const { type = "confirm", buttonText = [], autoClose = true } = modalDataState.options || {};
@@ -43,7 +45,7 @@ export function Modal() {
             margin: auto;
             width: 100%;
             height: fit-content;
-            max-width: 46rem;
+            max-width: ${isDesktop ? "41.5rem" : "46rem"};
             max-height: 46rem;
             position: absolute;
             top: 50%;
