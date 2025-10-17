@@ -6,24 +6,24 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
+import { Questions } from "@/types/retrospectCreate";
+import { useAtom } from "jotai";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
-type Question = {
-  questionId: string;
-  content: string;
+type QuestionEditSectionProps = {
+  onClose: () => void;
 };
 
-export default function QuestionEditSection() {
+export default function QuestionEditSection({ onClose }: QuestionEditSectionProps) {
   const [isDeleteMode, setIsDeleteMode] = useState(false);
-  const [questions, setQuestions] = useState<Question[]>([
-    { questionId: "1", content: "계속 유지하고 싶은 것은 무엇인가요?" },
-    { questionId: "2", content: "어려움을 느꼈던 부분은 무엇인가요?" },
-    { questionId: "3", content: "새롭게 시도해볼 내용은 무엇인가요?" },
-  ]);
+  const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+
+  const questions = retroCreateData.questions;
 
   /**
    * 리스트의 아이템 순서 변경
    */
-  const reorder = (list: Question[], startIndex: number, endIndex: number): Question[] => {
+  const reorder = (list: Questions, startIndex: number, endIndex: number): Questions => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -38,35 +38,35 @@ export default function QuestionEditSection() {
       return;
     }
     const items = reorder(questions, result.source.index, result.destination.index);
-    setQuestions(items);
+    setRetroCreateData((prev) => ({ ...prev, questions: items }));
   };
 
   /**
    * 질문 삭제 핸들러
    */
-  const handleDelete = (id: string) => {
-    setQuestions(questions.filter((item) => item.questionId !== id));
+  const handleDelete = (index: number) => {
+    const updatedQuestions = questions.filter((_, i) => i !== index);
+    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
   };
-
   /**
    * 질문 내용 변경 핸들러
    */
-  const handleContentChange = (id: string, newContent: string) => {
-    setQuestions(questions.map((item) => (item.questionId === id ? { ...item, content: newContent } : item)));
+  const handleContentChange = (index: number, newContent: string) => {
+    const updatedQuestions = questions.map((item, i) => (i === index ? { ...item, questionContent: newContent } : item));
+    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
   };
-
   /**
    * 새 질문 추가 핸들러
    */
   const handleAddQuestion = () => {
     if (questions.length >= 10) return;
 
-    const newId = Math.max(...questions.map((item) => parseInt(item.questionId)), 0) + 1;
-    setQuestions([...questions, { questionId: newId.toString(), content: "" }]);
+    const newQuestions = [...questions, { questionType: "plain_text" as const, questionContent: "" }];
+    setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
   };
 
   const handleComplete = () => {
-    // 완료 버튼 클릭 시 동작할 로직 작성
+    onClose();
   };
 
   const handleDeleteModeToggle = () => {
@@ -199,7 +199,7 @@ export default function QuestionEditSection() {
                   `}
                 >
                   {questions.map((item, index) => (
-                    <Draggable key={item.questionId} draggableId={item.questionId} index={index}>
+                    <Draggable key={`question-${index}`} draggableId={`question-${index}`} index={index}>
                       {(provided, snapshot) => (
                         <div
                           ref={provided.innerRef}
@@ -244,8 +244,8 @@ export default function QuestionEditSection() {
 
                           {/* ---------- 입력 필드 ---------- */}
                           <input
-                            value={item.content}
-                            onChange={(e) => handleContentChange(item.questionId, e.target.value)}
+                            value={item.questionContent}
+                            onChange={(e) => handleContentChange(index, e.target.value)}
                             placeholder="질문을 입력해주세요"
                             css={css`
                               flex-grow: 1;
@@ -268,7 +268,7 @@ export default function QuestionEditSection() {
                               icon="ic_delete"
                               color={DESIGN_TOKEN_COLOR.red400}
                               size={1.8}
-                              onClick={() => handleDelete(item.questionId)}
+                              onClick={() => handleDelete(index)}
                               css={css`
                                 cursor: pointer;
                                 &:hover {

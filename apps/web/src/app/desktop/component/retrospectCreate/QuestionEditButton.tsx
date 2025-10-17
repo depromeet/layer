@@ -10,7 +10,7 @@ function QuestionEditButton() {
   const handleEditButtonClick = () => {
     open({
       title: "질문 리스트",
-      contents: <QuestionEditSection />,
+      contents: <QuestionEditSection onClose={close} />,
       options: {
         enableFooter: false,
         needsBackButton: true,
