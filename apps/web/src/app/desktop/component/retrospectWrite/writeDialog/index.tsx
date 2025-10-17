@@ -17,6 +17,8 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { RetrospectWriteComplete } from "../complete";
+import { PATHS } from "@layer/shared";
+import { useNavigate } from "react-router-dom";
 
 interface WriteDialogProps {
   isOverviewVisible: boolean;
@@ -27,6 +29,7 @@ type EditModeType = "EDIT" | "POST";
 
 export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDialogProps) {
   /** Util */
+  const navigate = useNavigate();
   const { toast } = useToast();
   const { track } = useMixpanel();
   const { open: openDesktopModal } = useDesktopBasicModal();
@@ -229,6 +232,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
             leftButtonText={"임시저장"}
             confirm={() => {
               handleModalClose("temporary-save");
+              navigate(PATHS.DesktopcompleteRetrospectCreate(String(spaceId)));
             }}
             quit={mutateSaveTemporaryData}
           />
