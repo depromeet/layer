@@ -15,6 +15,7 @@ import AdvanceQuestions from "./AdvanceQuestions";
 import MainQuestionsHeader from "./MainQuestionsHeader";
 import MainQuestionsContents from "./MainQuestionsContents";
 import AddQuestionView from "./AddQuestionView";
+import { useModal } from "@/hooks/useModal";
 
 type QuestionEditSectionProps = {
   onClose: () => void;
@@ -22,6 +23,7 @@ type QuestionEditSectionProps = {
 
 export default function QuestionEditSection({ onClose }: QuestionEditSectionProps) {
   const { toast } = useToast();
+  const { open: openExitWarningModal } = useModal();
 
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
@@ -135,15 +137,24 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    * 질문 추가 취소 핸들러
    */
   const handleAddQuestionCancel = () => {
-    setIsAddMode(false);
-    setModalDataState((prev) => ({
-      ...prev,
-      title: "질문 리스트",
-      options: {
-        needsBackButton: true,
-        backButtonCallback: onClose,
+    openExitWarningModal({
+      title: "질문 수정을 취소하시겠어요?",
+      contents: "수정중인 내용은 모두 사라져요",
+      onConfirm: () => {
+        setIsAddMode(false);
+        setModalDataState((prev) => ({
+          ...prev,
+          title: "질문 리스트",
+          options: {
+            needsBackButton: true,
+            backButtonCallback: onClose,
+          },
+        }));
       },
-    }));
+      options: {
+        buttonText: ["취소", "나가기"],
+      },
+    });
   };
 
   /**
