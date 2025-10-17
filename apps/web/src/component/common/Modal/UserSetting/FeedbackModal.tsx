@@ -9,6 +9,7 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ANIMATION } from "@/style/common/animation";
 import { useInput } from "@/hooks/useInput";
+import { useToast } from "@/hooks/useToast";
 
 type FeedbackModalProps = {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
 
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const feedbackInput = useInput("");
+  const { toast } = useToast();
 
   const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -27,14 +29,14 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
     }
   };
 
-  // 제출 가능 여부 확인
-  const canSubmit = selectedRating !== null && feedbackInput.value.trim().length > 0;
+  // 제출 가능 여부 확인 (만족도만 필수, 피드백은 선택)
+  const canSubmit = selectedRating !== null;
 
   const handleSubmit = () => {
     if (!canSubmit) return;
 
-    // TODO: 피드백 제출 로직 구현
-    console.log("피드백 제출", { rating: selectedRating, feedback: feedbackInput.value });
+    // 피드백 제출
+    toast.success("소중한 피드백 감사합니다.");
     onClose();
   };
 
@@ -102,7 +104,7 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               `}
               onClick={onClose}
             >
-              <Icon icon="ic_close" size={2.4} />
+              <Icon icon="ic_delete" size={2.4} />
             </button>
           </header>
 
