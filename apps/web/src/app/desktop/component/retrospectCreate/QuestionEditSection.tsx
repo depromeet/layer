@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
@@ -9,19 +9,30 @@ import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea
 import { Questions } from "@/types/retrospectCreate";
 import { useAtom } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { useToast } from "@/hooks/useToast";
 
 type QuestionEditSectionProps = {
   onClose: () => void;
 };
 
 export default function QuestionEditSection({ onClose }: QuestionEditSectionProps) {
+  const { toast } = useToast();
+
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+
+  // 각 질문의 원본 내용을 추적하기 위한 ref
+  const originalContentRef = useRef<{ [key: number]: string }>({});
 
   const questions = retroCreateData.questions;
 
   /**
    * 리스트의 아이템 순서 변경
+   *
+   * @param list - 질문 리스트
+   * @param startIndex - 시작 인덱스
+   * @param endIndex - 종료 인덱스
+   * @returns 변경된 질문 리스트
    */
   const reorder = (list: Questions, startIndex: number, endIndex: number): Questions => {
     const result = Array.from(list);
@@ -32,6 +43,8 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
 
   /**
    * 드래그 앤 드롭이 끝났을 때 호출
+   *
+   * @param result - 드래그 결과 객체
    */
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -43,18 +56,54 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
 
   /**
    * 질문 삭제 핸들러
+   *
+   * @param index - 삭제할 질문의 인덱스
    */
   const handleDelete = (index: number) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
     setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
+    toast.success("삭제가 완료되었어요!");
   };
+
   /**
    * 질문 내용 변경 핸들러
+   *
+   * @param index - 질문 인덱스
+   * @param newContent - 새로운 질문 내용
    */
   const handleContentChange = (index: number, newContent: string) => {
     const updatedQuestions = questions.map((item, i) => (i === index ? { ...item, questionContent: newContent } : item));
     setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
   };
+
+  /**
+   * 입력 필드 포커스 시 원본 내용 저장
+   *
+   * @param index - 질문 인덱스
+   */
+  const handleContentFocus = (index: number) => {
+    originalContentRef.current[index] = questions[index]?.questionContent || "";
+  };
+
+  /**
+   * 입력 필드 blur 시 변경 확인 및 토스트 표시
+   *
+   * * 내용이 실제로 변경되고, 빈 문자열이 아닌 경우에만 토스트 표시
+   * * 현재 내용을 새로운 원본으로 업데이트
+   *
+   * @param index - 질문 인덱스
+   */
+  const handleContentBlur = (index: number) => {
+    const currentContent = questions[index]?.questionContent || "";
+    const originalContent = originalContentRef.current[index] || "";
+
+    if (originalContent !== currentContent && currentContent.trim() !== "") {
+      toast.success("질문이 수정되었어요!");
+    }
+
+    originalContentRef.current[index] = currentContent;
+  };
+
   /**
    * 새 질문 추가 핸들러
    */
@@ -65,13 +114,19 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
   };
 
-  const handleComplete = () => {
-    onClose();
-  };
-
+  /**
+   * 삭제 모드 토글 핸들러
+   */
   const handleDeleteModeToggle = () => {
     setIsDeleteMode((prev) => !prev);
   };
+
+  // * 컴포넌트 마운트 시 원본 내용 저장
+  useEffect(() => {
+    questions.forEach((question, index) => {
+      originalContentRef.current[index] = question.questionContent;
+    });
+  }, []);
 
   return (
     <>
@@ -246,6 +301,8 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
                           <input
                             value={item.questionContent}
                             onChange={(e) => handleContentChange(index, e.target.value)}
+                            onFocus={() => handleContentFocus(index)}
+                            onBlur={() => handleContentBlur(index)}
                             placeholder="질문을 입력해주세요"
                             css={css`
                               flex-grow: 1;
@@ -336,7 +393,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
           padding: 0;
         `}
       >
-        <Button colorSchema={"primary"} onClick={handleComplete} isProgress={false}>
+        <Button colorSchema={"primary"} onClick={onClose} isProgress={false}>
           완료
         </Button>
       </ButtonProvider>
