@@ -27,7 +27,10 @@ export default function DesktopModal() {
   if (!modalDataState.isOpen) return null;
 
   const closeDesktopModal = () => {
-    close();
+    if (!options?.disabledClose) {
+      close();
+    }
+
     onClose?.();
   };
 

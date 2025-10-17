@@ -6,7 +6,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { DropResult } from "@hello-pangea/dnd";
 import { Questions } from "@/types/retrospectCreate";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { useToast } from "@/hooks/useToast";
 import { desktopBasicModalState } from "@/store/modal/desktopBasicModalAtom";
@@ -26,7 +26,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
-  const [modalDataState, setModalDataState] = useAtom(desktopBasicModalState);
+  const setModalDataState = useSetAtom(desktopBasicModalState);
 
   const questions = retroCreateData.questions;
 
@@ -80,6 +80,12 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     setModalDataState((prev) => ({
       ...prev,
       title: "질문 추가",
+      onClose: handleAddQuestionCancel,
+      options: {
+        needsBackButton: true,
+        disabledClose: true,
+        backButtonCallback: handleAddQuestionCancel,
+      },
     }));
   };
 
@@ -95,6 +101,10 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     setModalDataState((prev) => ({
       ...prev,
       title: "질문 리스트",
+      options: {
+        needsBackButton: true,
+        backButtonCallback: onClose,
+      },
     }));
 
     toast.success("질문이 추가되었어요!");
@@ -129,6 +139,10 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     setModalDataState((prev) => ({
       ...prev,
       title: "질문 리스트",
+      options: {
+        needsBackButton: true,
+        backButtonCallback: onClose,
+      },
     }));
   };
 
