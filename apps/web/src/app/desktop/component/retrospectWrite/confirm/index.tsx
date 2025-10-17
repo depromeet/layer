@@ -18,6 +18,7 @@ function ResultLayout({ children, key }: ResultLayoutProps) {
       key={key}
       css={css`
         width: 100%;
+        min-height: 15.3rem;
         padding: 1.6rem;
         border-radius: 1.2rem;
         background-color: ${DESIGN_TOKEN_COLOR.gray100};
@@ -47,7 +48,7 @@ export function Confirm({ answers }: CompleteProps) {
       <div
         css={css`
           display: flex;
-          align-items: center;
+          align-items: stretch;
           gap: 1.6rem;
           margin-top: 2.4rem;
         `}
