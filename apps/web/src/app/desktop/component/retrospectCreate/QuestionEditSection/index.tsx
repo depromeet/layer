@@ -165,7 +165,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
         <>
           <section
             css={css`
-              height: 100%;
+              min-height: 100%;
             `}
           >
             {/* ---------- 사전 질문 ---------- */}
@@ -210,6 +210,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
             sort={"horizontal"}
             onlyContainerStyle={css`
               padding: 0;
+              padding-top: 0.8rem;
             `}
           >
             <Button colorSchema={"primary"} onClick={onClose} isProgress={false}>
