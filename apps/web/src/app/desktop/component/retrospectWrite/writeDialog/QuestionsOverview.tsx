@@ -11,7 +11,7 @@ interface QuestionsOverviewProps {
 }
 
 export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary }: QuestionsOverviewProps) {
-  const { data, phase, maxPhase, movePhase, incrementPhase } = useContext(PhaseContext);
+  const { data, phase, maxPhase, movePhase } = useContext(PhaseContext);
 
   const canTemporarySave = hasChanges();
 
