@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import { useState, useRef, useEffect } from "react";
+import Cookies from "js-cookie";
 
 import { Icon } from "../Icon";
 import { Typography } from "../typography";
@@ -10,6 +11,9 @@ import { useNavigation } from "./context/NavigationContext";
 import { UserProfileDropdown } from "./UserProfileDropdown";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useAtom } from "jotai";
+import { authAtom } from "@/store/auth/authAtom";
+import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 
 export default function Footer() {
   const { isCollapsed } = useNavigation();
@@ -19,6 +23,9 @@ export default function Footer() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [{ name, imageUrl }] = useAtom(authAtom);
+  const { mutate: signOut } = usePostSignOut();
+  const memberId = Cookies.get("memberId");
 
   // 외부 클릭시 드롭다운 닫기
   useEffect(() => {
@@ -150,7 +157,19 @@ export default function Footer() {
           `}
           onClick={handleProfileClick}
         >
-          <Icon icon="basicProfile" size={2.4} />
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              css={css`
+                width: 2.4rem;
+                height: 2.4rem;
+                border-radius: 100%;
+                object-fit: cover;
+              `}
+            />
+          ) : (
+            <Icon icon="basicProfile" size={2.4} />
+          )}
 
           <Typography
             variant="body12Medium"
@@ -175,7 +194,7 @@ export default function Footer() {
                   `}
             `}
           >
-            {"홍길동"}
+            {name}
           </Typography>
         </button>
       </div>
@@ -268,10 +287,10 @@ export default function Footer() {
         isOpen={isLogoutModalOpen}
         onClose={() => setIsLogoutModalOpen(false)}
         onConfirm={() => {
-          // TODO: 실제 로그아웃 로직 구현
-          console.log("로그아웃 확정");
+          if (memberId) {
+            signOut({ memberId: memberId });
+          }
           setIsLogoutModalOpen(false);
-          // 여기에 실제 로그아웃 API 호출 등을 추가
         }}
       />
     </footer>

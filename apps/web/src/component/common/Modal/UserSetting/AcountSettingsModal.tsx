@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import axios from "axios";
 
 import { Button } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
@@ -12,6 +13,13 @@ import { ANIMATION } from "@/style/common/animation";
 import { Input, InputLabelContainer, Label } from "@/component/common/input";
 import { useInput } from "@/hooks/useInput";
 import { DeleteAccountConfirmModal } from "./DeleteAccountConfirmModal";
+import { api } from "@/api";
+import { usePatchUpdateProfile } from "@/hooks/api/user/usePatchUpdateProfile";
+import { useDeleteUser } from "@/hooks/api/user/useDeleteUser";
+
+import { useAtom } from "jotai";
+import { authAtom } from "@/store/auth/authAtom";
+import Cookies from "js-cookie";
 
 type AccountSettingsModalProps = {
   isOpen: boolean;
@@ -22,8 +30,13 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
   if (!isOpen) return null;
 
   const [modalView, setModalView] = useState<"settings" | "deleteAccount">("settings");
+  const [{ name, imageUrl }] = useAtom(authAtom);
+
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const nameInput = useInput("홍길동");
+  const nameInput = useInput(name);
+  const [selectedImage, setSelectedImage] = useState<string | null>(imageUrl);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [deleteReasons, setDeleteReasons] = useState({
     notUseful: false,
     uncomfortable: false,
@@ -36,6 +49,57 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
 
   const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      try {
+        const {
+          data: { presignedUrl, imageUrl: newImageUrl },
+        } = await api.get<{ presignedUrl: string; imageUrl: string }>("/external/image/presigned?domain=SPACE");
+
+        await axios.put(presignedUrl, file);
+
+        setSelectedImage(newImageUrl);
+      } catch (error) {
+        console.error("이미지 업로드 실패:", error);
+      }
+    }
+  };
+
+  const handleCameraClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const { mutate: updateProfile } = usePatchUpdateProfile();
+  const { mutate: deleteUser } = useDeleteUser();
+  const memberId = Cookies.get("memberId");
+
+  const handleSubmit = () => {
+    updateProfile(
+      { name: nameInput.value.trim(), profileImageUrl: selectedImage || "" },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      },
+    );
+  };
+
+  const handleDeleteAccount = () => {
+    if (memberId) {
+      // deleteReasons를 boolean 배열로 변환
+      const booleans = [deleteReasons.notUseful, deleteReasons.uncomfortable, deleteReasons.other];
+
+      deleteUser({
+        memberId: memberId,
+        booleans: booleans,
+        description: feedbackInput.value,
+      });
+      setShowConfirmModal(false);
       onClose();
     }
   };
@@ -104,7 +168,7 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
               `}
               onClick={onClose}
             >
-              <Icon icon="ic_close" size={2.4} />
+              <Icon icon="ic_delete" size={2.0} />
             </button>
           </header>
 
@@ -133,17 +197,12 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
                       margin-bottom: 2rem;
                     `}
                   >
-                    <ProfileImage
-                      size={12}
-                      onCameraClick={() => {
-                        console.log("프로필 이미지 변경");
-                        // TODO: 이미지 업로드 로직 구현
-                      }}
-                    />
+                    <ProfileImage size={12} src={selectedImage || imageUrl} onCameraClick={handleCameraClick} />
+                    <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange} style={{ display: "none" }} />
                   </div>
                   <InputLabelContainer id="name">
                     <Label>이름</Label>
-                    <Input readOnly value={nameInput.value} onChange={nameInput.handleInputChange} placeholder="회고 이름을 적어주세요" />
+                    <Input value={nameInput.value} onChange={nameInput.handleInputChange} placeholder="회고 이름을 적어주세요" />
                   </InputLabelContainer>
                 </section>
               </div>
@@ -329,9 +388,7 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
                       setShowConfirmModal(true);
                     }
                   } else {
-                    // TODO: 설정 저장 로직 구현
-                    console.log("설정 저장");
-                    onClose();
+                    handleSubmit();
                   }
                 }}
               >
@@ -345,16 +402,7 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
       </div>
 
       {/* 계정 탈퇴 확인 모달 */}
-      <DeleteAccountConfirmModal
-        isOpen={showConfirmModal}
-        onClose={() => setShowConfirmModal(false)}
-        onConfirm={() => {
-          // TODO: 실제 계정 삭제 로직 구현
-          console.log("계정 삭제 확정", { deleteReasons, feedback: feedbackInput.value });
-          setShowConfirmModal(false);
-          onClose();
-        }}
-      />
+      <DeleteAccountConfirmModal isOpen={showConfirmModal} onClose={() => setShowConfirmModal(false)} onConfirm={handleDeleteAccount} />
     </Portal>
   );
 }
