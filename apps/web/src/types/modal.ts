@@ -11,6 +11,7 @@ export type ModalType = {
     type?: "confirm" | "alert";
     buttonText?: string[];
     autoClose?: boolean;
+    enableHeader?: boolean;
     enableFooter?: boolean;
     needsBackButton?: boolean;
     backButtonCallback?: () => void;

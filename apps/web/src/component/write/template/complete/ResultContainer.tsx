@@ -21,8 +21,8 @@ export function ResultContainer({ name, question, children, customCss, ...props 
       css={[
         css`
           width: 100%;
-          height: ${isDesktop ? "11rem" : "auto"};
-          margin-top: 2.4rem;
+          height: ${isDesktop ? "auto" : "auto"};
+          margin-top: ${isDesktop ? "1.6rem" : "2.4rem"};
           border-radius: 0.78rem;
           padding: ${isDesktop ? (name ? "1.2rem" : "1.6rem") : "1.9rem 2rem 1.7rem 2rem"};
           min-height: fit-content;

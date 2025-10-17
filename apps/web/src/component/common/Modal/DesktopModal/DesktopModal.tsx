@@ -31,6 +31,9 @@ export default function DesktopModal() {
     onClose?.();
   };
 
+  const showHeader = options?.enableHeader ?? true;
+  const showFooter = options?.enableFooter ?? true;
+
   return (
     <Portal id="modal-root">
       <div
@@ -62,7 +65,8 @@ export default function DesktopModal() {
             transition: 0.4s all;
           `}
         >
-          <DesktopModalHeader title={title} onClose={closeDesktopModal} />
+          {showHeader && <DesktopModalHeader title={title} onClose={closeDesktopModal} options={options} />}
+          {/* TODO: 공통 padding 제거하고 각 컨텐츠에서 처리하는 게 어떨까요? */}{" "}
           <div
             css={css`
               flex: 1;
@@ -72,7 +76,7 @@ export default function DesktopModal() {
           >
             {contents}
           </div>
-          <DesktopModalFooter onConfirm={onConfirm} options={options} />
+          {showFooter && <DesktopModalFooter onConfirm={onConfirm} options={options} />}
         </div>
       </div>
     </Portal>
@@ -154,8 +158,6 @@ function DesktopModalHeader({ title, onClose, options }: DesktopModalHeaderProps
 
 function DesktopModalFooter({ onConfirm = () => {}, options = {} }: DesktopModalFooterProps) {
   const DEFAULT_BUTTON_TEXT = ["취소", "확인"];
-
-  if (!options.enableFooter) return null;
 
   return (
     <div

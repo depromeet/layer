@@ -69,10 +69,7 @@ function RetrospectWrite({ isOverviewVisible, handleToggleOverview }: Retrospect
   const maxPhase = (adjustedData?.questions.length ?? 0) - 1;
 
   const incrementPhase = () => {
-    const maxPhase = (data?.questions.length ?? 0) - 1;
-    if (phase < maxPhase) {
-      setPhase((prevPhase) => prevPhase + 1);
-    }
+    setPhase((prevPhase) => prevPhase + 1);
   };
 
   const decrementPhase = () => {

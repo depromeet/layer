@@ -85,7 +85,7 @@ export function WDescriptiveTemplate({ answer, onChange }: DescriptiveTemplatePr
           </Typography>
         </div>
         <Typography color={"gray500"} variant={"body12Medium"} id={"totalAnswer"}>
-          {answer.length}자 작성
+          {answer?.length}자 작성
         </Typography>
       </div>
     </div>

@@ -4,9 +4,22 @@ import { css } from "@emotion/react";
 import { AdvanceQuestionsNum, PhaseContext } from "..";
 import { useContext } from "react";
 
-export function QuestionsOverview() {
-  const { data, phase, maxPhase } = useContext(PhaseContext);
-  const isLastPhase = phase === maxPhase;
+interface QuestionsOverviewProps {
+  isAnswerFilled: boolean;
+  hasChanges: () => boolean;
+  onSaveTemporary: () => void;
+}
+
+export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary }: QuestionsOverviewProps) {
+  const { data, phase, maxPhase, movePhase, incrementPhase } = useContext(PhaseContext);
+
+  const canTemporarySave = hasChanges();
+
+  const handleTemporarySave = () => {
+    if (hasChanges()) {
+      onSaveTemporary();
+    }
+  };
 
   return (
     <div
@@ -53,6 +66,9 @@ export function QuestionsOverview() {
           {data?.questions.map((question, index) => (
             <li
               key={index}
+              onClick={() => {
+                movePhase(index);
+              }}
               css={css`
                 display: flex;
                 align-items: center;
@@ -94,25 +110,38 @@ export function QuestionsOverview() {
       >
         <button
           type="button"
+          onClick={handleTemporarySave}
           css={css`
             padding: 1.3rem 2rem;
             min-width: 8.6rem;
             font-size: 1.4rem;
             font-weight: 600;
             line-height: 140%;
-            color: ${DESIGN_TOKEN_COLOR.gray900};
+            color: ${canTemporarySave ? DESIGN_TOKEN_COLOR.gray900 : DESIGN_TOKEN_COLOR.gray400};
+            border-radius: 0.8rem;
+            transition: 0.4s all;
+
+            &:hover {
+              background-color: ${DESIGN_TOKEN_COLOR.gray200};
+            }
           `}
         >
           임시저장
         </button>
         <button
-          type="submit"
+          type="button"
+          onClick={() => {
+            if (isAnswerFilled) {
+              movePhase(maxPhase + 1);
+            }
+          }}
+          disabled={!isAnswerFilled}
           css={css`
             flex: 1;
             padding: 1.3rem 2rem;
-            background-color: ${isLastPhase ? "#608dff" : DESIGN_TOKEN_COLOR.gray100};
-            color: ${isLastPhase ? DESIGN_TOKEN_COLOR.gray00 : DESIGN_TOKEN_COLOR.gray400};
-            cursor: ${isLastPhase ? "pointer" : "not-allowed"};
+            background-color: ${isAnswerFilled ? "#608dff" : DESIGN_TOKEN_COLOR.gray100};
+            color: ${isAnswerFilled ? DESIGN_TOKEN_COLOR.gray00 : DESIGN_TOKEN_COLOR.gray400};
+            cursor: ${isAnswerFilled ? "pointer" : "not-allowed"};
             border-radius: 0.8rem;
             font-size: 1.4rem;
             font-weight: 700;

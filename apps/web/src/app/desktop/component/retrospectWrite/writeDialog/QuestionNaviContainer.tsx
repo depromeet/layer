@@ -61,7 +61,7 @@ export function QuestionNaviContainer({ children }: { children: React.ReactNode 
             color: ${isNextDisabled ? DESIGN_TOKEN_COLOR.gray400 : DESIGN_TOKEN_COLOR.gray800};
             cursor: ${isNextDisabled ? "not-allowed" : "pointer"};
           `}
-          disabled={isNextDisabled}
+          disabled={maxPhase === phase}
         >
           <span
             css={css`
