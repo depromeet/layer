@@ -17,7 +17,7 @@ import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { ProjectType, SpaceValue } from "@/types/space";
 import { css } from "@emotion/react";
-import { createContext, Dispatch, Fragment, SetStateAction, useContext, useEffect, useRef, useState } from "react";
+import { createContext, Dispatch, Fragment, SetStateAction, useContext, useEffect, useState } from "react";
 import { TemplateList } from "../../component/retrospect/template/list";
 import { useToast } from "@/hooks/useToast";
 import { PeriodType, PurposeType } from "@/types/retrospectCreate/recommend";
@@ -41,7 +41,6 @@ import { useRadioButton } from "@/hooks/useRadioButton";
 import { Radio } from "@/component/common/radioButton";
 import Lottie from "lottie-react";
 import CreateDone from "@/assets/lottie/space/create_done.json";
-import { animate } from "framer-motion";
 import { useModal } from "@/hooks/useModal";
 import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
@@ -53,7 +52,6 @@ import { useApiGetUser } from "@/hooks/api/auth/useApiGetUser";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { encryptId } from "@/utils/space/cryptoKey";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
-import { identify } from "mixpanel-browser";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
@@ -776,7 +774,6 @@ function CreateRetrospectDeadlineFunnel() {
         { spaceId, body: params },
         {
           onSuccess: () => {
-            // TODO: @jae1n - usePostRetrospectCreate 종속 로직 제거 후, 다음 작업 진행
             toast.success("스페이스와 회고가 생성되었어요!");
             setFlow("COMPLETE", 0);
           },
