@@ -1,5 +1,6 @@
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
+import ActionButton from "@/component/common/ActionButton";
 import { css } from "@emotion/react";
 
 type MainQuestionsHeaderProps = {
@@ -26,38 +27,11 @@ export default function MainQuestionsHeader({ isDeleteMode, handleDeleteModeTogg
               gap: 0.8rem;
             `}
           >
-            <Typography
-              variant="body14SemiBold"
-              color="gray500"
-              css={css`
-                cursor: pointer;
-              `}
-              onClick={handleDeleteModeToggle}
-            >
-              취소
-            </Typography>
-            <Typography
-              variant="body14SemiBold"
-              color="gray900"
-              css={css`
-                cursor: pointer;
-              `}
-              onClick={handleDeleteModeToggle}
-            >
-              완료
-            </Typography>
+            <ActionButton label="취소" variant="body14SemiBold" color="gray500" onClick={handleDeleteModeToggle} />
+            <ActionButton label="완료" variant="body14SemiBold" color="gray900" onClick={handleDeleteModeToggle} />
           </div>
         ) : (
-          <Typography
-            variant="body14SemiBold"
-            color="gray500"
-            css={css`
-              cursor: pointer;
-            `}
-            onClick={handleDeleteModeToggle}
-          >
-            삭제
-          </Typography>
+          <ActionButton label="삭제" variant="body14SemiBold" color="gray500" onClick={handleDeleteModeToggle} />
         )}
       </div>
       <Spacing size={0.8} />
