@@ -46,7 +46,7 @@ export default function DesktopModal() {
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index: 10000;
+          z-index: 10001;
           background-color: rgba(0, 0, 0, 0.5);
         `}
       >
@@ -93,7 +93,7 @@ function DesktopModalHeader({ title, onClose, options }: DesktopModalHeaderProps
         padding: 0 2.4rem;
       `}
     >
-      {options?.needsBackButton ? (
+      {options?.needsBackButton && (
         <button
           onClick={options?.backButtonCallback}
           css={css`
@@ -113,18 +113,12 @@ function DesktopModalHeader({ title, onClose, options }: DesktopModalHeaderProps
             `}
           />
         </button>
-      ) : (
-        <div
-          css={css`
-            width: 1.8rem;
-          `}
-        />
       )}
 
       <div
         css={css`
           flex: 1;
-          margin: 0 0.5rem 0 1.2rem;
+          margin: ${options?.needsBackButton ? "0 0.5rem 0 1.2rem" : "0 0.5rem 0 0"};
         `}
       >
         <Typography variant="title22Bold" color="gray900">

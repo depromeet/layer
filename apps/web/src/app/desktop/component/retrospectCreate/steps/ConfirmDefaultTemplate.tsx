@@ -72,7 +72,7 @@ export function ConfirmDefaultTemplate() {
           `}
         >
           <QuestionList>
-            {questions.map(({ questionContent }, index) => (
+            {retroCreateData.questions.map(({ questionContent }, index) => (
               <QuestionListItem key={index} order={index + 1} content={questionContent} />
             ))}
           </QuestionList>

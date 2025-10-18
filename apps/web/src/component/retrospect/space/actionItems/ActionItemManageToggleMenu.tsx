@@ -24,8 +24,8 @@ export default function ActionItemManageToggleMenu({
   spaceId,
   retrospectId,
   todoList,
-  iconSize = 1.8,
-  iconColor = "gray900",
+  iconSize = 2,
+  iconColor = "gray500",
 }: ActionItemManageToggleMenuProps) {
   const { isShowMenu, showMenu, hideMenu } = useToggleMenu();
   const { open: openDesktopModal, close } = useDesktopBasicModal();
@@ -56,8 +56,7 @@ export default function ActionItemManageToggleMenu({
           onClose={close}
         />
       ),
-      onConfirm: () => {},
-      onClose: () => {},
+      onClose: close,
       options: {
         enableFooter: false,
         needsBackButton: true,

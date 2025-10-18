@@ -10,6 +10,8 @@ import { usePatchActionItemList } from "@/hooks/api/actionItem/usePatchActionIte
 import { Button, ButtonProvider } from "@/component/common/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { ExtendedActionItemType } from "@/types/actionItem";
+import { useModal } from "@/hooks/useModal";
+import { useDeleteActionItemList } from "@/hooks/api/actionItem/useDeleteActionItemList";
 
 type ActionItem = {
   actionItemId: string;
@@ -26,9 +28,12 @@ type ActionItemsEditSectionProps = {
 export default function ActionItemsEditSection({ spaceId, retrospectId, todoList, onClose }: ActionItemsEditSectionProps) {
   const queryClient = useQueryClient();
 
+  const { open, close: closeModal } = useModal();
+
   const [actionItems, setActionItems] = useState<ActionItem[]>(todoList);
 
   const { mutate: patchActionItem, isPending } = usePatchActionItemList();
+  const { mutate: deleteActionItem } = useDeleteActionItemList();
 
   /**
    * 리스트의 아이템 순서 변경
@@ -67,7 +72,50 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
    * @param id
    */
   const handleDelete = (id: string) => {
-    setActionItems(actionItems.filter((item) => item.actionItemId !== id));
+    open({
+      title: "실행 목표 삭제",
+      contents: "정말 삭제하시겠어요?",
+      onClose: closeModal,
+      onConfirm: () => {
+        deleteActionItem(
+          { actionItemId: Number(id) },
+          {
+            onSuccess: async () => {
+              setActionItems(actionItems.filter((item) => item.actionItemId !== id));
+
+              const previousData: { spaceId: string; spaceName: string; teamActionItemList: ExtendedActionItemType[] } | undefined =
+                await queryClient.getQueryData(["getTeamActionItemList", spaceId]);
+
+              if (previousData) {
+                const updatedData = {
+                  ...previousData,
+                  teamActionItemList: previousData.teamActionItemList.map((retrospect) => {
+                    if (retrospect.retrospectId === retrospectId) {
+                      return {
+                        ...retrospect,
+                        actionItemList: retrospect.actionItemList.filter((item) => item.actionItemId !== Number(id)),
+                      };
+                    }
+                    return retrospect;
+                  }),
+                };
+
+                queryClient.setQueryData(["getTeamActionItemList", spaceId], updatedData);
+              }
+
+              closeModal();
+            },
+            onError: (error) => {
+              console.error("삭제 실패:", error);
+              closeModal();
+            },
+          },
+        );
+      },
+      options: {
+        buttonText: ["취소", "삭제"],
+      },
+    });
   };
 
   /**

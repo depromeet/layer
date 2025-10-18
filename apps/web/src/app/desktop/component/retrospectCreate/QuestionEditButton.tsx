@@ -1,8 +1,24 @@
 import { Icon } from "@/component/common/Icon";
+import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
+import QuestionEditSection from "./QuestionEditSection";
 
 function QuestionEditButton() {
+  const { open, close } = useDesktopBasicModal();
+
+  const handleEditButtonClick = () => {
+    open({
+      title: "질문 리스트",
+      contents: <QuestionEditSection onClose={close} />,
+      options: {
+        enableFooter: false,
+        needsBackButton: true,
+        backButtonCallback: close,
+      },
+    });
+  };
+
   return (
     <button
       type="button"
@@ -20,7 +36,15 @@ function QuestionEditButton() {
         line-height: 140%;
         color: ${DESIGN_TOKEN_COLOR.gray700};
         font-weight: 600;
+        cursor: pointer;
+        z-index: 10;
+        background-color: white;
+
+        &:hover {
+          background-color: #f5f5f5;
+        }
       `}
+      onClick={handleEditButtonClick}
     >
       <Icon
         icon="ic_write"
