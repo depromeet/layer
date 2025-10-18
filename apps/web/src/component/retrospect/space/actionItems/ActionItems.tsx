@@ -7,6 +7,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 import ActionItemsTab from "./ActionItemsTab";
 import ActionItemsList from "./ActionItemsList";
+import ActionItemsTooltip from "./ActionItemsTooltip";
 
 interface ActionItemsProps {
   currentTab: "진행중" | "지난";
@@ -14,6 +15,7 @@ interface ActionItemsProps {
 
 export default function ActionItems() {
   const [currentTab, setCurrentTab] = useState<ActionItemsProps["currentTab"]>("진행중");
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
   const handleCurrentTabClick = (tab: ActionItemsProps["currentTab"]) => {
     setCurrentTab(tab);
@@ -43,10 +45,39 @@ export default function ActionItems() {
           margin-bottom: 1.2rem;
           border-bottom: 1px solid ${DESIGN_TOKEN_COLOR.gray100};
           flex-shrink: 0;
+          position: relative;
         `}
       >
         <Typography variant="title16Bold">실행목표</Typography>
-        <Icon icon="ic_info_transparent" size="2rem" />
+
+        {/* ---------- 툴팁 컨테이너 ---------- */}
+        <div
+          css={css`
+            position: relative;
+            display: inline-block;
+          `}
+          onMouseEnter={() => setIsTooltipVisible(true)}
+          onMouseLeave={() => setIsTooltipVisible(false)}
+        >
+          <Icon
+            icon="ic_info_transparent"
+            size={2}
+            css={css`
+              path {
+                fill: ${DESIGN_TOKEN_COLOR.gray600};
+              }
+              cursor: pointer;
+              transition: opacity 0.2s ease;
+
+              &:hover {
+                opacity: 0.8;
+              }
+            `}
+          />
+
+          {/* ---------- 커스텀 툴팁 ---------- */}
+          <ActionItemsTooltip isVisible={isTooltipVisible} />
+        </div>
       </div>
 
       <ActionItemsTab currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />
