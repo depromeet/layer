@@ -101,7 +101,7 @@ export function Prepare({ spaceId, retrospectId, title, introduction }: PrepareP
             {data?.questions.map((item) => {
               return (
                 <SwiperSlide key={item.order}>
-                  <QuestionItem index={item.order + 1} contents={item.question} />
+                  <QuestionItem index={item.order} contents={item.question} />
                 </SwiperSlide>
               );
             })}

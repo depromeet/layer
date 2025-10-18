@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { AdvanceQuestionsNum } from "@/app/mobile/write/RetrospectWritePage";
 import { Icon } from "@/component/common/Icon";
 import { getDeviceType } from "@/utils/deviceUtils";
+import { Typography } from "../common/typography";
 
 type QuestionItemProps = {
   index: number;
@@ -25,8 +26,6 @@ export function QuestionItem({ index, contents }: QuestionItemProps) {
           width: 2.4rem;
           height: 2.4rem;
           background-color: #73a2ff;
-          color: white;
-
           display: flex;
           align-items: center;
           justify-content: center;
@@ -36,7 +35,9 @@ export function QuestionItem({ index, contents }: QuestionItemProps) {
         `}
         id="questions-index"
       >
-        {index <= AdvanceQuestionsNum ? <Icon icon={"ic_essential_star"} size={1.3} /> : index - 2}
+        <Typography variant={isDesktop ? "title16Bold" : "subtitle14SemiBold"} color={"white"}>
+          {index <= AdvanceQuestionsNum ? <Icon icon={"ic_essential_star"} size={1.3} /> : index - 2}
+        </Typography>
       </div>
       <div
         css={css`
