@@ -14,6 +14,7 @@ export const desktopBasicModalState = atom<ModalType>({
     autoClose: true,
     enableFooter: true,
     needsBackButton: false,
+    disabledClose: false,
     backButtonCallback: undefined,
     footerLeftCallback: undefined,
   },

@@ -15,9 +15,11 @@ export default function useDesktopBasicModal() {
         type: "confirm",
         buttonText: [],
         autoClose: true,
-        needsBackButton: false,
-        backButtonCallback: undefined,
         enableFooter: true,
+        needsBackButton: false,
+        disabledClose: false,
+        backButtonCallback: undefined,
+        footerLeftCallback: undefined,
       },
     });
   }, [modalDataState, setModalDataState]);
