@@ -10,6 +10,7 @@ import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOption
 import { Retrospect } from "@/types/retrospect";
 import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
 import { ExtendedActionItemType } from "@/types/actionItem";
+import { useToast } from "@/hooks/useToast";
 
 type ActionItemAddSectionProps = {
   spaceId: string;
@@ -18,6 +19,8 @@ type ActionItemAddSectionProps = {
 
 export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAddSectionProps) {
   const queryClient = useQueryClient();
+
+  const { toast } = useToast();
   const { data: retrospectOptions } = useQuery(useApiOptionsGetRetrospects(spaceId));
 
   const [selectedRetrospect, setSelectedRetrospect] = useState<Retrospect>();
@@ -95,6 +98,8 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
               };
 
               queryClient.setQueryData(["getTeamActionItemList", spaceId], updatedData);
+
+              toast.success("실행목표 추가가 완료되었어요!");
             } else {
               queryClient.invalidateQueries({ queryKey: ["getTeamActionItemList", spaceId] });
             }
