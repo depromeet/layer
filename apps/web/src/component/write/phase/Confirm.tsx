@@ -10,6 +10,7 @@ type CompleteProps = {
 
 export function Confirm({ answers }: CompleteProps) {
   const { data } = useContext(PhaseContext);
+
   return (
     <Fragment>
       {data?.questions.map((item) => {

@@ -12,6 +12,7 @@ export const desktopBasicModalState = atom<ModalType>({
     type: "confirm",
     buttonText: [],
     autoClose: true,
+    enableHeader: true,
     enableFooter: true,
     needsBackButton: false,
     disabledClose: false,

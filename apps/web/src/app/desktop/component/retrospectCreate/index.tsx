@@ -10,6 +10,10 @@ import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { MainInfo } from "./steps/MainInfo";
 import { DueDate } from "./steps/DueDate";
 import { ConfirmDefaultTemplate } from "./steps/ConfirmDefaultTemplate";
+import { PATHS } from "@layer/shared";
+import { useNavigate } from "react-router-dom";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { useToast } from "@/hooks/useToast";
 
 const PAGE_STEPS = ["confirmTemplate", "mainInfo", "dueDate"] as const;
 const CUSTOM_TEMPLATE_STEPS = ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const;
@@ -26,6 +30,9 @@ type RetrospectCreateContextState = UseMultiStepFormContextState<(typeof PAGE_ST
 export const RetrospectCreateContext = createContext<RetrospectCreateContextState>({} as RetrospectCreateContextState);
 
 export function RetrospectCreate() {
+  const navigate = useNavigate();
+  const { closeFunnelModal } = useFunnelModal();
+  const { toast } = useToast();
   const { spaceId, templateId } = useAtomValue(retrospectInitialState);
   const spaceIdNumber = Number(spaceId);
   const templateIdNumber = Number(templateId);
@@ -40,10 +47,19 @@ export function RetrospectCreate() {
   const handleSubmit = useCallback(() => {
     if (!pageState.isLastStep) return;
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
-    postRetrospectCreate({
-      spaceId: spaceIdNumber,
-      body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateIdNumber },
-    });
+    postRetrospectCreate(
+      {
+        spaceId: spaceIdNumber,
+        body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateIdNumber },
+      },
+      {
+        onSuccess: () => {
+          navigate(PATHS.DesktopcompleteRetrospectCreate(String(spaceIdNumber)));
+          closeFunnelModal();
+          toast.success("회고가 생성되었어요!");
+        },
+      },
+    );
   }, [retroCreateData.deadline]);
 
   return (

@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";
 import { ANIMATION } from "@/style/common/animation.ts";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type EntireListProps = {
   confirm: () => void;
@@ -23,6 +24,7 @@ export function TemporarySaveModal({
   content = "작성중인 회고는 임시저장 되어요",
 }: EntireListProps) {
   const containerRef = useRef(null);
+  const { isDesktop } = getDeviceType();
 
   return (
     <div
@@ -52,8 +54,8 @@ export function TemporarySaveModal({
           margin: auto;
           width: 100%;
           height: fit-content;
-          max-width: 46rem;
-          max-height: 46rem;
+          max-width: ${isDesktop ? "35.5rem" : "46rem"};
+          max-height: ${isDesktop ? "25.2rem" : "46rem"};
           position: absolute;
           top: 50%;
           left: 50%;
