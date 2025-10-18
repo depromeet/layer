@@ -39,15 +39,13 @@ export const usePostRetrospectCreate = (spaceId: number) => {
         spaceId,
       });
 
-      navigate(isDesktop ? PATHS.DesktopcompleteRetrospectCreate(String(spaceId)) : PATHS.completeRetrospectCreate(), {
+      navigate(PATHS.completeRetrospectCreate(), {
         state: { retrospectId, spaceId, title: variables?.body?.title, introduction: variables?.body?.introduction },
       });
       resetRetroCreateData();
       queryClient.invalidateQueries({
         queryKey: ["getRetrospects", String(spaceId)],
       });
-      isDesktop && closeFunnelModal();
-      isDesktop && toast.success("회고가 생성되었어요!");
     },
   });
 };
