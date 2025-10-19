@@ -66,8 +66,9 @@ function SwiperSlideOnboardingImage({
         border-radius: 2rem;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
+        padding-top: 6.6rem;
       `}
     >
       <div
@@ -144,12 +145,7 @@ export default function DesktopLoginPage() {
         }
       `}
     >
-      <section
-        id="onboarding-section"
-        css={css`
-          padding: 5.2rem 0 11.4rem 8.8rem;
-        `}
-      >
+      <section id="onboarding-section">
         <div
           id="onboarding-form-wrapper"
           css={css`
@@ -157,12 +153,12 @@ export default function DesktopLoginPage() {
             height: 100%;
             display: flex;
             flex-direction: column;
+            padding: 5.2rem 0 0 8.8rem;
           `}
         >
           <div
             id="progress-bar-wrapper"
             css={css`
-              padding-bottom: 4.8rem;
               padding-inline: 5rem;
             `}
           >
@@ -198,7 +194,6 @@ export default function DesktopLoginPage() {
             loop={true}
             css={css`
               width: 100%;
-              height: 100%;
               border-radius: 1.6rem;
               position: relative;
               overflow: hidden;
@@ -210,7 +205,7 @@ export default function DesktopLoginPage() {
                 background: white;
                 border-radius: 50%;
                 border: 0.11rem solid ${DESIGN_TOKEN_COLOR.gray300};
-                top: 60%;
+                top: 55%;
                 transform: translateY(-50%);
                 z-index: 10;
                 transition: all 0.4s;
