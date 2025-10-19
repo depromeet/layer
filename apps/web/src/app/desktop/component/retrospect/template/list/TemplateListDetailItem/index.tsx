@@ -12,26 +12,38 @@ import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useSetAtom } from "jotai";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { TemplateListConform } from "../TemplateListConform";
+import { useSearchParams } from "react-router-dom";
 
 function TemplateListDetailItem({ templateId }: { templateId: number }) {
   const { tabs, curTab, selectTab } = useTabs(["기본", "질문구성"] as const);
   const { data } = useGetTemplateInfo({ templateId: templateId });
   const { heading, description } = splitTemplateIntroduction(data.introduction);
-  const { openFunnelModal } = useFunnelModal();
+  const { openFunnelModal, closeFunnelModal } = useFunnelModal();
   const setRetrospectValue = useSetAtom(retrospectInitialState);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const type = searchParams.get("template_type");
 
+  /**
+   * @description 회고 템플릿 선택하기 버튼 클릭 핸들러
+   * - type 값이 "new_space"인 경우: 스페이스 생성 플로우에서 템플릿을 선택한 것이므로, 선택한 템플릿 ID를 URL 파라미터로 설정하고 퍼널 모달을 닫아요
+   */
   const handleSelectTemplate = () => {
-    setRetrospectValue((prev) => ({
-      ...prev,
-      tempTemplateId: String(templateId),
-      saveTemplateId: true,
-    }));
+    if (type === "new_space") {
+      setSearchParams({ selected_template_id: templateId.toString() });
+      closeFunnelModal();
+    } else {
+      setRetrospectValue((prev) => ({
+        ...prev,
+        tempTemplateId: String(templateId),
+        saveTemplateId: true,
+      }));
 
-    openFunnelModal({
-      title: "",
-      step: "recommendTemplate",
-      contents: <TemplateListConform />,
-    });
+      openFunnelModal({
+        title: "",
+        step: "recommendTemplate",
+        contents: <TemplateListConform />,
+      });
+    }
   };
 
   return (

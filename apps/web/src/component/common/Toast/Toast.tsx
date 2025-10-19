@@ -14,6 +14,7 @@ export function Toast() {
           position: fixed;
           display: flex;
           flex-direction: column-reverse;
+          align-items: center;
           row-gap: 0.5rem;
           top: 10px;
           left: 50%;

@@ -4,9 +4,22 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { useNavigation } from "../../context/NavigationContext";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import AddSpacePage from "@/app/desktop/space/add/AddSpacePage";
+import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 
 export default function HeaderSpaceAddButton() {
   const { isCollapsed } = useNavigation();
+  const { open: openDesktopModal } = useDesktopBasicModal();
+
+  const handleOpenSpaceAdd = () => {
+    openDesktopModal({
+      title: "",
+      contents: <AddSpacePage />,
+      options: {
+        enableFooter: false,
+      },
+    });
+  };
 
   return (
     <div
@@ -68,6 +81,7 @@ export default function HeaderSpaceAddButton() {
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
           }
         `}
+        onClick={handleOpenSpaceAdd}
       >
         <Icon icon="ic_plus" size={1.6} />
       </div>
