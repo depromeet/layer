@@ -74,6 +74,9 @@ app.get("/space/join/:id", async (req, res) => {
     $('meta[property="og:title"]').attr('content', `${leaderName}님의 회고 초대장`);
     $('meta[property="og:description"]').attr('content', `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`);
     $('meta[property="og:image"]').attr('content', 'https://kr.object.ncloudstorage.com/layer-bucket/retrospectOG.png');
+    $('meta[name="twitter:title"]').attr('content', `${leaderName}님의 회고 초대장`);
+    $('meta[name="twitter:description"]').attr('content', `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`);
+    $('meta[name="twitter:image"]').attr('content', 'https://kr.object.ncloudstorage.com/layer-bucket/retrospectOG.png');
 
     res.send($.html());
   } catch (err) {
