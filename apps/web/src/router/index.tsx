@@ -39,6 +39,7 @@ import { TemplatePage } from "@/app/mobile/template/TemplatePage";
 import Staging from "@/app/test/Staging.tsx";
 import { RetrospectWriteCompletePage } from "@/app/mobile/write/RetrospectWriteCompletePage";
 import { RetrospectWritePage } from "@/app/mobile/write/RetrospectWritePage";
+
 import MobileGlobalLayout from "@/layout/MobileGlobalLayout";
 import { HomeLayout } from "@/layout/HomeLayout";
 import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
@@ -51,6 +52,7 @@ import RetroSpectSpacePage from "@/app/desktop/retrospectSpace/RetroSpectSpacePa
 import DesktopSetNickNamePage from "@/app/desktop/login/DesktopSetNickNamePage";
 import AnalysisPage from "@/app/desktop/retrospect/AnalysisPage";
 import { getDeviceType } from "@/utils/deviceUtils";
+import RetroSpectWritePage from "@/app/desktop/retrospectWrite/RetrospectWritePage";
 
 type RouteChildren = {
   auth: boolean;
@@ -121,6 +123,10 @@ const deviceSpecificRoutes: RouteChildren[] = [
       {
         path: "retrospect/analysis",
         element: <AnalysisPage />,
+      },
+      {
+        path: "retrospect/write",
+        element: <RetroSpectWritePage />,
       },
     ],
     auth: true,

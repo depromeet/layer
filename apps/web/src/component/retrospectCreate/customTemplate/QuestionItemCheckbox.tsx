@@ -5,6 +5,7 @@ import { CheckBoxContext } from "@/component/common/checkBox/CheckBoxGroup";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type QuestionItemCheckboxProps = {
   value: string;
@@ -12,7 +13,9 @@ type QuestionItemCheckboxProps = {
 };
 
 export function QuestionItemCheckbox({ value, children }: QuestionItemCheckboxProps) {
+  const { isDesktop } = getDeviceType();
   const checkboxContext = useContext(CheckBoxContext);
+
   return (
     <label
       htmlFor={value}
@@ -27,7 +30,7 @@ export function QuestionItemCheckbox({ value, children }: QuestionItemCheckboxPr
       `}
     >
       {/**FIXME - design token - 폰트 사이즈 1.5! */}
-      <Typography color="dark" variant="B2">
+      <Typography color="dark" variant={isDesktop ? "body15SemiBold" : "B2"}>
         {children}
       </Typography>
       <label

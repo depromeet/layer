@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Typography } from "../typography";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
 
 export type DesktopModalHeaderProps = {
   title: string;
@@ -11,6 +12,7 @@ export type DesktopModalHeaderProps = {
 };
 
 export default function DesktopFunnelModalHeader({ title, tag, onBack, onClose }: DesktopModalHeaderProps) {
+  const { funnelModalState } = useFunnelModal();
   return (
     <div
       css={css`
@@ -21,7 +23,7 @@ export default function DesktopFunnelModalHeader({ title, tag, onBack, onClose }
         top: 0;
         z-index: 1001;
         padding-top: 2.4rem;
-        background-color: #fff;
+        background-color: ${funnelModalState.step === "retrospectWrite" ? DESIGN_TOKEN_COLOR.gray900 : "#fff"};
       `}
     >
       {onBack && (
@@ -82,14 +84,16 @@ export default function DesktopFunnelModalHeader({ title, tag, onBack, onClose }
           cursor: pointer;
           transition: background-color 0.2s ease-in-out;
           border-radius: 0.4rem;
+
           &:hover {
-            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+            background-color: ${funnelModalState.step !== "retrospectWrite" && DESIGN_TOKEN_COLOR.gray100};
           }
         `}
       >
         <Icon
           icon={"ic_quit"}
           css={css`
+            color: ${funnelModalState.step === "retrospectWrite" ? "#fff" : "#212329"};
             path {
               fill: #212329;
               transition: 0.4s all;

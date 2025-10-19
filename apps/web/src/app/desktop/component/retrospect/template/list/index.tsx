@@ -13,6 +13,7 @@ import { formatTitle } from "@/utils/retrospect/formatTitle";
 import { TemplateListItem } from "./TemplateListItem";
 import { TemplateListTab } from "./TemplateListTab";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useSearchParams } from "react-router-dom";
 
 export const TemplateListPageContext = createContext<{ readOnly: boolean; spaceId: string; isLeader: boolean }>({
   readOnly: false,
@@ -26,13 +27,20 @@ export function TemplateList() {
   const isLeader = useRef(false);
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { data: templates } = useGetDefaultTemplateList();
+  const [searchParams] = useSearchParams();
 
-  const { tabs, curTab, selectTab } = useTabs(["기본", "커스텀"] as const);
+  // * @see AddSpacePage.tsx - 첫 스페이스와 회고 생성시에 템플릿 선택 화면으로 이동할 때 URL 파라미터로 타입을 넘겨줘요
+  const type = searchParams.get("template_type") || "";
+  const DEFAULT_TAB = type === "retrospect_create" ? (["기본", "커스텀"] as const) : (["기본"] as const);
+
+  const { tabs, curTab, selectTab } = useTabs(DEFAULT_TAB);
 
   useEffect(() => {
-    if (Object.is(parseInt(spaceId), NaN)) {
-      toast.error("스페이스를 찾지 못했어요");
-      return;
+    if (type === "retrospect_create") {
+      if (Object.is(parseInt(spaceId), NaN)) {
+        toast.error("스페이스를 찾지 못했어요");
+        return;
+      }
     }
   }, [spaceId]);
 

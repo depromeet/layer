@@ -11,14 +11,24 @@ export type ModalType = {
     type?: "confirm" | "alert";
     buttonText?: string[];
     autoClose?: boolean;
+    enableHeader?: boolean;
     enableFooter?: boolean;
     needsBackButton?: boolean;
+    disabledClose?: boolean;
     backButtonCallback?: () => void;
     footerLeftCallback?: () => void;
   };
 };
 
-type FunnelStep = "retrospectCreate" | "template" | "recommendTemplate" | "listTemplate" | "listTemplateDetail";
+/**
+ * retrospectCreate: 회고 생성
+ * recommendTemplate: 회고 템플릿 추천
+ * listTemplate: 회고 템플릿 리스트
+ * listTemplateDetail: 회고 템플릿 리스트 상세
+ * retrospectWrite: 회고 작성
+ */
+
+type FunnelStep = "retrospectCreate" | "recommendTemplate" | "listTemplate" | "listTemplateDetail" | "retrospectWrite";
 
 export type FunnelModalType = {
   isOpen: boolean;

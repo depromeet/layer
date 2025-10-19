@@ -9,7 +9,7 @@ type DescriptiveTemplateProps =
   | { question?: never; name?: never; answer: string };
 
 export function CDescriptiveTemplate({ name, question, answer }: DescriptiveTemplateProps) {
-  const { isDesktop } = getDeviceType();
+  const { isDesktop, isMobile } = getDeviceType();
 
   return (
     <ResultContainer question={question} name={name}>
@@ -21,7 +21,7 @@ export function CDescriptiveTemplate({ name, question, answer }: DescriptiveTemp
           font-weight: 300;
           overflow-y: auto;
           width: 100%;
-          max-height: 25rem;
+          max-height: ${isMobile && "25rem"};
 
           ${isDesktop
             ? css`

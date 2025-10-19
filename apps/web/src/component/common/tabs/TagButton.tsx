@@ -3,12 +3,13 @@ import { css } from "@emotion/react";
 import { TabProps } from "./Tabs";
 
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function TagButton<T extends string>({ tab, curTab, selectTab }: TabProps<T>) {
   return (
     <button
       css={css`
-        background-color: ${tab === curTab ? DESIGN_SYSTEM_COLOR.dark : DESIGN_SYSTEM_COLOR.lightGrey2};
+        background-color: ${tab === curTab ? DESIGN_TOKEN_COLOR.gray800 : DESIGN_SYSTEM_COLOR.lightGrey2};
         color: ${tab === curTab ? DESIGN_SYSTEM_COLOR.white : DESIGN_SYSTEM_COLOR.darkGrayText};
         padding: 1.2rem 1.6rem;
         border-radius: 0.8rem;
