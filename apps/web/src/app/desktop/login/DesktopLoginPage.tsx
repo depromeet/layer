@@ -194,7 +194,6 @@ export default function DesktopLoginPage() {
             loop={true}
             css={css`
               width: 100%;
-              height: 100%;
               border-radius: 1.6rem;
               position: relative;
               overflow: hidden;
