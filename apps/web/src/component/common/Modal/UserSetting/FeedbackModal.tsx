@@ -104,7 +104,7 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               `}
               onClick={onClose}
             >
-              <Icon icon="ic_delete" size={2.4} />
+              <Icon icon="ic_close" size={2.4} color={DESIGN_TOKEN_COLOR.gray900} />
             </button>
           </header>
 

@@ -168,7 +168,7 @@ export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalPro
               `}
               onClick={onClose}
             >
-              <Icon icon="ic_delete" size={2.0} />
+              <Icon icon="ic_close" size={2.0} color={DESIGN_TOKEN_COLOR.gray900} />
             </button>
           </header>
 
