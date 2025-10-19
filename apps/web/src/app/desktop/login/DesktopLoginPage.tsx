@@ -179,7 +179,7 @@ export default function DesktopLoginPage() {
             navigation={true}
             autoplay={{
               delay: 3000,
-              disableOnInteraction: true,
+              disableOnInteraction: false,
             }}
             onSlideChange={(swiper) => setPhase(swiper.realIndex)}
             effect="coverflow"
