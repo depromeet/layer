@@ -21,20 +21,16 @@ type AnalysisContainerProps = {
 };
 
 export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: AnalysisContainerProps) {
-  const { data, isError, error, isLoading } = useApiGetAnalysis({ spaceId, retrospectId });
+  const { data, isPending } = useApiGetAnalysis({ spaceId, retrospectId });
 
-  if (isError) {
-    console.log(error);
-  }
   const [selectedTab, setSelectedTab] = useState<"personal" | "team">("personal");
-  if (isLoading) {
+
+  if (isPending) {
     return <LoadingModal />;
   }
 
-  {
-    /**분석이 진행중일 때**/
-  }
-  if (hasAIAnalyzed == false) {
+  // * 분석이 진행중일 때
+  if (hasAIAnalyzed === false) {
     return <AnalysisingComp />;
   }
 
