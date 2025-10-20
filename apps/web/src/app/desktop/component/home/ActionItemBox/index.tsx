@@ -38,35 +38,49 @@ export default function ActionItemBox({ actionItem }: ActionItemBoxProps) {
       </div>
 
       {/* ---------- 실행목표 리스트 ---------- */}
-      <ul
-        css={css`
-          display: flex;
-          flex-direction: column;
-          margin-top: 2.4rem;
-          list-style: disc;
-          padding-left: 2.6rem;
-          margin-top: 2.4rem;
-          gap: 2rem;
+      {actionItemList && actionItemList.length > 0 ? (
+        <ul
+          css={css`
+            display: flex;
+            flex-direction: column;
+            margin-top: 2.4rem;
+            list-style: disc;
+            padding-left: 2.6rem;
+            margin-top: 2.4rem;
+            gap: 2rem;
 
-          li::marker {
-            color: ${DESIGN_TOKEN_COLOR.gray400};
-            font-size: 2rem;
-          }
-        `}
-      >
-        {actionItemList.map((actionItem) => (
-          <li
-            key={actionItem.actionItemId}
-            css={css`
-              padding-left: 0.8rem;
-            `}
-          >
-            <Typography variant="body16Medium" color="gray900">
-              {actionItem.content}
-            </Typography>
-          </li>
-        ))}
-      </ul>
+            li::marker {
+              color: ${DESIGN_TOKEN_COLOR.gray400};
+              font-size: 2rem;
+            }
+          `}
+        >
+          {actionItemList.slice(0, 3).map((actionItem) => (
+            <li
+              key={actionItem.actionItemId}
+              css={css`
+                padding-left: 0.8rem;
+              `}
+            >
+              <Typography variant="body16Medium" color="gray900">
+                {actionItem.content}
+              </Typography>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div
+          css={css`
+            margin-top: 4.8rem;
+            padding: 2rem;
+            text-align: center;
+          `}
+        >
+          <Typography variant="body14Medium" color="gray500">
+            아직 실행목표가 없어요
+          </Typography>
+        </div>
+      )}
     </section>
   );
 }
