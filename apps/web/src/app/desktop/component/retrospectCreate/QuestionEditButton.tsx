@@ -3,18 +3,28 @@ import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import QuestionEditSection from "./QuestionEditSection";
+import { HTMLAttributes } from "react";
 
-function QuestionEditButton() {
+interface QuestionEditButtonProps extends HTMLAttributes<HTMLButtonElement> {
+  onClose?: () => void;
+}
+
+function QuestionEditButton({ onClose, ...props }: QuestionEditButtonProps) {
   const { open, close } = useDesktopBasicModal();
+
+  const handleClose = () => {
+    close();
+    onClose?.();
+  };
 
   const handleEditButtonClick = () => {
     open({
       title: "질문 리스트",
-      contents: <QuestionEditSection onClose={close} />,
+      contents: <QuestionEditSection onClose={handleClose} />,
       options: {
         enableFooter: false,
         needsBackButton: true,
-        backButtonCallback: close,
+        backButtonCallback: handleClose,
       },
     });
   };
@@ -45,6 +55,7 @@ function QuestionEditButton() {
         }
       `}
       onClick={handleEditButtonClick}
+      {...props}
     >
       <Icon
         icon="ic_write"

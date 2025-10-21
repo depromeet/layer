@@ -7,9 +7,10 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd";
 import { Questions } from "@/types/retrospectCreate";
-import { useAtom } from "jotai";
-import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { useAtom, useAtomValue } from "jotai";
+import { CREATE_RETROSPECT_INIT_ATOM, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { useToast } from "@/hooks/useToast";
+import { CREATE_SPACE_INIT_ATOM } from "@/store/space/spaceAtom";
 
 type QuestionEditSectionProps = {
   onClose: () => void;
@@ -20,11 +21,18 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
 
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+  // TODO: 아톰 구조 변경 (#593)
+  const [retrospectQuestions, setRetrospectQuestions] = useAtom(CREATE_RETROSPECT_INIT_ATOM.questions);
+  const flow = useAtomValue(CREATE_SPACE_INIT_ATOM.flow);
 
   // 각 질문의 원본 내용을 추적하기 위한 ref
   const originalContentRef = useRef<{ [key: number]: string }>({});
 
-  const questions = retroCreateData.questions;
+  // TODO: 현재는 기능 구현으로 인해 스페이스 생성을 위한 phase가 존재하면 새로운 아톰 구조를 의미하지만, 추후에는 단일 로직으로 변경해야해요. (#593)
+  const isInitilizedCreateSpaceFlow = flow === "INFO";
+  const isInitilizedProgressingCreateSpace = retrospectQuestions.length === 0;
+  const isInitilizedCreateSpace = isInitilizedCreateSpaceFlow || isInitilizedProgressingCreateSpace;
+  const questions = isInitilizedCreateSpace ? retroCreateData.questions : retrospectQuestions;
 
   /**
    * 리스트의 아이템 순서 변경
@@ -51,7 +59,11 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       return;
     }
     const items = reorder(questions, result.source.index, result.destination.index);
-    setRetroCreateData((prev) => ({ ...prev, questions: items }));
+    if (isInitilizedCreateSpace) {
+      setRetroCreateData((prev) => ({ ...prev, questions: items }));
+    } else {
+      setRetrospectQuestions(items);
+    }
   };
 
   /**
@@ -61,7 +73,11 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    */
   const handleDelete = (index: number) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
-    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
+    if (isInitilizedCreateSpace) {
+      setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
+    } else {
+      setRetrospectQuestions(updatedQuestions);
+    }
     toast.success("삭제가 완료되었어요!");
   };
 
@@ -73,7 +89,12 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    */
   const handleContentChange = (index: number, newContent: string) => {
     const updatedQuestions = questions.map((item, i) => (i === index ? { ...item, questionContent: newContent } : item));
-    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
+    console.log;
+    if (isInitilizedCreateSpace) {
+      setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
+    } else {
+      setRetrospectQuestions(updatedQuestions);
+    }
   };
 
   /**
@@ -111,7 +132,11 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     if (questions.length >= 10) return;
 
     const newQuestions = [...questions, { questionType: "plain_text" as const, questionContent: "" }];
-    setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
+    if (isInitilizedCreateSpace) {
+      setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
+    } else {
+      setRetrospectQuestions(newQuestions);
+    }
   };
 
   /**
