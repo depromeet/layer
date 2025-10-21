@@ -8,11 +8,11 @@ import { SATISTFACTION_COLOR } from "@/component/write/template/template.const.t
 
 type IconType = keyof typeof icons;
 type SatisfactionProps =
-  | { name: string; question?: never; index: number; css?: SerializedStyles }
-  | { question: string; name?: never; index: number; css?: SerializedStyles }
-  | { question?: never; name?: never; index: number; css?: SerializedStyles };
+  | { name: string; question?: never; index: number; customCss?: SerializedStyles }
+  | { question: string; name?: never; index: number; customCss?: SerializedStyles }
+  | { question?: never; name?: never; index: number; customCss?: SerializedStyles };
 
-export function CSatisfactionTemplate({ name, question, index: SatisfactionIdx, css: customCss }: SatisfactionProps) {
+export function CSatisfactionTemplate({ name, question, index: SatisfactionIdx, customCss }: SatisfactionProps) {
   const emotions: IconType[] = ["ic_very_poor", "ic_poor", "ic_commonly", "ic_good", "ic_very_good"];
 
   return (

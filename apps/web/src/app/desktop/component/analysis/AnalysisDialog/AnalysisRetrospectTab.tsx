@@ -57,7 +57,12 @@ export default function AnalysisRetrospectTab({ analysisData }: AnalysisRetrospe
             {individual.answers[0].questionContent}
           </Typography>
 
-          <CSatisfactionTemplate index={satisfactionScore} />
+          <CSatisfactionTemplate
+            index={satisfactionScore}
+            customCss={css`
+              height: 11rem;
+            `}
+          />
         </article>
 
         <section
@@ -74,7 +79,12 @@ export default function AnalysisRetrospectTab({ analysisData }: AnalysisRetrospe
             {individual.answers[1].questionContent}
           </Typography>
 
-          <CAchievementTemplate index={goalScore / 20} />
+          <CAchievementTemplate
+            index={goalScore / 20}
+            customCss={css`
+              height: 11rem;
+            `}
+          />
         </section>
       </article>
 

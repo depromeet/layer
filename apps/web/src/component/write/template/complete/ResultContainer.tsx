@@ -21,11 +21,11 @@ export function ResultContainer({ name, question, children, customCss, ...props 
       css={[
         css`
           width: 100%;
-          height: ${isDesktop ? "auto" : "auto"};
+          height: auto;
+          min-height: ${isDesktop ? "11rem" : "fit-content"};
           margin-top: ${isDesktop ? "1.6rem" : "2.4rem"};
           border-radius: 0.78rem;
           padding: ${isDesktop ? (name ? "1.2rem" : "1.6rem") : "1.9rem 2rem 1.7rem 2rem"};
-          min-height: fit-content;
           box-shadow: 0 3.886px 11.657px 0 rgba(33, 37, 41, 0.04);
           font-size: 1.6rem;
           color: #212529;

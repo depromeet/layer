@@ -18,8 +18,11 @@ type AnalysisIndividualContentsProps = {
 
 export default function AnalysisIndividualContents({ individualAnalysis }: AnalysisIndividualContentsProps) {
   const { dominantCategory } = useSatisfactionData(
-    individualAnalysis ? Array.from({ length: 5 }, (_, index) => (individualAnalysis.score === 4 - index ? 1 : 0)) : [0, 0, 0, 0, 0],
+    individualAnalysis ? Array.from({ length: 5 }, (_, index) => (individualAnalysis.score === 5 - index ? 1 : 0)) : [0, 0, 0, 0, 0],
   );
+
+  console.log("dominantCategory", dominantCategory);
+  console.log("individualAnalysis", individualAnalysis);
 
   return (
     <section
@@ -119,6 +122,10 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                 `}
               >
                 {EMOTIONS.map((item, index) => {
+                  console.log("individualAnalysis.score", individualAnalysis.score);
+                  console.log("index", index);
+                  console.log("individualAnalysis.score === index + 1", individualAnalysis.score === index + 1);
+
                   return (
                     <div key={index}>
                       <Icon
@@ -127,7 +134,7 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                         css={css`
                           circle,
                           ellipse {
-                            fill: ${individualAnalysis.score === index && SATISTFACTION_COLOR[individualAnalysis.score]};
+                            fill: ${individualAnalysis.score === index + 1 && SATISTFACTION_COLOR[individualAnalysis.score - 1]};
                             transition: 0.4s all;
                           }
                         `}
