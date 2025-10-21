@@ -10,6 +10,8 @@ import { useEffect, useRef } from "react";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import AddSpacePage from "@/app/desktop/space/add/AddSpacePage";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
+import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
+import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
 
 interface SpacesListProps {
   currentTab: "전체" | "개인" | "팀";
@@ -27,6 +29,8 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
   const spaces = spaceData?.pages.flatMap((page) => page.data) ?? [];
 
   const { open: openDesktopModal } = useDesktopBasicModal();
+  const { resetAll: resetRetrospectInfo } = useRetrospectCreateReset();
+  const { resetAll: resetSpaceInfo } = useSpaceCreateReset();
 
   const handleOpenSpaceAdd = () => {
     openDesktopModal({
@@ -34,6 +38,10 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
       contents: <AddSpacePage />,
       options: {
         enableFooter: false,
+      },
+      onClose: () => {
+        resetRetrospectInfo();
+        resetSpaceInfo();
       },
     });
   };
