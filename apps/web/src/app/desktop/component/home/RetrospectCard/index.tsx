@@ -5,7 +5,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 import { formatDateAndTime } from "@/utils/date";
 import { ProceedingTextBox } from "@/component/space/view/ProceedingTextBox";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { PATHS } from "@layer/shared";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { Prepare } from "../../retrospectWrite/prepare";
@@ -17,9 +17,13 @@ interface RetrospectCardProps {
 
 export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardProps) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { openFunnelModal } = useFunnelModal();
 
   const { retrospectId, title, introduction, deadline, totalCount, writeCount, writeStatus, retrospectStatus, analysisStatus } = retrospect;
+
+  const urlRetrospectId = searchParams.get("retrospectId");
+  const isSelected = urlRetrospectId && parseInt(urlRetrospectId) === retrospectId;
 
   const handleCardClick = () => {
     // TODO: spaceId가 없는 경우 처리(예: 홈 화면 최상단의 카드 클릭 시)
@@ -51,9 +55,11 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
         border-radius: 1.2rem;
         transition: all 0.2s ease;
         cursor: pointer;
+        border: ${isSelected ? `1px solid ${DESIGN_TOKEN_COLOR.blue400}` : "none"};
+        box-shadow: ${isSelected ? "0 4px 12px 0 rgba(6, 8, 12, 0.04)" : "none"};
 
         &:hover {
-          border-color: #e9ecef;
+          border-color: ${isSelected ? DESIGN_TOKEN_COLOR.blue400 : DESIGN_TOKEN_COLOR.gray400};
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
