@@ -9,4 +9,5 @@ export const FunnelModalState = atom<FunnelModalType>({
   templateTag: "",
   onClose: () => {},
   onConfirm: () => {},
+  overlayIndex: 10000,
 });
