@@ -1,7 +1,7 @@
 import { atomWithReset } from "jotai/utils";
 
 import { ProjectType, SpaceValue } from "@/types/space";
-import { atom, useAtom } from "jotai";
+import { atom } from "jotai";
 import { Space } from "@/types/spaceType";
 
 /**

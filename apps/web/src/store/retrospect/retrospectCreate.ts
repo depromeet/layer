@@ -20,6 +20,7 @@ const CREATE_RETROSPECT_INIT_DEADLINE = atomWithReset<RetrospectCreateReq["deadl
 const CREATE_RETROSPECT_INIT_IS_NEW_FORM = atomWithReset<RetrospectCreateReq["isNewForm"]>(false);
 const CREATE_RETROSPECT_INIT_HAS_CHANGED_ORIGINAL = atomWithReset<RetrospectCreateReq["hasChangedOriginal"]>(false);
 const CREATE_RETROSPECT_INIT_CUR_FORM_ID = atomWithReset<RetrospectCreateReq["curFormId"]>(-1);
+const CREATE_RETROSPECT_INIT_PURPOSE = atomWithReset<RetrospectCreateReq["purpose"]>([]);
 
 export const CREATE_RETROSPECT_INIT_ATOM = {
   title: CREATE_RETROSPECT_INIT_TITLE,
@@ -29,6 +30,7 @@ export const CREATE_RETROSPECT_INIT_ATOM = {
   isNewForm: CREATE_RETROSPECT_INIT_IS_NEW_FORM,
   hasChangedOriginal: CREATE_RETROSPECT_INIT_HAS_CHANGED_ORIGINAL,
   curFormId: CREATE_RETROSPECT_INIT_CUR_FORM_ID,
+  purpose: CREATE_RETROSPECT_INIT_PURPOSE,
 };
 
 export const retrospectCreateAtom = atomWithReset<RetrospectCreateReq>({

@@ -1008,7 +1008,7 @@ export default function AddSpacePage() {
   const [flow, setFlow] = useAtom(CREATE_SPACE_INIT_ATOM.flow);
   const [period, setPeriod] = useAtom(CREATE_SPACE_INIT_ATOM.period);
   const [periodic, setPeriodic] = useAtom(CREATE_SPACE_INIT_ATOM.periodic);
-  const [purpose, setPurpose] = useAtom(CREATE_SPACE_INIT_ATOM.purpose);
+  const [purpose, setPurpose] = useAtom(CREATE_RETROSPECT_INIT_ATOM.purpose);
   const [phase, setPhase] = useAtom(CREATE_SPACE_INIT_ATOM.phase);
   const [title, setTitle] = useAtom(CREATE_SPACE_INIT_ATOM.title);
   const [description, setDescription] = useAtom(CREATE_SPACE_INIT_ATOM.description);
@@ -1114,7 +1114,7 @@ export default function AddSpacePage() {
             setFlow(flow);
             setPhase(phase ?? 0);
           },
-        } as unknown as phaseContextType
+        } as phaseContextType
       }
     >
       <section
