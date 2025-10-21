@@ -29,11 +29,13 @@ export default function AnalysisRetrospectTab({ analysisData }: AnalysisRetrospe
     <section
       css={css`
         width: 100%;
-        height: 59rem;
+        min-height: 59rem;
+        max-height: 80vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding: 2rem 3.2rem;
+        overflow-y: auto;
       `}
     >
       {/* ---------- 진행상황 / 목표 달성률 ---------- */}
