@@ -6,10 +6,14 @@ import { useNavigation } from "../../context/NavigationContext";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import AddSpacePage from "@/app/desktop/space/add/AddSpacePage";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
+import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
+import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
 
 export default function HeaderSpaceAddButton() {
   const { isCollapsed } = useNavigation();
   const { open: openDesktopModal } = useDesktopBasicModal();
+  const { resetAll: resetRetrospectInfo } = useRetrospectCreateReset();
+  const { resetAll: resetSpaceInfo } = useSpaceCreateReset();
 
   const handleOpenSpaceAdd = () => {
     openDesktopModal({
@@ -17,6 +21,10 @@ export default function HeaderSpaceAddButton() {
       contents: <AddSpacePage />,
       options: {
         enableFooter: false,
+      },
+      onClose: () => {
+        resetRetrospectInfo();
+        resetSpaceInfo();
       },
     });
   };

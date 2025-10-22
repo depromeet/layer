@@ -19,19 +19,26 @@ const initialState = {
 };
 export const spaceState = atomWithReset<SpaceValue>(initialState);
 
-/**
- * 새로운 리뉴얼 스페이스 생성 전역 상태
- * - createSpaceState로 export 되고 있어요
- *  */
-const INITIAL_SPACE_STATE = {
-  title: "",
-  description: "",
-  phase: 0,
-  startDate: "",
-  endDate: "",
-  // TODO: @jae1n 여기에 필요한 상태 값을 추가해주세요!
+type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
+const CREATE_SPACE_INIT_FLOW = atomWithReset<flowType>("INFO");
+const CREATE_SPACE_INIT_TITLE = atomWithReset<string>("");
+const CREATE_SPACE_INIT_DESCRIPTION = atomWithReset<string>("");
+const CREATE_SPACE_INIT_PHASE = atomWithReset<number>(0);
+const CREATE_SPACE_INIT_PURPOSE = atomWithReset<string>("");
+const CREATE_SPACE_INIT_PERIOD = atomWithReset<string | null>(null);
+const CREATE_SPACE_INIT_PERIODIC = atomWithReset<"REGULAR" | "IRREGULAR">("REGULAR");
+const CREATE_SPACE_INIT_CATEGORY = atomWithReset<ProjectType>(ProjectType.Individual);
+
+export const CREATE_SPACE_INIT_ATOM = {
+  flow: CREATE_SPACE_INIT_FLOW,
+  title: CREATE_SPACE_INIT_TITLE,
+  description: CREATE_SPACE_INIT_DESCRIPTION,
+  phase: CREATE_SPACE_INIT_PHASE,
+  purpose: CREATE_SPACE_INIT_PURPOSE,
+  period: CREATE_SPACE_INIT_PERIOD,
+  periodic: CREATE_SPACE_INIT_PERIODIC,
+  category: CREATE_SPACE_INIT_CATEGORY,
 };
-export const createSpaceState = atomWithReset(INITIAL_SPACE_STATE);
 
 // * 현재 선택된 스페이스 전역 상태
 export const currentSpaceState = atom<Space | null>(null);

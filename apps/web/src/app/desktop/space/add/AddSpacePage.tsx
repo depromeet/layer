@@ -52,6 +52,11 @@ import { useApiGetUser } from "@/hooks/api/auth/useApiGetUser";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { encryptId } from "@/utils/space/cryptoKey";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
+import { useAtom } from "jotai";
+import { CREATE_RETROSPECT_INIT_ATOM, DEFAULT_QUESTIONS } from "@/store/retrospect/retrospectCreate";
+import { CREATE_SPACE_INIT_ATOM } from "@/store/space/spaceAtom";
+import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
+import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
@@ -261,6 +266,7 @@ function SelectRetrospectTemplateFunnel() {
         title: "템플릿 리스트",
         step: "listTemplate",
         contents: <TemplateList />,
+        overlayIndex: 10002,
       });
     } else if (templateType === "recommendation") {
       nextPhase();
@@ -653,20 +659,31 @@ function RecommendRetrospectTemplateConfirmFunnel() {
 
 // 6-1 단계 퍼널 : 회고 질문 생성 단계
 function CreateRetrospectQuestionFunnel() {
-  const { selectedRecommendTemplateId, setSelectedRecommendTemplate, setFlow, nextPhase } = useContext(PhaseContext);
-  const {
-    data: { title, tag, questions },
-  } = useGetCustomTemplate(selectedRecommendTemplateId!);
-  const { data: defaultTemplateInfo, isSuccess } = useGetTemplateInfo({ templateId: selectedRecommendTemplateId! });
+  const { selectedRecommendTemplateId, setSelectedRecommendTemplate, setFlow, nextPhase, questions, setQuestions } = useContext(PhaseContext);
+  const { data: customTemplateInfo, isSuccess: isSuccessGetCustomTemplateInfo } = useGetCustomTemplate(selectedRecommendTemplateId!);
+  const { open: openDesktopModal } = useDesktopBasicModal();
+  const { data: defaultTemplateInfo, isSuccess: isSuccessGetTemplateInfo } = useGetTemplateInfo({ templateId: selectedRecommendTemplateId! });
+  const { resetAll: resetRetrospectInfo } = useRetrospectCreateReset();
+  const { resetAll: resetSpaceInfo } = useSpaceCreateReset();
+
+  const isEmptyQuestions = questions.length === 0;
 
   useEffect(() => {
-    setSelectedRecommendTemplate({
-      id: selectedRecommendTemplateId!,
-      title: defaultTemplateInfo?.title || `${title} 스페이스의 회고`,
-      imageUrl: defaultTemplateInfo?.templateImageUrl || "",
-      templateName: defaultTemplateInfo?.title || `${title} 스페이스의 회고`,
-    });
-  }, [isSuccess]);
+    if (isSuccessGetTemplateInfo) {
+      setSelectedRecommendTemplate({
+        id: selectedRecommendTemplateId!,
+        title: defaultTemplateInfo?.title || `${customTemplateInfo.title} 스페이스의 회고`,
+        imageUrl: defaultTemplateInfo?.templateImageUrl || "",
+        templateName: defaultTemplateInfo?.title || `${customTemplateInfo.title} 스페이스의 회고`,
+      });
+    }
+  }, [isSuccessGetTemplateInfo]);
+
+  useEffect(() => {
+    if (isSuccessGetCustomTemplateInfo && isEmptyQuestions) {
+      setQuestions(customTemplateInfo.questions);
+    }
+  }, [isSuccessGetCustomTemplateInfo]);
 
   return (
     <div
@@ -695,9 +712,9 @@ function CreateRetrospectQuestionFunnel() {
             padding-right: 13rem;
           `}
         >
-          {title}
+          {customTemplateInfo.title}
         </Typography>
-        <Tag styles="margin-top: 0.8rem">{tag}</Tag>
+        <Tag styles="margin-top: 0.8rem">{customTemplateInfo.tag}</Tag>
         <Spacing size={3} />
         <div
           css={css`
@@ -713,7 +730,22 @@ function CreateRetrospectQuestionFunnel() {
             ))}
           </QuestionList>
         </div>
-        <QuestionEditButton />
+        <QuestionEditButton
+          onClose={() => {
+            openDesktopModal({
+              title: "",
+              contents: <AddSpacePage />,
+              options: {
+                enableFooter: false,
+                needsBackButton: false,
+              },
+              onClose: () => {
+                resetRetrospectInfo();
+                resetSpaceInfo();
+              },
+            });
+          }}
+        />
       </div>
       <Spacing size={4} />
       <ButtonProvider
@@ -764,7 +796,7 @@ function CreateRetrospectDeadlineFunnel() {
       const params = {
         title: selectedRecommendTemplate!.title || `${title} 스페이스의 회고`,
         introduction: selectedRecommendTemplate!.title || `${title} 스페이스의 회고`,
-        questions,
+        questions: [...DEFAULT_QUESTIONS, ...questions],
         deadline: deadLine,
         isNewForm: false,
         hasChangedOriginal: false,
@@ -973,18 +1005,19 @@ function CompleteCreateSpace() {
 
 // 전체 퍼널의 흐름을 관리해요
 export default function AddSpacePage() {
-  const [flow, setFlow] = useState<flowType>("INFO");
-  const [period, setPeriod] = useState<PeriodType | null>(null);
-  const [periodic, setPeriodic] = useState<"REGULAR" | "IRREGULAR" | "">("REGULAR");
-  const [purpose, setPurpose] = useState<PurposeType[]>([]);
-  const [phase, setPhase] = useState(0);
-  const [title, setTitle] = useState<string>("");
-  const [deadLine, setDeadLine] = useState<string>("");
-  const [questions, setQuestions] = useState<Questions>([]);
+  const [flow, setFlow] = useAtom(CREATE_SPACE_INIT_ATOM.flow);
+  const [period, setPeriod] = useAtom(CREATE_SPACE_INIT_ATOM.period);
+  const [periodic, setPeriodic] = useAtom(CREATE_SPACE_INIT_ATOM.periodic);
+  const [purpose, setPurpose] = useAtom(CREATE_RETROSPECT_INIT_ATOM.purpose);
+  const [phase, setPhase] = useAtom(CREATE_SPACE_INIT_ATOM.phase);
+  const [title, setTitle] = useAtom(CREATE_SPACE_INIT_ATOM.title);
+  const [description, setDescription] = useAtom(CREATE_SPACE_INIT_ATOM.description);
+  const [selectedCategory, setSelectedCategory] = useAtom(CREATE_SPACE_INIT_ATOM.category);
+
+  const [deadLine, setDeadLine] = useAtom(CREATE_RETROSPECT_INIT_ATOM.deadline);
+  const [selectedRecommendTemplateId, setSelectedRecommendTemplateId] = useAtom(CREATE_RETROSPECT_INIT_ATOM.curFormId);
+  const [questions, setQuestions] = useAtom(CREATE_RETROSPECT_INIT_ATOM.questions);
   const [spaceId, setSpaceId] = useState<number | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<ProjectType>(ProjectType.Individual);
-  const [description, setDescription] = useState<string>("");
-  const [selectedRecommendTemplateId, setSelectedRecommendTemplateId] = useState<number | null>(null);
   const [selectedRecommendTemplate, setSelectedRecommendTemplate] = useState<{
     id: number;
     title: string;
@@ -1077,7 +1110,7 @@ export default function AddSpacePage() {
           nextPhase,
           prevPhase,
           setSpaceId,
-          setFlow: (flow, phase) => {
+          setFlow: (flow: flowType, phase: number) => {
             setFlow(flow);
             setPhase(phase ?? 0);
           },

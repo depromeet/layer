@@ -70,7 +70,7 @@ export default function DesktopFunnelModal() {
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index: 10000;
+          z-index: ${funnelModalState.overlayIndex};
           background-color: rgba(0, 0, 0, 0.5);
         `}
       >

@@ -38,6 +38,7 @@ export type FunnelModalType = {
   templateTag?: string;
   onClose?: () => void;
   onConfirm?: () => void;
+  overlayIndex?: number; // 오버레이 z-index 조절용
 };
 
 export type ActionModalType = {

@@ -26,6 +26,7 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
       step: "listTemplateDetail",
       contents: <TemplateListDetailItem templateId={id} />,
       templateTag: tag,
+      overlayIndex: 10002,
     });
   };
 
