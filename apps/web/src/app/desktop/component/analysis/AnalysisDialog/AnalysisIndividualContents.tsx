@@ -10,6 +10,7 @@ import { useSatisfactionData } from "@/hooks/useSatisfactionData";
 
 const EMOTIONS: IconType[] = ["ic_very_poor", "ic_poor", "ic_commonly", "ic_good", "ic_very_good"];
 
+const INDEX_OFFSET = 1; // 0-based index로 변환하기 위한 오프셋
 const PADDING_SUM = 8;
 
 type AnalysisIndividualContentsProps = {
@@ -18,7 +19,7 @@ type AnalysisIndividualContentsProps = {
 
 export default function AnalysisIndividualContents({ individualAnalysis }: AnalysisIndividualContentsProps) {
   const { dominantCategory } = useSatisfactionData(
-    individualAnalysis ? Array.from({ length: 5 }, (_, index) => (individualAnalysis.score === 4 - index ? 1 : 0)) : [0, 0, 0, 0, 0],
+    individualAnalysis ? Array.from({ length: 5 }, (_, index) => (individualAnalysis.score === 5 - index ? 1 : 0)) : [0, 0, 0, 0, 0],
   );
 
   return (
@@ -119,6 +120,9 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                 `}
               >
                 {EMOTIONS.map((item, index) => {
+                  const isSelectedEmotion = individualAnalysis.score === index + INDEX_OFFSET;
+                  const colorIndex = individualAnalysis.score - INDEX_OFFSET;
+
                   return (
                     <div key={index}>
                       <Icon
@@ -127,7 +131,7 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                         css={css`
                           circle,
                           ellipse {
-                            fill: ${individualAnalysis.score === index && SATISTFACTION_COLOR[individualAnalysis.score]};
+                            fill: ${isSelectedEmotion && SATISTFACTION_COLOR[colorIndex]};
                             transition: 0.4s all;
                           }
                         `}

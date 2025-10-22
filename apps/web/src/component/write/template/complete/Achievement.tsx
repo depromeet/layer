@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import type { SerializedStyles } from "@emotion/react";
 
 import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
 import { ACHIEVEMENT_COLOR_DEFAULT_COLOR } from "@/component/write/template/template.const.ts";
@@ -6,11 +7,11 @@ import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 import { getDeviceType } from "@/utils/deviceUtils";
 
 type ProgressBarProps =
-  | { name: string; question?: never; index: number }
-  | { question: string; name?: never; index: number }
-  | { question?: never; name?: never; index: number };
+  | { name: string; question?: never; index: number; customCss?: SerializedStyles }
+  | { question: string; name?: never; index: number; customCss?: SerializedStyles }
+  | { question?: never; name?: never; index: number; customCss?: SerializedStyles };
 
-export function CAchievementTemplate({ name, question, index: AchivementIdx = -1 }: ProgressBarProps) {
+export function CAchievementTemplate({ name, question, index: AchivementIdx = -1, customCss }: ProgressBarProps) {
   const { isDesktop } = getDeviceType();
 
   const noNameAndQuestion = !name && !question;
@@ -46,6 +47,7 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = -1
         #space {
           margin-bottom: ${isDesktop ? "3rem" : "3.5rem"};
         }
+        ${customCss}
       `}
     >
       {segments.map((isActive, index) => (

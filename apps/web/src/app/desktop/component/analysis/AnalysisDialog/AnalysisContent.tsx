@@ -13,6 +13,8 @@ type AnalysisContentProps = {
 export default function AnalysisContent({ selectedTab, analysisData }: AnalysisContentProps) {
   const { questions, individuals } = analysisData;
 
+  console.log("analysisData", analysisData);
+
   return (
     <>
       {selectedTab === "회고" && <AnalysisRetrospectTab analysisData={analysisData} />}

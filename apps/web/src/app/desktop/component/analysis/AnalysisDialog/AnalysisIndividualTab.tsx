@@ -24,6 +24,24 @@ export default function AnalysisIndividualTab({ individuals }: AnalysisIndividua
     }
   };
 
+  if (!individuals || individuals.length === 0) {
+    return (
+      <section
+        css={css`
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 80vh;
+        `}
+      >
+        <Typography variant="title20Bold" color="gray500">
+          분석할 개별 컨텐츠가 없어요
+        </Typography>
+      </section>
+    );
+  }
+
   return (
     <section
       css={css`

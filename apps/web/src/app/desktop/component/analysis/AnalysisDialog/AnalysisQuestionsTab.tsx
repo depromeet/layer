@@ -28,6 +28,24 @@ export default function AnalysisQuestionsTab({ questions }: AnalysisQuestionsTab
     });
   };
 
+  if (!questions || questions.length === 0) {
+    return (
+      <section
+        css={css`
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 80vh;
+        `}
+      >
+        <Typography variant="title20Bold" color="gray500">
+          분석할 질문이 없어요
+        </Typography>
+      </section>
+    );
+  }
+
   return (
     <section
       css={css`
