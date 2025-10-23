@@ -31,7 +31,10 @@ export function TemplateList() {
 
   // * @see AddSpacePage.tsx - 첫 스페이스와 회고 생성시에 템플릿 선택 화면으로 이동할 때 URL 파라미터로 타입을 넘겨줘요
   const type = searchParams.get("template_type") || "";
-  const DEFAULT_TAB = type === "retrospect_create" ? (["기본", "커스텀"] as const) : (["기본"] as const);
+
+  // TODO 해당 코드가 필요한지 체크 후 리팩토링 예정
+  // const DEFAULT_TAB = type === "retrospect_create" ? (["기본", "커스텀"] as const) : (["기본"] as const);
+  const DEFAULT_TAB = ["기본", "커스텀"] as const;
 
   const { tabs, curTab, selectTab } = useTabs(DEFAULT_TAB);
 

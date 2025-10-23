@@ -16,7 +16,7 @@ export const useFunnelModal = () => {
         templateTag,
         onConfirm,
         onClose,
-        overlayIndex,
+        overlayIndex: 10000,
       });
     },
     [setState],
