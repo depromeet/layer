@@ -6,7 +6,7 @@ import { ButtonProvider, CategoryButton, FieldButton, IconButton } from "@/compo
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { IconType } from "@/component/common/Icon/Icon";
-import { Input, InputLabelContainer, TextArea, Label, DateTimeInput } from "@/component/common/input";
+import { Input, InputLabelContainer, TextArea, Label } from "@/component/common/input";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { Spacing } from "@/component/common/Spacing";
 import { TipCard, Tooltip } from "@/component/common/tip";
@@ -57,6 +57,7 @@ import { CREATE_RETROSPECT_INIT_ATOM, DEFAULT_QUESTIONS } from "@/store/retrospe
 import { CREATE_SPACE_INIT_ATOM } from "@/store/space/spaceAtom";
 import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
 import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
+import { DesktopDateTimeInput } from "../../component/retrospectCreate/DesktopDateTimeInput";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
@@ -848,13 +849,19 @@ function CreateRetrospectDeadlineFunnel() {
           마감일 지정
         </Radio>
       </RadioButtonGroup>
-      {selectedValue === "has-duedate-pos" && (
-        <DateTimeInput
-          onValueChange={(value) => {
-            value && setDeadLine(value);
-          }}
-        />
-      )}
+      <div
+        css={css`
+          position: relative;
+        `}
+      >
+        {selectedValue === "has-duedate-pos" && (
+          <DesktopDateTimeInput
+            onValueChange={(value) => {
+              value && setDeadLine(value);
+            }}
+          />
+        )}
+      </div>
       <ButtonProvider
         onlyContainerStyle={{
           padding: 0,
