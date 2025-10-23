@@ -7,7 +7,7 @@ export const useFunnelModal = () => {
   const [state, setState] = useAtom(FunnelModalState);
 
   const openFunnelModal = useCallback(
-    ({ title, step, contents, templateTag, onConfirm, onClose, overlayIndex }: Omit<FunnelModalType, "isOpen">) => {
+    ({ title, step, contents, templateTag, onConfirm, onClose, overlayIndex = 10000 }: Omit<FunnelModalType, "isOpen">) => {
       setState({
         isOpen: true,
         title,
@@ -16,7 +16,7 @@ export const useFunnelModal = () => {
         templateTag,
         onConfirm,
         onClose,
-        overlayIndex: 10000,
+        overlayIndex,
       });
     },
     [setState],
