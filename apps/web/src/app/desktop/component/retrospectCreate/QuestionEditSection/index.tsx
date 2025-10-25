@@ -6,10 +6,11 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { DropResult } from "@hello-pangea/dnd";
 import { Questions } from "@/types/retrospectCreate";
-import { useAtom, useSetAtom } from "jotai";
-import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { useAtom, useSetAtom, useAtomValue } from "jotai";
+import { CREATE_RETROSPECT_INIT_ATOM, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { useToast } from "@/hooks/useToast";
 import { desktopBasicModalState } from "@/store/modal/desktopBasicModalAtom";
+import { CREATE_SPACE_INIT_ATOM } from "@/store/space/spaceAtom";
 
 import AdvanceQuestions from "./AdvanceQuestions";
 import MainQuestionsHeader from "./MainQuestionsHeader";
@@ -27,10 +28,19 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
 
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
+  const [backupQuestions, setBackupQuestions] = useState<Questions>([]);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
+
+  // TODO: 아톰 구조 변경 (#593)
+  const [retrospectQuestions, setRetrospectQuestions] = useAtom(CREATE_RETROSPECT_INIT_ATOM.questions);
+  const flow = useAtomValue(CREATE_SPACE_INIT_ATOM.flow);
   const setModalDataState = useSetAtom(desktopBasicModalState);
 
-  const questions = retroCreateData.questions;
+  // TODO: 현재는 기능 구현으로 인해 스페이스 생성을 위한 phase가 존재하면 새로운 아톰 구조를 의미하지만, 추후에는 단일 로직으로 변경해야해요. (#593)
+  const isInitilizedCreateSpaceFlow = flow === "INFO";
+  const isInitilizedProgressingCreateSpace = retrospectQuestions.length === 0;
+  const isInitilizedCreateSpace = isInitilizedCreateSpaceFlow || isInitilizedProgressingCreateSpace;
+  const questions = isInitilizedCreateSpace ? retroCreateData.questions : retrospectQuestions;
 
   /**
    * 리스트의 아이템 순서 변경
@@ -57,7 +67,11 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       return;
     }
     const items = reorder(questions, result.source.index, result.destination.index);
-    setRetroCreateData((prev) => ({ ...prev, questions: items }));
+    if (isInitilizedCreateSpace) {
+      setRetroCreateData((prev) => ({ ...prev, questions: items }));
+    } else {
+      setRetrospectQuestions(items);
+    }
   };
 
   /**
@@ -67,7 +81,11 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    */
   const handleDelete = (index: number) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
-    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
+    if (isInitilizedCreateSpace) {
+      setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
+    } else {
+      setRetrospectQuestions(updatedQuestions);
+    }
     toast.success("삭제가 완료되었어요!");
   };
 
@@ -84,6 +102,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       title: "질문 추가",
       onClose: handleAddQuestionCancel,
       options: {
+        enableFooter: false,
         needsBackButton: true,
         disabledClose: true,
         backButtonCallback: handleAddQuestionCancel,
@@ -96,7 +115,11 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    */
   const handleAddQuestionComplete = (content: string) => {
     const newQuestions = [...questions, { questionType: "plain_text" as const, questionContent: content }];
-    setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
+    if (isInitilizedCreateSpace) {
+      setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
+    } else {
+      setRetrospectQuestions(newQuestions);
+    }
 
     // 원래 모드로 돌아가고 모달 제목 복원
     setIsAddMode(false);
@@ -104,6 +127,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       ...prev,
       title: "질문 리스트",
       options: {
+        enableFooter: false,
         needsBackButton: true,
         backButtonCallback: onClose,
       },
@@ -121,13 +145,18 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       questionContent: content,
     }));
     const newQuestions = [...questions, ...newQuestionObjects];
-    setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
+    if (isInitilizedCreateSpace) {
+      setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
+    } else {
+      setRetrospectQuestions(newQuestions);
+    }
 
     // 원래 모드로 돌아가고 모달 제목 복원
     setIsAddMode(false);
     setModalDataState((prev) => ({
       ...prev,
       title: "질문 리스트",
+      enableFooter: false,
     }));
 
     toast.success(`${contents.length}개의 질문이 추가되었어요!`);
@@ -146,6 +175,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
           ...prev,
           title: "질문 리스트",
           options: {
+            enableFooter: false,
             needsBackButton: true,
             backButtonCallback: onClose,
           },
@@ -158,10 +188,33 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   };
 
   /**
-   * 삭제 모드 토글 핸들러
+   * 삭제 모드 진입 핸들러
+   * * 현재 질문 리스트를 백업
    */
-  const handleDeleteModeToggle = () => {
-    setIsDeleteMode((prev) => !prev);
+  const handleDeleteModeEnter = () => {
+    setBackupQuestions([...questions]);
+    setIsDeleteMode(true);
+  };
+
+  /**
+   * 삭제 모드 취소 핸들러 (질문 복원)
+   */
+  const handleDeleteModeCancel = () => {
+    if (isInitilizedCreateSpace) {
+      setRetroCreateData((prev) => ({ ...prev, questions: backupQuestions }));
+    } else {
+      setRetrospectQuestions(backupQuestions);
+    }
+    setIsDeleteMode(false);
+    toast.success("삭제가 취소되었어요!");
+  };
+
+  /**
+   * 삭제 모드 완료 핸들러
+   */
+  const handleDeleteModeComplete = () => {
+    setIsDeleteMode(false);
+    setBackupQuestions([]);
   };
 
   return (
@@ -185,7 +238,12 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
 
             {/* ---------- 메인 질문 ---------- */}
             <section>
-              <MainQuestionsHeader isDeleteMode={isDeleteMode} handleDeleteModeToggle={handleDeleteModeToggle} />
+              <MainQuestionsHeader
+                isDeleteMode={isDeleteMode}
+                onDeleteModeEnter={handleDeleteModeEnter}
+                onDeleteModeCancel={handleDeleteModeCancel}
+                onDeleteModeComplete={handleDeleteModeComplete}
+              />
               <Spacing size={1.2} />
 
               {/* ---------- 메인 질문 리스트 ---------- */}
