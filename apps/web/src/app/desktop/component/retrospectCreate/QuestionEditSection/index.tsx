@@ -37,10 +37,10 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   const setModalDataState = useSetAtom(desktopBasicModalState);
 
   // TODO: 현재는 기능 구현으로 인해 스페이스 생성을 위한 phase가 존재하면 새로운 아톰 구조를 의미하지만, 추후에는 단일 로직으로 변경해야해요. (#593)
-  const isInitilizedCreateSpaceFlow = flow === "INFO";
-  const isInitilizedProgressingCreateSpace = retrospectQuestions.length === 0;
-  const isInitilizedCreateSpace = isInitilizedCreateSpaceFlow || isInitilizedProgressingCreateSpace;
-  const questions = isInitilizedCreateSpace ? retroCreateData.questions : retrospectQuestions;
+  const isInitializedCreateSpaceFlow = flow === "INFO";
+  const isInitializedProgressingCreateSpace = retrospectQuestions.length === 0;
+  const isInitializedCreateSpace = isInitializedCreateSpaceFlow || isInitializedProgressingCreateSpace;
+  const questions = isInitializedCreateSpace ? retroCreateData.questions : retrospectQuestions;
 
   /**
    * 리스트의 아이템 순서 변경
@@ -67,7 +67,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       return;
     }
     const items = reorder(questions, result.source.index, result.destination.index);
-    if (isInitilizedCreateSpace) {
+    if (isInitializedCreateSpace) {
       setRetroCreateData((prev) => ({ ...prev, questions: items }));
     } else {
       setRetrospectQuestions(items);
@@ -81,7 +81,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    */
   const handleDelete = (index: number) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
-    if (isInitilizedCreateSpace) {
+    if (isInitializedCreateSpace) {
       setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
     } else {
       setRetrospectQuestions(updatedQuestions);
@@ -115,7 +115,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    */
   const handleAddQuestionComplete = (content: string) => {
     const newQuestions = [...questions, { questionType: "plain_text" as const, questionContent: content }];
-    if (isInitilizedCreateSpace) {
+    if (isInitializedCreateSpace) {
       setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
     } else {
       setRetrospectQuestions(newQuestions);
@@ -145,7 +145,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       questionContent: content,
     }));
     const newQuestions = [...questions, ...newQuestionObjects];
-    if (isInitilizedCreateSpace) {
+    if (isInitializedCreateSpace) {
       setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
     } else {
       setRetrospectQuestions(newQuestions);
@@ -200,12 +200,13 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    * 삭제 모드 취소 핸들러 (질문 복원)
    */
   const handleDeleteModeCancel = () => {
-    if (isInitilizedCreateSpace) {
+    if (isInitializedCreateSpace) {
       setRetroCreateData((prev) => ({ ...prev, questions: backupQuestions }));
     } else {
       setRetrospectQuestions(backupQuestions);
     }
     setIsDeleteMode(false);
+    setBackupQuestions([]);
     toast.success("삭제가 취소되었어요!");
   };
 
