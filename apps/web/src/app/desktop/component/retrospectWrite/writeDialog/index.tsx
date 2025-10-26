@@ -172,9 +172,9 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
     setTemporarySaveModalOpen(true);
   };
 
-  function getCompletedAnswerCount() {
+  const completedAnswerCount = (() => {
     return answers.filter((answer) => answer.answerContent.trim() !== "").length;
-  }
+  })();
 
   const handleClickSatistfy = (index: number) => handleClick(index);
   const handleClickAchivement = (index: number) => handleClick(index);
@@ -307,7 +307,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
                 hasChanges={hasChanges}
                 onSaveTemporary={mutateSaveTemporaryData}
                 isAnswerFilled={isAnswerFilled}
-                getCompletedAnswerCount={getCompletedAnswerCount}
+                completedAnswerCount={completedAnswerCount}
               />
             </>
           )}
