@@ -42,7 +42,7 @@ export default function AnalysisHeader({ selectedTab, isPersonal, isOverviewVisi
         `}
       >
         <Icon
-          icon="ic_close"
+          icon="ic_analysis_close"
           size={2.0}
           css={css`
             cursor: pointer;

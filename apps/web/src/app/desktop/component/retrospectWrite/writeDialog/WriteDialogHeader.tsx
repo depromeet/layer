@@ -65,32 +65,31 @@ export function WriteDialogHeader({
         background-color: #fff;
       `}
     >
-      <div
+      <section
         css={css`
           display: flex;
-          align-items: center;
-          gap: 0.4rem;
+          gap: 1.2rem;
         `}
       >
         <Icon
-          icon="ic_quit"
-          size={1.8}
-          color={DESIGN_TOKEN_COLOR.gray600}
+          icon="ic_analysis_close"
+          size={2.0}
           css={css`
-            margin: 0.3rem;
+            color: ${DESIGN_TOKEN_COLOR.gray600};
+            cursor: pointer;
           `}
           onClick={handleClose}
         />
         <Icon
           icon={isOverviewVisible ? "ic_expand" : "ic_shrink"}
-          size={1.8}
-          color={DESIGN_TOKEN_COLOR.gray600}
+          size={2.0}
           css={css`
-            margin: 0.3rem;
+            color: ${DESIGN_TOKEN_COLOR.gray600};
+            cursor: pointer;
           `}
           onClick={handleToggleOverview}
         />
-      </div>
+      </section>
 
       {isComplete && (
         <div
