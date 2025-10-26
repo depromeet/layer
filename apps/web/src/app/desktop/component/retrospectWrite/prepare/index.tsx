@@ -121,7 +121,7 @@ export function Prepare({ spaceId, retrospectId, title, introduction }: PrepareP
             });
           }}
         >
-          선택하기
+          시작하기
         </Button>
       </ButtonProvider>
     </>

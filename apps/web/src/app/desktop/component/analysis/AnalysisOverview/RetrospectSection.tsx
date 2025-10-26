@@ -74,29 +74,41 @@ export default function RetrospectSection({ title, isPending, retrospects, empty
       <section
         css={css`
           display: flex;
-          align-items: center;
+          flex-direction: column;
+          align-items: start;
           gap: 0.6rem;
           margin-top: 2.4rem;
+          max-height: 100rem;
+          overflow-y: auto;
         `}
       >
-        <Typography variant="title16Strong" color="gray900">
-          {title}
-        </Typography>
-        <Typography variant="title16Strong" color="gray600">
-          {retrospects.length}
-        </Typography>
-      </section>
+        <div
+          css={css`
+            display: flex;
+            align-items: center;
+          `}
+        >
+          <Typography variant="title16Strong" color="gray900">
+            {title}
+          </Typography>
+          <Typography variant="title16Strong" color="gray600">
+            {retrospects.length}
+          </Typography>
+        </div>
 
-      {/* ---------- 회고 컨텐츠 ---------- */}
-      <section
-        css={css`
-          margin-top: 1.6rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.2rem;
-        `}
-      >
-        {contentMap[status]}
+        {/* ---------- 회고 컨텐츠 ---------- */}
+        <section
+          css={css`
+            margin-top: 1.6rem;
+            display: flex;
+            flex: 1;
+            overflow-y: scroll;
+            flex-direction: column;
+            gap: 1.2rem;
+          `}
+        >
+          {contentMap[status]}
+        </section>
       </section>
     </>
   );
