@@ -172,6 +172,10 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
     setTemporarySaveModalOpen(true);
   };
 
+  function getCompletedAnswerCount() {
+    return answers.filter((answer) => answer.answerContent.trim() !== "").length;
+  }
+
   const handleClickSatistfy = (index: number) => handleClick(index);
   const handleClickAchivement = (index: number) => handleClick(index);
   const handleModalClose = (type: string) => {
@@ -250,6 +254,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
           display: flex;
           flex: 1;
           flex-direction: column;
+          min-width: 85rem;
           height: 100vh;
           padding: 0 4rem 2.4rem 2.4rem;
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
@@ -298,7 +303,12 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
               />
 
               {/* -------- 회고 작성 질문 전체보기 UI -------- */}
-              <QuestionsOverview hasChanges={hasChanges} onSaveTemporary={mutateSaveTemporaryData} isAnswerFilled={isAnswerFilled} />
+              <QuestionsOverview
+                hasChanges={hasChanges}
+                onSaveTemporary={mutateSaveTemporaryData}
+                isAnswerFilled={isAnswerFilled}
+                getCompletedAnswerCount={getCompletedAnswerCount}
+              />
             </>
           )}
         </div>
