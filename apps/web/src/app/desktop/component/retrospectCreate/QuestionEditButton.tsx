@@ -2,8 +2,9 @@ import { Icon } from "@/component/common/Icon";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
-import QuestionEditSection from "./QuestionEditSection";
+
 import { HTMLAttributes } from "react";
+import QuestionEditSection from "./QuestionEditSection";
 
 interface QuestionEditButtonProps extends HTMLAttributes<HTMLButtonElement> {
   onClose?: () => void;
