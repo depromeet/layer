@@ -1,7 +1,9 @@
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
+import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { isSpaceLeader } from "@/utils/userUtil";
 import { css } from "@emotion/react";
 import { useAtomValue } from "jotai";
 
@@ -9,7 +11,8 @@ export default function AnalysisOverviewHeader() {
   // TODO: 새로고침해도 query를 통해서 데이터를 불러오도록 수정 필요
   const currentSelectedSpace = useAtomValue(currentSpaceState);
 
-  const { name, introduction, memberCount, formTag } = currentSelectedSpace || {};
+  const { name, introduction, memberCount, formTag, leader, id: spaceId } = currentSelectedSpace || {};
+  const isLeader = isSpaceLeader(leader?.id);
 
   return (
     <section>
@@ -25,7 +28,7 @@ export default function AnalysisOverviewHeader() {
         <Typography variant="heading24Bold" color="gray900">
           {name}
         </Typography>
-        <Icon icon="ic_more" size={2.0} color={DESIGN_TOKEN_COLOR.gray900} />
+        {isLeader && <SpaceManageToggleMenu spaceId={spaceId!} iconSize={2.0} iconColor={"gray900"} />}
       </div>
 
       {/* ---------- 스페이스 소개 ---------- */}

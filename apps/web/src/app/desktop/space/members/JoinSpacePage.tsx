@@ -8,6 +8,9 @@ export function JoinSpacePage() {
       css={css`
         width: 100dvw;
         height: 100dvh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: ${DESIGN_SYSTEM_COLOR.blue600};
       `}
     >
@@ -17,22 +20,25 @@ export function JoinSpacePage() {
           max-height: 68rem;
           width: 100%;
           height: 100%;
-          position: absolute;
           border-radius: 2rem;
           overflow: hidden;
-
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-
-          main {
-            padding-top 4.8rem;
-            padding-inline: 3.2rem;
-            padding-bottom: 3.2rem;
-          }
         `}
       >
-        <JoinSpace />
+        <div
+          css={css`
+            width: 100%;
+            height: 100%;
+            background-color: #f2f4f8;
+            padding-top: 4.8rem;
+            padding-inline: 3.2rem;
+            padding-bottom: 0.8rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+          `}
+        >
+          <JoinSpace />
+        </div>
       </article>
     </section>
   );

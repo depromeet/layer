@@ -11,31 +11,29 @@ import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { SocialLoginKind } from "@/types/loginType";
 import { getDeviceType } from "@/utils/deviceUtils";
+import { Fragment } from "react";
 
-export function SetNickNamePage() {
+export function SetNickName() {
+  const MAX_LENGTH = 10;
+  const { isMobile } = getDeviceType();
   const { value: nickName, handleInputChange } = useInput("");
-  const maxLength = 10;
   const { mutate: signUpMutation, isPending } = usePostSignUp();
   const { socialType } = useRequiredParams<{ socialType: SocialLoginKind }>();
-  const { isMobile } = getDeviceType();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
     const accessToken = Cookies.get(`${socialType}AccessToken`) || "";
-
     signUpMutation({ accessToken, name: nickName, socialType: socialType });
   };
 
   return (
-    <DefaultLayout appBarVisible={false}>
+    <Fragment>
       {isMobile && <Spacing size={8.8} />}
-
       <Typography variant="T4">회고 시작 전,</Typography>
       <Spacing size={0.3} />
       <Typography variant="T4">닉네임을 설정해주세요!</Typography>
       <Spacing size={4} />
-      <Input value={nickName} onChange={handleInputChange} placeholder="닉네임을 입력해주세요" count={true} maxLength={maxLength} />
+      <Input value={nickName} onChange={handleInputChange} placeholder="닉네임을 입력해주세요" count={true} maxLength={MAX_LENGTH} />
       <Spacing size={3.6} />
       <TipCard message={"실명으로 활동하는 걸 추천해요!"} />
 
@@ -44,6 +42,14 @@ export function SetNickNamePage() {
           완료
         </Button>
       </ButtonProvider>
+    </Fragment>
+  );
+}
+
+export function SetNickNamePage() {
+  return (
+    <DefaultLayout appBarVisible={false}>
+      <SetNickName />
     </DefaultLayout>
   );
 }
