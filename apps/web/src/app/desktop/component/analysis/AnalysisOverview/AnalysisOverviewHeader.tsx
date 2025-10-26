@@ -25,7 +25,7 @@ export default function AnalysisOverviewHeader() {
   const currentSelectedSpace = useAtomValue(currentSpaceState);
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
-  const { name, introduction, memberCount, formTag, leader, id: spaceId } = currentSelectedSpace || {};
+  const { name, introduction, formTag, leader, id: spaceId } = currentSelectedSpace || {};
   const isLeader = isSpaceLeader(leader?.id);
 
   const [{ data: spaceInfo }] = useQueries({
