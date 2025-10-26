@@ -35,6 +35,7 @@ export default function AnalysisOverview({ spaceId }: AnalysisOverviewProps) {
         isPending={isRetrospectsPending}
         retrospects={proceedingRetrospects}
         emptyMessage="작성중인 회고가 없습니다."
+        spaceId={spaceId}
       />
 
       <RetrospectSection
