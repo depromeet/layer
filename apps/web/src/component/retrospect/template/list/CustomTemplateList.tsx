@@ -18,8 +18,6 @@ export function CustomTemplateList() {
   const mobileContext = useContext(MobileTemplateListPageContext);
   const { spaceId } = isDesktop ? desktopContext : mobileContext;
 
-  console.log("spaceId : " + spaceId);
-
   const { data, fetchNextPage, hasNextPage } = useGetCustomTemplateList(+spaceId);
 
   const targetDivRef = useIntersectionObserve({
