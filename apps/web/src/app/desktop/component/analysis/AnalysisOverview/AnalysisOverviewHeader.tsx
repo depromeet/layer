@@ -1,18 +1,76 @@
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
+import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
+import { useActionModal } from "@/hooks/useActionModal";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { useModal } from "@/hooks/useModal";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { isSpaceLeader } from "@/utils/userUtil";
 import { css } from "@emotion/react";
-import { useAtomValue } from "jotai";
+import { useQueries } from "@tanstack/react-query";
+import { useAtomValue, useSetAtom } from "jotai";
+import { RetrospectCreate } from "../../retrospectCreate";
+import { TemplateChoice } from "../../retrospect/choice";
+import { TemplateList } from "../../retrospect/template/list";
+import MemberManagement from "@/component/retrospect/space/members/MemberManagement";
 
 export default function AnalysisOverviewHeader() {
+  const { open } = useModal();
+  const { openFunnelModal } = useFunnelModal();
+  const { openActionModal } = useActionModal();
   // TODO: 새로고침해도 query를 통해서 데이터를 불러오도록 수정 필요
   const currentSelectedSpace = useAtomValue(currentSpaceState);
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
 
   const { name, introduction, memberCount, formTag, leader, id: spaceId } = currentSelectedSpace || {};
   const isLeader = isSpaceLeader(leader?.id);
+
+  const [{ data: spaceInfo }] = useQueries({
+    queries: [useApiOptionsGetSpaceInfo(spaceId)],
+  });
+
+  // 회고 추가 함수
+  const handleRetrospectCreate = () => {
+    if (spaceInfo?.formId) {
+      setRetrospectValue((prev) => ({
+        ...prev,
+        templateId: String(spaceInfo.formId),
+      }));
+
+      open({
+        title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
+        contents: "",
+        options: {
+          buttonText: ["재설정", "진행하기"],
+        },
+        onConfirm: () => {
+          openFunnelModal({
+            title: "",
+            step: "retrospectCreate",
+            contents: <RetrospectCreate />,
+          });
+        },
+        onClose: () => {
+          openActionModal({
+            title: "",
+            contents: <TemplateChoice />,
+          });
+        },
+      });
+    }
+  };
+
+  // 템플릿 변경 함수
+  const handleMoveToListTemplate = () => {
+    openFunnelModal({
+      title: "템플릿 리스트",
+      step: "listTemplate",
+      contents: <TemplateList />,
+    });
+  };
 
   return (
     <section>
@@ -56,6 +114,7 @@ export default function AnalysisOverviewHeader() {
             gap: 0.4rem;
             cursor: pointer;
           `}
+          onClick={handleRetrospectCreate}
         >
           <Icon icon={"ic_plus"} size={1.2} color={DESIGN_TOKEN_COLOR.gray00} />
           <Typography variant="body14SemiBold" color="gray00">
@@ -76,6 +135,7 @@ export default function AnalysisOverviewHeader() {
             flex: 1;
             cursor: pointer;
           `}
+          onClick={handleMoveToListTemplate}
         >
           <Icon icon={"ic_document_color"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
           <Typography variant="body14SemiBold" color="gray600">
@@ -85,33 +145,7 @@ export default function AnalysisOverviewHeader() {
         </article>
 
         {/* ---------- 회고 인원수 필터 ---------- */}
-        <article
-          css={css`
-            display: flex;
-            padding: 0.8rem;
-            border-radius: 0.8rem;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.6rem;
-            background-color: ${DESIGN_TOKEN_COLOR.white};
-            flex: 1;
-            cursor: pointer;
-          `}
-        >
-          <div
-            css={css`
-              display: flex;
-              align-items: center;
-              gap: 0.6rem;
-            `}
-          >
-            <Icon icon={"ic_team"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
-            <Typography variant="body14SemiBold" color="gray600">
-              {memberCount}
-            </Typography>
-          </div>
-          <Icon icon={"ic_chevron_down"} size={1.4} color={DESIGN_TOKEN_COLOR.gray600} />
-        </article>
+        <MemberManagement spaceId={spaceId as string} />
       </section>
 
       {/* ---------- 실행목표 ---------- */}
