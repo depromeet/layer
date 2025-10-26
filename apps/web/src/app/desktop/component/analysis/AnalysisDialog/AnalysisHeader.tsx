@@ -37,13 +37,6 @@ export default function AnalysisHeader({ selectedTab, isPersonal, isOverviewVisi
     navigate(PATHS.DesktopCompleteRetrospectCreate(spaceId as string));
   };
 
-  const handleToggleOverview = () => {
-    if (!isCollapsed) {
-      toggleCollapse();
-    }
-    onToggleOverview();
-  };
-
   useEffect(() => {
     originalIsCollapsedRef.current = isCollapsed;
   }, []);
@@ -73,7 +66,7 @@ export default function AnalysisHeader({ selectedTab, isPersonal, isOverviewVisi
         <Icon
           icon={isOverviewVisible ? "ic_expand" : "ic_shrink"}
           size={2.0}
-          onClick={handleToggleOverview}
+          onClick={onToggleOverview}
           css={css`
             cursor: pointer;
           `}

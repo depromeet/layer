@@ -59,14 +59,6 @@ export function WriteDialogHeader({
     });
   };
 
-  const onToggleOverview = () => {
-    // * WriteDialog 확대 시, LocalNavigationBar 자동 축소
-    if (!isCollapsed) {
-      toggleCollapse();
-    }
-    handleToggleOverview();
-  };
-
   return (
     <header
       css={css`
@@ -103,7 +95,7 @@ export function WriteDialogHeader({
             color: ${DESIGN_TOKEN_COLOR.gray600};
             cursor: pointer;
           `}
-          onClick={onToggleOverview}
+          onClick={handleToggleOverview}
         />
       </section>
 
