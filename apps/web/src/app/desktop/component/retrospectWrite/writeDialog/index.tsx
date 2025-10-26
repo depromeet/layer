@@ -236,7 +236,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
             leftButtonText={"임시저장"}
             confirm={() => {
               handleModalClose("temporary-save");
-              navigate(PATHS.DesktopcompleteRetrospectCreate(String(spaceId)));
+              navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceId)));
             }}
             quit={mutateSaveTemporaryData}
           />

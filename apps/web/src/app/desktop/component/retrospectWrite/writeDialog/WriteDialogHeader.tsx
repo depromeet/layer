@@ -3,10 +3,11 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { PATHS } from "@layer/shared";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { PhaseContext } from "..";
 import { useModal } from "@/hooks/useModal";
+import { useNavigation } from "@/component/common/LocalNavigationBar/context/NavigationContext";
 
 interface WriteDialogHeaderProps {
   isOverviewVisible: boolean;
@@ -29,14 +30,21 @@ export function WriteDialogHeader({
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { movePhase } = useContext(PhaseContext);
+  const { isCollapsed, toggleCollapse } = useNavigation();
 
   const spaceId = searchParams.get("spaceId");
+
+  const originalIsCollapsedRef = useRef<boolean>(isCollapsed);
 
   const handleClose = () => {
     if (hasChanges()) {
       handleOpenTemporarySaveModal();
     } else {
-      navigate(PATHS.DesktopcompleteRetrospectCreate(spaceId as string));
+      // * LocalNavigationBar 상태 복원 로직
+      if (isCollapsed && !originalIsCollapsedRef.current) {
+        toggleCollapse();
+      }
+      navigate(PATHS.DesktopCompleteRetrospectCreate(spaceId as string));
     }
   };
 
@@ -49,6 +57,14 @@ export function WriteDialogHeader({
       },
       onConfirm: onSubmitWriteDone,
     });
+  };
+
+  const onToggleOverview = () => {
+    // * WriteDialog 확대 시, LocalNavigationBar 자동 축소
+    if (!isCollapsed) {
+      toggleCollapse();
+    }
+    handleToggleOverview();
   };
 
   return (
@@ -87,7 +103,7 @@ export function WriteDialogHeader({
             color: ${DESIGN_TOKEN_COLOR.gray600};
             cursor: pointer;
           `}
-          onClick={handleToggleOverview}
+          onClick={onToggleOverview}
         />
       </section>
 
