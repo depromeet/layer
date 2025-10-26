@@ -16,6 +16,7 @@ import { css } from "@emotion/react";
 import MemberManagement from "./members/MemberManagement";
 import { useQueries } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
+import { TemplateList } from "@/app/desktop/component/retrospect/template/list";
 
 export default function RetrospectSpaceHeader() {
   const { open } = useModal();
@@ -61,6 +62,14 @@ export default function RetrospectSpaceHeader() {
         },
       });
     }
+  };
+
+  const handleMoveToListTemplate = () => {
+    openFunnelModal({
+      title: "템플릿 리스트",
+      step: "listTemplate",
+      contents: <TemplateList />,
+    });
   };
 
   return (
@@ -134,6 +143,7 @@ export default function RetrospectSpaceHeader() {
                 background-color: ${DESIGN_TOKEN_COLOR.white};
                 color: ${DESIGN_TOKEN_COLOR.gray600};
               `}
+              onClick={handleMoveToListTemplate}
             >
               <Icon icon={"ic_document_color"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
 
