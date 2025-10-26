@@ -5,10 +5,12 @@ import { css } from "@emotion/react";
 
 type MainQuestionsHeaderProps = {
   isDeleteMode: boolean;
-  handleDeleteModeToggle: () => void;
+  onDeleteModeEnter: () => void;
+  onDeleteModeCancel: () => void;
+  onDeleteModeComplete: () => void;
 };
 
-export default function MainQuestionsHeader({ isDeleteMode, handleDeleteModeToggle }: MainQuestionsHeaderProps) {
+export default function MainQuestionsHeader({ isDeleteMode, onDeleteModeEnter, onDeleteModeCancel, onDeleteModeComplete }: MainQuestionsHeaderProps) {
   return (
     <section>
       <div
@@ -27,11 +29,11 @@ export default function MainQuestionsHeader({ isDeleteMode, handleDeleteModeTogg
               gap: 0.8rem;
             `}
           >
-            <ActionButton label="취소" variant="body14SemiBold" color="gray500" onClick={handleDeleteModeToggle} />
-            <ActionButton label="완료" variant="body14SemiBold" color="gray900" onClick={handleDeleteModeToggle} />
+            <ActionButton label="취소" variant="body14SemiBold" color="gray500" onClick={onDeleteModeCancel} />
+            <ActionButton label="완료" variant="body14SemiBold" color="gray900" onClick={onDeleteModeComplete} />
           </div>
         ) : (
-          <ActionButton label="삭제" variant="body14SemiBold" color="gray500" onClick={handleDeleteModeToggle} />
+          <ActionButton label="삭제" variant="body14SemiBold" color="gray500" onClick={onDeleteModeEnter} />
         )}
       </div>
       <Spacing size={0.8} />

@@ -3,8 +3,6 @@ import { Children, cloneElement, isValidElement, PropsWithChildren } from "react
 
 import { Button, ButtonProps } from "@/component/common/button/Button.tsx";
 import { getDeviceType } from "@/utils/deviceUtils";
-import { useFunnelModal } from "@/hooks/useFunnelModal";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type SortSet = "vertical" | "horizontal";
 
@@ -38,7 +36,6 @@ export const ButtonProvider = ({
   ...props
 }: PropsWithChildren<ButtonProviderProps>) => {
   const { isDesktop } = getDeviceType();
-  const { funnelModalState } = useFunnelModal();
 
   return (
     <div
@@ -57,7 +54,7 @@ export const ButtonProvider = ({
           position: sticky;
           bottom: 0;
           padding: ${isDesktop ? "0.8rem 0 1.6rem" : "4rem 0 2rem"};
-          background-color: ${isDesktop ? (funnelModalState.step === "retrospectWrite" ? DESIGN_TOKEN_COLOR.gray900 : "#fff") : ""};
+          background-color: transparent;
           margin-top: auto;
           z-index: 10000;
         `,

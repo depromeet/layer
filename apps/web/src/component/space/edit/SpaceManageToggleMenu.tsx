@@ -1,13 +1,13 @@
 import ModifySpacePage from "@/app/desktop/space/modify/ModifySpacePage";
 import { Icon } from "@/component/common/Icon";
 import { ToggleMenu } from "@/component/common/toggleMenu";
-import useModifySpace from "@/hooks/app/space/useModifySpace";
+import useModifySpace, { MODIFY_SPACE_METHOD_QUERY_KEY, MODIFY_SPACE_ID_QUERY_KEY } from "@/hooks/app/space/useModifySpace";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { useModal } from "@/hooks/useModal";
 import useToggleMenu from "@/hooks/useToggleMenu";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export default function SpaceManageToggleMenu({
   iconSize = 1.8,
@@ -15,14 +15,14 @@ export default function SpaceManageToggleMenu({
   spaceId,
 }: {
   spaceId: string;
-  iconSize?: number;
+  iconSize?: number | string;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
 }) {
   const { isShowMenu, showMenu, hideMenu } = useToggleMenu();
-  const navigate = useNavigate();
   const { open: openDesktopModal } = useDesktopBasicModal();
   const { open: openAlertModal } = useModal();
-  const { onSubmitDeleteSpace, initializeSearchQuery } = useModifySpace({ id: spaceId });
+  const { onSubmitDeleteSpace, initializeSearchQuery } = useModifySpace({ id: spaceId.toString() });
+  const [_, setSearchParams] = useSearchParams();
 
   /**
    * @description 토글 메뉴 표시 함수
@@ -37,7 +37,11 @@ export default function SpaceManageToggleMenu({
    * @description 스페이스 수정 함수
    */
   const handleEditSpace = () => {
-    navigate(`?spaceId=${spaceId}&method=edit`, { replace: true });
+    setSearchParams((prev) => ({
+      ...Object.fromEntries(prev.entries()),
+      [MODIFY_SPACE_ID_QUERY_KEY]: spaceId,
+      [MODIFY_SPACE_METHOD_QUERY_KEY]: "edit",
+    }));
     openDesktopModal({
       title: "스페이스 수정",
       contents: <ModifySpacePage />,

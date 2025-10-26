@@ -3,7 +3,7 @@ import { ImageUploader } from "@/component/common/ImageUploader";
 import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Spacing } from "@/component/common/Spacing";
-import useModifySpace from "@/hooks/app/space/useModifySpace";
+import useModifySpace, { MODIFY_SPACE_ID_QUERY_KEY } from "@/hooks/app/space/useModifySpace";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { css } from "@emotion/react";
 import { useSearchParams } from "react-router-dom";
@@ -11,7 +11,7 @@ import { useSearchParams } from "react-router-dom";
 // 데스크톱 환경에서는 해당 수정 페이지가 모달 안에 이식되어요
 export default function ModifySpacePage() {
   const [searchParams] = useSearchParams();
-  const spaceId = searchParams.get("spaceId") as string;
+  const spaceId = searchParams.get(MODIFY_SPACE_ID_QUERY_KEY) as string;
   const {
     data,
     isLoading,

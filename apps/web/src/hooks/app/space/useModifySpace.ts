@@ -15,6 +15,9 @@ interface ModifySpaceProps {
   id: string;
 }
 
+export const MODIFY_SPACE_ID_QUERY_KEY = "modifyTargetId";
+export const MODIFY_SPACE_METHOD_QUERY_KEY = "method";
+
 export default function useModifySpace({ id }: ModifySpaceProps) {
   const { data, isLoading } = useApiGetSpace(id);
   const setterCurrentSpace = useSetAtom(currentSpaceState);
@@ -29,8 +32,8 @@ export default function useModifySpace({ id }: ModifySpaceProps) {
 
   const initializeSearchQuery = () => {
     const searchParams = new URLSearchParams(window.location.search);
-    searchParams.delete("method");
-    searchParams.delete("spaceId");
+    searchParams.delete(MODIFY_SPACE_METHOD_QUERY_KEY);
+    searchParams.delete(MODIFY_SPACE_ID_QUERY_KEY);
     navigate({ search: searchParams.toString() }, { replace: true });
   };
 
