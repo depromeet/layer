@@ -14,12 +14,29 @@ import { useEffect, useMemo, useState } from "react";
 import { Retrospect } from "@/types/retrospect";
 import RetrospectCard from "@/app/desktop/component/home/RetrospectCard";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
+import { useSetAtom } from "jotai";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
+import { useModal } from "@/hooks/useModal";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { useActionModal } from "@/hooks/useActionModal";
+import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
+import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
+import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 
 export default function InProgressRetrospects() {
   const { spaceId } = useParams();
 
   // * 스페이스 회고 목록 조회
   const { data: retrospects, isPending: isPendingRetrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
+
+  // * 스페이스 정보 조회
+  const { data: spaceInfo } = useQuery(useApiOptionsGetSpaceInfo(spaceId));
+
+  const { open } = useModal();
+  const { openFunnelModal } = useFunnelModal();
+  const { openActionModal } = useActionModal();
+
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
 
   const proceedingRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [], [retrospects]);
 
@@ -36,6 +53,37 @@ export default function InProgressRetrospects() {
     });
 
     // TODO(supersett): 여기서 변경된 순서를 서버에 저장하는 API를 호출 필요
+  };
+
+  // 회고 추가 함수
+  const handleRetrospectCreate = () => {
+    if (spaceInfo?.formId) {
+      setRetrospectValue((prev) => ({
+        ...prev,
+        templateId: String(spaceInfo.formId),
+      }));
+
+      open({
+        title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
+        contents: "",
+        options: {
+          buttonText: ["재설정", "진행하기"],
+        },
+        onConfirm: () => {
+          openFunnelModal({
+            title: "",
+            step: "retrospectCreate",
+            contents: <RetrospectCreate />,
+          });
+        },
+        onClose: () => {
+          openActionModal({
+            title: "",
+            contents: <TemplateChoice />,
+          });
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -75,7 +123,7 @@ export default function InProgressRetrospects() {
             gap: 2.4rem;
           `}
         >
-          <Icon icon="ic_clock" size={4.8} color={DESIGN_TOKEN_COLOR.gray500} />
+          <Icon icon="ic_new_clock" size={7.2} color={DESIGN_TOKEN_COLOR.gray500} />
           <Typography variant="body16Medium" color="gray500">
             진행중인 회고가 비어있어요 <br />
             회고를 작성해 보세요!
@@ -88,6 +136,7 @@ export default function InProgressRetrospects() {
               color: ${DESIGN_TOKEN_COLOR.gray700};
               cursor: pointer;
             `}
+            onClick={handleRetrospectCreate}
           >
             회고 추가하기
           </div>
