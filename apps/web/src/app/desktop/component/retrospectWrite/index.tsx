@@ -5,6 +5,7 @@ import { createContext, useEffect, useState } from "react";
 import { WriteDialog } from "./writeDialog";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { useSearchParams } from "react-router-dom";
+import { useNavigation } from "@/component/common/LocalNavigationBar/context/NavigationContext";
 
 export type PhaseContextProps = {
   data: QuestionData;
@@ -60,11 +61,7 @@ function RetrospectWrite({ isOverviewVisible, handleToggleOverview }: Retrospect
   const defaultData: QuestionData = { isTemporarySaved: false, questions: [] };
   const [adjustedData, setAdjustedData] = useState<QuestionData>();
 
-  useEffect(() => {
-    if (data) {
-      setAdjustedData(adjustOrder(data));
-    }
-  }, [data]);
+  const { isCollapsed, handleCollapse } = useNavigation();
 
   const maxPhase = (adjustedData?.questions.length ?? 0) - 1;
 
@@ -79,6 +76,18 @@ function RetrospectWrite({ isOverviewVisible, handleToggleOverview }: Retrospect
   const movePhase = (phase: number) => {
     setPhase(phase);
   };
+
+  useEffect(() => {
+    if (!isCollapsed) {
+      handleCollapse(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      setAdjustedData(adjustOrder(data));
+    }
+  }, [data]);
 
   return (
     <>

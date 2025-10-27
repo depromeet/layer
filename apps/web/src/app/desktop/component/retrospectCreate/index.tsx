@@ -54,7 +54,7 @@ export function RetrospectCreate() {
       },
       {
         onSuccess: () => {
-          navigate(PATHS.DesktopcompleteRetrospectCreate(String(spaceIdNumber)));
+          navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceIdNumber)));
           closeFunnelModal();
           toast.success("회고가 생성되었어요!");
         },
