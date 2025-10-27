@@ -50,14 +50,6 @@ export default function Footer() {
     };
   }, [isDropdownOpen]);
 
-  useEffect(() => {
-    // ChannelService.boot({
-    //   pluginKey: import.meta.env.VITE_CHANNELTALK_PLUGIN_KEY,
-    //   customLauncherSelector: "#generate-channel-talk",
-    //   hideChannelButtonOnBoot: true,
-    // });
-  }, []);
-
   const handleProfileClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
