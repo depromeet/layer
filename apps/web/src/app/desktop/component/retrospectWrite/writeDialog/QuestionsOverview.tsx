@@ -8,9 +8,10 @@ interface QuestionsOverviewProps {
   isAnswerFilled: boolean;
   hasChanges: () => boolean;
   onSaveTemporary: () => void;
+  completedAnswerCount: number;
 }
 
-export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary }: QuestionsOverviewProps) {
+export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary, completedAnswerCount }: QuestionsOverviewProps) {
   const { data, phase, maxPhase, movePhase } = useContext(PhaseContext);
 
   const canTemporarySave = hasChanges();
@@ -53,7 +54,7 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary 
               color: #8b909c;
             `}
           >
-            {`작성완료 ${phase + 1}/${maxPhase + 1}`}
+            {`작성완료 ${completedAnswerCount}/${maxPhase + 1}`}
           </Typography>
         </div>
 
@@ -77,6 +78,7 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary 
                 border-radius: 0.8rem;
                 background-color: ${phase === index ? DESIGN_TOKEN_COLOR.blue50 : "transparent"};
                 color: ${DESIGN_TOKEN_COLOR.gray600};
+                cursor: pointer;
               `}
             >
               <span

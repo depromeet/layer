@@ -3,10 +3,11 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { PATHS } from "@layer/shared";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { PhaseContext } from "..";
 import { useModal } from "@/hooks/useModal";
+import { useNavigation } from "@/component/common/LocalNavigationBar/context/NavigationContext";
 
 interface WriteDialogHeaderProps {
   isOverviewVisible: boolean;
@@ -29,14 +30,21 @@ export function WriteDialogHeader({
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { movePhase } = useContext(PhaseContext);
+  const { isCollapsed, toggleCollapse } = useNavigation();
 
   const spaceId = searchParams.get("spaceId");
+
+  const originalIsCollapsedRef = useRef<boolean>(isCollapsed);
 
   const handleClose = () => {
     if (hasChanges()) {
       handleOpenTemporarySaveModal();
     } else {
-      navigate(PATHS.DesktopcompleteRetrospectCreate(spaceId as string));
+      // * LocalNavigationBar 상태 복원 로직
+      if (isCollapsed && !originalIsCollapsedRef.current) {
+        toggleCollapse();
+      }
+      navigate(PATHS.DesktopCompleteRetrospectCreate(spaceId as string));
     }
   };
 
@@ -65,29 +73,31 @@ export function WriteDialogHeader({
         background-color: #fff;
       `}
     >
-      <div>
+      <section
+        css={css`
+          display: flex;
+          gap: 1.2rem;
+        `}
+      >
         <Icon
-          icon="ic_close"
-          size={1.8}
+          icon="ic_analysis_close"
+          size={2.0}
           css={css`
             color: ${DESIGN_TOKEN_COLOR.gray600};
-            margin: 0.3rem;
             cursor: pointer;
           `}
           onClick={handleClose}
         />
         <Icon
           icon={isOverviewVisible ? "ic_expand" : "ic_shrink"}
-          size={1.8}
+          size={2.0}
           css={css`
-            margin-left: 0.4rem;
             color: ${DESIGN_TOKEN_COLOR.gray600};
-            margin: 0.3rem;
             cursor: pointer;
           `}
           onClick={handleToggleOverview}
         />
-      </div>
+      </section>
 
       {isComplete && (
         <div

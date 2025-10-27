@@ -30,6 +30,11 @@ export default function AnalysisOverview({ spaceId }: AnalysisOverviewProps) {
     >
       <AnalysisOverviewHeader />
 
+      <div
+        css={css`
+          overflow-y: auto;
+        `}
+      ></div>
       <RetrospectSection
         title="진행중인 회고"
         isPending={isRetrospectsPending}

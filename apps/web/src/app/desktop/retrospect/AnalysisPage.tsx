@@ -9,11 +9,14 @@ import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpa
 
 import AnalysisDialog from "../component/analysis/AnalysisDialog";
 import AnalysisOverview from "../component/analysis/AnalysisOverview";
+import { useNavigation } from "@/component/common/LocalNavigationBar/context/NavigationContext";
 
 export default function AnalysisPage() {
   const [searchParams] = useSearchParams();
   const [isOverviewVisible, setIsOverviewVisible] = useState(true);
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
+
+  const { isCollapsed, handleCollapse } = useNavigation();
 
   const spaceId = searchParams.get("spaceId");
   const retrospectId = searchParams.get("retrospectId");
@@ -23,6 +26,12 @@ export default function AnalysisPage() {
   const handleToggleOverview = () => {
     setIsOverviewVisible(!isOverviewVisible);
   };
+
+  useEffect(() => {
+    if (!isCollapsed) {
+      handleCollapse(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (spaceId && spaceInfo && (!currentSpace || String(currentSpace.id) !== spaceId)) {
