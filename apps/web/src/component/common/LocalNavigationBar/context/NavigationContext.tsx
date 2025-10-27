@@ -3,6 +3,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 interface NavigationContextType {
   isCollapsed: boolean;
   toggleCollapse: () => void;
+  handleCollapse: (value: boolean) => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
@@ -19,7 +20,11 @@ export function NavigationProvider({ children }: NavigationProviderProps) {
     setIsCollapsed((prev) => !prev);
   };
 
-  return <NavigationContext.Provider value={{ isCollapsed, toggleCollapse }}>{children}</NavigationContext.Provider>;
+  const handleCollapse = (value: boolean) => {
+    setIsCollapsed(value);
+  };
+
+  return <NavigationContext.Provider value={{ isCollapsed, toggleCollapse, handleCollapse }}>{children}</NavigationContext.Provider>;
 }
 
 export function useNavigation() {
