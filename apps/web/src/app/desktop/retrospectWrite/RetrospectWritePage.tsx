@@ -9,6 +9,7 @@ function RetroSpectWritePage() {
   const [isOverviewVisible, setIsOverviewVisible] = useState(true);
 
   const spaceId = searchParams.get("spaceId");
+  const retrospectId = searchParams.get("retrospectId");
 
   const handleToggleOverview = () => {
     setIsOverviewVisible(!isOverviewVisible);
@@ -36,7 +37,7 @@ function RetroSpectWritePage() {
       >
         <AnalysisOverview spaceId={spaceId} />
       </section>
-      <RetrospectWrite isOverviewVisible={isOverviewVisible} handleToggleOverview={handleToggleOverview} />
+      <RetrospectWrite key={retrospectId} isOverviewVisible={isOverviewVisible} handleToggleOverview={handleToggleOverview} />
     </div>
   );
 }
