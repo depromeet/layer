@@ -25,9 +25,11 @@ export function TemplateList() {
   const { toast } = useToast();
   const isReadOnly = useRef(false);
   const isLeader = useRef(false);
-  const { spaceId } = useRequiredParams<{ spaceId: string }>();
-  const { data: templates } = useGetDefaultTemplateList();
+  const params = useRequiredParams<{ spaceId?: string }>();
   const [searchParams] = useSearchParams();
+  const spaceId = params.spaceId || searchParams.get("spaceId") || "";
+
+  const { data: templates } = useGetDefaultTemplateList();
 
   // * @see AddSpacePage.tsx - 첫 스페이스와 회고 생성시에 템플릿 선택 화면으로 이동할 때 URL 파라미터로 타입을 넘겨줘요
   const type = searchParams.get("template_type") || "";
