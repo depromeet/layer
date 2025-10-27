@@ -14,6 +14,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useAtom } from "jotai";
 import { authAtom } from "@/store/auth/authAtom";
 import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
+import ChannelTalkWrapper from "../channelTalkWrapper";
 
 export default function Footer() {
   const { isCollapsed } = useNavigation();
@@ -48,6 +49,14 @@ export default function Footer() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isDropdownOpen]);
+
+  useEffect(() => {
+    // ChannelService.boot({
+    //   pluginKey: import.meta.env.VITE_CHANNELTALK_PLUGIN_KEY,
+    //   customLauncherSelector: "#generate-channel-talk",
+    //   hideChannelButtonOnBoot: true,
+    // });
+  }, []);
 
   const handleProfileClick = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -212,69 +221,75 @@ export default function Footer() {
       )}
 
       {/* ---------- 헬프 센터 버튼 ---------- */}
-      <button
+      <ChannelTalkWrapper
         css={css`
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 0.6rem;
-          padding: 0rem 0.4rem;
-          border: none;
-          background: transparent;
-          border-radius: 0.8rem;
-          cursor: pointer;
-          transition:
-            background-color 0.2s ease-in-out,
-            width 0.3s ease-in-out,
-            height 0.3s ease-in-out;
-
-          ${isCollapsed
-            ? css`
-                width: 3.2rem;
-                height: 3.2rem;
-              `
-            : css`
-                width: 100%;
-                height: 3.6rem;
-              `}
-
-          &:focus {
-            background-color: ${DESIGN_TOKEN_COLOR.gray100};
-          }
-
-          &:hover {
-            background-color: ${DESIGN_TOKEN_COLOR.gray100};
-          }
+          width: 100%;
         `}
       >
-        <Icon icon="ic_help" size={1.8} />
-
-        <Typography
-          variant="body12Medium"
-          color="gray700"
+        <button
           css={css`
-            overflow: hidden;
-            white-space: nowrap;
-            transition: opacity 0.3s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0rem 0.4rem;
+            border: none;
+            background: transparent;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            transition:
+              background-color 0.2s ease-in-out,
+              width 0.3s ease-in-out,
+              height 0.3s ease-in-out;
 
             ${isCollapsed
               ? css`
-                  display: none;
-                  width: 0;
-                  opacity: 0;
-                  visibility: hidden;
+                  width: 3.2rem;
+                  height: 3.2rem;
                 `
               : css`
-                  display: block;
-                  width: auto;
-                  opacity: 1;
-                  visibility: visible;
+                  width: 100%;
+                  height: 3.6rem;
                 `}
+
+            &:focus {
+              background-color: ${DESIGN_TOKEN_COLOR.gray100};
+            }
+
+            &:hover {
+              background-color: ${DESIGN_TOKEN_COLOR.gray100};
+            }
           `}
         >
-          헬프 센터
-        </Typography>
-      </button>
+          <Icon icon="ic_help" size={1.8} />
+
+          <Typography
+            variant="body12Medium"
+            color="gray700"
+            css={css`
+              overflow: hidden;
+              white-space: nowrap;
+              transition: opacity 0.3s ease-in-out;
+
+              ${isCollapsed
+                ? css`
+                    display: none;
+                    width: 0;
+                    opacity: 0;
+                    visibility: hidden;
+                  `
+                : css`
+                    display: block;
+                    width: auto;
+                    opacity: 1;
+                    visibility: visible;
+                  `}
+            `}
+          >
+            헬프 센터
+          </Typography>
+        </button>
+      </ChannelTalkWrapper>
 
       {/* 계정설정 모달 */}
       <AcountSettingsModal isOpen={isAccountSettingsModalOpen} onClose={handleAccountSettingsClose} />

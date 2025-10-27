@@ -51,8 +51,9 @@ import { HomePage } from "@/app/desktop/home/HomePage";
 import RetroSpectSpacePage from "@/app/desktop/retrospectSpace/RetroSpectSpacePage";
 import DesktopSetNickNamePage from "@/app/desktop/login/DesktopSetNickNamePage";
 import AnalysisPage from "@/app/desktop/retrospect/AnalysisPage";
-import { getDeviceType } from "@/utils/deviceUtils";
+import { getDeviceType, markDeviceTypeOnHtml } from "@/utils/deviceUtils";
 import RetroSpectWritePage from "@/app/desktop/retrospectWrite/RetrospectWritePage";
+import { useEffect } from "react";
 
 type RouteChildren = {
   auth: boolean;
@@ -429,5 +430,11 @@ export const Routers = () => {
   ChannelService.boot({
     pluginKey: import.meta.env.VITE_CHANNELTALK_PLUGIN_KEY,
   });
+
+  useEffect(() => {
+    // html 태그에 현재 data-device 타입을 명시해줘요
+    markDeviceTypeOnHtml();
+  }, []);
+
   return <RouterProvider router={router({ layoutType: deviceType })} />;
 };

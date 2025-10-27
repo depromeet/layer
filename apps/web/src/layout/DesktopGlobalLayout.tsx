@@ -4,8 +4,14 @@ import { Outlet } from "react-router-dom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Modal } from "@/component/common/Modal";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser";
+import { useEffect } from "react";
+import ChannelService from "@/lib/channel-talk/service";
 
 export default function DesktopGlobalLayout() {
+  useEffect(() => {
+    ChannelService.hideChannelButton();
+  }, []);
+
   return (
     <div
       css={css`
