@@ -287,7 +287,7 @@ function SelectRetrospectTemplateFunnel() {
     {
       id: "recommendation",
       icon: "ic_stars",
-      label: "추천받기",
+      label: "추천 받기",
       onClick: () => setTemplateType("recommendation"),
     },
     {
@@ -343,10 +343,28 @@ function SelectRetrospectTemplateFunnel() {
                 span {
                   color: ${DESIGN_TOKEN_COLOR.gray00};
                 }
+                // 추천 받기 아이콘의 활성화 색상을 정의해요
+                svg#star-icon {
+                  path:nth-of-type(1) {
+                    fill: #e9f0ff;
+                  }
+                  path:nth-of-type(2) {
+                    fill: #fff;
+                  }
+                  path:nth-of-type(3) {
+                    fill: #c4d7fd;
+                  }
+                }
+                // 리스트 보기 아이콘의 활성화 색상을 정의해요
+                svg#list-icon {
+                  path {
+                    fill: #e2ebfe;
+                  }
+                }
               `}
             `}
           >
-            <Icon icon={icon} size={4.8} color={iconColor} />
+            <Icon icon={icon} size={3.4} color={iconColor} />
             <Typography as="span" variant="body16Medium" color="black">
               {label}
             </Typography>
