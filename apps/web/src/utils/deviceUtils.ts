@@ -31,4 +31,17 @@ const getDeviceType = (threshold = 768): DeviceReturnType => {
   return { deviceType, isDesktop, isMobile };
 };
 
-export { getDeviceType };
+/**
+ * @description 현재 클라이언트의 디바이스 타입(mobile/desktop)을 감지하고 HTML 루트(<html>) 태그에 명시적으로 data-device 속성으로 기록해요.
+ * @example
+ * - <html data-device="mobile">
+ * - <html data-device="desktop">
+ */
+const markDeviceTypeOnHtml = (): void => {
+  const { isMobile } = getDeviceType();
+  const html = document.documentElement;
+  const deviceType = isMobile ? "mobile" : "desktop";
+  html.setAttribute("data-device", deviceType);
+};
+
+export { getDeviceType, markDeviceTypeOnHtml };

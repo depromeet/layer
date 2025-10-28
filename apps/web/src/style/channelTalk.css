@@ -1,0 +1,11 @@
+/* 데스크탑 환경인 경우에 채널톡의 스타일을 오버라이드 시켜줘요 */
+html[data-device="desktop"] {
+  #ch-plugin-script {
+    left: 13rem !important;
+    margin-bottom: -3rem !important;
+  }
+
+  #ch-plugin-entry {
+    display: none !important;
+  }
+}
