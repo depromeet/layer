@@ -128,18 +128,17 @@ export default function InProgressRetrospects() {
             진행중인 회고가 비어있어요 <br />
             회고를 작성해 보세요!
           </Typography>
-          <div
+          <button
             css={css`
               padding: 0.8rem 1.2rem;
               border-radius: 0.8rem;
               border: 1px solid ${DESIGN_TOKEN_COLOR.gray400};
               color: ${DESIGN_TOKEN_COLOR.gray700};
-              cursor: pointer;
             `}
             onClick={handleRetrospectCreate}
           >
             회고 추가하기
-          </div>
+          </button>
         </div>
       ) : (
         <DragDropContext onDragEnd={handleOnDragEnd}>

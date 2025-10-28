@@ -111,7 +111,7 @@ export default function RetrospectSpaceHeader() {
               gap: 1.6rem;
             `}
           >
-            <div
+            <button
               css={css`
                 display: flex;
                 padding: 0.8rem 1.2rem;
@@ -120,7 +120,6 @@ export default function RetrospectSpaceHeader() {
                 align-items: center;
                 justify-content: center;
                 gap: 0.4rem;
-                cursor: pointer;
                 color: ${DESIGN_TOKEN_COLOR.gray00};
               `}
               onClick={handleRetrospectCreate}
@@ -130,7 +129,7 @@ export default function RetrospectSpaceHeader() {
               <Typography variant="body14SemiBold" color="gray00">
                 회고 추가하기
               </Typography>
-            </div>
+            </button>
             <div
               css={css`
                 display: flex;
