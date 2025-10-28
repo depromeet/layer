@@ -924,6 +924,8 @@ function CompleteCreateSpace() {
   const { data: userData } = useApiGetUser();
   const { close: closeModalDesktop } = useDesktopBasicModal();
   const { data: spaceData, isLoading } = useApiGetSpace(spaceId!.toString());
+  const { resetAll: resetRetrospectInfo } = useRetrospectCreateReset();
+  const { resetAll: resetSpaceInfo } = useSpaceCreateReset();
   const [animate, setAnimate] = useState(spaceData?.category === ProjectType.Individual);
   const encryptedId = encryptId(spaceId!.toString());
   const navigate = useNavigate();
@@ -948,6 +950,8 @@ function CompleteCreateSpace() {
   const handleComplete = () => {
     navigate(`retrospectSpace/${spaceId}`);
     closeModalDesktop();
+    resetRetrospectInfo();
+    resetSpaceInfo();
   };
 
   useEffect(() => {
