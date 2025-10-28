@@ -10,7 +10,7 @@ import { currentSpaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { isSpaceLeader } from "@/utils/userUtil";
 import { css } from "@emotion/react";
-import { useQueries } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { RetrospectCreate } from "../../retrospectCreate";
 import { TemplateChoice } from "../../retrospect/choice";
@@ -28,9 +28,7 @@ export default function AnalysisOverviewHeader() {
   const { name, introduction, formTag, leader, id: spaceId } = currentSelectedSpace || {};
   const isLeader = isSpaceLeader(leader?.id);
 
-  const [{ data: spaceInfo }] = useQueries({
-    queries: [useApiOptionsGetSpaceInfo(spaceId)],
-  });
+  const { data: spaceInfo } = useQuery(useApiOptionsGetSpaceInfo(spaceId));
 
   // 회고 추가 함수
   const handleRetrospectCreate = () => {

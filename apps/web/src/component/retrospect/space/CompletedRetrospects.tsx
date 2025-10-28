@@ -78,7 +78,7 @@ export default function CompletedRetrospects() {
             flex: 1;
           `}
         >
-          <Icon icon="ic_clock" size={4.8} color={DESIGN_TOKEN_COLOR.gray500} />
+          <Icon icon="ic_new_clock" size={7.2} color={DESIGN_TOKEN_COLOR.gray500} />
           <Typography variant="body16Medium" color="gray500">
             마감된 회고가 없어요 <br />
             회고 후 분석 내용을 받아보세요!
