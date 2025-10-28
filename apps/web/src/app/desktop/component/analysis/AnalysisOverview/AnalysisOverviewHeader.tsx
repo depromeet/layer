@@ -113,6 +113,7 @@ export default function AnalysisOverviewHeader() {
             justify-content: center;
             gap: 0.4rem;
             cursor: pointer;
+            white-space: nowrap;
           `}
           onClick={handleRetrospectCreate}
         >
