@@ -58,6 +58,7 @@ import { CREATE_SPACE_INIT_ATOM } from "@/store/space/spaceAtom";
 import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
 import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
 import { DesktopDateTimeInput } from "../../component/retrospectCreate/DesktopDateTimeInput";
+import { queryClient } from "@/lib/tanstack-query/queryClient";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
@@ -788,7 +789,7 @@ function CreateRetrospectDeadlineFunnel() {
   const { open } = useModal();
   const { toast } = useToast();
   const { mutateAsync: postSpace } = useApiPostSpace();
-  const { mutateAsync: postRetrospect } = usePostRetrospectCreate();
+  const { mutateAsync: postRetrospect, isSuccess: isSuccessCreateRetrospect } = usePostRetrospectCreate();
   const [loader, setLoader] = useState(false);
 
   const handleChangeRadioType = (type: string) => {
@@ -840,6 +841,15 @@ function CreateRetrospectDeadlineFunnel() {
     await createRetrospect(spaceId);
     setLoader(false);
   };
+
+  useEffect(() => {
+    if (isSuccessCreateRetrospect) {
+      // 스페이스 생성이 완료되면 스페이스 목록을 리패치
+      queryClient.invalidateQueries({
+        queryKey: ["spaces"],
+      });
+    }
+  }, [isSuccessCreateRetrospect]);
 
   return (
     <div
@@ -914,6 +924,8 @@ function CompleteCreateSpace() {
   const { data: userData } = useApiGetUser();
   const { close: closeModalDesktop } = useDesktopBasicModal();
   const { data: spaceData, isLoading } = useApiGetSpace(spaceId!.toString());
+  const { resetAll: resetRetrospectInfo } = useRetrospectCreateReset();
+  const { resetAll: resetSpaceInfo } = useSpaceCreateReset();
   const [animate, setAnimate] = useState(spaceData?.category === ProjectType.Individual);
   const encryptedId = encryptId(spaceId!.toString());
   const navigate = useNavigate();
@@ -938,6 +950,8 @@ function CompleteCreateSpace() {
   const handleComplete = () => {
     navigate(`retrospectSpace/${spaceId}`);
     closeModalDesktop();
+    resetRetrospectInfo();
+    resetSpaceInfo();
   };
 
   useEffect(() => {
