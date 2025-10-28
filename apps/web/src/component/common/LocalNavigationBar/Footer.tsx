@@ -14,7 +14,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useAtom } from "jotai";
 import { authAtom } from "@/store/auth/authAtom";
 import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
-import ChannelTalkWrapper from "../channelTalkWrapper";
+import ChannelTalkWrapper from "../ChannelTalkWrapper";
 
 export default function Footer() {
   const { isCollapsed } = useNavigation();
