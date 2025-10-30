@@ -14,7 +14,6 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
-// Types
 interface TooltipContextType {
   isOpen: boolean;
   open: () => void;
@@ -203,12 +202,8 @@ const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipCo
   );
 };
 
-const TooltipWithCompounds = Tooltip as typeof Tooltip & {
-  Trigger: typeof TooltipTrigger;
-  Content: typeof TooltipContent;
-};
+// Compound Component 패턴 적용
+Tooltip.Trigger = TooltipTrigger;
+Tooltip.Content = TooltipContent;
 
-TooltipWithCompounds.Trigger = TooltipTrigger;
-TooltipWithCompounds.Content = TooltipContent;
-
-export default TooltipWithCompounds;
+export default Tooltip;

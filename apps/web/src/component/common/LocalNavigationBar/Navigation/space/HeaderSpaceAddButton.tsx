@@ -8,6 +8,7 @@ import AddSpacePage from "@/app/desktop/space/add/AddSpacePage";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
 import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
+import Tooltip from "@/component/common/Tooltip";
 
 export default function HeaderSpaceAddButton() {
   const { isCollapsed } = useNavigation();
@@ -73,26 +74,31 @@ export default function HeaderSpaceAddButton() {
       >
         내 스페이스
       </Typography>
-      <div
-        css={css`
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 3.2rem;
-          height: 3.2rem;
-          padding: 0.7rem;
-          cursor: pointer;
-          transition: background-color 0.2s ease-in-out;
-          border-radius: 0.8rem;
+      <Tooltip placement="right">
+        <Tooltip.Trigger asChild>
+          <div
+            css={css`
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 3.2rem;
+              height: 3.2rem;
+              padding: 0.7rem;
+              cursor: pointer;
+              transition: background-color 0.2s ease-in-out;
+              border-radius: 0.8rem;
 
-          &:hover {
-            background-color: ${DESIGN_TOKEN_COLOR.gray100};
-          }
-        `}
-        onClick={handleOpenSpaceAdd}
-      >
-        <Icon icon="ic_plus" size={1.6} />
-      </div>
+              &:hover {
+                background-color: ${DESIGN_TOKEN_COLOR.gray100};
+              }
+            `}
+            onClick={handleOpenSpaceAdd}
+          >
+            <Icon icon="ic_plus" size={1.6} />
+          </div>
+        </Tooltip.Trigger>
+        <Tooltip.Content>스페이스 추가</Tooltip.Content>
+      </Tooltip>
     </div>
   );
 }
