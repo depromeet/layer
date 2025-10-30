@@ -80,7 +80,7 @@ export default function UserProfile() {
 
         {isCollapsed ? (
           <Tooltip placement="right">
-            <Tooltip.Trigger asChild>
+            <Tooltip.Trigger>
               <button
                 ref={buttonRef}
                 css={css`
@@ -130,7 +130,11 @@ export default function UserProfile() {
                 )}
               </button>
             </Tooltip.Trigger>
-            <Tooltip.Content>{name}</Tooltip.Content>
+            <Tooltip.Content>
+              <Typography variant="body12Strong" color="gray00">
+                {name}
+              </Typography>
+            </Tooltip.Content>
           </Tooltip>
         ) : (
           <button

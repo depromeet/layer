@@ -98,7 +98,7 @@ const Tooltip = ({ children, placement = "top", delay = 200, disabled = false }:
   return <TooltipContext.Provider value={contextValue}>{children}</TooltipContext.Provider>;
 };
 
-const TooltipTrigger = ({ children, asChild = false }: TooltipTriggerProps) => {
+const TooltipTrigger = ({ children, asChild = true }: TooltipTriggerProps) => {
   const { open, close, triggerRef } = useTooltip();
 
   const handleMouseEnter = () => open();

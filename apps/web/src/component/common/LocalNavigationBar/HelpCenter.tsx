@@ -19,7 +19,7 @@ export default function HelpCenter() {
     >
       {isCollapsed ? (
         <Tooltip placement="right">
-          <Tooltip.Trigger asChild>
+          <Tooltip.Trigger>
             <button
               css={css`
                 display: flex;

@@ -89,7 +89,7 @@ export default function SpaceItem({ space }: SpaceItemProps) {
     <>
       {isCollapsed ? (
         <Tooltip placement="right">
-          <Tooltip.Trigger asChild>
+          <Tooltip.Trigger>
             <li
               tabIndex={0}
               css={css`

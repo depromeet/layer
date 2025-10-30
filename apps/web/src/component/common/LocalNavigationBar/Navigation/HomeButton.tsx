@@ -36,7 +36,7 @@ export default function HomeButton() {
       onClick={handleHomeButtonClick}
     >
       <Tooltip placement="right">
-        <Tooltip.Trigger asChild>
+        <Tooltip.Trigger>
           <div
             css={css`
               display: flex;

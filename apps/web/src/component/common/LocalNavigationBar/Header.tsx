@@ -61,7 +61,7 @@ export default function Header() {
 
       {/* ---------- 토글 버튼 ---------- */}
       <Tooltip placement="right">
-        <Tooltip.Trigger asChild>
+        <Tooltip.Trigger>
           <button
             css={css`
               display: flex;

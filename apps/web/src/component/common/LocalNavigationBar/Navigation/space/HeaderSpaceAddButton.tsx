@@ -75,7 +75,7 @@ export default function HeaderSpaceAddButton() {
         내 스페이스
       </Typography>
       <Tooltip placement="right">
-        <Tooltip.Trigger asChild>
+        <Tooltip.Trigger>
           <div
             css={css`
               display: flex;
