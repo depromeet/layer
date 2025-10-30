@@ -11,6 +11,7 @@ import {
   isValidElement,
   cloneElement,
   useEffect,
+  ReactElement,
 } from "react";
 import { createPortal } from "react-dom";
 
@@ -109,15 +110,16 @@ const TooltipTrigger = ({ children, asChild = true }: TooltipTriggerProps) => {
 
   // * asChild prop이 true일 때는 첫 번째 자식에 이벤트를 전달
   if (asChild && isValidElement(children)) {
-    return cloneElement(children, {
+    const child = children as ReactElement<any>;
+    return cloneElement(child, {
       ref: triggerRef,
       onMouseEnter: handleMouseEnter,
       onMouseLeave: handleMouseLeave,
       onFocus: handleFocus,
       onBlur: handleBlur,
       onClick: (e: any) => {
-        if (children.props.onClick) {
-          children.props.onClick(e);
+        if (child.props.onClick) {
+          child.props.onClick(e);
         }
 
         handleClick();
@@ -141,6 +143,10 @@ const TooltipTrigger = ({ children, asChild = true }: TooltipTriggerProps) => {
 
 const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipContentProps) => {
   const { isOpen, contentRef, triggerRef, placement } = useTooltip();
+
+  if (!triggerRef.current) {
+    return null;
+  }
 
   const getTooltipStyle = (): CSSProperties => {
     if (!triggerRef.current) return {};
