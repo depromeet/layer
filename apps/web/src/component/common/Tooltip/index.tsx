@@ -107,7 +107,7 @@ const TooltipTrigger = ({ children, asChild = false }: TooltipTriggerProps) => {
   const handleBlur = () => close();
   const handleClick = () => close();
 
-  // asChild prop이 true일 때는 첫 번째 자식에 이벤트를 전달
+  // * asChild prop이 true일 때는 첫 번째 자식에 이벤트를 전달
   if (asChild && isValidElement(children)) {
     return cloneElement(children, {
       ref: triggerRef,
@@ -122,7 +122,6 @@ const TooltipTrigger = ({ children, asChild = false }: TooltipTriggerProps) => {
 
         handleClick();
       },
-      "aria-describedby": "tooltip-content",
     });
   }
 
@@ -134,7 +133,6 @@ const TooltipTrigger = ({ children, asChild = false }: TooltipTriggerProps) => {
       onFocus={handleFocus}
       onBlur={handleBlur}
       onClick={handleClick}
-      aria-describedby="tooltip-content"
     >
       {children}
     </span>
@@ -144,8 +142,6 @@ const TooltipTrigger = ({ children, asChild = false }: TooltipTriggerProps) => {
 const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipContentProps) => {
   const { isOpen, contentRef, triggerRef, placement } = useTooltip();
 
-  if (!isOpen) return null;
-
   const getTooltipStyle = (): CSSProperties => {
     if (!triggerRef.current) return {};
 
@@ -154,42 +150,44 @@ const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipCo
       position: "absolute",
       zIndex: 9999,
       backgroundColor: DESIGN_TOKEN_COLOR.gray900,
-      color: "#FFFFFF",
-      padding: "10px 16px",
-      borderRadius: "8px",
-      fontSize: "14px",
-      fontWeight: "500",
+      padding: "0.8rem 1.2rem",
+      borderRadius: "0.8rem",
       whiteSpace: "nowrap",
       border: "none",
-      maxWidth: "200px",
       wordBreak: "keep-all",
       pointerEvents: "none",
-      opacity: 1,
-      transition: "opacity 0.2s ease-in-out, transform 0.2s ease-in-out",
+      transition: "opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s ease-in-out",
+      opacity: isOpen ? 1 : 0,
+      visibility: isOpen ? "visible" : "hidden",
+      transform: isOpen ? "scale(1)" : "scale(0.95)",
+      transformOrigin: "center",
     };
 
-    switch (placement) {
-      case "top":
-        style.left = triggerRect.left + triggerRect.width / 2;
-        style.top = triggerRect.top - sideOffset;
-        style.transform = "translateX(-50%) translateY(-100%)";
-        break;
-      case "bottom":
-        style.left = triggerRect.left + triggerRect.width / 2;
-        style.top = triggerRect.bottom + sideOffset;
-        style.transform = "translateX(-50%)";
-        break;
-      case "left":
-        style.left = triggerRect.left - sideOffset;
-        style.top = triggerRect.top + triggerRect.height / 2;
-        style.transform = "translateX(-100%) translateY(-50%)";
-        break;
-      case "right":
-        style.left = triggerRect.right + sideOffset;
-        style.top = triggerRect.top + triggerRect.height / 2;
-        style.transform = "translateY(-50%)";
-        break;
-    }
+    const baseTransform = (() => {
+      switch (placement) {
+        case "top":
+          style.left = triggerRect.left + triggerRect.width / 2;
+          style.top = triggerRect.top - sideOffset;
+          return "translateX(-50%) translateY(-100%)";
+        case "bottom":
+          style.left = triggerRect.left + triggerRect.width / 2;
+          style.top = triggerRect.bottom + sideOffset;
+          return "translateX(-50%)";
+        case "left":
+          style.left = triggerRect.left - sideOffset;
+          style.top = triggerRect.top + triggerRect.height / 2;
+          return "translateX(-100%) translateY(-50%)";
+        case "right":
+          style.left = triggerRect.right + sideOffset;
+          style.top = triggerRect.top + triggerRect.height / 2;
+          return "translateY(-50%)";
+        default:
+          return "";
+      }
+    })();
+
+    const scaleTransform = isOpen ? "scale(1)" : "scale(0.95)";
+    style.transform = `${baseTransform} ${scaleTransform}`;
 
     return style;
   };
@@ -202,7 +200,6 @@ const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipCo
   );
 };
 
-// Compound Component 패턴 적용
 Tooltip.Trigger = TooltipTrigger;
 Tooltip.Content = TooltipContent;
 

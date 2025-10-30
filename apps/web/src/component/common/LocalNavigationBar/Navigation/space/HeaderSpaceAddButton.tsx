@@ -97,7 +97,11 @@ export default function HeaderSpaceAddButton() {
             <Icon icon="ic_plus" size={1.6} />
           </div>
         </Tooltip.Trigger>
-        <Tooltip.Content>스페이스 추가</Tooltip.Content>
+        <Tooltip.Content>
+          <Typography variant="body12Medium" color="gray00">
+            스페이스 추가
+          </Typography>
+        </Tooltip.Content>
       </Tooltip>
     </div>
   );

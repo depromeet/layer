@@ -5,6 +5,7 @@ import Tooltip from "../Tooltip";
 import { useNavigation } from "./context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Typography } from "../typography";
 
 const HEADER_CONSTANTS = {
   LOGO_SIZE: 6.36,
@@ -94,7 +95,11 @@ export default function Header() {
             />
           </button>
         </Tooltip.Trigger>
-        <Tooltip.Content>{isCollapsed ? "메뉴 펼치기" : "메뉴 접기"}</Tooltip.Content>
+        <Tooltip.Content>
+          <Typography variant="body12Medium" color="gray00">
+            {isCollapsed ? "메뉴 펼치기" : "메뉴 접기"}
+          </Typography>
+        </Tooltip.Content>
       </Tooltip>
     </header>
   );

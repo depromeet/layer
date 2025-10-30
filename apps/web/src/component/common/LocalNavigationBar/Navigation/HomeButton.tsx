@@ -85,7 +85,11 @@ export default function HomeButton() {
             </Typography>
           </div>
         </Tooltip.Trigger>
-        <Tooltip.Content>홈으로 이동</Tooltip.Content>
+        <Tooltip.Content>
+          <Typography variant="body12Medium" color="gray00">
+            홈으로 이동
+          </Typography>
+        </Tooltip.Content>
       </Tooltip>
       <hr
         css={css`

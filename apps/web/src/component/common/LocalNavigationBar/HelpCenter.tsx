@@ -51,7 +51,11 @@ export default function HelpCenter() {
               <Icon icon="ic_help" size={1.8} />
             </button>
           </Tooltip.Trigger>
-          <Tooltip.Content>헬프 센터</Tooltip.Content>
+          <Tooltip.Content>
+            <Typography variant="body12Medium" color="gray00">
+              헬프 센터
+            </Typography>
+          </Tooltip.Content>
         </Tooltip>
       ) : (
         <button
