@@ -8,7 +8,7 @@ import { useNavigation } from "./context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-function HelpCenter() {
+export default function HelpCenter() {
   const { isCollapsed } = useNavigation();
 
   return (
@@ -114,5 +114,3 @@ function HelpCenter() {
     </ChannelTalkWrapper>
   );
 }
-
-export default HelpCenter;
