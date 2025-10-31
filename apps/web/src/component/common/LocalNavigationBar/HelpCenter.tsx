@@ -7,6 +7,65 @@ import ChannelTalkWrapper from "../ChannelTalkWrapper";
 import { useNavigation } from "./context/NavigationContext";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { forwardRef } from "react";
+
+type HelpButtonProps = {
+  isCollapsed: boolean;
+};
+
+const HelpButton = forwardRef<HTMLButtonElement, HelpButtonProps>(({ isCollapsed, ...props }, ref) => {
+  return (
+    <button
+      {...props}
+      ref={ref}
+      css={css`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0 0.4rem;
+        border: none;
+        background: transparent;
+        border-radius: 0.8rem;
+        cursor: pointer;
+        transition:
+          background-color 0.2s ease-in-out,
+          width 0.3s ease-in-out,
+          height 0.3s ease-in-out;
+
+        ${isCollapsed
+          ? css`
+              width: 3.2rem;
+              height: 3.2rem;
+            `
+          : css`
+              width: 100%;
+              height: 3.6rem;
+            `}
+
+        &:focus,
+        &:hover {
+          background-color: ${DESIGN_TOKEN_COLOR.gray100};
+        }
+      `}
+    >
+      <Icon icon="ic_help" size={1.8} />
+      {!isCollapsed && (
+        <Typography
+          variant="body12Medium"
+          color="gray700"
+          css={css`
+            overflow: hidden;
+            white-space: nowrap;
+            transition: opacity 0.3s ease-in-out;
+          `}
+        >
+          헬프 센터
+        </Typography>
+      )}
+    </button>
+  );
+});
 
 export default function HelpCenter() {
   const { isCollapsed } = useNavigation();
@@ -20,36 +79,7 @@ export default function HelpCenter() {
       {isCollapsed ? (
         <Tooltip placement="right">
           <Tooltip.Trigger>
-            <button
-              css={css`
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 0.6rem;
-                padding: 0rem 0.4rem;
-                border: none;
-                background: transparent;
-                border-radius: 0.8rem;
-                cursor: pointer;
-                transition:
-                  background-color 0.2s ease-in-out,
-                  width 0.3s ease-in-out,
-                  height 0.3s ease-in-out;
-
-                width: 3.2rem;
-                height: 3.2rem;
-
-                &:focus {
-                  background-color: ${DESIGN_TOKEN_COLOR.gray100};
-                }
-
-                &:hover {
-                  background-color: ${DESIGN_TOKEN_COLOR.gray100};
-                }
-              `}
-            >
-              <Icon icon="ic_help" size={1.8} />
-            </button>
+            <HelpButton isCollapsed={true} />
           </Tooltip.Trigger>
           <Tooltip.Content>
             <Typography variant="body12Medium" color="gray00">
@@ -58,59 +88,7 @@ export default function HelpCenter() {
           </Tooltip.Content>
         </Tooltip>
       ) : (
-        <button
-          css={css`
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0rem 0.4rem;
-            border: none;
-            background: transparent;
-            border-radius: 0.8rem;
-            cursor: pointer;
-            transition:
-              background-color 0.2s ease-in-out,
-              width 0.3s ease-in-out,
-              height 0.3s ease-in-out;
-
-            width: 100%;
-            height: 3.6rem;
-
-            &:focus,
-            &:hover {
-              background-color: ${DESIGN_TOKEN_COLOR.gray100};
-            }
-          `}
-        >
-          <Icon icon="ic_help" size={1.8} />
-
-          <Typography
-            variant="body12Medium"
-            color="gray700"
-            css={css`
-              overflow: hidden;
-              white-space: nowrap;
-              transition: opacity 0.3s ease-in-out;
-
-              ${isCollapsed
-                ? css`
-                    display: none;
-                    width: 0;
-                    opacity: 0;
-                    visibility: hidden;
-                  `
-                : css`
-                    display: block;
-                    width: auto;
-                    opacity: 1;
-                    visibility: visible;
-                  `}
-            `}
-          >
-            헬프 센터
-          </Typography>
-        </button>
+        <HelpButton isCollapsed={false} />
       )}
     </ChannelTalkWrapper>
   );

@@ -156,6 +156,7 @@ const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipCo
       position: "absolute",
       zIndex: 9999,
       backgroundColor: DESIGN_TOKEN_COLOR.gray900,
+      color: "#FFFFFF",
       padding: "0.8rem 1.2rem",
       borderRadius: "0.8rem",
       whiteSpace: "nowrap",
@@ -165,27 +166,26 @@ const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipCo
       transition: "opacity 0.2s ease-in-out, visibility 0.2s ease-in-out, transform 0.2s ease-in-out",
       opacity: isOpen ? 1 : 0,
       visibility: isOpen ? "visible" : "hidden",
-      transform: isOpen ? "scale(1)" : "scale(0.95)",
       transformOrigin: "center",
     };
 
     const baseTransform = (() => {
       switch (placement) {
         case "top":
-          style.left = triggerRect.left + triggerRect.width / 2;
-          style.top = triggerRect.top - sideOffset;
+          style.left = triggerRect.left + triggerRect.width / 2 + window.scrollX;
+          style.top = triggerRect.top - sideOffset + window.scrollY;
           return "translateX(-50%) translateY(-100%)";
         case "bottom":
-          style.left = triggerRect.left + triggerRect.width / 2;
-          style.top = triggerRect.bottom + sideOffset;
+          style.left = triggerRect.left + triggerRect.width / 2 + window.scrollX;
+          style.top = triggerRect.bottom + sideOffset + window.scrollY;
           return "translateX(-50%)";
         case "left":
-          style.left = triggerRect.left - sideOffset;
-          style.top = triggerRect.top + triggerRect.height / 2;
+          style.left = triggerRect.left - sideOffset + window.scrollX;
+          style.top = triggerRect.top + triggerRect.height / 2 + window.scrollY;
           return "translateX(-100%) translateY(-50%)";
         case "right":
-          style.left = triggerRect.right + sideOffset;
-          style.top = triggerRect.top + triggerRect.height / 2;
+          style.left = triggerRect.right + sideOffset + window.scrollX;
+          style.top = triggerRect.top + triggerRect.height / 2 + window.scrollY;
           return "translateY(-50%)";
         default:
           return "";

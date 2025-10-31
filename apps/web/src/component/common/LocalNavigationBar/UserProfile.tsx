@@ -1,4 +1,4 @@
-import { lazy, useRef, useState } from "react";
+import { lazy, useRef, useState, forwardRef } from "react";
 import { css } from "@emotion/react";
 import { UserProfileDropdown } from "./UserProfileDropdown";
 import { useNavigation } from "./context/NavigationContext";
@@ -18,13 +18,92 @@ const AccountSettingsModal = lazy(() =>
   import("../Modal/UserSetting/AccountSettingsModal").then((module) => ({ default: module.AccountSettingsModal })),
 );
 
+type ProfileButtonProps = {
+  name: string;
+  isCollapsed: boolean;
+  isDropdownOpen: boolean;
+  onClick: () => void;
+  imageUrl?: string;
+};
+
+const ProfileButton = forwardRef<HTMLButtonElement, ProfileButtonProps>(({ name, isCollapsed, isDropdownOpen, onClick, imageUrl, ...props }, ref) => {
+  return (
+    <button
+      {...props}
+      ref={ref}
+      css={css`
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        border: none;
+        padding: 0 0.4rem;
+        background: transparent;
+        border-radius: 0.8rem;
+        cursor: pointer;
+        transition:
+          background-color 0.2s ease-in-out,
+          width 0.3s ease-in-out,
+          height 0.3s ease-in-out;
+
+        ${isCollapsed
+          ? css`
+              width: auto;
+              height: 3.2rem;
+            `
+          : css`
+              width: 100%;
+              height: 3.6rem;
+            `}
+
+        &:focus,
+          &:hover {
+          background-color: ${DESIGN_TOKEN_COLOR.gray100};
+        }
+
+        ${isDropdownOpen &&
+        css`
+          background-color: ${DESIGN_TOKEN_COLOR.gray100};
+        `}
+      `}
+      onClick={onClick}
+    >
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          css={css`
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 100%;
+            object-fit: cover;
+          `}
+        />
+      ) : (
+        <Icon icon="basicProfile" size={2.4} />
+      )}
+
+      {!isCollapsed && (
+        <Typography
+          variant="body12Medium"
+          color="gray700"
+          css={css`
+            overflow: hidden;
+            white-space: nowrap;
+            transition: opacity 0.3s ease-in-out;
+          `}
+        >
+          {name}
+        </Typography>
+      )}
+    </button>
+  );
+});
+
 export default function UserProfile() {
   const { isCollapsed } = useNavigation();
   const { mutate: signOut } = usePostSignOut();
   const { name, imageUrl } = useAtomValue(authAtom);
 
   const memberId = Cookies.get("memberId");
-  const buttonRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -81,51 +160,7 @@ export default function UserProfile() {
         {isCollapsed ? (
           <Tooltip placement="right">
             <Tooltip.Trigger>
-              <button
-                ref={buttonRef}
-                css={css`
-                  display: flex;
-                  align-items: center;
-                  gap: 1.2rem;
-                  border: none;
-                  padding: 0rem 0.4rem;
-                  background: transparent;
-                  border-radius: 0.8rem;
-                  cursor: pointer;
-                  transition:
-                    background-color 0.2s ease-in-out,
-                    width 0.3s ease-in-out,
-                    height 0.3s ease-in-out;
-
-                  width: auto;
-                  height: 3.2rem;
-
-                  &:focus,
-                  &:hover {
-                    background-color: ${DESIGN_TOKEN_COLOR.gray100};
-                  }
-
-                  ${isDropdownOpen &&
-                  css`
-                    background-color: ${DESIGN_TOKEN_COLOR.gray100};
-                  `}
-                `}
-                onClick={handleProfileClick}
-              >
-                {imageUrl ? (
-                  <img
-                    src={imageUrl}
-                    css={css`
-                      width: 2.4rem;
-                      height: 2.4rem;
-                      border-radius: 100%;
-                      object-fit: cover;
-                    `}
-                  />
-                ) : (
-                  <Icon icon="basicProfile" size={2.4} />
-                )}
-              </button>
+              <ProfileButton isCollapsed={true} isDropdownOpen={isDropdownOpen} onClick={handleProfileClick} imageUrl={imageUrl} name={name} />
             </Tooltip.Trigger>
             <Tooltip.Content>
               <Typography variant="body12Strong" color="gray00">
@@ -134,90 +169,29 @@ export default function UserProfile() {
             </Tooltip.Content>
           </Tooltip>
         ) : (
-          <button
-            ref={buttonRef}
-            css={css`
-              display: flex;
-              align-items: center;
-              gap: 1.2rem;
-              border: none;
-              padding: 0rem 0.4rem;
-              background: transparent;
-              border-radius: 0.8rem;
-              cursor: pointer;
-              transition:
-                background-color 0.2s ease-in-out,
-                width 0.3s ease-in-out,
-                height 0.3s ease-in-out;
-
-              width: 100%;
-              height: 3.6rem;
-
-              &:focus {
-                background-color: ${DESIGN_TOKEN_COLOR.gray100};
-              }
-
-              &:hover {
-                background-color: ${DESIGN_TOKEN_COLOR.gray100};
-              }
-
-              ${isDropdownOpen &&
-              css`
-                background-color: ${DESIGN_TOKEN_COLOR.gray100};
-              `}
-            `}
-            onClick={handleProfileClick}
-          >
-            {imageUrl ? (
-              <img
-                src={imageUrl}
-                css={css`
-                  width: 2.4rem;
-                  height: 2.4rem;
-                  border-radius: 100%;
-                  object-fit: cover;
-                `}
-              />
-            ) : (
-              <Icon icon="basicProfile" size={2.4} />
-            )}
-
-            <Typography
-              variant="body12Medium"
-              color="gray700"
-              css={css`
-                overflow: hidden;
-                white-space: nowrap;
-                transition: opacity 0.3s ease-in-out;
-                display: block;
-                width: auto;
-                opacity: 1;
-                visibility: visible;
-              `}
-            >
-              {name}
-            </Typography>
-          </button>
+          <ProfileButton isCollapsed={false} isDropdownOpen={isDropdownOpen} onClick={handleProfileClick} imageUrl={imageUrl} name={name} />
         )}
       </div>
 
       {/* ---------- 평가 및 피드백 모달 ---------- */}
-      <FeedbackModal isOpen={isFeedbackModalOpen} onClose={() => setIsFeedbackModalOpen(false)} />
+      {isFeedbackModalOpen && <FeedbackModal isOpen={isFeedbackModalOpen} onClose={() => setIsFeedbackModalOpen(false)} />}
 
       {/* ---------- 계정설정 모달 ---------- */}
-      <AccountSettingsModal isOpen={isAccountSettingsModalOpen} onClose={handleAccountSettingsClose} />
+      {isAccountSettingsModalOpen && <AccountSettingsModal isOpen={isAccountSettingsModalOpen} onClose={handleAccountSettingsClose} />}
 
       {/* ---------- 로그아웃 모달 ---------- */}
-      <LogoutModal
-        isOpen={isLogoutModalOpen}
-        onClose={() => setIsLogoutModalOpen(false)}
-        onConfirm={() => {
-          if (memberId) {
-            signOut({ memberId: memberId });
-          }
-          setIsLogoutModalOpen(false);
-        }}
-      />
+      {isLogoutModalOpen && (
+        <LogoutModal
+          isOpen={isLogoutModalOpen}
+          onClose={() => setIsLogoutModalOpen(false)}
+          onConfirm={() => {
+            if (memberId) {
+              signOut({ memberId: memberId });
+            }
+            setIsLogoutModalOpen(false);
+          }}
+        />
+      )}
     </>
   );
 }
