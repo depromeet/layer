@@ -100,10 +100,7 @@ export default function UserProfile() {
                   width: auto;
                   height: 3.2rem;
 
-                  &:focus {
-                    background-color: ${DESIGN_TOKEN_COLOR.gray100};
-                  }
-
+                  &:focus,
                   &:hover {
                     background-color: ${DESIGN_TOKEN_COLOR.gray100};
                   }

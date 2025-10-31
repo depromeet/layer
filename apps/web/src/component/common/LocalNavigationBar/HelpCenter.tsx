@@ -77,10 +77,7 @@ export default function HelpCenter() {
             width: 100%;
             height: 3.6rem;
 
-            &:focus {
-              background-color: ${DESIGN_TOKEN_COLOR.gray100};
-            }
-
+            &:focus,
             &:hover {
               background-color: ${DESIGN_TOKEN_COLOR.gray100};
             }
