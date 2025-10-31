@@ -26,7 +26,7 @@ type AccountSettingsModalProps = {
   onClose: () => void;
 };
 
-export function AcountSettingsModal({ isOpen, onClose }: AccountSettingsModalProps) {
+export function AccountSettingsModal({ isOpen, onClose }: AccountSettingsModalProps) {
   if (!isOpen) return null;
 
   const [modalView, setModalView] = useState<"settings" | "deleteAccount">("settings");
