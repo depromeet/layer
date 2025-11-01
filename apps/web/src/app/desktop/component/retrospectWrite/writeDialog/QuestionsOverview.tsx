@@ -3,15 +3,17 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { AdvanceQuestionsNum, PhaseContext } from "..";
 import { useContext } from "react";
+import { Answer } from ".";
 
 interface QuestionsOverviewProps {
   isAnswerFilled: boolean;
   hasChanges: () => boolean;
   onSaveTemporary: () => void;
   completedAnswerCount: number;
+  answers: Answer[];
 }
 
-export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary, completedAnswerCount }: QuestionsOverviewProps) {
+export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary, completedAnswerCount, answers }: QuestionsOverviewProps) {
   const { data, phase, maxPhase, movePhase } = useContext(PhaseContext);
 
   const canTemporarySave = hasChanges();
@@ -20,6 +22,10 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary,
     if (hasChanges()) {
       onSaveTemporary();
     }
+  };
+
+  const isAnswered = (index: number) => {
+    return answers[index]?.answerContent.trim() !== "";
   };
 
   return (
@@ -64,38 +70,45 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary,
             padding: 0 0.8rem 0.8rem;
           `}
         >
-          {data?.questions.map((question, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                movePhase(index);
-              }}
-              css={css`
-                display: flex;
-                align-items: center;
-                gap: 0.4rem;
-                padding: 1.6rem 1.2rem;
-                border-radius: 0.8rem;
-                background-color: ${phase === index ? DESIGN_TOKEN_COLOR.blue50 : "transparent"};
-                color: ${DESIGN_TOKEN_COLOR.gray600};
-                cursor: pointer;
-              `}
-            >
-              <span
+          {data?.questions.map((question, index) => {
+            const answered = isAnswered(index);
+
+            return (
+              <li
+                key={index}
+                onClick={() => {
+                  movePhase(index);
+                }}
                 css={css`
-                  width: 2.2rem;
-                  height: 2.1rem;
                   display: flex;
-                  justify-content: center;
                   align-items: center;
+                  gap: 0.4rem;
+                  padding: 1.6rem 1.2rem;
+                  border-radius: 0.8rem;
+                  background-color: ${phase === index ? DESIGN_TOKEN_COLOR.blue50 : "transparent"};
+                  color: ${answered ? DESIGN_TOKEN_COLOR.gray900 : DESIGN_TOKEN_COLOR.gray600};
+                  font-size: 1.4rem;
+                  line-height: 140%;
+                  font-weight: ${answered ? 500 : 400};
+                  cursor: pointer;
                 `}
               >
-                {index < AdvanceQuestionsNum ? "*" : `${index - AdvanceQuestionsNum + 1}.`}
-              </span>
+                <span
+                  css={css`
+                    width: 2.2rem;
+                    height: 2.1rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  `}
+                >
+                  {index < AdvanceQuestionsNum ? "*" : `${index - AdvanceQuestionsNum + 1}.`}
+                </span>
 
-              {question.question}
-            </li>
-          ))}
+                {question.question}
+              </li>
+            );
+          })}
         </ul>
       </div>
 
