@@ -51,9 +51,16 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary,
             padding: 1.6rem 1.6rem 0.8rem;
           `}
         >
-          <Typography variant="title16Bold" color="gray900">
+          <p
+            css={css`
+              font-size: 1.4rem;
+              line-height: 140%;
+              font-weight: 700;
+              color: ${DESIGN_TOKEN_COLOR.gray800};
+            `}
+          >
             질문 전체보기
-          </Typography>
+          </p>
           <Typography
             variant="body12SemiBold"
             css={css`
