@@ -49,6 +49,11 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "500",
     lineHeight: "140%",
   },
+  subtitle14Strong: {
+    fontSize: "1.4rem",
+    fontWeight: "700",
+    lineHeight: "140%",
+  },
   subtitle14Bold: {
     fontSize: "1.4rem",
     fontWeight: "600",
