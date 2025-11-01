@@ -7,7 +7,6 @@ import { QuestionsOverview } from "./QuestionsOverview";
 import { useToast } from "@/hooks/useToast";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import { PhaseContext } from "..";
-import { Answer } from "@/component/write/phase/Write";
 import { useWriteQuestions } from "@/hooks/api/write/useWriteQuestions";
 import { useGetTemporaryQuestions } from "@/hooks/api/write/useGetTemporaryQuestions";
 import { useGetAnswers } from "@/hooks/api/write/useGetAnswers";
@@ -24,6 +23,12 @@ interface WriteDialogProps {
   isOverviewVisible: boolean;
   handleToggleOverview: () => void;
 }
+
+export type Answer = {
+  questionId: number;
+  questionType: string;
+  answerContent: string;
+};
 
 type EditModeType = "EDIT" | "POST";
 
@@ -308,6 +313,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
                 onSaveTemporary={mutateSaveTemporaryData}
                 isAnswerFilled={isAnswerFilled}
                 completedAnswerCount={completedAnswerCount}
+                answers={answers}
               />
             </>
           )}
