@@ -20,7 +20,20 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
   const [searchParams] = useSearchParams();
   const { openFunnelModal } = useFunnelModal();
 
-  const { retrospectId, title, introduction, deadline, totalCount, writeCount, writeStatus, retrospectStatus, analysisStatus } = retrospect;
+  const {
+    spaceId: retrospectSpaceId,
+    retrospectId,
+    title,
+    introduction,
+    deadline,
+    totalCount,
+    writeCount,
+    writeStatus,
+    retrospectStatus,
+    analysisStatus,
+  } = retrospect;
+
+  const targetSpaceId = spaceId ?? retrospectSpaceId;
 
   const urlRetrospectId = searchParams.get("retrospectId");
   const isSelected = urlRetrospectId && parseInt(urlRetrospectId) === retrospectId;
@@ -29,17 +42,17 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
     // TODO: spaceId가 없는 경우 처리(예: 홈 화면 최상단의 카드 클릭 시)
 
     // 진행중인 회고 클릭 시
-    if (spaceId && retrospectStatus === "PROCEEDING") {
+    if (targetSpaceId && retrospectStatus === "PROCEEDING") {
       openFunnelModal({
         title: "",
         step: "retrospectWrite",
-        contents: <Prepare spaceId={Number(spaceId)} retrospectId={retrospect.retrospectId} title={title} introduction={introduction} />,
+        contents: <Prepare spaceId={Number(targetSpaceId)} retrospectId={retrospect.retrospectId} title={title} introduction={introduction} />,
       });
     }
 
     // 마감된 회고 클릭 시
-    if (spaceId && retrospectStatus === "DONE") {
-      navigate(PATHS.retrospectAnalysis(spaceId, retrospectId, title));
+    if (targetSpaceId && retrospectStatus === "DONE") {
+      navigate(PATHS.retrospectAnalysis(String(targetSpaceId), retrospectId, title));
     }
   };
 

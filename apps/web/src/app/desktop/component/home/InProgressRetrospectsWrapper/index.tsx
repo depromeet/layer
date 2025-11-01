@@ -18,6 +18,8 @@ export default function InProgressRetrospectsWrapper() {
     select: (data) => data.retrospects.filter((retrospect) => retrospect.writeStatus === "PROCEEDING"),
   });
 
+  console.log(retrospects);
+
   return (
     <section
       css={css`
