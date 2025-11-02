@@ -71,7 +71,23 @@ export default function AnalysisOverviewHeader() {
   };
 
   return (
-    <section>
+    <section
+      css={css`
+        position: relative;
+
+        // * 스크롤 페이드 효과
+        ::after {
+          content: "";
+          position: absolute;
+          bottom: -4rem;
+          left: 0;
+          right: 0;
+          height: 4rem;
+          background: linear-gradient(180deg, #f2f4f8 28.76%, rgba(242, 244, 248, 0) 100%);
+          pointer-events: none;
+        }
+      `}
+    >
       {/* ---------- 스페이스 이름 ---------- */}
       <div
         css={css`
