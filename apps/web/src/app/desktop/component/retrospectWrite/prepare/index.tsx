@@ -11,8 +11,6 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "@layer/shared";
 import { useGetQuestions } from "@/hooks/api/write/useGetQuestions";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
-import { retrospectWriteAtom } from "@/store/retrospect/retrospectWrite";
-import { useSetAtom } from "jotai";
 
 interface PrepareProps {
   spaceId: number;
@@ -26,17 +24,6 @@ export function Prepare({ spaceId, retrospectId, title, introduction }: PrepareP
   const { closeFunnelModal } = useFunnelModal();
   const navigate = useNavigate();
   const { track } = useMixpanel();
-  const setRetrospectWriteValue = useSetAtom(retrospectWriteAtom);
-
-  const handSaveInfo = () => {
-    setRetrospectWriteValue((prev) => ({
-      ...prev,
-      spaceId,
-      retrospectId,
-      title,
-      introduction,
-    }));
-  };
 
   if (isLoading) return <LoadingModal purpose={"회고 작성을 위한 데이터를 가져오고 있어요"} />;
 
@@ -113,7 +100,6 @@ export function Prepare({ spaceId, retrospectId, title, introduction }: PrepareP
           colorSchema={"white"}
           onClick={() => {
             closeFunnelModal();
-            handSaveInfo();
             navigate(PATHS.retrospectWrite(String(spaceId), retrospectId, title, introduction));
             track("WRITE_START", {
               spaceId,
