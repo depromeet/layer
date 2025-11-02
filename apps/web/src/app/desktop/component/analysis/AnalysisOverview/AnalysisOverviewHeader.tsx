@@ -210,6 +210,7 @@ export default function AnalysisOverviewHeader() {
         {/* ---------- 실행 목표 콘텐츠 부분 ---------- */}
         <div
           css={css`
+            overflow: hidden;
             transition: all 0.4s ease;
             height: ${actionItemToggle ? "29.4rem" : "0"};
             opacity: ${actionItemToggle ? 1 : 0};

@@ -23,6 +23,7 @@ export default function ActionItems() {
         border-radius: 1.2rem;
         display: flex;
         flex-direction: column;
+        padding: 0 0.4rem;
       `}
     >
       <ActionItemsTab currentTab={currentTab} handleCurrentTabClick={handleCurrentTabClick} />

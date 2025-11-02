@@ -51,6 +51,7 @@ export function ActionItemsList({ currentTab }: ActionItemsListProps) {
           css={css`
             display: flex;
             flex-direction: column;
+            padding-bottom: 2rem;
           `}
         >
           {currentActionItems?.map((goal, index) => (
