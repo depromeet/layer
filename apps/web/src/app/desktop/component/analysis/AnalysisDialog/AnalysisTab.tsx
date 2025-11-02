@@ -8,7 +8,8 @@ import { useApiGetAnalysis } from "@/hooks/api/analysis/useApiGetAnalysis";
 import { useSearchParams } from "react-router-dom";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { getAnalysisResponse } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer";
-import { AnalysisingComp } from "@/component/retrospect/analysis/Analysis";
+import { AnalyzingComp } from "@/component/retrospect/analysis/Analysis";
+import { Spacing } from "@/component/common/Spacing";
 
 type ViewType = "개인" | "팀";
 
@@ -31,6 +32,8 @@ export default function AnalysisTab({ analysisData }: AnalysisTabProps) {
 
   const [selectedView, setSelectedView] = useState<ViewType>("개인");
 
+  const hasTeamAnalysis = analysisRetrospectsData?.teamAnalyze !== null;
+
   const handleToggle = (view: ViewType) => {
     setSelectedView(view);
   };
@@ -40,23 +43,20 @@ export default function AnalysisTab({ analysisData }: AnalysisTabProps) {
   }
 
   if (hasAIAnalyzed == false) {
-    return <AnalysisingComp />;
+    return <AnalyzingComp />;
   }
 
   return (
     <section
       css={css`
         flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
         overflow-x: auto;
         overflow-y: auto;
         min-height: 80vh;
       `}
     >
-      <TeamIndividualToggle selectedView={selectedView} handleToggle={handleToggle} />
-
+      {hasTeamAnalysis && <TeamIndividualToggle selectedView={selectedView} handleToggle={handleToggle} />}
+      <Spacing size={2} />
       <div
         css={css`
           flex: 1;
