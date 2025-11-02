@@ -39,15 +39,19 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
   const isSelected = urlRetrospectId && parseInt(urlRetrospectId) === retrospectId;
 
   const handleCardClick = () => {
-    // TODO: spaceId가 없는 경우 처리(예: 홈 화면 최상단의 카드 클릭 시)
-
     // 진행중인 회고 클릭 시
     if (targetSpaceId && retrospectStatus === "PROCEEDING") {
-      openFunnelModal({
-        title: "",
-        step: "retrospectWrite",
-        contents: <Prepare spaceId={Number(targetSpaceId)} retrospectId={retrospect.retrospectId} title={title} introduction={introduction} />,
-      });
+      if (writeStatus === "NOT_STARTED") {
+        // 아직 시작 안 한 경우 → 시작 화면 모달
+        openFunnelModal({
+          title: "",
+          step: "retrospectWrite",
+          contents: <Prepare spaceId={Number(targetSpaceId)} retrospectId={retrospectId} title={title} introduction={introduction} />,
+        });
+      } else {
+        // 작성 중인 경우 → 바로 작성 페이지로
+        navigate(PATHS.retrospectWrite(String(targetSpaceId), retrospectId, title, introduction));
+      }
     }
 
     // 마감된 회고 클릭 시
