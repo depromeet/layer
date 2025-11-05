@@ -31,7 +31,6 @@ export default defineConfig({
         {
           userAgent: '*',
           allow: '/',
-          disallow: ['/myinfo/', '/goals/edit'],
         }
       ],
     }),
