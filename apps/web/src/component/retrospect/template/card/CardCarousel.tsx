@@ -78,7 +78,7 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
     >
       {templateArr.map((template, index) => (
         <SwiperSlide key={index} className={getSlideClassName(index)}>
-          <TemplateCard name={template.templateName} tag={template.title} imgUrl={template.imageUrl} scale={0.8} size="small" />
+          <TemplateCard name={template.templateName} tag={template.title} imgUrl={template.imageUrl} scale={0.8} size="small" readOnly={true} />
         </SwiperSlide>
       ))}
     </Swiper>
