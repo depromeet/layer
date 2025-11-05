@@ -59,6 +59,7 @@ import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset
 import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
 import { DesktopDateTimeInput } from "../../component/retrospectCreate/DesktopDateTimeInput";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
+import TemplateListDetailItem from "../../component/retrospect/template/list/TemplateListDetailItem";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
@@ -301,9 +302,10 @@ function SelectRetrospectTemplateFunnel() {
   ];
 
   useEffect(() => {
-    const templateId = searchParams.get("selected_template_id");
-    if (templateId) {
-      setSelectedRecommendTemplateId(Number(templateId));
+    const selectedTemplateId = searchParams.get("selected_template_id");
+
+    if (selectedTemplateId) {
+      setSelectedRecommendTemplateId(Number(selectedTemplateId));
       setSearchParams({});
       setFlow("CREATE", 0);
     }
@@ -624,7 +626,7 @@ function TemplateSelectedRetrospectFunnel() {
               imgUrl={template.imageUrl}
               scale={0.8}
               size="small"
-              isMoreInfo={false}
+              readOnly={true}
             />
           </SwiperSlide>
         ))}
@@ -635,6 +637,20 @@ function TemplateSelectedRetrospectFunnel() {
 // 5-2 단계 퍼널 : 템플릿 추천 완료 및 질문 선정 전 확정 단계
 function RecommendRetrospectTemplateConfirmFunnel() {
   const { selectedRecommendTemplate, setFlow } = useContext(PhaseContext);
+  const { openFunnelModal, closeFunnelModal } = useFunnelModal();
+
+  // TODO: 추후에 퍼널에 종속되지 않는 템플릿 조회 페이지로 개발하기
+  const handleShowTemplateDetailInfo = () => {
+    const { title, id, templateName } = selectedRecommendTemplate!;
+    openFunnelModal({
+      title,
+      step: "listTemplateDetail",
+      contents: <TemplateListDetailItem templateId={id} readOnly={true} />,
+      templateTag: templateName,
+      overlayIndex: 100002,
+      onPrevious: closeFunnelModal,
+    });
+  };
 
   return (
     <div
@@ -658,7 +674,7 @@ function RecommendRetrospectTemplateConfirmFunnel() {
               name={selectedRecommendTemplate!.title}
               tag={selectedRecommendTemplate!.templateName}
               imgUrl={selectedRecommendTemplate!.imageUrl}
-              onClick={() => {}}
+              onClick={handleShowTemplateDetailInfo}
             />
           </Tooltip.Trigger>
           <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
