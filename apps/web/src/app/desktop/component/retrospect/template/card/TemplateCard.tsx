@@ -1,17 +1,17 @@
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
 import { css } from "@emotion/react";
+import React from "react";
 
 type TemplateCardProps = {
   name: string;
   tag: string;
   imgUrl: string;
-  onClick?: () => void;
   scale?: number;
   size?: "small" | "default";
-};
+} & React.HTMLAttributes<HTMLDivElement>;
 
-export function TemplateCard({ name, tag, imgUrl, size = "default" }: TemplateCardProps) {
+export function TemplateCard({ name, tag, imgUrl, size = "default", ...props }: TemplateCardProps) {
   return (
     <div
       css={css`
@@ -25,6 +25,7 @@ export function TemplateCard({ name, tag, imgUrl, size = "default" }: TemplateCa
         border-radius: 0.8rem;
         cursor: pointer;
       `}
+      {...props}
     >
       <div
         css={css`
