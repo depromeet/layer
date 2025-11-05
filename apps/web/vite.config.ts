@@ -18,7 +18,24 @@ export default defineConfig({
       },
     }),
     svgr(),
-    Sitemap({ hostname: "https://layerapp.io" }),
+    Sitemap({ 
+      hostname: "https://www.layerapp.io",
+      dynamicRoutes: [
+        '/',
+        '/login',
+        '/template',
+      ],
+      changefreq: 'weekly',
+      priority: 0.8,
+      lastmod: new Date(),
+      robots: [
+        {
+          userAgent: '*',
+          allow: '/',
+          disallow: ['/myinfo/', '/space/*/members/edit', '/goals/edit'],
+        }
+      ],
+    }),
     VitePluginRadar({
       analytics: {
         id: process.env.VITE_GOOGLE_ANALYTICS,
