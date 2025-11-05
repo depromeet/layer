@@ -1,7 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /myinfo/
-Disallow: /space/*/members/edit
 Disallow: /goals/edit
 
 Sitemap: https://www.layerapp.io/sitemap.xml
