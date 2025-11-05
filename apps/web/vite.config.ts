@@ -20,11 +20,6 @@ export default defineConfig({
     svgr(),
     Sitemap({ 
       hostname: "https://www.layerapp.io",
-      dynamicRoutes: [
-        '/',
-        '/login',
-        '/template',
-      ],
       changefreq: 'weekly',
       priority: 0.8,
       robots: [
