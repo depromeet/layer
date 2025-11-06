@@ -23,6 +23,12 @@ export default function DesktopFunnelModal() {
 
   const shouldShowBack = FUNNEL_STEPS_WITH_BACK.includes(funnelModalState.step || "");
   const handleBack = () => {
+    // 만약 onPrevious를 주입받았다면, onPrevious를 우선적으로 실행해요
+    if (funnelModalState.onPrevious) {
+      funnelModalState.onPrevious();
+      return;
+    }
+
     const backConfig = FUNNEL_STEP_BACK_CONFIG[funnelModalState.step as keyof typeof FUNNEL_STEP_BACK_CONFIG];
 
     openFunnelModal({

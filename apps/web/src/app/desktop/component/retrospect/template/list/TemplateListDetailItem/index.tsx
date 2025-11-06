@@ -14,7 +14,7 @@ import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { TemplateListConform } from "../TemplateListConform";
 import { useSearchParams } from "react-router-dom";
 
-function TemplateListDetailItem({ templateId }: { templateId: number }) {
+function TemplateListDetailItem({ templateId, readOnly = false }: { templateId: number; readOnly?: boolean }) {
   const { tabs, curTab, selectTab } = useTabs(["기본", "질문구성"] as const);
   const { data } = useGetTemplateInfo({ templateId: templateId });
   const { heading, description } = splitTemplateIntroduction(data.introduction);
@@ -63,9 +63,12 @@ function TemplateListDetailItem({ templateId }: { templateId: number }) {
       {/* ---------- 질문 구성 UI  ---------- */}
       <TemplateQuestion templateId={templateId} templateDetailQuestionList={data.templateDetailQuestionList} />
 
-      <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Primary onClick={handleSelectTemplate}>선택하기</ButtonProvider.Primary>
-      </ButtonProvider>
+      {/* 읽기 전용(readOnly = true)일 경우에는 버튼 컨테이너를 노출시키지 않아요 */}
+      {!readOnly && (
+        <ButtonProvider sort={"horizontal"}>
+          <ButtonProvider.Primary onClick={handleSelectTemplate}>선택하기</ButtonProvider.Primary>
+        </ButtonProvider>
+      )}
     </>
   );
 }

@@ -14,6 +14,7 @@ import { TemplateCard } from "../card/TemplateCard";
 import { useActionModal } from "@/hooks/useActionModal";
 import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
+import TemplateListDetailItem from "../list/TemplateListDetailItem";
 
 function RecommendDone() {
   const setRetrospectValue = useSetAtom(retrospectInitialState);
@@ -26,6 +27,25 @@ function RecommendDone() {
   if (isLoading) return <LoadingModal />;
 
   const particle = chooseParticle(data?.name ?? "");
+
+  // TODO: 추후에 퍼널에 종속되지 않는 템플릿 조회 페이지로 개발하기
+  const handleShowTemplateDetailInfo = () => {
+    const moveToRecommendTemplate = () => {
+      openFunnelModal({
+        title: "",
+        step: "recommendTemplate",
+        contents: <RecommendDone />,
+      });
+    };
+
+    openFunnelModal({
+      title: templateData.templateName,
+      step: "listTemplateDetail",
+      contents: <TemplateListDetailItem templateId={Number(tempTemplateId)} readOnly={true} />,
+      templateTag: templateData.title,
+      onPrevious: moveToRecommendTemplate,
+    });
+  };
 
   const handleMoveToChangeTemplate = () => {
     openFunnelModal({
@@ -72,7 +92,12 @@ function RecommendDone() {
       >
         <Tooltip>
           <Tooltip.Trigger>
-            <TemplateCard name={templateData.templateName} tag={templateData.title} imgUrl={templateData.imageUrl} onClick={() => {}} />
+            <TemplateCard
+              name={templateData.templateName}
+              tag={templateData.title}
+              imgUrl={templateData.imageUrl}
+              onClick={handleShowTemplateDetailInfo}
+            />
           </Tooltip.Trigger>
           <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
         </Tooltip>
