@@ -7,12 +7,10 @@ import { Portal } from "@/component/common/Portal";
 import { Typography } from "@/component/common/typography";
 import { useModal } from "@/hooks/useModal";
 import { ANIMATION } from "@/style/common/animation.ts";
-import { getDeviceType } from "@/utils/deviceUtils";
 
 export function Modal() {
   const { modalDataState, close } = useModal();
   const containerRef = useRef<HTMLDivElement>(null);
-  const { isDesktop } = getDeviceType();
 
   if (!modalDataState.isOpen) return null;
   const { type = "confirm", buttonText = [], autoClose = true } = modalDataState.options || {};
@@ -45,7 +43,7 @@ export function Modal() {
             margin: auto;
             width: 100%;
             height: fit-content;
-            max-width: ${isDesktop ? "41.5rem" : "46rem"};
+            max-width: 31.5rem;
             max-height: 46rem;
             position: absolute;
             top: 50%;
@@ -53,7 +51,6 @@ export function Modal() {
             transform: translate(-50%, -50%);
             transition: 0.4s all;
             animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
-            padding: 2rem;
           `}
         >
           <div
@@ -65,8 +62,10 @@ export function Modal() {
               align-items: center;
               justify-content: center;
               background-color: white;
-              border-radius: 1.2rem;
-              padding: 2.5rem 2rem;
+              border-radius: 1.6rem;
+              padding-top: 3rem;
+              padding-inline: 2rem;
+              padding-bottom: 2rem;
               row-gap: 2rem;
               box-sizing: border-box;
               text-align: center;
@@ -75,6 +74,7 @@ export function Modal() {
             <HeaderProvider
               onlyContainerStyle={css`
                 row-gap: 1.2rem;
+                padding-bottom: 0.8rem;
               `}
             >
               <HeaderProvider.Subject contents={modalDataState.title} type="modal" />
