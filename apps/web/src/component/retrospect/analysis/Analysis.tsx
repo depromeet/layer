@@ -31,7 +31,7 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
 
   // * 분석이 진행중일 때
   if (hasAIAnalyzed === false) {
-    return <AnalysisingComp />;
+    return <AnalyzingComp />;
   }
 
   return (
@@ -156,7 +156,7 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
   );
 }
 
-export function AnalysisingComp() {
+export function AnalyzingComp() {
   const { isDesktop } = getDeviceType();
 
   return (

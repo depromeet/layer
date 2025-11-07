@@ -159,11 +159,25 @@ export default function AnalysisOverviewHeader() {
             background-color: ${DESIGN_TOKEN_COLOR.white};
             flex: 1;
             cursor: pointer;
+
+            svg {
+              flex-shrink: 0;
+            }
           `}
           onClick={handleMoveToListTemplate}
         >
           <Icon icon={"ic_document_color"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
-          <Typography variant="body14SemiBold" color="gray600">
+          <Typography
+            variant="body14SemiBold"
+            color="gray600"
+            css={css`
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+              overflow: hidden;
+            `}
+            title={formTag ?? ""}
+          >
             {formTag}
           </Typography>
           <Icon icon={"ic_chevron_down"} size={1.4} color={DESIGN_TOKEN_COLOR.gray600} />

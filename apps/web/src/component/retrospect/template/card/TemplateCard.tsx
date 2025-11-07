@@ -14,10 +14,10 @@ type TemplateCardProps = {
   onClick?: () => void;
   scale?: number;
   size?: "small" | "default";
-  isMoreInfo?: boolean;
+  readOnly?: boolean;
 };
 
-export function TemplateCard({ name, tag, imgUrl, size = "default", onClick, isMoreInfo = true }: TemplateCardProps) {
+export function TemplateCard({ name, tag, imgUrl, size = "default", onClick, readOnly = false }: TemplateCardProps) {
   const { isDesktop } = getDeviceType();
 
   return (
@@ -69,7 +69,7 @@ export function TemplateCard({ name, tag, imgUrl, size = "default", onClick, isM
                 height: auto;
               `}
             />
-            {isMoreInfo && (
+            {!readOnly && (
               <ButtonProvider.White>
                 <Typography color="grey800" variant="B1">
                   더 알아보기
