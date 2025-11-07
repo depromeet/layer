@@ -233,7 +233,10 @@ export default function AnalysisOverviewHeader() {
                 height: calc(29.6rem - 1.1rem);
               `}
             >
-              <ActionItems />
+              <ActionItems>
+                <ActionItems.Tab />
+                <ActionItems.List />
+              </ActionItems>
             </div>
           </div>
         </div>

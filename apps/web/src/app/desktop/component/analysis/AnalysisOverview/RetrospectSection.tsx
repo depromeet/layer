@@ -150,7 +150,6 @@ export default function RetrospectSection({
 
   return (
     <>
-      {/* ---------- 제목 ---------- */}
       <section
         css={css`
           display: flex;
@@ -162,6 +161,7 @@ export default function RetrospectSection({
           overflow-y: ${enableScroll ? "auto" : "hidden"};
         `}
       >
+        {/* ---------- 제목 ---------- */}
         <div
           css={css`
             display: flex;
@@ -183,7 +183,7 @@ export default function RetrospectSection({
             margin-top: 1.6rem;
             display: flex;
             flex: 1;
-            overflow-y: ${enableScroll ? "auto" : "visible"};
+            overflow-y: auto;
             flex-direction: column;
             gap: 1.2rem;
             width: 100%;
