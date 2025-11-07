@@ -35,13 +35,14 @@ export const usePostRetrospectCreate = (spaceId?: number) => {
         spaceId: spaceId ?? -1,
       });
 
+      resetRetroCreateData();
+      queryClient.invalidateQueries({
+        queryKey: ["getRetrospects", String(spaceId)],
+      });
+
       if (isMobile) {
         navigate(PATHS.completeRetrospectCreate(), {
           state: { retrospectId, spaceId, title: variables?.body?.title, introduction: variables?.body?.introduction },
-        });
-        resetRetroCreateData();
-        queryClient.invalidateQueries({
-          queryKey: ["getRetrospects", String(spaceId)],
         });
       }
     },
