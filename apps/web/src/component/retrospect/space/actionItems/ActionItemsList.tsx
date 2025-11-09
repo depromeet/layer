@@ -28,6 +28,9 @@ export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
     <section
       css={css`
         width: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
       `}
     >
       {currentActionItems?.length === 0 ? (
@@ -37,9 +40,10 @@ export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 4rem 2rem;
+            padding: 2rem 2rem 4rem;
             text-align: center;
             gap: 1.2rem;
+            flex: 1;
           `}
         >
           <Icon icon="ic_folder" size={4.8} color={DESIGN_TOKEN_COLOR.gray500} />

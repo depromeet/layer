@@ -33,6 +33,7 @@ export default function ActionItems() {
         padding: 1.8rem;
         display: flex;
         flex-direction: column;
+        margin-bottom: 1.6rem;
       `}
     >
       <div
