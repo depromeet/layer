@@ -105,7 +105,7 @@ export default function AnalysisRetrospectTab({ analysisData }: AnalysisRetrospe
             `}
           >
             <Typography variant="body15Normal" color="gray900">
-              {answer.questionContent}
+              {index + 1}. {answer.questionContent}
             </Typography>
 
             <CDescriptiveTemplate key={index} answer={answer.answerContent} />
