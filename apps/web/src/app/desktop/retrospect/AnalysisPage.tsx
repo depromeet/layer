@@ -54,7 +54,7 @@ export default function AnalysisPage() {
           transition:
             width 0.3s ease-in-out,
             opacity 0.3s ease-in-out;
-          overflow: hidden;
+          overflow-y: auto;
           will-change: width, opacity;
         `}
       >

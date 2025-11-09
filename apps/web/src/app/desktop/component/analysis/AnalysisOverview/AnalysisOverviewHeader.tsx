@@ -16,11 +16,17 @@ import { RetrospectCreate } from "../../retrospectCreate";
 import { TemplateChoice } from "../../retrospect/choice";
 import { TemplateList } from "../../retrospect/template/list";
 import MemberManagement from "@/component/retrospect/space/members/MemberManagement";
+import { useState } from "react";
+import ActionItems from "./ActionItems";
 
 export default function AnalysisOverviewHeader() {
   const { open } = useModal();
   const { openFunnelModal } = useFunnelModal();
   const { openActionModal } = useActionModal();
+
+  // 실행목표 토글 상태
+  const [actionItemToggle, setActionItemToggle] = useState(false);
+
   // TODO: 새로고침해도 query를 통해서 데이터를 불러오도록 수정 필요
   const currentSelectedSpace = useAtomValue(currentSpaceState);
   const setRetrospectValue = useSetAtom(retrospectInitialState);
@@ -70,8 +76,28 @@ export default function AnalysisOverviewHeader() {
     });
   };
 
+  const handleOpenActionItem = () => {
+    setActionItemToggle((prev) => !prev);
+  };
+
   return (
-    <section>
+    <section
+      css={css`
+        position: relative;
+
+        // * 스크롤 페이드 효과
+        ::after {
+          content: "";
+          position: absolute;
+          bottom: -4rem;
+          left: 0;
+          right: 0;
+          height: 4rem;
+          background: linear-gradient(180deg, #f2f4f8 28.76%, rgba(242, 244, 248, 0) 100%);
+          pointer-events: none;
+        }
+      `}
+    >
       {/* ---------- 스페이스 이름 ---------- */}
       <div
         css={css`
@@ -165,26 +191,69 @@ export default function AnalysisOverviewHeader() {
       <section
         css={css`
           margin-top: 1.6rem;
+          background: ${DESIGN_TOKEN_COLOR.gray00};
+          border-radius: 0.8rem;
+          overflow: hidden;
         `}
       >
-        <article
+        {/* 클릭 영역 */}
+        <div
           css={css`
             display: flex;
-            height: 3.7rem;
             padding: 0.8rem 1.2rem;
             justify-content: space-between;
             align-items: center;
-            align-self: stretch;
-            border-radius: 0.8rem;
-            background: ${DESIGN_TOKEN_COLOR.gray00};
             cursor: pointer;
           `}
+          onClick={handleOpenActionItem}
         >
           <Typography variant="body14Strong" color="gray900">
             실행목표
           </Typography>
-          <Icon icon="ic_chevron_down" size={1.6} color={DESIGN_TOKEN_COLOR.gray900} />
-        </article>
+          <Icon
+            icon="ic_chevron_down"
+            size={1.6}
+            color={DESIGN_TOKEN_COLOR.gray900}
+            css={css`
+              transform: ${actionItemToggle ? "rotate(180deg)" : "rotate(0deg)"};
+              transition: transform 0.4s ease;
+            `}
+          />
+        </div>
+
+        {/* ---------- 실행 목표 콘텐츠 부분 ---------- */}
+        <div
+          css={css`
+            overflow: hidden;
+            transition: all 0.4s ease;
+            height: ${actionItemToggle ? "29.4rem" : "0"};
+            opacity: ${actionItemToggle ? 1 : 0};
+          `}
+        >
+          <div
+            css={css`
+              padding: 0 1.2rem 0.8rem 1.2rem;
+            `}
+          >
+            <hr
+              css={css`
+                border: solid 0.05rem rgba(197, 213, 243, 0.4);
+                width: 100%;
+                margin: 0.4rem 0 0.6rem 0;
+              `}
+            />
+            <div
+              css={css`
+                height: calc(29.6rem - 1.1rem);
+              `}
+            >
+              <ActionItems>
+                <ActionItems.Tab />
+                <ActionItems.List />
+              </ActionItems>
+            </div>
+          </div>
+        </div>
       </section>
     </section>
   );
