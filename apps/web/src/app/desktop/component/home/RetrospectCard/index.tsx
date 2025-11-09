@@ -48,6 +48,8 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
           step: "retrospectWrite",
           contents: <Prepare spaceId={Number(targetSpaceId)} retrospectId={retrospectId} title={title} introduction={introduction} />,
         });
+      } else if (writeStatus === "DONE") {
+        navigate(PATHS.retrospectAnalysis(String(targetSpaceId), retrospectId, title));
       } else {
         // 작성 중인 경우 → 바로 작성 페이지로
         navigate(PATHS.retrospectWrite(String(targetSpaceId), retrospectId, title, introduction));

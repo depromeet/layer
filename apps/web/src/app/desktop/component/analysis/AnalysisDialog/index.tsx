@@ -6,6 +6,8 @@ import AnalysisHeader from "./AnalysisHeader";
 import AnalysisContent from "./AnalysisContent";
 import { useGetAnalysisAnswer } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
+import { useQuery } from "@tanstack/react-query";
+import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 
 export const TEAM_ANALYSIS_MENU_TABS = ["질문", "개별", "분석"] as const;
 export const PERSONAL_ANALYSIS_MENU_TABS = ["회고", "분석"] as const;
@@ -20,8 +22,9 @@ type AnalysisDialogProps = {
 
 export default function AnalysisDialog({ spaceId, retrospectId, isOverviewVisible, onToggleOverview }: AnalysisDialogProps) {
   const { data: analysisData, isPending: isPendingAnalysisData } = useGetAnalysisAnswer({ spaceId: spaceId, retrospectId: retrospectId });
+  const { data: spaceInfo } = useQuery(useApiOptionsGetSpaceInfo(spaceId as string));
 
-  const isPersonal = Boolean(analysisData?.individuals.length === 1);
+  const isPersonal = Boolean(analysisData?.individuals.length === 1 && spaceInfo?.category === "INDIVIDUAL");
 
   const initialTab = useMemo(() => {
     return isPersonal ? PERSONAL_ANALYSIS_MENU_TABS[0] : TEAM_ANALYSIS_MENU_TABS[0];
