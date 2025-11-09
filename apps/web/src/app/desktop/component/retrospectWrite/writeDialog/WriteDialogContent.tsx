@@ -90,7 +90,7 @@ export function WriteDialogContent({ answers, isComplete, handleClickSatistfy, h
                           </>
                         }
                       >
-                        <WDescriptiveTemplate answer={answers[item.order]?.answerContent} onChange={(e) => handleChange(e)} />
+                        <WDescriptiveTemplate answer={answers[item.order]?.answerContent} onChange={(e) => handleChange(e)} subject={item.question} />
                       </QuestionLayout>
                     ),
                     combobox: null,
