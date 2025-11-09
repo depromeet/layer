@@ -224,6 +224,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
               setAnswers(initialAnswers);
               setPrevAnswers(initialAnswers);
               handleModalClose("temp-data");
+              navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceId)));
             }}
             leftButtonText={"취소"}
             rightButtonText={"작성하기"}
