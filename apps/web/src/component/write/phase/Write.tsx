@@ -409,7 +409,11 @@ export function Write() {
 
                             <HeaderProvider.Subject contents={item.question} />
                           </HeaderProvider>
-                          <WDescriptiveTemplate answer={answers[item.order].answerContent} onChange={(e) => handleChange(e)} />
+                          <WDescriptiveTemplate
+                            answer={answers[item.order].answerContent}
+                            onChange={(e) => handleChange(e)}
+                            subject={item.question}
+                          />
                         </Fragment>
                       ),
                       combobox: null,

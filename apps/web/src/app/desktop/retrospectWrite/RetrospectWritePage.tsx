@@ -23,15 +23,15 @@ function RetroSpectWritePage() {
         height: 100vh;
       `}
     >
-      {/* TODO: 동일한 부분인거같은데 그대로 사용해도 될지.. */}
       <section
         css={css`
           width: ${isOverviewVisible ? "34.4rem" : "0"};
+          height: 100%;
           opacity: ${isOverviewVisible ? 1 : 0};
           transition:
             width 0.3s ease-in-out,
             opacity 0.3s ease-in-out;
-          overflow: hidden;
+          overflow-y: auto;
           will-change: width, opacity;
         `}
       >
