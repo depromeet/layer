@@ -106,6 +106,8 @@ export function WriteDialogContent({ answers, isComplete, handleClickSatistfy, h
         {isComplete && (
           <div
             css={css`
+              width: 69.6rem;
+              margin: 0 auto;
               overflow-y: auto;
             `}
           >
@@ -122,15 +124,29 @@ export function WriteDialogContent({ answers, isComplete, handleClickSatistfy, h
                 제출 전 확인
               </Typography>
             </span>
-            <HeaderProvider>
-              <HeaderProvider.Subject contents={title ?? ""} />
-              <HeaderProvider.Description
-                contents={introduction ?? ""}
-                css={css`
-                  color: #7e7c7c;
-                `}
-              />
-            </HeaderProvider>
+            <div
+              css={css`
+                display: flex;
+                flex-direction: column;
+                gap: 0.8rem;
+
+                &::after {
+                  content: "";
+                  width: 100%;
+                  height: 0.1rem;
+                  background-color: ${DESIGN_TOKEN_COLOR.gray200};
+                  margin-top: 0.8rem;
+                }
+              `}
+            >
+              <Typography variant="heading24Bold" as="p">
+                {title ?? ""}
+              </Typography>
+              <Typography variant="body15SemiBold" color="gray700" as="p">
+                {introduction ?? ""}
+              </Typography>
+            </div>
+
             <Confirm answers={answers} />
           </div>
         )}

@@ -56,13 +56,27 @@ export function Confirm({ answers }: CompleteProps) {
         {/* --------- 진행상황 만족도 --------- */}
         <ResultLayout>
           <Typography variant="body15Normal">{satisfactionQuestion?.question}</Typography>
-          {satisfactionQuestion && <CSatisfactionTemplate question={satisfactionQuestion.question} index={parseInt(answers[0]?.answerContent)} />}
+          {satisfactionQuestion && (
+            <CSatisfactionTemplate
+              index={parseInt(answers[0]?.answerContent)}
+              customCss={css`
+                height: 11rem;
+              `}
+            />
+          )}
         </ResultLayout>
 
         {/* --------- 목표 달성률 --------- */}
         <ResultLayout>
           <Typography variant="body15Normal">{achievementQuestion?.question}</Typography>
-          {achievementQuestion && <CAchievementTemplate question={achievementQuestion.question} index={parseInt(answers[1]?.answerContent)} />}
+          {achievementQuestion && (
+            <CAchievementTemplate
+              index={parseInt(answers[1]?.answerContent)}
+              customCss={css`
+                height: 11rem;
+              `}
+            />
+          )}
         </ResultLayout>
       </div>
 
@@ -71,9 +85,8 @@ export function Confirm({ answers }: CompleteProps) {
         css={css`
           display: flex;
           flex-direction: column;
-          gap: 1.6rem;
           margin-top: 1.6rem;
-          padding-bottom: 2.4rem;
+          gap: 1.6rem;
         `}
       >
         {mainQuestions.map((mainQuestion, index) => (

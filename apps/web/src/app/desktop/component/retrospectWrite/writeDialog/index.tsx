@@ -262,7 +262,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
           flex-direction: column;
           min-width: 85rem;
           height: 100vh;
-          padding: 0 4rem 2.4rem 2.4rem;
+          padding: 2rem 4rem 2.4rem 2.4rem;
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
           border-top-left-radius: 1.2rem;
           border-bottom-left-radius: 1.2rem;
@@ -284,8 +284,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
             display: flex;
             flex: 1;
             height: 100%;
-            margin-top: 2.4rem;
-            padding-left: 5.6rem;
+            padding: 2.4rem 0 0 5.6rem;
           `}
         >
           {/* -------- 회고 작성 내용 UI -------- */}

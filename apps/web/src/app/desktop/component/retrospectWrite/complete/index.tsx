@@ -27,7 +27,7 @@ export function RetrospectWriteComplete() {
 
   const { data, isLoading } = useApiGetSpacePrivate(Number(spaceId));
   const isTeam = data?.category === "TEAM";
-  const completeWord = isTeam ? "모든 인원의 회고가 제출되면 AI 분석을 시작해요" : "회고가 제출되면 AI 분석을 시작해요";
+  const completeWord = isTeam ? "모든 인원의 회고가 제출되면 AI 분석을 시작해요" : "제출된 회고를 바탕으로 AI 분석을 시작할게요";
 
   const [isAnimation, setAnimation] = useState(false);
   const [userInfo, _] = useState(() => {

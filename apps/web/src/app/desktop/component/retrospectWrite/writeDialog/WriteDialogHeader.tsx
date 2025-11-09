@@ -69,7 +69,6 @@ export function WriteDialogHeader({
         justify-content: space-between;
         align-items: center;
         gap: 0.4rem;
-        padding-top: 2rem;
         background-color: #fff;
       `}
     >
