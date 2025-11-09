@@ -145,12 +145,13 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
           `}
         >
           {todoList.length === 0 ? (
-            <div
+            <button
               css={css`
                 display: flex;
                 align-items: center;
                 gap: 0.8rem;
               `}
+              onClick={handleAddActionItem}
             >
               <div
                 css={css`
@@ -168,7 +169,7 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
               <Typography variant="body14Medium" color="gray500">
                 실행목표 추가하기
               </Typography>
-            </div>
+            </button>
           ) : (
             todoList.map((todo) => (
               <div
