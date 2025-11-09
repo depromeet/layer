@@ -39,8 +39,7 @@ export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 2rem 2rem 4rem;
+            padding: 14rem 2rem;
             text-align: center;
             gap: 1.2rem;
             flex: 1;

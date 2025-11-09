@@ -117,10 +117,13 @@ export default function InProgressRetrospects() {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 1.6rem 2rem 4rem;
+            padding: 20rem 2rem;
             text-align: center;
             gap: 2.4rem;
+            border: 1px dashed rgba(0, 0, 0, 0.12);
+            border-radius: 1.2rem;
+            margin-top: 1.6rem;
+            flex: 1;
           `}
         >
           <Icon icon="ic_new_clock" size={7.2} color={DESIGN_TOKEN_COLOR.gray500} />
