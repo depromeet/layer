@@ -177,7 +177,7 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { isCollapsed } = useNavigation();
-  const { id: spaceId, name, leader } = space;
+  const { id: spaceId, name, leader, category } = space;
   const isLeader = isSpaceLeader(leader?.id);
 
   const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
@@ -243,9 +243,21 @@ export default function SpaceItem({ space }: SpaceItemProps) {
                 gap: 0.1rem;
               `}
             >
-              <Typography variant="caption10Medium" color="gray500">
-                스페이스
-              </Typography>
+              <div
+                css={css`
+                  display: flex;
+                  align-items: center;
+                  gap: 0.2rem;
+                `}
+              >
+                <Typography variant="caption10Medium" color="gray500">
+                  {category === "INDIVIDUAL" && "개인"}
+                  {category === "TEAM" && "팀"}
+                </Typography>
+                <Typography variant="caption10Medium" color="gray500">
+                  스페이스
+                </Typography>
+              </div>
               <Typography variant="body12Strong" color="gray00">
                 {name}
               </Typography>
