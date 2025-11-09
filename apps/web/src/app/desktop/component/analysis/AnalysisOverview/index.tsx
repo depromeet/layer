@@ -23,7 +23,11 @@ export default function AnalysisOverview({ spaceId }: AnalysisOverviewProps) {
   return (
     <section
       css={css`
+        position: relative;
+        display: flex;
+        flex-direction: column;
         width: 34.4rem;
+        height: 100%;
         padding: 2.8rem 3rem 3.2rem 1.8rem;
         box-sizing: border-box;
       `}
@@ -32,25 +36,29 @@ export default function AnalysisOverview({ spaceId }: AnalysisOverviewProps) {
 
       <div
         css={css`
+          flex: 1;
           overflow-y: auto;
         `}
-      ></div>
-      <RetrospectSection
-        title="진행중인 회고"
-        isPending={isRetrospectsPending}
-        retrospects={proceedingRetrospects}
-        emptyMessage={`진행중인 회고가 비어있어요 \n 회고를 작성해 보세요!`}
-        spaceId={spaceId}
-        needRetrospectAddButton
-      />
+      >
+        <RetrospectSection
+          title="진행중인 회고"
+          isPending={isRetrospectsPending}
+          retrospects={proceedingRetrospects}
+          emptyMessage={`진행중인 회고가 비어있어요 \n 회고를 작성해 보세요!`}
+          spaceId={spaceId}
+          needRetrospectAddButton
+          enableScroll={false}
+        />
 
-      <RetrospectSection
-        title="마감된 회고"
-        isPending={isRetrospectsPending}
-        retrospects={closedRetrospects}
-        emptyMessage={`마감된 회고가 없어요 \n 회고 후 분석 내용을 받아보세요!`}
-        spaceId={spaceId}
-      />
+        <RetrospectSection
+          title="마감된 회고"
+          isPending={isRetrospectsPending}
+          retrospects={closedRetrospects}
+          emptyMessage={`마감된 회고가 없어요 \n 회고 후 분석 내용을 받아보세요!`}
+          spaceId={spaceId}
+          enableScroll={false}
+        />
+      </div>
     </section>
   );
 }

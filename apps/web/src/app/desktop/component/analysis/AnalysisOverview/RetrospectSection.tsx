@@ -22,6 +22,7 @@ interface RetrospectSectionProps {
   emptyMessage: string;
   spaceId?: string | null;
   needRetrospectAddButton?: boolean;
+  enableScroll?: boolean;
 }
 
 const determineStatus = (isPending: boolean, retrospects: Retrospect[]): "loading" | "empty" | "success" => {
@@ -41,6 +42,7 @@ export default function RetrospectSection({
   emptyMessage,
   spaceId,
   needRetrospectAddButton = false,
+  enableScroll = true,
 }: RetrospectSectionProps) {
   const { open } = useModal();
   const { openFunnelModal } = useFunnelModal();
@@ -148,18 +150,18 @@ export default function RetrospectSection({
 
   return (
     <>
-      {/* ---------- 제목 ---------- */}
       <section
         css={css`
           display: flex;
           flex-direction: column;
           align-items: start;
           gap: 0.6rem;
-          margin-top: 2.4rem;
-          max-height: 100rem;
-          overflow-y: auto;
+          margin-top: 3.2rem;
+          max-height: ${enableScroll ? "100rem" : "none"};
+          overflow-y: ${enableScroll ? "auto" : "hidden"};
         `}
       >
+        {/* ---------- 제목 ---------- */}
         <div
           css={css`
             display: flex;
@@ -181,7 +183,7 @@ export default function RetrospectSection({
             margin-top: 1.6rem;
             display: flex;
             flex: 1;
-            overflow-y: scroll;
+            overflow-y: auto;
             flex-direction: column;
             gap: 1.2rem;
             width: 100%;
