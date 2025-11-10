@@ -51,6 +51,12 @@ export function Modal() {
             transform: translate(-50%, -50%);
             transition: 0.4s all;
             animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
+
+            // 액션 버튼들을 오버라이드 하는 경우에는 보통 소셜 로그인과 같은 다양한 버튼 셋들이 들어오므로, 더 넓은 너비로 지정해줘요
+            ${modalDataState.overrideActionElements &&
+            css`
+              max-width: 36.3rem;
+            `}
           `}
         >
           <div
