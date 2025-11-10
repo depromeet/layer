@@ -85,31 +85,7 @@ export function SocialLoginArea({
     >
       <ButtonProvider onlyContainerStyle={onlyContainerStyle} isProgress={isPending}>
         <SocialLoginButton type="kakao" handler={kakaoLogin} />
-        {/* <SocialLoginButton type="apple" handler={appleLogin} /> */}
-
-        <button
-          css={css`
-            width: 100%;
-            height: 4.8rem;
-            border-radius: 0.8rem;
-            background-color: ${backgroundColors["apple"]};
-            text-align: center;
-            position: relative;
-          `}
-          onClick={appleLogin}
-        >
-          <Icon
-            icon="ic_apple_logo"
-            size={6}
-            css={css`
-              position: absolute;
-              left: -0.5rem;
-              top: 50%;
-              transform: translateY(-50%);
-            `}
-          />
-          <Typography variant="subtitle14SemiBold">Apple 로그인</Typography>
-        </button>
+        <SocialLoginButton type="apple" handler={appleLogin} />
         <SocialLoginButton type="google" handler={googleLogin} />
       </ButtonProvider>
     </div>
