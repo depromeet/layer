@@ -237,8 +237,7 @@ export default function DesktopLoginPage() {
       <section
         id="login-section"
         css={css`
-          padding-top: 2.4rem;
-          padding-bottom: 2.4rem;
+          padding: 2.4rem 2.4rem 2.4rem 0;
         `}
       >
         <div
