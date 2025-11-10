@@ -8,8 +8,9 @@ import { useApiGetAnalysis } from "@/hooks/api/analysis/useApiGetAnalysis";
 import { useSearchParams } from "react-router-dom";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { getAnalysisResponse } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer";
-import { AnalyzingComp } from "@/component/retrospect/analysis/Analysis";
+
 import { Spacing } from "@/component/common/Spacing";
+import Analyzing from "./Analyzing";
 
 type ViewType = "개인" | "팀";
 
@@ -42,8 +43,8 @@ export default function AnalysisTab({ analysisData }: AnalysisTabProps) {
     return <LoadingModal />;
   }
 
-  if (hasAIAnalyzed == false) {
-    return <AnalyzingComp />;
+  if (hasAIAnalyzed == true) {
+    return <Analyzing />;
   }
 
   return (
