@@ -3,11 +3,8 @@ import Cookies from "js-cookie";
 import { HTMLAttributes, useEffect } from "react";
 
 import { ButtonProvider } from "@/component/common/button";
-import { Icon } from "@/component/common/Icon";
-import { Typography } from "@/component/common/typography";
 import { SocialLoginButton } from "@/component/login/SocialLoginButton.tsx";
 import { usePostAppleLogin } from "@/hooks/api/login/usePostAppleToken.ts";
-import { backgroundColors } from "@/types/loginType";
 import { isMobile } from "@/utils/etc";
 
 export function SocialLoginArea({
