@@ -156,9 +156,10 @@ export default function RetrospectSection({
           flex-direction: column;
           align-items: start;
           gap: 0.6rem;
-          margin-top: 3.2rem;
+          padding-top: 3.2rem;
           max-height: ${enableScroll ? "100rem" : "none"};
           overflow-y: ${enableScroll ? "auto" : "hidden"};
+          overflow-y: auto;
         `}
       >
         {/* ---------- 제목 ---------- */}
@@ -180,7 +181,8 @@ export default function RetrospectSection({
         {/* ---------- 회고 컨텐츠 ---------- */}
         <section
           css={css`
-            margin-top: 1.6rem;
+            padding-top: 1.6rem;
+            padding-bottom: 2.4rem;
             display: flex;
             flex: 1;
             overflow-y: auto;

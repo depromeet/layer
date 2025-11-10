@@ -60,8 +60,8 @@ export function WDescriptiveTemplate({ answer, onChange, subject }: DescriptiveT
         <ToolTip
           isVisible={isToolTip}
           handleClose={() => setToolTip(false)}
-          title={"분석 결과를 높이려면?"}
-          contents={"회고 내용을 자세하고 구체적으로 작성해 주세요. AI가 제공하는 분석 디테일이 높아져 유의미한 분석 결과를 받아 볼 수 있어요."}
+          title="분석 결과를 높이려면?"
+          contents="회고 내용을 자세하고 구체적으로 작성해 주세요. AI가 제공하는 분석 디테일이 높아져 유의미한 분석 결과를 받아 볼 수 있어요."
         />
         <div
           css={css`
@@ -81,11 +81,11 @@ export function WDescriptiveTemplate({ answer, onChange, subject }: DescriptiveT
               }
             `}
           />
-          <Typography color={"gray500"} variant={"body12Medium"}>
+          <Typography color="gray700" variant="body12Medium">
             분석 결과를 높이려면?
           </Typography>
         </div>
-        <Typography color={"gray500"} variant={"body12Medium"} id={"totalAnswer"}>
+        <Typography color="gray700" variant="body12Medium" id="totalAnswer">
           {answer?.length}자 작성
         </Typography>
       </div>
