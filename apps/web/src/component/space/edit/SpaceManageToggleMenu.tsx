@@ -61,6 +61,9 @@ export default function SpaceManageToggleMenu({
       title: "스페이스를 삭제하시겠어요?",
       contents: "스페이스를 다시 되돌릴 수 없어요",
       onConfirm: () => onSubmitDeleteSpace(spaceId),
+      options: {
+        buttonText: ["취소", "삭제"],
+      },
     });
   };
 

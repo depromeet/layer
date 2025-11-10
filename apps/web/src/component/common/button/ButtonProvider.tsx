@@ -47,7 +47,7 @@ export const ButtonProvider = ({
           ${sort === "horizontal"
             ? css`
                 align-items: center;
-                column-gap: 1.7rem;
+                column-gap: 0.8rem;
               `
             : css`
                 flex-direction: column;
