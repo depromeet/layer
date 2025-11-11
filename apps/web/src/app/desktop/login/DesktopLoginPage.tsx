@@ -96,7 +96,7 @@ function SwiperSlideOnboardingImage({
 
       <div
         css={css`
-          width: 90rem;
+          width: 80%;
           max-width: 100%;
           display: flex;
           justify-content: center;
@@ -124,11 +124,11 @@ export default function DesktopLoginPage() {
         justify-content: center;
         align-items: center;
         background-color: ${DESIGN_TOKEN_COLOR.gray100};
-        column-gap: 5.6rem;
+        column-gap: 5.2rem;
         width: 100dvw;
         height: 100dvh;
         box-sizing: border-box;
-        min-width: 136rem;
+        min-width: 144rem;
 
         section {
           width: 100%;
@@ -136,11 +136,11 @@ export default function DesktopLoginPage() {
         }
 
         & > section:nth-of-type(1) {
-          flex: 0.7;
-          min-width: 86rem;
+          flex: 0.65;
+          min-width: 85.2rem;
         }
         & > section:nth-of-type(2) {
-          flex: 0.3;
+          flex: 0.35;
           min-width: 50rem;
         }
       `}
@@ -153,15 +153,10 @@ export default function DesktopLoginPage() {
             height: 100%;
             display: flex;
             flex-direction: column;
-            padding: 5.2rem 0 0 8.8rem;
+            padding: 2rem 0 0 8.8rem;
           `}
         >
-          <div
-            id="progress-bar-wrapper"
-            css={css`
-              padding-inline: 5rem;
-            `}
-          >
+          <div id="progress-bar-wrapper">
             <ProgressBar
               curPage={phase + 1}
               lastPage={ONBOARDING_SLIDES.length}
@@ -194,14 +189,15 @@ export default function DesktopLoginPage() {
             loop={true}
             css={css`
               width: 100%;
+              height: 90%;
               border-radius: 1.6rem;
               position: relative;
               overflow: hidden;
 
               .swiper-button-prev,
               .swiper-button-next {
-                width: 3.2rem;
-                height: 3.2rem;
+                width: 3.5rem;
+                height: 3.5rem;
                 background: white;
                 border-radius: 50%;
                 border: 0.11rem solid ${DESIGN_TOKEN_COLOR.gray300};
@@ -211,18 +207,18 @@ export default function DesktopLoginPage() {
                 transition: all 0.4s;
 
                 &::after {
-                  font-size: 1.1rem;
+                  font-size: 1.3rem;
                   font-weight: bold;
                   color: ${DESIGN_TOKEN_COLOR.gray600};
                 }
               }
 
               .swiper-button-prev {
-                left: 0.8rem;
+                left: 0;
               }
 
               .swiper-button-next {
-                right: 0.8rem;
+                right: 0;
               }
             `}
           >
@@ -241,7 +237,7 @@ export default function DesktopLoginPage() {
       <section
         id="login-section"
         css={css`
-          padding: 2.4rem;
+          padding: 2.4rem 2.4rem 2.4rem 0;
         `}
       >
         <div
@@ -266,6 +262,7 @@ export default function DesktopLoginPage() {
               text-align: center;
               margin-top: 4.2rem;
               margin-bottom: 8rem;
+              white-space: nowrap;
             `}
           >
             회고 작성부터 AI 분석까지

@@ -4,8 +4,39 @@ import { LoginSpriteSvg } from "./LoginSpriteSvg";
 
 import { Typography } from "@/component/common/typography";
 import { backgroundColors, SocialLoginButtonProps } from "@/types/loginType";
+import { Icon } from "../common/Icon";
 
 export function SocialLoginButton({ type, handler }: SocialLoginButtonProps) {
+  const isApple = type === "apple";
+  const isGoogle = type === "google";
+  const isKakao = type === "kakao";
+
+  const renderSocialIcon = (() => {
+    return isApple ? (
+      <Icon
+        icon="ic_apple_logo"
+        size={6}
+        css={css`
+          position: absolute;
+          left: -0.5rem;
+          top: 50%;
+          transform: translateY(-50%);
+        `}
+      />
+    ) : (
+      <div
+        css={css`
+          position: absolute;
+          left: 1.6rem;
+          top: 50%;
+          transform: translateY(-50%);
+        `}
+      >
+        <LoginSpriteSvg type={type} />
+      </div>
+    );
+  })();
+
   return (
     <button
       css={css`
@@ -21,20 +52,11 @@ export function SocialLoginButton({ type, handler }: SocialLoginButtonProps) {
         handler();
       }}
     >
-      <div
-        css={css`
-          position: absolute;
-          left: 1.6rem;
-          top: 50%;
-          transform: translateY(-50%);
-        `}
-      >
-        <LoginSpriteSvg type={type} />
-      </div>
+      {renderSocialIcon}
       <Typography variant="subtitle14SemiBold">
-        {type === "kakao" && "카카오로 로그인"}
-        {type === "apple" && "Apple 로그인"}
-        {type === "google" && "구글 계정으로 로그인"}
+        {isKakao && "카카오 로그인"}
+        {isApple && "애플 로그인"}
+        {isGoogle && "구글 계정 로그인"}
       </Typography>
     </button>
   );
