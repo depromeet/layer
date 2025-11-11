@@ -671,13 +671,13 @@ function RecommendRetrospectTemplateConfirmFunnel() {
         <Tooltip>
           <Tooltip.Trigger>
             <SelectedTemplateCard
-              name={selectedRecommendTemplate!.title}
-              tag={selectedRecommendTemplate!.templateName}
+              name={selectedRecommendTemplate!.templateName}
+              tag={selectedRecommendTemplate!.title}
               imgUrl={selectedRecommendTemplate!.imageUrl}
               onClick={handleShowTemplateDetailInfo}
             />
           </Tooltip.Trigger>
-          <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
+          <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick={false} autoHide={false} />
         </Tooltip>
       </div>
       <ButtonProvider
@@ -687,7 +687,7 @@ function RecommendRetrospectTemplateConfirmFunnel() {
         `}
       >
         <ButtonProvider.Gray onClick={() => setFlow("INFO", 2)}>템플릿 변경</ButtonProvider.Gray>
-        <ButtonProvider.Primary onClick={() => setFlow("CREATE", 0)}>선택하기</ButtonProvider.Primary>
+        <ButtonProvider.Primary onClick={() => setFlow("CREATE", 0)}>진행하기</ButtonProvider.Primary>
       </ButtonProvider>
     </div>
   );
