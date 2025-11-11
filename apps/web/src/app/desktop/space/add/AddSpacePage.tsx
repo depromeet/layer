@@ -3,7 +3,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import { ButtonProvider, CategoryButton, FieldButton, IconButton } from "@/component/common/button";
-import { Header } from "@/component/common/header";
+import { Header, HeaderProvider } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { IconType } from "@/component/common/Icon/Icon";
 import { Input, InputLabelContainer, TextArea, Label } from "@/component/common/input";
@@ -942,7 +942,9 @@ function CompleteCreateSpace() {
   const { data: spaceData, isLoading } = useApiGetSpace(spaceId!.toString());
   const { resetAll: resetRetrospectInfo } = useRetrospectCreateReset();
   const { resetAll: resetSpaceInfo } = useSpaceCreateReset();
-  const [animate, setAnimate] = useState(spaceData?.category === ProjectType.Individual);
+  const isCreatedIndividualSpace = spaceData?.category === ProjectType.Individual;
+  const isCreatedTeamSpace = spaceData?.category === ProjectType.Team;
+  const [animate, setAnimate] = useState(isCreatedIndividualSpace);
   const encryptedId = encryptId(spaceId!.toString());
   const navigate = useNavigate();
 
@@ -971,7 +973,7 @@ function CompleteCreateSpace() {
   };
 
   useEffect(() => {
-    if (spaceData && spaceData.category === ProjectType.Team) {
+    if (spaceData && isCreatedTeamSpace) {
       const timer = setTimeout(() => {
         setAnimate(true);
       }, 3200);
@@ -989,11 +991,13 @@ function CompleteCreateSpace() {
         height: 100%;
       `}
     >
-      <Typography color="gray600" variant="body16Medium">
-        스페이스 생성 완료!
-      </Typography>
-      <Header title={"함께 회고를 진행하는\n팀원들을 초대해볼까요?"} />
-      <Spacing size={4} />
+      <HeaderProvider>
+        <HeaderProvider.Description contents="스페이스 생성 완료!" />
+        <HeaderProvider.Subject
+          contents={isCreatedTeamSpace ? "함께 회고를 진행하는\n팀원들을 초대해볼까요?" : "회고 공간이 준비됐어요.\n나만의 성장을 시작해볼까요?"}
+        />
+      </HeaderProvider>
+      <Spacing size={isCreatedTeamSpace ? 4 : 7} />
       <div
         css={css`
           position: relative;

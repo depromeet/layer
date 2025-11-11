@@ -14,7 +14,6 @@ export function Title({ contents, type = "title", theme = "primary", ...props }:
       css={css`
         display: flex;
         flex-direction: column;
-        row-gap: 0.4rem;
       `}
     >
       {typeof contents === "string" &&
