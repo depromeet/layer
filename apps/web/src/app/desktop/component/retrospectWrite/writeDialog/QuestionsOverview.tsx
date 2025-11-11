@@ -164,7 +164,7 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary,
             transition: 0.4s all;
           `}
         >
-          제출하기
+          작성 완료
         </button>
       </div>
     </div>
