@@ -107,7 +107,7 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                 진행상황에 대해 대부분{" "}
               </Typography>
               <Typography variant="title18Bold" color="blue600">
-                {dominantCategory}
+                {dominantCategory}해요
               </Typography>
             </div>
             {individualAnalysis && (
