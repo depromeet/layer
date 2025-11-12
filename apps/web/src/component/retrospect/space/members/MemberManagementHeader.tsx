@@ -29,7 +29,7 @@ export function MemberManagementHeader({ isEditOpen, onEditClick, editDropdownRe
         `}
       >
         <Typography variant="title16Bold" color="gray900">
-          팀원관리
+          인원
         </Typography>
         <Typography variant="title16Bold" color="gray600">
           4

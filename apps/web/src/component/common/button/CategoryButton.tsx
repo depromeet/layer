@@ -45,7 +45,7 @@ export function CategoryButton({ isClicked = true, category, onClick }: Category
           `}
         />
         <Spacing size={isDesktop ? 1.2 : 2} />
-        <div>{category.name}</div>
+        <div>{category.name} 프로젝트</div>
       </div>
     </div>
   );
