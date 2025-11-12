@@ -20,7 +20,7 @@ import { PATHS } from "@layer/shared";
 import { useNavigate } from "react-router-dom";
 import { useTemporarySave } from "@/hooks/useTemporarySave";
 import { useSetAtom } from "jotai";
-import { unsavedChangesAtom } from "@/store/retrospect/retrospectWrite";
+import { isRetrospectModifiedAtom } from "@/store/retrospect/retrospectWrite";
 import { useBlocker } from "react-router-dom";
 
 interface WriteDialogProps {
@@ -49,7 +49,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
   const [isAnswerFilled, setIsAnswerFilled] = useState(false);
   const [isTempData, setIsTempData] = useState(false);
   const { isTemporarySaveModalOpen, setTemporarySaveModalOpen } = useTemporarySave();
-  const setUnsavedChanges = useSetAtom(unsavedChangesAtom);
+  const setUnsavedChanges = useSetAtom(isRetrospectModifiedAtom);
   const editMode = useRef<EditModeType>("POST");
   const isComplete = data?.questions.length === phase;
 
