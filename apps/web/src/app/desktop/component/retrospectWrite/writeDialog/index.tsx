@@ -18,6 +18,10 @@ import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { RetrospectWriteComplete } from "../complete";
 import { PATHS } from "@layer/shared";
 import { useNavigate } from "react-router-dom";
+import { useTemporarySave } from "@/hooks/useTemporarySave";
+import { useSetAtom } from "jotai";
+import { unsavedChangesAtom } from "@/store/retrospect/retrospectWrite";
+import { useBlocker } from "react-router-dom";
 
 interface WriteDialogProps {
   isOverviewVisible: boolean;
@@ -42,15 +46,18 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
   /** Write Local State */
   const { data, phase, spaceId, retrospectId } = useContext(PhaseContext);
   const [isEntireModalOpen, setEntireModalOpen] = useState(false);
-  const [isTemporarySaveModalOpen, setTemporarySaveModalOpen] = useState(false);
   const [isAnswerFilled, setIsAnswerFilled] = useState(false);
   const [isTempData, setIsTempData] = useState(false);
+  const { isTemporarySaveModalOpen, setTemporarySaveModalOpen } = useTemporarySave();
+  const setUnsavedChanges = useSetAtom(unsavedChangesAtom);
   const editMode = useRef<EditModeType>("POST");
   const isComplete = data?.questions.length === phase;
 
   const [prevAnswer, setPrevAnswers] = useState<Answer[]>([]);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [tempAnswer, setTempAnswer] = useState<Answer[]>([]);
+
+  const isLeavingRef = useRef(false);
 
   /** Data Fetching */
   const { mutate, isPending } = useWriteQuestions();
@@ -65,6 +72,19 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
     isLoading: answerDataLoading,
     isSuccess: answerDataSuccess,
   } = useGetAnswers({ spaceId: spaceId, retrospectId: retrospectId });
+
+  // 페이지 변화가 있는지 + 회고 내용을 변경했는지 확인
+  const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+    const isSameLocation = currentLocation.pathname === nextLocation.pathname && currentLocation.search === nextLocation.search;
+
+    return !isLeavingRef.current && hasChanges() && !isSameLocation;
+  });
+
+  useEffect(() => {
+    if (blocker.state === "blocked") {
+      setTemporarySaveModalOpen(true);
+    }
+  }, [blocker.state, setTemporarySaveModalOpen]);
 
   // data 로드 시 기본 초기화
   useEffect(() => {
@@ -120,6 +140,10 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
           handleModalClose("temporary-save");
           toast.success("임시 저장이 완료되었어요!");
           setPrevAnswers(answers);
+
+          if (blocker.state === "blocked") {
+            blocker.reset();
+          }
         },
       },
     );
@@ -139,6 +163,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
             },
           });
 
+          isLeavingRef.current = true;
           const plainTextAnswers = answers.filter(({ questionType }) => questionType === "plain_text");
           const answerLengths = plainTextAnswers.map(({ answerContent }) => answerContent.length);
           track("WRITE_DONE", {
@@ -172,6 +197,10 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
   const hasChanges = () => {
     return answers.some((answer, index) => answer.answerContent !== prevAnswer[index]?.answerContent);
   };
+
+  useEffect(() => {
+    setUnsavedChanges(hasChanges());
+  }, [answers, prevAnswer, setUnsavedChanges]);
 
   const handleOpenTemporarySaveModal = () => {
     setTemporarySaveModalOpen(true);
@@ -242,7 +271,14 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
             leftButtonText={"임시저장"}
             confirm={() => {
               handleModalClose("temporary-save");
-              navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceId)));
+              setPrevAnswers(answers);
+              isLeavingRef.current = true;
+
+              if (blocker.state === "blocked") {
+                blocker.proceed();
+              } else {
+                navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceId)));
+              }
             }}
             quit={mutateSaveTemporaryData}
           />
