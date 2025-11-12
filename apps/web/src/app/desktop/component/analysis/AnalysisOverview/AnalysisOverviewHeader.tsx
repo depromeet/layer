@@ -31,7 +31,7 @@ export default function AnalysisOverviewHeader() {
   // TODO: 새로고침해도 query를 통해서 데이터를 불러오도록 수정 필요
   const currentSelectedSpace = useAtomValue(currentSpaceState);
   const setRetrospectValue = useSetAtom(retrospectInitialState);
-  const { hasUnsavedChanges, setTemporarySaveModalOpen } = useTemporarySave();
+  const { hasRetrospectModified, setTemporarySaveModalOpen } = useTemporarySave();
 
   const { name, introduction, formTag, leader, id: spaceId } = currentSelectedSpace || {};
   const isLeader = isSpaceLeader(leader?.id);
@@ -40,7 +40,7 @@ export default function AnalysisOverviewHeader() {
 
   // 회고 추가 함수
   const handleRetrospectCreate = () => {
-    if (hasUnsavedChanges) {
+    if (hasRetrospectModified) {
       setTemporarySaveModalOpen(true);
       return;
     }
@@ -76,7 +76,7 @@ export default function AnalysisOverviewHeader() {
 
   // 템플릿 변경 함수
   const handleMoveToListTemplate = () => {
-    if (hasUnsavedChanges) {
+    if (hasRetrospectModified) {
       setTemporarySaveModalOpen(true);
       return;
     }
