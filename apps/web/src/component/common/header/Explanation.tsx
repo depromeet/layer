@@ -2,11 +2,11 @@ import { css } from "@emotion/react";
 
 import { HeaderProps, parseTextToJSX, ThemeSet } from "@/component/common/header/HeaderProvider.tsx";
 import { Typography } from "@/component/common/typography";
-import { DESIGN_SYSTEM_COLOR } from "@/style/variable.ts";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
-const themeSet: Record<ThemeSet, keyof typeof DESIGN_SYSTEM_COLOR> = {
-  primary: "grey500",
-  white: "grey300",
+const themeSet: Record<ThemeSet, keyof typeof DESIGN_TOKEN_COLOR> = {
+  primary: "gray600",
+  white: "gray300",
 };
 export function Explanation({ contents, theme = "primary", ...props }: Pick<HeaderProps, "contents" | "theme">) {
   return (
@@ -21,7 +21,7 @@ export function Explanation({ contents, theme = "primary", ...props }: Pick<Head
         contents.split("\n").map((item) => (
           <div key={item}>
             {parseTextToJSX(item).map((contents, index) => (
-              <Typography key={index} variant={"body15Medium"} color={themeSet[theme]} {...props}>
+              <Typography key={index} variant={"body16Medium"} color={themeSet[theme]} {...props}>
                 {contents}
               </Typography>
             ))}
