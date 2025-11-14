@@ -39,7 +39,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
   const isSelected = urlRetrospectId && parseInt(urlRetrospectId) === retrospectId;
 
   const handleCardClick = () => {
-    // 진행중인 회고 클릭 시
+    // 진행 중인 회고 클릭 시
     if (targetSpaceId && retrospectStatus === "PROCEEDING") {
       if (writeStatus === "NOT_STARTED") {
         // 아직 시작 안 한 경우 → 시작 화면 모달

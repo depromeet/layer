@@ -10,7 +10,7 @@ import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useAp
 import ActionItemCard from "./ActionItemCard";
 
 type ActionItemsListProps = {
-  currentTab: "진행중" | "지난";
+  currentTab: "진행 중" | "지난";
 };
 
 export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
@@ -22,7 +22,7 @@ export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
 
   const inProgressActionItems = data?.teamActionItemList.filter((goal) => goal.status === "PROCEEDING");
   const doneActionItems = data?.teamActionItemList.filter((goal) => goal.status === "DONE");
-  const currentActionItems = currentTab === "진행중" ? inProgressActionItems : doneActionItems;
+  const currentActionItems = currentTab === "진행 중" ? inProgressActionItems : doneActionItems;
 
   return (
     <section

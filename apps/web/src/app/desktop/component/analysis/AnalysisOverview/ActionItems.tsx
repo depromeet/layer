@@ -8,9 +8,9 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useApiOptionsGetTeamActionItemList";
 import ActionItemCard from "@/component/retrospect/space/actionItems/ActionItemCard";
 
-type TabType = "진행중" | "지난";
+type TabType = "진행 중" | "지난";
 
-const ACTION_ITEMS_TAB_NAMES = ["진행중", "지난"] as const;
+const ACTION_ITEMS_TAB_NAMES = ["진행 중", "지난"] as const;
 
 const ActionItemsContext = createContext<{
   currentTab: TabType;
@@ -24,7 +24,7 @@ const useActionItemsContext = () => {
 };
 
 function ActionItems({ children }: { children: ReactNode }) {
-  const [currentTab, setCurrentTab] = useState<TabType>("진행중");
+  const [currentTab, setCurrentTab] = useState<TabType>("진행 중");
 
   return (
     <ActionItemsContext.Provider value={{ currentTab, setCurrentTab }}>
@@ -101,7 +101,7 @@ function List() {
 
   const inProgressActionItems = data?.teamActionItemList.filter((goal) => goal.status === "PROCEEDING");
   const doneActionItems = data?.teamActionItemList.filter((goal) => goal.status === "DONE");
-  const currentActionItems = currentTab === "진행중" ? inProgressActionItems : doneActionItems;
+  const currentActionItems = currentTab === "진행 중" ? inProgressActionItems : doneActionItems;
 
   return (
     <div
