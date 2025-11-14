@@ -14,7 +14,7 @@ export default function AnalysisOverview({ spaceId }: AnalysisOverviewProps) {
   // * 스페이스 회고 목록 조회
   const { data: retrospects, isPending: isRetrospectsPending } = useQuery(useApiOptionsGetRetrospects(spaceId || undefined));
 
-  // * 진행중인 회고 필터링
+  // * 진행 중인 회고 필터링
   const proceedingRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [], [retrospects]);
 
   // * 마감된 회고 필터링
@@ -41,10 +41,10 @@ export default function AnalysisOverview({ spaceId }: AnalysisOverviewProps) {
         `}
       >
         <RetrospectSection
-          title="진행중인 회고"
+          title="진행 중인 회고"
           isPending={isRetrospectsPending}
           retrospects={proceedingRetrospects}
-          emptyMessage={`진행중인 회고가 비어있어요 \n 회고를 작성해 보세요!`}
+          emptyMessage={`진행 중인 회고가 비어있어요 \n 회고를 작성해 보세요!`}
           spaceId={spaceId}
           needRetrospectAddButton
           enableScroll={false}

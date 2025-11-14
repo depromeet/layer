@@ -176,7 +176,7 @@ export function SpaceViewPage() {
               gap: 0.6rem;
             `}
           >
-            <Typography variant="title18Bold">진행중인 회고</Typography>
+            <Typography variant="title18Bold">진행 중인 회고</Typography>
             <Typography variant="title16Bold" color="gray600">
               {proceedingRetrospects?.length}
             </Typography>

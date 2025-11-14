@@ -60,7 +60,7 @@ export default function ActionItemsWrapper() {
           실행목표
         </Typography>
         <Typography variant="body15SemiBold" color="gray800">
-          {myActionItems?.length ?? 0}개의 실행목표가 진행중이에요
+          {myActionItems?.length ?? 0}개의 실행목표가 진행 중이에요
         </Typography>
       </section>
 

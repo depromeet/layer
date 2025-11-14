@@ -3,11 +3,11 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type ActionItemsTabProps = {
-  currentTab: "진행중" | "지난";
-  handleCurrentTabClick: (tab: "진행중" | "지난") => void;
+  currentTab: "진행 중" | "지난";
+  handleCurrentTabClick: (tab: "진행 중" | "지난") => void;
 };
 
-const ACTION_ITEMS_TAB_NAMES = ["진행중", "지난"] as const;
+const ACTION_ITEMS_TAB_NAMES = ["진행 중", "지난"] as const;
 
 export default function ActionItemsTab({ currentTab, handleCurrentTabClick }: ActionItemsTabProps) {
   return (
