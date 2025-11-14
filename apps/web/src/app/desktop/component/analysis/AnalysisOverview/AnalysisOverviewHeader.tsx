@@ -18,6 +18,7 @@ import { TemplateList } from "../../retrospect/template/list";
 import MemberManagement from "@/component/retrospect/space/members/MemberManagement";
 import { useState } from "react";
 import ActionItems from "./ActionItems";
+import { useTemporarySave } from "@/hooks/useTemporarySave";
 
 export default function AnalysisOverviewHeader() {
   const { open } = useModal();
@@ -30,6 +31,7 @@ export default function AnalysisOverviewHeader() {
   // TODO: 새로고침해도 query를 통해서 데이터를 불러오도록 수정 필요
   const currentSelectedSpace = useAtomValue(currentSpaceState);
   const setRetrospectValue = useSetAtom(retrospectInitialState);
+  const { hasRetrospectModified, setTemporarySaveModalOpen } = useTemporarySave();
 
   const { name, introduction, formTag, leader, id: spaceId } = currentSelectedSpace || {};
   const isLeader = isSpaceLeader(leader?.id);
@@ -38,6 +40,11 @@ export default function AnalysisOverviewHeader() {
 
   // 회고 추가 함수
   const handleRetrospectCreate = () => {
+    if (hasRetrospectModified) {
+      setTemporarySaveModalOpen(true);
+      return;
+    }
+
     if (spaceInfo?.formId) {
       setRetrospectValue((prev) => ({
         ...prev,
@@ -69,6 +76,11 @@ export default function AnalysisOverviewHeader() {
 
   // 템플릿 변경 함수
   const handleMoveToListTemplate = () => {
+    if (hasRetrospectModified) {
+      setTemporarySaveModalOpen(true);
+      return;
+    }
+
     openFunnelModal({
       title: "템플릿 리스트",
       step: "listTemplate",
