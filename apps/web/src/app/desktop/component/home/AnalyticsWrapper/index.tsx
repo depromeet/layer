@@ -115,7 +115,7 @@ export default function AnalyticsWrapper() {
           분석
         </Typography>
         <Typography variant="body15SemiBold" color="gray800">
-          {myAnalysis?.recentAnalyzes.length ?? 0}개의 회고가 진행중이에요!
+          {myAnalysis?.recentAnalyzes.length ?? 0}개의 회고가 진행 중이에요!
         </Typography>
       </section>
 

@@ -82,7 +82,7 @@ export default function InProgressRetrospects() {
         min-width: 30rem;
       `}
     >
-      <Typography variant="title16Bold">진행중인 회고 {proceedingRetrospects.length}</Typography>
+      <Typography variant="title16Bold">진행 중인 회고 {proceedingRetrospects.length}</Typography>
 
       {proceedingRetrospects.length === 0 ? (
         <div
@@ -101,7 +101,7 @@ export default function InProgressRetrospects() {
         >
           <Icon icon="ic_new_clock" size={7.2} color={DESIGN_TOKEN_COLOR.gray500} />
           <Typography variant="body16Medium" color="gray500">
-            진행중인 회고가 비어있어요 <br />
+            진행 중인 회고가 비어있어요 <br />
             회고를 작성해 보세요!
           </Typography>
           <button

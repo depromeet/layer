@@ -29,7 +29,7 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
     return <LoadingModal />;
   }
 
-  // * 분석이 진행중일 때
+  // * 분석이 진행 중일 때
   if (hasAIAnalyzed === false) {
     return <AnalyzingComp />;
   }

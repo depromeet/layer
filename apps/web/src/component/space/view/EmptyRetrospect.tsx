@@ -23,7 +23,7 @@ export function EmptyRetrospect() {
         `}
       >
         <Typography variant="body16Medium" color="gray500">
-          진행중인 회고가 비어있어요 <br />
+          진행 중인 회고가 비어있어요 <br />
           회고를 작성해 보세요!
         </Typography>
       </div>
