@@ -9,6 +9,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { PATHS } from "@layer/shared";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { Prepare } from "../../retrospectWrite/prepare";
+import TemplateCardManageToggleMenu from "@/component/retrospect/template/card/TemplateCardManageToggleMenu";
 
 interface RetrospectCardProps {
   retrospect: Retrospect;
@@ -97,7 +98,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
         `}
       >
         <ProceedingTextBox writeStatus={writeStatus} analysisStatus={analysisStatus} />
-        <Icon icon="ic_more" size={2.0} color={DESIGN_TOKEN_COLOR.gray500} />
+        <TemplateCardManageToggleMenu />
       </div>
 
       {/* ---------- 제목 ---------- */}
