@@ -37,6 +37,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
 
   const urlRetrospectId = searchParams.get("retrospectId");
   const isSelected = urlRetrospectId && parseInt(urlRetrospectId) === retrospectId;
+  const isIntroduction = introduction?.trim();
 
   const handleCardClick = () => {
     // 진행 중인 회고 클릭 시
@@ -68,7 +69,8 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
         display: flex;
         flex-direction: column;
         width: 29.6rem;
-        height: 13.8rem;
+        height: fit-content;
+        max-height: 13.8rem;
         padding: 1.6rem;
         background-color: white;
         border-radius: 1.2rem;
@@ -104,25 +106,26 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
       </Typography>
 
       {/* ---------- 설명 ----------*/}
-      <div
-        css={css`
-          margin-top: 0.8rem;
-          flex: 1;
-        `}
-      >
-        <Typography
-          variant="body12SemiBold"
-          color="gray800"
+      {isIntroduction && (
+        <div
           css={css`
-            display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            margin-top: 0.4rem;
           `}
         >
-          {introduction}
-        </Typography>
-      </div>
+          <Typography
+            variant="body12SemiBold"
+            color="gray800"
+            css={css`
+              display: block;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            `}
+          >
+            {introduction}
+          </Typography>
+        </div>
+      )}
 
       {/* ---------- 하단 정보 ---------- */}
       <div
@@ -130,6 +133,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin-top: 0.8rem;
         `}
       >
         <Typography variant="body12SemiBold" color="gray500">

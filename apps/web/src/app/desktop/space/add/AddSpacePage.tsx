@@ -830,8 +830,8 @@ function CreateRetrospectDeadlineFunnel() {
 
     const createRetrospect = async (spaceId: number) => {
       const params = {
-        title: selectedRecommendTemplate!.title || `${title} 스페이스의 회고`,
-        introduction: selectedRecommendTemplate!.title || `${title} 스페이스의 회고`,
+        title: `${title}의 첫번째 회고`,
+        introduction: "",
         questions: [...DEFAULT_QUESTIONS, ...questions],
         deadline: deadLine,
         isNewForm: false,
