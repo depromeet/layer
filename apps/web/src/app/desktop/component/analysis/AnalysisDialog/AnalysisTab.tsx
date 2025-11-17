@@ -43,7 +43,7 @@ export default function AnalysisTab({ analysisData }: AnalysisTabProps) {
     return <LoadingModal />;
   }
 
-  if (hasAIAnalyzed == true) {
+  if (hasAIAnalyzed === false) {
     return <Analyzing />;
   }
 

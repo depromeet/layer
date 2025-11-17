@@ -96,6 +96,7 @@ export default function InProgressRetrospects() {
             border: 1px dashed rgba(0, 0, 0, 0.12);
             border-radius: 1.2rem;
             margin-top: 1.6rem;
+            margin-bottom: 1.6rem;
             flex: 1;
           `}
         >
