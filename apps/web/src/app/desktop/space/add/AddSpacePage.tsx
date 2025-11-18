@@ -63,6 +63,7 @@ import TemplateListDetailItem from "../../component/retrospect/template/list/Tem
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
+// TODO: 추후 Context API와 Atom의 불필요한 혼용 제거하기
 interface phaseContextType {
   // getter
   phase: number;
@@ -73,10 +74,11 @@ interface phaseContextType {
   questions: Questions;
   deadLine: string;
   period: PeriodType | null;
-  periodic: "REGULAR" | "IRREGULAR" | "";
+  periodic: "REGULAR" | "IRREGULAR" | null;
   purpose: PurposeType[];
   selectedRecommendTemplate: templateType | null;
   selectedRecommendTemplateId: number | null;
+  recommendTemplateType: "recommendation" | "list" | null;
   recommendTemplateList: Omit<templateType, "id">[];
   selectedCategory: ProjectType;
 
@@ -92,6 +94,7 @@ interface phaseContextType {
   setPeriodic: Dispatch<SetStateAction<"REGULAR" | "IRREGULAR" | "">>;
   setSelectedRecommendTemplate: Dispatch<SetStateAction<templateType | null>>;
   setSelectedRecommendTemplateId: Dispatch<SetStateAction<number | null>>;
+  setRecommendTemplateType: Dispatch<SetStateAction<"recommendation" | "list" | null>>;
   setRecommendTemplateList: Dispatch<SetStateAction<Omit<templateType, "id">[]>>;
   setSelectedCategory: Dispatch<SetStateAction<ProjectType>>;
 
@@ -112,7 +115,7 @@ const PhaseContext = createContext<phaseContextType>({
   title: "",
   description: "",
   questions: [],
-  periodic: "REGULAR",
+  periodic: null,
   purpose: [],
   flow: "INFO",
   deadLine: "",
@@ -122,6 +125,7 @@ const PhaseContext = createContext<phaseContextType>({
   selectedRecommendTemplate: null,
   selectedRecommendTemplateId: null,
   recommendTemplateList: [],
+  recommendTemplateType: null,
   selectedCategory: ProjectType.Individual,
   // setter
   setPhase: () => {},
@@ -135,6 +139,7 @@ const PhaseContext = createContext<phaseContextType>({
   setSpaceId: () => {},
   setSelectedRecommendTemplate: () => {},
   setSelectedRecommendTemplateId: () => {},
+  setRecommendTemplateType: () => {},
   setRecommendTemplateList: () => {},
   setSelectedCategory: () => {},
   // phase functions
@@ -150,6 +155,8 @@ function SelectSpaceTypeFunnel() {
   const handleButtonClick = (category: ProjectType) => {
     setSelectedCategory(category);
   };
+
+  const isSelected = selectedCategory !== null;
 
   return (
     <Fragment>
@@ -177,6 +184,7 @@ function SelectSpaceTypeFunnel() {
         onlyContainerStyle={css`
           padding: 0;
         `}
+        disabled={!isSelected}
       >
         <ButtonProvider.Primary disabled={selectedCategory === undefined} onClick={nextPhase}>
           다음
@@ -255,14 +263,15 @@ function InputSpaceInfoFunnel() {
 // 3단계 퍼널: 회고 템플릿 선택
 function SelectRetrospectTemplateFunnel() {
   const { openFunnelModal } = useFunnelModal();
-  const { prevPhase, nextPhase, setFlow, title, setSelectedRecommendTemplateId } = useContext(PhaseContext);
-  const [templateType, setTemplateType] = useState<"recommendation" | "list">("recommendation");
+  const { prevPhase, nextPhase, setFlow, title, recommendTemplateType, setSelectedRecommendTemplateId, setRecommendTemplateType } =
+    useContext(PhaseContext);
   const [searchParams, setSearchParams] = useSearchParams();
+  const isSelected = recommendTemplateType !== null;
 
   const { toast } = useToast();
 
   const handleMoveToCreateRetrospect = () => {
-    if (templateType === "list") {
+    if (recommendTemplateType === "list") {
       // 다른 퍼널로 이동하기 위해 URL에 타입을 명시해요
       setSearchParams({ template_type: "new_space" });
       openFunnelModal({
@@ -271,7 +280,7 @@ function SelectRetrospectTemplateFunnel() {
         contents: <TemplateList />,
         overlayIndex: 10002,
       });
-    } else if (templateType === "recommendation") {
+    } else if (recommendTemplateType === "recommendation") {
       nextPhase();
       setFlow("RECOMMEND", 0);
     } else {
@@ -290,14 +299,14 @@ function SelectRetrospectTemplateFunnel() {
       id: "recommendation",
       icon: "ic_stars",
       label: "추천 받기",
-      onClick: () => setTemplateType("recommendation"),
+      onClick: () => setRecommendTemplateType("recommendation"),
     },
     {
       id: "list",
       icon: "ic_list",
       iconColor: DESIGN_TOKEN_COLOR.purple600,
       label: "리스트 보기",
-      onClick: () => setTemplateType("list"),
+      onClick: () => setRecommendTemplateType("list"),
     },
   ];
 
@@ -340,7 +349,7 @@ function SelectRetrospectTemplateFunnel() {
               border: none;
               cursor: pointer;
 
-              ${templateType === id &&
+              ${recommendTemplateType === id &&
               css`
                 background-color: ${DESIGN_TOKEN_COLOR.blue600};
                 span {
@@ -382,7 +391,7 @@ function SelectRetrospectTemplateFunnel() {
         sort="horizontal"
       >
         <ButtonProvider.Gray onClick={prevPhase}>이전</ButtonProvider.Gray>
-        <ButtonProvider.Primary onClick={handleMoveToCreateRetrospect} disabled={!templateType}>
+        <ButtonProvider.Primary disabled={!isSelected} onClick={handleMoveToCreateRetrospect}>
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>
@@ -393,6 +402,7 @@ function SelectRetrospectTemplateFunnel() {
 // 4-1-a단계 퍼널 : 회고 템플릿 추천
 function TemplateRecommendFunnel() {
   const { nextPhase, setFlow, periodic, setPeriodic } = useContext(PhaseContext);
+  const isSelected = periodic !== null;
 
   return (
     <Fragment>
@@ -421,10 +431,8 @@ function TemplateRecommendFunnel() {
         `}
         sort="horizontal"
       >
-        <ButtonProvider.Gray onClick={() => setFlow("INFO", 2)} disabled={periodic === ""}>
-          이전
-        </ButtonProvider.Gray>
-        <ButtonProvider.Primary onClick={nextPhase} disabled={periodic === ""}>
+        <ButtonProvider.Gray onClick={() => setFlow("INFO", 2)}>이전</ButtonProvider.Gray>
+        <ButtonProvider.Primary onClick={nextPhase} disabled={!isSelected}>
           다음
         </ButtonProvider.Primary>
       </ButtonProvider>
@@ -1072,6 +1080,7 @@ export default function AddSpacePage() {
   const [title, setTitle] = useAtom(CREATE_SPACE_INIT_ATOM.title);
   const [description, setDescription] = useAtom(CREATE_SPACE_INIT_ATOM.description);
   const [selectedCategory, setSelectedCategory] = useAtom(CREATE_SPACE_INIT_ATOM.category);
+  const [recommendTemplateType, setRecommendTemplateType] = useAtom(CREATE_SPACE_INIT_ATOM.recommendTemplateType);
 
   const [deadLine, setDeadLine] = useAtom(CREATE_RETROSPECT_INIT_ATOM.deadline);
   const [selectedRecommendTemplateId, setSelectedRecommendTemplateId] = useAtom(CREATE_RETROSPECT_INIT_ATOM.curFormId);
@@ -1147,6 +1156,7 @@ export default function AddSpacePage() {
           purpose,
           selectedRecommendTemplate,
           selectedRecommendTemplateId,
+          recommendTemplateType,
           selectedCategory,
           spaceId,
           recommendTemplateList,
@@ -1161,6 +1171,7 @@ export default function AddSpacePage() {
           setDeadLine,
           setSelectedRecommendTemplate,
           setSelectedRecommendTemplateId,
+          setRecommendTemplateType,
           setRecommendTemplateList,
           setSelectedCategory,
           // phase functions
