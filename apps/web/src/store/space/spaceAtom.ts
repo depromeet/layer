@@ -26,8 +26,9 @@ const CREATE_SPACE_INIT_DESCRIPTION = atomWithReset<string>("");
 const CREATE_SPACE_INIT_PHASE = atomWithReset<number>(0);
 const CREATE_SPACE_INIT_PURPOSE = atomWithReset<string>("");
 const CREATE_SPACE_INIT_PERIOD = atomWithReset<string | null>(null);
-const CREATE_SPACE_INIT_PERIODIC = atomWithReset<"REGULAR" | "IRREGULAR">("REGULAR");
-const CREATE_SPACE_INIT_CATEGORY = atomWithReset<ProjectType>(ProjectType.Individual);
+const CREATE_SPACE_INIT_PERIODIC = atomWithReset<"REGULAR" | "IRREGULAR" | null>(null);
+const CREATE_SPACE_INIT_CATEGORY = atomWithReset<ProjectType | null>(null);
+const CREATE_SPACE_INIT_RECOMMEND_TEMPLATE_TYPE = atomWithReset<"recommendation" | "list" | null>(null);
 
 export const CREATE_SPACE_INIT_ATOM = {
   flow: CREATE_SPACE_INIT_FLOW,
@@ -38,6 +39,7 @@ export const CREATE_SPACE_INIT_ATOM = {
   period: CREATE_SPACE_INIT_PERIOD,
   periodic: CREATE_SPACE_INIT_PERIODIC,
   category: CREATE_SPACE_INIT_CATEGORY,
+  recommendTemplateType: CREATE_SPACE_INIT_RECOMMEND_TEMPLATE_TYPE,
 };
 
 // * 현재 선택된 스페이스 전역 상태
