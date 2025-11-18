@@ -2,7 +2,16 @@ import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
+
+const bounce = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+`;
 
 export default function Analyzing() {
   return (
@@ -15,7 +24,14 @@ export default function Analyzing() {
         align-items: center;
       `}
     >
-      <Icon icon="ic_new_clock" size={7.2} color={DESIGN_TOKEN_COLOR.gray500} />
+      <div
+        css={css`
+          display: inline-block;
+          animation: ${bounce} 1.5s ease-in-out infinite;
+        `}
+      >
+        <Icon icon="ic_new_clock" size={7.2} color={DESIGN_TOKEN_COLOR.gray500} />
+      </div>
       <Spacing size={2} />
       <Typography
         variant="title18Bold"
