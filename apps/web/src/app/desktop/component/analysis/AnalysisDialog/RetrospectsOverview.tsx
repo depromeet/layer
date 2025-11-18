@@ -1,7 +1,7 @@
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { Insight } from "@/types/analysis";
+import { Insight, InsightIconName } from "@/types/analysis";
 import { css } from "@emotion/react";
 
 type RetrospectsOverviewProps = {
@@ -15,12 +15,12 @@ type InsightSectionProps = {
   title: string;
   data: Insight[] | null;
   emptyMessage: string;
-  iconName: "ic_good_mark" | "ic_bad_mark_red" | "ic_improve_blue_mark";
+  iconName: InsightIconName;
 };
 
 type InsightItemProps = {
   content: string;
-  iconName: "ic_good_mark" | "ic_bad_mark_red" | "ic_improve_blue_mark";
+  iconName: InsightIconName;
 };
 
 /**
