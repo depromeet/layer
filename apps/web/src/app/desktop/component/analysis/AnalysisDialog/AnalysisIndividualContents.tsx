@@ -11,7 +11,6 @@ import { useSatisfactionData } from "@/hooks/useSatisfactionData";
 const EMOTIONS: IconType[] = ["ic_very_poor", "ic_poor", "ic_commonly", "ic_good", "ic_very_good"];
 
 const INDEX_OFFSET = 1; // 0-based index로 변환하기 위한 오프셋
-const PADDING_SUM = 8;
 
 type AnalysisIndividualContentsProps = {
   individualAnalysis?: IndividualAnalyzeType;
@@ -179,8 +178,8 @@ export default function AnalysisIndividualContents({ individualAnalysis }: Analy
                   css={css`
                     position: absolute;
                     top: -5rem;
-                    left: ${individualAnalysis.goalCompletionRate - PADDING_SUM}%; /* 비율에 따라 동적 위치 */
-                    transform: translateX(-50%); /* 중앙 정렬 */
+                    left: calc(6rem + ((100% - 12rem) * ${individualAnalysis.goalCompletionRate} / 100));
+                    transform: translateX(-50%);
                     background-color: white;
                     border-radius: 1.6rem;
                     padding: 0.4rem 0.8rem;
