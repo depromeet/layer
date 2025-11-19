@@ -59,7 +59,7 @@ export default function ActionItemManageToggleMenu({
       onClose: close,
       options: {
         enableFooter: false,
-        needsBackButton: true,
+        needsBackButton: false,
         backButtonCallback: () => close(),
       },
     });
