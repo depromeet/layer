@@ -3,7 +3,7 @@ import { TextArea } from "@/component/common/input";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { css } from "@emotion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
@@ -21,7 +21,10 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
   const queryClient = useQueryClient();
 
   const { toast } = useToast();
-  const { data: retrospectOptions } = useQuery(useApiOptionsGetRetrospects(spaceId));
+  const { data: retrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
+
+  // * 마감된 회고 필터링
+  const completedRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "DONE") || [], [retrospects]);
 
   const [selectedRetrospect, setSelectedRetrospect] = useState<Retrospect>();
   const [content, setContent] = useState<string>("");
@@ -59,8 +62,8 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
   const handleCancel = () => {
     onClose();
 
-    if (retrospectOptions && retrospectOptions.length > 0) {
-      setSelectedRetrospect(retrospectOptions[0]);
+    if (completedRetrospects.length > 0) {
+      setSelectedRetrospect(completedRetrospects[0]);
     }
 
     setContent("");
@@ -112,10 +115,10 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
   };
 
   useEffect(() => {
-    if (retrospectOptions && retrospectOptions.length > 0 && !selectedRetrospect) {
-      setSelectedRetrospect(retrospectOptions[0]);
+    if (completedRetrospects.length > 0 && !selectedRetrospect) {
+      setSelectedRetrospect(completedRetrospects[0]);
     }
-  }, [retrospectOptions, selectedRetrospect]);
+  }, [completedRetrospects, selectedRetrospect]);
 
   return (
     <>
@@ -205,55 +208,54 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
                 }
               `}
             >
-              {retrospectOptions &&
-                retrospectOptions.map((option, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleRetrospectSelect(option)}
-                    css={css`
-                      align-content: center;
-                      height: 4.2rem;
-                      padding: 0.8rem 2rem;
-                      cursor: pointer;
+              {completedRetrospects.map((option, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleRetrospectSelect(option)}
+                  css={css`
+                    align-content: center;
+                    height: 4.2rem;
+                    padding: 0.8rem 2rem;
+                    cursor: pointer;
 
-                      /* 순차적 애니메이션 효과 */
-                      animation: ${isClosing ? "itemFadeOut" : "itemFadeIn"} 0.15s ease-out;
-                      animation-delay: ${isClosing ? (retrospectOptions.length - index - 1) * 0.03 : index * 0.05}s;
-                      animation-fill-mode: both;
+                    /* 순차적 애니메이션 효과 */
+                    animation: ${isClosing ? "itemFadeOut" : "itemFadeIn"} 0.15s ease-out;
+                    animation-delay: ${isClosing ? (completedRetrospects.length - index - 1) * 0.03 : index * 0.05}s;
+                    animation-fill-mode: both;
 
-                      @keyframes itemFadeIn {
-                        from {
-                          opacity: 0;
-                          transform: translateY(-5px);
-                        }
-                        to {
-                          opacity: 1;
-                          transform: translateY(0);
-                        }
+                    @keyframes itemFadeIn {
+                      from {
+                        opacity: 0;
+                        transform: translateY(-5px);
                       }
-
-                      @keyframes itemFadeOut {
-                        from {
-                          opacity: 1;
-                          transform: translateY(0);
-                        }
-                        to {
-                          opacity: 0;
-                          transform: translateY(-5px);
-                        }
+                      to {
+                        opacity: 1;
+                        transform: translateY(0);
                       }
+                    }
 
-                      &:hover {
-                        background-color: ${DESIGN_TOKEN_COLOR.gray100};
-                        transition: background-color 0.2s ease-in-out;
+                    @keyframes itemFadeOut {
+                      from {
+                        opacity: 1;
+                        transform: translateY(0);
                       }
-                    `}
-                  >
-                    <Typography variant="body15Medium" color="gray800">
-                      {option.title}
-                    </Typography>
-                  </div>
-                ))}
+                      to {
+                        opacity: 0;
+                        transform: translateY(-5px);
+                      }
+                    }
+
+                    &:hover {
+                      background-color: ${DESIGN_TOKEN_COLOR.gray100};
+                      transition: background-color 0.2s ease-in-out;
+                    }
+                  `}
+                >
+                  <Typography variant="body15Medium" color="gray800">
+                    {option.title}
+                  </Typography>
+                </div>
+              ))}
             </section>
           )}
         </article>
