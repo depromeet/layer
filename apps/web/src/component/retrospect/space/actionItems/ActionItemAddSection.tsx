@@ -14,10 +14,11 @@ import { useToast } from "@/hooks/useToast";
 
 type ActionItemAddSectionProps = {
   spaceId: string;
+  retrospectId: number;
   onClose: () => void;
 };
 
-export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAddSectionProps) {
+export default function ActionItemAddSection({ spaceId, retrospectId, onClose }: ActionItemAddSectionProps) {
   const queryClient = useQueryClient();
 
   const { toast } = useToast();
@@ -116,9 +117,10 @@ export default function ActionItemAddSection({ spaceId, onClose }: ActionItemAdd
 
   useEffect(() => {
     if (completedRetrospects.length > 0 && !selectedRetrospect) {
-      setSelectedRetrospect(completedRetrospects[0]);
+      const initialRetrospect = completedRetrospects.find((option) => option.retrospectId === retrospectId);
+      setSelectedRetrospect(initialRetrospect || completedRetrospects[0]);
     }
-  }, [completedRetrospects, selectedRetrospect]);
+  }, [completedRetrospects, selectedRetrospect, retrospectId]);
 
   return (
     <>

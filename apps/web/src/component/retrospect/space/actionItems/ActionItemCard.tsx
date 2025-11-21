@@ -49,7 +49,7 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
   const handleAddActionItem = () => {
     openDesktopModal({
       title: "실행목표 추가",
-      contents: <ActionItemAddSection spaceId={spaceId} onClose={close} />,
+      contents: <ActionItemAddSection spaceId={spaceId} retrospectId={retrospectId} onClose={close} />,
       onClose: close,
       options: {
         enableFooter: false,
