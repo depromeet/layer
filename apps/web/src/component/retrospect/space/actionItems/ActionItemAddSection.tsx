@@ -300,7 +300,12 @@ export default function ActionItemAddSection({ spaceId, retrospectId, onClose }:
         <Button colorSchema={"gray"} onClick={handleCancel} disabled={isPendingCreateActionItem}>
           취소
         </Button>
-        <Button colorSchema={"primary"} onClick={handleComplete} disabled={isPendingCreateActionItem} isProgress={isPendingCreateActionItem}>
+        <Button
+          colorSchema={"primary"}
+          onClick={handleComplete}
+          disabled={isPendingCreateActionItem || content.trim() === ""}
+          isProgress={isPendingCreateActionItem}
+        >
           완료
         </Button>
       </ButtonProvider>
