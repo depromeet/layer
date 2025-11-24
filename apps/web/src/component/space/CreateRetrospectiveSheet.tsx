@@ -5,6 +5,7 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { PATHS } from "@layer/shared";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useState } from "react";
 
 type Props = {
   teamName: string | undefined;
@@ -14,6 +15,10 @@ type Props = {
 
 export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }: Props) {
   const navigate = useNavigate();
+
+  const [isRecommendHovered, setIsRecommendHovered] = useState(false);
+  const [isListHovered, setIsListHovered] = useState(false);
+
   return (
     <div
       css={css`
@@ -45,6 +50,8 @@ export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }
             });
             closeBottomSheet();
           }}
+          onMouseEnter={() => setIsRecommendHovered(true)}
+          onMouseLeave={() => setIsRecommendHovered(false)}
           css={css`
             width: 16.3rem;
             background-color: #f6f8fa;
@@ -62,7 +69,7 @@ export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }
             }
           `}
         >
-          <Icon icon="ic_stars" size={4.8} />
+          <Icon icon={`${isRecommendHovered ? "ic_stars_white" : "ic_stars"}`} size={4.8} />
           <Typography as="span" variant="body16Medium" color="black">
             추천받기
           </Typography>
@@ -74,6 +81,8 @@ export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }
             });
             closeBottomSheet();
           }}
+          onMouseEnter={() => setIsListHovered(true)}
+          onMouseLeave={() => setIsListHovered(false)}
           css={css`
             width: 16.3rem;
             background-color: #f6f8fa;
@@ -91,8 +100,7 @@ export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }
             }
           `}
         >
-          <Icon icon="ic_list" size={4.8} color={DESIGN_TOKEN_COLOR.purple600} />
-          <Typography variant="body16Medium">리스트보기</Typography>
+          <Icon icon={`${isListHovered ? "ic_list_white" : "ic_list"}`} size={4.8} /> <Typography variant="body16Medium">리스트 보기</Typography>
         </button>
       </div>
     </div>
