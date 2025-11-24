@@ -6,14 +6,13 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { TemplateList } from "../template/list";
 import { TemplateRecommend } from "../template/recommend";
-import { useState } from "react";
+import useHoverToggle from "@/hooks/useHoverToggle";
 
 export function TemplateChoice() {
   const { openFunnelModal } = useFunnelModal();
   const { closeActionModal } = useActionModal();
-
-  const [isRecommendHovered, setIsRecommendHovered] = useState(false);
-  const [isListHovered, setIsListHovered] = useState(false);
+  const recommendHover = useHoverToggle();
+  const listHover = useHoverToggle();
 
   const handleMoveToRecommendTemplate = () => {
     openFunnelModal({
@@ -57,8 +56,8 @@ export function TemplateChoice() {
       >
         <button
           onClick={handleMoveToRecommendTemplate}
-          onMouseEnter={() => setIsRecommendHovered(true)}
-          onMouseLeave={() => setIsRecommendHovered(false)}
+          onMouseEnter={recommendHover.handleMouseHover}
+          onMouseLeave={recommendHover.handleMouseLeave}
           css={css`
             width: 16.3rem;
             background-color: #f6f8fa;
@@ -76,15 +75,15 @@ export function TemplateChoice() {
             }
           `}
         >
-          <Icon icon={`${isRecommendHovered ? "ic_stars_white" : "ic_stars"}`} size={4.8} />
+          <Icon icon={`${recommendHover.isHovered ? "ic_stars_white" : "ic_stars"}`} size={4.8} />
           <Typography as="span" variant="body16Medium" color="black">
             추천받기
           </Typography>
         </button>
         <button
           onClick={handleMoveToListTemplate}
-          onMouseEnter={() => setIsListHovered(true)}
-          onMouseLeave={() => setIsListHovered(false)}
+          onMouseEnter={listHover.handleMouseHover}
+          onMouseLeave={listHover.handleMouseLeave}
           css={css`
             width: 16.3rem;
             background-color: #f6f8fa;
@@ -102,7 +101,8 @@ export function TemplateChoice() {
             }
           `}
         >
-          <Icon icon={`${isListHovered ? "ic_list_white" : "ic_list"}`} size={4.8} /> <Typography variant="body16Medium">리스트 보기</Typography>
+          <Icon icon={`${listHover.isHovered ? "ic_list_white" : "ic_list"}`} size={4.8} />{" "}
+          <Typography variant="body16Medium">리스트 보기</Typography>
         </button>
       </div>
     </div>
