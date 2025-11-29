@@ -101,9 +101,15 @@ export default function InProgressRetrospects() {
           `}
         >
           <Icon icon="ic_new_clock" size={7.2} color={DESIGN_TOKEN_COLOR.gray500} />
-          <Typography variant="body16Medium" color="gray500">
-            진행 중인 회고가 비어있어요 <br />
-            회고를 작성해 보세요!
+          <Typography
+            variant="body16Medium"
+            color="gray500"
+            css={css`
+              text-align: center;
+              white-space: pre-wrap;
+            `}
+          >
+            {"진행 중인 회고가 비어있어요\n회고를 작성해 보세요!"}
           </Typography>
           <button
             css={css`
