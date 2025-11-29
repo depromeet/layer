@@ -40,7 +40,10 @@ export function ConfirmDefaultTemplate() {
 
   return (
     <>
-      <Header title={`${saveTemplateId ? "해당" : "대표"} 템플릿으로 회고를 진행할까요?`} contents="가장 최근에 선택한 회고 템플릿이에요" />
+      <Header
+        title={`${saveTemplateId ? "해당" : "대표"} 템플릿으로 회고를 진행할까요?`}
+        contents={`${saveTemplateId ? "템플릿을 기반으로 질문을 커스텀 할 수 있어요" : "가장 최근에 선택한 회고 템플릿이에요"}`}
+      />
       <Spacing size={4} />
       <div
         css={css`
