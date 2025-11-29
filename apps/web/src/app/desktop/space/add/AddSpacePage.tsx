@@ -918,7 +918,9 @@ function CreateRetrospectDeadlineFunnel() {
         onlyContainerStyle={{
           padding: 0,
         }}
+        sort={"horizontal"}
       >
+        <ButtonProvider.Gray onClick={() => setFlow("CREATE", 0)}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary
           isProgress={loader}
           onClick={() => {

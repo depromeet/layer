@@ -30,7 +30,7 @@ export function TemplateQuestion({ templateId, templateDetailQuestionList }: Tem
           align-items: center;
         `}
       >
-        <Icon icon="ic_recommend_color" size={2.4} />
+        <Icon icon="ic_education_color" size={2.4} />
         <p
           css={css`
             font-size: 1.5rem;
