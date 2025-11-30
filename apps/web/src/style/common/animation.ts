@@ -114,6 +114,15 @@ export const ANIMATION = {
       transform: translateY(0);
     }
   `,
+
+  BOUNCE: keyframes`
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  `,
 };
 
 export const ANIMATION_CSS = {
