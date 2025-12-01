@@ -12,7 +12,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ExtendedActionItemType } from "@/types/actionItem";
 import { useModal } from "@/hooks/useModal";
 import { useDeleteActionItemList } from "@/hooks/api/actionItem/useDeleteActionItemList";
-import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
 import { useToast } from "@/hooks/useToast";
 
 type ActionItem = {
@@ -39,13 +38,11 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
   const [actionItems, setActionItems] = useState<ActionItem[]>(todoList);
   const [nextTempId, setNextTempId] = useState(INIT_TEMP_ID);
 
-  const { mutate: createActionItem, isPending: isPendingCreateActionItem } = useApiPostActionItem();
   const { mutate: patchActionItem, isPending: isPendingPatchActionItem } = usePatchActionItemList();
   const { mutate: deleteActionItem } = useDeleteActionItemList();
 
   /**
    * 리스트의 아이템 순서 변경
-   *
    * @param list
    * @param startIndex
    * @param endIndex
@@ -61,7 +58,6 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
 
   /**
    * 드래그 앤 드롭이 끝났을 때 호출
-   *
    * @param result
    * @returns
    */
@@ -76,7 +72,6 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
 
   /**
    * 아이템 삭제 핸들러
-   *
    * @param id
    */
   const handleDelete = (id: string) => {
@@ -115,8 +110,7 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
 
               closeModal();
             },
-            onError: (error) => {
-              console.error("삭제 실패:", error);
+            onError: () => {
               closeModal();
             },
           },
@@ -130,7 +124,6 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
 
   /**
    * 아이템 내용 변경 핸들러
-   *
    * @param id
    * @param newContent
    */
@@ -147,70 +140,43 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
     setActionItems([...actionItems, { actionItemId: newId, content: "", isNew: true }]);
   };
 
+  /**
+   * 완료 버튼 클릭 시, 실행목표 수정 API 호출
+   * * 요청에 보낼 아이템 리스트 생성
+   * * 내용이 비어있는 아이템은 제외
+   * * isNew 플래그에 따라 id 포함 여부 결정
+   */
   const handleComplete = async () => {
-    // * 기존 아이템과 새로운 아이템 분리
-    const existingItems = actionItems.filter((item) => !item.isNew);
-    const newItems = actionItems.filter((item) => item.isNew && item.content.trim() !== "");
-
     try {
-      // 1. 새로운 아이템 생성 (순차 처리) 후 생성된 아이템 정보 수집
-      const createdItems: { id: number; content: string }[] = [];
-
-      if (newItems.length > 0) {
-        for (const item of newItems) {
-          const createdId = await new Promise<number>((resolve, reject) => {
-            createActionItem(
-              {
-                retrospectId,
-                content: item.content,
-              },
-              {
-                onSuccess: (data) => {
-                  resolve(data.data.actionItemId);
-                },
-                onError: reject,
-              },
-            );
-          });
-
-          // 생성된 아이템을 배열에 추가
-          createdItems.push({
-            id: createdId,
+      const requestItems = actionItems
+        .filter((item) => item.content.trim() !== "")
+        .map((item) => {
+          if (item.isNew) {
+            return { content: item.content };
+          }
+          return {
+            id: parseInt(item.actionItemId),
             content: item.content,
-          });
-        }
-      }
-
-      // 2. 기존 아이템 + 방금 생성된 아이템 합쳐서 업데이트
-      const allItemsToUpdate = [
-        ...existingItems.map((item) => ({
-          id: parseInt(item.actionItemId),
-          content: item.content,
-        })),
-        ...createdItems,
-      ];
-
-      if (allItemsToUpdate.length > 0) {
-        await new Promise((resolve, reject) => {
-          patchActionItem(
-            {
-              retrospectId,
-              actionItems: allItemsToUpdate,
-            },
-            {
-              onSuccess: resolve,
-              onError: reject,
-            },
-          );
+          };
         });
-      }
 
-      // 3. 모든 작업 완료 후 캐시 무효화 및 완료 처리
+      await new Promise((resolve, reject) => {
+        patchActionItem(
+          {
+            retrospectId,
+            actionItems: requestItems,
+          },
+          {
+            onSuccess: resolve,
+            onError: reject,
+          },
+        );
+      });
+
       await queryClient.invalidateQueries({ queryKey: ["getTeamActionItemList", spaceId] });
       toast.success("실행목표 편집이 완료되었어요!");
       onClose();
     } catch (error) {
-      console.error("아이템 저장 실패:", error);
       toast.error("실행목표 편집에 실패했어요.");
     }
   };
@@ -383,7 +349,7 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
           padding: 0;
         `}
       >
-        <Button colorSchema={"primary"} onClick={handleComplete} isProgress={isPendingCreateActionItem || isPendingPatchActionItem}>
+        <Button colorSchema={"primary"} onClick={handleComplete} isProgress={isPendingPatchActionItem}>
           완료
         </Button>
       </ButtonProvider>
