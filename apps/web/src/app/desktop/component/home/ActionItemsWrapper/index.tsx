@@ -11,6 +11,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { useGetActionItemList } from "@/hooks/api/actionItem/useGetActionItemList";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
+import { Icon } from "@/component/common/Icon";
 
 export default function ActionItemsWrapper() {
   // * 본인 memberId 가져오기
@@ -177,11 +178,16 @@ export default function ActionItemsWrapper() {
               gap: 1.6rem;
             `}
           >
-            <Typography variant="body14Medium" color="gray700">
-              아직 작성된 실행목표가 없어요
-            </Typography>
-            <Typography variant="body12Medium" color="gray700">
-              회고를 완료하면 실행목표를 설정할 수 있습니다
+            <Icon icon="ic_new_clock" size={5.6} color={DESIGN_TOKEN_COLOR.gray500} />
+            <Typography
+              variant="body15Medium"
+              color="gray500"
+              css={css`
+                text-align: center;
+                white-space: pre-wrap;
+              `}
+            >
+              {"진행 중인 실행 목표가 없어요\n회고를 완료하면 실행목표를 설정할 수 있습니다"}
             </Typography>
           </div>
         ) : (
