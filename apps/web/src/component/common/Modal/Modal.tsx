@@ -101,6 +101,7 @@ export function Modal() {
                           padding: 0;
                         `}
                         gradient={false}
+                        isProgress={modalDataState?.isProgress}
                       >
                         <Button
                           colorSchema={"gray"}
@@ -133,6 +134,7 @@ export function Modal() {
                           padding: 0;
                         `}
                         gradient={false}
+                        isProgress={modalDataState?.isProgress}
                       >
                         <Button
                           colorSchema={"primary"}

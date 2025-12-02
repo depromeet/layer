@@ -1,17 +1,27 @@
 import { Icon } from "@/component/common/Icon";
 import { ToggleMenu } from "@/component/common/toggleMenu";
+import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
+import { useModal } from "@/hooks/useModal";
+import { useToast } from "@/hooks/useToast";
 import useToggleMenu from "@/hooks/useToggleMenu";
+import { queryClient } from "@/lib/tanstack-query/queryClient";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 
 export default function TemplateCardManageToggleMenu({
   iconSize = 2.0,
   iconColor = "gray500",
+  retrospectId,
+  spaceId,
 }: {
   iconSize?: number | string;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
+  retrospectId: number;
+  spaceId: number;
 }) {
   const { isShowMenu, showMenu } = useToggleMenu();
+  const { mutate } = useApiDeleteRetrospect();
+  const { open, close, setProgress } = useModal();
 
   /**
    * @description 토글 메뉴 표시 함수
@@ -20,6 +30,25 @@ export default function TemplateCardManageToggleMenu({
   const handleShowToggleMenu = (event: React.MouseEvent) => {
     event.stopPropagation();
     showMenu(event);
+  };
+
+  const handleRemoveRetrospect = () => {
+    setProgress(true);
+    mutate(
+      { spaceId: String(spaceId), retrospectId: String(retrospectId) },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["getAllRetrospects"],
+          });
+          setProgress(false);
+          close();
+        },
+        onError: () => {
+          setProgress(false);
+        },
+      },
+    );
   };
 
   return (
@@ -45,7 +74,22 @@ export default function TemplateCardManageToggleMenu({
         <ToggleMenu>
           <ToggleMenu.Button> 회고 마감 </ToggleMenu.Button>
           <ToggleMenu.Button> 회고 수정 </ToggleMenu.Button>
-          <ToggleMenu.Button variant="subtitle14SemiBold" color="red500">
+          <ToggleMenu.Button
+            variant="subtitle14SemiBold"
+            color="red500"
+            onClick={() =>
+              open({
+                title: "회고를 삭제하시겠어요?",
+                contents: "삭제하면 다시 되돌릴 수 없어요",
+                options: {
+                  buttonText: ["취소", "삭제"],
+                  autoClose: false,
+                },
+                onConfirm: handleRemoveRetrospect,
+                onClose: close,
+              })
+            }
+          >
             회고 삭제
           </ToggleMenu.Button>
         </ToggleMenu>

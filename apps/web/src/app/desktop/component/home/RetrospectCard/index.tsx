@@ -98,7 +98,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
         `}
       >
         <ProceedingTextBox writeStatus={writeStatus} analysisStatus={analysisStatus} />
-        <TemplateCardManageToggleMenu />
+        <TemplateCardManageToggleMenu retrospectId={retrospect.retrospectId} spaceId={retrospect.spaceId} />
       </div>
 
       {/* ---------- 제목 ---------- */}
