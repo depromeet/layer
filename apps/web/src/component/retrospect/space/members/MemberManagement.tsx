@@ -155,7 +155,7 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
         display: inline-block;
       `}
     >
-      <MemberManagementButton onClick={handleClick} memberCount={memberCount} />
+      <MemberManagementButton onClick={handleClick} memberCount={memberCount} isOpen={isOpen} />
 
       {isOpen && (
         <MemberManagementDropdown>
