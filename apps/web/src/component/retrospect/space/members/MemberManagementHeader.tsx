@@ -9,9 +9,17 @@ interface MemberManagementHeaderProps {
   editDropdownRef: React.RefObject<HTMLDivElement>;
   onEditAction: (action: string) => void;
   isLeader: boolean;
+  memberCount: number;
 }
 
-export function MemberManagementHeader({ isEditOpen, onEditClick, editDropdownRef, onEditAction, isLeader }: MemberManagementHeaderProps) {
+export function MemberManagementHeader({
+  isEditOpen,
+  onEditClick,
+  editDropdownRef,
+  onEditAction,
+  isLeader,
+  memberCount,
+}: MemberManagementHeaderProps) {
   return (
     <div
       css={css`
@@ -32,7 +40,7 @@ export function MemberManagementHeader({ isEditOpen, onEditClick, editDropdownRe
           인원
         </Typography>
         <Typography variant="title16Bold" color="gray600">
-          4
+          {memberCount}
         </Typography>
       </div>
       {isLeader && (

@@ -172,6 +172,7 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
                   editDropdownRef={editDropdownRef}
                   onEditAction={handleEditAction}
                   isLeader={isCurrentUserLeader}
+                  memberCount={memberCount}
                 />
               </div>
               <div
@@ -181,7 +182,7 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
                   padding: 0 1.6rem 1.6rem 1.6rem;
                 `}
               >
-                <AddMemberButton onClick={handleAddMember} />
+                {spaceInfo?.category === "TEAM" && <AddMemberButton onClick={handleAddMember} />}
                 <MemberList members={members} onMemberClick={handleMemberClick} />
               </div>
             </>
