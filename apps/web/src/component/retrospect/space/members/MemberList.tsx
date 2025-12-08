@@ -62,7 +62,7 @@ function MemberItem({ member, onClick }: MemberItemProps) {
           flex-shrink: 0;
         `}
       >
-        {member.avatar && (
+        {member.avatar ? (
           <img
             src={member.avatar}
             alt={member.name}
@@ -73,6 +73,8 @@ function MemberItem({ member, onClick }: MemberItemProps) {
               object-fit: cover;
             `}
           />
+        ) : (
+          <Icon icon="ic_empty_avatar" size={3.2} />
         )}
         {member.isLeader && (
           <div
