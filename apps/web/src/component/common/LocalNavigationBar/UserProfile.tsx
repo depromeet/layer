@@ -1,22 +1,24 @@
-import { lazy, useRef, useState, forwardRef } from "react";
+import { forwardRef, useRef, useState } from "react";
 import { css } from "@emotion/react";
-import { UserProfileDropdown } from "./UserProfileDropdown";
-import { useNavigation } from "./context/NavigationContext";
-import Tooltip from "../Tooltip";
-import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
-import { Icon } from "../Icon";
-import { Typography } from "../typography";
-import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 import Cookies from "js-cookie";
 import { useAtomValue } from "jotai";
-import { authAtom } from "@/store/auth/authAtom";
+
+import { UserProfileDropdown } from "@/component/common/LocalNavigationBar/UserProfileDropdown";
+import { useNavigation } from "@/component/common/LocalNavigationBar/context/NavigationContext";
+import { Icon } from "@/component/common/Icon";
+import Tooltip from "@/component/common/Tooltip";
+import { Typography } from "@/component/common/typography";
+import { AccountSettingsModal } from "@/component/common/Modal/UserSetting/AccountSettingsModal";
+import { FeedbackModal } from "@/component/common/Modal/UserSetting/FeedbackModal";
+import { HelpModal } from "@/component/common/Modal/UserSetting/HelpModal";
+import { LogoutModal } from "@/component/common/Modal/UserSetting/LogoutModal";
+
+import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 import useClickOutside from "@/hooks/useClickOutside";
 
-const LogoutModal = lazy(() => import("../Modal/UserSetting/LogoutModal").then((module) => ({ default: module.LogoutModal })));
-const FeedbackModal = lazy(() => import("../Modal/UserSetting/FeedbackModal").then((module) => ({ default: module.FeedbackModal })));
-const AccountSettingsModal = lazy(() =>
-  import("../Modal/UserSetting/AccountSettingsModal").then((module) => ({ default: module.AccountSettingsModal })),
-);
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+
+import { authAtom } from "@/store/auth/authAtom";
 
 type ProfileButtonProps = {
   name: string;
@@ -110,7 +112,7 @@ export default function UserProfile() {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isAccountSettingsModalOpen, setIsAccountSettingsModalOpen] = useState(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
-
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const handleAccountSettingsClose = () => {
     setIsAccountSettingsModalOpen(false);
   };
@@ -130,6 +132,7 @@ export default function UserProfile() {
   };
 
   const handleHelp = () => {
+    setIsHelpModalOpen(true);
     setIsDropdownOpen(false);
   };
 
@@ -179,6 +182,8 @@ export default function UserProfile() {
       {/* ---------- 계정설정 모달 ---------- */}
       {isAccountSettingsModalOpen && <AccountSettingsModal isOpen={isAccountSettingsModalOpen} onClose={handleAccountSettingsClose} />}
 
+      {/* ---------- 도움말 모달 ---------- */}
+      {isHelpModalOpen && <HelpModal isOpen={isHelpModalOpen} onClose={() => setIsHelpModalOpen(false)} />}
       {/* ---------- 로그아웃 모달 ---------- */}
       {isLogoutModalOpen && (
         <LogoutModal
