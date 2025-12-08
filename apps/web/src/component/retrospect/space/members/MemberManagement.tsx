@@ -14,6 +14,7 @@ import { useApiKickMember } from "@/hooks/api/space/members/useApiKickMembers";
 import { useApiGetMemers } from "@/hooks/api/space/members/useApiGetMembers";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { useQueries } from "@tanstack/react-query";
+import { InviteMemberModal } from "@/component/common/Modal/Member/InviteMemberModal";
 
 export default function MemberManagement({ spaceId }: { spaceId: string }) {
   const [{ data: spaceInfo }] = useQueries({
@@ -32,6 +33,7 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
 
   const [isOpen, setIsOpen] = useState(false); // 팀원 관리 드롭다운 열림 여부
   const [isEditOpen, setIsEditOpen] = useState(false); // 팀원 관리 드롭다운 내부 편집 버튼 열림 여부
+  const [isModalOpen, setIsModalOpen] = useState(false); // 팀원 초대 모달 열림 여부
 
   // 팀원 관리 드롭다운 내부 뷰 타입
   // main: 팀원 관리 뷰, leaderChange: 대표자 변경 뷰, memberDelete: 팀원 삭제 뷰
@@ -65,7 +67,7 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
   };
 
   const handleAddMember = () => {
-    // TODO: 팀원 추가 로직 구현 -> 팀원추가 뷰가 따로 없는것 같습니다..?
+    setIsModalOpen(true);
   };
 
   const handleMemberClick = () => {
@@ -222,6 +224,7 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
       {isDeleteConfirmModalOpen && (
         <MemberDeleteConfirmModal onConfirm={handleConfirmMemberDelete} onCancel={() => setIsDeleteConfirmModalOpen(false)} />
       )}
+      <InviteMemberModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} spaceId={spaceId} />
     </div>
   );
 }
