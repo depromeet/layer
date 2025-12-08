@@ -7,9 +7,10 @@ import { css } from "@emotion/react";
 interface MemberManagementButtonProps {
   onClick: (e: React.MouseEvent) => void;
   memberCount?: number;
+  isOpen?: boolean;
 }
 
-export function MemberManagementButton({ onClick, memberCount }: MemberManagementButtonProps) {
+export function MemberManagementButton({ onClick, memberCount, isOpen = false }: MemberManagementButtonProps) {
   return (
     <div
       onClick={onClick}
@@ -29,7 +30,15 @@ export function MemberManagementButton({ onClick, memberCount }: MemberManagemen
       <Typography variant="body14SemiBold" color="gray600">
         {memberCount}
       </Typography>
-      <Icon icon={"ic_chevron_down"} size={1.6} color={DESIGN_TOKEN_COLOR.gray600} />
+      <Icon
+        icon={"ic_chevron_down"}
+        size={1.6}
+        color={DESIGN_TOKEN_COLOR.gray600}
+        css={css`
+          transform: rotate(${isOpen ? "180deg" : "0deg"});
+          transition: transform 0.2s ease;
+        `}
+      />
     </div>
   );
 }
