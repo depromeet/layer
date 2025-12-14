@@ -184,7 +184,7 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
                   padding: 0 1.6rem 1.6rem 1.6rem;
                 `}
               >
-                {spaceInfo?.category === "TEAM" && <AddMemberButton onClick={handleAddMember} />}
+                {spaceInfo?.category === "TEAM" && isCurrentUserLeader && <AddMemberButton onClick={handleAddMember} />}
                 <MemberList members={members} onMemberClick={handleMemberClick} />
               </div>
             </>

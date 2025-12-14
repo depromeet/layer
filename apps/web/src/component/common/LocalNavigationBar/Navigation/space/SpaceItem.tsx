@@ -164,7 +164,7 @@ const SpaceButton = forwardRef<HTMLLIElement, SpaceButtonProps>(({ space, isColl
               width: auto;
             `}
           >
-            {isLeader && <SpaceManageToggleMenu spaceId={spaceId} iconSize={1.8} iconColor="gray500" />}
+            <SpaceManageToggleMenu spaceId={spaceId} isLeader={isLeader} iconSize={1.8} iconColor="gray500" />
           </div>
         </>
       )}
