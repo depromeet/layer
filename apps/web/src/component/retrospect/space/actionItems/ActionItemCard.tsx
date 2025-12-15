@@ -5,6 +5,9 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import ActionItemManageToggleMenu from "./ActionItemManageToggleMenu";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import ActionItemAddSection from "./ActionItemAddSection";
+import { useAtomValue } from "jotai";
+import { currentSpaceState } from "@/store/space/spaceAtom";
+import { isSpaceLeader } from "@/utils/userUtil";
 
 type ActionItemCardProps = {
   spaceId: string;
@@ -42,7 +45,11 @@ const getStatusConfig = (status: string) => {
 };
 
 export default function ActionItemCard({ spaceId, retrospectId, title, todoList, status }: ActionItemCardProps) {
+  const currentSpace = useAtomValue(currentSpaceState);
   const { open: openDesktopModal, close } = useDesktopBasicModal();
+
+  const { leader } = currentSpace || {};
+  const isLeader = isSpaceLeader(leader?.id);
 
   const statusStyle = getStatusConfig(status);
 
@@ -92,31 +99,33 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
             {statusStyle.label}
           </Typography>
         </div>
-        <div
-          css={css`
-            display: flex;
-            gap: 0.6rem;
-            align-items: center;
-          `}
-        >
-          <button
-            type="button"
+        {isLeader && (
+          <div
             css={css`
-              cursor: pointer;
+              display: flex;
+              gap: 0.6rem;
+              align-items: center;
             `}
-            onClick={handleAddActionItem}
           >
-            <Icon
-              icon="ic_plus"
-              size={1.4}
+            <button
+              type="button"
               css={css`
-                margin-top: 0.3rem;
-                color: ${DESIGN_TOKEN_COLOR.gray500};
+                cursor: pointer;
               `}
-            />
-          </button>
-          <ActionItemManageToggleMenu spaceId={spaceId} retrospectId={retrospectId} todoList={todoList} />
-        </div>
+              onClick={handleAddActionItem}
+            >
+              <Icon
+                icon="ic_plus"
+                size={1.4}
+                css={css`
+                  margin-top: 0.3rem;
+                  color: ${DESIGN_TOKEN_COLOR.gray500};
+                `}
+              />
+            </button>
+            <ActionItemManageToggleMenu spaceId={spaceId} retrospectId={retrospectId} todoList={todoList} />
+          </div>
+        )}
       </div>
 
       {/* ---------- 제목 ---------- */}

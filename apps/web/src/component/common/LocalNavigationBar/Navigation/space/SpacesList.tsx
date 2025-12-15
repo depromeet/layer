@@ -105,7 +105,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
       >
         <SpaceAddButton onClick={handleOpenSpaceAdd} />
 
-        {true && (
+        {spaces.length === 0 && (
           <Portal id="tooltip-root">
             <div
               css={css`
