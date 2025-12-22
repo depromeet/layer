@@ -1,8 +1,8 @@
 import { Icon } from "@/component/common/Icon";
 import { ToggleMenu } from "@/component/common/toggleMenu";
+import { useApiCloseRetrospect } from "@/hooks/api/retrospect/close/useApiCloseRetrospect";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
 import { useModal } from "@/hooks/useModal";
-import { useToast } from "@/hooks/useToast";
 import useToggleMenu from "@/hooks/useToggleMenu";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
@@ -13,14 +13,17 @@ export default function TemplateCardManageToggleMenu({
   iconColor = "gray500",
   retrospectId,
   spaceId,
+  isAnalyzed = false,
 }: {
   iconSize?: number | string;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
   retrospectId: number;
   spaceId: number;
+  isAnalyzed?: boolean;
 }) {
   const { isShowMenu, showMenu } = useToggleMenu();
-  const { mutate } = useApiDeleteRetrospect();
+  const { mutateAsync: mutateDeleteRetrospect } = useApiDeleteRetrospect();
+  const { mutateAsync: mutateCloseRetrospect } = useApiCloseRetrospect();
   const { open, close, setProgress } = useModal();
 
   /**
@@ -32,23 +35,39 @@ export default function TemplateCardManageToggleMenu({
     showMenu(event);
   };
 
-  const handleRemoveRetrospect = () => {
-    setProgress(true);
-    mutate(
-      { spaceId: String(spaceId), retrospectId: String(retrospectId) },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["getAllRetrospects"],
-          });
-          setProgress(false);
-          close();
-        },
-        onError: () => {
-          setProgress(false);
-        },
-      },
-    );
+  // TODO: 인터페이스 타입 구조 한번 더 다시 잡기 (추상화 하려고 했으나, 잘못된 타입 단언들로 인해 추상화 불가)
+  // 대상 : handleCloseRetrospect, handleRemoveRetrospect
+
+  /**
+   * @description 회고 마감 함수
+   * getRetrospects
+   */
+  const handleCloseRetrospect = async () => {
+    try {
+      setProgress(true);
+      await mutateCloseRetrospect({ spaceId: String(spaceId), retrospectId: retrospectId });
+      queryClient.invalidateQueries({
+        queryKey: ["getRetrospects"],
+      });
+    } catch (e) {
+    } finally {
+      setProgress(false);
+      close();
+    }
+  };
+
+  /**
+   * @description 회고 삭제 함수
+   */
+  const handleRemoveRetrospect = async () => {
+    try {
+      setProgress(true);
+      await mutateDeleteRetrospect({ spaceId: String(spaceId), retrospectId: String(retrospectId) });
+    } catch (e) {
+    } finally {
+      setProgress(false);
+      close();
+    }
   };
 
   return (
@@ -72,7 +91,23 @@ export default function TemplateCardManageToggleMenu({
       />
       {isShowMenu && (
         <ToggleMenu>
-          <ToggleMenu.Button> 회고 마감 </ToggleMenu.Button>
+          <ToggleMenu.Button
+            isShow={!isAnalyzed}
+            onClick={() =>
+              open({
+                title: "회고를 마감하시겠어요?",
+                contents: "마감하면 다시 되돌릴 수 없어요",
+                options: {
+                  buttonText: ["취소", "마감"],
+                  autoClose: false,
+                },
+                onConfirm: handleCloseRetrospect,
+                onClose: close,
+              })
+            }
+          >
+            회고 마감
+          </ToggleMenu.Button>
           <ToggleMenu.Button> 회고 수정 </ToggleMenu.Button>
           <ToggleMenu.Button
             variant="subtitle14SemiBold"
