@@ -95,8 +95,8 @@ export default function TemplateCardManageToggleMenu({
             isShow={!isAnalyzed}
             onClick={() =>
               open({
-                title: "회고를 마감하시겠어요?",
-                contents: "마감하면 다시 되돌릴 수 없어요",
+                title: "회고를 마감할까요?",
+                contents: "더 이상의 회고 수정이 불가해요",
                 options: {
                   buttonText: ["취소", "마감"],
                   autoClose: false,
