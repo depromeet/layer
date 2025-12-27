@@ -6,6 +6,7 @@ export type ModalType = {
   contents: ReactNode | string;
   onClose?: () => void;
   onConfirm?: () => void;
+  isProgress?: boolean;
   overrideActionElements?: JSX.Element;
   options?: {
     type?: "confirm" | "alert";

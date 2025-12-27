@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useEffect, useMemo, useRef } from "react";
+import { forwardRef, useEffect, useMemo, useRef } from "react";
 import type { CalendarProps } from "react-calendar";
 
 import { Calendar } from "@/component/common/dateTimePicker/Calendar";
@@ -21,7 +21,10 @@ type DesktopDateTimePickerProps = {
   onSave: (dateTime?: string) => void;
 };
 
-export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: DesktopDateTimePickerProps) {
+const DesktopDateTimePicker = forwardRef<HTMLDivElement, DesktopDateTimePickerProps>(function DesktopDateTimePicker(
+  { defaultValue, tileDisabled, onSave },
+  ref,
+) {
   const { toast } = useToast();
   const defaultDate = useMemo(() => (typeof defaultValue === "string" ? new Date(defaultValue) : defaultValue), [defaultValue]);
   const { onSelectDate, radioControl, date, dateTime, time } = useDateTimePicker(defaultDate, getTimeStringFromDate(defaultDate));
@@ -69,6 +72,7 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: De
         z-index: 10;
         gap: ${isDesktop ? "1.6rem" : "2.8rem"};
       `}
+      ref={ref}
     >
       <div
         css={css`
@@ -80,4 +84,7 @@ export function DesktopDateTimePicker({ defaultValue, tileDisabled, onSave }: De
       {date && <TimePicker ref={timePickerRef} radioControl={radioControl} />}
     </div>
   );
-}
+});
+
+DesktopDateTimePicker.displayName = "DesktopDateTimePicker";
+export { DesktopDateTimePicker };

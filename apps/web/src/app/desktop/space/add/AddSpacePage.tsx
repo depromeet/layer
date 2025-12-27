@@ -838,7 +838,7 @@ function CreateRetrospectDeadlineFunnel() {
 
     const createRetrospect = async (spaceId: number) => {
       const params = {
-        title: `${title}의 첫번째 회고`,
+        title: `${title}의 첫 번째 회고`,
         introduction: "",
         questions: [...DEFAULT_QUESTIONS, ...questions],
         deadline: deadLine,
@@ -918,7 +918,9 @@ function CreateRetrospectDeadlineFunnel() {
         onlyContainerStyle={{
           padding: 0,
         }}
+        sort={"horizontal"}
       >
+        <ButtonProvider.Gray onClick={() => setFlow("CREATE", 0)}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary
           isProgress={loader}
           onClick={() => {

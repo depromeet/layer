@@ -1,6 +1,7 @@
 import ModifySpacePage from "@/app/desktop/space/modify/ModifySpacePage";
 import { Icon } from "@/component/common/Icon";
 import { ToggleMenu } from "@/component/common/toggleMenu";
+import { useApiLeaveSpace } from "@/hooks/api/space/useApiLeaveSpace";
 import useModifySpace, { MODIFY_SPACE_METHOD_QUERY_KEY, MODIFY_SPACE_ID_QUERY_KEY } from "@/hooks/app/space/useModifySpace";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { useModal } from "@/hooks/useModal";
@@ -10,11 +11,13 @@ import { css } from "@emotion/react";
 import { useSearchParams } from "react-router-dom";
 
 export default function SpaceManageToggleMenu({
+  spaceId,
+  isLeader,
   iconSize = 1.8,
   iconColor = "gray900",
-  spaceId,
 }: {
   spaceId: string;
+  isLeader: boolean;
   iconSize?: number | string;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
 }) {
@@ -23,6 +26,7 @@ export default function SpaceManageToggleMenu({
   const { open: openAlertModal } = useModal();
   const { onSubmitDeleteSpace, initializeSearchQuery } = useModifySpace({ id: spaceId.toString() });
   const [_, setSearchParams] = useSearchParams();
+  const { mutate: leaveSpace } = useApiLeaveSpace();
 
   /**
    * @description 토글 메뉴 표시 함수
@@ -67,6 +71,20 @@ export default function SpaceManageToggleMenu({
     });
   };
 
+  /**
+   * @description 스페이스 떠나기 함수
+   */
+  const handleLeaveSpace = () => {
+    openAlertModal({
+      title: "스페이스를 떠나시겠어요?",
+      contents: "떠난 스페이스는 다시 돌아올 수 없어요",
+      onConfirm: () => leaveSpace(spaceId),
+      options: {
+        buttonText: ["취소", "떠나기"],
+      },
+    });
+  };
+
   return (
     <div
       className="space-manage-toggle-menu"
@@ -89,10 +107,18 @@ export default function SpaceManageToggleMenu({
       />
       {isShowMenu && (
         <ToggleMenu>
-          <ToggleMenu.Button onClick={handleEditSpace}> 스페이스 수정 </ToggleMenu.Button>
-          <ToggleMenu.Button variant="subtitle14SemiBold" color="red500" onClick={handleDeleteSpace}>
-            스페이스 삭제
-          </ToggleMenu.Button>
+          {isLeader ? (
+            <>
+              <ToggleMenu.Button onClick={handleEditSpace}>스페이스 수정</ToggleMenu.Button>
+              <ToggleMenu.Button variant="subtitle14SemiBold" color="red500" onClick={handleDeleteSpace}>
+                스페이스 삭제
+              </ToggleMenu.Button>
+            </>
+          ) : (
+            <ToggleMenu.Button variant="subtitle14SemiBold" color="red500" onClick={handleLeaveSpace}>
+              스페이스 떠나기
+            </ToggleMenu.Button>
+          )}
         </ToggleMenu>
       )}
     </div>

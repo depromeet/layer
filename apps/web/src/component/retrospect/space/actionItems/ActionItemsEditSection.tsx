@@ -12,10 +12,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ExtendedActionItemType } from "@/types/actionItem";
 import { useModal } from "@/hooks/useModal";
 import { useDeleteActionItemList } from "@/hooks/api/actionItem/useDeleteActionItemList";
+import { useToast } from "@/hooks/useToast";
 
 type ActionItem = {
   actionItemId: string;
   content: string;
+  isNew?: boolean;
 };
 
 type ActionItemsEditSectionProps = {
@@ -25,19 +27,22 @@ type ActionItemsEditSectionProps = {
   onClose: () => void;
 };
 
+const INIT_TEMP_ID = -1;
+
 export default function ActionItemsEditSection({ spaceId, retrospectId, todoList, onClose }: ActionItemsEditSectionProps) {
   const queryClient = useQueryClient();
 
+  const { toast } = useToast();
   const { open, close: closeModal } = useModal();
 
   const [actionItems, setActionItems] = useState<ActionItem[]>(todoList);
+  const [nextTempId, setNextTempId] = useState(INIT_TEMP_ID);
 
-  const { mutate: patchActionItem, isPending } = usePatchActionItemList();
+  const { mutate: patchActionItem, isPending: isPendingPatchActionItem } = usePatchActionItemList();
   const { mutate: deleteActionItem } = useDeleteActionItemList();
 
   /**
    * 리스트의 아이템 순서 변경
-   *
    * @param list
    * @param startIndex
    * @param endIndex
@@ -53,7 +58,6 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
 
   /**
    * 드래그 앤 드롭이 끝났을 때 호출
-   *
    * @param result
    * @returns
    */
@@ -68,7 +72,6 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
 
   /**
    * 아이템 삭제 핸들러
-   *
    * @param id
    */
   const handleDelete = (id: string) => {
@@ -103,10 +106,11 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
                 queryClient.setQueryData(["getTeamActionItemList", spaceId], updatedData);
               }
 
+              toast.success("실행목표 삭제가 완료되었어요!");
+
               closeModal();
             },
-            onError: (error) => {
-              console.error("삭제 실패:", error);
+            onError: () => {
               closeModal();
             },
           },
@@ -120,7 +124,6 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
 
   /**
    * 아이템 내용 변경 핸들러
-   *
    * @param id
    * @param newContent
    */
@@ -132,37 +135,50 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
    * 새 아이템 추가 핸들러
    */
   const handleAddItem = () => {
-    const newId = Math.max(...actionItems.map((item) => parseInt(item.actionItemId)), 0) + 1;
-    setActionItems([...actionItems, { actionItemId: newId.toString(), content: "" }]);
+    const newId = `temp_${nextTempId}`;
+    setNextTempId(nextTempId + 1);
+    setActionItems([...actionItems, { actionItemId: newId, content: "", isNew: true }]);
   };
 
-  const handleComplete = () => {
-    patchActionItem(
-      { retrospectId: retrospectId, actionItems: actionItems.map((item) => ({ id: parseInt(item.actionItemId), content: item.content })) },
-      {
-        onSuccess: async () => {
-          const previousData: { spaceId: string; spaceName: string; teamActionItemList: ExtendedActionItemType[] } | undefined =
-            await queryClient.getQueryData(["getTeamActionItemList", spaceId]);
-
-          const updatedData = {
-            ...previousData,
-            teamActionItemList: previousData?.teamActionItemList.map((retrospect) => {
-              if (retrospect.retrospectId === retrospectId) {
-                return {
-                  ...retrospect,
-                  actionItemList: actionItems.map((item) => ({ actionItemId: parseInt(item.actionItemId), content: item.content })),
-                };
-              }
-              return retrospect;
-            }),
+  /**
+   * 완료 버튼 클릭 시, 실행목표 수정 API 호출
+   * * 요청에 보낼 아이템 리스트 생성
+   * * 내용이 비어있는 아이템은 제외
+   * * isNew 플래그에 따라 id 포함 여부 결정
+   */
+  const handleComplete = async () => {
+    try {
+      const requestItems = actionItems
+        .filter((item) => item.content.trim() !== "")
+        .map((item) => {
+          if (item.isNew) {
+            return { content: item.content };
+          }
+          return {
+            id: parseInt(item.actionItemId),
+            content: item.content,
           };
+        });
 
-          queryClient.setQueryData(["getTeamActionItemList", spaceId], updatedData);
-          onClose();
-        },
-        onError: () => {},
-      },
-    );
+      await new Promise((resolve, reject) => {
+        patchActionItem(
+          {
+            retrospectId,
+            actionItems: requestItems,
+          },
+          {
+            onSuccess: resolve,
+            onError: reject,
+          },
+        );
+      });
+
+      await queryClient.invalidateQueries({ queryKey: ["getTeamActionItemList", spaceId] });
+      toast.success("실행목표 편집이 완료되었어요!");
+      onClose();
+    } catch (error) {
+      toast.error("실행목표 편집에 실패했어요.");
+    }
   };
 
   return (
@@ -279,7 +295,13 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
                           icon="ic_delete"
                           color={DESIGN_TOKEN_COLOR.gray500}
                           size={1.8}
-                          onClick={() => handleDelete(item.actionItemId)}
+                          onClick={() => {
+                            if (item.isNew) {
+                              setActionItems(actionItems.filter((i) => i.actionItemId !== item.actionItemId));
+                            } else {
+                              handleDelete(item.actionItemId);
+                            }
+                          }}
                           css={css`
                             cursor: pointer;
                             &:hover {
@@ -327,7 +349,7 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
           padding: 0;
         `}
       >
-        <Button colorSchema={"primary"} onClick={handleComplete} isProgress={isPending}>
+        <Button colorSchema={"primary"} onClick={handleComplete} isProgress={isPendingPatchActionItem}>
           완료
         </Button>
       </ButtonProvider>

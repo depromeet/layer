@@ -19,7 +19,7 @@ const getAllRetrospectsFetch = async () => {
 };
 
 export const useApiOptionsGetRetrospects = (spaceId?: string): UseQueryOptions<RetrospectResponse, Error, RetrospectResponse["retrospects"]> => ({
-  queryKey: ["getRetrospects", spaceId!],
+  queryKey: ["getRetrospects", spaceId],
   queryFn: () => spaceRetrospectFetch(spaceId),
   select(data) {
     return data.retrospects;

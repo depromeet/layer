@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import AnalyticsBox from "../AnalyticsBox";
 import { useApiGetMemberAnalysis } from "@/hooks/api/analysis/useApiGetMemberAnalysis";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
+import { getAnalysisConfig } from "@/utils/analysis/getAnalysisConfig";
 
 export default function AnalyticsWrapper() {
   const { data: myAnalysis, isPending: isMyAnalysisPending, isError: isMyAnalysisError } = useApiGetMemberAnalysis();
@@ -38,16 +39,73 @@ export default function AnalyticsWrapper() {
           <section
             css={css`
               width: 100%;
-              height: 20rem;
               display: flex;
+              flex-direction: column;
               justify-content: center;
-              align-items: center;
-              background-color: ${DESIGN_TOKEN_COLOR.gray00};
             `}
           >
-            <Typography variant="body14Medium" color="gray700">
-              분석 결과가 없습니다.
-            </Typography>
+            <section
+              css={css`
+                display: flex;
+                justify-content: space-between;
+              `}
+            >
+              {["good", "bad", "improvement"].map((type) => {
+                const config = getAnalysisConfig(type as "good" | "bad" | "improvement");
+
+                return (
+                  <section
+                    css={css`
+                      width: 27.4rem;
+                      display: flex;
+                      flex-direction: column;
+                      gap: 0.8rem;
+                      margin-bottom: 1.3rem;
+                    `}
+                  >
+                    <div
+                      css={css`
+                        width: 4.4rem;
+                        height: 4.4rem;
+                        background-color: ${DESIGN_TOKEN_COLOR.gray100};
+                        border-radius: 50%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 1.8rem;
+                      `}
+                    >
+                      {config.emoji}
+                    </div>
+                    <Typography variant="title18Bold">{config.title}</Typography>
+                  </section>
+                );
+              })}
+            </section>
+
+            <section
+              css={css`
+                width: 100%;
+                height: 20rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: ${DESIGN_TOKEN_COLOR.gray00};
+                border: 1px dashed ${DESIGN_TOKEN_COLOR.opacity12};
+                border-radius: 1.2rem;
+              `}
+            >
+              <Typography
+                variant="body15Medium"
+                color="gray500"
+                css={css`
+                  text-align: center;
+                  white-space: pre-wrap;
+                `}
+              >
+                {"아직 작성된 회고가 없어요\n 회고를 작성하면 분석 결과를 확인할 수 있어요"}
+              </Typography>
+            </section>
           </section>
         );
       }
@@ -66,7 +124,6 @@ export default function AnalyticsWrapper() {
       <section
         css={css`
           width: 100%;
-          height: 20rem;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -125,7 +182,7 @@ export default function AnalyticsWrapper() {
           position: relative;
           display: flex;
           justify-content: space-between;
-          min-height: 36.6rem;
+          min-height: 34.6rem;
           margin-top: 1.2rem;
           padding: 2.4rem 3.2rem;
           border-radius: 1.6rem;

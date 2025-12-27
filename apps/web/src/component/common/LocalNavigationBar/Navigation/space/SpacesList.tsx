@@ -12,6 +12,10 @@ import AddSpacePage from "@/app/desktop/space/add/AddSpacePage";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
 import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
+import { ANIMATION } from "@/style/common/animation";
+import { Typography } from "@/component/common/typography";
+import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Portal } from "@/component/common/Portal";
 
 interface SpacesListProps {
   currentTab: "전체" | "개인" | "팀";
@@ -92,7 +96,57 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
       {spaces.map((space) => (
         <SpaceItem key={space.id} space={space} />
       ))}
-      <SpaceAddButton onClick={handleOpenSpaceAdd} />
+
+      <section
+        css={css`
+          position: relative;
+          width: 100%;
+        `}
+      >
+        <SpaceAddButton onClick={handleOpenSpaceAdd} />
+
+        {spaces.length === 0 && (
+          <Portal id="tooltip-root">
+            <div
+              css={css`
+                position: fixed;
+                top: 31rem;
+                left: 2rem;
+                transform: ${isCollapsed ? "translateX(-50%)" : "none"};
+                background-color: ${DESIGN_TOKEN_COLOR.gray900};
+                padding: 1rem 1.4rem;
+                border-radius: 0.8rem;
+                animation: ${ANIMATION.BOUNCE} 2s ease-in-out infinite;
+                white-space: nowrap;
+                z-index: 1000;
+              `}
+            >
+              <Typography variant="body12Medium" color="gray00">
+                스페이스를 생성해야 회고를 진행할 수 있어요!
+              </Typography>
+              <div
+                css={css`
+                  ::before {
+                    position: absolute;
+                    top: -0.4rem;
+                    left: 2rem;
+                    width: 1.2rem;
+                    height: 1.2rem;
+                    border-radius: 0.2rem;
+                    background: ${DESIGN_TOKEN_COLOR.gray900};
+                    visibility: visible;
+                    content: "";
+                    transform: rotate(45deg);
+                    transition:
+                      opacity 0.2s ease,
+                      visibility 0.2s ease;
+                  }
+                `}
+              />
+            </div>
+          </Portal>
+        )}
+      </section>
 
       {hasNextPage && <div ref={observerRef} style={{ height: "1px" }} />}
 

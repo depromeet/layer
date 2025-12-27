@@ -22,13 +22,13 @@ export const useApiDeleteRetrospect = () => {
       queryClient.setQueryData(["getRetrospects", variables.spaceId], (old: RetrospectResponse) => {
         return {
           ...old,
-          retrospects: old.retrospects.filter((item) => item.retrospectId !== Number(variables.retrospectId)),
+          retrospects: old?.retrospects?.filter((item) => item.retrospectId !== Number(variables.retrospectId)),
         };
       });
       return { prevList };
     },
     onError: (error, variables, context) => {
-      toast.error("다시 시도해주세요");
+      toast.error("회고 삭제 중 오류가 발생했어요, 다시 시도해주세요");
       console.error("mutate error with", error);
       queryClient.setQueryData(["getRetrospects", variables.spaceId], context?.prevList);
     },
@@ -36,7 +36,7 @@ export const useApiDeleteRetrospect = () => {
       await queryClient.invalidateQueries({ queryKey: ["getRetrospects", variables.spaceId] });
     },
     onSuccess: () => {
-      toast.success("회고 삭제에 성공하였습니다.");
+      toast.success("회고 삭제가 완료되었어요");
     },
   });
 };

@@ -82,7 +82,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(function (
         <RadioButtonGroup
           isChecked={radioControl.isTimeChecked}
           onChange={radioControl.onTimeChange}
-          radioName={"회고 마감 시간"}
+          radioName="due-date"
           ref={radioButtonsContainerRef}
         >
           {TIME_24.slice(0, 13).map((time, index) => {

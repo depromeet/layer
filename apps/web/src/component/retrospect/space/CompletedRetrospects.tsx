@@ -54,9 +54,15 @@ export default function CompletedRetrospects() {
           `}
         >
           <Icon icon="ic_new_clock" size={7.2} color={DESIGN_TOKEN_COLOR.gray500} />
-          <Typography variant="body16Medium" color="gray500">
-            마감된 회고가 없어요 <br />
-            회고 후 분석 내용을 받아보세요!
+          <Typography
+            variant="body16Medium"
+            color="gray500"
+            css={css`
+              text-align: center;
+              white-space: pre-wrap;
+            `}
+          >
+            {"마감된 회고가 없어요\n회고 후 분석 내용을 받아보세요!"}
           </Typography>
         </div>
       ) : (
