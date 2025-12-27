@@ -1,30 +1,41 @@
+import { DesktopDateTimeInput } from "@/app/desktop/component/retrospectCreate/DesktopDateTimeInput";
+import { ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
+import { Input, InputLabelContainer, Label, TextArea } from "@/component/common/input";
+import { Spacing } from "@/component/common/Spacing";
 import { ToggleMenu } from "@/component/common/toggleMenu";
 import { useApiCloseRetrospect } from "@/hooks/api/retrospect/close/useApiCloseRetrospect";
+import { usePatchRetrospect } from "@/hooks/api/retrospect/edit/usePatchRetrospect";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
+import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
+import { useInput } from "@/hooks/useInput";
 import { useModal } from "@/hooks/useModal";
 import useToggleMenu from "@/hooks/useToggleMenu";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Retrospect } from "@/types/retrospect";
 import { css } from "@emotion/react";
+import React, { useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function TemplateCardManageToggleMenu({
   iconSize = 2.0,
   iconColor = "gray500",
-  retrospectId,
-  spaceId,
-  isAnalyzed = false,
+  retrospect,
 }: {
   iconSize?: number | string;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
-  retrospectId: number;
-  spaceId: number;
-  isAnalyzed?: boolean;
+  retrospect: Retrospect;
 }) {
   const { isShowMenu, showMenu } = useToggleMenu();
   const { mutateAsync: mutateDeleteRetrospect } = useApiDeleteRetrospect();
   const { mutateAsync: mutateCloseRetrospect } = useApiCloseRetrospect();
-  const { open, close, setProgress } = useModal();
+  const { open: openConfirmModal, close: closeConfirmModal, setProgress } = useModal();
+  const { open: openDesktopModal, close: closeDesktopModal } = useDesktopBasicModal();
+
+  const spaceId = retrospect.spaceId;
+  const retrospectId = retrospect.retrospectId;
+  const isAnalyzed = ["DONE", "PROCEEDING"].includes(retrospect.analysisStatus);
 
   /**
    * @description 토글 메뉴 표시 함수
@@ -40,19 +51,15 @@ export default function TemplateCardManageToggleMenu({
 
   /**
    * @description 회고 마감 함수
-   * getRetrospects
    */
   const handleCloseRetrospect = async () => {
     try {
       setProgress(true);
       await mutateCloseRetrospect({ spaceId: String(spaceId), retrospectId: retrospectId });
-      queryClient.invalidateQueries({
-        queryKey: ["getRetrospects"],
-      });
     } catch (e) {
     } finally {
       setProgress(false);
-      close();
+      closeConfirmModal();
     }
   };
 
@@ -66,7 +73,7 @@ export default function TemplateCardManageToggleMenu({
     } catch (e) {
     } finally {
       setProgress(false);
-      close();
+      closeConfirmModal();
     }
   };
 
@@ -94,7 +101,7 @@ export default function TemplateCardManageToggleMenu({
           <ToggleMenu.Button
             isShow={!isAnalyzed}
             onClick={() =>
-              open({
+              openConfirmModal({
                 title: "회고를 마감할까요?",
                 contents: "더 이상의 회고 수정이 불가해요",
                 options: {
@@ -108,12 +115,34 @@ export default function TemplateCardManageToggleMenu({
           >
             회고 마감
           </ToggleMenu.Button>
-          <ToggleMenu.Button> 회고 수정 </ToggleMenu.Button>
+          <ToggleMenu.Button
+            onClick={() => {
+              openDesktopModal({
+                title: "회고 수정",
+                contents: (
+                  <ModifyRetrospect
+                    retrospectId={retrospect.retrospectId}
+                    spaceId={retrospect.spaceId}
+                    title={retrospect.title}
+                    introduction={retrospect.introduction}
+                    dueDate={retrospect.deadline ?? ""}
+                    onClose={closeDesktopModal}
+                    isAnalyzed={isAnalyzed}
+                  />
+                ),
+                options: {
+                  enableFooter: false,
+                },
+              });
+            }}
+          >
+            회고 수정
+          </ToggleMenu.Button>
           <ToggleMenu.Button
             variant="subtitle14SemiBold"
             color="red500"
             onClick={() =>
-              open({
+              openConfirmModal({
                 title: "회고를 삭제하시겠어요?",
                 contents: "삭제하면 다시 되돌릴 수 없어요",
                 options: {
@@ -130,5 +159,109 @@ export default function TemplateCardManageToggleMenu({
         </ToggleMenu>
       )}
     </div>
+  );
+}
+
+export function ModifyRetrospect(props: {
+  spaceId: number;
+  retrospectId: number;
+  title: string;
+  introduction: string;
+  dueDate: string;
+  isAnalyzed: boolean;
+  onClose: () => void;
+}) {
+  const { mutateAsync: editRetrospect, isPending } = usePatchRetrospect();
+  const { value: title, handleInputChange: handleChangeTitle } = useInput(props.title);
+  const { value: introduction, handleInputChange: handleChangeIntroduction } = useInput(props.introduction);
+  const { value: dueDate, setValue: setDueDate } = useInput(props.dueDate);
+  const [isChanged, setIsChanged] = useState(false);
+
+  const isVisibleDueDate = !props.isAnalyzed && !!dueDate;
+  const initialState = useRef({
+    title: props.title,
+    introduction: props.introduction,
+    dueDate: props.dueDate,
+  });
+
+  const location = useLocation();
+
+  const checkChanges = (e: React.FormEvent<HTMLElement>) => {
+    const { id, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
+
+    if (id === "title") {
+      setIsChanged(value !== initialState.current.title);
+    }
+    if (id === "introduction") {
+      setIsChanged(value !== initialState.current.introduction);
+    }
+    if (id === "dueDate") {
+      if (dueDate === null || dueDate === "") return;
+      setIsChanged(value !== initialState.current.dueDate);
+    }
+  };
+
+  const handleModifyRetrospect = async () => {
+    const { status } = await editRetrospect({
+      spaceId: props.spaceId,
+      retrospectId: props.retrospectId,
+      data: {
+        title,
+        introduction,
+        deadline: dueDate,
+      },
+    });
+    if (status === 200) {
+      // 수정이 완료되면 기존 변경 체크 상태를 초기화하고, 초기 값을 최신 상태로 업데이트해줘요.
+      setIsChanged(false);
+      initialState.current = { title, introduction, dueDate };
+      if (location.pathname === "/") {
+        // 홈 화면에서 만약 수정을 할 경우에 모든 회고 목록을 invalidate 상태로 변경해줘요.
+        await queryClient.invalidateQueries({
+          queryKey: ["getAllRetrospects"],
+        });
+      }
+    }
+  };
+
+  return (
+    <section
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+      }}
+      onChange={(e) => checkChanges(e)}
+    >
+      <Spacing size={2} />
+      <InputLabelContainer id="title">
+        <Label>회고 명</Label>
+        <Input value={title} onChange={handleChangeTitle} maxLength={10} count placeholder="회고 이름을 적어주세요" />
+      </InputLabelContainer>
+      <Spacing size={3} />
+      <InputLabelContainer id="introduction">
+        <Label>한 줄 설명</Label>
+        <TextArea value={introduction} onChange={handleChangeIntroduction} maxLength={20} count placeholder="회고에 대한 한 줄 설명을 적어주세요" />
+      </InputLabelContainer>
+      <Spacing size={3} />
+      {isVisibleDueDate && (
+        <InputLabelContainer id="due-date" css={{ position: "relative" }}>
+          <Label>회고 마감일</Label>
+          <DesktopDateTimeInput onValueChange={(value) => setDueDate(value ?? "")} defaultValue={dueDate} />
+        </InputLabelContainer>
+      )}
+      <ButtonProvider
+        sort="horizontal"
+        onlyContainerStyle={{
+          marginTop: "auto",
+          paddingBottom: 0,
+        }}
+      >
+        <ButtonProvider.Gray onClick={props.onClose}>취소</ButtonProvider.Gray>
+        <ButtonProvider.Primary isProgress={isPending} disabled={isPending || !isChanged} onClick={handleModifyRetrospect}>
+          완료
+        </ButtonProvider.Primary>
+      </ButtonProvider>
+    </section>
   );
 }

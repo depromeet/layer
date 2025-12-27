@@ -39,7 +39,6 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
   const urlRetrospectId = searchParams.get("retrospectId");
   const isSelected = urlRetrospectId && parseInt(urlRetrospectId) === retrospectId;
   const isIntroduction = introduction?.trim();
-  const isAnalyzed = analysisStatus === "DONE";
 
   const handleCardClick = () => {
     // 진행 중인 회고 클릭 시
@@ -99,7 +98,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
         `}
       >
         <ProceedingTextBox writeStatus={writeStatus} analysisStatus={analysisStatus} />
-        <TemplateCardManageToggleMenu retrospectId={retrospect.retrospectId} spaceId={retrospect.spaceId} isAnalyzed={isAnalyzed} />
+        <TemplateCardManageToggleMenu retrospect={retrospect} />
       </div>
 
       {/* ---------- 제목 ---------- */}
