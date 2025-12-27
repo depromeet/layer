@@ -27,6 +27,7 @@ export { default as ic_plus_thin } from "./ic_plus_thin.svg?react";
 export { default as ic_kakao } from "./ic_kakao.svg?react";
 export { default as ic_copy } from "./ic_copy.svg?react";
 export { default as ic_list } from "./ic_list.svg?react";
+export { default as ic_stars_white } from "./ic_stars_white.svg?react";
 export { default as ic_stars } from "./ic_stars.svg?react";
 export { default as ic_file } from "./ic_file.svg?react";
 export { default as ic_3point } from "./ic_3point.svg?react";
