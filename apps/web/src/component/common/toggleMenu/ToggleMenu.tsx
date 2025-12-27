@@ -9,6 +9,7 @@ import { Icon } from "../Icon";
 import { IconType } from "../Icon/Icon";
 
 interface ToggleMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  isShow?: boolean;
   onClick?: (e: React.MouseEvent) => void;
   icon?: IconType;
   variant?: keyof typeof DESIGN_TOKEN_TEXT;
@@ -16,11 +17,15 @@ interface ToggleMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
   children?: string;
 }
 
-function ToggleMenuButton({ onClick, variant = "subtitle14SemiBold", children, icon, color, ...props }: ToggleMenuButtonProps) {
+function ToggleMenuButton({ isShow = true, onClick, variant = "subtitle14SemiBold", children, icon, color, ...props }: ToggleMenuButtonProps) {
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onClick?.(e);
   };
+
+  if (!isShow) {
+    return null;
+  }
 
   return (
     <button
