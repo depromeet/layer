@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { format, formatISO } from "date-fns";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
@@ -8,6 +8,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { isBeforeToday } from "@/utils/formatDate";
 import { DesktopDateTimePicker } from "./DesktopDateTimePicker";
 import { COLOR_MAP } from "./constants";
+import useClickOutside from "@/hooks/useClickOutside";
 
 const DATE_INPUT_ID = "due-date";
 
@@ -37,8 +38,15 @@ export function DesktopDateTimeInput({ onValueChange, disablePast = true, defaul
     }
   }, [defaultValue]);
 
+  const dateInputElRef = useRef<HTMLLabelElement>(null); // 데이트 인풋 라벨 엘리먼트
+  const datePickerElRef = useRef<HTMLDivElement>(null); // 데이트 피커 엘리먼트
   const [dateTime, setDateTime] = useState(defaultDateTime);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
+
+  useClickOutside(datePickerElRef, (event) => {
+    if (dateInputElRef.current?.contains(event.target as Node)) return;
+    setDatePickerOpen(false);
+  });
 
   return (
     <>
@@ -53,6 +61,7 @@ export function DesktopDateTimeInput({ onValueChange, disablePast = true, defaul
           justify-content: space-between;
           cursor: pointer;
         `}
+        ref={dateInputElRef}
       >
         {!dateTime ? (
           <Typography color={colorTheme()["text"]} variant={"body15Medium"}>
@@ -67,7 +76,9 @@ export function DesktopDateTimeInput({ onValueChange, disablePast = true, defaul
         <input
           id={DATE_INPUT_ID}
           type="date"
-          onClick={() => setDatePickerOpen((prev) => !prev)}
+          onClick={() => {
+            setDatePickerOpen((prev) => !prev);
+          }}
           css={css`
             display: none;
           `}
@@ -83,8 +94,8 @@ export function DesktopDateTimeInput({ onValueChange, disablePast = true, defaul
           onSave={(dateTime) => {
             setDateTime(dateTime);
             onValueChange(dateTime);
-            setDatePickerOpen(false);
           }}
+          ref={datePickerElRef}
         />
       )}
     </>

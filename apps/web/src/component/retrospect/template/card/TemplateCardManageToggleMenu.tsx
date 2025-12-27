@@ -187,15 +187,16 @@ export function ModifyRetrospect(props: {
   const location = useLocation();
 
   const checkChanges = (e: React.FormEvent<HTMLElement>) => {
-    const { id, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
+    const { name, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
 
-    if (id === "title") {
+    if (name === "title") {
       setIsChanged(value !== initialState.current.title);
     }
-    if (id === "introduction") {
+    if (name === "introduction") {
       setIsChanged(value !== initialState.current.introduction);
     }
-    if (id === "dueDate") {
+
+    if (name === "due-date") {
       if (dueDate === null || dueDate === "") return;
       setIsChanged(value !== initialState.current.dueDate);
     }
@@ -236,17 +237,25 @@ export function ModifyRetrospect(props: {
       <Spacing size={2} />
       <InputLabelContainer id="title">
         <Label>회고 명</Label>
-        <Input value={title} onChange={handleChangeTitle} maxLength={10} count placeholder="회고 이름을 적어주세요" />
+        <Input name="title" value={title} onChange={handleChangeTitle} maxLength={10} count placeholder="회고 이름을 적어주세요" />
       </InputLabelContainer>
       <Spacing size={3} />
       <InputLabelContainer id="introduction">
         <Label>한 줄 설명</Label>
-        <TextArea value={introduction} onChange={handleChangeIntroduction} maxLength={20} count placeholder="회고에 대한 한 줄 설명을 적어주세요" />
+        <TextArea
+          name="introduction"
+          value={introduction}
+          onChange={handleChangeIntroduction}
+          maxLength={20}
+          count
+          placeholder="회고에 대한 한 줄 설명을 적어주세요"
+        />
       </InputLabelContainer>
       <Spacing size={3} />
       {isVisibleDueDate && (
         <InputLabelContainer id="due-date" css={{ position: "relative" }}>
           <Label>회고 마감일</Label>
+          {/* DatePicker의 name 속성의 경우 하위 컴포넌트에서 관리되고 있어요 */}
           <DesktopDateTimeInput onValueChange={(value) => setDueDate(value ?? "")} defaultValue={dueDate} />
         </InputLabelContainer>
       )}
