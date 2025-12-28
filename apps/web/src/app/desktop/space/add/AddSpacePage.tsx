@@ -60,6 +60,7 @@ import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
 import { DesktopDateTimeInput } from "../../component/retrospectCreate/DesktopDateTimeInput";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import TemplateListDetailItem from "../../component/retrospect/template/list/TemplateListDetailItem";
+import { PATHS } from "@layer/shared";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
@@ -976,7 +977,7 @@ function CompleteCreateSpace() {
   };
 
   const handleComplete = () => {
-    navigate(`retrospectSpace/${spaceId}`);
+    navigate(PATHS.spaceDetail(spaceId!.toString()));
     closeModalDesktop();
     resetRetrospectInfo();
     resetSpaceInfo();

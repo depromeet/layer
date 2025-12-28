@@ -44,7 +44,7 @@ export function WriteDialogHeader({
       if (isCollapsed && !originalIsCollapsedRef.current) {
         toggleCollapse();
       }
-      navigate(PATHS.DesktopCompleteRetrospectCreate(spaceId as string));
+      navigate(PATHS.spaceDetail(spaceId as string));
     }
   };
 

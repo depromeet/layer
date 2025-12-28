@@ -205,7 +205,7 @@ export function RetrospectWriteComplete() {
           <Button
             onClick={() => {
               close();
-              navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceId)));
+              navigate(PATHS.spaceDetail(String(spaceId)));
             }}
           >
             완료
