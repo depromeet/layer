@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css, SerializedStyles } from "@emotion/react";
 
 import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
 import { getDeviceType } from "@/utils/deviceUtils";
@@ -8,11 +8,11 @@ type DescriptiveTemplateProps =
   | { question: string; name?: never; answer: string }
   | { question?: never; name?: never; answer: string };
 
-export function CDescriptiveTemplate({ name, question, answer }: DescriptiveTemplateProps) {
+export function CDescriptiveTemplate({ name, question, answer, customCss }: DescriptiveTemplateProps & { customCss?: SerializedStyles }) {
   const { isDesktop, isMobile } = getDeviceType();
 
   return (
-    <ResultContainer question={question} name={name}>
+    <ResultContainer question={question} name={name} css={customCss}>
       {/*  FIXME: SPACE 컴포넌트 넣기 */}
       <div
         css={css`

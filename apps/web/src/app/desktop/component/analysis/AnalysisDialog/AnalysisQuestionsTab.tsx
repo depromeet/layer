@@ -17,11 +17,41 @@ export default function AnalysisQuestionsTab({ questions }: AnalysisQuestionsTab
 
       switch (questionType) {
         case "number":
-          return <CSatisfactionTemplate key={index} name={name} index={parseInt(answerContent)} />;
+          return (
+            <CSatisfactionTemplate
+              key={index}
+              name={name}
+              index={parseInt(answerContent)}
+              customCss={css`
+                margin-top: 0;
+                min-height: initial;
+              `}
+            />
+          );
         case "range":
-          return <CAchievementTemplate key={index} name={name} index={parseInt(answerContent)} />;
+          return (
+            <CAchievementTemplate
+              key={index}
+              name={name}
+              index={parseInt(answerContent)}
+              customCss={css`
+                margin-top: 0;
+                min-height: initial;
+              `}
+            />
+          );
         case "plain_text":
-          return <CDescriptiveTemplate key={index} name={name} answer={answerContent} />;
+          return (
+            <CDescriptiveTemplate
+              key={index}
+              name={name}
+              answer={answerContent}
+              customCss={css`
+                margin-top: 0;
+                min-height: initial;
+              `}
+            />
+          );
         default:
           return null;
       }
@@ -36,7 +66,7 @@ export default function AnalysisQuestionsTab({ questions }: AnalysisQuestionsTab
           display: flex;
           justify-content: center;
           align-items: center;
-          min-height: 80vh;
+          min-height: 80dvh;
         `}
       >
         <Typography variant="title20Bold" color="gray500">
@@ -53,8 +83,10 @@ export default function AnalysisQuestionsTab({ questions }: AnalysisQuestionsTab
         display: flex;
         gap: 2rem;
         overflow-x: auto;
-        overflow-y: auto;
-        min-height: 80vh;
+        height: calc(100% - 12.8rem);
+        padding-top: 2rem;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
       `}
     >
       {questions.map((question: QuestionsType, questionIndex: number) => (
@@ -66,15 +98,30 @@ export default function AnalysisQuestionsTab({ questions }: AnalysisQuestionsTab
             height: 100%;
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
             border-radius: 1.2rem;
-            margin-top: 2rem;
-            padding: 2rem 1.6rem;
+            padding-inline: 1.6rem;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            box-sizing: border-box;
           `}
         >
           <Typography variant="body15Normal" color="gray900">
             {question.questionContent}
           </Typography>
-
-          <article>{renderQuestionComponent(question)}</article>
+          <article
+            css={css`
+              overflow-y: auto;
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+              row-gap: 1.6rem;
+              padding-top: 2rem;
+              padding-bottom: 2rem;
+              scroll-behavior: smooth;
+              scroll-snap-type: y mandatory;
+            `}
+          >
+            {renderQuestionComponent(question)}
+          </article>
         </article>
       ))}
     </section>
