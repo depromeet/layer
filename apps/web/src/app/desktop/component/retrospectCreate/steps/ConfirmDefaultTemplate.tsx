@@ -16,7 +16,6 @@ import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { RetrospectCreateContext } from "..";
 import { Tooltip } from "@/component/common/tip";
-import { Icon } from "@/component/common/Icon";
 
 export function ConfirmDefaultTemplate() {
   const { templateId, saveTemplateId } = useAtomValue(retrospectInitialState);
