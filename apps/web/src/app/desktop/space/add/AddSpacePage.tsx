@@ -924,16 +924,7 @@ function CreateRetrospectDeadlineFunnel() {
         <ButtonProvider.Gray onClick={() => setFlow("CREATE", 0)}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary
           isProgress={loader}
-          onClick={() => {
-            open({
-              title: "스페이스와 회고를 생성하시겠어요?",
-              contents: "이제 스페이스와 회고가 생성되어요!",
-              onConfirm: create,
-              options: {
-                buttonText: ["취소", "확인"],
-              },
-            });
-          }}
+          onClick={create}
           disabled={(selectedValue === "has-duedate-pos" && !deadLine) || !selectedValue}
           type="submit"
         >
