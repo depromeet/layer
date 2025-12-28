@@ -11,7 +11,6 @@ import { Typography } from "@/component/common/typography";
 import { AccountSettingsModal } from "@/component/common/Modal/UserSetting/AccountSettingsModal";
 import { FeedbackModal } from "@/component/common/Modal/UserSetting/FeedbackModal";
 import { HelpModal } from "@/component/common/Modal/UserSetting/HelpModal";
-import { LogoutModal } from "@/component/common/Modal/UserSetting/LogoutModal";
 
 import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 import useClickOutside from "@/hooks/useClickOutside";
@@ -19,6 +18,7 @@ import useClickOutside from "@/hooks/useClickOutside";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 import { authAtom } from "@/store/auth/authAtom";
+import { useModal } from "@/hooks/useModal";
 
 type ProfileButtonProps = {
   name: string;
@@ -108,8 +108,9 @@ export default function UserProfile() {
   const memberId = Cookies.get("memberId");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const { open: openConfirmModal } = useModal();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isAccountSettingsModalOpen, setIsAccountSettingsModalOpen] = useState(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
@@ -137,7 +138,18 @@ export default function UserProfile() {
   };
 
   const handleLogout = () => {
-    setIsLogoutModalOpen(true);
+    openConfirmModal({
+      title: "로그아웃",
+      contents: "정말 로그아웃 하시겠어요?",
+      onConfirm: () => {
+        if (memberId) {
+          signOut({ memberId: memberId });
+        }
+      },
+      options: {
+        buttonText: ["아니요", "네"],
+      },
+    });
     setIsDropdownOpen(false);
   };
 
@@ -184,19 +196,6 @@ export default function UserProfile() {
 
       {/* ---------- 도움말 모달 ---------- */}
       {isHelpModalOpen && <HelpModal isOpen={isHelpModalOpen} onClose={() => setIsHelpModalOpen(false)} />}
-      {/* ---------- 로그아웃 모달 ---------- */}
-      {isLogoutModalOpen && (
-        <LogoutModal
-          isOpen={isLogoutModalOpen}
-          onClose={() => setIsLogoutModalOpen(false)}
-          onConfirm={() => {
-            if (memberId) {
-              signOut({ memberId: memberId });
-            }
-            setIsLogoutModalOpen(false);
-          }}
-        />
-      )}
     </>
   );
 }
