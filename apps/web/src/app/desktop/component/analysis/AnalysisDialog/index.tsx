@@ -52,9 +52,10 @@ export default function AnalysisDialog({ spaceId, retrospectId, isOverviewVisibl
         background-color: ${DESIGN_TOKEN_COLOR.gray00};
         border-top-left-radius: 1.2rem;
         border-bottom-left-radius: 1.2rem;
-        overflow: hidden;
+        overflow-y: auto;
         transition: flex 0.3s ease-in-out;
         min-width: 85rem;
+        box-sizing: border-box;
       `}
     >
       <AnalysisHeader

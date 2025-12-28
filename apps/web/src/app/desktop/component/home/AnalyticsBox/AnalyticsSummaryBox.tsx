@@ -4,6 +4,8 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Point } from "@/types/analysis";
 import { getAnalysisConfig } from "@/utils/analysis/getAnalysisConfig";
 import { css } from "@emotion/react";
+import { PATHS } from "@layer/shared";
+import { useNavigate } from "react-router-dom";
 
 type AnalyticsSummaryBoxProps = {
   type: "good" | "bad" | "improvement";
@@ -11,9 +13,14 @@ type AnalyticsSummaryBoxProps = {
 };
 
 export default function AnalyticsSummaryBox({ type, analysis }: AnalyticsSummaryBoxProps) {
-  const { spaceName, retrospectTitle } = analysis;
+  const navigate = useNavigate();
+  const { spaceName, retrospectTitle, spaceId, retrospectId } = analysis;
 
   const config = getAnalysisConfig(type);
+
+  const handleAnalysisClick = () => {
+    navigate(PATHS.retrospectAnalysis(String(spaceId), retrospectId, retrospectTitle));
+  };
 
   return (
     <section
@@ -77,6 +84,7 @@ export default function AnalyticsSummaryBox({ type, analysis }: AnalyticsSummary
               background-color: ${DESIGN_TOKEN_COLOR.gray300};
             }
           `}
+          onClick={handleAnalysisClick}
         >
           <Icon icon="ic_after" size={1.2} color={DESIGN_TOKEN_COLOR.gray800} />
         </div>
