@@ -7,15 +7,17 @@ import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { css } from "@emotion/react";
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
 export default function RetroSpectSpacePage() {
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const setRetrospectValue = useSetAtom(retrospectInitialState);
-  const setCurrentSpace = useSetAtom(currentSpaceState);
+  const [currentSpace, setCurrentSpace] = useAtom(currentSpaceState);
 
-  const { data: spaceData, isSuccess } = useApiGetSpace(spaceId);
+  const { data: spaceData, isSuccess } = useApiGetSpace(spaceId, false, {
+    enabled: !currentSpace,
+  });
 
   useEffect(() => {
     setRetrospectValue((prev) => ({
