@@ -12,10 +12,13 @@ import { TemplateCard } from "../card/TemplateCard";
 import { useActionModal } from "@/hooks/useActionModal";
 import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
 export function TemplateListConform() {
   const setRetrospectValue = useSetAtom(retrospectInitialState);
   const { tempTemplateId } = useAtomValue(retrospectInitialState);
+  const setRetroCreateData = useSetAtom(retrospectCreateAtom);
+
   const { data: templateData, isLoading } = useGetSimpleTemplateInfo(tempTemplateId);
   const { openFunnelModal } = useFunnelModal();
   const { openActionModal } = useActionModal();
@@ -34,6 +37,13 @@ export function TemplateListConform() {
       ...prev,
       templateId: prev.tempTemplateId,
       saveTemplateId: true,
+      hasChangedOriginal: false,
+    }));
+
+    setRetroCreateData((prev) => ({
+      ...prev,
+      hasChangedOriginal: false,
+      isNewForm: false,
     }));
 
     openFunnelModal({

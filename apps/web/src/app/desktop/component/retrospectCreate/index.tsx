@@ -14,6 +14,7 @@ import { PATHS } from "@layer/shared";
 import { useNavigate } from "react-router-dom";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useToast } from "@/hooks/useToast";
+import { queryClient } from "@/lib/tanstack-query/queryClient";
 
 const PAGE_STEPS = ["confirmTemplate", "mainInfo", "dueDate"] as const;
 const CUSTOM_TEMPLATE_STEPS = ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const;
@@ -46,6 +47,7 @@ export function RetrospectCreate() {
 
   const handleSubmit = useCallback(() => {
     if (!pageState.isLastStep) return;
+
     const questionsWithRequired = REQUIRED_QUESTIONS.concat(retroCreateData.questions);
     postRetrospectCreate(
       {
@@ -53,7 +55,10 @@ export function RetrospectCreate() {
         body: { ...retroCreateData, questions: questionsWithRequired, curFormId: templateIdNumber },
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: ["getSpaceInfo", String(spaceIdNumber)],
+          });
           navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceIdNumber)));
           closeFunnelModal();
           toast.success("회고가 생성되었어요!");

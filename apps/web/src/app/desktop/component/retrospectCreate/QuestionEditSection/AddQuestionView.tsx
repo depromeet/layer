@@ -12,6 +12,8 @@ import { useCheckBox } from "@/hooks/useCheckBox";
 import { QuestionItemCheckbox } from "@/component/retrospectCreate";
 import { useToast } from "@/hooks/useToast";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useSetAtom } from "jotai";
+import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
 type AddQuestionViewProps = {
   onAddQuestion: (content: string) => void;
@@ -25,17 +27,28 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
   const { value: customQuestion, handleInputChange: handleCustomChange, resetInput } = useInput();
   const { tabs: categoryTabs, curTab: curCategoryTab, selectTab: selectCategoryTab } = useTabs(QUESTION_TYPES);
   const { selectedValues, isChecked, toggle } = useCheckBox();
+  const setRetroCreateData = useSetAtom(retrospectCreateAtom);
+
+  const updateRetrospectData = () => {
+    setRetroCreateData((prev) => ({
+      ...prev,
+      isNewForm: true,
+      formName: `커스텀 템플릿`,
+    }));
+  };
 
   const handleDirectAdd = () => {
     if (customQuestion.trim()) {
       onAddQuestion(customQuestion);
       resetInput();
+      updateRetrospectData();
     }
   };
 
   const handleRecommendedAdd = () => {
     if (selectedValues.length > 0) {
       onAddMultipleQuestions(selectedValues);
+      updateRetrospectData();
     }
   };
 
@@ -124,7 +137,7 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
         <ButtonProvider.Primary onClick={curTab === "직접작성" ? handleDirectAdd : handleRecommendedAdd}>
           {selectedValues.length > 0 ? (
             <span>
-              추가하기{" "}
+              추가하기
               <span
                 css={css`
                   color: ${DESIGN_TOKEN_COLOR.blue600};

@@ -116,7 +116,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   const handleAddQuestionComplete = (content: string) => {
     const newQuestions = [...questions, { questionType: "plain_text" as const, questionContent: content }];
     if (isInitializedCreateSpace) {
-      setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
+      setRetroCreateData((prev) => ({ ...prev, questions: newQuestions, hasChangedOriginal: true, isNewForm: true, formName: `커스텀 템플릿` }));
     } else {
       setRetrospectQuestions(newQuestions);
     }
@@ -217,6 +217,8 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     setIsDeleteMode(false);
     setBackupQuestions([]);
   };
+
+  console.log(questions);
 
   return (
     <>

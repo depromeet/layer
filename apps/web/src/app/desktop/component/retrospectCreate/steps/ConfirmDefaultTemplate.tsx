@@ -26,10 +26,17 @@ export function ConfirmDefaultTemplate() {
     data: { title, tag, questions },
   } = useGetCustomTemplate(Number(templateId));
 
+  // 질문이 수정되었는지 여부에 따라 보여줄 텍스트 결정
+  const displayTitle = retroCreateData.hasChangedOriginal ? "커스텀 템플릿" : title;
+  const displayTag = retroCreateData.hasChangedOriginal ? "CUSTOM" : tag;
+
   useEffect(() => {
-    if (retroCreateData.questions.length > 0) return;
-    setRetroCreateData((prev) => ({ ...prev, questions }));
-  }, []);
+    setRetroCreateData((prev) => ({
+      ...prev,
+      questions,
+      curFormId: Number(templateId),
+    }));
+  }, [questions, templateId, setRetroCreateData]);
 
   const handleChangeTemplate = () => {
     openActionModal({
@@ -41,8 +48,8 @@ export function ConfirmDefaultTemplate() {
   return (
     <>
       <Header
-        title={`${saveTemplateId ? "해당" : "대표"} 템플릿으로 회고를 진행할까요?`}
-        contents={`${saveTemplateId ? "템플릿을 기반으로 질문을 커스텀 할 수 있어요" : "가장 최근에 선택한 회고 템플릿이에요"}`}
+        title={`${retroCreateData.hasChangedOriginal ? "수정된" : saveTemplateId ? "해당" : "대표"} 템플릿으로 회고를 진행할까요?`}
+        contents={`${retroCreateData.hasChangedOriginal ? "다음 회고에서도 해당 템플릿으로 제공해드릴게요!" : saveTemplateId ? "템플릿을 기반으로 질문을 커스텀 할 수 있어요" : "가장 최근에 선택한 회고 템플릿이에요"}`}
       />
       <Spacing size={4} />
       <div
@@ -62,9 +69,9 @@ export function ConfirmDefaultTemplate() {
             padding-right: 13rem;
           `}
         >
-          {title}
+          {displayTitle}
         </Typography>
-        <Tag styles="margin-top: 0.8rem">{tag}</Tag>
+        <Tag styles="margin-top: 0.8rem">{displayTag}</Tag>
         <Spacing size={3} />
         <div
           css={css`
