@@ -7,7 +7,7 @@ import { Tag } from "@/component/common/tag";
 import { Spacing } from "@/component/common/Spacing";
 import { ButtonProvider } from "@/component/common/button";
 import QuestionEditButton from "@/app/desktop/component/retrospectCreate/QuestionEditButton";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 
 import { useAtom, useAtomValue } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
@@ -15,6 +15,7 @@ import { useActionModal } from "@/hooks/useActionModal";
 import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { RetrospectCreateContext } from "..";
+import { Tooltip } from "@/component/common/tip";
 
 export function ConfirmDefaultTemplate() {
   const { templateId, saveTemplateId } = useAtomValue(retrospectInitialState);
@@ -22,14 +23,23 @@ export function ConfirmDefaultTemplate() {
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { openActionModal } = useActionModal();
 
+  const titleRef = useRef<HTMLDivElement>(null);
+
   const {
     data: { title, tag, questions },
   } = useGetCustomTemplate(Number(templateId));
 
+  // 질문이 수정되었는지 여부에 따라 보여줄 텍스트 결정
+  const displayTitle = retroCreateData.hasChangedOriginal ? "커스텀 템플릿" : title;
+  const displayTag = retroCreateData.hasChangedOriginal ? "CUSTOM" : tag;
+
   useEffect(() => {
-    if (retroCreateData.questions.length > 0) return;
-    setRetroCreateData((prev) => ({ ...prev, questions }));
-  }, []);
+    setRetroCreateData((prev) => ({
+      ...prev,
+      questions,
+      curFormId: Number(templateId),
+    }));
+  }, [questions, templateId, setRetroCreateData]);
 
   const handleChangeTemplate = () => {
     openActionModal({
@@ -41,13 +51,13 @@ export function ConfirmDefaultTemplate() {
   return (
     <>
       <Header
-        title={`${saveTemplateId ? "해당" : "대표"} 템플릿으로 회고를 진행할까요?`}
-        contents={`${saveTemplateId ? "템플릿을 기반으로 질문을 커스텀 할 수 있어요" : "가장 최근에 선택한 회고 템플릿이에요"}`}
+        title={`${retroCreateData.hasChangedOriginal ? "수정된" : saveTemplateId ? "해당" : "대표"} 템플릿으로 회고를 진행할까요?`}
+        contents={`${retroCreateData.hasChangedOriginal ? "다음 회고에서도 해당 템플릿으로 제공해드릴게요!" : saveTemplateId ? "템플릿을 기반으로 질문을 커스텀 할 수 있어요" : "가장 최근에 선택한 회고 템플릿이에요"}`}
       />
       <Spacing size={4} />
       <div
+        ref={titleRef}
         css={css`
-          position: relative;
           display: flex;
           flex-direction: column;
           border: 1px solid #dfe3ea;
@@ -56,16 +66,36 @@ export function ConfirmDefaultTemplate() {
           overflow-y: auto;
         `}
       >
-        <Typography
-          variant={"S1"}
+        {/* ------- title , tag , 질문 수정 UI ------- */}
+        <div
           css={css`
-            padding-right: 13rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
           `}
         >
-          {title}
-        </Typography>
-        <Tag styles="margin-top: 0.8rem">{tag}</Tag>
+          <div
+            css={css`
+              padding-top: 0.2rem;
+            `}
+          >
+            <Typography variant={"S1"}>{displayTitle}</Typography>
+            <Tag styles="margin-top: 0.8rem">{displayTag}</Tag>
+          </div>
+          {retroCreateData.hasChangedOriginal ? (
+            <Tooltip>
+              <Tooltip.Trigger>
+                <QuestionEditButton />
+              </Tooltip.Trigger>
+              <Tooltip.Content message="커스텀된 템플릿의 이름을 수정할 수 있어요!" placement="top-end" offsetX={-15} offsetY={10} hideOnClick />
+            </Tooltip>
+          ) : (
+            <QuestionEditButton />
+          )}
+        </div>
         <Spacing size={3} />
+
+        {/* ------- 템플릿 질문 리스트 UI ------- */}
         <div
           css={css`
             overflow-y: auto;
@@ -80,8 +110,8 @@ export function ConfirmDefaultTemplate() {
             ))}
           </QuestionList>
         </div>
-        <QuestionEditButton />
       </div>
+
       <ButtonProvider sort={"horizontal"}>
         <ButtonProvider.Gray onClick={handleChangeTemplate}>템플릿 변경</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={goNext}>진행하기</ButtonProvider.Primary>

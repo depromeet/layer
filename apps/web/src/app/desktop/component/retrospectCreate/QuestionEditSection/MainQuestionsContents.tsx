@@ -29,7 +29,7 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
    */
   const handleContentChange = (index: number, newContent: string) => {
     const updatedQuestions = questions.map((item, i) => (i === index ? { ...item, questionContent: newContent } : item));
-    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
+    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions, isNewForm: true, formName: `커스텀 템플릿` }));
   };
 
   /**
@@ -54,6 +54,10 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
     const originalContent = originalContentRef.current[index] || "";
 
     if (originalContent !== currentContent && currentContent.trim() !== "") {
+      setRetroCreateData((prev) => ({
+        ...prev,
+        hasChangedOriginal: true,
+      }));
       toast.success("질문이 수정되었어요!");
     }
 
@@ -65,7 +69,7 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
     questions.forEach((question, index) => {
       originalContentRef.current[index] = question.questionContent;
     });
-  }, [questions]);
+  }, []);
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
