@@ -138,7 +138,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
         `}
       >
         <Typography variant="body12SemiBold" color="gray500">
-          마감 예정 | {deadline ? formatDateAndTime(deadline) : "없음"}
+          {deadline ? `마감 예정 | ${formatDateAndTime(deadline)}` : "모든 인원 제출 시 마감"}
         </Typography>
 
         <div
