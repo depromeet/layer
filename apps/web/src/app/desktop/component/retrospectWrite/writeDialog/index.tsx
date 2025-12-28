@@ -253,7 +253,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
               setAnswers(initialAnswers);
               setPrevAnswers(initialAnswers);
               handleModalClose("temp-data");
-              navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceId)));
+              navigate(PATHS.spaceDetail(String(spaceId)));
             }}
             leftButtonText={"취소"}
             rightButtonText={"작성하기"}
@@ -277,7 +277,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
               if (blocker.state === "blocked") {
                 blocker.proceed();
               } else {
-                navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceId)));
+                navigate(PATHS.spaceDetail(String(spaceId)));
               }
             }}
             quit={mutateSaveTemporaryData}

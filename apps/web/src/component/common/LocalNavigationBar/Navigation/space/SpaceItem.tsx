@@ -14,6 +14,7 @@ import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
 import { isSpaceLeader } from "@/utils/userUtil";
+import { PATHS } from "@layer/shared";
 
 interface SpaceItemProps {
   space: Space;
@@ -199,7 +200,7 @@ export default function SpaceItem({ space }: SpaceItemProps) {
 
   const handleSelectSpace = () => {
     setCurrentSpace(space);
-    navigate(`/retrospectSpace/${spaceId}`);
+    navigate(PATHS.spaceDetail(spaceId.toString()));
   };
 
   /**
