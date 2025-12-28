@@ -41,7 +41,6 @@ import { useRadioButton } from "@/hooks/useRadioButton";
 import { Radio } from "@/component/common/radioButton";
 import Lottie from "lottie-react";
 import CreateDone from "@/assets/lottie/space/create_done.json";
-import { useModal } from "@/hooks/useModal";
 import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
 import { useNavigate, useSearchParams } from "react-router-dom";
