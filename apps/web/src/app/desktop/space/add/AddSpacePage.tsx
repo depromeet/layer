@@ -811,7 +811,6 @@ function CreateRetrospectDeadlineFunnel() {
   const { questions, selectedRecommendTemplate, setSpaceId, deadLine, setDeadLine, title, description, selectedCategory, setFlow } =
     useContext(PhaseContext);
   const { selectedValue, isChecked, onChange } = useRadioButton();
-  const { open } = useModal();
   const { toast } = useToast();
   const { mutateAsync: postSpace } = useApiPostSpace();
   const { mutateAsync: postRetrospect, isSuccess: isSuccessCreateRetrospect } = usePostRetrospectCreate();
