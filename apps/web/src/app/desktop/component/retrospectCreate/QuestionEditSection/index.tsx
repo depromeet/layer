@@ -218,8 +218,6 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     setBackupQuestions([]);
   };
 
-  console.log(questions);
-
   return (
     <>
       {isAddMode ? (
