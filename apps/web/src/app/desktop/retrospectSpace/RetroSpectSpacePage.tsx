@@ -2,8 +2,10 @@ import ActionItems from "@/component/retrospect/space/actionItems/ActionItems";
 import CompletedRetrospects from "@/component/retrospect/space/CompletedRetrospects";
 import InProgressRetrospects from "@/component/retrospect/space/InProgressRetrospects";
 import RetrospectSpaceHeader from "@/component/retrospect/space/RetrospectSpaceHeader";
+import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
+import { currentSpaceState } from "@/store/space/spaceAtom";
 import { css } from "@emotion/react";
 import { useSetAtom } from "jotai";
 import { useEffect } from "react";
@@ -11,6 +13,9 @@ import { useEffect } from "react";
 export default function RetroSpectSpacePage() {
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const setRetrospectValue = useSetAtom(retrospectInitialState);
+  const setCurrentSpace = useSetAtom(currentSpaceState);
+
+  const { data: spaceData, isSuccess } = useApiGetSpace(spaceId);
 
   useEffect(() => {
     setRetrospectValue((prev) => ({
@@ -18,6 +23,25 @@ export default function RetroSpectSpacePage() {
       spaceId,
     }));
   }, [spaceId, setRetrospectValue]);
+
+  useEffect(() => {
+    if (isSuccess && spaceData) {
+      setCurrentSpace((prev) => ({
+        id: spaceData.id.toString(),
+        category: spaceData.category,
+        fieldList: prev?.fieldList ?? [],
+        name: spaceData.name,
+        introduction: spaceData.introduction,
+        formId: spaceData.formId ?? prev?.formId ?? 0,
+        formTag: prev?.formTag ?? null,
+        bannerUrl: spaceData.bannerUrl,
+        memberCount: spaceData.memberCount,
+        leader: spaceData.leader,
+        proceedingRetrospectCount: prev?.proceedingRetrospectCount ?? 0,
+        retrospectCount: prev?.retrospectCount ?? 0,
+      }));
+    }
+  }, [isSuccess, spaceData, setCurrentSpace]);
 
   return (
     <section

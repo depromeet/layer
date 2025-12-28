@@ -31,6 +31,8 @@ export default function AnalysisPage() {
     if (!isCollapsed) {
       handleCollapse(true);
     }
+
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
@@ -43,18 +45,20 @@ export default function AnalysisPage() {
     <section
       css={css`
         display: flex;
-        overflow-x: hidden;
+        overflow-y: hidden;
         height: 100vh;
+        position: relative;
       `}
     >
       <section
         css={css`
           width: ${isOverviewVisible ? "34.4rem" : "0"};
+          height: 100vh;
           opacity: ${isOverviewVisible ? 1 : 0};
           transition:
             width 0.3s ease-in-out,
             opacity 0.3s ease-in-out;
-          overflow-y: auto;
+          overflow: hidden;
           will-change: width, opacity;
         `}
       >
