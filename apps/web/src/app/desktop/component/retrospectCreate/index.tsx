@@ -59,7 +59,7 @@ export function RetrospectCreate() {
           await queryClient.invalidateQueries({
             queryKey: ["getSpaceInfo", String(spaceIdNumber)],
           });
-          navigate(PATHS.DesktopCompleteRetrospectCreate(String(spaceIdNumber)));
+          navigate(PATHS.spaceDetail(String(spaceIdNumber)));
           closeFunnelModal();
           toast.success("회고가 생성되었어요!");
         },

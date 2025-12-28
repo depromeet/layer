@@ -118,7 +118,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
         element: <div>Desktop Goals</div>,
       },
       {
-        path: "retrospectSpace/:spaceId",
+        path: "space/:spaceId",
         element: <RetroSpectSpacePage />,
       },
       {

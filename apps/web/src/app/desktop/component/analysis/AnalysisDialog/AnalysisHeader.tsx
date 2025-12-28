@@ -34,7 +34,7 @@ export default function AnalysisHeader({ selectedTab, isPersonal, isOverviewVisi
       toggleCollapse();
     }
 
-    navigate(PATHS.DesktopCompleteRetrospectCreate(spaceId as string));
+    navigate(PATHS.spaceDetail(spaceId as string));
   };
 
   useEffect(() => {
