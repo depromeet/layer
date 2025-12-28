@@ -7,7 +7,7 @@ import { Tag } from "@/component/common/tag";
 import { Spacing } from "@/component/common/Spacing";
 import { ButtonProvider } from "@/component/common/button";
 import QuestionEditButton from "@/app/desktop/component/retrospectCreate/QuestionEditButton";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 
 import { useAtom, useAtomValue } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
@@ -15,12 +15,16 @@ import { useActionModal } from "@/hooks/useActionModal";
 import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { RetrospectCreateContext } from "..";
+import { Tooltip } from "@/component/common/tip";
+import { Icon } from "@/component/common/Icon";
 
 export function ConfirmDefaultTemplate() {
   const { templateId, saveTemplateId } = useAtomValue(retrospectInitialState);
   const { goNext } = useContext(RetrospectCreateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { openActionModal } = useActionModal();
+
+  const titleRef = useRef<HTMLDivElement>(null);
 
   const {
     data: { title, tag, questions },
@@ -53,8 +57,8 @@ export function ConfirmDefaultTemplate() {
       />
       <Spacing size={4} />
       <div
+        ref={titleRef}
         css={css`
-          position: relative;
           display: flex;
           flex-direction: column;
           border: 1px solid #dfe3ea;
@@ -63,16 +67,36 @@ export function ConfirmDefaultTemplate() {
           overflow-y: auto;
         `}
       >
-        <Typography
-          variant={"S1"}
+        {/* ------- title , tag , 질문 수정 UI ------- */}
+        <div
           css={css`
-            padding-right: 13rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
           `}
         >
-          {displayTitle}
-        </Typography>
-        <Tag styles="margin-top: 0.8rem">{displayTag}</Tag>
+          <div
+            css={css`
+              padding-top: 0.2rem;
+            `}
+          >
+            <Typography variant={"S1"}>{displayTitle}</Typography>
+            <Tag styles="margin-top: 0.8rem">{displayTag}</Tag>
+          </div>
+          {retroCreateData.hasChangedOriginal ? (
+            <Tooltip>
+              <Tooltip.Trigger>
+                <QuestionEditButton />
+              </Tooltip.Trigger>
+              <Tooltip.Content message="커스텀된 템플릿의 이름을 수정할 수 있어요!" placement="top-end" offsetX={-15} offsetY={10} hideOnClick />
+            </Tooltip>
+          ) : (
+            <QuestionEditButton />
+          )}
+        </div>
         <Spacing size={3} />
+
+        {/* ------- 템플릿 질문 리스트 UI ------- */}
         <div
           css={css`
             overflow-y: auto;
@@ -87,8 +111,8 @@ export function ConfirmDefaultTemplate() {
             ))}
           </QuestionList>
         </div>
-        <QuestionEditButton />
       </div>
+
       <ButtonProvider sort={"horizontal"}>
         <ButtonProvider.Gray onClick={handleChangeTemplate}>템플릿 변경</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={goNext}>진행하기</ButtonProvider.Primary>

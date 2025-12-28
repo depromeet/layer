@@ -34,9 +34,6 @@ function QuestionEditButton({ onClose, ...props }: QuestionEditButtonProps) {
     <button
       type="button"
       css={css`
-        position: absolute;
-        top: 2rem;
-        right: 2rem;
         display: flex;
         justify-content: center;
         align-items: center;
