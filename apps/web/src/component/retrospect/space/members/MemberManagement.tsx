@@ -224,7 +224,7 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
       {isDeleteConfirmModalOpen && (
         <MemberDeleteConfirmModal onConfirm={handleConfirmMemberDelete} onCancel={() => setIsDeleteConfirmModalOpen(false)} />
       )}
-      <InviteMemberModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} spaceId={spaceId} />
+      {spaceId && <InviteMemberModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} spaceId={spaceId} />}
     </div>
   );
 }

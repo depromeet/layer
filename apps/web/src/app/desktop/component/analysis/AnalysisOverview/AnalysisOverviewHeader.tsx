@@ -122,7 +122,7 @@ export default function AnalysisOverviewHeader() {
         <Typography variant="heading24Bold" color="gray900">
           {name}
         </Typography>
-        <SpaceManageToggleMenu spaceId={spaceId!} isLeader={isLeader} iconSize={2.0} iconColor={"gray900"} />
+        {spaceId && <SpaceManageToggleMenu spaceId={spaceId} isLeader={isLeader} iconSize={2.0} iconColor={"gray900"} />}
       </div>
 
       {/* ---------- 스페이스 소개 ---------- */}
