@@ -3,7 +3,7 @@ import { ProgressBar } from "@/component/common/ProgressBar";
 import { css } from "@emotion/react";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
@@ -34,10 +34,10 @@ export function RetrospectCreate() {
   const navigate = useNavigate();
   const { closeFunnelModal } = useFunnelModal();
   const { toast } = useToast();
-  const { spaceId, templateId } = useAtomValue(retrospectInitialState);
-  const setRetrospectValue = useSetAtom(retrospectInitialState);
-  const spaceIdNumber = Number(spaceId);
-  const templateIdNumber = Number(templateId);
+
+  const [retrospectValue, setRetrospectValue] = useAtom(retrospectInitialState);
+  const spaceIdNumber = Number(retrospectValue.spaceId);
+  const templateIdNumber = Number(retrospectValue.templateId);
 
   const retroCreateData = useAtomValue(retrospectCreateAtom);
   const { mutate: postRetrospectCreate, isPending } = usePostRetrospectCreate(spaceIdNumber);
