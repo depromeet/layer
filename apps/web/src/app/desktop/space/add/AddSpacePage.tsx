@@ -320,6 +320,11 @@ function SelectRetrospectTemplateFunnel() {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    // 컴포넌트 언마운트 시점에 쿼리 스트링을 정리
+    return () => setSearchParams({});
+  }, []);
+
   return (
     <Fragment>
       <Header title={`${title}에 맞는\n회고 템플릿을 찾아볼까요?`} />
@@ -668,7 +673,7 @@ function RecommendRetrospectTemplateConfirmFunnel() {
         height: 100%;
       `}
     >
-      <Header title={"해당 템플릿으로\n회고를 진행할까요?"} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
+      <Header title={"추천받은 템플릿 질문들로\n회고를 진행할까요?"} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
       <Spacing size={10} />
       <div
         css={css`
