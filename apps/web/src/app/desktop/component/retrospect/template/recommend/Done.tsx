@@ -48,12 +48,6 @@ function RecommendDone() {
   };
 
   const handleMoveToChangeTemplate = () => {
-    openFunnelModal({
-      title: "",
-      step: "retrospectCreate",
-      contents: <RetrospectCreate />,
-    });
-
     openActionModal({
       title: "",
       contents: <TemplateChoice />,
