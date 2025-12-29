@@ -3,7 +3,7 @@ import { ProgressBar } from "@/component/common/ProgressBar";
 import { css } from "@emotion/react";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
@@ -35,6 +35,7 @@ export function RetrospectCreate() {
   const { closeFunnelModal } = useFunnelModal();
   const { toast } = useToast();
   const { spaceId, templateId } = useAtomValue(retrospectInitialState);
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
   const spaceIdNumber = Number(spaceId);
   const templateIdNumber = Number(templateId);
 
@@ -62,6 +63,13 @@ export function RetrospectCreate() {
           navigate(PATHS.spaceDetail(String(spaceIdNumber)));
           closeFunnelModal();
           toast.success("회고가 생성되었어요!");
+
+          setRetrospectValue({
+            spaceId: "",
+            templateId: "",
+            tempTemplateId: "",
+            saveTemplateId: false,
+          });
         },
       },
     );

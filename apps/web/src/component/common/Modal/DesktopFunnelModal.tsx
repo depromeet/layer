@@ -4,7 +4,7 @@ import { ANIMATION } from "@/style/common/animation";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useModal } from "@/hooks/useModal";
 import DesktopFunnelModalHeader from "./DesktopFunnelModalHeader";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTemplateId";
 import { useResetAtom } from "jotai/utils";
@@ -18,6 +18,7 @@ export default function DesktopFunnelModal() {
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
   const { spaceId, templateId } = useAtomValue(retrospectInitialState);
   const { mutate: postRecentTemplateId } = usePostRecentTemplateId(Number(spaceId));
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
 
   if (!funnelModalState.isOpen) return null;
 
@@ -56,6 +57,12 @@ export default function DesktopFunnelModal() {
           close();
         },
         onConfirm: () => {
+          setRetrospectValue({
+            spaceId: "",
+            templateId: "",
+            tempTemplateId: "",
+            saveTemplateId: false,
+          });
           quitPage();
         },
       });

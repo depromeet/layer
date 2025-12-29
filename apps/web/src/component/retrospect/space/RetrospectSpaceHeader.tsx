@@ -1,12 +1,9 @@
-import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 import { Icon } from "@/component/common/Icon/Icon";
 import { Typography } from "@/component/common/typography";
 import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
-import { useActionModal } from "@/hooks/useActionModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
-import { useModal } from "@/hooks/useModal";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { currentSpaceState } from "@/store/space/spaceAtom";
@@ -19,9 +16,8 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { TemplateList } from "@/app/desktop/component/retrospect/template/list";
 
 export default function RetrospectSpaceHeader() {
-  const { open } = useModal();
   const { openFunnelModal } = useFunnelModal();
-  const { openActionModal } = useActionModal();
+
   const currentSpace = useAtomValue(currentSpaceState);
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
 
@@ -41,25 +37,10 @@ export default function RetrospectSpaceHeader() {
         templateId: String(spaceInfo.formId),
       }));
 
-      open({
-        title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
-        contents: "",
-        options: {
-          buttonText: ["재설정", "진행하기"],
-        },
-        onConfirm: () => {
-          openFunnelModal({
-            title: "",
-            step: "retrospectCreate",
-            contents: <RetrospectCreate />,
-          });
-        },
-        onClose: () => {
-          openActionModal({
-            title: "",
-            contents: <TemplateChoice />,
-          });
-        },
+      openFunnelModal({
+        title: "",
+        step: "retrospectCreate",
+        contents: <RetrospectCreate />,
       });
     }
   };
