@@ -41,7 +41,6 @@ import { useRadioButton } from "@/hooks/useRadioButton";
 import { Radio } from "@/component/common/radioButton";
 import Lottie from "lottie-react";
 import CreateDone from "@/assets/lottie/space/create_done.json";
-import { useModal } from "@/hooks/useModal";
 import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -320,6 +319,11 @@ function SelectRetrospectTemplateFunnel() {
       setFlow("CREATE", 0);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    // 컴포넌트 언마운트 시점에 쿼리 스트링을 정리
+    return () => setSearchParams({});
+  }, []);
 
   return (
     <Fragment>
@@ -669,7 +673,7 @@ function RecommendRetrospectTemplateConfirmFunnel() {
         height: 100%;
       `}
     >
-      <Header title={"해당 템플릿으로\n회고를 진행할까요?"} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
+      <Header title={"추천받은 템플릿 질문들로\n회고를 진행할까요?"} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
       <Spacing size={10} />
       <div
         css={css`
@@ -811,7 +815,6 @@ function CreateRetrospectDeadlineFunnel() {
   const { questions, selectedRecommendTemplate, setSpaceId, deadLine, setDeadLine, title, description, selectedCategory, setFlow } =
     useContext(PhaseContext);
   const { selectedValue, isChecked, onChange } = useRadioButton();
-  const { open } = useModal();
   const { toast } = useToast();
   const { mutateAsync: postSpace } = useApiPostSpace();
   const { mutateAsync: postRetrospect, isSuccess: isSuccessCreateRetrospect } = usePostRetrospectCreate();
@@ -924,16 +927,7 @@ function CreateRetrospectDeadlineFunnel() {
         <ButtonProvider.Gray onClick={() => setFlow("CREATE", 0)}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary
           isProgress={loader}
-          onClick={() => {
-            open({
-              title: "스페이스와 회고를 생성하시겠어요?",
-              contents: "이제 스페이스와 회고가 생성되어요!",
-              onConfirm: create,
-              options: {
-                buttonText: ["취소", "확인"],
-              },
-            });
-          }}
+          onClick={create}
           disabled={(selectedValue === "has-duedate-pos" && !deadLine) || !selectedValue}
           type="submit"
         >

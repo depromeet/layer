@@ -140,6 +140,7 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
               추가하기
               <span
                 css={css`
+                  margin-left: 0.4rem;
                   color: ${DESIGN_TOKEN_COLOR.blue600};
                 `}
               >

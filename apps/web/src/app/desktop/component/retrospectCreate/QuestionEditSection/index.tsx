@@ -95,7 +95,8 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   const handleAddQuestion = () => {
     if (questions.length >= 10) return;
 
-    // 질문 추가 모드로 전환하고 모달 제목 변경
+    // 현재 질문들을 백업하고 질문 추가 모드로 전환
+    setBackupQuestions([...questions]);
     setIsAddMode(true);
     setModalDataState((prev) => ({
       ...prev,
@@ -170,7 +171,16 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       title: "질문 수정을 취소하시겠어요?",
       contents: "수정중인 내용은 모두 사라져요",
       onConfirm: () => {
+        // 백업된 질문들로 복원
+        if (isInitializedCreateSpace) {
+          setRetroCreateData((prev) => ({ ...prev, questions: questions }));
+        } else {
+          setRetrospectQuestions(questions);
+        }
+
         setIsAddMode(false);
+        setBackupQuestions([]);
+        onClose();
         setModalDataState((prev) => ({
           ...prev,
           title: "질문 리스트",
