@@ -73,7 +73,6 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
       isNewForm: isEdited,
       hasChangedOriginal: !isDefaultExtended,
       questions: newQuestions,
-      formName: `커스텀 템플릿`,
     }));
   };
 

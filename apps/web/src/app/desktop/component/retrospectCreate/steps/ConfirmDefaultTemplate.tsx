@@ -24,7 +24,7 @@ export function ConfirmDefaultTemplate() {
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { openActionModal } = useActionModal();
   const { toast } = useToast();
-  const [customTemplateTitle, setCustomTemplateTitie] = useState("커스텀 템플릿");
+  const [customTemplateTitle, setCustomTemplateTitle] = useState("");
 
   const titleRef = useRef<HTMLDivElement>(null);
 
@@ -32,9 +32,16 @@ export function ConfirmDefaultTemplate() {
     data: { title, tag, questions },
   } = useGetCustomTemplate(Number(templateId));
 
-  // 질문이 수정되었는지 여부에 따라 보여줄 텍스트 결정
-  const displayTitle = retroCreateData.hasChangedOriginal ? "커스텀 템플릿" : title;
+  const displayTitle = retroCreateData.hasChangedOriginal ? retroCreateData.formName || customTemplateTitle || "커스텀 템플릿" : title;
   const displayTag = retroCreateData.hasChangedOriginal ? "CUSTOM" : tag;
+
+  useEffect(() => {
+    if (retroCreateData.hasChangedOriginal && retroCreateData.formName) {
+      setCustomTemplateTitle(retroCreateData.formName);
+    } else {
+      setCustomTemplateTitle(title);
+    }
+  }, [title, retroCreateData.hasChangedOriginal, retroCreateData.formName]);
 
   useEffect(() => {
     setRetroCreateData((prev) => ({
@@ -51,8 +58,12 @@ export function ConfirmDefaultTemplate() {
     });
   };
 
-  const handleDataSave = () => {
-    setRetroCreateData((prev) => ({ ...prev, formName: customTemplateTitle }));
+  const handleTitleChange = (newTitle: string) => {
+    setCustomTemplateTitle(newTitle);
+    setRetroCreateData((prev) => ({
+      ...prev,
+      formName: newTitle,
+    }));
   };
 
   return (
@@ -93,7 +104,7 @@ export function ConfirmDefaultTemplate() {
                 type="text"
                 value={customTemplateTitle}
                 onChange={(e) => {
-                  setCustomTemplateTitie(e.target.value);
+                  handleTitleChange(e.target.value);
                 }}
                 css={css`
                   font-size: 2rem;
@@ -102,8 +113,7 @@ export function ConfirmDefaultTemplate() {
                   margin-right: 1rem;
                 `}
                 onBlur={() => {
-                  if (customTemplateTitle !== retroCreateData.formName) {
-                    handleDataSave();
+                  if (displayTitle !== retroCreateData.formName) {
                     toast.success("이름 수정이 완료되었어요!");
                   }
                 }}
