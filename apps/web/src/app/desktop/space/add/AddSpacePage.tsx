@@ -668,7 +668,7 @@ function RecommendRetrospectTemplateConfirmFunnel() {
         height: 100%;
       `}
     >
-      <Header title={"해당 템플릿으로\n회고를 진행할까요?"} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
+      <Header title={"추천받은 템플릿 질문들로\n회고를 진행할까요?"} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
       <Spacing size={10} />
       <div
         css={css`

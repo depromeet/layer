@@ -7,6 +7,9 @@ import { TemplateLottiePicture } from "@/component/template/TemplateLottiePictur
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import TemplateListDetailItem from "../TemplateListDetailItem";
+import { useSetAtom } from "jotai";
+import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
+import { TemplateListConform } from "../TemplateListConform";
 
 type DesktopTemplateListItemProps = {
   id: number;
@@ -19,6 +22,7 @@ type DesktopTemplateListItemProps = {
 export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateListItemProps) {
   const { readOnly } = useContext(TemplateListPageContext);
   const { openFunnelModal } = useFunnelModal();
+  const setRetrospectValue = useSetAtom(retrospectInitialState);
 
   const handleClickDetail = () => {
     openFunnelModal({
@@ -90,6 +94,20 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
             border-radius: 0.8rem;
             border: 0.1rem solid #dfe3ea;
           `}
+          onClick={(event) => {
+            // 선택하기 버튼 클릭 시, 상위로 이벤트를 전파하지 않고 바로 템플릿 확정 페이지로 이동합니다.
+            event.stopPropagation();
+            setRetrospectValue((prev) => ({
+              ...prev,
+              tempTemplateId: String(id),
+              saveTemplateId: true,
+            }));
+            openFunnelModal({
+              title: "",
+              step: "recommendTemplate",
+              contents: <TemplateListConform />,
+            });
+          }}
         >
           <Typography variant={"body12Bold"} color={"gray800"}>
             선택하기
