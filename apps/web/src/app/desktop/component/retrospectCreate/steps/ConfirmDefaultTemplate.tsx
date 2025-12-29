@@ -7,7 +7,7 @@ import { Tag } from "@/component/common/tag";
 import { Spacing } from "@/component/common/Spacing";
 import { ButtonProvider } from "@/component/common/button";
 import QuestionEditButton from "@/app/desktop/component/retrospectCreate/QuestionEditButton";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { useAtom, useAtomValue } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
@@ -16,12 +16,15 @@ import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { RetrospectCreateContext } from "..";
 import { Tooltip } from "@/component/common/tip";
+import { useToast } from "@/hooks/useToast";
 
 export function ConfirmDefaultTemplate() {
   const { templateId, saveTemplateId } = useAtomValue(retrospectInitialState);
   const { goNext } = useContext(RetrospectCreateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { openActionModal } = useActionModal();
+  const { toast } = useToast();
+  const [customTemplateTitle, setCustomTemplateTitie] = useState("커스텀 템플릿");
 
   const titleRef = useRef<HTMLDivElement>(null);
 
@@ -46,6 +49,10 @@ export function ConfirmDefaultTemplate() {
       title: "",
       contents: <TemplateChoice />,
     });
+  };
+
+  const handleDataSave = () => {
+    setRetroCreateData((prev) => ({ ...prev, formName: customTemplateTitle }));
   };
 
   return (
@@ -79,7 +86,30 @@ export function ConfirmDefaultTemplate() {
               padding-top: 0.2rem;
             `}
           >
-            <Typography variant={"S1"}>{displayTitle}</Typography>
+            {!retroCreateData.hasChangedOriginal ? (
+              <Typography variant={"S1"}>{displayTitle}</Typography>
+            ) : (
+              <input
+                type="text"
+                value={customTemplateTitle}
+                onChange={(e) => {
+                  setCustomTemplateTitie(e.target.value);
+                }}
+                css={css`
+                  font-size: 2rem;
+                  font-weight: bold;
+                  width: 100%;
+                  margin-right: 1rem;
+                `}
+                onBlur={() => {
+                  if (customTemplateTitle !== retroCreateData.formName) {
+                    handleDataSave();
+                    toast.success("이름 수정이 완료되었어요!");
+                  }
+                }}
+              />
+            )}
+
             <Tag styles="margin-top: 0.8rem">{displayTag}</Tag>
           </div>
           {retroCreateData.hasChangedOriginal ? (
