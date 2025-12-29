@@ -3,7 +3,7 @@ import { ProgressBar } from "@/component/common/ProgressBar";
 import { css } from "@emotion/react";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { REQUIRED_QUESTIONS } from "@/component/retrospectCreate/customTemplate/questions.const";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";

@@ -57,12 +57,10 @@ export default function DesktopFunnelModal() {
           close();
         },
         onConfirm: () => {
-          setRetrospectValue({
-            spaceId: "",
-            templateId: "",
-            tempTemplateId: "",
+          setRetrospectValue((prev) => ({
+            ...prev,
             saveTemplateId: false,
-          });
+          }));
           quitPage();
         },
       });
