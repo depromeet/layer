@@ -10,6 +10,7 @@ import TemplateListDetailItem from "../TemplateListDetailItem";
 import { useSetAtom } from "jotai";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { TemplateListConform } from "../TemplateListConform";
+import { useSearchParams } from "react-router-dom";
 
 type DesktopTemplateListItemProps = {
   id: number;
@@ -21,8 +22,11 @@ type DesktopTemplateListItemProps = {
 
 export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateListItemProps) {
   const { readOnly } = useContext(TemplateListPageContext);
-  const { openFunnelModal } = useFunnelModal();
+  const { openFunnelModal, closeFunnelModal } = useFunnelModal();
   const setRetrospectValue = useSetAtom(retrospectInitialState);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const type = searchParams.get("template_type");
 
   const handleClickDetail = () => {
     openFunnelModal({
@@ -97,16 +101,23 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
           onClick={(event) => {
             // 선택하기 버튼 클릭 시, 상위로 이벤트를 전파하지 않고 바로 템플릿 확정 페이지로 이동합니다.
             event.stopPropagation();
-            setRetrospectValue((prev) => ({
-              ...prev,
-              tempTemplateId: String(id),
-              saveTemplateId: true,
-            }));
-            openFunnelModal({
-              title: "",
-              step: "recommendTemplate",
-              contents: <TemplateListConform />,
-            });
+            if (type === "new_space") {
+              // 새로운 스페이스 생성을 진행할 때 (+ 회고 템플릿 동시 생성)
+              setSearchParams({ selected_template_id: id.toString() });
+              closeFunnelModal();
+            } else {
+              // 기존 스페이스가 존재할 때, (회고 템플릿 별도 생성)
+              setRetrospectValue((prev) => ({
+                ...prev,
+                tempTemplateId: String(id),
+                saveTemplateId: true,
+              }));
+              openFunnelModal({
+                title: "",
+                step: "recommendTemplate",
+                contents: <TemplateListConform />,
+              });
+            }
           }}
         >
           <Typography variant={"body12Bold"} color={"gray800"}>
