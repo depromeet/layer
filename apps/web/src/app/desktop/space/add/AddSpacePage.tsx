@@ -755,15 +755,39 @@ function CreateRetrospectQuestionFunnel() {
           overflow-y: auto;
         `}
       >
-        <Typography
-          variant={"S1"}
+        <div
           css={css`
-            padding-right: 13rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
           `}
         >
-          {customTemplateInfo.title}
-        </Typography>
-        <Tag styles="margin-top: 0.8rem">{customTemplateInfo.tag}</Tag>
+          <div
+            css={css`
+              padding-top: 0.2rem;
+            `}
+          >
+            <Typography variant={"S1"}>{customTemplateInfo.title}</Typography>
+            <Tag styles="margin-top: 0.8rem">{customTemplateInfo.tag}</Tag>
+          </div>
+          <QuestionEditButton
+            onClose={() => {
+              openDesktopModal({
+                title: "",
+                contents: <AddSpacePage />,
+                options: {
+                  enableFooter: false,
+                  needsBackButton: false,
+                },
+                onClose: () => {
+                  resetRetrospectInfo();
+                  resetSpaceInfo();
+                },
+              });
+            }}
+          />
+        </div>
+
         <Spacing size={3} />
         <div
           css={css`
@@ -779,22 +803,6 @@ function CreateRetrospectQuestionFunnel() {
             ))}
           </QuestionList>
         </div>
-        <QuestionEditButton
-          onClose={() => {
-            openDesktopModal({
-              title: "",
-              contents: <AddSpacePage />,
-              options: {
-                enableFooter: false,
-                needsBackButton: false,
-              },
-              onClose: () => {
-                resetRetrospectInfo();
-                resetSpaceInfo();
-              },
-            });
-          }}
-        />
       </div>
       <Spacing size={4} />
       <ButtonProvider

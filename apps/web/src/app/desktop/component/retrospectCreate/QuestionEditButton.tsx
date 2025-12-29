@@ -37,6 +37,7 @@ function QuestionEditButton({ onClose, ...props }: QuestionEditButtonProps) {
         display: flex;
         justify-content: center;
         align-items: center;
+        min-width: 12rem;
         border: 1px solid #dfe3ea;
         border-radius: 3rem;
         padding: 1.2rem 1.6rem 1.2rem 1.2rem;
