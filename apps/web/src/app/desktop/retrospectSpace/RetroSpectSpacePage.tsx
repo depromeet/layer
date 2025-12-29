@@ -58,7 +58,6 @@ export default function RetroSpectSpacePage() {
       `}
     >
       <RetrospectSpaceHeader />
-
       {/* 데스크탑 레이아웃 (980px 이상) */}
       <div
         css={css`
@@ -83,7 +82,6 @@ export default function RetroSpectSpacePage() {
         </div>
         <ActionItems />
       </div>
-
       {/* 태블릿 레이아웃 (980px 미만) */}
       <div
         css={css`

@@ -61,7 +61,7 @@ export function TemplateListConform() {
         height: 100%;
       `}
     >
-      <Header title={"해당 템플릿으로\n회고를 진행할까요?"} />
+      <Header title={"추천받은 템플릿 질문들로\n회고를 진행할까요?"} />
       <Spacing size={12} />
       <div
         css={css`

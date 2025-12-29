@@ -15,15 +15,16 @@ import { TemplateListTab } from "./TemplateListTab";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useSearchParams } from "react-router-dom";
 
-export const TemplateListPageContext = createContext<{ readOnly: boolean; spaceId: string; isLeader: boolean }>({
-  readOnly: false,
+export const TemplateListPageContext = createContext<{
+  spaceId: string;
+  isLeader: boolean;
+}>({
   spaceId: "",
   isLeader: false,
 });
 
 export function TemplateList() {
   const { toast } = useToast();
-  const isReadOnly = useRef(false);
   const isLeader = useRef(false);
   const params = useRequiredParams<{ spaceId?: string }>();
   const [searchParams] = useSearchParams();
@@ -57,7 +58,7 @@ export function TemplateList() {
           margin-top: 0.8rem;
         `}
       >
-        <TemplateListPageContext.Provider value={{ readOnly: isReadOnly.current, spaceId, isLeader: isLeader.current }}>
+        <TemplateListPageContext.Provider value={{ spaceId, isLeader: isLeader.current }}>
           <div
             css={css`
               display: flex;
@@ -80,8 +81,6 @@ export function TemplateList() {
               gap: 1.2rem;
               margin-top: 2rem;
               padding-bottom: 2.4rem;
-
-              // TODO 카드 리스트 반응형 대응을 해야할지..?
             `}
           >
             {

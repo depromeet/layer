@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { TemplateListPageContext } from "@/app/desktop/component/retrospect/template/list";
 import { BottomSheet } from "@/component/BottomSheet";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
@@ -19,6 +18,7 @@ import { useModal } from "@/hooks/useModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import CustomTemplateListDetailItem from "@/app/desktop/component/retrospect/template/list/CustomTemplateListDetailItem";
 import { getDeviceType } from "@/utils/deviceUtils";
+import { TemplateListPageContext } from "@/app/mobile/retrospect/template/list/TemplateListPage";
 
 type CustomTemplateListItem = {
   id: number;
