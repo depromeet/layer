@@ -1,12 +1,11 @@
 import { css } from "@emotion/react";
-import { useContext } from "react";
-import { TemplateListPageContext } from "..";
 import { Typography } from "@/component/common/typography";
 import { Tag } from "@/component/common/tag";
 import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import TemplateListDetailItem from "../TemplateListDetailItem";
+import { useSearchParams } from "react-router-dom";
 
 type DesktopTemplateListItemProps = {
   id: number;
@@ -17,7 +16,9 @@ type DesktopTemplateListItemProps = {
 };
 
 export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateListItemProps) {
-  const { readOnly } = useContext(TemplateListPageContext);
+  const [searchParams] = useSearchParams();
+  const templateMode = searchParams.get("template_mode");
+
   const { openFunnelModal } = useFunnelModal();
 
   const handleClickDetail = () => {
@@ -81,7 +82,7 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
           </div>
         )}
       </div>
-      {!readOnly ? (
+      {templateMode !== "readonly" ? (
         <button
           css={css`
             width: 100%;
@@ -96,7 +97,14 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
           </Typography>
         </button>
       ) : (
-        <button onClick={handleClickDetail}>
+        <button
+          onClick={handleClickDetail}
+          css={css`
+            width: 100%;
+            text-align: center;
+            padding: 0.8rem 2rem;
+          `}
+        >
           <Typography variant={"body12Bold"} color={"gray800"}>
             더 알아보기
           </Typography>

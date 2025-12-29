@@ -11,6 +11,7 @@ import { useResetAtom } from "jotai/utils";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { FUNNEL_STEP_BACK_CONFIG, FUNNEL_STEPS_WITH_BACK } from "@/app/desktop/component/retrospect/template/constants";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useSearchParams } from "react-router-dom";
 
 export default function DesktopFunnelModal() {
   const { open, close } = useModal();
@@ -18,6 +19,7 @@ export default function DesktopFunnelModal() {
   const resetRetroCreateData = useResetAtom(retrospectCreateAtom);
   const { spaceId, templateId } = useAtomValue(retrospectInitialState);
   const { mutate: postRecentTemplateId } = usePostRecentTemplateId(Number(spaceId));
+  const [, setSearchParams] = useSearchParams();
 
   if (!funnelModalState.isOpen) return null;
 
@@ -43,7 +45,6 @@ export default function DesktopFunnelModal() {
     resetRetroCreateData();
     closeFunnelModal();
   };
-
   const handleClose = () => {
     if (funnelModalState.step === "retrospectCreate") {
       open({
@@ -60,6 +61,15 @@ export default function DesktopFunnelModal() {
         },
       });
     } else {
+      // readOnly 권한일 때 템플릿 상세 페이지의 쿼리 파라미터 제외
+      setSearchParams((prev) => {
+        const newParams = new URLSearchParams(prev);
+        if (newParams.has("template_mode")) {
+          newParams.delete("template_mode");
+        }
+        return newParams;
+      });
+
       closeFunnelModal();
     }
   };

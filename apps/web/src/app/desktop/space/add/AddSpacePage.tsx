@@ -654,7 +654,7 @@ function RecommendRetrospectTemplateConfirmFunnel() {
     openFunnelModal({
       title,
       step: "listTemplateDetail",
-      contents: <TemplateListDetailItem templateId={id} readOnly={true} />,
+      contents: <TemplateListDetailItem templateId={id} />,
       templateTag: templateName,
       overlayIndex: 100002,
       onPrevious: closeFunnelModal,
