@@ -17,6 +17,7 @@ import MemberManagement from "./members/MemberManagement";
 import { useQueries } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { TemplateList } from "@/app/desktop/component/retrospect/template/list";
+import { useSearchParams } from "react-router-dom";
 
 export default function RetrospectSpaceHeader() {
   const { open } = useModal();
@@ -24,6 +25,7 @@ export default function RetrospectSpaceHeader() {
   const { openActionModal } = useActionModal();
   const currentSpace = useAtomValue(currentSpaceState);
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
+  const [_, setSearchParams] = useSearchParams();
 
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
@@ -65,6 +67,12 @@ export default function RetrospectSpaceHeader() {
   };
 
   const handleMoveToListTemplate = () => {
+    // readOnly 권한일 때 템플릿 상세 페이지에서 사용될 쿼리 파라미터 추가
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("template_mode", "readonly");
+      return newParams;
+    });
     openFunnelModal({
       title: "템플릿 리스트",
       step: "listTemplate",

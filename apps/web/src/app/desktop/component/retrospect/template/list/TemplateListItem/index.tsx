@@ -1,6 +1,4 @@
 import { css } from "@emotion/react";
-import { useContext } from "react";
-import { TemplateListPageContext } from "..";
 import { Typography } from "@/component/common/typography";
 import { Tag } from "@/component/common/tag";
 import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture";
@@ -21,11 +19,11 @@ type DesktopTemplateListItemProps = {
 };
 
 export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateListItemProps) {
-  const { readOnly } = useContext(TemplateListPageContext);
   const { openFunnelModal, closeFunnelModal } = useFunnelModal();
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const templateMode = searchParams.get("template_mode");
   const type = searchParams.get("template_type");
 
   const handleClickDetail = () => {
@@ -89,7 +87,7 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
           </div>
         )}
       </div>
-      {!readOnly ? (
+      {templateMode !== "readonly" ? (
         <button
           css={css`
             width: 100%;
@@ -125,7 +123,14 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
           </Typography>
         </button>
       ) : (
-        <button onClick={handleClickDetail}>
+        <button
+          onClick={handleClickDetail}
+          css={css`
+            width: 100%;
+            text-align: center;
+            padding: 0.8rem 2rem;
+          `}
+        >
           <Typography variant={"body12Bold"} color={"gray800"}>
             더 알아보기
           </Typography>

@@ -41,7 +41,7 @@ function RecommendDone() {
     openFunnelModal({
       title: templateData.templateName,
       step: "listTemplateDetail",
-      contents: <TemplateListDetailItem templateId={Number(tempTemplateId)} readOnly={true} />,
+      contents: <TemplateListDetailItem templateId={Number(tempTemplateId)} />,
       templateTag: templateData.title,
       onPrevious: moveToRecommendTemplate,
     });
