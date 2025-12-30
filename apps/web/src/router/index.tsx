@@ -399,15 +399,6 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
         errorElement: <Error />,
         children: routerChildren,
       },
-      {
-        path: "/",
-        element: <MobileGlobalLayout />,
-        errorElement: <Error />,
-        children: commonRoutes.map((route) => ({
-          path: route.path,
-          element: route.auth ? <RequireLoginLayout>{route.element}</RequireLoginLayout> : route.element,
-        })),
-      },
     ]);
   } else {
     return createBrowserRouter([
@@ -420,15 +411,6 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
         element: <DesktopGlobalLayout />,
         errorElement: <Error />,
         children: routerChildren,
-      },
-      {
-        path: "/",
-        element: <DesktopGlobalLayout />,
-        errorElement: <Error />,
-        children: commonRoutes.map((route) => ({
-          path: route.path,
-          element: route.auth ? <RequireLoginLayout>{route.element}</RequireLoginLayout> : route.element,
-        })),
       },
     ]);
   }
