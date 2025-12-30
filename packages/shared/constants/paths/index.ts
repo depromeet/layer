@@ -2,10 +2,10 @@ import { getDeviceType } from "@/utils/deviceUtils";
 
 export const createPaths = () => {
   const { deviceType } = getDeviceType();
-  const prefix = deviceType === "mobile" ? "/m" : "";
+  const prefix = deviceType === "mobile" ? "" : "/desktop";
 
   return {
-    login: () => `/login` as const,
+    login: () => `${prefix}/login` as const,
     setNickName: (socialType: "kakao" | "google" | "apple") =>
       `${prefix}/setnickname/${socialType}` as const,
     home: () => prefix || ("/" as const),
