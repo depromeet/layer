@@ -8,6 +8,7 @@ import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 import { Space } from "@/types/spaceType";
 import StatusChips from "@/component/common/StatusChips";
+import { PATHS } from "@layer/shared";
 
 type SpaceOverviewProps = {
   space: Space;
@@ -20,7 +21,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
       <div
         ref={ref}
         onClick={() => {
-          navigate(`/space/${id}`);
+          navigate(PATHS.spaceDetail(id));
         }}
         key={id}
         css={css`

@@ -1,5 +1,4 @@
 import { useAtom } from "jotai";
-import { useCallback } from "react";
 
 import { modalState } from "@/store/modal/modalAtom";
 import { ModalType } from "@/types/modal";
@@ -7,31 +6,36 @@ import { ModalType } from "@/types/modal";
 export const useModal = () => {
   const [modalDataState, setModalDataState] = useAtom(modalState);
 
-  const close = useCallback(() => {
+  const close = () => {
     setModalDataState({ ...modalDataState, isOpen: false });
-  }, [modalDataState, setModalDataState]);
+  };
 
-  const open = useCallback(
-    ({ contents, title, onConfirm, onClose, overrideActionElements, options }: Omit<ModalType, "isOpen">) => {
-      setModalDataState({
-        isOpen: true,
-        title,
-        contents,
-        onConfirm,
-        onClose,
-        overrideActionElements,
-        options: {
-          ...(modalDataState.options || {}),
-          ...options,
-        },
-      });
-    },
-    [setModalDataState],
-  );
+  const open = ({ contents, title, onConfirm, onClose, overrideActionElements, options }: Omit<ModalType, "isOpen">) => {
+    setModalDataState({
+      isOpen: true,
+      title,
+      contents,
+      onConfirm,
+      onClose,
+      overrideActionElements,
+      options: {
+        ...(modalDataState.options || {}),
+        ...options,
+      },
+    });
+  };
+
+  const setProgress = (state: boolean) => {
+    setModalDataState((prev) => ({
+      ...prev,
+      isProgress: state,
+    }));
+  };
 
   return {
     open,
     close,
+    setProgress,
     modalDataState,
   };
 };

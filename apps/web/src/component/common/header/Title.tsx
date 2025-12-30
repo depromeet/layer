@@ -14,18 +14,18 @@ export function Title({ contents, type = "title", theme = "primary", ...props }:
       css={css`
         display: flex;
         flex-direction: column;
-        row-gap: 0.4rem;
       `}
     >
-      {contents.split("\n").map((item) => (
-        <div key={item}>
-          {parseTextToJSX(item).map((title, index) => (
-            <Typography key={index} variant={type === "modal" ? "title18Bold" : "heading24Bold"} color={themeSet[theme]} {...props}>
-              {title}
-            </Typography>
-          ))}
-        </div>
-      ))}
+      {typeof contents === "string" &&
+        contents.split("\n").map((item) => (
+          <div key={item}>
+            {parseTextToJSX(item).map((title, index) => (
+              <Typography key={index} variant={type === "modal" ? "title18Bold" : "heading24Bold"} color={themeSet[theme]} {...props}>
+                {title}
+              </Typography>
+            ))}
+          </div>
+        ))}
     </div>
   );
 }

@@ -6,11 +6,13 @@ import { Radio, RadioButtonGroup } from "@/component/common/radioButton";
 import { Typography } from "@/component/common/typography";
 import { useDateTimePicker } from "@/hooks/useDateTimePicker";
 import { useTabs } from "@/hooks/useTabs";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type TimePickerProps = {
   radioControl: ReturnType<typeof useDateTimePicker>["radioControl"];
 };
 export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(function ({ radioControl }, ref) {
+  const { isDesktop } = getDeviceType();
   const { curTab, tabs, selectTab } = useTabs(["오전", "오후"] as const);
   const radioButtonsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -50,7 +52,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(function (
       css={css`
         display: flex;
         flex-direction: column;
-        gap: 2.4rem;
+        gap: ${isDesktop ? "1.2rem" : "2.4rem"};
       `}
     >
       <AmPmTabs
@@ -80,7 +82,7 @@ export const TimePicker = forwardRef<HTMLDivElement, TimePickerProps>(function (
         <RadioButtonGroup
           isChecked={radioControl.isTimeChecked}
           onChange={radioControl.onTimeChange}
-          radioName={"회고 마감 시간"}
+          radioName="due-date"
           ref={radioButtonsContainerRef}
         >
           {TIME_24.slice(0, 13).map((time, index) => {
@@ -108,6 +110,7 @@ TimePicker.displayName = "TimePicker";
 type AmPmTabsProps<T extends string> = ReturnType<typeof useTabs<T>>;
 
 function AmPmTabs<T extends string>({ tabs, curTab, selectTab }: AmPmTabsProps<T>) {
+  const { isDesktop } = getDeviceType();
   return (
     <div
       css={css`
@@ -116,8 +119,8 @@ function AmPmTabs<T extends string>({ tabs, curTab, selectTab }: AmPmTabsProps<T
       `}
     >
       {tabs.map((tab, index) => (
-        <button onClick={() => selectTab(tab)} key={index}>
-          <Typography color={tab === curTab ? "dark" : "grey2"} variant="S2">
+        <button type="button" onClick={() => selectTab(tab)} key={index}>
+          <Typography color={tab === curTab ? "dark" : "grey2"} variant={isDesktop ? "body12Bold" : "S2"}>
             {tab}
           </Typography>
         </button>

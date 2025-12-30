@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { categoryMap } from "@/component/space/space.const";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type CategoryButtonProps = {
   isClicked?: boolean;
@@ -11,6 +12,7 @@ type CategoryButtonProps = {
 };
 
 export function CategoryButton({ isClicked = true, category, onClick }: CategoryButtonProps) {
+  const { isDesktop } = getDeviceType();
   return (
     <div
       onClick={onClick}
@@ -22,7 +24,7 @@ export function CategoryButton({ isClicked = true, category, onClick }: Category
         border-radius: 1.2rem;
         cursor: pointer;
         flex: 1;
-        padding: 4rem;
+        padding: ${isDesktop ? "3.2rem 2rem" : "4rem"};
         transition: 0.2s all;
       `}
     >
@@ -36,14 +38,14 @@ export function CategoryButton({ isClicked = true, category, onClick }: Category
       >
         <Icon
           icon={isClicked ? category.icon_white : category.icon_color}
-          size={4}
+          size={isDesktop ? 3.4 : 4}
           color={isClicked ? "#f6f8fa" : "#6C9CFA"}
           css={css`
             cursor: pointer;
           `}
         />
-        <Spacing size={2} />
-        <div>{category.name}</div>
+        <Spacing size={isDesktop ? 1.2 : 2} />
+        <div>{category.name} 프로젝트</div>
       </div>
     </div>
   );

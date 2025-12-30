@@ -1,6 +1,16 @@
 export const DESIGN_TOKEN_TEXT = {
+  heading28Bold: {
+    fontSize: "2.8rem",
+    fontWeight: "700",
+    lineHeight: "150%",
+  },
   heading24Bold: {
     fontSize: "2.4rem",
+    fontWeight: "700",
+    lineHeight: "150%",
+  },
+  title22Bold: {
+    fontSize: "2.2rem",
     fontWeight: "700",
     lineHeight: "150%",
   },
@@ -9,10 +19,20 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "600",
     lineHeight: "140%",
   },
+  title20Bold2: {
+    fontSize: "2.0rem",
+    fontWeight: "700",
+    lineHeight: "140%",
+  },
   title18Bold: {
     fontSize: "1.8rem",
     fontWeight: "600",
     lineHeight: "140%",
+  },
+  title16Strong: {
+    fontSize: "1.6rem",
+    fontWeight: "700",
+    lineHeight: "150%",
   },
   title16Bold: {
     fontSize: "1.6rem",
@@ -29,6 +49,16 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "500",
     lineHeight: "140%",
   },
+  subtitle14Strong: {
+    fontSize: "1.4rem",
+    fontWeight: "700",
+    lineHeight: "140%",
+  },
+  subtitle14Bold: {
+    fontSize: "1.4rem",
+    fontWeight: "600",
+    lineHeight: "140%",
+  },
   subtitle14SemiBold: {
     fontSize: "1.4rem",
     fontWeight: "500",
@@ -39,9 +69,39 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "400",
     lineHeight: "140%",
   },
+  body15Bold: {
+    fontSize: "1.5rem",
+    fontWeight: "700",
+    lineHeight: "140%",
+  },
+  body15Normal: {
+    fontSize: "1.5rem",
+    fontWeight: "600",
+    lineHeight: "140%",
+  },
+  body15SemiBold: {
+    fontSize: "1.5rem",
+    fontWeight: "500",
+    lineHeight: "140%",
+  },
   body15Medium: {
     fontSize: "1.5rem",
     fontWeight: "400",
+    lineHeight: "140%",
+  },
+  body14Strong: {
+    fontSize: "1.4rem",
+    fontWeight: "700",
+    lineHeight: "150%",
+  },
+  body14Bold: {
+    fontSize: "1.4rem",
+    fontWeight: "600",
+    lineHeight: "150%",
+  },
+  body14SemiBold: {
+    fontSize: "1.4rem",
+    fontWeight: "500",
     lineHeight: "140%",
   },
   body14Medium: {
@@ -49,13 +109,33 @@ export const DESIGN_TOKEN_TEXT = {
     fontWeight: "400",
     lineHeight: "140%",
   },
+  body13Bold: {
+    fontSize: "1.3rem",
+    fontWeight: "600",
+    lineHeight: "150%",
+  },
   body13Medium: {
     fontSize: "1.3rem",
     fontWeight: "400",
     lineHeight: "140%",
   },
+  body12Strong: {
+    fontSize: "1.2rem",
+    fontWeight: "600",
+    lineHeight: "140%",
+  },
+  body12Bold: {
+    fontSize: "1.2rem",
+    fontWeight: "600",
+    lineHeight: "140%",
+  },
   body12SemiBold: {
     fontSize: "1.2rem",
+    fontWeight: "500",
+    lineHeight: "140%",
+  },
+  body11SemiBold: {
+    fontSize: "1.1rem",
     fontWeight: "500",
     lineHeight: "140%",
   },
@@ -82,6 +162,7 @@ export const DESIGN_TOKEN_TEXT = {
 } as const;
 
 export const DESIGN_TOKEN_COLOR = {
+  white: "#FFFFFF",
   themeBackground: {
     dark: "#212529",
     gray: "#F2F4F8",

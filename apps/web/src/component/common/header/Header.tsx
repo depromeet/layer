@@ -3,6 +3,8 @@ import { Fragment } from "react";
 
 import { Typography } from "@/component/common/typography";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable.ts";
+import { getDeviceType } from "@/utils/deviceUtils";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
 
 type HeaderProps = {
   theme?: ThemeSet;
@@ -13,6 +15,9 @@ type HeaderProps = {
 type ThemeSet = "white" | "primary";
 
 export function Header({ theme = "primary", title, contents }: HeaderProps) {
+  const { isDesktop } = getDeviceType();
+  const { funnelModalState } = useFunnelModal();
+
   const themeSet: Record<ThemeSet, { titleColor: keyof typeof DESIGN_SYSTEM_COLOR; contentsColor: keyof typeof DESIGN_SYSTEM_COLOR }> = {
     primary: {
       titleColor: "black",
@@ -47,8 +52,9 @@ export function Header({ theme = "primary", title, contents }: HeaderProps) {
         css={css`
           display: flex;
           flex-direction: column;
-          row-gap: 1.2rem;
-          margin-top: 2rem;
+          row-gap: ${isDesktop ? "0.8rem" : "1.2rem"};
+          margin-top: ${isDesktop ? "" : "2rem"};
+          padding: ${isDesktop && funnelModalState.step === "retrospectWrite" && "0 1.6rem"};
         `}
       >
         <div

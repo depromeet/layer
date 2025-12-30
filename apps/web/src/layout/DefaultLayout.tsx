@@ -16,6 +16,7 @@ export function DefaultLayout({ children, title, theme = "default", height, appB
         --parent-bg-color: ${DESIGN_TOKEN_COLOR.themeBackground[theme]};
         background-color: var(--parent-bg-color);
         overflow-y: auto;
+        height: 100%;
         max-height: 100dvh;
       `}
     >

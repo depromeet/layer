@@ -3,7 +3,7 @@ import Lottie from "lottie-react";
 import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 
-import { RetrospectCreateContext } from "@/app/retrospectCreate/RetrospectCreate";
+import { RetrospectCreateContext } from "@/app/mobile/retrospectCreate/RetrospectCreate";
 import retrospect_create_start_lottie from "@/assets/lottie/retropsect/create/speech_bubble_envelope.json";
 import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";

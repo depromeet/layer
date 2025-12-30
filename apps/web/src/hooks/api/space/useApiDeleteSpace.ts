@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { api } from "@/api";
 import { useToast } from "@/hooks/useToast";
+import { PATHS } from "@layer/shared";
 
 export const useApiDeleteSpace = () => {
   const { toast } = useToast();
@@ -16,7 +17,7 @@ export const useApiDeleteSpace = () => {
   return useMutation({
     mutationFn: (spaceId: string) => apiSpaceDelete(spaceId),
     onSuccess: () => {
-      navigate("/");
+      navigate(PATHS.home());
       toast.success("스페이스 삭제가 완료되었습니다.");
     },
     onError: (error) => {

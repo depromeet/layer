@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
-import { PATHS } from "@/config/paths";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { PATHS } from "@layer/shared";
 
 type SpaceCountViewProps = {
   memberCount: number | undefined;
@@ -101,7 +101,7 @@ export function SpaceCountView({ mainTemplate, memberCount, isLeader }: SpaceCou
           justify-content: space-between;
           flex-basis: 50%;
         `}
-        onClick={() => navigate(`/space/${spaceId}/members`)}
+        onClick={() => navigate(PATHS.spaceMembers(spaceId))}
       >
         <div
           css={css`

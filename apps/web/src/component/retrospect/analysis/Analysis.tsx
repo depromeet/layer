@@ -12,6 +12,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useApiGetAnalysis } from "@/hooks/api/analysis/useApiGetAnalysis";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type AnalysisContainerProps = {
   spaceId: string;
@@ -20,21 +21,17 @@ type AnalysisContainerProps = {
 };
 
 export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: AnalysisContainerProps) {
-  const { data, isError, error, isLoading } = useApiGetAnalysis({ spaceId, retrospectId });
+  const { data, isPending } = useApiGetAnalysis({ spaceId, retrospectId });
 
-  if (isError) {
-    console.log(error);
-  }
   const [selectedTab, setSelectedTab] = useState<"personal" | "team">("personal");
-  if (isLoading) {
+
+  if (isPending) {
     return <LoadingModal />;
   }
 
-  {
-    /**분석이 진행중일 때**/
-  }
-  if (hasAIAnalyzed == false) {
-    return <AnalysisingComp />;
+  // * 분석이 진행 중일 때
+  if (hasAIAnalyzed === false) {
+    return <AnalyzingComp />;
   }
 
   return (
@@ -159,11 +156,13 @@ export function AnalysisContainer({ spaceId, retrospectId, hasAIAnalyzed }: Anal
   );
 }
 
-function AnalysisingComp() {
+export function AnalyzingComp() {
+  const { isDesktop } = getDeviceType();
+
   return (
     <div
       css={css`
-        height: 100dvh;
+        height: ${isDesktop ? "80vh" : "100dvh"};
         display: flex;
         flex-direction: column;
         justify-content: center;

@@ -3,6 +3,7 @@ export type RetrospectStatus = "PROCEEDING" | "DONE";
 export type AnalysisStatus = "NOT_STARTED" | "PROCEEDING" | "DONE";
 
 export type Retrospect = {
+  spaceId: number;
   retrospectId: number;
   title: string;
   introduction: string;

@@ -1,4 +1,6 @@
 import "@/style/global.css";
+import "@/style/channelTalk.css";
+
 import { QueryClientProvider } from "@tanstack/react-query";
 // import { DevTools } from "jotai-devtools";
 import React, { Suspense } from "react";

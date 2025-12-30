@@ -6,23 +6,29 @@ import { Insight } from "@/types/analysis";
 import { AxiosResponse } from "axios";
 import { ErrorResponse } from "react-router-dom";
 
+export type IndividualAnalyzeType = {
+  score: number;
+  goalCompletionRate: number;
+  goodPoints: Insight[];
+  badPoints: Insight[];
+  improvementPoints: Insight[];
+};
+
+export type TeamAnalyzeType = {
+  scoreOne: number;
+  scoreTwo: number;
+  scoreThree: number;
+  scoreFour: number;
+  scoreFive: number;
+  goalCompletionRate: number;
+  goodPoints: Insight[];
+  badPoints: Insight[];
+  improvementPoints: Insight[];
+};
+
 export type AnalysisType = {
-  teamAnalyze: {
-    scoreOne: number;
-    scoreTwo: number;
-    scoreThree: number;
-    scoreFour: number;
-    scoreFive: number;
-    goalCompletionRate: number;
-    goodPoints: Insight[];
-    badPoints: Insight[];
-    improvementPoints: Insight[];
-  };
-  individualAnalyze: {
-    goodPoints: Insight[];
-    badPoints: Insight[];
-    improvementPoints: Insight[];
-  };
+  teamAnalyze: TeamAnalyzeType;
+  individualAnalyze: IndividualAnalyzeType;
 };
 
 export const useApiGetAnalysis = ({ spaceId, retrospectId }: { spaceId: string; retrospectId: string }) => {

@@ -1,12 +1,32 @@
 import { css } from "@emotion/react";
+import type { SerializedStyles } from "@emotion/react";
 
 import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
 import { ACHIEVEMENT_COLOR_DEFAULT_COLOR } from "@/component/write/template/template.const.ts";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
+import { getDeviceType } from "@/utils/deviceUtils";
 
-type ProgressBarProps = { name: string; question?: never; index: number } | { question: string; name?: never; index: number };
+type ProgressBarProps =
+  | { name: string; question?: never; index: number; customCss?: SerializedStyles }
+  | { question: string; name?: never; index: number; customCss?: SerializedStyles }
+  | { question?: never; name?: never; index: number; customCss?: SerializedStyles };
 
-export function CAchievementTemplate({ name, question, index: AchivementIdx = -1 }: ProgressBarProps) {
+export function CAchievementTemplate({ name, question, index: AchivementIdx = -1, customCss }: ProgressBarProps) {
+  const { isDesktop } = getDeviceType();
+
+  const noNameAndQuestion = !name && !question;
+
+  // * 0퍼센트 텍스트 스타일 함수
+  const getPercentTextStyle = (currentIndex: number) => {
+    if (!isDesktop) return css``;
+
+    return css`
+      ${currentIndex === AchivementIdx ? DESIGN_TOKEN_TEXT.caption10Bold : DESIGN_TOKEN_TEXT.caption10Medium}
+      color: ${currentIndex === AchivementIdx ? DESIGN_TOKEN_COLOR.blue600 : "inherit"};
+      transition: 0.4s all;
+    `;
+  };
+
   const segments = Array.from({ length: 5 }, (_, i) => i < AchivementIdx + 1);
   const defaultBorderStyle = css`
     border-radius: 0;
@@ -22,11 +42,12 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = -1
     <ResultContainer
       question={question}
       name={name}
-      css={css`
+      customCss={css`
         #line,
         #space {
-          margin-bottom: 3.5rem;
+          margin-bottom: ${isDesktop ? "3rem" : "3.5rem"};
         }
+        ${customCss}
       `}
     >
       {segments.map((isActive, index) => (
@@ -35,13 +56,14 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = -1
           css={css`
             width: 100%;
             display: flex;
+            margin-top: ${noNameAndQuestion ? "1rem" : "0rem"};
             align-items: center;
             position: relative;
             color: #b3b3b3;
 
             #percent {
               position: absolute;
-              bottom: 2.5rem;
+              bottom: ${isDesktop ? "1.8rem" : "2.5rem"};
               font-size: 1.2rem;
             }
 
@@ -68,7 +90,11 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = -1
             `}
           `}
         >
-          {index === 0 && <span id="percent">0</span>}
+          {index === 0 && (
+            <span id="percent" css={getPercentTextStyle(index)}>
+              0
+            </span>
+          )}
           <div
             css={css`
               position: relative;
@@ -77,7 +103,7 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = -1
               border-radius: ${defaultBorderStyle};
               ${index === 0 && firstBorderStyle}
               ${index === 4 && finalBorderStyle}
-              height: 1.9rem;
+              height: ${isDesktop ? "1.5rem" : "1.9rem"};
             `}
           >
             <div
@@ -91,14 +117,7 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = -1
               `}
             />
           </div>
-          <span
-            id="percent"
-            css={css`
-              ${index === AchivementIdx ? DESIGN_TOKEN_TEXT.caption10Bold : DESIGN_TOKEN_TEXT.caption10Medium}
-              color: ${index === AchivementIdx && DESIGN_TOKEN_COLOR.blue600};
-              transition: 0.4s all;
-            `}
-          >
+          <span id="percent" css={getPercentTextStyle(index)}>
             {(index + 1) * 20}
           </span>
         </div>

@@ -1,12 +1,18 @@
-import { css } from "@emotion/react";
+import { css, SerializedStyles } from "@emotion/react";
 
 import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
+import { getDeviceType } from "@/utils/deviceUtils";
 
-type DescriptiveTemplateProps = { name: string; question?: never; answer: string } | { question: string; name?: never; answer: string };
+type DescriptiveTemplateProps =
+  | { name: string; question?: never; answer: string }
+  | { question: string; name?: never; answer: string }
+  | { question?: never; name?: never; answer: string };
 
-export function CDescriptiveTemplate({ name, question, answer }: DescriptiveTemplateProps) {
+export function CDescriptiveTemplate({ name, question, answer, customCss }: DescriptiveTemplateProps & { customCss?: SerializedStyles }) {
+  const { isDesktop, isMobile } = getDeviceType();
+
   return (
-    <ResultContainer question={question} name={name}>
+    <ResultContainer question={question} name={name} css={customCss}>
       {/*  FIXME: SPACE 컴포넌트 넣기 */}
       <div
         css={css`
@@ -14,9 +20,19 @@ export function CDescriptiveTemplate({ name, question, answer }: DescriptiveTemp
           font-size: 1.5rem;
           font-weight: 300;
           overflow-y: auto;
-          white-space: pre-wrap;
           width: 100%;
-          max-height: 25rem;
+          max-height: ${isMobile && "25rem"};
+
+          ${isDesktop
+            ? css`
+                white-space: pre-wrap;
+                word-wrap: break-word;
+                word-break: break-word;
+                hyphens: auto;
+              `
+            : css`
+                white-space: pre-wrap;
+              `}
         `}
       >
         {answer}

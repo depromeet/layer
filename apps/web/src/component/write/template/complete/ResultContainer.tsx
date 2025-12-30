@@ -1,31 +1,41 @@
-import { css } from "@emotion/react";
+import { css, SerializedStyles } from "@emotion/react";
 import React, { Fragment, PropsWithChildren } from "react";
 
 import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
+import { getDeviceType } from "@/utils/deviceUtils";
 
 type ResultContainerProps = {
   question?: string;
   name?: string;
+  customCss?: SerializedStyles;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "type">;
 
-export function ResultContainer({ name, question, children, ...props }: PropsWithChildren<ResultContainerProps>) {
+export function ResultContainer({ name, question, children, customCss, ...props }: PropsWithChildren<ResultContainerProps>) {
+  const { isDesktop } = getDeviceType();
+
+  const noNameAndQuestion = !name && !question;
+
   return (
     <div
-      css={css`
-        width: 100%;
-        margin-top: 2.4rem;
-        border-radius: 0.78rem;
-        padding: 1.9rem 2rem 1.7rem 2rem;
-        min-height: fit-content;
-        box-shadow: 0 3.886px 11.657px 0 rgba(33, 37, 41, 0.04);
-        font-size: 1.6rem;
-        color: #212529;
-        background: white;
-      `}
+      css={[
+        css`
+          width: 100%;
+          height: auto;
+          min-height: ${isDesktop ? "11rem" : "fit-content"};
+          margin-top: ${isDesktop ? "1.6rem" : "2.4rem"};
+          border-radius: 0.78rem;
+          padding: ${isDesktop ? (name ? "1.2rem" : "1.6rem") : "1.9rem 2rem 1.7rem 2rem"};
+          box-shadow: 0 3.886px 11.657px 0 rgba(33, 37, 41, 0.04);
+          font-size: 1.6rem;
+          color: #212529;
+          background: white;
+        `,
+        customCss,
+      ]}
       {...props}
     >
-      {question ? (
+      {question && (
         <Fragment>
           <span
             id="question"
@@ -36,18 +46,21 @@ export function ResultContainer({ name, question, children, ...props }: PropsWit
           >
             {question}
           </span>
+
           <div
             id="line"
             css={css`
               width: 100%;
-              border: solid 0.01rem #eee;
+              border: ${isDesktop ? "none" : "solid 0.01rem #eee"};
               background: transparent;
               border-radius: 5rem;
               margin: 1.3rem 0;
             `}
           />
         </Fragment>
-      ) : (
+      )}
+
+      {name && (
         <Fragment>
           <Tag>{name}</Tag>
           <Spacing id="space" size={1.2} />
@@ -57,9 +70,11 @@ export function ResultContainer({ name, question, children, ...props }: PropsWit
       <div
         id="children"
         css={css`
+          height: ${noNameAndQuestion ? "100%" : "auto"};
           display: flex;
           justify-content: center;
-          column-gap: 0.8rem;
+          align-items: ${noNameAndQuestion ? "center" : "flex-start"};
+          column-gap: ${isDesktop ? "0.3rem" : "0.8rem"};
         `}
       >
         {children}

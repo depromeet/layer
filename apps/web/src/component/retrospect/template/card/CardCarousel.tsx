@@ -11,10 +11,14 @@ import { useState } from "react";
 import { TemplateCard } from "@/component/retrospect/template/card/TemplateCard";
 
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "@layer/shared";
+import { getDeviceType } from "@/utils/deviceUtils";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import RecommendDone from "@/app/desktop/component/retrospect/template/recommend/Done";
 
 type CardCarouselProp = {
-  spaceId: string;
-  templateId: string;
+  spaceId?: string;
+  templateId?: string;
   templateArr: {
     title: string;
     templateName: string;
@@ -26,6 +30,8 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
   const [isAnimating, setIsAnimating] = useState(false);
   const targetSlideIndex = 4; // 멈추고 싶은 n번째 슬라이드 인덱스 (0부터 시작)
   const navigate = useNavigate();
+  const { isDesktop, isMobile } = getDeviceType();
+  const { openFunnelModal } = useFunnelModal();
 
   const getSlideClassName = (index: number): string => {
     if (isAnimating && index === targetSlideIndex - 1) return "slide-content left";
@@ -50,9 +56,19 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
         if (swiper.activeIndex === targetSlideIndex) {
           swiper.autoplay.stop();
           setIsAnimating(true);
-          setTimeout(() => {
-            navigate("/retrospect/recommend/done", { state: { templateId, spaceId } });
-          }, 2200);
+          isMobile &&
+            setTimeout(() => {
+              navigate(PATHS.retrospectRecommendDone(), { state: { templateId, spaceId } });
+            }, 2200);
+
+          isDesktop &&
+            setTimeout(() => {
+              openFunnelModal({
+                title: "",
+                step: "recommendTemplate",
+                contents: <RecommendDone />,
+              });
+            }, 2200);
         }
       }}
       onInit={(swiper) => {
@@ -62,7 +78,7 @@ export function CardCarousel({ templateId, spaceId, templateArr }: CardCarouselP
     >
       {templateArr.map((template, index) => (
         <SwiperSlide key={index} className={getSlideClassName(index)}>
-          <TemplateCard name={template.templateName} tag={template.title} imgUrl={template.imageUrl} scale={0.8} size="small" />
+          <TemplateCard name={template.templateName} tag={template.title} imgUrl={template.imageUrl} scale={0.8} size="small" readOnly={true} />
         </SwiperSlide>
       ))}
     </Swiper>

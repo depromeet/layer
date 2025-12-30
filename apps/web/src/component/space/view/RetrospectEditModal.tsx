@@ -20,7 +20,7 @@ type RetrospectEditProps = {
 };
 
 export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, close }: RetrospectEditProps) {
-  const { mutate: patchRetrospect, isSuccess, isPending } = usePatchRetrospect(spaceId);
+  const { mutate: patchRetrospect, isSuccess, isPending } = usePatchRetrospect();
   const { value: title, handleInputChange: handleTitleChange } = useInput(defaultValue.title);
   const { value: introduction, handleInputChange: handleIntroductionChange } = useInput(defaultValue.introduction);
   const [deadline, setDeadline] = useState(defaultValue.deadline);

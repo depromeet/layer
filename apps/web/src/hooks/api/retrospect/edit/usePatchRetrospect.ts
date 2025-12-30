@@ -11,22 +11,25 @@ type RetrospectEditReq = {
 
 type PatchRetrospect = { spaceId: number; retrospectId: number; data: RetrospectEditReq };
 
-export const usePatchRetrospect = (spaceId: string) => {
+export const usePatchRetrospect = () => {
   const patchRetrospect = async ({ spaceId, retrospectId, data }: PatchRetrospect) => {
     const res = await api.patch(`/space/${spaceId}/retrospect/${retrospectId}`, data);
     return res;
   };
-
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: patchRetrospect,
-    onSuccess: async () => {
+    onSuccess: async (_, variable) => {
       toast.success("회고 정보가 수정되었어요!");
       await queryClient.invalidateQueries({
-        queryKey: ["getRetrospects", spaceId],
+        // TODO: queryKey 타입 재정의 필요
+        queryKey: ["getRetrospects", variable.spaceId.toString()],
       });
+    },
+    onError: () => {
+      toast.error("회고 수정을 실패하였습니다");
     },
   });
 };

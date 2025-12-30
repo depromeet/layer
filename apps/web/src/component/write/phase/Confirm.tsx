@@ -1,6 +1,6 @@
 import { Fragment, useContext } from "react";
 
-import { PhaseContext } from "@/app/write/RetrospectWritePage.tsx";
+import { PhaseContext } from "@/app/mobile/write/RetrospectWritePage";
 import { Answer } from "@/component/write/phase/Write";
 import { CAchievementTemplate, CDescriptiveTemplate, CSatisfactionTemplate } from "@/component/write/template/complete";
 
@@ -10,6 +10,7 @@ type CompleteProps = {
 
 export function Confirm({ answers }: CompleteProps) {
   const { data } = useContext(PhaseContext);
+
   return (
     <Fragment>
       {data?.questions.map((item) => {

@@ -2,13 +2,13 @@ import { css } from "@emotion/react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { TemplateListPageContext } from "@/app/retrospect/template/list/TemplateListPage";
+import { TemplateListPageContext } from "@/app/mobile/retrospect/template/list/TemplateListPage";
 import { Button } from "@/component/common/button";
 import { Card } from "@/component/common/Card";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
 import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture.tsx";
-import { PATHS } from "@/config/paths";
+import { PATHS } from "@layer/shared";
 
 type DefaultTemplateListItemProps = {
   id: number;

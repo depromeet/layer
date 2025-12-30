@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { PhaseContext } from "@/app/write/RetrospectWritePage.tsx";
+import { PhaseContext } from "@/app/mobile/write/RetrospectWritePage";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";

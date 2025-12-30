@@ -1,57 +1,79 @@
 <!doctype html>
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- FIXME: 추후 디자인 팀 OG 로고 요청 후 수정 -->
+    <link rel="icon" type="image/svg+xml" href="/white_layer.svg" />
+    <link rel="icon" type="image/svg+xml" href="/dark_layer.svg" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="/white_layer.svg" media="(prefers-color-scheme: white)" />
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    />
+    <title>성장하는 당신을 위한 회고 서비스, Layer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <!-- FIXME: 추후 디자인 팀 OG 로고 요청 후 수정 -->
-  <link rel="icon" type="image/svg+xml" href="/white_layer.svg" />
-  <link rel="icon" type="image/svg+xml" href="/dark_layer.svg" media="(prefers-color-scheme: dark)" />
-  <link rel="icon" type="image/svg+xml" href="/white_layer.svg" media="(prefers-color-scheme: white)" />
-  <link rel="stylesheet" as="style" crossorigin
-    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-  <title>성장하는 당신을 위한 회고 서비스, Layer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-  
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
-  <meta name="keywords" content="회고, 회고록, retrospect, 회고 서비스, AI 분석, 템플릿, KPT, 5F, 성장, 팀 회고, 개인 회고, Layer, 레이어, 성장하는 사람들의 회고 모임, 메모어" />
-  <meta name="author" content="Layer Team" />
-  <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#009BFF" />
-  <link rel="canonical" href="https://www.layerapp.io/" />
-  
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.layerapp.io/" />
-  <meta property="og:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
-  <meta property="og:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
-  <meta property="og:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:site_name" content="layer" />
-  <meta property="og:locale" content="ko_KR" />
-  
-  <!-- Twitter Card Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
-  <meta name="twitter:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
-  <meta name="twitter:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
+    <meta
+      name="keywords"
+      content="회고, 회고록, retrospect, 회고 서비스, AI 분석, 템플릿, KPT, 5F, 성장, 팀 회고, 개인 회고, Layer, 레이어, 성장하는 사람들의 회고 모임, 메모어"
+    />
+    <meta name="author" content="Layer Team" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#009BFF" />
+    <link rel="canonical" href="https://www.layerapp.io/" />
 
-  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-  <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-  <script type="text/javascript"
-    src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
-</head>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.layerapp.io/" />
+    <meta property="og:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
+    <meta property="og:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
+    <meta property="og:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="layer" />
+    <meta property="og:locale" content="ko_KR" />
 
-<body>
-  <div id="root"></div>
-  <div id="loading-modal-root"></div>
-  <div id="modal-root"></div>
-  <div id="toast-root"></div>
-  <div id="bottom-sheet-root"></div>
-  <div id="dropdown-root"></div>
-  <div id="tooltip-root"></div>
-  <script type="module" src="/src/app.tsx"></script>
-</body>
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
+    <meta name="twitter:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
+    <meta name="twitter:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
 
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.layerapp.io/" />
+    <meta property="og:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
+    <meta property="og:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
+    <meta property="og:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="layer" />
+    <meta property="og:locale" content="ko_KR" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
+    <meta name="twitter:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
+    <meta name="twitter:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
+
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <div id="loading-modal-root"></div>
+    <div id="modal-root"></div>
+    <div id="toast-root"></div>
+    <div id="bottom-sheet-root"></div>
+    <div id="dropdown-root"></div>
+    <div id="tooltip-root"></div>
+    <div id="toggle-root"></div>
+    <script type="module" src="/src/app.tsx"></script>
+  </body>
 </html>
