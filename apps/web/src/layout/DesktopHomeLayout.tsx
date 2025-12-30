@@ -29,10 +29,6 @@ function DesktopHomeLayoutContent() {
 export default function DesktopHomeLayout() {
   return (
     <>
-      <Modal />
-      <DesktopFunnelModal />
-      <DesktopActionModal />
-      <DesktopModal />
       <NavigationProvider>
         <DesktopHomeLayoutContent />
       </NavigationProvider>
