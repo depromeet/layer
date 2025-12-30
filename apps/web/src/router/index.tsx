@@ -400,7 +400,7 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
         children: routerChildren,
       },
       {
-        path: "/m",
+        path: "*",
         element: <MobileGlobalLayout />,
         errorElement: <Error />,
         children: commonRoutes.map((route) => ({
@@ -422,7 +422,7 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
         children: routerChildren,
       },
       {
-        path: "/",
+        path: "*",
         element: <DesktopGlobalLayout />,
         errorElement: <Error />,
         children: commonRoutes.map((route) => ({
