@@ -5,7 +5,7 @@ export default function LoginPage() {
   const insets = useSafeAreaInsets();
   return (
     <WebViewLayout
-      pathname="/m/login"
+      pathname="/login"
       style={{
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
