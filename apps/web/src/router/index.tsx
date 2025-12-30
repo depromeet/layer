@@ -392,13 +392,13 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
         element: <Navigate to="/" replace />,
       },
       {
-        path: "",
+        path: "/",
         element: <MobileGlobalLayout />,
         errorElement: <Error />,
         children: routerChildren,
       },
       {
-        path: "/",
+        path: "*",
         element: <MobileGlobalLayout />,
         errorElement: <Error />,
         children: commonRoutes.map((route) => ({
