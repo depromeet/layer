@@ -6,6 +6,9 @@ import { Modal } from "@/component/common/Modal";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser";
 import { useEffect } from "react";
 import ChannelService from "@/lib/channel-talk/service";
+import DesktopFunnelModal from "@/component/common/Modal/DesktopFunnelModal";
+import DesktopActionModal from "@/component/common/Modal/DesktopActionModal";
+import DesktopModal from "@/component/common/Modal/DesktopModal/DesktopModal";
 
 export default function DesktopGlobalLayout() {
   useEffect(() => {
@@ -23,6 +26,10 @@ export default function DesktopGlobalLayout() {
       `}
     >
       <Modal />
+      <DesktopModal />
+      <DesktopFunnelModal />
+      <DesktopActionModal />
+
       <PreventExternalBrowser>
         <Outlet />
       </PreventExternalBrowser>
