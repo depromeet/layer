@@ -17,6 +17,7 @@ import MainQuestionsHeader from "./MainQuestionsHeader";
 import MainQuestionsContents from "./MainQuestionsContents";
 import AddQuestionView from "./AddQuestionView";
 import { useModal } from "@/hooks/useModal";
+import { isEqual } from "lodash-es";
 
 type QuestionEditSectionProps = {
   onClose: () => void;
@@ -86,6 +87,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     } else {
       setRetrospectQuestions(updatedQuestions);
     }
+
     toast.success("삭제가 완료되었어요!");
   };
 
@@ -117,7 +119,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   const handleAddQuestionComplete = (content: string) => {
     const newQuestions = [...questions, { questionType: "plain_text" as const, questionContent: content }];
     if (isInitializedCreateSpace) {
-      setRetroCreateData((prev) => ({ ...prev, questions: newQuestions, hasChangedOriginal: true, isNewForm: true, formName: `커스텀 템플릿` }));
+      setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
     } else {
       setRetrospectQuestions(newQuestions);
     }
@@ -228,6 +230,21 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     setBackupQuestions([]);
   };
 
+  // 제출 완료 핸들러
+  const handleComplete = () => {
+    const hasChanged = !isEqual(backupQuestions, questions);
+
+    if (hasChanged || retroCreateData.hasChangedOriginal) {
+      setRetroCreateData((prev) => ({
+        ...prev,
+        hasChangedOriginal: true,
+        isNewForm: true,
+      }));
+    }
+
+    onClose();
+  };
+
   return (
     <>
       {isAddMode ? (
@@ -293,7 +310,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
               padding-top: 0.8rem;
             `}
           >
-            <Button colorSchema={"primary"} onClick={onClose} isProgress={false}>
+            <Button colorSchema={"primary"} onClick={handleComplete} isProgress={false}>
               완료
             </Button>
           </ButtonProvider>

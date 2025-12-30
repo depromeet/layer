@@ -5,9 +5,13 @@ import { useSetAtom } from "jotai";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { TemplateQuestion } from "../TemplateListDetailItem/TemplateQuestion";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
+import { useSearchParams } from "react-router-dom";
 
 function CustomTemplateListDetailItem({ templateId }: { templateId: number }) {
   const { data } = useGetCustomTemplate(templateId);
+  const [searchParams, _] = useSearchParams();
+  const templateMode = searchParams.get("template_mode");
+
   const transformedData = {
     ...data,
     questions: data.questions.map((q, index) => ({
@@ -37,9 +41,11 @@ function CustomTemplateListDetailItem({ templateId }: { templateId: number }) {
     <>
       <TemplateQuestion templateId={templateId} templateDetailQuestionList={transformedData.questions} />
 
-      <ButtonProvider sort={"horizontal"}>
-        <ButtonProvider.Primary onClick={handleSelectTemplate}>선택하기</ButtonProvider.Primary>
-      </ButtonProvider>
+      {templateMode !== "readonly" && (
+        <ButtonProvider sort={"horizontal"}>
+          <ButtonProvider.Primary onClick={handleSelectTemplate}>선택하기</ButtonProvider.Primary>
+        </ButtonProvider>
+      )}
     </>
   );
 }

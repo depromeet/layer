@@ -29,7 +29,7 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
    */
   const handleContentChange = (index: number, newContent: string) => {
     const updatedQuestions = questions.map((item, i) => (i === index ? { ...item, questionContent: newContent } : item));
-    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions, isNewForm: true, formName: `커스텀 템플릿` }));
+    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions, isNewForm: true }));
   };
 
   /**

@@ -4,7 +4,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { useGetSimpleTemplateInfo } from "@/hooks/api/template/useGetSimpleTemplateInfo";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { css } from "@emotion/react";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { Tooltip } from "@/component/common/tip";
 import { ButtonProvider } from "@/component/common/button";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
@@ -15,11 +15,10 @@ import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 
 export function TemplateListConform() {
-  const setRetrospectValue = useSetAtom(retrospectInitialState);
-  const { tempTemplateId } = useAtomValue(retrospectInitialState);
+  const [retrospectValue, setRetrospectValue] = useAtom(retrospectInitialState);
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
 
-  const { data: templateData, isLoading } = useGetSimpleTemplateInfo(tempTemplateId);
+  const { data: templateData, isLoading } = useGetSimpleTemplateInfo(retrospectValue.tempTemplateId);
   const { openFunnelModal } = useFunnelModal();
   const { openActionModal } = useActionModal();
 

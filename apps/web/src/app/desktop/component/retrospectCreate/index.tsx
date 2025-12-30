@@ -64,12 +64,11 @@ export function RetrospectCreate() {
           closeFunnelModal();
           toast.success("회고가 생성되었어요!");
 
-          setRetrospectValue({
-            spaceId: "",
-            templateId: "",
+          setRetrospectValue((prev) => ({
+            ...prev,
             tempTemplateId: "",
             saveTemplateId: false,
-          });
+          }));
         },
       },
     );
