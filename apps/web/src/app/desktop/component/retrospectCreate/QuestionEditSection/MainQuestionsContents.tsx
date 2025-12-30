@@ -19,6 +19,7 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
   const { toast } = useToast();
 
   const originalContentRef = useRef<{ [key: number]: string }>({});
+  const textareaRefs = useRef<{ [key: number]: HTMLTextAreaElement | null }>({});
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
 
   /**
@@ -29,7 +30,14 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
    */
   const handleContentChange = (index: number, newContent: string) => {
     const updatedQuestions = questions.map((item, i) => (i === index ? { ...item, questionContent: newContent } : item));
-    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions, isNewForm: true }));
+    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions, isNewForm: true, formName: `커스텀 템플릿` }));
+
+    // textarea 높이 자동 조절
+    const textarea = textareaRefs.current[index];
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
   };
 
   /**
@@ -68,8 +76,14 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
   useEffect(() => {
     questions.forEach((question, index) => {
       originalContentRef.current[index] = question.questionContent;
+
+      const textarea = textareaRefs.current[index];
+      if (textarea) {
+        textarea.style.height = "auto";
+        textarea.style.height = `${textarea.scrollHeight}px`;
+      }
     });
-  }, []);
+  }, [questions]);
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
@@ -99,7 +113,6 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
                       gap: 1.2rem;
                       margin-bottom: 1.2rem;
                       transition: box-shadow 0.2s ease;
-                      height: 5rem;
 
                       ${snapshot.isDragging &&
                       `
@@ -128,12 +141,16 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
                     </div>
 
                     {/* ---------- 입력 필드 ---------- */}
-                    <input
+                    <textarea
+                      ref={(el) => {
+                        textareaRefs.current[index] = el;
+                      }}
                       value={item.questionContent}
                       onChange={(e) => handleContentChange(index, e.target.value)}
                       onFocus={() => handleContentFocus(index)}
                       onBlur={() => handleContentBlur(index)}
                       placeholder="질문을 입력해주세요"
+                      rows={1}
                       css={css`
                         flex-grow: 1;
                         background: transparent;
@@ -142,6 +159,10 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
                         font-size: 1.4rem;
                         font-weight: 500;
                         color: ${DESIGN_TOKEN_COLOR.gray900};
+                        resize: none;
+                        overflow: hidden;
+                        white-space: pre-wrap;
+                        word-wrap: break-word;
 
                         &::placeholder {
                           color: ${DESIGN_TOKEN_COLOR.gray500};
