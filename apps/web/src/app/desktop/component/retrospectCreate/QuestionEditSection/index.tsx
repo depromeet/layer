@@ -17,6 +17,7 @@ import MainQuestionsHeader from "./MainQuestionsHeader";
 import MainQuestionsContents from "./MainQuestionsContents";
 import AddQuestionView from "./AddQuestionView";
 import { useModal } from "@/hooks/useModal";
+import { isEqual } from "lodash-es";
 
 type QuestionEditSectionProps = {
   onClose: () => void;
@@ -231,7 +232,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
 
   // 제출 완료 핸들러
   const handleComplete = () => {
-    const hasChanged = JSON.stringify(backupQuestions) !== JSON.stringify(questions);
+    const hasChanged = !isEqual(backupQuestions, questions);
 
     if (hasChanged || retroCreateData.hasChangedOriginal) {
       setRetroCreateData((prev) => ({
