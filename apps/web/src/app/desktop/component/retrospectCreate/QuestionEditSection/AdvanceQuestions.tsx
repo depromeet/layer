@@ -24,6 +24,7 @@ export default function AdvanceQuestions() {
             padding: 1.5rem 1.2rem;
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
             border-radius: 0.8rem;
+            height: 5rem;
           `}
         >
           <Icon icon="ic_star_with_cirecle" />
@@ -39,6 +40,7 @@ export default function AdvanceQuestions() {
             padding: 1.5rem 1.2rem;
             background-color: ${DESIGN_TOKEN_COLOR.gray100};
             border-radius: 0.8rem;
+            height: 5rem;
           `}
         >
           <Icon icon="ic_star_with_cirecle" />

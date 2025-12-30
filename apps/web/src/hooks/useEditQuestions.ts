@@ -40,7 +40,7 @@ export const useEditQuestions = () => {
     setTemporarilyDeletedIndexes([]);
   };
 
-  const handleQuestionInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleQuestionInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
     setNewQuestions((prev) => {
       const newQuestions: Questions = [...prev];
       newQuestions[index] = {

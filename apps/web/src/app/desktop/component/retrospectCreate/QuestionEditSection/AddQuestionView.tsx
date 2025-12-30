@@ -59,7 +59,16 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
             margin-top: 2.3rem;
           `}
         >
-          <TextArea placeholder="질문을 작성해주세요." value={customQuestion} onChange={handleCustomChange} maxLength={20} count />
+          <TextArea
+            placeholder="질문을 작성해주세요."
+            value={customQuestion}
+            onChange={handleCustomChange}
+            maxLength={100}
+            count
+            autoResize
+            minHeight="5.4rem"
+            maxHeight="20rem"
+          />
         </div>
       )}
 
