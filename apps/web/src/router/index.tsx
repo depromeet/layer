@@ -79,6 +79,11 @@ const commonRoutes: RouteChildren[] = [
     element: isDesktop ? <JoinDesktopSpacePage /> : <JoinMobileSpacePage />,
     auth: false,
   },
+  {
+    path: "login",
+    element: isDesktop ? <DesktopLoginPage /> : <LoginPage />,
+    auth: false,
+  },
 ];
 
 // 모바일/데스크탑별 라우트
@@ -133,21 +138,6 @@ const deviceSpecificRoutes: RouteChildren[] = [
     auth: true,
     deviceType: "desktop",
   },
-
-  // 로그인 관련
-  {
-    path: "login",
-    element: <LoginPage />,
-    auth: false,
-    deviceType: "mobile",
-  },
-  {
-    path: "login",
-    element: <DesktopLoginPage />,
-    auth: false,
-    deviceType: "desktop",
-  },
-
   // 회고 작성 - 모바일
   {
     path: "write",
