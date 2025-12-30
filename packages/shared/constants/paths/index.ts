@@ -5,7 +5,7 @@ export const createPaths = () => {
   const prefix = deviceType === "mobile" ? "/m" : "";
 
   return {
-    login: () => `${prefix}/login` as const,
+    login: () => `/login` as const,
     setNickName: (socialType: "kakao" | "google" | "apple") =>
       `${prefix}/setnickname/${socialType}` as const,
     home: () => prefix || ("/" as const),
