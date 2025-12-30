@@ -18,6 +18,19 @@ export default function AnalyticsSummaryBox({ type, analysis }: AnalyticsSummary
 
   const config = getAnalysisConfig(type);
 
+  const getPointByType = () => {
+    if ("goodPoint" in analysis) {
+      return analysis.goodPoint || "없음";
+    }
+    if ("badPoint" in analysis) {
+      return analysis.badPoint || "없음";
+    }
+    if ("improvementPoint" in analysis) {
+      return analysis.improvementPoint || "없음";
+    }
+    return "없음";
+  };
+
   const handleAnalysisClick = () => {
     navigate(PATHS.retrospectAnalysis(String(spaceId), retrospectId, retrospectTitle));
   };
@@ -52,7 +65,7 @@ export default function AnalyticsSummaryBox({ type, analysis }: AnalyticsSummary
           `}
         >
           <Typography variant="subtitle14SemiBold" color="gray800">
-            {config.title}
+            {getPointByType()}
           </Typography>
           <Typography
             variant="body12SemiBold"
