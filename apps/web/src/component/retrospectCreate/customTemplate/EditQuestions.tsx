@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { useSetAtom } from "jotai";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo, useState, useRef, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 
 import { REQUIRED_QUESTIONS } from "./questions.const";
@@ -27,6 +27,7 @@ import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
 
 const MAX_QUESTIONS_COUNT = 10;
+const SHEET_ID = "addQuestionSheet";
 
 type EditQuestionsProps = Pick<ReturnType<typeof useMultiStepForm>, "goNext" | "goPrev">;
 
@@ -51,7 +52,8 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
 
   const { questions: originalQuestions } = useContext(TemplateContext);
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
-  const SHEET_ID = "addQuestionSheet";
+
+  const textareaRefs = useRef<{ [key: number]: HTMLTextAreaElement | null }>({});
 
   const [isTemporarySaveModalOpen, setIsTemporarySaveModalOpen] = useState(false);
   const isEdited = useMemo(
@@ -92,6 +94,20 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
       toast.error("추가 가능한 질문 개수를 초과했어요");
     }
   };
+
+  const adjustTextareaHeight = (index: number) => {
+    const textarea = textareaRefs.current[index];
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    newQuestions.forEach((_, index) => {
+      adjustTextareaHeight(index);
+    });
+  }, [newQuestions]);
 
   return (
     <div
@@ -185,13 +201,27 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
                           }
                         }}
                       >
-                        <input
+                        <textarea
+                          ref={(el) => {
+                            textareaRefs.current[index] = el;
+                          }}
                           value={question}
-                          onChange={(e) => handleQuestionInputChange(e, index)}
+                          onChange={(e) => {
+                            handleQuestionInputChange(e, index);
+                            adjustTextareaHeight(index);
+                          }}
+                          rows={1}
                           css={css`
                             flex-grow: 1;
                             ${DESIGN_TOKEN_TEXT.body14Medium};
                             color: ${DESIGN_TOKEN_COLOR.gray900};
+                            background: transparent;
+                            border: none;
+                            outline: none;
+                            resize: none;
+                            overflow: hidden;
+                            white-space: pre-wrap;
+                            word-wrap: break-word;
                           `}
                           onBlur={handleInputChangeConfirm}
                         />
