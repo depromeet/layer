@@ -825,7 +825,7 @@ function CreateRetrospectDeadlineFunnel() {
   const { selectedValue, isChecked, onChange } = useRadioButton();
   const { toast } = useToast();
   const { mutateAsync: postSpace } = useApiPostSpace();
-  const { mutateAsync: postRetrospect, isSuccess: isSuccessCreateRetrospect } = usePostRetrospectCreate();
+  const { mutateAsync: postRetrospect } = usePostRetrospectCreate();
   const [loader, setLoader] = useState(false);
 
   const handleChangeRadioType = (type: string) => {
@@ -863,6 +863,10 @@ function CreateRetrospectDeadlineFunnel() {
         {
           onSuccess: () => {
             toast.success("스페이스와 회고가 생성되었어요!");
+            // 스페이스 생성이 완료되면 스페이스 목록을 리패치
+            queryClient.invalidateQueries({
+              queryKey: ["spaces"],
+            });
             setFlow("COMPLETE", 0);
           },
         },
@@ -877,15 +881,6 @@ function CreateRetrospectDeadlineFunnel() {
     await createRetrospect(spaceId);
     setLoader(false);
   };
-
-  useEffect(() => {
-    if (isSuccessCreateRetrospect) {
-      // 스페이스 생성이 완료되면 스페이스 목록을 리패치
-      queryClient.invalidateQueries({
-        queryKey: ["spaces"],
-      });
-    }
-  }, [isSuccessCreateRetrospect]);
 
   return (
     <div
