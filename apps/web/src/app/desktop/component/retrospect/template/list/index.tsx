@@ -34,6 +34,8 @@ export function TemplateList() {
 
   // * @see AddSpacePage.tsx - 첫 스페이스와 회고 생성시에 템플릿 선택 화면으로 이동할 때 URL 파라미터로 타입을 넘겨줘요
   const type = searchParams.get("template_type") || "";
+  const isInitialCreateRetrospect = type === "new_space";
+
   const DEFAULT_TAB = ["기본", "커스텀"] as const;
 
   const { tabs, curTab, selectTab } = useTabs(DEFAULT_TAB);
@@ -50,7 +52,8 @@ export function TemplateList() {
   return (
     <>
       {/* ---------- 템플릿 탭 UI ---------- */}
-      <TemplateListTab tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TemplateListTabButton} />
+      {/* 스페이스 신규 생성일 경우에는 선택(기본 및 커스텀) 탭을 노출시키지 않는다. */}
+      {!isInitialCreateRetrospect && <TemplateListTab tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TemplateListTabButton} />}
 
       {/* ---------- 템플릿 카드 리스트 UI ---------- */}
       <div
