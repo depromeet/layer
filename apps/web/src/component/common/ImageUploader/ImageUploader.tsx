@@ -32,7 +32,7 @@ export const ImageUploader = ({ defaultImg, setImgFile, onChange }: ImageUploade
         setImgFile(file);
       };
     }
-    onChange(file);
+    onChange?.(file);
   };
 
   const handleImageClick = () => {
