@@ -9,7 +9,7 @@ import { getDeviceType } from "@/utils/deviceUtils";
 type ImageUploaderProps = {
   defaultImg?: string;
   setImgFile: React.Dispatch<React.SetStateAction<File | null>>;
-  onChange: (file: File | undefined) => void;
+  onChange?: (file: File | undefined) => void;
 };
 
 export const ImageUploader = ({ defaultImg, setImgFile, onChange }: ImageUploaderProps) => {
