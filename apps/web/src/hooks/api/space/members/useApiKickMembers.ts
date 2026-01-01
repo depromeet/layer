@@ -8,7 +8,7 @@ export const useApiKickMember = (spaceId: string) => {
   const queryClient = useQueryClient();
 
   const apiKickMember = async ({ spaceId, memberId }: { spaceId: string; memberId: string }) => {
-    const response = await api.patch(`/api/space/kick?spaceId=${spaceId}&memberId=${memberId}`);
+    const response = await api.patch(`/api/space/kick`, { spaceId, memberId });
     return response;
   };
 
@@ -17,6 +17,9 @@ export const useApiKickMember = (spaceId: string) => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["getMembers", spaceId],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["getSpaceInfo", spaceId],
       });
       toast.success("해당 팀원을 추방시켰습니다.");
     },
