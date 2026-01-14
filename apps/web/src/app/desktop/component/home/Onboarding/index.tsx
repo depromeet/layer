@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
@@ -24,14 +25,62 @@ const ONBOARDING_STEPS = [
   },
 ];
 
-export default function Onboarding() {
-  const [isVisible, setIsVisible] = useState(true);
+const ONBOARDING_STORAGE_KEY = "layer_home_onboarding_closed";
 
-  if (!isVisible) return null;
+/**
+ * 온보딩 닫기 기록 불러오기
+ *
+ * @returns Record<string, boolean>
+ */
+const getOnboardingClosedRecord = (): Record<string, boolean> => {
+  const stored = localStorage.getItem(ONBOARDING_STORAGE_KEY);
+  return stored ? JSON.parse(stored) : {};
+};
+
+/**
+ * 특정 사용자가 온보딩을 닫았는지 확인
+ *
+ * @param memberId
+ * @returns boolean
+ */
+const hasUserClosedOnboarding = (memberId: string): boolean => {
+  const record = getOnboardingClosedRecord();
+  return record[memberId] === true;
+};
+
+/**
+ * 특정 사용자의 온보딩 닫기 기록 저장
+ *
+ * @param memberId
+ */
+const saveOnboardingClosed = (memberId: string): void => {
+  const record = getOnboardingClosedRecord();
+  record[memberId] = true;
+  localStorage.setItem(ONBOARDING_STORAGE_KEY, JSON.stringify(record));
+};
+
+export default function Onboarding() {
+  const [isVisible, setIsVisible] = useState(false);
+  const memberId = Cookies.get("memberId");
 
   const handleClose = () => {
+    if (!memberId) return;
+
+    saveOnboardingClosed(memberId);
     setIsVisible(false);
   };
+
+  useEffect(() => {
+    if (!memberId) {
+      setIsVisible(false);
+      return;
+    }
+
+    const shouldShowOnboarding = !hasUserClosedOnboarding(memberId);
+    setIsVisible(shouldShowOnboarding);
+  }, [memberId]);
+
+  if (!isVisible) return null;
 
   return (
     <article
