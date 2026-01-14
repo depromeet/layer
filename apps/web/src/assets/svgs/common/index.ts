@@ -16,7 +16,7 @@ export { default as ic_after } from "./ic_after.svg?react";
 export { default as ic_writePen } from "./ic_writePen.svg?react";
 export { default as ic_write } from "./ic_write.svg?react";
 export { default as ic_cylinder } from "./ic_cylinder.svg?react";
-
+export { default as ic_post } from "./ic_post.svg?react";
 export { default as basicProfile } from "./basicProfile.svg?react";
 export { default as ic_arrow_back } from "./ic_arrow_back.svg?react";
 export { default as ic_arrow_back_white } from "./ic_back_arrow_white.svg?react";
