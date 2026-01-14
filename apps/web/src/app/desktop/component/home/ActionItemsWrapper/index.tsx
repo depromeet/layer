@@ -14,7 +14,6 @@ import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 
-const IS_ONBOARDING = true;
 export default function ActionItemsWrapper() {
   // * 본인 memberId 가져오기
   const memberId = Cookies.get("memberId");
@@ -109,7 +108,7 @@ export default function ActionItemsWrapper() {
           }
 
           .swiper-wrapper {
-            display: ${IS_ONBOARDING ? "none" : "block"};
+            display: ${myActionItems?.length === 0 ? "none" : "flex"};
             align-items: stretch;
           }
 
