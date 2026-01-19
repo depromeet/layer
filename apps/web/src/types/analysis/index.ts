@@ -2,7 +2,16 @@ export type analysisType = "goodPoints" | "badPoints" | "improvementPoints";
 
 export type analysisItemType = "GOOD" | "BAD" | "IMPROVEMENT";
 
-export type InsightIconName = "ic_good_mark" | "ic_bad_mark_red" | "ic_improve_blue_mark";
+export type InsightIconName =
+  | "ic_good_mark"
+  | "ic_bad_mark_red"
+  | "ic_improve_blue_mark"
+  | "ic_improve_home"
+  | "ic_good_home"
+  | "ic_bad_home"
+  | "ic_good_home_white"
+  | "ic_bad_home_white"
+  | "ic_improve_home_white";
 
 export type Insight = {
   isTeam: boolean;

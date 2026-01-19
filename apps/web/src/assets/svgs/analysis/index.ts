@@ -11,3 +11,9 @@ export { default as ic_very_dissatisfied } from "./ic_very_dissatisfied.svg?reac
 export { default as ic_empty_analysis } from "./ic_empty_analysis.svg?react";
 export { default as ic_logo_gray } from "./ic_logo_gray.svg?react";
 export { default as ic_analysis_close } from "./ic_analysis_close.svg?react";
+export { default as ic_good_home_white } from "./ic_good_home_white.svg?react";
+export { default as ic_bad_home_white } from "./ic_bad_home_white.svg?react";
+export { default as ic_improve_home_white } from "./ic_improve_home_white.svg?react";
+export { default as ic_good_home } from "./ic_good_home.svg?react";
+export { default as ic_bad_home } from "./ic_bad_home.svg?react";
+export { default as ic_improve_home } from "./ic_improve_home.svg?react";

@@ -4,7 +4,8 @@ import { css } from "@emotion/react";
 import AnalyticsBox from "../AnalyticsBox";
 import { useApiGetMemberAnalysis } from "@/hooks/api/analysis/useApiGetMemberAnalysis";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
-import { getAnalysisConfig } from "@/utils/analysis/getAnalysisConfig";
+import { getAnalysisConfigEmpty } from "@/utils/analysis/getAnalysisConfig";
+import { Icon } from "@/component/common/Icon";
 
 export default function AnalyticsWrapper() {
   const { data: myAnalysis, isPending: isMyAnalysisPending, isError: isMyAnalysisError } = useApiGetMemberAnalysis();
@@ -35,79 +36,7 @@ export default function AnalyticsWrapper() {
     // * ---------- 데이터가 있을 때 ---------- * //
     if (myAnalysis) {
       if (myAnalysis.goodAnalyzes.length === 0 && myAnalysis.badAnalyzes.length === 0 && myAnalysis.improvementAnalyzes.length === 0) {
-        return (
-          <section
-            css={css`
-              width: 100%;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-            `}
-          >
-            <section
-              css={css`
-                display: flex;
-                justify-content: space-between;
-              `}
-            >
-              {["good", "bad", "improvement"].map((type) => {
-                const config = getAnalysisConfig(type as "good" | "bad" | "improvement");
-
-                return (
-                  <section
-                    css={css`
-                      width: 27.4rem;
-                      display: flex;
-                      flex-direction: column;
-                      gap: 0.8rem;
-                      margin-bottom: 1.3rem;
-                    `}
-                  >
-                    <div
-                      css={css`
-                        width: 4.4rem;
-                        height: 4.4rem;
-                        background-color: ${DESIGN_TOKEN_COLOR.gray100};
-                        border-radius: 50%;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        font-size: 1.8rem;
-                      `}
-                    >
-                      {config.emoji}
-                    </div>
-                    <Typography variant="title18Bold">{config.title}</Typography>
-                  </section>
-                );
-              })}
-            </section>
-
-            <section
-              css={css`
-                width: 100%;
-                height: 20rem;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-color: ${DESIGN_TOKEN_COLOR.gray00};
-                border: 1px dashed ${DESIGN_TOKEN_COLOR.opacity12};
-                border-radius: 1.2rem;
-              `}
-            >
-              <Typography
-                variant="body15Medium"
-                color="gray500"
-                css={css`
-                  text-align: center;
-                  white-space: pre-wrap;
-                `}
-              >
-                {"아직 작성된 회고가 없어요\n 회고를 작성하면 분석 결과를 확인할 수 있어요"}
-              </Typography>
-            </section>
-          </section>
-        );
+        return <AnalyticsWrapper.Onboarding />;
       }
 
       return (
@@ -182,7 +111,6 @@ export default function AnalyticsWrapper() {
           position: relative;
           display: flex;
           justify-content: space-between;
-          min-height: 34.6rem;
           margin-top: 1.2rem;
           padding: 2.4rem 3.2rem;
           border-radius: 1.6rem;
@@ -194,3 +122,141 @@ export default function AnalyticsWrapper() {
     </article>
   );
 }
+
+AnalyticsWrapper.Onboarding = function () {
+  return (
+    <section
+      css={css`
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        justify-content: space-between;
+      `}
+    >
+      <AnalyticsWrapper.OnboardingItem type="good" />
+      <AnalyticsWrapper.OnboardingItem type="bad" />
+      <AnalyticsWrapper.OnboardingItem type="improvement" />
+    </section>
+  );
+};
+
+AnalyticsWrapper.OnboardingItem = function ({ type }: { type: "good" | "bad" | "improvement" }) {
+  const config = getAnalysisConfigEmpty(type);
+
+  const getPointByType = () => {
+    switch (type) {
+      case "good":
+        return "회의 내용 문서화";
+      case "bad":
+        return "잦은 회의 늘어짐";
+      case "improvement":
+        return "설득력 갖추기";
+      default:
+        return "";
+    }
+  };
+
+  return (
+    <article
+      css={css`
+        width: 27.4rem;
+        opacity: 0.3;
+      `}
+    >
+      {/* ---------- 제목 ---------- */}
+      <section
+        css={css`
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+          margin-bottom: 1.3rem;
+        `}
+      >
+        <div
+          css={css`
+            width: 4.4rem;
+            height: 4.4rem;
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+          `}
+        >
+          <Icon icon={config.emoji} size={config.iconSize} />
+        </div>
+        <Typography variant="title18Bold">{config.title}</Typography>
+      </section>
+
+      {/* ---------- 분석 내용 ---------- */}
+      <section
+        css={css`
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+        `}
+      >
+        <section
+          css={css`
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            background-color: ${DESIGN_TOKEN_COLOR.gray100};
+            padding: 1.6rem;
+            border-radius: 1.2rem;
+          `}
+        >
+          <Icon icon={config.icon} color={DESIGN_TOKEN_COLOR.gray800} size={1.6} />
+          <section
+            css={css`
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              flex: 1;
+              min-width: 0;
+            `}
+          >
+            <div
+              css={css`
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                min-width: 0;
+              `}
+            >
+              <Typography variant="subtitle14SemiBold" color="gray800">
+                {getPointByType()}
+              </Typography>
+              <Typography
+                variant="body12SemiBold"
+                color="gray600"
+                css={css`
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                `}
+              >
+                중간발표 이후 회고 | 떡잎방범대
+              </Typography>
+            </div>
+
+            {/* TODO: Space 분석으로 이동 구현 */}
+            <div
+              css={css`
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.4rem;
+                height: 2.4rem;
+                border-radius: 50%;
+              `}
+            >
+              <Icon icon="ic_after" size={1.2} color={DESIGN_TOKEN_COLOR.gray800} />
+            </div>
+          </section>
+        </section>
+      </section>
+    </article>
+  );
+};

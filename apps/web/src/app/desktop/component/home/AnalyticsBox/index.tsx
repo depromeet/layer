@@ -4,6 +4,7 @@ import AnalyticsSummaryBox from "./AnalyticsSummaryBox";
 import { Point } from "@/types/analysis";
 import { getAnalysisConfig } from "@/utils/analysis/getAnalysisConfig";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { Icon } from "@/component/common/Icon";
 
 type AnalyticsBoxProps = {
   type: "good" | "bad" | "improvement";
@@ -40,7 +41,7 @@ export default function AnalyticsBox({ type, analysis }: AnalyticsBoxProps) {
             font-size: 1.8rem;
           `}
         >
-          {config.emoji}
+          <Icon icon={config.emoji} size={config.iconSize} />
         </div>
         <Typography variant="title18Bold">{config.title}</Typography>
       </section>

@@ -147,3 +147,6 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node
 
 *.xcconfig
+
+# Claude Code configuration
+CLAUDE.md
