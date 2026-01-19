@@ -14,6 +14,7 @@ export function UserProfileIcon() {
   return imageUrl ? (
     <img
       src={imageUrl}
+      alt="사용자 프로필"
       css={css`
         width: 3.2rem;
         height: 3.2rem;

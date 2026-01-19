@@ -45,6 +45,7 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
         >
           <img
             src={bannerUrl || spaceDefaultImg}
+            alt={`${name} 스페이스 배너`}
             onError={(e) => {
               e.currentTarget.src = spaceDefaultImg;
             }}

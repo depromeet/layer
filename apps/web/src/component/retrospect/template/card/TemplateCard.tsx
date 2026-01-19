@@ -63,6 +63,7 @@ export function TemplateCard({ name, tag, imgUrl, size = "default", onClick, rea
           >
             <img
               src={imgUrl}
+              alt={`${name} 템플릿`}
               css={css`
                 mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
                 width: 60%;
