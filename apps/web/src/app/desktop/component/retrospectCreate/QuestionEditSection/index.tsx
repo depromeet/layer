@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
@@ -41,7 +41,11 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   const isInitializedCreateSpaceFlow = flow === "INFO";
   const isInitializedProgressingCreateSpace = retrospectQuestions.length === 0;
   const isInitializedCreateSpace = isInitializedCreateSpaceFlow || isInitializedProgressingCreateSpace;
-  const questions = isInitializedCreateSpace ? retroCreateData.questions : retrospectQuestions;
+  const originalQuestions = isInitializedCreateSpace ? retroCreateData.questions : retrospectQuestions;
+
+  // 수정 중인 질문들을 로컬 상태로 관리 (완료 버튼 클릭 시에만 atom에 반영)
+  const [editingQuestions, setEditingQuestions] = useState<Questions>(() => originalQuestions);
+  const questions = editingQuestions;
 
   /**
    * 리스트의 아이템 순서 변경
@@ -68,11 +72,18 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       return;
     }
     const items = reorder(questions, result.source.index, result.destination.index);
-    if (isInitializedCreateSpace) {
-      setRetroCreateData((prev) => ({ ...prev, questions: items }));
-    } else {
-      setRetrospectQuestions(items);
-    }
+    setEditingQuestions(items);
+  };
+
+  /**
+   * 질문 내용 변경 핸들러
+   *
+   * @param index - 질문 인덱스
+   * @param newContent - 새로운 질문 내용
+   */
+  const handleContentChange = (index: number, newContent: string) => {
+    const updatedQuestions = questions.map((item, i) => (i === index ? { ...item, questionContent: newContent } : item));
+    setEditingQuestions(updatedQuestions);
   };
 
   /**
@@ -82,12 +93,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    */
   const handleDelete = (index: number) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
-    if (isInitializedCreateSpace) {
-      setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions }));
-    } else {
-      setRetrospectQuestions(updatedQuestions);
-    }
-
+    setEditingQuestions(updatedQuestions);
     toast.success("삭제가 완료되었어요!");
   };
 
@@ -118,11 +124,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    */
   const handleAddQuestionComplete = (content: string) => {
     const newQuestions = [...questions, { questionType: "plain_text" as const, questionContent: content }];
-    if (isInitializedCreateSpace) {
-      setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
-    } else {
-      setRetrospectQuestions(newQuestions);
-    }
+    setEditingQuestions(newQuestions);
 
     // 원래 모드로 돌아가고 모달 제목 복원
     setIsAddMode(false);
@@ -132,7 +134,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       options: {
         enableFooter: false,
         needsBackButton: true,
-        backButtonCallback: onClose,
+        backButtonCallback: handleCancel,
       },
     }));
 
@@ -148,11 +150,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       questionContent: content,
     }));
     const newQuestions = [...questions, ...newQuestionObjects];
-    if (isInitializedCreateSpace) {
-      setRetroCreateData((prev) => ({ ...prev, questions: newQuestions }));
-    } else {
-      setRetrospectQuestions(newQuestions);
-    }
+    setEditingQuestions(newQuestions);
 
     // 원래 모드로 돌아가고 모달 제목 복원
     setIsAddMode(false);
@@ -166,30 +164,62 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   };
 
   /**
+   * 질문 수정 취소 핸들러 (뒤로가기 버튼)
+   */
+  const handleCancel = () => {
+    const hasChanged = !isEqual(originalQuestions, editingQuestions);
+
+    if (hasChanged) {
+      openExitWarningModal({
+        title: "질문 수정을 취소하시겠어요?",
+        contents: "수정중인 내용은 모두 사라져요",
+        onConfirm: () => {
+          // 원본 질문으로 복원 (atom은 변경하지 않음, 로컬 상태만 버림)
+          setEditingQuestions(originalQuestions);
+          onClose();
+        },
+        options: {
+          buttonText: ["취소", "나가기"],
+        },
+      });
+    } else {
+      onClose();
+    }
+  };
+
+  // 모달의 뒤로가기 버튼 콜백을 handleCancel로 설정
+  useEffect(() => {
+    if (!isAddMode) {
+      setModalDataState((prev) => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          backButtonCallback: handleCancel,
+        },
+      }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editingQuestions, isAddMode]);
+
+  /**
    * 질문 추가 취소 핸들러
    */
   const handleAddQuestionCancel = () => {
     openExitWarningModal({
-      title: "질문 수정을 취소하시겠어요?",
-      contents: "수정중인 내용은 모두 사라져요",
+      title: "질문 추가를 취소하시겠어요?",
+      contents: "추가중인 내용은 모두 사라져요",
       onConfirm: () => {
         // 백업된 질문들로 복원
-        if (isInitializedCreateSpace) {
-          setRetroCreateData((prev) => ({ ...prev, questions: questions }));
-        } else {
-          setRetrospectQuestions(questions);
-        }
-
+        setEditingQuestions(backupQuestions);
         setIsAddMode(false);
         setBackupQuestions([]);
-        onClose();
         setModalDataState((prev) => ({
           ...prev,
           title: "질문 리스트",
           options: {
             enableFooter: false,
             needsBackButton: true,
-            backButtonCallback: onClose,
+            backButtonCallback: handleCancel,
           },
         }));
       },
@@ -212,11 +242,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    * 삭제 모드 취소 핸들러 (질문 복원)
    */
   const handleDeleteModeCancel = () => {
-    if (isInitializedCreateSpace) {
-      setRetroCreateData((prev) => ({ ...prev, questions: backupQuestions }));
-    } else {
-      setRetrospectQuestions(backupQuestions);
-    }
+    setEditingQuestions(backupQuestions);
     setIsDeleteMode(false);
     setBackupQuestions([]);
     toast.success("삭제가 취소되었어요!");
@@ -232,14 +258,19 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
 
   // 제출 완료 핸들러
   const handleComplete = () => {
-    const hasChanged = !isEqual(backupQuestions, questions);
+    const hasChanged = !isEqual(originalQuestions, editingQuestions);
 
-    if (hasChanged || retroCreateData.hasChangedOriginal) {
+    // 수정된 질문들을 atom에 반영
+    if (isInitializedCreateSpace) {
       setRetroCreateData((prev) => ({
         ...prev,
-        hasChangedOriginal: true,
-        isNewForm: true,
+        questions: editingQuestions,
+        hasChangedOriginal: hasChanged || prev.hasChangedOriginal,
+        isNewForm: hasChanged || prev.isNewForm,
+        formName: hasChanged ? `커스텀 템플릿` : prev.formName,
       }));
+    } else {
+      setRetrospectQuestions(editingQuestions);
     }
 
     onClose();
@@ -275,7 +306,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
               <Spacing size={1.2} />
 
               {/* ---------- 메인 질문 리스트 ---------- */}
-              <MainQuestionsContents questions={questions} isDeleteMode={isDeleteMode} handleDelete={handleDelete} handleDragEnd={handleDragEnd} />
+              <MainQuestionsContents questions={questions} isDeleteMode={isDeleteMode} handleDelete={handleDelete} handleDragEnd={handleDragEnd} handleContentChange={handleContentChange} />
 
               {/* ---------- 추가 버튼 ---------- */}
               <button
