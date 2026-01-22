@@ -29,7 +29,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
 
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [isAddMode, setIsAddMode] = useState(false);
-  const [backupQuestions, setBackupQuestions] = useState<Questions>([]);
+
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
 
   // TODO: 아톰 구조 변경 (#593)
@@ -45,6 +45,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
 
   // 수정 중인 질문들을 로컬 상태로 관리 (완료 버튼 클릭 시에만 atom에 반영)
   const [editingQuestions, setEditingQuestions] = useState<Questions>(() => originalQuestions);
+  const [backupQuestions, setBackupQuestions] = useState<Questions>(editingQuestions);
   const questions = editingQuestions;
 
   /**
@@ -187,20 +188,6 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     }
   };
 
-  // 모달의 뒤로가기 버튼 콜백을 handleCancel로 설정
-  useEffect(() => {
-    if (!isAddMode) {
-      setModalDataState((prev) => ({
-        ...prev,
-        options: {
-          ...prev.options,
-          backButtonCallback: handleCancel,
-        },
-      }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editingQuestions, isAddMode]);
-
   /**
    * 질문 추가 취소 핸들러
    */
@@ -276,6 +263,19 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     onClose();
   };
 
+  // 모달의 뒤로가기 버튼 콜백을 handleCancel로 설정
+  useEffect(() => {
+    if (!isAddMode) {
+      setModalDataState((prev) => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          backButtonCallback: handleCancel,
+        },
+      }));
+    }
+  }, [editingQuestions, isAddMode]);
+
   return (
     <>
       {isAddMode ? (
@@ -306,7 +306,13 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
               <Spacing size={1.2} />
 
               {/* ---------- 메인 질문 리스트 ---------- */}
-              <MainQuestionsContents questions={questions} isDeleteMode={isDeleteMode} handleDelete={handleDelete} handleDragEnd={handleDragEnd} handleContentChange={handleContentChange} />
+              <MainQuestionsContents
+                questions={questions}
+                isDeleteMode={isDeleteMode}
+                handleDelete={handleDelete}
+                handleDragEnd={handleDragEnd}
+                handleContentChange={handleContentChange}
+              />
 
               {/* ---------- 추가 버튼 ---------- */}
               <button
