@@ -13,9 +13,10 @@ type MainQuestionsContentsProps = {
   isDeleteMode: boolean;
   handleDelete: (index: number) => void;
   handleDragEnd: (result: any) => void;
+  handleContentChange: (index: number, newContent: string) => void;
 };
 
-export default function MainQuestionsContents({ questions, isDeleteMode, handleDelete, handleDragEnd }: MainQuestionsContentsProps) {
+export default function MainQuestionsContents({ questions, isDeleteMode, handleDelete, handleDragEnd, handleContentChange }: MainQuestionsContentsProps) {
   const { toast } = useToast();
 
   const originalContentRef = useRef<{ [key: number]: string }>({});
@@ -23,14 +24,10 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
   const setRetroCreateData = useSetAtom(retrospectCreateAtom);
 
   /**
-   * 질문 내용 변경 핸들러
-   *
-   * @param index - 질문 인덱스
-   * @param newContent - 새로운 질문 내용
+   * textarea 내용 변경 시 높이 자동 조절을 포함한 핸들러
    */
-  const handleContentChange = (index: number, newContent: string) => {
-    const updatedQuestions = questions.map((item, i) => (i === index ? { ...item, questionContent: newContent } : item));
-    setRetroCreateData((prev) => ({ ...prev, questions: updatedQuestions, isNewForm: true, formName: `커스텀 템플릿` }));
+  const handleTextareaChange = (index: number, newContent: string) => {
+    handleContentChange(index, newContent);
 
     // textarea 높이 자동 조절
     const textarea = textareaRefs.current[index];
@@ -146,7 +143,7 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
                         textareaRefs.current[index] = el;
                       }}
                       value={item.questionContent}
-                      onChange={(e) => handleContentChange(index, e.target.value)}
+                      onChange={(e) => handleTextareaChange(index, e.target.value)}
                       onFocus={() => handleContentFocus(index)}
                       onBlur={() => handleContentBlur(index)}
                       placeholder="질문을 입력해주세요"
