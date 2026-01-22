@@ -133,7 +133,6 @@ const deviceSpecificRoutes: RouteChildren[] = [
     auth: true,
     deviceType: "desktop",
   },
-
   // 로그인 관련
   {
     path: "login",
@@ -147,7 +146,6 @@ const deviceSpecificRoutes: RouteChildren[] = [
     auth: false,
     deviceType: "desktop",
   },
-
   // 회고 작성 - 모바일
   {
     path: "write",
@@ -390,17 +388,17 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
   if (layoutType === "mobile") {
     return createBrowserRouter([
       {
-        path: "/*",
-        element: <Navigate to="/m" replace />,
+        path: "/desktop/*",
+        element: <Navigate to="/" replace />,
       },
       {
-        path: "/m",
+        path: "/",
         element: <MobileGlobalLayout />,
         errorElement: <Error />,
         children: routerChildren,
       },
       {
-        path: "/",
+        path: "*",
         element: <MobileGlobalLayout />,
         errorElement: <Error />,
         children: commonRoutes.map((route) => ({
@@ -412,17 +410,17 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
   } else {
     return createBrowserRouter([
       {
-        path: "/m/*",
-        element: <Navigate to="/" replace />,
+        path: "/*",
+        element: <Navigate to="/desktop" replace />,
       },
       {
-        path: "/",
+        path: "/desktop",
         element: <DesktopGlobalLayout />,
         errorElement: <Error />,
         children: routerChildren,
       },
       {
-        path: "/",
+        path: "*",
         element: <DesktopGlobalLayout />,
         errorElement: <Error />,
         children: commonRoutes.map((route) => ({
