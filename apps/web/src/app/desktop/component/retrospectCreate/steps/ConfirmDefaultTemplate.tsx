@@ -44,12 +44,15 @@ export function ConfirmDefaultTemplate() {
   }, [title, retroCreateData.hasChangedOriginal, retroCreateData.formName]);
 
   useEffect(() => {
+    // * 이미 질문이 수정된 상태라면 원본으로 덮어쓰지 않음
+    if (retroCreateData.hasChangedOriginal) return;
+
     setRetroCreateData((prev) => ({
       ...prev,
       questions,
       curFormId: Number(templateId),
     }));
-  }, [questions, templateId, setRetroCreateData]);
+  }, [questions, templateId, setRetroCreateData, retroCreateData.hasChangedOriginal]);
 
   const handleChangeTemplate = () => {
     openActionModal({
