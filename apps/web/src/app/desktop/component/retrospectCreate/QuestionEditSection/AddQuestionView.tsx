@@ -24,18 +24,38 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
   const { tabs, curTab, selectTab } = useTabs(["직접작성", "추천질문"] as const);
   const { value: customQuestion, handleInputChange: handleCustomChange, resetInput } = useInput();
   const { tabs: categoryTabs, curTab: curCategoryTab, selectTab: selectCategoryTab } = useTabs(QUESTION_TYPES);
-  const { selectedValues, isChecked, toggle } = useCheckBox();
+  const { selectedValues, isChecked, toggle, resetChecked } = useCheckBox();
 
-  const handleDirectAdd = () => {
-    if (customQuestion.trim()) {
-      onAddQuestion(customQuestion);
+  const handleAddQuestion = () => {
+    const hasCustomQuestion = customQuestion.trim().length > 0;
+    const hasSelectedQuestions = selectedValues.length > 0;
+
+    if (!hasCustomQuestion && !hasSelectedQuestions) {
+      return;
+    }
+
+    const questionsToAdd: string[] = [];
+
+    if (hasCustomQuestion) {
+      questionsToAdd.push(customQuestion.trim());
+    }
+
+    if (hasSelectedQuestions) {
+      questionsToAdd.push(...selectedValues);
+    }
+
+    if (questionsToAdd.length === 1) {
+      onAddQuestion(questionsToAdd[0]);
+    } else {
+      onAddMultipleQuestions(questionsToAdd);
+    }
+
+    if (hasCustomQuestion) {
       resetInput();
     }
-  };
 
-  const handleRecommendedAdd = () => {
-    if (selectedValues.length > 0) {
-      onAddMultipleQuestions(selectedValues);
+    if (hasSelectedQuestions) {
+      resetChecked();
     }
   };
 
@@ -130,7 +150,10 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
           padding: 0;
         `}
       >
-        <ButtonProvider.Primary onClick={curTab === "직접작성" ? handleDirectAdd : handleRecommendedAdd}>
+        <ButtonProvider.Primary
+          onClick={handleAddQuestion}
+          disabled={customQuestion.trim().length === 0 && selectedValues.length === 0}
+        >
           {selectedValues.length > 0 ? (
             <span>
               추가하기
