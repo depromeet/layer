@@ -14,12 +14,11 @@ import { useToast } from "@/hooks/useToast";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type AddQuestionViewProps = {
-  onAddQuestion: (content: string) => void;
-  onAddMultipleQuestions: (contents: string[]) => void;
+  onAddQuestions: (contents: string[]) => void;
   maxCount: number;
 };
 
-export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions, maxCount }: AddQuestionViewProps) {
+export default function AddQuestionView({ onAddQuestions, maxCount }: AddQuestionViewProps) {
   const { toast } = useToast();
   const { tabs, curTab, selectTab } = useTabs(["직접작성", "추천질문"] as const);
   const { value: customQuestion, handleInputChange: handleCustomChange, resetInput } = useInput();
@@ -44,11 +43,7 @@ export default function AddQuestionView({ onAddQuestion, onAddMultipleQuestions,
       questionsToAdd.push(...selectedValues);
     }
 
-    if (questionsToAdd.length === 1) {
-      onAddQuestion(questionsToAdd[0]);
-    } else {
-      onAddMultipleQuestions(questionsToAdd);
-    }
+    onAddQuestions(questionsToAdd);
 
     if (hasCustomQuestion) {
       resetInput();

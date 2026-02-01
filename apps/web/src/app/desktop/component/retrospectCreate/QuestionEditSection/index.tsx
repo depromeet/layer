@@ -121,10 +121,14 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   };
 
   /**
-   * 질문 추가 완료 핸들러 (단일)
+   * 질문 추가 완료 핸들러
    */
-  const handleAddQuestionComplete = (content: string) => {
-    const newQuestions = [...questions, { questionType: "plain_text" as const, questionContent: content }];
+  const handleAddQuestions = (contents: string[]) => {
+    const newQuestionObjects = contents.map((content) => ({
+      questionType: "plain_text" as const,
+      questionContent: content,
+    }));
+    const newQuestions = [...questions, ...newQuestionObjects];
     setEditingQuestions(newQuestions);
 
     // 원래 모드로 돌아가고 모달 제목 복원
@@ -140,28 +144,6 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     }));
 
     toast.success("질문이 추가되었어요!");
-  };
-
-  /**
-   * 질문 추가 완료 핸들러 (복수)
-   */
-  const handleAddMultipleQuestions = (contents: string[]) => {
-    const newQuestionObjects = contents.map((content) => ({
-      questionType: "plain_text" as const,
-      questionContent: content,
-    }));
-    const newQuestions = [...questions, ...newQuestionObjects];
-    setEditingQuestions(newQuestions);
-
-    // 원래 모드로 돌아가고 모달 제목 복원
-    setIsAddMode(false);
-    setModalDataState((prev) => ({
-      ...prev,
-      title: "질문 리스트",
-      enableFooter: false,
-    }));
-
-    toast.success(`${contents.length}개의 질문이 추가되었어요!`);
   };
 
   /**
@@ -279,11 +261,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   return (
     <>
       {isAddMode ? (
-        <AddQuestionView
-          onAddQuestion={handleAddQuestionComplete}
-          onAddMultipleQuestions={handleAddMultipleQuestions}
-          maxCount={10 - questions.length}
-        />
+        <AddQuestionView onAddQuestions={handleAddQuestions} maxCount={10 - questions.length} />
       ) : (
         <>
           <section
