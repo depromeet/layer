@@ -145,10 +145,7 @@ export default function AddQuestionView({ onAddQuestions, maxCount }: AddQuestio
           padding: 0;
         `}
       >
-        <ButtonProvider.Primary
-          onClick={handleAddQuestion}
-          disabled={customQuestion.trim().length === 0 && selectedValues.length === 0}
-        >
+        <ButtonProvider.Primary onClick={handleAddQuestion} disabled={customQuestion.trim().length === 0 && selectedValues.length === 0}>
           {selectedValues.length > 0 ? (
             <span>
               추가하기

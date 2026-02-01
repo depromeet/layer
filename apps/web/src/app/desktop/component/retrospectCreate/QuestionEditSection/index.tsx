@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
@@ -105,17 +105,34 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     if (questions.length >= 10) return;
 
     // 현재 질문들을 백업하고 질문 추가 모드로 전환
-    setBackupQuestions([...questions]);
+    const questionsToBackup = [...questions];
+    setBackupQuestions(questionsToBackup);
     setIsAddMode(true);
+
+    const cancelCallback = () => {
+      setEditingQuestions(questionsToBackup);
+      setIsAddMode(false);
+      setBackupQuestions([]);
+      setModalDataState((prev) => ({
+        ...prev,
+        title: "질문 리스트",
+        options: {
+          enableFooter: false,
+          needsBackButton: true,
+          backButtonCallback: handleCancel,
+        },
+      }));
+    };
+
     setModalDataState((prev) => ({
       ...prev,
       title: "질문 추가",
-      onClose: handleAddQuestionCancel,
+      onClose: cancelCallback,
       options: {
         enableFooter: false,
         needsBackButton: true,
         disabledClose: true,
-        backButtonCallback: handleAddQuestionCancel,
+        backButtonCallback: cancelCallback,
       },
     }));
   };
@@ -149,7 +166,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   /**
    * 질문 수정 취소 핸들러 (뒤로가기 버튼)
    */
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     const hasChanged = !isEqual(originalQuestions, editingQuestions);
 
     if (hasChanged) {
@@ -168,35 +185,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     } else {
       onClose();
     }
-  };
-
-  /**
-   * 질문 추가 취소 핸들러
-   */
-  const handleAddQuestionCancel = () => {
-    openExitWarningModal({
-      title: "질문 추가를 취소하시겠어요?",
-      contents: "추가중인 내용은 모두 사라져요",
-      onConfirm: () => {
-        // 백업된 질문들로 복원
-        setEditingQuestions(backupQuestions);
-        setIsAddMode(false);
-        setBackupQuestions([]);
-        setModalDataState((prev) => ({
-          ...prev,
-          title: "질문 리스트",
-          options: {
-            enableFooter: false,
-            needsBackButton: true,
-            backButtonCallback: handleCancel,
-          },
-        }));
-      },
-      options: {
-        buttonText: ["취소", "나가기"],
-      },
-    });
-  };
+  }, [originalQuestions, editingQuestions, onClose, openExitWarningModal]);
 
   /**
    * 삭제 모드 진입 핸들러
@@ -245,18 +234,20 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     onClose();
   };
 
-  // 모달의 뒤로가기 버튼 콜백을 handleCancel로 설정
+  // 모달의 뒤로가기 버튼과 닫기 버튼 콜백을 handleCancel로 설정
   useEffect(() => {
     if (!isAddMode) {
       setModalDataState((prev) => ({
         ...prev,
+        onClose: handleCancel,
         options: {
           ...prev.options,
+          disabledClose: true,
           backButtonCallback: handleCancel,
         },
       }));
     }
-  }, [editingQuestions, isAddMode]);
+  }, [isAddMode, handleCancel, setModalDataState]);
 
   return (
     <>
