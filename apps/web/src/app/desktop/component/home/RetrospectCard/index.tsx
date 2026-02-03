@@ -70,7 +70,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
         display: flex;
         flex-direction: column;
         width: 29.6rem;
-        height: fit-content;
+        height: 13.8rem;
         max-height: 13.8rem;
         padding: 1.6rem;
         background-color: white;
