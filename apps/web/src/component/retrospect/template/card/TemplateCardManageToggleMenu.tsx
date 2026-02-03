@@ -22,12 +22,12 @@ export default function TemplateCardManageToggleMenu({
   iconSize = 2.0,
   iconColor = "gray500",
   retrospect,
-  isLeader = true,
+  isLeader,
 }: {
   iconSize?: number | string;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
   retrospect: Retrospect;
-  isLeader?: boolean;
+  isLeader: boolean;
 }) {
   const { isShowMenu, showMenu } = useToggleMenu();
   const { mutateAsync: mutateDeleteRetrospect } = useApiDeleteRetrospect();
