@@ -9,9 +9,10 @@ import { getDeviceType } from "@/utils/deviceUtils";
 type ImageUploaderProps = {
   defaultImg?: string;
   setImgFile: React.Dispatch<React.SetStateAction<File | null>>;
+  onChange?: (file: File | undefined) => void;
 };
 
-export const ImageUploader = ({ defaultImg, setImgFile }: ImageUploaderProps) => {
+export const ImageUploader = ({ defaultImg, setImgFile, onChange }: ImageUploaderProps) => {
   const [imgUrl, setImgUrl] = useState(defaultImg || DefaultSpaceImgUrl);
   const { isDesktop } = getDeviceType();
 
@@ -31,6 +32,7 @@ export const ImageUploader = ({ defaultImg, setImgFile }: ImageUploaderProps) =>
         setImgFile(file);
       };
     }
+    onChange?.(file);
   };
 
   const handleImageClick = () => {

@@ -2,7 +2,7 @@ import { getDeviceType } from "@/utils/deviceUtils";
 
 export const createPaths = () => {
   const { deviceType } = getDeviceType();
-  const prefix = deviceType === "mobile" ? "/m" : "";
+  const prefix = deviceType === "mobile" ? "" : "/desktop";
 
   return {
     login: () => `${prefix}/login` as const,

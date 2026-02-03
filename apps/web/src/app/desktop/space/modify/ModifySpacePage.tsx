@@ -6,11 +6,13 @@ import { Spacing } from "@/component/common/Spacing";
 import useModifySpace, { MODIFY_SPACE_ID_QUERY_KEY } from "@/hooks/app/space/useModifySpace";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { css } from "@emotion/react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 // 데스크톱 환경에서는 해당 수정 페이지가 모달 안에 이식되어요
 export default function ModifySpacePage() {
   const [searchParams] = useSearchParams();
+  const [isChangedImage, setIsChangedImage] = useState(false);
   const spaceId = searchParams.get(MODIFY_SPACE_ID_QUERY_KEY) as string;
   const {
     data,
@@ -28,7 +30,7 @@ export default function ModifySpacePage() {
 
   const initialName = data?.name || "";
   const initialIntroduction = data?.introduction || "";
-  const isUnchanged = name === initialName && introduction === initialIntroduction;
+  const isUnchanged = !isChangedImage && name === initialName && introduction === initialIntroduction;
 
   if (isLoading || isPending) return <LoadingModal />;
 
@@ -41,7 +43,15 @@ export default function ModifySpacePage() {
         height: 100%;
       `}
     >
-      <ImageUploader defaultImg={data?.bannerUrl} setImgFile={setImgFile} />
+      <ImageUploader
+        defaultImg={data?.bannerUrl}
+        setImgFile={setImgFile}
+        onChange={(file) => {
+          if (file && file instanceof File) {
+            setIsChangedImage(true);
+          }
+        }}
+      />
       <Spacing size={4} />
       <InputLabelContainer id={"name"}>
         <Label>프로젝트 명</Label>
