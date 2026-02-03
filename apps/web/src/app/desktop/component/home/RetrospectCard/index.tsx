@@ -10,6 +10,9 @@ import { PATHS } from "@layer/shared";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { Prepare } from "../../retrospectWrite/prepare";
 import TemplateCardManageToggleMenu from "@/component/retrospect/template/card/TemplateCardManageToggleMenu";
+import { isSpaceLeader } from "@/utils/userUtil";
+import { useAtomValue } from "jotai";
+import { currentSpaceState } from "@/store/space/spaceAtom";
 
 interface RetrospectCardProps {
   retrospect: Retrospect;
@@ -20,6 +23,9 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { openFunnelModal } = useFunnelModal();
+  const currentSelectedSpace = useAtomValue(currentSpaceState);
+  const { leader } = currentSelectedSpace || {};
+  const isLeader = isSpaceLeader(leader?.id);
 
   const {
     spaceId: retrospectSpaceId,
@@ -98,7 +104,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
         `}
       >
         <ProceedingTextBox writeStatus={writeStatus} analysisStatus={analysisStatus} />
-        <TemplateCardManageToggleMenu retrospect={retrospect} />
+        <TemplateCardManageToggleMenu retrospect={retrospect} isLeader={isLeader} />
       </div>
 
       {/* ---------- 제목 ---------- */}
