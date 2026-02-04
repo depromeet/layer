@@ -2,18 +2,27 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    
     <!-- FIXME: 추후 디자인 팀 OG 로고 요청 후 수정 -->
     <link rel="icon" type="image/svg+xml" href="/white_layer.svg" />
     <link rel="icon" type="image/svg+xml" href="/dark_layer.svg" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/svg+xml" href="/white_layer.svg" media="(prefers-color-scheme: white)" />
+    
+    <!-- Preconnect to external domains for better performance -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://developers.kakao.com" />
+    <link rel="preconnect" href="https://appleid.cdn-apple.com" />
+    
     <link
       rel="stylesheet"
       as="style"
       crossorigin
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
     />
+    
     <title>성장하는 당신을 위한 회고 서비스, Layer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
     <!-- SEO Meta Tags -->
     <meta name="description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
@@ -43,22 +52,26 @@
     <meta name="twitter:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
     <meta name="twitter:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
 
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.layerapp.io/" />
-    <meta property="og:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
-    <meta property="og:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
-    <meta property="og:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="layer" />
-    <meta property="og:locale" content="ko_KR" />
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
-    <meta name="twitter:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
-    <meta name="twitter:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Layer",
+        "applicationCategory": "ProductivityApplication",
+        "description": "편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!",
+        "url": "https://www.layerapp.io/",
+        "author": {
+          "@type": "Organization",
+          "name": "Layer Team"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "KRW"
+        }
+      }
+    </script>
 
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>

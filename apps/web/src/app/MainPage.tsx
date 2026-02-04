@@ -13,10 +13,10 @@ function MainPage() {
   const { toast } = useToast();
 
   return (
-    <>
-      <div>
-        <span>welcome to layer 🎇</span>
-        <div
+    <main>
+      <section>
+        <h1>welcome to layer 🎇</h1>
+        <Button
           onClick={() =>
             open({
               title: "냠냠",
@@ -29,8 +29,8 @@ function MainPage() {
           }
         >
           {message}
-        </div>
-        <div
+        </Button>
+        <Button
           onClick={() =>
             open({
               title: "냠냠2",
@@ -44,8 +44,8 @@ function MainPage() {
           }
         >
           {message}
-        </div>
-        <div
+        </Button>
+        <Button
           onClick={() =>
             open({
               title: "냠냠2",
@@ -54,8 +54,8 @@ function MainPage() {
           }
         >
           {message}
-        </div>
-      </div>
+        </Button>
+      </section>
 
       <Button onClick={() => toast.success("성공")} css={{ marginBottom: "1rem" }}>
         Success Toast
@@ -63,7 +63,7 @@ function MainPage() {
       <Button onClick={() => toast.error("에러")}>Error Toast</Button>
 
       <Toast />
-    </>
+    </main>
   );
 }
 
