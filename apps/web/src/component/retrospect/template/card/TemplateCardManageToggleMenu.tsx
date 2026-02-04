@@ -22,10 +22,12 @@ export default function TemplateCardManageToggleMenu({
   iconSize = 2.0,
   iconColor = "gray500",
   retrospect,
+  isLeader,
 }: {
   iconSize?: number | string;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
   retrospect: Retrospect;
+  isLeader: boolean;
 }) {
   const { isShowMenu, showMenu } = useToggleMenu();
   const { mutateAsync: mutateDeleteRetrospect } = useApiDeleteRetrospect();
@@ -76,6 +78,9 @@ export default function TemplateCardManageToggleMenu({
       closeConfirmModal();
     }
   };
+
+  // * 회고 카드 관리 메뉴의 경우, 스페이스 리더에게만 노출되도록 합니다.
+  if (!isLeader) return null;
 
   return (
     <div

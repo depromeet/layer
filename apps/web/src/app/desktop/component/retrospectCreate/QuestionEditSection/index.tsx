@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
@@ -18,6 +18,8 @@ import MainQuestionsContents from "./MainQuestionsContents";
 import AddQuestionView from "./AddQuestionView";
 import { useModal } from "@/hooks/useModal";
 import { isEqual } from "lodash-es";
+
+const MAX_QUESTION_COUNT = 10;
 
 type QuestionEditSectionProps = {
   onClose: () => void;
@@ -95,36 +97,56 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   const handleDelete = (index: number) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
     setEditingQuestions(updatedQuestions);
-    toast.success("삭제가 완료되었어요!");
   };
 
   /**
    * 새 질문 추가 핸들러
    */
   const handleAddQuestion = () => {
-    if (questions.length >= 10) return;
+    if (questions.length >= MAX_QUESTION_COUNT) return;
 
     // 현재 질문들을 백업하고 질문 추가 모드로 전환
-    setBackupQuestions([...questions]);
+    const questionsToBackup = [...questions];
+    setBackupQuestions(questionsToBackup);
     setIsAddMode(true);
+
+    const cancelCallback = () => {
+      setEditingQuestions(questionsToBackup);
+      setIsAddMode(false);
+      setBackupQuestions([]);
+      setModalDataState((prev) => ({
+        ...prev,
+        title: "질문 리스트",
+        options: {
+          enableFooter: false,
+          needsBackButton: true,
+          backButtonCallback: handleCancel,
+        },
+      }));
+    };
+
     setModalDataState((prev) => ({
       ...prev,
       title: "질문 추가",
-      onClose: handleAddQuestionCancel,
+      onClose: cancelCallback,
       options: {
         enableFooter: false,
         needsBackButton: true,
         disabledClose: true,
-        backButtonCallback: handleAddQuestionCancel,
+        backButtonCallback: cancelCallback,
       },
     }));
   };
 
   /**
-   * 질문 추가 완료 핸들러 (단일)
+   * 질문 추가 완료 핸들러
    */
-  const handleAddQuestionComplete = (content: string) => {
-    const newQuestions = [...questions, { questionType: "plain_text" as const, questionContent: content }];
+  const handleAddQuestions = (contents: string[]) => {
+    const newQuestionObjects = contents.map((content) => ({
+      questionType: "plain_text" as const,
+      questionContent: content,
+    }));
+    const newQuestions = [...questions, ...newQuestionObjects];
     setEditingQuestions(newQuestions);
 
     // 원래 모드로 돌아가고 모달 제목 복원
@@ -143,31 +165,9 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   };
 
   /**
-   * 질문 추가 완료 핸들러 (복수)
-   */
-  const handleAddMultipleQuestions = (contents: string[]) => {
-    const newQuestionObjects = contents.map((content) => ({
-      questionType: "plain_text" as const,
-      questionContent: content,
-    }));
-    const newQuestions = [...questions, ...newQuestionObjects];
-    setEditingQuestions(newQuestions);
-
-    // 원래 모드로 돌아가고 모달 제목 복원
-    setIsAddMode(false);
-    setModalDataState((prev) => ({
-      ...prev,
-      title: "질문 리스트",
-      enableFooter: false,
-    }));
-
-    toast.success(`${contents.length}개의 질문이 추가되었어요!`);
-  };
-
-  /**
    * 질문 수정 취소 핸들러 (뒤로가기 버튼)
    */
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     const hasChanged = !isEqual(originalQuestions, editingQuestions);
 
     if (hasChanged) {
@@ -186,35 +186,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     } else {
       onClose();
     }
-  };
-
-  /**
-   * 질문 추가 취소 핸들러
-   */
-  const handleAddQuestionCancel = () => {
-    openExitWarningModal({
-      title: "질문 추가를 취소하시겠어요?",
-      contents: "추가중인 내용은 모두 사라져요",
-      onConfirm: () => {
-        // 백업된 질문들로 복원
-        setEditingQuestions(backupQuestions);
-        setIsAddMode(false);
-        setBackupQuestions([]);
-        setModalDataState((prev) => ({
-          ...prev,
-          title: "질문 리스트",
-          options: {
-            enableFooter: false,
-            needsBackButton: true,
-            backButtonCallback: handleCancel,
-          },
-        }));
-      },
-      options: {
-        buttonText: ["취소", "나가기"],
-      },
-    });
-  };
+  }, [originalQuestions, editingQuestions, onClose, openExitWarningModal]);
 
   /**
    * 삭제 모드 진입 핸들러
@@ -239,8 +211,13 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    * 삭제 모드 완료 핸들러
    */
   const handleDeleteModeComplete = () => {
+    const hasDeleted = questions.length < backupQuestions.length;
     setIsDeleteMode(false);
     setBackupQuestions([]);
+
+    if (hasDeleted) {
+      toast.success("삭제가 완료되었어요!");
+    }
   };
 
   // 제출 완료 핸들러
@@ -263,27 +240,25 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
     onClose();
   };
 
-  // 모달의 뒤로가기 버튼 콜백을 handleCancel로 설정
+  // 모달의 뒤로가기 버튼과 닫기 버튼 콜백을 handleCancel로 설정
   useEffect(() => {
     if (!isAddMode) {
       setModalDataState((prev) => ({
         ...prev,
+        onClose: handleCancel,
         options: {
           ...prev.options,
+          disabledClose: true,
           backButtonCallback: handleCancel,
         },
       }));
     }
-  }, [editingQuestions, isAddMode]);
+  }, [isAddMode, handleCancel]);
 
   return (
     <>
       {isAddMode ? (
-        <AddQuestionView
-          onAddQuestion={handleAddQuestionComplete}
-          onAddMultipleQuestions={handleAddMultipleQuestions}
-          maxCount={10 - questions.length}
-        />
+        <AddQuestionView onAddQuestions={handleAddQuestions} maxCount={MAX_QUESTION_COUNT - questions.length} />
       ) : (
         <>
           <section
@@ -317,9 +292,9 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
               {/* ---------- 추가 버튼 ---------- */}
               <button
                 onClick={handleAddQuestion}
-                disabled={questions.length >= 10}
+                disabled={questions.length >= MAX_QUESTION_COUNT}
                 css={css`
-                  background-color: ${questions.length >= 10 ? DESIGN_TOKEN_COLOR.gray200 : DESIGN_TOKEN_COLOR.blue100};
+                  background-color: ${questions.length >= MAX_QUESTION_COUNT ? DESIGN_TOKEN_COLOR.gray200 : DESIGN_TOKEN_COLOR.blue100};
                   border-radius: 1.2rem;
                   border: none;
                   display: flex;
@@ -328,14 +303,17 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
                   height: 4.8rem;
                   width: 100%;
                   transition: background-color 0.2s ease;
-                  cursor: ${questions.length >= 10 ? "not-allowed" : "pointer"};
-
+                  cursor: ${questions.length >= MAX_QUESTION_COUNT ? "not-allowed" : "pointer"};
                   &:hover {
-                    background-color: ${questions.length >= 10 ? DESIGN_TOKEN_COLOR.gray200 : DESIGN_TOKEN_COLOR.blue200};
+                    background-color: ${questions.length >= MAX_QUESTION_COUNT ? DESIGN_TOKEN_COLOR.gray200 : DESIGN_TOKEN_COLOR.blue200};
                   }
                 `}
               >
-                <Icon icon="ic_plus_thin" size={1.8} color={questions.length >= 10 ? DESIGN_TOKEN_COLOR.gray400 : DESIGN_TOKEN_COLOR.blue600} />
+                <Icon
+                  icon="ic_plus_thin"
+                  size={1.8}
+                  color={questions.length >= MAX_QUESTION_COUNT ? DESIGN_TOKEN_COLOR.gray400 : DESIGN_TOKEN_COLOR.blue600}
+                />
               </button>
             </section>
           </section>
