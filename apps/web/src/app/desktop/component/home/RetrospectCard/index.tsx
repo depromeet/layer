@@ -134,7 +134,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-top: 0.8rem;
+          margin-top: auto;
         `}
       >
         <Typography variant="body12SemiBold" color="gray500">
