@@ -19,6 +19,8 @@ import AddQuestionView from "./AddQuestionView";
 import { useModal } from "@/hooks/useModal";
 import { isEqual } from "lodash-es";
 
+const MAX_QUESTION_COUNT = 10;
+
 type QuestionEditSectionProps = {
   onClose: () => void;
 };
@@ -102,7 +104,7 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    * 새 질문 추가 핸들러
    */
   const handleAddQuestion = () => {
-    if (questions.length >= 10) return;
+    if (questions.length >= MAX_QUESTION_COUNT) return;
 
     // 현재 질문들을 백업하고 질문 추가 모드로 전환
     const questionsToBackup = [...questions];
@@ -247,12 +249,12 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
         },
       }));
     }
-  }, [isAddMode, handleCancel, setModalDataState]);
+  }, [isAddMode, handleCancel]);
 
   return (
     <>
       {isAddMode ? (
-        <AddQuestionView onAddQuestions={handleAddQuestions} maxCount={10 - questions.length} />
+        <AddQuestionView onAddQuestions={handleAddQuestions} maxCount={MAX_QUESTION_COUNT - questions.length} />
       ) : (
         <>
           <section
@@ -286,9 +288,9 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
               {/* ---------- 추가 버튼 ---------- */}
               <button
                 onClick={handleAddQuestion}
-                disabled={questions.length >= 10}
+                disabled={questions.length >= MAX_QUESTION_COUNT}
                 css={css`
-                  background-color: ${questions.length >= 10 ? DESIGN_TOKEN_COLOR.gray200 : DESIGN_TOKEN_COLOR.blue100};
+                  background-color: ${questions.length >= MAX_QUESTION_COUNT ? DESIGN_TOKEN_COLOR.gray200 : DESIGN_TOKEN_COLOR.blue100};
                   border-radius: 1.2rem;
                   border: none;
                   display: flex;
@@ -297,14 +299,17 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
                   height: 4.8rem;
                   width: 100%;
                   transition: background-color 0.2s ease;
-                  cursor: ${questions.length >= 10 ? "not-allowed" : "pointer"};
-
+                  cursor: ${questions.length >= MAX_QUESTION_COUNT ? "not-allowed" : "pointer"};
                   &:hover {
-                    background-color: ${questions.length >= 10 ? DESIGN_TOKEN_COLOR.gray200 : DESIGN_TOKEN_COLOR.blue200};
+                    background-color: ${questions.length >= MAX_QUESTION_COUNT ? DESIGN_TOKEN_COLOR.gray200 : DESIGN_TOKEN_COLOR.blue200};
                   }
                 `}
               >
-                <Icon icon="ic_plus_thin" size={1.8} color={questions.length >= 10 ? DESIGN_TOKEN_COLOR.gray400 : DESIGN_TOKEN_COLOR.blue600} />
+                <Icon
+                  icon="ic_plus_thin"
+                  size={1.8}
+                  color={questions.length >= MAX_QUESTION_COUNT ? DESIGN_TOKEN_COLOR.gray400 : DESIGN_TOKEN_COLOR.blue600}
+                />
               </button>
             </section>
           </section>
