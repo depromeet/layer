@@ -97,7 +97,6 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
   const handleDelete = (index: number) => {
     const updatedQuestions = questions.filter((_, i) => i !== index);
     setEditingQuestions(updatedQuestions);
-    toast.success("삭제가 완료되었어요!");
   };
 
   /**
@@ -212,8 +211,13 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    * 삭제 모드 완료 핸들러
    */
   const handleDeleteModeComplete = () => {
+    const hasDeleted = questions.length < backupQuestions.length;
     setIsDeleteMode(false);
     setBackupQuestions([]);
+
+    if (hasDeleted) {
+      toast.success("삭제가 완료되었어요!");
+    }
   };
 
   // 제출 완료 핸들러
