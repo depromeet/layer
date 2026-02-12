@@ -26,7 +26,7 @@ export function MemberManagementButton({ onClick, memberCount, isOpen = false }:
         color: ${DESIGN_TOKEN_COLOR.gray600};
       `}
     >
-      <Icon icon={"ic_team"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
+      <Icon icon={"ic_member"} size={2.0} color={DESIGN_TOKEN_COLOR.gray00} />
       <Typography variant="body14SemiBold" color="gray600">
         {memberCount}
       </Typography>

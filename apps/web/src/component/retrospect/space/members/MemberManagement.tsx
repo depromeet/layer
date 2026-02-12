@@ -49,13 +49,6 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
   const { mutate: changeLeader } = useChangeLeader(spaceId);
   const { mutate: kickMember } = useApiKickMember(spaceId);
 
-  useEffect(() => {
-    const leaderId = members.find((m) => m.isLeader)?.id;
-    if (leaderId) {
-      setCurrentLeaderId(leaderId);
-    }
-  }, [members]);
-
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsOpen(!isOpen);
@@ -129,6 +122,13 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
       },
     );
   };
+
+  useEffect(() => {
+    const leaderId = members.find((m) => m.isLeader)?.id;
+    if (leaderId) {
+      setCurrentLeaderId(leaderId);
+    }
+  }, [members]);
 
   // 팀원 관리 드롭다운 외부 클릭 시 뷰 닫기
   useEffect(() => {
