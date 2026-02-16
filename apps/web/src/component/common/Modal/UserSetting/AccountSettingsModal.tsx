@@ -47,6 +47,11 @@ export function AccountSettingsModal({ isOpen, onClose }: AccountSettingsModalPr
   // 체크박스 중 하나라도 선택되었는지 확인
   const hasSelectedReason = Object.values(deleteReasons).some(Boolean);
 
+  // 이름이나 사진이 변경되었는지 확인
+  const hasNameChanged = nameInput.value.trim() !== name;
+  const hasImageChanged = selectedImage !== imageUrl;
+  const hasChanges = hasNameChanged || hasImageChanged;
+
   const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -378,7 +383,8 @@ export function AccountSettingsModal({ isOpen, onClose }: AccountSettingsModalPr
                 </Typography>
               </Button>
               <Button
-                colorSchema={modalView === "deleteAccount" ? (hasSelectedReason ? "primary" : "gray") : "primary"}
+                colorSchema={modalView === "deleteAccount" ? (hasSelectedReason ? "primary" : "gray") : hasChanges ? "primary" : "gray"}
+                disabled={(modalView === "settings" && !hasChanges) || (modalView === "deleteAccount" && !hasSelectedReason)}
                 css={css`
                   flex: 1;
                 `}
@@ -392,7 +398,7 @@ export function AccountSettingsModal({ isOpen, onClose }: AccountSettingsModalPr
                   }
                 }}
               >
-                <Typography variant="subtitle16SemiBold" color={modalView === "deleteAccount" ? (hasSelectedReason ? "white" : "gray700") : "white"}>
+                <Typography variant="subtitle16SemiBold" color={modalView === "deleteAccount" ? (hasSelectedReason ? "white" : "gray400") : hasChanges ? "white" : "gray400"}>
                   {modalView === "deleteAccount" ? "계정 탈퇴" : "완료"}
                 </Typography>
               </Button>
