@@ -19,6 +19,7 @@
     "@hotjar/browser": "^1.0.9",
     "@layer/mobile": "workspace:^",
     "@layer/shared": "workspace:^",
+    "@microsoft/clarity": "^1.0.2",
     "@popperjs/core": "^2.11.8",
     "@tanstack/react-query": "^5.49.2",
     "@tanstack/react-query-devtools": "^5.49.2",
