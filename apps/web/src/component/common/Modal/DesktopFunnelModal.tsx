@@ -3,7 +3,6 @@ import { Portal } from "@/component/common/Portal";
 import { ANIMATION } from "@/style/common/animation";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useModal } from "@/hooks/useModal";
-import DesktopFunnelModalHeader from "./DesktopFunnelModalHeader";
 import { useAtomValue, useSetAtom } from "jotai";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { usePostRecentTemplateId } from "@/hooks/api/template/usePostRecentTemplateId";
@@ -12,6 +11,8 @@ import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { FUNNEL_STEP_BACK_CONFIG, FUNNEL_STEPS_WITH_BACK } from "@/app/desktop/component/retrospect/template/constants";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useSearchParams } from "react-router-dom";
+import { Icon } from "@/component/common/Icon";
+import { Typography } from "../typography";
 
 export default function DesktopFunnelModal() {
   const { open, close } = useModal();
@@ -122,10 +123,116 @@ export default function DesktopFunnelModal() {
             onClose={handleClose}
             onBack={shouldShowBack ? handleBack : undefined}
             tag={funnelModalState.templateTag}
+            backgroundColor={curBackgroundColor}
+            isRetrospectWrite={funnelModalState.step === "retrospectWrite"}
           />
           {funnelModalState.contents}
         </div>
       </div>
     </Portal>
+  );
+}
+
+/* ----------- 퍼널 모달 헤더 UI ----------- */
+export type DesktopModalHeaderProps = {
+  title: string;
+  tag?: string;
+  backgroundColor: string;
+  isRetrospectWrite: boolean;
+  onBack?: () => void;
+  onClose: () => void;
+};
+
+function DesktopFunnelModalHeader({ title, tag, backgroundColor, isRetrospectWrite, onBack, onClose }: DesktopModalHeaderProps) {
+  return (
+    <div
+      css={css`
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1001;
+        padding-top: 2.4rem;
+        background-color: ${backgroundColor};
+      `}
+    >
+      {onBack && (
+        <button
+          onClick={onBack}
+          css={css`
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+          `}
+        >
+          <Icon
+            icon={"ic_arrow_back_white"}
+            css={css`
+              path {
+                fill: #212329;
+                transition: 0.4s all;
+              }
+            `}
+            size={2.4}
+          />
+        </button>
+      )}
+      <div
+        css={css`
+          display: flex;
+          flex: 1;
+          align-items: center;
+          margin-left: ${onBack && "1.2rem"};
+        `}
+      >
+        <Typography variant="title22Bold">{title}</Typography>
+        {onBack && (
+          <span
+            css={css`
+              display: inline-block;
+              font-size: 1.2rem;
+              font-weight: 600;
+              line-height: 140%;
+              padding: 0.4rem 0.8rem;
+              background-color: ${DESIGN_TOKEN_COLOR.blue600};
+              border-radius: 0.4rem;
+              color: #fff;
+              margin-left: 1.2rem;
+            `}
+          >
+            {tag}
+          </span>
+        )}
+      </div>
+
+      <button
+        onClick={onClose}
+        css={css`
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          transition: background-color 0.2s ease-in-out;
+          border-radius: 0.4rem;
+
+          &:hover {
+            background-color: ${!isRetrospectWrite && DESIGN_TOKEN_COLOR.gray100};
+          }
+        `}
+      >
+        <Icon
+          icon={"ic_quit"}
+          css={css`
+            color: ${isRetrospectWrite ? "#fff" : "#212329"};
+            path {
+              fill: #212329;
+              transition: 0.4s all;
+            }
+          `}
+          onClick={onClose}
+          size={"2.4rem"}
+        />
+      </button>
+    </div>
   );
 }
