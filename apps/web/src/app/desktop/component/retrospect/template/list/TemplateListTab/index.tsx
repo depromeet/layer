@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 
 import { useTabs } from "@/hooks/useTabs";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
 
 export type TabProps<T extends string> = Omit<ReturnType<typeof useTabs<T>>, "tabs"> & { tab: T };
 
@@ -10,13 +11,21 @@ type TabsProps<T extends string> = ReturnType<typeof useTabs<T>> & {
 };
 
 export function TemplateListTab<T extends string>({ tabs, curTab, selectTab, TabComp }: TabsProps<T>) {
+  const { funnelModalState } = useFunnelModal();
+
+  const BACKGROUND_COLORS: Record<string, string> = {
+    listTemplate: DESIGN_TOKEN_COLOR.gray100,
+  };
+
+  const curBackgroundColor = (funnelModalState.step && BACKGROUND_COLORS[funnelModalState.step]) ?? "#fff";
+
   return (
     <div
       css={[
         css`
           position: sticky;
           top: 5.7rem;
-          background-color: #fff;
+          background-color: ${curBackgroundColor};
           display: inline-flex;
           gap: 0.8rem;
           padding-top: 2rem;
