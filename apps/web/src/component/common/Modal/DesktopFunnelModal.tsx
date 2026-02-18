@@ -87,6 +87,7 @@ export default function DesktopFunnelModal() {
 
   const curBackgroundColor = (funnelModalState.step && BACKGROUND_COLORS[funnelModalState.step]) ?? "#fff";
 
+  console.log(funnelModalState.step);
   return (
     <Portal id="modal-root">
       <div
@@ -115,7 +116,7 @@ export default function DesktopFunnelModal() {
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             padding: 0 2.4rem;
             animation: ${ANIMATION.FADE_IN} 0.4s ease-in-out;
-            transition: 0.4s all;
+            transition: opacity 0.4s ease-in-out;
           `}
         >
           <DesktopFunnelModalHeader

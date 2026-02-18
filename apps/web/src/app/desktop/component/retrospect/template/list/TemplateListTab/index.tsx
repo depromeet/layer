@@ -13,13 +13,19 @@ type TabsProps<T extends string> = ReturnType<typeof useTabs<T>> & {
 export function TemplateListTab<T extends string>({ tabs, curTab, selectTab, TabComp }: TabsProps<T>) {
   const { funnelModalState } = useFunnelModal();
 
+  const BACKGROUND_COLORS: Record<string, string> = {
+    listTemplate: DESIGN_TOKEN_COLOR.gray100,
+  };
+
+  const curBackgroundColor = (funnelModalState.step && BACKGROUND_COLORS[funnelModalState.step]) ?? "#fff";
+
   return (
     <div
       css={[
         css`
           position: sticky;
           top: 5.7rem;
-          background-color: ${funnelModalState.step === "listTemplate" ? DESIGN_TOKEN_COLOR.gray100 : "#fff"};
+          background-color: ${curBackgroundColor};
           display: inline-flex;
           gap: 0.8rem;
           padding-top: 2rem;
