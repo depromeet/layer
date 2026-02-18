@@ -47,6 +47,11 @@ export function AccountSettingsModal({ isOpen, onClose }: AccountSettingsModalPr
   // 체크박스 중 하나라도 선택되었는지 확인
   const hasSelectedReason = Object.values(deleteReasons).some(Boolean);
 
+  // 이름이나 사진이 변경되었는지 확인
+  const hasNameChanged = nameInput.value.trim() !== name;
+  const hasImageChanged = selectedImage !== imageUrl;
+  const hasChanges = hasNameChanged || hasImageChanged;
+
   const handleBackgroundClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -146,9 +151,40 @@ export function AccountSettingsModal({ isOpen, onClose }: AccountSettingsModalPr
               padding: 2.4rem;
             `}
           >
-            <Typography variant="subtitle18SemiBold" color="gray900">
-              {modalView === "settings" ? "계정 설정" : "계정 탈퇴"}
-            </Typography>
+            <div
+              css={css`
+                display: flex;
+                align-items: center;
+                gap: 1.2rem;
+              `}
+            >
+              {modalView === "deleteAccount" && (
+                <button
+                  css={css`
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 3.2rem;
+                    height: 3.2rem;
+                    border: none;
+                    background: transparent;
+                    border-radius: 0.4rem;
+                    cursor: pointer;
+                    transition: background-color 0.2s ease;
+
+                    &:hover {
+                      background-color: ${DESIGN_TOKEN_COLOR.gray100};
+                    }
+                  `}
+                  onClick={() => setModalView("settings")}
+                >
+                  <Icon icon="ic_arrow_left" size={2.0} color={DESIGN_TOKEN_COLOR.gray900} />
+                </button>
+              )}
+              <Typography variant="subtitle18SemiBold" color="gray900">
+                {modalView === "settings" ? "계정 설정" : "계정 탈퇴"}
+              </Typography>
+            </div>
             <button
               css={css`
                 display: flex;
@@ -360,25 +396,22 @@ export function AccountSettingsModal({ isOpen, onClose }: AccountSettingsModalPr
                 gap: 1.2rem;
               `}
             >
+              {modalView === "settings" && (
+                <Button
+                  colorSchema="gray"
+                  css={css`
+                    flex: 1;
+                  `}
+                  onClick={onClose}
+                >
+                  <Typography variant="subtitle16SemiBold" color="gray700">
+                    취소
+                  </Typography>
+                </Button>
+              )}
               <Button
-                colorSchema="gray"
-                css={css`
-                  flex: 1;
-                `}
-                onClick={() => {
-                  if (modalView === "deleteAccount") {
-                    setModalView("settings");
-                  } else {
-                    onClose();
-                  }
-                }}
-              >
-                <Typography variant="subtitle16SemiBold" color="gray700">
-                  {modalView === "deleteAccount" ? "취소" : "취소"}
-                </Typography>
-              </Button>
-              <Button
-                colorSchema={modalView === "deleteAccount" ? (hasSelectedReason ? "primary" : "gray") : "primary"}
+                colorSchema={modalView === "deleteAccount" ? (hasSelectedReason ? "primary" : "gray") : hasChanges ? "primary" : "gray"}
+                disabled={(modalView === "settings" && !hasChanges) || (modalView === "deleteAccount" && !hasSelectedReason)}
                 css={css`
                   flex: 1;
                 `}
@@ -392,7 +425,7 @@ export function AccountSettingsModal({ isOpen, onClose }: AccountSettingsModalPr
                   }
                 }}
               >
-                <Typography variant="subtitle16SemiBold" color={modalView === "deleteAccount" ? (hasSelectedReason ? "white" : "gray700") : "white"}>
+                <Typography variant="subtitle16SemiBold" color={modalView === "deleteAccount" ? (hasSelectedReason ? "white" : "gray400") : hasChanges ? "white" : "gray400"}>
                   {modalView === "deleteAccount" ? "계정 탈퇴" : "완료"}
                 </Typography>
               </Button>

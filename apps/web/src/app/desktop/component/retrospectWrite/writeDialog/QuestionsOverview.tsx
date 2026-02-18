@@ -34,12 +34,17 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary,
         display: flex;
         flex-direction: column;
         width: 29.4rem;
+        height: 100%;
       `}
     >
       <div
         css={css`
           border: 0.1rem solid ${DESIGN_TOKEN_COLOR.opacity8};
           border-radius: 1.8rem;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          min-height: 0;
         `}
       >
         {/* -------- 질믄 전체보기 상단 UI------- */}
@@ -49,6 +54,7 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary,
             justify-content: space-between;
             align-items: center;
             padding: 1.6rem 1.6rem 0.8rem;
+            flex-shrink: 0;
           `}
         >
           <Typography variant="subtitle14Strong" color="gray800" as="p">
@@ -68,6 +74,9 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary,
         <ul
           css={css`
             padding: 0 0.8rem 0.8rem;
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
           `}
         >
           {data?.questions.map((question, index) => {
@@ -121,6 +130,7 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary,
           display: flex;
           align-items: center;
           gap: 1.2rem;
+          flex-shrink: 0;
         `}
       >
         <button

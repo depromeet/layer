@@ -35,7 +35,18 @@ export default function CompletedRetrospects() {
         min-width: 30rem;
       `}
     >
-      <Typography variant="title16Bold">마감된 회고 {completedRetrospects.length}</Typography>
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+        `}
+      >
+        <Typography variant="title16Bold">마감된 회고 </Typography>
+            <Typography variant="title16Bold" color="gray600">
+              {completedRetrospects?.length}
+            </Typography>
+      </div>
 
       {completedRetrospects.length === 0 ? (
         <div
