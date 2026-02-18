@@ -2,7 +2,7 @@ import { createContext } from "@/lib/create-context";
 import { PropsWithChildren } from "react";
 import Clarity from "@microsoft/clarity";
 
-export default function index({ children }: PropsWithChildren) {
+export default function ClarityProvider({ children }: PropsWithChildren) {
   if (import.meta.env.MODE === "production") {
     Clarity.init("vj5mt0s50u");
   }
