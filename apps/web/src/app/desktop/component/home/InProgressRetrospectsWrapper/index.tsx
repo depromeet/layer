@@ -11,10 +11,9 @@ import "swiper/css/navigation";
 import { useGetAllRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import RetrospectCard from "../RetrospectCard";
-import EmptyInProgressRetrospects from "./EmptyInProgressRetrospects";
 
 export default function InProgressRetrospectsWrapper() {
-  // * 작성중인 모든 회고 리스트 요청
+  // * 진행 중인 모든 회고 리스트 요청
   const { data: retrospects, isPending: isRetrospectsPending } = useGetAllRetrospects({
     select: (data) => data.retrospects.filter((retrospect) => retrospect.writeStatus === "PROCEEDING"),
   });
@@ -27,10 +26,10 @@ export default function InProgressRetrospectsWrapper() {
     >
       {/* ---------- 제목 ---------- */}
       <Typography variant="body15Bold" color="gray800">
-        작성중인 회고 ({retrospects?.length || 0})
+        진행 중인 회고 ({retrospects?.length || 0})
       </Typography>
 
-      {/* ---------- 작성중인 회고 컨텐츠 ---------- */}
+      {/* ---------- 진행 중인 회고 컨텐츠 ---------- */}
       <Swiper
         modules={[Navigation]}
         spaceBetween={12}
@@ -154,5 +153,24 @@ export default function InProgressRetrospectsWrapper() {
         )}
       </Swiper>
     </section>
+  );
+}
+
+function EmptyInProgressRetrospects() {
+  return (
+    <div
+      css={css`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 13.8rem;
+        border-radius: 1.6rem;
+        background-color: ${DESIGN_TOKEN_COLOR.gray00};
+      `}
+    >
+      <Typography variant="body15Medium" color="gray500">
+        진행 중인 회고가 없어요
+      </Typography>
+    </div>
   );
 }
