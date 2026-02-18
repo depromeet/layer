@@ -87,7 +87,6 @@ export default function DesktopFunnelModal() {
 
   const curBackgroundColor = (funnelModalState.step && BACKGROUND_COLORS[funnelModalState.step]) ?? "#fff";
 
-  console.log(funnelModalState.step);
   return (
     <Portal id="modal-root">
       <div
