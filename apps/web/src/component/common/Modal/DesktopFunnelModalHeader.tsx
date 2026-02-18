@@ -13,6 +13,14 @@ export type DesktopModalHeaderProps = {
 
 export default function DesktopFunnelModalHeader({ title, tag, onBack, onClose }: DesktopModalHeaderProps) {
   const { funnelModalState } = useFunnelModal();
+
+  const BACKGROUND_COLORS: Record<string, string> = {
+    retrospectWrite: DESIGN_TOKEN_COLOR.gray900,
+    listTemplate: DESIGN_TOKEN_COLOR.gray100,
+  };
+
+  const curBackgroundColor = (funnelModalState.step && BACKGROUND_COLORS[funnelModalState.step]) ?? "#fff";
+
   return (
     <div
       css={css`
@@ -23,7 +31,7 @@ export default function DesktopFunnelModalHeader({ title, tag, onBack, onClose }
         top: 0;
         z-index: 1001;
         padding-top: 2.4rem;
-        background-color: ${funnelModalState.step === "retrospectWrite" ? DESIGN_TOKEN_COLOR.gray900 : "#fff"};
+        background-color: ${curBackgroundColor};
       `}
     >
       {onBack && (

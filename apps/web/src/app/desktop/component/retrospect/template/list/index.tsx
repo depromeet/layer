@@ -58,7 +58,7 @@ export function TemplateList() {
       {/* ---------- 템플릿 카드 리스트 UI ---------- */}
       <div
         css={css`
-          margin-top: 0.8rem;
+          margin-top: 2rem;
         `}
       >
         <TemplateListPageContext.Provider value={{ spaceId, isLeader: isLeader.current }}>

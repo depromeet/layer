@@ -42,6 +42,7 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
         padding: 1.6rem;
         border: 0.1rem solid ${DESIGN_SYSTEM_COLOR.grey100};
         border-radius: 0.8rem;
+        background-color: #fff;
         cursor: pointer;
       `}
       onClick={handleClickDetail}

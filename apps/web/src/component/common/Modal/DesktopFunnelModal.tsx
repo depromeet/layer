@@ -79,6 +79,13 @@ export default function DesktopFunnelModal() {
     }
   };
 
+  const BACKGROUND_COLORS: Record<string, string> = {
+    retrospectWrite: DESIGN_TOKEN_COLOR.gray900,
+    listTemplate: DESIGN_TOKEN_COLOR.gray100,
+  };
+
+  const curBackgroundColor = (funnelModalState.step && BACKGROUND_COLORS[funnelModalState.step]) ?? "#fff";
+
   return (
     <Portal id="modal-root">
       <div
@@ -102,7 +109,7 @@ export default function DesktopFunnelModal() {
             display: flex;
             flex-direction: column;
             overflow-y: auto;
-            background-color: ${funnelModalState.step === "retrospectWrite" ? DESIGN_TOKEN_COLOR.gray900 : "#fff"};
+            background-color: ${curBackgroundColor};
             border-radius: 2rem;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             padding: 0 2.4rem;
