@@ -134,7 +134,7 @@ export default function DesktopFunnelModal() {
 }
 
 /* ----------- 퍼널 모달 헤더 UI ----------- */
-export type DesktopModalHeaderProps = {
+type DesktopModalHeaderProps = {
   title: string;
   tag?: string;
   backgroundColor: string;
@@ -229,7 +229,6 @@ function DesktopFunnelModalHeader({ title, tag, backgroundColor, isRetrospectWri
               transition: 0.4s all;
             }
           `}
-          onClick={onClose}
           size={"2.4rem"}
         />
       </button>
