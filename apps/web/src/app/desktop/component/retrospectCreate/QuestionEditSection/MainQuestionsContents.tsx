@@ -196,7 +196,6 @@ export default function MainQuestionsContents({
                           cursor: grab;
                           display: flex;
                           align-items: center;
-                          /* padding: 0.4rem; */
 
                           &:active {
                             cursor: grabbing;
