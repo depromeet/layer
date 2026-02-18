@@ -82,8 +82,18 @@ export default function InProgressRetrospects() {
         min-width: 30rem;
       `}
     >
-      <Typography variant="title16Bold">진행 중인 회고 {proceedingRetrospects.length}</Typography>
-
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+        `}
+      >
+        <Typography variant="title16Bold">진행 중인 회고 </Typography>
+            <Typography variant="title16Bold" color="gray600">
+              {proceedingRetrospects?.length}
+            </Typography>
+      </div>
       {proceedingRetrospects.length === 0 ? (
         <div
           css={css`

@@ -51,6 +51,7 @@ export function WDescriptiveTemplate({ answer, onChange, subject }: DescriptiveT
           display: flex;
           align-items: center;
           position: relative;
+          margin-bottom: 1.3rem;
 
           #totalAnswer {
             margin-left: auto;

@@ -31,3 +31,4 @@ export { default as ic_people_color } from "./ic_people_color.svg?react";
 export { default as icon_file_open } from "./icon_file_open.svg?react";
 export { default as ic_crown } from "./ic_crown.svg?react";
 export { default as ic_new_clock } from "./ic_new_clock.svg?react";
+export { default as ic_member } from "./ic_member.svg?react";

@@ -211,12 +211,17 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
    * 삭제 모드 완료 핸들러
    */
   const handleDeleteModeComplete = () => {
+    const hasChanged = !isEqual(originalQuestions, editingQuestions);
     const hasDeleted = questions.length < backupQuestions.length;
     setIsDeleteMode(false);
     setBackupQuestions([]);
 
     if (hasDeleted) {
       toast.success("삭제가 완료되었어요!");
+    }
+
+    if (hasChanged) {
+      toast.success("수정이 완료되었어요!");
     }
   };
 
@@ -235,6 +240,10 @@ export default function QuestionEditSection({ onClose }: QuestionEditSectionProp
       }));
     } else {
       setRetrospectQuestions(editingQuestions);
+    }
+
+    if (hasChanged) {
+      toast.success("수정이 완료되었어요!");
     }
 
     onClose();

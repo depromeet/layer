@@ -319,7 +319,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
           css={css`
             display: flex;
             flex: 1;
-            height: 100%;
+            min-height: 0;
             padding: 2.4rem 0 0 5.6rem;
           `}
         >

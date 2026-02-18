@@ -16,7 +16,13 @@ type MainQuestionsContentsProps = {
   handleContentChange: (index: number, newContent: string) => void;
 };
 
-export default function MainQuestionsContents({ questions, isDeleteMode, handleDelete, handleDragEnd, handleContentChange }: MainQuestionsContentsProps) {
+export default function MainQuestionsContents({
+  questions,
+  isDeleteMode,
+  handleDelete,
+  handleDragEnd,
+  handleContentChange,
+}: MainQuestionsContentsProps) {
   const { toast } = useToast();
 
   const originalContentRef = useRef<{ [key: number]: string }>({});
@@ -190,7 +196,6 @@ export default function MainQuestionsContents({ questions, isDeleteMode, handleD
                           cursor: grab;
                           display: flex;
                           align-items: center;
-                          padding: 0.4rem;
 
                           &:active {
                             cursor: grabbing;
