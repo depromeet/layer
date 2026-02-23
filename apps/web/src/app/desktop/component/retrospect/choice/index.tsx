@@ -7,6 +7,7 @@ import { css } from "@emotion/react";
 import { TemplateList } from "../template/list";
 import { TemplateRecommend } from "../template/recommend";
 import useHoverToggle from "@/hooks/useHoverToggle";
+import { useApiPostTemplateClickRecommended } from "@/hooks/api/backoffice/useApiPostTemplateClickRecommended";
 
 export function TemplateChoice() {
   const { openFunnelModal } = useFunnelModal();
@@ -14,7 +15,10 @@ export function TemplateChoice() {
   const recommendHover = useHoverToggle();
   const listHover = useHoverToggle();
 
+  const { mutate } = useApiPostTemplateClickRecommended();
+
   const handleMoveToRecommendTemplate = () => {
+    mutate();
     openFunnelModal({
       title: "",
       step: "recommendTemplate",
