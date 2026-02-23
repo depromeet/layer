@@ -6,7 +6,8 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Icon } from "@/component/common/Icon";
 import { useQuery } from "@tanstack/react-query";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
+import { useApiPostRetrospectImpression } from "@/hooks/api/backoffice/useApiPostRetrospectImpression";
 import RetrospectCard from "@/app/desktop/component/home/RetrospectCard";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { useSetAtom } from "jotai";
@@ -34,6 +35,13 @@ export default function InProgressRetrospects() {
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
   const proceedingRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "PROCEEDING") || [], [retrospects]);
+
+  // ? 여기가 좋을지? RetroSpectSpacePage.tsx가 좋을지?
+  const { mutate: postRetrospectImpression } = useApiPostRetrospectImpression();
+
+  useEffect(() => {
+    postRetrospectImpression();
+  }, []);
 
   // 회고 추가 함수
   const handleRetrospectCreate = () => {
@@ -90,9 +98,9 @@ export default function InProgressRetrospects() {
         `}
       >
         <Typography variant="title16Bold">진행 중인 회고 </Typography>
-            <Typography variant="title16Bold" color="gray600">
-              {proceedingRetrospects?.length}
-            </Typography>
+        <Typography variant="title16Bold" color="gray600">
+          {proceedingRetrospects?.length}
+        </Typography>
       </div>
       {proceedingRetrospects.length === 0 ? (
         <div
