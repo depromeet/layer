@@ -33,6 +33,7 @@ function UnderBar({ position }: UnderBarProps) {
   );
 }
 
+// ! 사용되지 않는 컴포넌트
 export function ViewSelectTab({ viewState, setViewState }: ViewSelectTabProps) {
   const clickViewTab = (viewIndex: number) => {
     setViewState((prevState) =>

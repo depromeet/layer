@@ -16,6 +16,7 @@ import { ANIMATION } from "@/style/common/animation";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Portal } from "@/component/common/Portal";
+import { useApiPostSpacesImpression } from "@/hooks/api/backoffice/useApiPostSpacesImpression";
 
 interface SpacesListProps {
   currentTab: "전체" | "개인" | "팀";
@@ -35,6 +36,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
   const { open: openDesktopModal } = useDesktopBasicModal();
   const { resetAll: resetRetrospectInfo } = useRetrospectCreateReset();
   const { resetAll: resetSpaceInfo } = useSpaceCreateReset();
+  const { mutate: postSpacesImpression } = useApiPostSpacesImpression();
 
   const handleOpenSpaceAdd = () => {
     openDesktopModal({
@@ -75,6 +77,10 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
       }
     };
   }, [hasNextPage, fetchNextPage]);
+
+  useEffect(() => {
+    postSpacesImpression();
+  }, []);
 
   if (isPending && !isFetchingNextPage) {
     return <LoadingSpinner />;
