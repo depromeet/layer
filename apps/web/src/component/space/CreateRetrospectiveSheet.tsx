@@ -8,6 +8,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 import useHoverToggle from "@/hooks/useHoverToggle";
 import { useApiPostTemplateClickRecommended } from "@/hooks/api/backoffice/useApiPostTemplateClickRecommended";
+import { useApiPostTemplateClickListView } from "@/hooks/api/backoffice/useApiPostTemplateClickListView";
 
 type Props = {
   teamName: string | undefined;
@@ -20,7 +21,8 @@ export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }
   const recommendHover = useHoverToggle();
   const listHover = useHoverToggle();
 
-  const { mutate } = useApiPostTemplateClickRecommended();
+  const { mutate: templateRecommendedClickMutation } = useApiPostTemplateClickRecommended();
+  const { mutate: templateListClickMutation } = useApiPostTemplateClickListView();
 
   return (
     <div
@@ -48,7 +50,7 @@ export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }
       >
         <button
           onClick={() => {
-            mutate();
+            templateRecommendedClickMutation();
             navigate(PATHS.retrospectRecommend(), {
               state: { spaceId: spaceId },
             });
@@ -80,6 +82,7 @@ export function CreateRetrospectiveSheet({ teamName, spaceId, closeBottomSheet }
         </button>
         <button
           onClick={() => {
+            templateListClickMutation();
             navigate(PATHS.template(spaceId), {
               state: { readOnly: false },
             });

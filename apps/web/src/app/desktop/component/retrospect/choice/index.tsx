@@ -8,6 +8,7 @@ import { TemplateList } from "../template/list";
 import { TemplateRecommend } from "../template/recommend";
 import useHoverToggle from "@/hooks/useHoverToggle";
 import { useApiPostTemplateClickRecommended } from "@/hooks/api/backoffice/useApiPostTemplateClickRecommended";
+import { useApiPostTemplateClickListView } from "@/hooks/api/backoffice/useApiPostTemplateClickListView";
 
 export function TemplateChoice() {
   const { openFunnelModal } = useFunnelModal();
@@ -15,10 +16,11 @@ export function TemplateChoice() {
   const recommendHover = useHoverToggle();
   const listHover = useHoverToggle();
 
-  const { mutate } = useApiPostTemplateClickRecommended();
+  const { mutate: templateRecommendedClickMutation } = useApiPostTemplateClickRecommended();
+  const { mutate: templateListClickMutation } = useApiPostTemplateClickListView();
 
   const handleMoveToRecommendTemplate = () => {
-    mutate();
+    templateRecommendedClickMutation();
     openFunnelModal({
       title: "",
       step: "recommendTemplate",
@@ -28,6 +30,7 @@ export function TemplateChoice() {
   };
 
   const handleMoveToListTemplate = () => {
+    templateListClickMutation();
     openFunnelModal({
       title: "템플릿 리스트",
       step: "listTemplate",
