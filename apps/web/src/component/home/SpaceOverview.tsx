@@ -9,6 +9,7 @@ import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 import { Space } from "@/types/spaceType";
 import StatusChips from "@/component/common/StatusChips";
 import { PATHS } from "@layer/shared";
+import { useApiPostSpacesClick } from "@/hooks/api/backoffice/useApiPostSpacesClick";
 
 type SpaceOverviewProps = {
   space: Space;
@@ -17,10 +18,13 @@ type SpaceOverviewProps = {
 const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
   ({ space: { id, bannerUrl, name, introduction, memberCount, proceedingRetrospectCount, retrospectCount } }, ref) => {
     const navigate = useTestNatigate();
+    const { mutate: postSpacesClick } = useApiPostSpacesClick();
+
     return (
       <div
         ref={ref}
         onClick={() => {
+          postSpacesClick(Number(id));
           navigate(PATHS.spaceDetail(id));
         }}
         key={id}

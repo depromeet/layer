@@ -15,6 +15,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
 import { isSpaceLeader } from "@/utils/userUtil";
 import { PATHS } from "@layer/shared";
+import { useApiPostSpacesClick } from "@/hooks/api/backoffice/useApiPostSpacesClick";
 
 interface SpaceItemProps {
   space: Space;
@@ -186,6 +187,8 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   const isHome = location.pathname === "/";
   const isCurrent = String(currentSpace?.id) === String(spaceId);
 
+  const { mutate: postSpacesClick } = useApiPostSpacesClick();
+
   const getBackgroundColor = () => {
     if (isCurrent) {
       return SPACE_ITEM_STYLES.backgroundColor.currentInSpace;
@@ -199,6 +202,7 @@ export default function SpaceItem({ space }: SpaceItemProps) {
   };
 
   const handleSelectSpace = () => {
+    postSpacesClick(Number(spaceId));
     setCurrentSpace(space);
     navigate(PATHS.spaceDetail(spaceId.toString()));
   };
