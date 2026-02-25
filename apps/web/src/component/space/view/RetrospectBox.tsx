@@ -12,6 +12,8 @@ import { Typography } from "@/component/common/typography";
 import { RetrospectEditModal } from "@/component/space/view/RetrospectEditModal";
 import { useApiCloseRetrospect } from "@/hooks/api/retrospect/close/useApiCloseRetrospect.ts";
 import { useApiDeleteRetrospect } from "@/hooks/api/retrospect/useApiDeleteRetrospect";
+import { useApiPostRetrospectClick } from "@/hooks/api/backoffice/useApiPostRetrospectClick";
+import { useApiPostRetrospectImpression } from "@/hooks/api/backoffice/useApiPostRetrospectImpression";
 import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
@@ -47,8 +49,11 @@ export function RetrospectBox({
 
   const { mutate: retrospectDelete } = useApiDeleteRetrospect();
   const { mutate: retrospectClose, isPending } = useApiCloseRetrospect();
+  const { mutate: postRetrospectClick } = useApiPostRetrospectClick();
+  const { mutate: postRetrospectImpression } = useApiPostRetrospectImpression();
 
   const boxClickFun = () => {
+    postRetrospectClick(retrospectId);
     const { analysisStatus, retrospectStatus, writeStatus } = retrospect;
 
     const navigateToAnalysis = (defaultTab?: "분석" | "") =>
@@ -130,6 +135,10 @@ export function RetrospectBox({
       setIsOptionsVisible(false);
     }
   };
+
+  useEffect(() => {
+    postRetrospectImpression();
+  }, []);
 
   useEffect(() => {
     if (isOptionsVisible) {

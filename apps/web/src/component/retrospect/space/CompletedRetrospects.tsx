@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useMemo } from "react";
+
 import RetrospectCard from "@/app/desktop/component/home/RetrospectCard";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 
@@ -43,9 +44,9 @@ export default function CompletedRetrospects() {
         `}
       >
         <Typography variant="title16Bold">마감된 회고 </Typography>
-            <Typography variant="title16Bold" color="gray600">
-              {completedRetrospects?.length}
-            </Typography>
+        <Typography variant="title16Bold" color="gray600">
+          {completedRetrospects?.length}
+        </Typography>
       </div>
 
       {completedRetrospects.length === 0 ? (

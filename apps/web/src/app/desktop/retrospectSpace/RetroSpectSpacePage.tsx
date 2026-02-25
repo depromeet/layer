@@ -2,11 +2,14 @@ import ActionItems from "@/component/retrospect/space/actionItems/ActionItems";
 import CompletedRetrospects from "@/component/retrospect/space/CompletedRetrospects";
 import InProgressRetrospects from "@/component/retrospect/space/InProgressRetrospects";
 import RetrospectSpaceHeader from "@/component/retrospect/space/RetrospectSpaceHeader";
+import { useApiPostRetrospectImpression } from "@/hooks/api/backoffice/useApiPostRetrospectImpression";
+import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { css } from "@emotion/react";
+import { useQuery } from "@tanstack/react-query";
 import { useAtom, useSetAtom } from "jotai";
 import { useEffect } from "react";
 
@@ -18,6 +21,16 @@ export default function RetroSpectSpacePage() {
   const { data: spaceData, isSuccess } = useApiGetSpace(spaceId, false, {
     enabled: !currentSpace,
   });
+
+  const { data: retrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
+
+  const { mutate: postRetrospectImpression } = useApiPostRetrospectImpression();
+
+  useEffect(() => {
+    if (retrospects && retrospects.length > 0) {
+      postRetrospectImpression();
+    }
+  }, [retrospects, postRetrospectImpression]);
 
   useEffect(() => {
     setRetrospectValue((prev) => ({
