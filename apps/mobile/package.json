@@ -2,7 +2,7 @@
   "name": "@layer/mobile",
   "main": "expo-router/entry",
   "types": "./bridge/native.ts",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
