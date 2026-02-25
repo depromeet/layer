@@ -7,6 +7,7 @@ import { Icon } from "@/component/common/Icon";
 import { useQuery } from "@tanstack/react-query";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useMemo } from "react";
+
 import RetrospectCard from "@/app/desktop/component/home/RetrospectCard";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { useSetAtom } from "jotai";
@@ -90,9 +91,9 @@ export default function InProgressRetrospects() {
         `}
       >
         <Typography variant="title16Bold">진행 중인 회고 </Typography>
-            <Typography variant="title16Bold" color="gray600">
-              {proceedingRetrospects?.length}
-            </Typography>
+        <Typography variant="title16Bold" color="gray600">
+          {proceedingRetrospects?.length}
+        </Typography>
       </div>
       {proceedingRetrospects.length === 0 ? (
         <div

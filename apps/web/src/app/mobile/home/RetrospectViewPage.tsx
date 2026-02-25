@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { PATHS } from "@layer/shared";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 
 import { UserProfileIcon } from "@/component/common/appBar";
 import { TabButton } from "@/component/common/tabs/TabButton";
@@ -13,6 +13,7 @@ import { useTabs } from "@/hooks/useTabs";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { useTestNatigate } from "@/lib/test-natigate";
 import { EmptySpaceList } from "@/component/space/view/EmptySpaceList";
+import { useApiPostSpacesImpression } from "@/hooks/api/backoffice/useApiPostSpacesImpression";
 
 const PROJECT_CATEGORY_MAP = {
   전체: "ALL",
@@ -25,6 +26,8 @@ const CATEGORY_NAMES = Object.keys(PROJECT_CATEGORY_MAP) as Array<keyof typeof P
 export function RetrospectViewPage() {
   // const navigate = useNavigate();
   const navigate = useTestNatigate(); // TODO(prgmr99): 오탈자 확인
+
+  const { mutate: postSpacesImpression } = useApiPostSpacesImpression();
 
   const { tabs, curTab, selectTab } = useTabs(CATEGORY_NAMES);
   const currentCategory = PROJECT_CATEGORY_MAP[curTab];
@@ -53,6 +56,10 @@ export function RetrospectViewPage() {
   const isEmptySpaceList =
     spaceList?.pages.flatMap((page) => page.data).filter((space) => (currentCategory === "ALL" ? true : space.category === currentCategory))
       .length === 0;
+
+  useEffect(() => {
+    postSpacesImpression();
+  }, []);
 
   return (
     <DefaultLayout

@@ -13,6 +13,7 @@ import TemplateCardManageToggleMenu from "@/component/retrospect/template/card/T
 import { isSpaceLeader } from "@/utils/userUtil";
 import { useAtomValue } from "jotai";
 import { currentSpaceState } from "@/store/space/spaceAtom";
+import { useApiPostRetrospectClick } from "@/hooks/api/backoffice/useApiPostRetrospectClick";
 
 interface RetrospectCardProps {
   retrospect: Retrospect;
@@ -26,6 +27,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
   const currentSelectedSpace = useAtomValue(currentSpaceState);
   const { leader } = currentSelectedSpace || {};
   const isLeader = isSpaceLeader(leader?.id);
+  const { mutate: postRetrospectClick } = useApiPostRetrospectClick();
 
   const {
     spaceId: retrospectSpaceId,
@@ -47,6 +49,7 @@ export default function RetrospectCard({ retrospect, spaceId }: RetrospectCardPr
   const isIntroduction = introduction?.trim();
 
   const handleCardClick = () => {
+    postRetrospectClick(retrospectId);
     // 진행 중인 회고 클릭 시
     if (targetSpaceId && retrospectStatus === "PROCEEDING") {
       if (writeStatus === "NOT_STARTED") {

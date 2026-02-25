@@ -9,6 +9,7 @@ import { useSetAtom } from "jotai";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { TemplateListConform } from "../TemplateListConform";
 import { useSearchParams } from "react-router-dom";
+import { useApiPostTemplateChoiceListView } from "@/hooks/api/backoffice/useApiPostTemplateChoiceListView";
 
 type DesktopTemplateListItemProps = {
   id: number;
@@ -25,6 +26,8 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
   const [searchParams, setSearchParams] = useSearchParams();
   const templateMode = searchParams.get("template_mode");
   const type = searchParams.get("template_type");
+
+  const { mutate: templateChoiceClickMutation } = useApiPostTemplateChoiceListView();
 
   const handleClickDetail = () => {
     openFunnelModal({
@@ -117,6 +120,8 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
                 contents: <TemplateListConform />,
               });
             }
+
+            templateChoiceClickMutation();
           }}
         >
           <Typography variant={"body12Bold"} color={"gray800"}>
