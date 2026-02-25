@@ -5,8 +5,8 @@ import { css } from "@emotion/react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
-import { useMemo, useEffect } from "react";
-import { useApiPostRetrospectImpression } from "@/hooks/api/backoffice/useApiPostRetrospectImpression";
+import { useMemo } from "react";
+
 import RetrospectCard from "@/app/desktop/component/home/RetrospectCard";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 
@@ -18,13 +18,6 @@ export default function CompletedRetrospects() {
 
   // * 마감된 회고 필터링
   const completedRetrospects = useMemo(() => retrospects?.filter((retrospect) => retrospect.retrospectStatus === "DONE") || [], [retrospects]);
-
-  // ? 여기가 좋을지? RetroSpectSpacePage.tsx가 좋을지? -> 중복 제거됨
-  const { mutate: postRetrospectImpression } = useApiPostRetrospectImpression();
-
-  useEffect(() => {
-    postRetrospectImpression();
-  }, []);
 
   if (isPendingRetrospects) {
     return <LoadingSpinner />;
