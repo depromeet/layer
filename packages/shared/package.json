@@ -1,6 +1,6 @@
 {
   "name": "@layer/shared",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "",
   "main": "index.ts",
   "types": "./index.ts",
