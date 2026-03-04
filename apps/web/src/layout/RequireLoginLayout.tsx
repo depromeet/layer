@@ -19,7 +19,11 @@ type RequireLoginProps = {
 
 export function RequireLoginLayout({ children }: RequireLoginProps) {
   const [auth, setAuth] = useAtom(authAtom);
-  const [isRestoring, setIsRestoring] = useState(true);
+  // auth.isLogin=true + accessToken 있으면 즉시 통과 (복원 불필요)
+  // 그 외에는 복원 중 LoadingModal 표시하여 children API 호출 차단
+  const [isRestoring, setIsRestoring] = useState(
+    () => !auth.isLogin || !Cookies.get(COOKIE_KEYS.accessToken),
+  );
   const navigate = useTestNatigate();
   const queryClient = useQueryClient();
   const curPath = window.location.pathname;
@@ -98,8 +102,8 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 복원 중 로딩 표시 (빈 화면 깜빡임 방지)
-  if (isRestoring && !auth.isLogin) {
+  // 복원 중 LoadingModal 표시 (children API 호출 차단 + 빈 화면 깜빡임 방지)
+  if (isRestoring) {
     return <LoadingModal />;
   }
 
