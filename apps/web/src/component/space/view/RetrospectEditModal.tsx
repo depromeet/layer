@@ -11,21 +11,35 @@ import { usePatchRetrospect } from "@/hooks/api/retrospect/edit/usePatchRetrospe
 import { useInput } from "@/hooks/useInput";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { Retrospect } from "@/types/retrospect";
+import { addMinutes, format } from "date-fns";
 
 type RetrospectEditProps = {
   spaceId: string;
   retrospectId: string;
   defaultValue: Pick<Retrospect, "title" | "introduction" | "deadline">;
+  isAnalyzed?: boolean;
   close: () => void;
 };
 
-export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, close }: RetrospectEditProps) {
+export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, isAnalyzed = false, close }: RetrospectEditProps) {
   const { mutate: patchRetrospect, isSuccess, isPending } = usePatchRetrospect();
   const { value: title, handleInputChange: handleTitleChange } = useInput(defaultValue.title);
   const { value: introduction, handleInputChange: handleIntroductionChange } = useInput(defaultValue.introduction);
   const [deadline, setDeadline] = useState(defaultValue.deadline);
 
   const isEdited = title !== defaultValue.title || introduction !== defaultValue.introduction || deadline !== defaultValue.deadline;
+  const isPastDueDate = deadline ? new Date(deadline) <= new Date() : false;
+
+  const handleModifyRetrospect = async () => {
+    // 마감 일자가 지난 회고를 수정할 경우에는 마감 일자를 1분 뒤로 설정하여 저장되도록 함
+    const next = addMinutes(new Date(), 1);
+    const currentDate = format(next, "yyyy-MM-dd'T'HH:mm:ss");
+    patchRetrospect({
+      spaceId: +spaceId,
+      retrospectId: +retrospectId,
+      data: { title, introduction, deadline: isPastDueDate ? currentDate : deadline },
+    });
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -40,12 +54,7 @@ export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, close
           title="회고 수정"
           LeftComp={<Icon icon={"ic_arrow_left"} size={2.4} onClick={close} />}
           RightComp={
-            <button
-              disabled={!isEdited}
-              onClick={() => {
-                patchRetrospect({ spaceId: +spaceId, retrospectId: +retrospectId, data: { title, introduction, deadline } });
-              }}
-            >
+            <button disabled={!isEdited} onClick={handleModifyRetrospect}>
               <Typography variant={"subtitle16SemiBold"} color={isEdited ? "blue600" : "gray400"}>
                 완료
               </Typography>
@@ -74,15 +83,17 @@ export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, close
                 maxLength={20}
               />
             </InputLabelContainer>
-            <InputLabelContainer id={`retro-intro-${retrospectId}`}>
-              <Label>회고 마감일</Label>
-              <DateTimeInput
-                defaultValue={defaultValue.deadline!}
-                onValueChange={(value) => {
-                  if (value) setDeadline(value);
-                }}
-              />
-            </InputLabelContainer>
+            {!isAnalyzed ? (
+              <InputLabelContainer id={`retro-intro-${retrospectId}`}>
+                <Label>회고 마감일</Label>
+                <DateTimeInput
+                  defaultValue={defaultValue.deadline!}
+                  onValueChange={(value) => {
+                    if (value) setDeadline(value);
+                  }}
+                />
+              </InputLabelContainer>
+            ) : null}
           </div>
         </DefaultLayout>
       </FullModal>
