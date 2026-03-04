@@ -1,6 +1,5 @@
 import { PATHS } from "@layer/shared";
 import { useMutation } from "@tanstack/react-query";
-import Cookies from "js-cookie";
 
 import { api } from "@/api";
 import { useToast } from "@/hooks/useToast";
@@ -9,7 +8,6 @@ import { useTestNatigate } from "@/lib/test-natigate";
 export const useDeleteUser = () => {
   const { toast } = useToast();
   const navigate = useTestNatigate();
-  const accessToken = Cookies.get("accessToken");
 
   const apiDeleteUser = async ({ memberId, booleans, description }: { memberId: string; booleans: boolean[]; description: string }) => {
     const response = await api.post(
@@ -20,7 +18,6 @@ export const useDeleteUser = () => {
       },
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           memberId: memberId,
         },
       },

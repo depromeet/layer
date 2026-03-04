@@ -43,9 +43,9 @@ export const usePostSignIn = () => {
     mutationFn: signInWithToken,
     onSuccess: (data: AuthResponse) => {
       if (data) {
-        Cookies.set("memberId", data.memberId.toString(), { expires: 7 });
-        Cookies.set("accessToken", data.accessToken, { expires: 7 });
-        Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
+        Cookies.set(COOKIE_KEYS.memberId, data.memberId.toString(), { expires: 7 });
+        Cookies.set(COOKIE_KEYS.accessToken, data.accessToken, { expires: 7 });
+        Cookies.set(COOKIE_KEYS.refreshToken, data.refreshToken, { expires: 7 });
         setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole, imageUrl: data.imageUrl });
       }
 
