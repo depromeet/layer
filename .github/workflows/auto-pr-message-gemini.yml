@@ -1,0 +1,185 @@
+name: Auto PR Message (Gemini)
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: auto-pr-message-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    name: Generate PR title/body
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.type != 'Bot'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate and update PR message
+        uses: actions/github-script@v7
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_REF: ${{ github.head_ref }}
+          CURRENT_TITLE: ${{ github.event.pull_request.title }}
+        with:
+          script: |
+            const { execSync } = require("node:child_process");
+
+            const apiKey = process.env.GEMINI_API_KEY;
+            if (!apiKey) {
+              core.warning("GEMINI_API_KEY secret is not set. Skipping PR message generation.");
+              return;
+            }
+
+            const baseSha = process.env.BASE_SHA;
+            const headSha = process.env.HEAD_SHA;
+            const headRef = process.env.HEAD_REF || "";
+
+            const changedFilesRaw = execSync(
+              `git diff --name-only ${baseSha}...${headSha}`,
+              { encoding: "utf8" }
+            ).trim();
+
+            const changedFiles = changedFilesRaw
+              ? changedFilesRaw.split("\n").filter(Boolean)
+              : [];
+
+            let diff = execSync(
+              `git diff --unified=1 --no-color ${baseSha}...${headSha}`,
+              { encoding: "utf8", maxBuffer: 30 * 1024 * 1024 }
+            );
+
+            const maxDiffLength = 18000;
+            if (diff.length > maxDiffLength) {
+              diff = `${diff.slice(0, maxDiffLength)}\n\n[diff truncated]`;
+            }
+
+            const issueMatch =
+              headRef.match(/(?:^|[\/_-])(\d+)(?:[\/_-]|$)/) ||
+              headRef.match(/(\d+)/);
+            const issueLine = issueMatch ? `closes: #${issueMatch[1]}` : "-";
+
+            const prompt = [
+              "You are a pull request writer for a Korean development team.",
+              "Write concise Korean output based on the provided git diff.",
+              "Return ONLY JSON with this exact schema:",
+              "{",
+              '  "title": "string",',
+              '  "summary": ["string"],',
+              '  "changes": ["string"],',
+              '  "references": ["string"]',
+              "}",
+              "Rules:",
+              "- title must summarize the core change.",
+              "- summary should have 1-3 bullets.",
+              "- changes should have 1-5 bullets.",
+              "- references should be [] when none.",
+              "- Do not include markdown or code fences.",
+              "",
+              `Changed files (${changedFiles.length}):`,
+              changedFiles.join("\n") || "(none)",
+              "",
+              "Git diff:",
+              diff
+            ].join("\n");
+
+            const geminiResponse = await fetch(
+              `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  contents: [{ parts: [{ text: prompt }] }],
+                  generationConfig: {
+                    temperature: 0.2,
+                    responseMimeType: "application/json"
+                  }
+                })
+              }
+            );
+
+            if (!geminiResponse.ok) {
+              const errorText = await geminiResponse.text();
+              core.setFailed(`Gemini API request failed (${geminiResponse.status}): ${errorText}`);
+              return;
+            }
+
+            const data = await geminiResponse.json();
+            let resultText = data?.candidates?.[0]?.content?.parts?.map((part) => part.text).join("\n") || "";
+
+            resultText = resultText.trim().replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/\s*```$/, "");
+
+            let parsed;
+            try {
+              parsed = JSON.parse(resultText);
+            } catch (error) {
+              core.setFailed(`Failed to parse Gemini JSON response: ${error.message}\nRaw: ${resultText}`);
+              return;
+            }
+
+            const toBulletLines = (value, fallback = "-") => {
+              if (!Array.isArray(value) || value.length === 0) {
+                return "-";
+              }
+
+              const lines = value
+                .map((item) => String(item || "").trim())
+                .filter(Boolean)
+                .map((line) => `- ${line}`);
+
+              return lines.length > 0 ? lines.join("\n") : fallback;
+            };
+
+            const safeTitle = String(parsed?.title || process.env.CURRENT_TITLE || "PR 변경사항 업데이트")
+              .trim()
+              .slice(0, 120);
+
+            const summaryText = toBulletLines(parsed?.summary);
+            const changesText = toBulletLines(parsed?.changes);
+            const referencesText = toBulletLines(parsed?.references);
+
+            const body = [
+              "> ### PR 제목은 핵심 변경 사항을 요약해주세요",
+              "---",
+              "",
+              "### 🏄🏼‍♂️‍ Summary (요약)",
+              "",
+              summaryText,
+              "",
+              "### 🫨 Describe your Change (변경사항)",
+              "",
+              changesText,
+              "",
+              "### 🧐 Issue number and link (참고)",
+              "",
+              issueLine,
+              "",
+              "### 📚 Reference (참조)",
+              "",
+              referencesText
+            ].join("\n");
+
+            await github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number,
+              title: safeTitle,
+              body
+            });
+
+            core.info("PR title/body have been updated successfully.");
