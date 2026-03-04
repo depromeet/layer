@@ -15,6 +15,7 @@ import { queryClient } from "@/lib/tanstack-query/queryClient";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 import { css } from "@emotion/react";
+import { addMinutes, format } from "date-fns";
 import React, { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -183,6 +184,9 @@ export function ModifyRetrospect(props: {
   const [isChanged, setIsChanged] = useState(false);
 
   const isVisibleDueDate = !props.isAnalyzed && !!dueDate;
+  const due = new Date(dueDate);
+  const isPastDueDate = !Number.isNaN(due.getTime()) && due.getTime() < Date.now();
+
   const initialState = useRef({
     title: props.title,
     introduction: props.introduction,
@@ -208,13 +212,17 @@ export function ModifyRetrospect(props: {
   };
 
   const handleModifyRetrospect = async () => {
+    // 마감 일자가 지난 회고를 수정할 경우에는 마감 일자를 1분 뒤로 설정하여 저장되도록 함
+    const next = addMinutes(new Date(), 1);
+    const currentDate = format(next, "yyyy-MM-dd'T'HH:mm:ss");
+
     const { status } = await editRetrospect({
       spaceId: props.spaceId,
       retrospectId: props.retrospectId,
       data: {
         title,
         introduction,
-        deadline: dueDate,
+        deadline: isPastDueDate ? currentDate : dueDate,
       },
     });
     if (status === 200) {

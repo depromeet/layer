@@ -283,6 +283,7 @@ export function RetrospectBox({
           spaceId={spaceId}
           retrospectId={retrospectId.toString()}
           defaultValue={{ title, introduction, deadline }}
+          isAnalyzed={retrospectStatus === "DONE"}
           close={() => setIsEditModalOpen(false)}
         />
       )}
