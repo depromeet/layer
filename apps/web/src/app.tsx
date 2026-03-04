@@ -13,20 +13,23 @@ import { Toast } from "@/component/common/Toast";
 import { BridgeProvider } from "@/lib/provider/bridge-provider";
 import { MixpanelProvider } from "@/lib/provider/mix-pannel-provider";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
+import ClarityProvider from "./lib/provider/clarity-provider";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <MixpanelProvider>
-      <QueryClientProvider client={queryClient}>
-        <BridgeProvider>
-          <Suspense fallback={<LoadingModal purpose={"데이터를 가져오고 있어요"} />}>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-            {/* <DevTools /> */}
-            <Routers />
-            <Toast />
-          </Suspense>
-        </BridgeProvider>
-      </QueryClientProvider>
-    </MixpanelProvider>
+    <ClarityProvider>
+      <MixpanelProvider>
+        <QueryClientProvider client={queryClient}>
+          <BridgeProvider>
+            <Suspense fallback={<LoadingModal purpose={"데이터를 가져오고 있어요"} />}>
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+              {/* <DevTools /> */}
+              <Routers />
+              <Toast />
+            </Suspense>
+          </BridgeProvider>
+        </QueryClientProvider>
+      </MixpanelProvider>
+    </ClarityProvider>
   </React.StrictMode>,
 );

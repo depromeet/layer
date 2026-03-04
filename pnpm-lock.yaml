@@ -210,6 +210,9 @@ importers:
       '@layer/shared':
         specifier: workspace:^
         version: link:../../packages/shared
+      '@microsoft/clarity':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@popperjs/core':
         specifier: ^2.11.8
         version: 2.11.8
@@ -1455,7 +1458,7 @@ packages:
 
   '@expo/bunyan@4.0.1':
     resolution: {integrity: sha512-+Lla7nYSiHZirgK+U/uYzsLv/X+HaJienbD5AKX1UQZHYfWaP+9uuQluRB4GrEVWF0GZ7vEVp/jzaOT9k/SQlg==}
-    engines: {'0': node >=0.10.0}
+    engines: {node: '>=0.10.0'}
 
   '@expo/cli@0.18.29':
     resolution: {integrity: sha512-X810C48Ss+67RdZU39YEO1khNYo1RmjouRV+vVe0QhMoTe8R6OA3t+XYEdwaNbJ5p/DJN7szfHfNmX2glpC7xg==}
@@ -1733,6 +1736,9 @@ packages:
     resolution: {integrity: sha512-dVMw8jpM0hAzc8e7/GNvzkk9N0RN/m+PKycETB3H6lJGuXJJSRR4wzzgQKpEhHwPccktDpvb4rkukKDq2jA8Fg==}
     peerDependencies:
       react: ^18.2.0
+
+  '@microsoft/clarity@1.0.2':
+    resolution: {integrity: sha512-9EZYROFpJxEGmQpHvUFqvD3ZJ7QQSqnibYSWmS+1xusoZfG1QQ1/Al9yVBBc11DWMbJrs1pe1hLT273it/skJg==}
 
   '@mj-studio/js-util@1.1.14':
     resolution: {integrity: sha512-u9EIz0wfD8N+aHLHrcNkHhS2O0AJyd1kvX/24ykrHkmwlAhcZr1WjEpQGh8oVv2LJbdL3mx6OJ/EqHdgofhLZQ==}
@@ -5554,7 +5560,6 @@ packages:
     resolution: {integrity: sha512-Quz3MvAwHxVYNXsOByL7xI5EB2WYOeFswqaHIA3qOK3isRWTxiplBEocmmru6XmxDB2L7jDNYtYA4FyimoAFEw==}
     engines: {node: '>=8.17.0'}
     hasBin: true
-    bundledDependencies: []
 
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
@@ -10360,6 +10365,8 @@ snapshots:
   '@mantine/hooks@7.12.2(react@18.2.0)':
     dependencies:
       react: 18.2.0
+
+  '@microsoft/clarity@1.0.2': {}
 
   '@mj-studio/js-util@1.1.14': {}
 
