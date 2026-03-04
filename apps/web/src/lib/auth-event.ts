@@ -1,12 +1,14 @@
 type AuthExpiredListener = () => void;
 
-let listener: AuthExpiredListener | null = null;
+const listeners = new Set<AuthExpiredListener>();
 
 export function onAuthExpired(callback: AuthExpiredListener) {
-  listener = callback;
-  return () => { listener = null; };
+  listeners.add(callback);
+  return () => {
+    listeners.delete(callback);
+  };
 }
 
 export function emitAuthExpired() {
-  listener?.();
+  listeners.forEach((l) => l());
 }
