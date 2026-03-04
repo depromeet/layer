@@ -32,8 +32,6 @@ const onError = (status: number, message: string, data?: ErrorResponse) => {
   throw error;
 };
 
-const retriedRequests = new WeakSet<InternalAxiosRequestConfig>();
-
 /** request 요청 시, config 객체를 받아와 처리하는 함수 */
 const onRequest = (config: AxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
   const token = Cookies.get(COOKIE_KEYS.accessToken);
@@ -78,15 +76,16 @@ const onErrorResponse = async (error: AxiosError | Error): Promise<never | Axios
 
     // 401: switch-case의 onError()가 throw하므로 switch 전에 처리
     if (status === 401) {
-      const config = error.config as InternalAxiosRequestConfig;
-      if (retriedRequests.has(config)) {
+      // _retry 플래그를 사용 (spread 복사되므로 재시도 config에서도 유지됨)
+      const config = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+      if (config._retry) {
         clearAuthCookies();
         emitAuthExpired();
         return Promise.reject(error);
       }
       try {
         await refreshAccessToken();
-        retriedRequests.add(config);
+        config._retry = true;
         config.headers = config.headers ?? {};
         config.headers.Authorization = `Bearer ${Cookies.get(COOKIE_KEYS.accessToken)}`;
         return baseApi(config);
