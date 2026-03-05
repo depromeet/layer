@@ -2,7 +2,7 @@ import { PATHS } from "@layer/shared";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Cookies from "js-cookie";
-import { Fragment, ReactNode, useCallback, useEffect, useState } from "react";
+import { Fragment, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 
 import { fetchMemberInfo } from "@/api/login";
 import { clearAuthCookies, refreshAccessToken } from "@/api/token";
@@ -44,8 +44,12 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
     return unsubscribe;
   }, [queryClient, setAuth, redirectLogin]);
 
-  // 마운트 시 인증 상태 복원
+  // 마운트 시 인증 상태 복원 (1회만 실행)
+  const didRestore = useRef(false);
   useEffect(() => {
+    if (didRestore.current) return;
+    didRestore.current = true;
+
     const restore = async () => {
       const accessToken = Cookies.get(COOKIE_KEYS.accessToken);
       const refreshToken = Cookies.get(COOKIE_KEYS.refreshToken);
@@ -58,6 +62,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
 
       // Case 2: 토큰 없음 → 로그인 페이지
       if (!accessToken && !refreshToken) {
+        setIsRestoring(false);
         redirectLogin();
         return;
       }
@@ -100,7 +105,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
       clearAuthCookies();
       redirectLogin();
     });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [auth.isLogin, redirectLogin, setAuth, setPeople]);
 
   // 복원 중 LoadingModal 표시 (children API 호출 차단 + 빈 화면 깜빡임 방지)
   if (isRestoring) {

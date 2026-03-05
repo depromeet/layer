@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import { PATHS } from "@layer/shared";
 import { useQueries } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +35,7 @@ export function SpaceViewPage() {
   const isColliding = useCollisionDetection(appbarRef, contentRef);
   const navigate = useNavigate();
   const appNavigate = useTestNatigate();
-  const memberId = Cookies.get("memberId");
+  const memberId = Cookies.get(COOKIE_KEYS.memberId);
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { open } = useModal();

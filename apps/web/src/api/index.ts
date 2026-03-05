@@ -70,7 +70,13 @@ const onErrorResponse = async (error: AxiosError | Error): Promise<never | Axios
   if (axios.isAxiosError(error)) {
     const { message } = error;
     const { method, url } = error?.config as AxiosRequestConfig;
-    const { status, statusText, data } = error?.response as AxiosResponse<ErrorResponse>;
+
+    if (!error.response) {
+      logOnDev(`[API NETWORK_ERROR] ${method?.toUpperCase()} ${url} | ${message}`);
+      return Promise.reject(error);
+    }
+
+    const { status, statusText, data } = error.response as AxiosResponse<ErrorResponse>;
 
     logOnDev(`[API ERROR_RESPONSE ${status} | ${statusText} | ${message}] ${method?.toUpperCase()} ${url}`);
 
