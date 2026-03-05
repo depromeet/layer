@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 import { api } from "@/api";
 import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/mobile/space/space.const";
-import { COOKIE_KEYS } from "@/config/storage-keys";
+import { AUTH_COOKIE_OPTIONS, COOKIE_KEYS } from "@/config/storage-keys";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";
 import { useTestNatigate } from "@/lib/test-natigate";
@@ -50,9 +50,9 @@ export const usePostAppleLogin = () => {
     mutationFn: postAppleLogin,
     onSuccess: (data: AuthResponse) => {
       if (data) {
-        Cookies.set("memberId", data.memberId.toString(), { expires: 7 });
-        Cookies.set("accessToken", data.accessToken, { expires: 7 });
-        Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
+        Cookies.set(COOKIE_KEYS.memberId, data.memberId.toString(), AUTH_COOKIE_OPTIONS);
+        Cookies.set(COOKIE_KEYS.accessToken, data.accessToken, AUTH_COOKIE_OPTIONS);
+        Cookies.set(COOKIE_KEYS.refreshToken, data.refreshToken, AUTH_COOKIE_OPTIONS);
         setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole, imageUrl: data.imageUrl });
       }
 
