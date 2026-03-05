@@ -1,15 +1,17 @@
 import { PATHS } from "@layer/shared";
 import { useMutation } from "@tanstack/react-query";
-import Cookies from "js-cookie";
+import { useSetAtom } from "jotai";
 
 import { api } from "@/api";
+import { clearAuthCookies } from "@/api/token";
 import { useToast } from "@/hooks/useToast";
 import { useTestNatigate } from "@/lib/test-natigate";
+import { authAtom } from "@/store/auth/authAtom";
 
 export const useDeleteUser = () => {
   const { toast } = useToast();
   const navigate = useTestNatigate();
-  const accessToken = Cookies.get("accessToken");
+  const setAuth = useSetAtom(authAtom);
 
   const apiDeleteUser = async ({ memberId, booleans, description }: { memberId: string; booleans: boolean[]; description: string }) => {
     const response = await api.post(
@@ -20,7 +22,6 @@ export const useDeleteUser = () => {
       },
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           memberId: memberId,
         },
       },
@@ -32,8 +33,10 @@ export const useDeleteUser = () => {
     mutationFn: ({ memberId, booleans, description }: { memberId: string; booleans: boolean[]; description: string }) =>
       apiDeleteUser({ memberId, booleans, description }),
     onSuccess: () => {
+      clearAuthCookies();
+      setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "" });
       toast.success("계정 탈퇴에 성공했어요");
-      void navigate(PATHS.login());
+      void navigate(PATHS.login(), { type: "REPLACE" });
     },
     onError: (error) => {
       toast.error(error.message);

@@ -1,6 +1,8 @@
 import { css } from "@emotion/react";
 import { useState, useRef } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 
 import { Button } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
@@ -19,7 +21,6 @@ import { useDeleteUser } from "@/hooks/api/user/useDeleteUser";
 
 import { useAtom } from "jotai";
 import { authAtom } from "@/store/auth/authAtom";
-import Cookies from "js-cookie";
 
 type AccountSettingsModalProps = {
   isOpen: boolean;
@@ -81,7 +82,7 @@ export function AccountSettingsModal({ isOpen, onClose }: AccountSettingsModalPr
 
   const { mutate: updateProfile } = usePatchUpdateProfile();
   const { mutate: deleteUser } = useDeleteUser();
-  const memberId = Cookies.get("memberId");
+  const memberId = Cookies.get(COOKIE_KEYS.memberId);
 
   const handleSubmit = () => {
     updateProfile(

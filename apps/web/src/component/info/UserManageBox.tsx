@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -24,7 +25,7 @@ export function UserManageBox() {
   const location = useLocation();
   const { mutate: deleteUser } = useDeleteUser();
   const { mutate: signOut } = usePostSignOut();
-  const memberId = Cookies.get("memberId");
+  const memberId = Cookies.get(COOKIE_KEYS.memberId);
 
   useEffect(() => {
     const state = location.state as LocationState;
