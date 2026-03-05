@@ -104,14 +104,6 @@ const onErrorResponse = async (error: AxiosError | Error): Promise<never | Axios
       case 400:
         onError(status, "잘못된 요청을 했어요", data);
         break;
-      case 401: {
-        onError(status, "인증을 실패했어요", data);
-        break;
-      }
-      case 403: {
-        onError(status, "권한이 없는 상태로 접근했어요", data);
-        break;
-      }
       case 404: {
         onError(status, "찾을 수 없는 페이지를 요청했어요", data);
         break;
