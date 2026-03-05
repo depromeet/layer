@@ -75,12 +75,16 @@ const onErrorResponse = async (error: AxiosError | Error): Promise<never | Axios
     logOnDev(`[API ERROR_RESPONSE ${status} | ${statusText} | ${message}] ${method?.toUpperCase()} ${url}`);
 
     // 401: switch-case의 onError()가 throw하므로 switch 전에 처리
-    if (status === 401) {
+    if (status === 401 || status === 403) {
       // _retry 플래그를 사용 (spread 복사되므로 재시도 config에서도 유지됨)
       const config = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
       if (config._retry) {
-        clearAuthCookies();
-        emitAuthExpired();
+        // 401이면 인증 만료 → 로그아웃
+        if (status === 401) {
+          clearAuthCookies();
+          emitAuthExpired();
+        }
+        // 403이면 권한 없음 → 로그아웃하지 않고 에러만 전파
         return Promise.reject(error);
       }
       try {
