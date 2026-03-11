@@ -11,8 +11,16 @@
     "build:app": "pnpm build --filter=\"...{./apps/app}\"",
     "build:web": "pnpm build --filter=\"...{./apps/web}\""
   },
-  "dependencies": {
-    "kr-corekit": "^0.0.8",
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "react": "18 || 19",
+        "react-dom": "18 || 19",
+        "@types/react": "18 || 19"
+      }
+    }
+  },
+  "devDependencies": {
     "lerna": "^8.1.8"
   }
 }

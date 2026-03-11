@@ -10,8 +10,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "react": "^18.2.0"
+  "peerDependencies": {
+    "react": ">=18 <20"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

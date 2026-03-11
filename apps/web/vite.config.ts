@@ -34,6 +34,20 @@ export default defineConfig({
   build: {
     outDir: "dist", // 빌드 결과가 저장되는 폴더
     sourcemap: true, // 디버깅을 위한 소스맵 생성 (선택 사항)
+    // 현재 일부 서드파티 패키지의 sourcemap이 깨져 있어, 조치 불가능한 노이즈 경고를 필터링합니다.
+    rollupOptions: {
+      onwarn(warning, warn) {
+        if (
+          warning.code === "SOURCEMAP_ERROR" &&
+          warning.message.includes("Can't resolve original location of error")
+        ) {
+          return;
+        }
+        warn(warning);
+      },
+    },
+    // 현재 번들 크기는 의도적으로 큰 상태이므로, 경고 로그를 실질적으로 대응 가능한 수준으로 유지합니다.
+    chunkSizeWarningLimit: 7000,
   },
   resolve: {
     alias: {
