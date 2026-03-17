@@ -26,7 +26,7 @@ export default defineConfig(() => ({
         id: process.env.VITE_GOOGLE_ANALYTICS,
       },
     }),
-    visualizer({ open: false, filename: "stats.html" }),
+    visualizer({ open: false, filename: path.resolve(__dirname, "stats.html") }),
   ],
   server: {
     host: "0.0.0.0",
