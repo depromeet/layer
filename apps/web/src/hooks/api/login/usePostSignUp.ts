@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "@/api";
 import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/mobile/space/space.const";
 import { PATHS } from "@layer/shared";
-import { AUTH_COOKIE_OPTIONS, COOKIE_KEYS } from "@/config/storage-keys";
+import { ACCESS_TOKEN_COOKIE_OPTIONS, AUTH_COOKIE_OPTIONS, COOKIE_KEYS } from "@/config/storage-keys";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
@@ -47,7 +47,7 @@ export const usePostSignUp = () => {
     onSuccess: (data: AuthResponse) => {
       if (data) {
         Cookies.set(COOKIE_KEYS.memberId, data.memberId.toString(), AUTH_COOKIE_OPTIONS);
-        Cookies.set(COOKIE_KEYS.accessToken, data.accessToken, AUTH_COOKIE_OPTIONS);
+        Cookies.set(COOKIE_KEYS.accessToken, data.accessToken, ACCESS_TOKEN_COOKIE_OPTIONS);
         Cookies.set(COOKIE_KEYS.refreshToken, data.refreshToken, AUTH_COOKIE_OPTIONS);
         setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole, imageUrl: data.imageUrl });
         track("SIGN_UP", {

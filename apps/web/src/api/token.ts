@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import { AUTH_COOKIE_OPTIONS, COOKIE_KEYS } from "@/config/storage-keys";
+import { ACCESS_TOKEN_COOKIE_OPTIONS, AUTH_COOKIE_OPTIONS, COOKIE_KEYS } from "@/config/storage-keys";
 import { AuthResponse } from "@/types/loginType";
 
 const API_URL = import.meta.env.VITE_API_URL as string;
@@ -36,7 +36,7 @@ export async function refreshAccessToken(): Promise<AuthResponse> {
         { headers: { Refresh: refreshToken } },
       );
 
-      Cookies.set(COOKIE_KEYS.accessToken, data.accessToken, AUTH_COOKIE_OPTIONS);
+      Cookies.set(COOKIE_KEYS.accessToken, data.accessToken, ACCESS_TOKEN_COOKIE_OPTIONS);
       Cookies.set(COOKIE_KEYS.refreshToken, data.refreshToken, AUTH_COOKIE_OPTIONS);
 
       return data;
