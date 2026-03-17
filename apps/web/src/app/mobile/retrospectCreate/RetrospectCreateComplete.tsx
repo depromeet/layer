@@ -8,10 +8,10 @@ import { ButtonProvider } from "@/component/common/button";
 import { Header } from "@/component/common/header";
 import { Spacing } from "@/component/common/Spacing";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 
 export function RetrospectCreateComplete() {
-  const navigate = useTestNatigate();
+  const navigate = useTestNavigate();
   const locationState = useLocation().state as { spaceId: number; retrospectId: number; title: string; introduction: string };
   const { spaceId, retrospectId, title, introduction } = locationState;
   return (

@@ -5,12 +5,12 @@ import { Button } from "@/component/common/button";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 
 export function NotActionItemBoxData() {
-  const navigate = useTestNatigate();
+  const navigate = useTestNavigate();
 
   return (
     <div

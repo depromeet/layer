@@ -1,6 +1,10 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
 
+import { COOKIE_KEYS } from "@/config/storage-keys";
+import { clearAuthCookies, refreshAccessToken } from "@/api/token";
+import { emitAuthExpired } from "@/lib/auth-event";
+
 /** API 사용 전, ENV 파일을 통해 서버 연동 설정을 해주세요 */
 const API_URL = import.meta.env.VITE_API_URL as string;
 
@@ -30,7 +34,7 @@ const onError = (status: number, message: string, data?: ErrorResponse) => {
 
 /** request 요청 시, config 객체를 받아와 처리하는 함수 */
 const onRequest = (config: AxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
-  const token = Cookies.get("accessToken");
+  const token = Cookies.get(COOKIE_KEYS.accessToken);
   const { method, url, headers = {} } = config;
   headers.Authorization = token ? `Bearer ${token}` : "";
   logOnDev(`[API REQUEST] ${method?.toUpperCase()} ${url}`);
@@ -62,26 +66,50 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 /** 응답이 실패한 API 요청에 대한 로깅 및 에러 코드 처리를 담당하는 함수 */
-const onErrorResponse = (error: AxiosError | Error) => {
+const onErrorResponse = async (error: AxiosError | Error): Promise<never | AxiosResponse> => {
   if (axios.isAxiosError(error)) {
     const { message } = error;
     const { method, url } = error?.config as AxiosRequestConfig;
-    const { status, statusText, data } = error?.response as AxiosResponse<ErrorResponse>;
+
+    if (!error.response) {
+      logOnDev(`[API NETWORK_ERROR] ${method?.toUpperCase()} ${url} | ${message}`);
+      return Promise.reject(error);
+    }
+
+    const { status, statusText, data } = error.response as AxiosResponse<ErrorResponse>;
 
     logOnDev(`[API ERROR_RESPONSE ${status} | ${statusText} | ${message}] ${method?.toUpperCase()} ${url}`);
+
+    // 401: switch-case의 onError()가 throw하므로 switch 전에 처리
+    if (status === 401 || status === 403) {
+      // _retry 플래그를 사용 (spread 복사되므로 재시도 config에서도 유지됨)
+      const config = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+      if (config._retry) {
+        // 401이면 인증 만료 → 로그아웃
+        if (status === 401) {
+          clearAuthCookies();
+          emitAuthExpired();
+        }
+        // 403이면 권한 없음 → 로그아웃하지 않고 에러만 전파
+        return Promise.reject(error);
+      }
+      try {
+        await refreshAccessToken();
+        config._retry = true;
+        config.headers = config.headers ?? {};
+        config.headers.Authorization = `Bearer ${Cookies.get(COOKIE_KEYS.accessToken)}`;
+        return baseApi(config);
+      } catch {
+        clearAuthCookies();
+        emitAuthExpired();
+        return Promise.reject(error);
+      }
+    }
 
     switch (status) {
       case 400:
         onError(status, "잘못된 요청을 했어요", data);
         break;
-      case 401: {
-        onError(status, "인증을 실패했어요", data);
-        break;
-      }
-      case 403: {
-        onError(status, "권한이 없는 상태로 접근했어요", data);
-        break;
-      }
       case 404: {
         onError(status, "찾을 수 없는 페이지를 요청했어요", data);
         break;

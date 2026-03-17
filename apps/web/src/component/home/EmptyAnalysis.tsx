@@ -4,12 +4,12 @@ import { PATHS } from "@layer/shared";
 import { Icon } from "@/component/common/Icon";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 export function EmptyAnalysis() {
-  const navigate = useTestNatigate();
+  const navigate = useTestNavigate();
   return (
     <div
       css={css`

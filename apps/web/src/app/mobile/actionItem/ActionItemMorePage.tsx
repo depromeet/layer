@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 import { Fragment } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -19,7 +20,7 @@ import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 export function ActionItemMorePage() {
   const location = useLocation();
   const { spaceId, leaderId } = location.state as { spaceId: string; leaderId: number };
-  const memberId = Cookies.get("memberId");
+  const memberId = Cookies.get(COOKIE_KEYS.memberId);
   const { openBottomSheet } = useBottomSheet();
   const { data, isLoading, refetch } = useGetSpaceActionItemList({ spaceId: spaceId });
   const scaledData = data?.teamActionItemList.map((item) => ({

@@ -11,7 +11,7 @@ import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { useTabs } from "@/hooks/useTabs";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { EmptySpaceList } from "@/component/space/view/EmptySpaceList";
 import { useApiPostSpacesImpression } from "@/hooks/api/backoffice/useApiPostSpacesImpression";
 
@@ -25,7 +25,7 @@ const CATEGORY_NAMES = Object.keys(PROJECT_CATEGORY_MAP) as Array<keyof typeof P
 
 export function RetrospectViewPage() {
   // const navigate = useNavigate();
-  const navigate = useTestNatigate(); // TODO(prgmr99): 오탈자 확인
+  const navigate = useTestNavigate(); // TODO(prgmr99): 오탈자 확인
 
   const { mutate: postSpacesImpression } = useApiPostSpacesImpression();
 

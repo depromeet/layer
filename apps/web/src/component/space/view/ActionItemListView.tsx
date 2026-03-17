@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import { useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 import { useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -46,7 +47,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const memberId = Cookies.get("memberId");
+  const memberId = Cookies.get(COOKIE_KEYS.memberId);
   const [retrospect, setRetrospect] = useState("");
   const [retrospectId, setRetrospectId] = useState<number | undefined>(-1);
   const isLeader = memberId === String(leaderId);

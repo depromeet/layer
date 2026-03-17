@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
@@ -61,7 +62,7 @@ const saveOnboardingClosed = (memberId: string): void => {
 
 export default function Onboarding() {
   const [isVisible, setIsVisible] = useState(false);
-  const memberId = Cookies.get("memberId");
+  const memberId = Cookies.get(COOKIE_KEYS.memberId);
 
   const handleClose = () => {
     if (!memberId) return;

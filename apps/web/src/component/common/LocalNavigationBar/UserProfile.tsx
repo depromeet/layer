@@ -1,6 +1,7 @@
 import { forwardRef, useRef, useState } from "react";
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 import { useAtomValue } from "jotai";
 
 import { UserProfileDropdown } from "@/component/common/LocalNavigationBar/UserProfileDropdown";
@@ -105,7 +106,7 @@ export default function UserProfile() {
   const { mutate: signOut } = usePostSignOut();
   const { name, imageUrl } = useAtomValue(authAtom);
 
-  const memberId = Cookies.get("memberId");
+  const memberId = Cookies.get(COOKIE_KEYS.memberId);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const { open: openConfirmModal } = useModal();
