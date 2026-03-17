@@ -6,6 +6,8 @@ import path from "path";
 import dotenv from "dotenv";
 import { VitePluginRadar } from "vite-plugin-radar";
 
+import { visualizer } from "rollup-plugin-visualizer";
+
 dotenv.config();
 
 // https://vitejs.dev/config/
@@ -24,6 +26,7 @@ export default defineConfig({
         id: process.env.VITE_GOOGLE_ANALYTICS,
       },
     }),
+    visualizer({ open: true, filename: "stats.html" }),
   ],
   server: {
     host: "0.0.0.0",
@@ -37,13 +40,21 @@ export default defineConfig({
     // 현재 일부 서드파티 패키지의 sourcemap이 깨져 있어, 조치 불가능한 노이즈 경고를 필터링합니다.
     rollupOptions: {
       onwarn(warning, warn) {
-        if (
-          warning.code === "SOURCEMAP_ERROR" &&
-          warning.message.includes("Can't resolve original location of error")
-        ) {
+        if (warning.code === "SOURCEMAP_ERROR" && warning.message.includes("Can't resolve original location of error")) {
           return;
         }
         warn(warning);
+      },
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-query": ["@tanstack/react-query"],
+          "vendor-emotion": ["@emotion/react", "@emotion/styled"],
+          "vendor-motion": ["framer-motion"],
+          "vendor-dnd": ["@hello-pangea/dnd"],
+          "vendor-swiper": ["swiper"],
+          "vendor-lottie": ["lottie-react"],
+        },
       },
     },
     // 현재 번들 크기는 의도적으로 큰 상태이므로, 경고 로그를 실질적으로 대응 가능한 수준으로 유지합니다.
