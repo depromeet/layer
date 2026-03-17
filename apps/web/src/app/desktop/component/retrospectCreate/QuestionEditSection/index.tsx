@@ -17,7 +17,7 @@ import MainQuestionsHeader from "./MainQuestionsHeader";
 import MainQuestionsContents from "./MainQuestionsContents";
 import AddQuestionView from "./AddQuestionView";
 import { useModal } from "@/hooks/useModal";
-import { isEqual } from "lodash-es";
+import { isEqual } from "es-toolkit";
 
 const MAX_QUESTION_COUNT = 10;
 
