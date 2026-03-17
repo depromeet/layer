@@ -152,3 +152,6 @@ dist
 CLAUDE.md
 .claude
 .omc
+
+# visualizer
+apps/web/stats.html

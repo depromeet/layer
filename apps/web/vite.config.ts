@@ -11,7 +11,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 dotenv.config();
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => ({
+export default defineConfig(() => ({
   plugins: [
     react({
       jsxImportSource: "@emotion/react",
@@ -26,7 +26,7 @@ export default defineConfig(({ command }) => ({
         id: process.env.VITE_GOOGLE_ANALYTICS,
       },
     }),
-    command === "build" && visualizer({ open: true, filename: "stats.html" }),
+    visualizer({ open: false, filename: "stats.html" }),
   ],
   server: {
     host: "0.0.0.0",
