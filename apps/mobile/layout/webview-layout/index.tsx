@@ -62,6 +62,8 @@ export const WebViewLayout = ({ pathname, style }: WebViewLayoutProps) => {
         allowsInlineMediaPlayback
         javaScriptEnabled
         domStorageEnabled
+        sharedCookiesEnabled={true}
+        thirdPartyCookiesEnabled={true}
         mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
         bounces={false}
         source={{

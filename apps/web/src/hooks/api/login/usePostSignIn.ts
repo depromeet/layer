@@ -5,10 +5,10 @@ import Cookies from "js-cookie";
 
 import { api } from "@/api";
 import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/mobile/space/space.const";
-import { COOKIE_KEYS } from "@/config/storage-keys";
+import { ACCESS_TOKEN_COOKIE_OPTIONS, AUTH_COOKIE_OPTIONS, COOKIE_KEYS } from "@/config/storage-keys";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { authAtom } from "@/store/auth/authAtom";
 import { LoginKindType, AuthResponse } from "@/types/loginType";
 
@@ -19,7 +19,7 @@ type ErrorType = {
 
 export const usePostSignIn = () => {
   const { toast } = useToast();
-  const navigate = useTestNatigate();
+  const navigate = useTestNavigate();
   const [, setAuth] = useAtom(authAtom);
   const { mutate } = useApiJoinSpace();
 
@@ -43,9 +43,9 @@ export const usePostSignIn = () => {
     mutationFn: signInWithToken,
     onSuccess: (data: AuthResponse) => {
       if (data) {
-        Cookies.set("memberId", data.memberId.toString(), { expires: 7 });
-        Cookies.set("accessToken", data.accessToken, { expires: 7 });
-        Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
+        Cookies.set(COOKIE_KEYS.memberId, data.memberId.toString(), AUTH_COOKIE_OPTIONS);
+        Cookies.set(COOKIE_KEYS.accessToken, data.accessToken, ACCESS_TOKEN_COOKIE_OPTIONS);
+        Cookies.set(COOKIE_KEYS.refreshToken, data.refreshToken, AUTH_COOKIE_OPTIONS);
         setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole, imageUrl: data.imageUrl });
       }
 
