@@ -1,44 +1,7 @@
 import { createBrowserRouter, RouterProvider, RouteObject, Navigate } from "react-router-dom";
+import { lazy, Suspense, useEffect } from "react";
 
-import { ActionItemEditPage } from "@/app/mobile/actionItem/ActionItemEditPage";
-import { ActionItemMorePage } from "@/app/mobile/actionItem/ActionItemMorePage";
 import { Error } from "@/app/mobile/error/404";
-import { AnalysisViewPage } from "@/app/mobile/home/AnalysisViewPage";
-import { GoalViewPage } from "@/app/mobile/home/GoalViewPage";
-import { RetrospectViewPage } from "@/app/mobile/home/RetrospectViewPage";
-import { FeedbackPage } from "@/app/mobile/info/FeedBackPage";
-import { HelpPage } from "@/app/mobile/info/HelpPage";
-import { LicensePage } from "@/app/mobile/info/LicensePage";
-import { ModifyMyInfo } from "@/app/mobile/info/ModifyMyInfo";
-import { MyInfo } from "@/app/mobile/info/MyInfo";
-import { NoticePage } from "@/app/mobile/info/NoticePage";
-import { PrivacyPolicyPage } from "@/app/mobile/info/PrivacyPolicyPage";
-import { TermsOfServicePage } from "@/app/mobile/info/TermsOfServicePage";
-import { UserDeletion } from "@/app/mobile/info/UserDeletion";
-import { GoogleLoginRedirection } from "@/app/mobile/login/GoogleLoginRedirection";
-import { KakaoLoginRedirection } from "@/app/mobile/login/KakaoLoginRedirection";
-import { LoginPage } from "@/app/mobile/login/LoginPage";
-import { SetNickNamePage } from "@/app/mobile/login/SetNicknamePage";
-import { RetrospectAnalysisPage } from "@/app/mobile/retrospect/analysis/RetrospectAnalysisPage";
-import { TemplateListPage } from "@/app/mobile/retrospect/template/list/TemplateListPage";
-import { RecommendDonePage } from "@/app/mobile/retrospect/template/recommend/RecommendDonePage";
-import { RecommendSearch } from "@/app/mobile/retrospect/template/recommend/RecommendSearch";
-import { RecommendTemplatePage } from "@/app/mobile/retrospect/template/recommend/RecommendTemplatePage";
-import { RetrospectCreate } from "@/app/mobile/retrospectCreate/RetrospectCreate";
-import { RetrospectCreateComplete } from "@/app/mobile/retrospectCreate/RetrospectCreateComplete";
-import { CreateDonePage } from "@/app/mobile/space/CreateDonePage";
-import { CreateNextPage } from "@/app/mobile/space/CreateNextPage";
-import { CreateSpacePage } from "@/app/mobile/space/CreateSpacePage";
-import { SpaceEditPage } from "@/app/mobile/space/edit/SpaceEditPage";
-import { JoinSpacePage as JoinMobileSpacePage } from "@/app/mobile/space/JoinSpacePage";
-import { JoinSpacePage as JoinDesktopSpacePage } from "@/app/desktop/space/members/JoinSpacePage";
-import { MembersEditListPage } from "@/app/mobile/space/members/MembersEditListPage";
-import { MembersListPage } from "@/app/mobile/space/members/MembersListPage";
-import { SpaceViewPage } from "@/app/mobile/space/SpaceViewPage";
-import { TemplatePage } from "@/app/mobile/template/TemplatePage";
-import Staging from "@/app/test/Staging.tsx";
-import { RetrospectWriteCompletePage } from "@/app/mobile/write/RetrospectWriteCompletePage";
-import { RetrospectWritePage } from "@/app/mobile/write/RetrospectWritePage";
 
 import MobileGlobalLayout from "@/layout/MobileGlobalLayout";
 import { HomeLayout } from "@/layout/HomeLayout";
@@ -46,14 +9,159 @@ import { RequireLoginLayout } from "@/layout/RequireLoginLayout";
 import ChannelService from "@/lib/channel-talk/service";
 import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
 import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
-import DesktopLoginPage from "@/app/desktop/login/DesktopLoginPage";
-import { HomePage } from "@/app/desktop/home/HomePage";
-import RetroSpectSpacePage from "@/app/desktop/retrospectSpace/RetroSpectSpacePage";
-import DesktopSetNickNamePage from "@/app/desktop/login/DesktopSetNickNamePage";
-import AnalysisPage from "@/app/desktop/retrospect/AnalysisPage";
 import { getDeviceType, markDeviceTypeOnHtml } from "@/utils/deviceUtils";
-import RetroSpectWritePage from "@/app/desktop/retrospectWrite/RetrospectWritePage";
-import { useEffect } from "react";
+
+// 페이지 컴포넌트 lazy loading
+const lazyNamed = <T extends Record<string, any>>(
+  factory: () => Promise<T>,
+  name: keyof T,
+) => lazy(() => factory().then((m) => ({ default: m[name] as React.ComponentType<any> })));
+
+// 모바일 - 액션 아이템
+const ActionItemEditPage = lazyNamed(
+  () => import("@/app/mobile/actionItem/ActionItemEditPage"),
+  "ActionItemEditPage",
+);
+const ActionItemMorePage = lazyNamed(
+  () => import("@/app/mobile/actionItem/ActionItemMorePage"),
+  "ActionItemMorePage",
+);
+
+// 모바일 - 홈
+const AnalysisViewPage = lazyNamed(
+  () => import("@/app/mobile/home/AnalysisViewPage"),
+  "AnalysisViewPage",
+);
+const GoalViewPage = lazyNamed(() => import("@/app/mobile/home/GoalViewPage"), "GoalViewPage");
+const RetrospectViewPage = lazyNamed(
+  () => import("@/app/mobile/home/RetrospectViewPage"),
+  "RetrospectViewPage",
+);
+
+// 모바일 - 내 정보
+const FeedbackPage = lazyNamed(() => import("@/app/mobile/info/FeedBackPage"), "FeedbackPage");
+const HelpPage = lazyNamed(() => import("@/app/mobile/info/HelpPage"), "HelpPage");
+const LicensePage = lazyNamed(() => import("@/app/mobile/info/LicensePage"), "LicensePage");
+const ModifyMyInfo = lazyNamed(() => import("@/app/mobile/info/ModifyMyInfo"), "ModifyMyInfo");
+const MyInfo = lazyNamed(() => import("@/app/mobile/info/MyInfo"), "MyInfo");
+const NoticePage = lazyNamed(() => import("@/app/mobile/info/NoticePage"), "NoticePage");
+const PrivacyPolicyPage = lazyNamed(
+  () => import("@/app/mobile/info/PrivacyPolicyPage"),
+  "PrivacyPolicyPage",
+);
+const TermsOfServicePage = lazyNamed(
+  () => import("@/app/mobile/info/TermsOfServicePage"),
+  "TermsOfServicePage",
+);
+const UserDeletion = lazyNamed(() => import("@/app/mobile/info/UserDeletion"), "UserDeletion");
+
+// 모바일 - 로그인
+const GoogleLoginRedirection = lazyNamed(
+  () => import("@/app/mobile/login/GoogleLoginRedirection"),
+  "GoogleLoginRedirection",
+);
+const KakaoLoginRedirection = lazyNamed(
+  () => import("@/app/mobile/login/KakaoLoginRedirection"),
+  "KakaoLoginRedirection",
+);
+const LoginPage = lazyNamed(() => import("@/app/mobile/login/LoginPage"), "LoginPage");
+const SetNickNamePage = lazyNamed(
+  () => import("@/app/mobile/login/SetNicknamePage"),
+  "SetNickNamePage",
+);
+
+// 모바일 - 회고 분석/템플릿
+const RetrospectAnalysisPage = lazyNamed(
+  () => import("@/app/mobile/retrospect/analysis/RetrospectAnalysisPage"),
+  "RetrospectAnalysisPage",
+);
+const TemplateListPage = lazyNamed(
+  () => import("@/app/mobile/retrospect/template/list/TemplateListPage"),
+  "TemplateListPage",
+);
+const RecommendDonePage = lazyNamed(
+  () => import("@/app/mobile/retrospect/template/recommend/RecommendDonePage"),
+  "RecommendDonePage",
+);
+const RecommendSearch = lazyNamed(
+  () => import("@/app/mobile/retrospect/template/recommend/RecommendSearch"),
+  "RecommendSearch",
+);
+const RecommendTemplatePage = lazyNamed(
+  () => import("@/app/mobile/retrospect/template/recommend/RecommendTemplatePage"),
+  "RecommendTemplatePage",
+);
+
+// 모바일 - 회고 생성
+const RetrospectCreate = lazyNamed(
+  () => import("@/app/mobile/retrospectCreate/RetrospectCreate"),
+  "RetrospectCreate",
+);
+const RetrospectCreateComplete = lazyNamed(
+  () => import("@/app/mobile/retrospectCreate/RetrospectCreateComplete"),
+  "RetrospectCreateComplete",
+);
+
+// 모바일 - 스페이스
+const CreateDonePage = lazyNamed(
+  () => import("@/app/mobile/space/CreateDonePage"),
+  "CreateDonePage",
+);
+const CreateNextPage = lazyNamed(
+  () => import("@/app/mobile/space/CreateNextPage"),
+  "CreateNextPage",
+);
+const CreateSpacePage = lazyNamed(
+  () => import("@/app/mobile/space/CreateSpacePage"),
+  "CreateSpacePage",
+);
+const SpaceEditPage = lazyNamed(
+  () => import("@/app/mobile/space/edit/SpaceEditPage"),
+  "SpaceEditPage",
+);
+const JoinMobileSpacePage = lazyNamed(
+  () => import("@/app/mobile/space/JoinSpacePage"),
+  "JoinSpacePage",
+);
+const MembersEditListPage = lazyNamed(
+  () => import("@/app/mobile/space/members/MembersEditListPage"),
+  "MembersEditListPage",
+);
+const MembersListPage = lazyNamed(
+  () => import("@/app/mobile/space/members/MembersListPage"),
+  "MembersListPage",
+);
+const SpaceViewPage = lazyNamed(() => import("@/app/mobile/space/SpaceViewPage"), "SpaceViewPage");
+const TemplatePage = lazyNamed(() => import("@/app/mobile/template/TemplatePage"), "TemplatePage");
+
+// 모바일 - 회고 작성
+const RetrospectWriteCompletePage = lazyNamed(
+  () => import("@/app/mobile/write/RetrospectWriteCompletePage"),
+  "RetrospectWriteCompletePage",
+);
+const RetrospectWritePage = lazyNamed(
+  () => import("@/app/mobile/write/RetrospectWritePage"),
+  "RetrospectWritePage",
+);
+
+// 모바일 - 스테이징
+const Staging = lazy(() => import("@/app/test/Staging.tsx"));
+
+// 데스크탑 페이지
+const DesktopLoginPage = lazy(() => import("@/app/desktop/login/DesktopLoginPage"));
+const DesktopSetNickNamePage = lazy(() => import("@/app/desktop/login/DesktopSetNickNamePage"));
+const HomePage = lazyNamed(() => import("@/app/desktop/home/HomePage"), "HomePage");
+const RetroSpectSpacePage = lazy(
+  () => import("@/app/desktop/retrospectSpace/RetroSpectSpacePage"),
+);
+const AnalysisPage = lazy(() => import("@/app/desktop/retrospect/AnalysisPage"));
+const RetroSpectWritePage = lazy(
+  () => import("@/app/desktop/retrospectWrite/RetrospectWritePage"),
+);
+const JoinDesktopSpacePage = lazyNamed(
+  () => import("@/app/desktop/space/members/JoinSpacePage"),
+  "JoinSpacePage",
+);
 
 type RouteChildren = {
   auth: boolean;
@@ -62,21 +170,25 @@ type RouteChildren = {
 
 const { isDesktop } = getDeviceType();
 
+const withSuspense = (element: React.ReactNode) => <Suspense fallback={null}>{element}</Suspense>;
+
 // 공통 라우트 (모바일/데스크탑 구분 없음)
 const commonRoutes: RouteChildren[] = [
   {
     path: "api/auth/oauth2/kakao",
-    element: <KakaoLoginRedirection />,
+    element: withSuspense(<KakaoLoginRedirection />),
     auth: false,
   },
   {
     path: "api/auth/oauth2/google",
-    element: <GoogleLoginRedirection />,
+    element: withSuspense(<GoogleLoginRedirection />),
     auth: false,
   },
   {
     path: "space/join/:id",
-    element: isDesktop ? <JoinDesktopSpacePage /> : <JoinMobileSpacePage />,
+    element: isDesktop
+      ? withSuspense(<JoinDesktopSpacePage />)
+      : withSuspense(<JoinMobileSpacePage />),
     auth: false,
   },
 ];
@@ -90,15 +202,15 @@ const deviceSpecificRoutes: RouteChildren[] = [
     children: [
       {
         path: "",
-        element: <RetrospectViewPage />,
+        element: withSuspense(<RetrospectViewPage />),
       },
       {
         path: "analysis",
-        element: <AnalysisViewPage />,
+        element: withSuspense(<AnalysisViewPage />),
       },
       {
         path: "goals",
-        element: <GoalViewPage />,
+        element: withSuspense(<GoalViewPage />),
       },
     ],
     auth: true,
@@ -111,7 +223,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
     children: [
       {
         path: "",
-        element: <HomePage />,
+        element: withSuspense(<HomePage />),
       },
       {
         path: "goals",
@@ -119,15 +231,15 @@ const deviceSpecificRoutes: RouteChildren[] = [
       },
       {
         path: "space/:spaceId",
-        element: <RetroSpectSpacePage />,
+        element: withSuspense(<RetroSpectSpacePage />),
       },
       {
         path: "retrospect/analysis",
-        element: <AnalysisPage />,
+        element: withSuspense(<AnalysisPage />),
       },
       {
         path: "retrospect/write",
-        element: <RetroSpectWritePage />,
+        element: withSuspense(<RetroSpectWritePage />),
       },
     ],
     auth: true,
@@ -136,26 +248,26 @@ const deviceSpecificRoutes: RouteChildren[] = [
   // 로그인 관련
   {
     path: "login",
-    element: <LoginPage />,
+    element: withSuspense(<LoginPage />),
     auth: false,
     deviceType: "mobile",
   },
   {
     path: "login",
-    element: <DesktopLoginPage />,
+    element: withSuspense(<DesktopLoginPage />),
     auth: false,
     deviceType: "desktop",
   },
   // 회고 작성 - 모바일
   {
     path: "write",
-    element: <RetrospectWritePage />,
+    element: withSuspense(<RetrospectWritePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "write/complete",
-    element: <RetrospectWriteCompletePage />,
+    element: withSuspense(<RetrospectWriteCompletePage />),
     auth: true,
     deviceType: "mobile",
   },
@@ -163,7 +275,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
   // 템플릿 - 모바일
   {
     path: "template",
-    element: <TemplatePage />,
+    element: withSuspense(<TemplatePage />),
     auth: false,
     deviceType: "mobile",
   },
@@ -171,21 +283,21 @@ const deviceSpecificRoutes: RouteChildren[] = [
   // 스테이징 - 모바일
   {
     path: "staging",
-    element: <Staging />,
+    element: withSuspense(<Staging />),
     auth: false,
     deviceType: "mobile",
   },
   // 닉네임 설정 - 모바일
   {
     path: "setnickname/:socialType",
-    element: <SetNickNamePage />,
+    element: withSuspense(<SetNickNamePage />),
     auth: false,
     deviceType: "mobile",
   },
   // 닉네임 설정 - 데스크탑
   {
     path: "setnickname/:socialType",
-    element: <DesktopSetNickNamePage />,
+    element: withSuspense(<DesktopSetNickNamePage />),
     auth: false,
     deviceType: "desktop",
   },
@@ -193,49 +305,49 @@ const deviceSpecificRoutes: RouteChildren[] = [
   // 스페이스 관련 - 모바일
   {
     path: "space/create",
-    element: <CreateSpacePage />,
+    element: withSuspense(<CreateSpacePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "space/create/done",
-    element: <CreateDonePage />,
+    element: withSuspense(<CreateDonePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "space/create/next",
-    element: <CreateNextPage />,
+    element: withSuspense(<CreateNextPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "space/edit/:id",
-    element: <SpaceEditPage />,
+    element: withSuspense(<SpaceEditPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "space/:spaceId",
-    element: <SpaceViewPage />,
+    element: withSuspense(<SpaceViewPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "space/:spaceId/templates",
-    element: <TemplateListPage />,
+    element: withSuspense(<TemplateListPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "space/:spaceId/members",
-    element: <MembersListPage />,
+    element: withSuspense(<MembersListPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "space/:spaceId/members/edit",
-    element: <MembersEditListPage />,
+    element: withSuspense(<MembersEditListPage />),
     auth: true,
     deviceType: "mobile",
   },
@@ -243,37 +355,37 @@ const deviceSpecificRoutes: RouteChildren[] = [
   // 회고 생성 - 모바일
   {
     path: "retrospect/new",
-    element: <RetrospectCreate />,
+    element: withSuspense(<RetrospectCreate />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "retrospect/complete",
-    element: <RetrospectCreateComplete />,
+    element: withSuspense(<RetrospectCreateComplete />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "retrospect/recommend",
-    element: <RecommendTemplatePage />,
+    element: withSuspense(<RecommendTemplatePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "retrospect/recommend/search",
-    element: <RecommendSearch />,
+    element: withSuspense(<RecommendSearch />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "retrospect/recommend/done",
-    element: <RecommendDonePage />,
+    element: withSuspense(<RecommendDonePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "retrospect/analysis",
-    element: <RetrospectAnalysisPage />,
+    element: withSuspense(<RetrospectAnalysisPage />),
     auth: true,
     deviceType: "mobile",
   },
@@ -281,55 +393,55 @@ const deviceSpecificRoutes: RouteChildren[] = [
   // 내 정보 - 모바일
   {
     path: "myinfo",
-    element: <MyInfo />,
+    element: withSuspense(<MyInfo />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "myinfo/modify",
-    element: <ModifyMyInfo />,
+    element: withSuspense(<ModifyMyInfo />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "myinfo/userdeletion",
-    element: <UserDeletion />,
+    element: withSuspense(<UserDeletion />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "myinfo/notices",
-    element: <NoticePage />,
+    element: withSuspense(<NoticePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "myinfo/help",
-    element: <HelpPage />,
+    element: withSuspense(<HelpPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "myinfo/license",
-    element: <LicensePage />,
+    element: withSuspense(<LicensePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "myinfo/termsofservice",
-    element: <TermsOfServicePage />,
+    element: withSuspense(<TermsOfServicePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "myinfo/privacypolicy",
-    element: <PrivacyPolicyPage />,
+    element: withSuspense(<PrivacyPolicyPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
     path: "myinfo/feedback",
-    element: <FeedbackPage />,
+    element: withSuspense(<FeedbackPage />),
     auth: true,
     deviceType: "mobile",
   },
@@ -337,13 +449,13 @@ const deviceSpecificRoutes: RouteChildren[] = [
   // 목표/액션 아이템 - 모바일
   {
     path: "goals/more",
-    element: <ActionItemMorePage />,
+    element: withSuspense(<ActionItemMorePage />),
     auth: false,
     deviceType: "mobile",
   },
   {
     path: "goals/edit",
-    element: <ActionItemEditPage />,
+    element: withSuspense(<ActionItemEditPage />),
     auth: false,
     deviceType: "mobile",
   },
