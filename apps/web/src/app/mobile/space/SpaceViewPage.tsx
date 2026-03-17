@@ -24,7 +24,7 @@ import { useBottomSheet } from "@/hooks/useBottomSheet";
 import { useModal } from "@/hooks/useModal";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DefaultLayout } from "@/layout/DefaultLayout";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Retrospect } from "@/types/retrospect";
 import { useCollisionDetection } from "@/hooks/useCollisionDetection";
@@ -34,7 +34,7 @@ export function SpaceViewPage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const isColliding = useCollisionDetection(appbarRef, contentRef);
   const navigate = useNavigate();
-  const appNavigate = useTestNatigate();
+  const appNavigate = useTestNavigate();
   const memberId = Cookies.get(COOKIE_KEYS.memberId);
   const { spaceId } = useRequiredParams<{ spaceId: string }>();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();

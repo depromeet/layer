@@ -8,7 +8,7 @@ import { COOKIE_VALUE_SAVE_SPACE_ID_PHASE } from "@/app/mobile/space/space.const
 import { AUTH_COOKIE_OPTIONS, COOKIE_KEYS } from "@/config/storage-keys";
 import { useApiJoinSpace } from "@/hooks/api/space/useApiJoinSpace.ts";
 import { useToast } from "@/hooks/useToast";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { authAtom } from "@/store/auth/authAtom";
 import { LoginKindType, AuthResponse } from "@/types/loginType";
 
@@ -19,7 +19,7 @@ type ErrorType = {
 
 export const usePostSignIn = () => {
   const { toast } = useToast();
-  const navigate = useTestNatigate();
+  const navigate = useTestNavigate();
   const [, setAuth] = useAtom(authAtom);
   const { mutate } = useApiJoinSpace();
 

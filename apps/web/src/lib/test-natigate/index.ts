@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import { useBridge } from "@/lib/provider/bridge-provider";
 
-const useTestNatigate = () => {
+const useTestNavigate = () => {
   const { bridge } = useBridge();
   const navigate = useNavigate();
   return bridge.isWebViewBridgeAvailable && bridge?.navigate ? bridge.navigate : navigate;
 };
 
-export { useTestNatigate };
+export { useTestNavigate };

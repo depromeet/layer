@@ -5,12 +5,12 @@ import { useSetAtom } from "jotai";
 import { api } from "@/api";
 import { clearAuthCookies } from "@/api/token";
 import { useToast } from "@/hooks/useToast";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { authAtom } from "@/store/auth/authAtom";
 
 export const useDeleteUser = () => {
   const { toast } = useToast();
-  const navigate = useTestNatigate();
+  const navigate = useTestNavigate();
   const setAuth = useSetAtom(authAtom);
 
   const apiDeleteUser = async ({ memberId, booleans, description }: { memberId: string; booleans: boolean[]; description: string }) => {

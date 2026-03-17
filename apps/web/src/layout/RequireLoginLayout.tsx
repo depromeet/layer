@@ -10,7 +10,7 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { COOKIE_KEYS } from "@/config/storage-keys";
 import { onAuthExpired } from "@/lib/auth-event";
 import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { authAtom } from "@/store/auth/authAtom";
 
 type RequireLoginProps = {
@@ -21,10 +21,8 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
   const [auth, setAuth] = useAtom(authAtom);
   // auth.isLogin=true + accessToken 있으면 즉시 통과 (복원 불필요)
   // 그 외에는 복원 중 LoadingModal 표시하여 children API 호출 차단
-  const [isRestoring, setIsRestoring] = useState(
-    () => !auth.isLogin || !Cookies.get(COOKIE_KEYS.accessToken),
-  );
-  const navigate = useTestNatigate();
+  const [isRestoring, setIsRestoring] = useState(() => !auth.isLogin || !Cookies.get(COOKIE_KEYS.accessToken));
+  const navigate = useTestNavigate();
   const queryClient = useQueryClient();
   const curPath = window.location.pathname;
   const { setPeople } = useMixpanel();

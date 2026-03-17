@@ -4,11 +4,11 @@ import { useAtom } from "jotai";
 
 import { api } from "@/api";
 import { clearAuthCookies } from "@/api/token";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { authAtom } from "@/store/auth/authAtom";
 
 export const usePostSignOut = () => {
-  const navigate = useTestNatigate();
+  const navigate = useTestNavigate();
   const [, setAuth] = useAtom(authAtom);
 
   const signOutFun = async ({ memberId }: { memberId: string }) => {
