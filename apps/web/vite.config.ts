@@ -6,13 +6,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { VitePluginRadar } from "vite-plugin-radar";
 
-import { visualizer } from "rollup-plugin-visualizer";
-import { fileURLToPath } from "url";
-
 dotenv.config();
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
   plugins: [
@@ -29,7 +23,6 @@ export default defineConfig(() => ({
         id: process.env.VITE_GOOGLE_ANALYTICS,
       },
     }),
-    visualizer({ open: false, filename: path.resolve(__dirname, "stats.html") }),
   ],
   server: {
     host: "0.0.0.0",
