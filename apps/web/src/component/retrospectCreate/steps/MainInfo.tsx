@@ -40,7 +40,7 @@ export function MainInfo() {
       >
         <InputLabelContainer id="name">
           <Label>회고 명</Label>
-          <Input value={title} onChange={handleNameChange} maxLength={10} count placeholder="회고 이름을 적어주세요" />
+          <Input value={title} onChange={handleNameChange} maxLength={30} count placeholder="회고 이름을 적어주세요" />
         </InputLabelContainer>
 
         <div>
