@@ -66,7 +66,7 @@ const Tooltip = ({ children, placement = "top", delay = 200, disabled = false }:
     if (timeoutRef.current !== null) {
       clearTimeout(timeoutRef.current);
     }
-    timeoutRef.current = setTimeout(() => {
+    timeoutRef.current = window.setTimeout(() => {
       setIsOpen(true);
     }, delay);
   }, [disabled, delay]);
