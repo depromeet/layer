@@ -10,33 +10,20 @@ import ChannelService from "@/lib/channel-talk/service";
 import DesktopGlobalLayout from "@/layout/DesktopGlobalLayout";
 import DesktopHomeLayout from "@/layout/DesktopHomeLayout";
 import { getDeviceType, markDeviceTypeOnHtml } from "@/utils/deviceUtils";
+import { HomePage } from "@/app/desktop/home/HomePage";
+import { RetrospectViewPage } from "@/app/mobile/home/RetrospectViewPage";
 
 // 페이지 컴포넌트 lazy loading
-const lazyNamed = <T extends Record<string, any>>(
-  factory: () => Promise<T>,
-  name: keyof T,
-) => lazy(() => factory().then((m) => ({ default: m[name] as React.ComponentType<any> })));
+const lazyNamed = <T extends Record<string, any>>(factory: () => Promise<T>, name: keyof T) =>
+  lazy(() => factory().then((m) => ({ default: m[name] as React.ComponentType<any> })));
 
 // 모바일 - 액션 아이템
-const ActionItemEditPage = lazyNamed(
-  () => import("@/app/mobile/actionItem/ActionItemEditPage"),
-  "ActionItemEditPage",
-);
-const ActionItemMorePage = lazyNamed(
-  () => import("@/app/mobile/actionItem/ActionItemMorePage"),
-  "ActionItemMorePage",
-);
+const ActionItemEditPage = lazyNamed(() => import("@/app/mobile/actionItem/ActionItemEditPage"), "ActionItemEditPage");
+const ActionItemMorePage = lazyNamed(() => import("@/app/mobile/actionItem/ActionItemMorePage"), "ActionItemMorePage");
 
 // 모바일 - 홈
-const AnalysisViewPage = lazyNamed(
-  () => import("@/app/mobile/home/AnalysisViewPage"),
-  "AnalysisViewPage",
-);
+const AnalysisViewPage = lazyNamed(() => import("@/app/mobile/home/AnalysisViewPage"), "AnalysisViewPage");
 const GoalViewPage = lazyNamed(() => import("@/app/mobile/home/GoalViewPage"), "GoalViewPage");
-const RetrospectViewPage = lazyNamed(
-  () => import("@/app/mobile/home/RetrospectViewPage"),
-  "RetrospectViewPage",
-);
 
 // 모바일 - 내 정보
 const FeedbackPage = lazyNamed(() => import("@/app/mobile/info/FeedBackPage"), "FeedbackPage");
@@ -45,104 +32,41 @@ const LicensePage = lazyNamed(() => import("@/app/mobile/info/LicensePage"), "Li
 const ModifyMyInfo = lazyNamed(() => import("@/app/mobile/info/ModifyMyInfo"), "ModifyMyInfo");
 const MyInfo = lazyNamed(() => import("@/app/mobile/info/MyInfo"), "MyInfo");
 const NoticePage = lazyNamed(() => import("@/app/mobile/info/NoticePage"), "NoticePage");
-const PrivacyPolicyPage = lazyNamed(
-  () => import("@/app/mobile/info/PrivacyPolicyPage"),
-  "PrivacyPolicyPage",
-);
-const TermsOfServicePage = lazyNamed(
-  () => import("@/app/mobile/info/TermsOfServicePage"),
-  "TermsOfServicePage",
-);
+const PrivacyPolicyPage = lazyNamed(() => import("@/app/mobile/info/PrivacyPolicyPage"), "PrivacyPolicyPage");
+const TermsOfServicePage = lazyNamed(() => import("@/app/mobile/info/TermsOfServicePage"), "TermsOfServicePage");
 const UserDeletion = lazyNamed(() => import("@/app/mobile/info/UserDeletion"), "UserDeletion");
 
 // 모바일 - 로그인
-const GoogleLoginRedirection = lazyNamed(
-  () => import("@/app/mobile/login/GoogleLoginRedirection"),
-  "GoogleLoginRedirection",
-);
-const KakaoLoginRedirection = lazyNamed(
-  () => import("@/app/mobile/login/KakaoLoginRedirection"),
-  "KakaoLoginRedirection",
-);
+const GoogleLoginRedirection = lazyNamed(() => import("@/app/mobile/login/GoogleLoginRedirection"), "GoogleLoginRedirection");
+const KakaoLoginRedirection = lazyNamed(() => import("@/app/mobile/login/KakaoLoginRedirection"), "KakaoLoginRedirection");
 const LoginPage = lazyNamed(() => import("@/app/mobile/login/LoginPage"), "LoginPage");
-const SetNickNamePage = lazyNamed(
-  () => import("@/app/mobile/login/SetNicknamePage"),
-  "SetNickNamePage",
-);
+const SetNickNamePage = lazyNamed(() => import("@/app/mobile/login/SetNicknamePage"), "SetNickNamePage");
 
 // 모바일 - 회고 분석/템플릿
-const RetrospectAnalysisPage = lazyNamed(
-  () => import("@/app/mobile/retrospect/analysis/RetrospectAnalysisPage"),
-  "RetrospectAnalysisPage",
-);
-const TemplateListPage = lazyNamed(
-  () => import("@/app/mobile/retrospect/template/list/TemplateListPage"),
-  "TemplateListPage",
-);
-const RecommendDonePage = lazyNamed(
-  () => import("@/app/mobile/retrospect/template/recommend/RecommendDonePage"),
-  "RecommendDonePage",
-);
-const RecommendSearch = lazyNamed(
-  () => import("@/app/mobile/retrospect/template/recommend/RecommendSearch"),
-  "RecommendSearch",
-);
-const RecommendTemplatePage = lazyNamed(
-  () => import("@/app/mobile/retrospect/template/recommend/RecommendTemplatePage"),
-  "RecommendTemplatePage",
-);
+const RetrospectAnalysisPage = lazyNamed(() => import("@/app/mobile/retrospect/analysis/RetrospectAnalysisPage"), "RetrospectAnalysisPage");
+const TemplateListPage = lazyNamed(() => import("@/app/mobile/retrospect/template/list/TemplateListPage"), "TemplateListPage");
+const RecommendDonePage = lazyNamed(() => import("@/app/mobile/retrospect/template/recommend/RecommendDonePage"), "RecommendDonePage");
+const RecommendSearch = lazyNamed(() => import("@/app/mobile/retrospect/template/recommend/RecommendSearch"), "RecommendSearch");
+const RecommendTemplatePage = lazyNamed(() => import("@/app/mobile/retrospect/template/recommend/RecommendTemplatePage"), "RecommendTemplatePage");
 
 // 모바일 - 회고 생성
-const RetrospectCreate = lazyNamed(
-  () => import("@/app/mobile/retrospectCreate/RetrospectCreate"),
-  "RetrospectCreate",
-);
-const RetrospectCreateComplete = lazyNamed(
-  () => import("@/app/mobile/retrospectCreate/RetrospectCreateComplete"),
-  "RetrospectCreateComplete",
-);
+const RetrospectCreate = lazyNamed(() => import("@/app/mobile/retrospectCreate/RetrospectCreate"), "RetrospectCreate");
+const RetrospectCreateComplete = lazyNamed(() => import("@/app/mobile/retrospectCreate/RetrospectCreateComplete"), "RetrospectCreateComplete");
 
 // 모바일 - 스페이스
-const CreateDonePage = lazyNamed(
-  () => import("@/app/mobile/space/CreateDonePage"),
-  "CreateDonePage",
-);
-const CreateNextPage = lazyNamed(
-  () => import("@/app/mobile/space/CreateNextPage"),
-  "CreateNextPage",
-);
-const CreateSpacePage = lazyNamed(
-  () => import("@/app/mobile/space/CreateSpacePage"),
-  "CreateSpacePage",
-);
-const SpaceEditPage = lazyNamed(
-  () => import("@/app/mobile/space/edit/SpaceEditPage"),
-  "SpaceEditPage",
-);
-const JoinMobileSpacePage = lazyNamed(
-  () => import("@/app/mobile/space/JoinSpacePage"),
-  "JoinSpacePage",
-);
-const MembersEditListPage = lazyNamed(
-  () => import("@/app/mobile/space/members/MembersEditListPage"),
-  "MembersEditListPage",
-);
-const MembersListPage = lazyNamed(
-  () => import("@/app/mobile/space/members/MembersListPage"),
-  "MembersListPage",
-);
+const CreateDonePage = lazyNamed(() => import("@/app/mobile/space/CreateDonePage"), "CreateDonePage");
+const CreateNextPage = lazyNamed(() => import("@/app/mobile/space/CreateNextPage"), "CreateNextPage");
+const CreateSpacePage = lazyNamed(() => import("@/app/mobile/space/CreateSpacePage"), "CreateSpacePage");
+const SpaceEditPage = lazyNamed(() => import("@/app/mobile/space/edit/SpaceEditPage"), "SpaceEditPage");
+const JoinMobileSpacePage = lazyNamed(() => import("@/app/mobile/space/JoinSpacePage"), "JoinSpacePage");
+const MembersEditListPage = lazyNamed(() => import("@/app/mobile/space/members/MembersEditListPage"), "MembersEditListPage");
+const MembersListPage = lazyNamed(() => import("@/app/mobile/space/members/MembersListPage"), "MembersListPage");
 const SpaceViewPage = lazyNamed(() => import("@/app/mobile/space/SpaceViewPage"), "SpaceViewPage");
 const TemplatePage = lazyNamed(() => import("@/app/mobile/template/TemplatePage"), "TemplatePage");
 
 // 모바일 - 회고 작성
-const RetrospectWriteCompletePage = lazyNamed(
-  () => import("@/app/mobile/write/RetrospectWriteCompletePage"),
-  "RetrospectWriteCompletePage",
-);
-const RetrospectWritePage = lazyNamed(
-  () => import("@/app/mobile/write/RetrospectWritePage"),
-  "RetrospectWritePage",
-);
+const RetrospectWriteCompletePage = lazyNamed(() => import("@/app/mobile/write/RetrospectWriteCompletePage"), "RetrospectWriteCompletePage");
+const RetrospectWritePage = lazyNamed(() => import("@/app/mobile/write/RetrospectWritePage"), "RetrospectWritePage");
 
 // 모바일 - 스테이징
 const Staging = lazy(() => import("@/app/test/Staging.tsx"));
@@ -150,18 +74,10 @@ const Staging = lazy(() => import("@/app/test/Staging.tsx"));
 // 데스크탑 페이지
 const DesktopLoginPage = lazy(() => import("@/app/desktop/login/DesktopLoginPage"));
 const DesktopSetNickNamePage = lazy(() => import("@/app/desktop/login/DesktopSetNickNamePage"));
-const HomePage = lazyNamed(() => import("@/app/desktop/home/HomePage"), "HomePage");
-const RetroSpectSpacePage = lazy(
-  () => import("@/app/desktop/retrospectSpace/RetroSpectSpacePage"),
-);
+const RetroSpectSpacePage = lazy(() => import("@/app/desktop/retrospectSpace/RetroSpectSpacePage"));
 const AnalysisPage = lazy(() => import("@/app/desktop/retrospect/AnalysisPage"));
-const RetroSpectWritePage = lazy(
-  () => import("@/app/desktop/retrospectWrite/RetrospectWritePage"),
-);
-const JoinDesktopSpacePage = lazyNamed(
-  () => import("@/app/desktop/space/members/JoinSpacePage"),
-  "JoinSpacePage",
-);
+const RetroSpectWritePage = lazy(() => import("@/app/desktop/retrospectWrite/RetrospectWritePage"));
+const JoinDesktopSpacePage = lazyNamed(() => import("@/app/desktop/space/members/JoinSpacePage"), "JoinSpacePage");
 
 type RouteChildren = {
   auth: boolean;
@@ -186,9 +102,7 @@ const commonRoutes: RouteChildren[] = [
   },
   {
     path: "space/join/:id",
-    element: isDesktop
-      ? withSuspense(<JoinDesktopSpacePage />)
-      : withSuspense(<JoinMobileSpacePage />),
+    element: isDesktop ? withSuspense(<JoinDesktopSpacePage />) : withSuspense(<JoinMobileSpacePage />),
     auth: false,
   },
 ];
@@ -202,7 +116,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
     children: [
       {
         path: "",
-        element: withSuspense(<RetrospectViewPage />),
+        element: <RetrospectViewPage />,
       },
       {
         path: "analysis",
@@ -223,7 +137,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
     children: [
       {
         path: "",
-        element: withSuspense(<HomePage />),
+        element: <HomePage />,
       },
       {
         path: "goals",
