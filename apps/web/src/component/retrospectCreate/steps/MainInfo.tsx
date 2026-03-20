@@ -49,7 +49,7 @@ export function MainInfo() {
             <TextArea
               value={introduction}
               onChange={handleDescriptionChange}
-              maxLength={20}
+              maxLength={50}
               count
               placeholder="회고에 대한 한 줄 설명을 적어주세요"
             />

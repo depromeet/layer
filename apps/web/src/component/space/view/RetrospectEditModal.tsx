@@ -80,7 +80,7 @@ export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, isAna
                 onChange={handleIntroductionChange}
                 placeholder="회고에 대한 한 줄 설명을 적어주세요"
                 count
-                maxLength={20}
+                maxLength={50}
               />
             </InputLabelContainer>
             {!isAnalyzed ? (
