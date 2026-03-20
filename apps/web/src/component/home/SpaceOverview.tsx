@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 
 import spaceDefaultImg from "@/assets/imgs/space/spaceDefaultImg.png";
 import { Typography } from "@/component/common/typography";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 import { Space } from "@/types/spaceType";
@@ -17,7 +17,7 @@ type SpaceOverviewProps = {
 
 const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
   ({ space: { id, bannerUrl, name, introduction, memberCount, proceedingRetrospectCount, retrospectCount } }, ref) => {
-    const navigate = useTestNatigate();
+    const navigate = useTestNavigate();
     const { mutate: postSpacesClick } = useApiPostSpacesClick();
 
     return (

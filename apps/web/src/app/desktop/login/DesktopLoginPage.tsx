@@ -9,7 +9,10 @@ import { css } from "@emotion/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Typography } from "@/component/common/typography";
 import * as OnBoardingImage from "@/assets/imgs/onboarding";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 
 const ONBOARDING_SLIDES = [
   {
@@ -116,6 +119,15 @@ function SwiperSlideOnboardingImage({
 
 export default function DesktopLoginPage() {
   const [phase, setPhase] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const accessToken = Cookies.get(COOKIE_KEYS.accessToken);
+    const refreshToken = Cookies.get(COOKIE_KEYS.refreshToken);
+    if (accessToken || refreshToken) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
 
   return (
     <main

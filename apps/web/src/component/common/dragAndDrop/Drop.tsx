@@ -1,4 +1,4 @@
-import { Droppable, DroppableProps } from "react-beautiful-dnd";
+import { Droppable, DroppableProps } from "@hello-pangea/dnd";
 
 type DropProps = {
   droppableId: string;

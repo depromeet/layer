@@ -13,7 +13,7 @@ import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
 import { useApiUploadImage } from "@/hooks/api/space/useApiUploadImage";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { useBridge } from "@/lib/provider/bridge-provider";
-import { useTestNatigate } from "@/lib/test-natigate";
+import { useTestNavigate } from "@/lib/test-natigate";
 import { spaceState } from "@/store/space/spaceAtom";
 import { SpaceValue } from "@/types/space";
 
@@ -21,7 +21,7 @@ const LAST_PAGE = 4;
 
 export function CreateSpace() {
   // const navigate = useNavigate();
-  const navigate = useTestNatigate();
+  const navigate = useTestNavigate();
   const [spaceValue, setSpaceValue] = useAtom(spaceState);
   const { mutate, isPending } = useApiPostSpace();
   const { bridge } = useBridge();

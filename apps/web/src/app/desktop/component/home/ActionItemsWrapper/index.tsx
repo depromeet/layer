@@ -3,6 +3,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import ActionItemBox from "../ActionItemBox";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -16,7 +17,7 @@ import { Spacing } from "@/component/common/Spacing";
 
 export default function ActionItemsWrapper() {
   // * 본인 memberId 가져오기
-  const memberId = Cookies.get("memberId");
+  const memberId = Cookies.get(COOKIE_KEYS.memberId);
 
   // * 실행목표 리스트 요청
   const { data: myActionItems, isPending: isMyActionItemsPending } = useGetActionItemList({

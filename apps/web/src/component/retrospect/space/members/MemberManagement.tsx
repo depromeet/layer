@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 import { MemberManagementButton } from "./MemberManagementButton";
 import { MemberManagementDropdown } from "./MemberManagementDropdown";
 import { MemberManagementHeader } from "./MemberManagementHeader";
@@ -27,7 +28,7 @@ export default function MemberManagement({ spaceId }: { spaceId: string }) {
       ...member,
       id: Number(member.id),
     })) || [];
-  const memberId = Number(Cookies.get("memberId"));
+  const memberId = Number(Cookies.get(COOKIE_KEYS.memberId));
   const isCurrentUserLeader = members?.find((m) => m.id === memberId)?.isLeader || false;
   const memberCount = spaceInfo?.memberCount || 0;
 

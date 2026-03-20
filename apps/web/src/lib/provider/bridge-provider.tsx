@@ -1,13 +1,26 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { type AppBridge } from "@layer/mobile";
+import { Path } from "@layer/shared";
 import { useQuery } from "@tanstack/react-query";
-import { linkBridge } from "@webview-bridge/web";
+import { type BridgeStore, linkBridge } from "@webview-bridge/web";
 import { PropsWithChildren, useRef } from "react";
 
 import { createContext } from "@/lib/create-context";
 
 const BRIDGE_PROVIER = "BRIDGE_PROVIER";
+
+type AppBridgeState = {
+  getSafeAreaHeight: () => Promise<number>;
+  checkWebview: () => Promise<boolean>;
+  sendBGColor: (color: string) => Promise<void>;
+  setSuspenseState: (state: { loading: boolean; message?: string }) => Promise<void>;
+  sendShareToKakao: (template: unknown) => Promise<void>;
+  navigate: <T extends Path | -1>(
+    path: T,
+    options?: T extends Path ? { type?: "PUSH" | "REPLACE" } : { route?: Path }
+  ) => Promise<void>;
+};
+type AppBridge = BridgeStore<AppBridgeState>;
 
 const bridge = linkBridge<AppBridge>();
 

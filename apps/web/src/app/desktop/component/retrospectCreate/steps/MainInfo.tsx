@@ -29,14 +29,14 @@ export function MainInfo() {
 
       <InputLabelContainer id="name">
         <Label>회고 이름</Label>
-        <Input value={title} onChange={handleNameChange} maxLength={10} count placeholder="회고 이름을 적어주세요" />
+        <Input value={title} onChange={handleNameChange} maxLength={30} count placeholder="회고 이름을 적어주세요" />
       </InputLabelContainer>
 
       <Spacing size={4} />
 
       <InputLabelContainer id="name">
         <Label>한 줄 설명</Label>
-        <TextArea value={introduction} onChange={handleDescriptionChange} maxLength={20} count placeholder="회고에 대한 한 줄 설명을 적어주세요" />
+        <TextArea value={introduction} onChange={handleDescriptionChange} maxLength={50} count placeholder="회고에 대한 한 줄 설명을 적어주세요" />
       </InputLabelContainer>
 
       <TipCard

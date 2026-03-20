@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import Cookies from "js-cookie";
+import { COOKIE_KEYS } from "@/config/storage-keys";
 import { Fragment } from "react";
 
 import { status } from "@/component/ActionItem/actionItem.const.ts";
@@ -17,7 +18,7 @@ import { formatOnlyDate } from "@/utils/date";
 
 export function GoalViewPage() {
   const { tabs, curTab, selectTab } = useTabs(["실행중", "지난"] as const);
-  const memberId = Cookies.get("memberId");
+  const memberId = Cookies.get(COOKIE_KEYS.memberId);
   const { data, isLoading } = useGetActionItemList({ memberId: memberId as string });
   const filteredItems = data?.actionItems?.filter(
     (item) => (curTab === tabs[0] && item.status === status[0]) || (curTab === tabs[1] && item.status === status[1]),

@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { PropsWithChildren } from "react";
-import { DraggableStateSnapshot } from "react-beautiful-dnd";
+import { DraggableStateSnapshot } from "@hello-pangea/dnd";
 
 import { Typography } from "@/component/common/typography";
 import { OrderLabel } from "@/component/retrospectCreate";

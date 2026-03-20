@@ -137,7 +137,7 @@ export default function App() {
           <SuspenseProvider>
             <Stack
               screenOptions={{ headerShown: false }}
-              initialRouteName="login"
+              initialRouteName="(tabs)"
             >
               <Stack.Screen name="index" />
               <Stack.Screen name="login" />
