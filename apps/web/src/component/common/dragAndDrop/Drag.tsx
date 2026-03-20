@@ -1,5 +1,5 @@
 import { Children, cloneElement, isValidElement } from "react";
-import { Draggable, DraggableProps } from "react-beautiful-dnd";
+import { Draggable, DraggableProps } from "@hello-pangea/dnd";
 
 type DragProps = {
   children: React.ReactNode;

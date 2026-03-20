@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useSetAtom } from "jotai";
 import { useContext, useMemo, useState, useRef, useEffect } from "react";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext } from "@hello-pangea/dnd";
 
 import { REQUIRED_QUESTIONS } from "./questions.const";
 
