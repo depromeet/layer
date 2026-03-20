@@ -59,11 +59,11 @@ const Tooltip = ({ children, placement = "top", delay = 200, disabled = false }:
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<number>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const open = useCallback(() => {
     if (disabled) return;
-    if (timeoutRef.current) {
+    if (timeoutRef.current !== null) {
       clearTimeout(timeoutRef.current);
     }
     timeoutRef.current = setTimeout(() => {
@@ -72,7 +72,7 @@ const Tooltip = ({ children, placement = "top", delay = 200, disabled = false }:
   }, [disabled, delay]);
 
   const close = useCallback(() => {
-    if (timeoutRef.current) {
+    if (timeoutRef.current !== null) {
       clearTimeout(timeoutRef.current);
     }
     setIsOpen(false);
@@ -90,7 +90,7 @@ const Tooltip = ({ children, placement = "top", delay = 200, disabled = false }:
 
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) {
+      if (timeoutRef.current !== null) {
         clearTimeout(timeoutRef.current);
       }
     };
