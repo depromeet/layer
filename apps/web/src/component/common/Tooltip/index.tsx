@@ -59,7 +59,7 @@ const Tooltip = ({ children, placement = "top", delay = 200, disabled = false }:
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeoutRef = useRef<number | null>(null);
 
   const open = useCallback(() => {
     if (disabled) return;
