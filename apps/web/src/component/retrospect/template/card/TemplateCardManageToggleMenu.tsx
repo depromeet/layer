@@ -250,7 +250,7 @@ export function ModifyRetrospect(props: {
       <Spacing size={2} />
       <InputLabelContainer id="title">
         <Label>회고 명</Label>
-        <Input name="title" value={title} onChange={handleChangeTitle} maxLength={10} count placeholder="회고 이름을 적어주세요" />
+        <Input name="title" value={title} onChange={handleChangeTitle} maxLength={30} count placeholder="회고 이름을 적어주세요" />
       </InputLabelContainer>
       <Spacing size={3} />
       <InputLabelContainer id="introduction">
@@ -259,7 +259,7 @@ export function ModifyRetrospect(props: {
           name="introduction"
           value={introduction}
           onChange={handleChangeIntroduction}
-          maxLength={20}
+          maxLength={50}
           count
           placeholder="회고에 대한 한 줄 설명을 적어주세요"
         />

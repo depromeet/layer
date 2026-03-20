@@ -71,7 +71,7 @@ export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, isAna
           >
             <InputLabelContainer id={`retro-title-${retrospectId}`}>
               <Label>회고 명</Label>
-              <Input value={title} onChange={handleTitleChange} count maxLength={10} />
+              <Input value={title} onChange={handleTitleChange} count maxLength={30} />
             </InputLabelContainer>
             <InputLabelContainer id={`retro-intro-${retrospectId}`}>
               <Label>한 줄 설명</Label>
@@ -80,7 +80,7 @@ export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, isAna
                 onChange={handleIntroductionChange}
                 placeholder="회고에 대한 한 줄 설명을 적어주세요"
                 count
-                maxLength={20}
+                maxLength={50}
               />
             </InputLabelContainer>
             {!isAnalyzed ? (
