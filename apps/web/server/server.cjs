@@ -31,63 +31,119 @@ function decryptId(encryptedId) {
   return decrypted.toString(CryptoJS.enc.Utf8);
 }
 
+/**
+ * Injects SEO meta tags into HTML using Cheerio.
+ * Adds data-rh="true" for react-helmet-async compatibility.
+ */
+function injectMeta(html, { title, description, image, url }) {
+  const $ = cheerio.load(html);
+
+  $('title').text(title);
+  $('meta[name="description"]').attr('content', description).attr('data-rh', 'true');
+  $('meta[property="og:title"]').attr('content', title).attr('data-rh', 'true');
+  $('meta[property="og:description"]').attr('content', description).attr('data-rh', 'true');
+  $('meta[property="og:url"]').attr('content', url).attr('data-rh', 'true');
+  if (image) {
+    $('meta[property="og:image"]').attr('content', image).attr('data-rh', 'true');
+  }
+  $('meta[name="twitter:title"]').attr('content', title).attr('data-rh', 'true');
+  $('meta[name="twitter:description"]').attr('content', description).attr('data-rh', 'true');
+  if (image) {
+    $('meta[name="twitter:image"]').attr('content', image).attr('data-rh', 'true');
+  }
+
+  // Dynamic canonical URL injection
+  $('head').append(`<link rel="canonical" href="${url}" data-rh="true" />`);
+
+  return $.html();
+}
+
+const BASE_URL = "https://layerapp.io";
+
+const STATIC_ROUTE_META = {
+  "/": {
+    title: "성장하는 당신을 위한 회고 서비스, Layer",
+    description: "편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!",
+  },
+  "/login": {
+    title: "로그인 | Layer",
+    description: "카카오, 구글 계정으로 간편하게 Layer에 로그인하세요.",
+  },
+  "/m/template": {
+    title: "회고 템플릿 모음 | Layer",
+    description: "KPT, 5F, Mad Sad Glad 등 다양한 회고 양식을 제공합니다.",
+  },
+};
+
+const DEFAULT_META = {
+  title: "성장하는 당신을 위한 회고 서비스, Layer",
+  description: "편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!",
+};
+
+function readIndexHtml() {
+  const filePath = path.join(distPath, "index.html");
+  return fs.readFileSync(filePath, "utf8");
+}
+
+function getCanonicalUrl(reqPath) {
+  const canonicalPath = reqPath.replace(/^\/desktop/, '') || '/';
+  return `${BASE_URL}${canonicalPath}`;
+}
+
 app.get("/space/join/:id", async (req, res) => {
   const encryptedId = req.params.id;
-  const filePath = path.join(distPath, "index.html"); // dist 경로에 있는 index.html 사용
   let html;
 
-  // 1. HTML 파일 읽기
   try {
-    console.log(`Reading HTML file from ${filePath}`);
-    html = fs.readFileSync(filePath, "utf8");
+    html = readIndexHtml();
   } catch (err) {
     console.error("Failed to read index.html:", err);
     return res.status(500).send("Error loading the page.");
   }
 
-  let leaderName, teamName;
-  console.log("VITE_API_URL:", process.env.VITE_API_URL);
-  console.log(`Decoded ID: ${encryptedId}`);
-
   try {
     const decryptedId = decryptId(encryptedId);
     const apiResponse = await axios.get(`${process.env.VITE_API_URL}/api/space/public/${decryptedId}`);
     const spaceData = apiResponse.data;
-    console.log("Space Data:", spaceData);
 
-    leaderName = spaceData?.leader?.name;
-    teamName = spaceData?.name;
+    const leaderName = spaceData?.leader?.name;
+    const teamName = spaceData?.name;
 
     if (!leaderName || !teamName) {
       throw new Error("Missing leaderName or teamName from API response.");
     }
+
+    const result = injectMeta(html, {
+      title: `${leaderName}님의 회고 초대장`,
+      description: `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`,
+      image: "https://kr.object.ncloudstorage.com/layer-bucket/retrospectOG.png",
+      url: getCanonicalUrl(req.path),
+    });
+
+    res.send(result);
   } catch (err) {
-    console.error("Error fetching space data:", err.message);
+    console.error("Error processing space join page:", err.message);
     return res.status(500).send("Failed to fetch space data.");
-  }
-
-  try {
-    const $ = cheerio.load(html);
-
-    $('title').text(`${leaderName}님의 회고 초대장`);
-    $('meta[name="description"]').attr('content', `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`);
-    $('meta[property="og:title"]').attr('content', `${leaderName}님의 회고 초대장`);
-    $('meta[property="og:description"]').attr('content', `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`);
-    $('meta[property="og:image"]').attr('content', 'https://kr.object.ncloudstorage.com/layer-bucket/retrospectOG.png');
-    $('meta[name="twitter:title"]').attr('content', `${leaderName}님의 회고 초대장`);
-    $('meta[name="twitter:description"]').attr('content', `함께 회고해요! ${leaderName}님이 ${teamName} 스페이스에 초대했어요.`);
-    $('meta[name="twitter:image"]').attr('content', 'https://kr.object.ncloudstorage.com/layer-bucket/retrospectOG.png');
-
-    res.send($.html());
-  } catch (err) {
-    console.error("Error manipulating HTML:", err);
-    return res.status(500).send("Error processing HTML.");
   }
 });
 
 app.get("*", (req, res) => {
-  const filePath = path.join(distPath, "index.html");
-  res.sendFile(filePath);
+  try {
+    const html = readIndexHtml();
+    const canonicalUrl = getCanonicalUrl(req.path);
+    const routeMeta = STATIC_ROUTE_META[req.path] || DEFAULT_META;
+
+    const result = injectMeta(html, {
+      ...routeMeta,
+      url: canonicalUrl,
+    });
+
+    res.send(result);
+  } catch (err) {
+    console.error("Error serving page:", err);
+    const filePath = path.join(distPath, "index.html");
+    res.sendFile(filePath);
+  }
 });
 
 app.listen(3000, () => {
