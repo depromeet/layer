@@ -71,10 +71,9 @@ export default defineConfig(() => ({
         // 프리캐시: Vite 빌드 결과물 자동 수집 (sourcemap 제외)
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff,woff2}"],
         globIgnores: ["**/*.map"],
-        // 번들이 의도적으로 크게 설정되어 있으므로 한도를 높여 주요 청크가 프리캐시에 포함되도록 설정
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         runtimeCaching: [
-          // CDN 폰트: 1년 캐시
+          // * CDN 폰트: 1년 캐시
           {
             urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
             handler: "CacheFirst",
@@ -89,7 +88,8 @@ export default defineConfig(() => ({
               },
             },
           },
-          // NCloud 오브젝트 스토리지 이미지: 30일 캐시
+          // * NCloud 오브젝트 스토리지 이미지: 1년 캐시
+          // * 회고 공유 사진 및 일러스트 이미지에 사용되고 있음
           {
             urlPattern: /^https:\/\/kr\.object\.ncloudstorage\.com\/.*/i,
             handler: "CacheFirst",
@@ -97,14 +97,14 @@ export default defineConfig(() => ({
               cacheName: "ncloud-images",
               expiration: {
                 maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 30,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
               },
               cacheableResponse: {
                 statuses: [0, 200],
               },
             },
           },
-          // API 요청: 네트워크 우선, 오프라인 시 캐시 (개인 데이터 제외)
+          // * API 요청: 네트워크 우선, 오프라인 시 캐시 (개인 데이터 제외)
           {
             urlPattern: /^https:\/\/.*\/api\/.*/i,
             handler: "NetworkOnly",
