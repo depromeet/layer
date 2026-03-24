@@ -5,6 +5,7 @@ import svgr from "vite-plugin-svgr";
 import path from "path";
 import dotenv from "dotenv";
 import { VitePluginRadar } from "vite-plugin-radar";
+import { VitePWA } from "vite-plugin-pwa";
 
 dotenv.config();
 // https://vitejs.dev/config/
@@ -19,8 +20,100 @@ export default defineConfig(() => ({
     svgr(),
     Sitemap({ hostname: "https://layerapp.io" }),
     VitePluginRadar({
-      analytics: {
-        id: process.env.VITE_GOOGLE_ANALYTICS,
+      analytics: process.env.VITE_GOOGLE_ANALYTICS ? { id: process.env.VITE_GOOGLE_ANALYTICS } : undefined,
+    }),
+    VitePWA({
+      registerType: "autoUpdate",
+      // useRegisterSW 훅으로 직접 등록하므로 자동 주입 비활성화
+      injectRegister: null,
+      includeAssets: ["favicon.ico", "white_layer.svg", "apple-touch-icon-180x180.png", "robots.txt"],
+      manifest: {
+        name: "성장하는 당신을 위한 회고 서비스, Layer",
+        short_name: "Layer",
+        description: "편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        display: "standalone",
+        orientation: "portrait",
+        scope: "/",
+        start_url: "/",
+        lang: "ko",
+        icons: [
+          {
+            src: "pwa-64x64.png",
+            sizes: "64x64",
+            type: "image/png",
+          },
+          {
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any",
+          },
+          {
+            src: "maskable-icon-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
+          },
+        ],
+      },
+      workbox: {
+        // SPA 라우팅: 모든 navigate 요청을 index.html로 fallback
+        navigateFallback: "index.html",
+        // API 요청은 서비스 워커에서 제외 (인증 데이터 캐싱 방지)
+        navigateFallbackDenylist: [/^\/api\//, /^\/oauth2\//, /^\/__/],
+        // 프리캐시: Vite 빌드 결과물 자동 수집 (sourcemap 제외)
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff,woff2}"],
+        globIgnores: ["**/*.map"],
+        // 번들이 의도적으로 크게 설정되어 있으므로 한도를 높여 주요 청크가 프리캐시에 포함되도록 설정
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+        runtimeCaching: [
+          // CDN 폰트: 1년 캐시
+          {
+            urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "cdn-fonts",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          // NCloud 오브젝트 스토리지 이미지: 30일 캐시
+          {
+            urlPattern: /^https:\/\/kr\.object\.ncloudstorage\.com\/.*/i,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "ncloud-images",
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 30,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          // API 요청: 네트워크 우선, 오프라인 시 캐시 (개인 데이터 제외)
+          {
+            urlPattern: /^https:\/\/.*\/api\/.*/i,
+            handler: "NetworkOnly",
+          },
+        ],
+      },
+      devOptions: {
+        enabled: true,
+        type: "module",
       },
     }),
   ],
