@@ -1,6 +1,6 @@
 {
   "name": "layer",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "private": true,
   "scripts": {
     "web": "pnpm -F @layer/web",
@@ -9,7 +9,10 @@
     "lint": "pnpm -r --parallel run lint",
     "build": "pnpm -r --parallel run build",
     "build:app": "pnpm build --filter=\"...{./apps/app}\"",
-    "build:web": "pnpm build --filter=\"...{./apps/web}\""
+    "build:web": "pnpm build --filter=\"...{./apps/web}\"",
+    "version:patch": "lerna version patch --no-git-tag-version",
+    "version:minor": "lerna version minor --no-git-tag-version",
+    "version:major": "lerna version major --no-git-tag-version"
   },
   "pnpm": {
     "peerDependencyRules": {
