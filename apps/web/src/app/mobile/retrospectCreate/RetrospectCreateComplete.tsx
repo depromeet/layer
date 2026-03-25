@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { PATHS } from "@layer/shared";
 import Lottie from "lottie-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import retrospect_create_complete_lottie from "@/assets/lottie/retropsect/create/book_start.json";
 import { ButtonProvider } from "@/component/common/button";
@@ -11,8 +11,7 @@ import { DefaultLayout } from "@/layout/DefaultLayout";
 import { useTestNavigate } from "@/lib/test-natigate";
 
 export function RetrospectCreateComplete() {
-  const testNavigate = useTestNavigate();
-  const navigate = useNavigate();
+  const navigate = useTestNavigate();
   const locationState = useLocation().state as { spaceId: number; retrospectId: number; title: string; introduction: string };
   const { spaceId, retrospectId, title, introduction } = locationState;
   return (
@@ -32,7 +31,7 @@ export function RetrospectCreateComplete() {
       <ButtonProvider sort="horizontal">
         <ButtonProvider.Gray
           onClick={() => {
-            testNavigate(PATHS.spaceDetail(spaceId.toString()));
+            navigate(PATHS.spaceDetail(spaceId.toString()));
           }}
         >
           끝내기
