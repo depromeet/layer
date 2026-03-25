@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <!-- FIXME: 추후 디자인 팀 OG 로고 요청 후 수정 -->
-    <link rel="icon" type="image/svg+xml" href="/white_layer.svg" />
-    <link rel="icon" type="image/svg+xml" href="/dark_layer.svg" media="(prefers-color-scheme: dark)" />
-    <link rel="icon" type="image/svg+xml" href="/white_layer.svg" media="(prefers-color-scheme: white)" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/white_layer.svg" sizes="any" type="image/svg+xml" />
+    <link rel="icon" href="/dark_layer.svg" sizes="any" type="image/svg+xml" media="(prefers-color-scheme: dark)" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
     <link
       rel="stylesheet"
       as="style"
@@ -23,8 +24,13 @@
     />
     <meta name="author" content="Layer Team" />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#009BFF" />
     <link rel="canonical" href="https://www.layerapp.io/" />
+
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Layer" />
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:type" content="website" />

@@ -12,6 +12,8 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { Toast } from "@/component/common/Toast";
 import { BridgeProvider } from "@/lib/provider/bridge-provider";
 import { MixpanelProvider } from "@/lib/provider/mix-pannel-provider";
+import { OfflineBanner } from "@/lib/provider/offline-provider";
+import { PWAUpdatePrompt } from "@/lib/provider/pwa-update-provider";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import ClarityProvider from "./lib/provider/clarity-provider";
 
@@ -26,6 +28,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               {/* <DevTools /> */}
               <Routers />
               <Toast />
+              <PWAUpdatePrompt />
+              <OfflineBanner />
             </Suspense>
           </BridgeProvider>
         </QueryClientProvider>
