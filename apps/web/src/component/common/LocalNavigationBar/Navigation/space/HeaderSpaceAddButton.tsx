@@ -9,6 +9,8 @@ import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
 import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
 import Tooltip from "@/component/common/Tooltip";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 export default function HeaderSpaceAddButton() {
   const { isCollapsed } = useNavigation();
@@ -28,6 +30,9 @@ export default function HeaderSpaceAddButton() {
         resetSpaceInfo();
       },
     });
+
+    // 스페이스 추가 버튼 클릭 이벤트를 GA에 전송해요
+    trackEvent(GA_EVENTS.SPACE.ADD_ICON);
   };
 
   return (

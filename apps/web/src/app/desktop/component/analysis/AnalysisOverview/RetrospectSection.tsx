@@ -14,6 +14,8 @@ import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useActionModal } from "@/hooks/useActionModal";
 import { RetrospectCreate } from "../../retrospectCreate";
 import { TemplateChoice } from "../../retrospect/choice";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 interface RetrospectSectionProps {
   title: string;
@@ -83,6 +85,8 @@ export default function RetrospectSection({
         },
       });
     }
+    // 회고 추가 버튼 클릭 이벤트를 GA에 전송해요
+    trackEvent(GA_EVENTS.RETROSPECT.ADD);
   };
 
   const contentMap = {
