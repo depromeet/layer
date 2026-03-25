@@ -17,6 +17,8 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Portal } from "@/component/common/Portal";
 import { useApiPostSpacesImpression } from "@/hooks/api/backoffice/useApiPostSpacesImpression";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 interface SpacesListProps {
   currentTab: "전체" | "개인" | "팀";
@@ -50,6 +52,9 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
         resetSpaceInfo();
       },
     });
+
+    // 스페이스 추가 버튼 클릭 이벤트를 GA에 전송해요
+    trackEvent(GA_EVENTS.SPACE.ADD_BUTTON);
   };
 
   useEffect(() => {

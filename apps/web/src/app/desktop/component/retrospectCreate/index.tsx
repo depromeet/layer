@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useToast } from "@/hooks/useToast";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 const PAGE_STEPS = ["confirmTemplate", "mainInfo", "dueDate"] as const;
 const CUSTOM_TEMPLATE_STEPS = ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const;
@@ -69,6 +71,8 @@ export function RetrospectCreate() {
             tempTemplateId: "",
             saveTemplateId: false,
           }));
+
+          trackEvent(GA_EVENTS.RETROSPECT.COMPLETE);
         },
       },
     );
