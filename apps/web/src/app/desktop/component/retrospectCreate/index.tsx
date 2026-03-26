@@ -72,7 +72,7 @@ export function RetrospectCreate() {
             saveTemplateId: false,
           }));
 
-          trackEvent(GA_EVENTS.RETROSPECT.COMPLETE);
+          trackEvent(GA_EVENTS.RETROSPECT.ADD_COMPLETE);
         },
       },
     );

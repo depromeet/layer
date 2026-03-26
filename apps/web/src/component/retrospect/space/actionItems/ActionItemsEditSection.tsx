@@ -13,6 +13,8 @@ import { ExtendedActionItemType } from "@/types/actionItem";
 import { useModal } from "@/hooks/useModal";
 import { useDeleteActionItemList } from "@/hooks/api/actionItem/useDeleteActionItemList";
 import { useToast } from "@/hooks/useToast";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 type ActionItem = {
   actionItemId: string;
@@ -175,6 +177,7 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
 
       await queryClient.invalidateQueries({ queryKey: ["getTeamActionItemList", spaceId] });
       toast.success("실행목표 편집이 완료되었어요!");
+      trackEvent(GA_EVENTS.ACTION_ITEM.EDIT_DONE);
       onClose();
     } catch (error) {
       toast.error("실행목표 편집에 실패했어요.");
