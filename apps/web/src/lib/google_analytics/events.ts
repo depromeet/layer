@@ -11,10 +11,10 @@ export const GA_EVENTS = {
       category: "space",
       label: "스페이스_추가버튼_하단",
     },
-    ADD_MODAL_CLOSE: {
-      action: "space_add_modal_close",
+    ADD_DONE: {
+      action: "space_add_dome",
       category: "space",
-      label: "스페이스_추가모달_닫기버튼",
+      label: "스페이스_생성완료버튼",
     },
   },
 
@@ -49,18 +49,6 @@ export const GA_EVENTS = {
       action: "retrospect_write_submit_complete",
       category: "retrospect",
       label: "회고_작성_제출완료버튼",
-    },
-    // 회고 생성 퍼널 진입 시
-    FUNNEL_VIEW_CREATE: {
-      action: "retrospect_funnel_view",
-      category: "retrospect",
-      label: "회고생성_단계_진입",
-    },
-    // 템플릿 추천 퍼널 진입 시
-    FUNNEL_VIEW_RECOMMEND: {
-      action: "retrospect_funnel_view",
-      category: "retrospect",
-      label: "템플릿추천_단계_진입",
     },
     // 템플릿 리스트 퍼널 진입 시
     FUNNEL_VIEW_LIST: {
@@ -97,3 +85,26 @@ export const GA_EVENTS = {
     },
   },
 } as const;
+
+// 퍼널 단계 라벨 상수
+export const GA_FUNNEL_LABELS = {
+  RETROSPECT_CREATE: {
+    confirmTemplate: "템플릿_확인",
+    mainInfo: "기본정보_입력",
+    dueDate: "마감일_지정",
+  } as Record<string, string>,
+
+  TEMPLATE_RECOMMEND: {
+    0: "회고_패턴_선택",
+    1: "회고_주기_선택",
+    2: "회고_목적_선택",
+  } as Record<number, string>,
+
+  SPACE_CREATE: {
+    INFO: { 0: "프로젝트_유형_선택", 1: "프로젝트_정보_입력", 2: "템플릿_선택" },
+    RECOMMEND: { 0: "회고_패턴_선택", 1: "회고_주기_선택", 2: "회고_목적_선택" },
+    RECOMMEND_PROGRESS: { 0: "템플릿_추천_진행중", 1: "템플릿_추천_확정" },
+    CREATE: { 0: "질문_생성", 1: "마감일_지정" },
+    COMPLETE: { 0: "스페이스_생성_완료" },
+  } as Record<string, Record<number, string>>,
+};
