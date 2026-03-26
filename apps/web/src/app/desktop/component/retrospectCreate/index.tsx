@@ -1,4 +1,4 @@
-import { createContext, useCallback } from "react";
+import { createContext, useCallback, useEffect } from "react";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { css } from "@emotion/react";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
@@ -77,6 +77,11 @@ export function RetrospectCreate() {
       },
     );
   }, [retroCreateData.deadline]);
+
+  // 회고 생성 퍼널 진입 시 GA 이벤트를 전송해요
+  useEffect(() => {
+    trackEvent(GA_EVENTS.RETROSPECT.FUNNEL_VIEW_CREATE);
+  }, []);
 
   return (
     <RetrospectCreateContext.Provider value={{ ...pageState, isMutatePending: isPending }}>

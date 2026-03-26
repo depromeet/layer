@@ -18,6 +18,8 @@ import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { useResetAtom } from "jotai/utils";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { RecommendSearch } from "./Search";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 const LAST_PAGE = 2;
 
@@ -65,6 +67,11 @@ export function TemplateRecommend() {
       console.log(error);
     }
   };
+
+  // 템플릿 추천 퍼널 진입 시 GA 이벤트를 전송해요
+  useEffect(() => {
+    trackEvent(GA_EVENTS.RETROSPECT.FUNNEL_VIEW_RECOMMEND);
+  }, []);
 
   useEffect(() => {
     if (templateValue.step === LAST_PAGE + 1) {
