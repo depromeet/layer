@@ -50,6 +50,24 @@ export const GA_EVENTS = {
       category: "retrospect",
       label: "회고_작성_제출완료버튼",
     },
+    // 회고 생성 퍼널 진입 시
+    FUNNEL_VIEW_CREATE: {
+      action: "retrospect_funnel_view",
+      category: "retrospect",
+      label: "회고생성_단계_진입",
+    },
+    // 템플릿 추천 퍼널 진입 시
+    FUNNEL_VIEW_RECOMMEND: {
+      action: "retrospect_funnel_view",
+      category: "retrospect",
+      label: "템플릿추천_단계_진입",
+    },
+    // 템플릿 리스트 퍼널 진입 시
+    FUNNEL_VIEW_LIST: {
+      action: "retrospect_funnel_view",
+      category: "retrospect",
+      label: "템플릿리스트_단계_진입",
+    },
   },
   // 실행목표 관련 GA 이벤트
   ACTION_ITEM: {
