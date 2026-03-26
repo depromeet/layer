@@ -8,6 +8,8 @@ import ActionItemAddSection from "./ActionItemAddSection";
 import { useAtomValue } from "jotai";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { isSpaceLeader } from "@/utils/userUtil";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 type ActionItemCardProps = {
   spaceId: string;
@@ -62,6 +64,8 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
         enableFooter: false,
       },
     });
+
+    trackEvent(GA_EVENTS.ACTION_ITEM.ADD);
   };
 
   return (
