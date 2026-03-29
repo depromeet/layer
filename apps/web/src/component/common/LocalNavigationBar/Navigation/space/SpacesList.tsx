@@ -53,7 +53,6 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
       },
     });
 
-    // 스페이스 추가 버튼 클릭 이벤트를 GA에 전송해요
     trackEvent(GA_EVENTS.SPACE.ADD_BUTTON);
   };
 
