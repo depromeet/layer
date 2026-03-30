@@ -11,7 +11,6 @@ import { usePatchRetrospect } from "@/hooks/api/retrospect/edit/usePatchRetrospe
 import { useInput } from "@/hooks/useInput";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { Retrospect } from "@/types/retrospect";
-import { addMinutes, format } from "date-fns";
 
 type RetrospectEditProps = {
   spaceId: string;
@@ -28,16 +27,12 @@ export function RetrospectEditModal({ spaceId, retrospectId, defaultValue, isAna
   const [deadline, setDeadline] = useState(defaultValue.deadline);
 
   const isEdited = title !== defaultValue.title || introduction !== defaultValue.introduction || deadline !== defaultValue.deadline;
-  const isPastDueDate = deadline ? new Date(deadline) <= new Date() : false;
 
   const handleModifyRetrospect = async () => {
-    // 마감 일자가 지난 회고를 수정할 경우에는 마감 일자를 1분 뒤로 설정하여 저장되도록 함
-    const next = addMinutes(new Date(), 1);
-    const currentDate = format(next, "yyyy-MM-dd'T'HH:mm:ss");
     patchRetrospect({
       spaceId: +spaceId,
       retrospectId: +retrospectId,
-      data: { title, introduction, deadline: isPastDueDate ? currentDate : deadline },
+      data: { title, introduction, deadline: deadline },
     });
   };
 
