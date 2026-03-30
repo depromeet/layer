@@ -4,7 +4,7 @@ declare global {
   }
 }
 
-const GA_ID = import.meta.env.VITE_GA_ID;
+const GA_ID = import.meta.env.VITE_GOOGLE_ANALYTICS;
 const isProduction = import.meta.env.MODE === "production";
 
 export const trackPageView = (path: string) => {
