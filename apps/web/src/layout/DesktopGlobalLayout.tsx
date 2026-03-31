@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Modal } from "@/component/common/Modal";
@@ -9,11 +9,19 @@ import ChannelService from "@/lib/channel-talk/service";
 import DesktopFunnelModal from "@/component/common/Modal/DesktopFunnelModal";
 import DesktopActionModal from "@/component/common/Modal/DesktopActionModal";
 import DesktopModal from "@/component/common/Modal/DesktopModal/DesktopModal";
+import { trackPageView } from "@/lib/google_analytics";
 
 export default function DesktopGlobalLayout() {
+  const location = useLocation();
+
   useEffect(() => {
     ChannelService.hideChannelButton();
   }, []);
+
+  // 페이지 이동 시 GA에 페이지뷰를 전송해요
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
 
   return (
     <div

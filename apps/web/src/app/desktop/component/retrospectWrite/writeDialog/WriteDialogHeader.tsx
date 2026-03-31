@@ -8,6 +8,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { PhaseContext } from "..";
 import { useModal } from "@/hooks/useModal";
 import { useNavigation } from "@/component/common/LocalNavigationBar/context/NavigationContext";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 interface WriteDialogHeaderProps {
   isOverviewVisible: boolean;
@@ -57,6 +59,8 @@ export function WriteDialogHeader({
       },
       onConfirm: onSubmitWriteDone,
     });
+
+    trackEvent(GA_EVENTS.RETROSPECT.WRITE_SUBMIT_OPEN);
   };
 
   return (

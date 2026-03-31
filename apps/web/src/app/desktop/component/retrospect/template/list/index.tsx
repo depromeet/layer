@@ -14,6 +14,8 @@ import { TemplateListItem } from "./TemplateListItem";
 import { TemplateListTab } from "./TemplateListTab";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useSearchParams } from "react-router-dom";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 export const TemplateListPageContext = createContext<{
   spaceId: string;
@@ -48,6 +50,11 @@ export function TemplateList() {
       }
     }
   }, [spaceId]);
+
+  // 템플릿 리스트 퍼널 진입 시 GA 이벤트를 전송해요
+  useEffect(() => {
+    trackEvent(GA_EVENTS.RETROSPECT.FUNNEL_VIEW_LIST);
+  }, []);
 
   return (
     <>

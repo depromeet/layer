@@ -11,6 +11,8 @@ import { useApiGetSpacePrivate } from "@/hooks/api/space/useGetSpace.ts";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { PATHS } from "@layer/shared";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 type UserInfoType = {
   isLogin: boolean;
@@ -206,6 +208,7 @@ export function RetrospectWriteComplete() {
             onClick={() => {
               close();
               navigate(PATHS.spaceDetail(String(spaceId)));
+              trackEvent(GA_EVENTS.RETROSPECT.WRITE_SUBMIT_DONE);
             }}
           >
             완료

@@ -18,6 +18,8 @@ import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { useResetAtom } from "jotai/utils";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { RecommendSearch } from "./Search";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_FUNNEL_LABELS } from "@/lib/google_analytics/events";
 
 const LAST_PAGE = 2;
 
@@ -65,6 +67,17 @@ export function TemplateRecommend() {
       console.log(error);
     }
   };
+
+  // 템플릿 추천 퍼널 단계 변경 시 GA 이벤트를 전송해요
+  useEffect(() => {
+    if (templateValue.step > LAST_PAGE) return;
+
+    trackEvent({
+      action: "retrospect_recommend_funnel_view",
+      category: "retrospect",
+      label: GA_FUNNEL_LABELS.TEMPLATE_RECOMMEND[templateValue.step],
+    });
+  }, [templateValue.step]);
 
   useEffect(() => {
     if (templateValue.step === LAST_PAGE + 1) {

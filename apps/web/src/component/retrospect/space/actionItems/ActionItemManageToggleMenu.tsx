@@ -8,6 +8,8 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import useToggleMenu from "@/hooks/useToggleMenu";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import ActionItemsEditSection from "./ActionItemsEditSection";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 type ActionItemManageToggleMenuProps = {
   spaceId: string;
@@ -64,6 +66,7 @@ export default function ActionItemManageToggleMenu({
       },
     });
     hideMenu();
+    trackEvent(GA_EVENTS.ACTION_ITEM.EDIT);
   };
 
   return (
