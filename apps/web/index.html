@@ -16,6 +16,18 @@
     <title>성장하는 당신을 위한 회고 서비스, Layer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
+    <!-- Google tag -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GOOGLE_ANALYTICS%"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "%VITE_GOOGLE_ANALYTICS%");
+    </script>
+
     <!-- SEO Meta Tags -->
     <meta name="description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
     <meta

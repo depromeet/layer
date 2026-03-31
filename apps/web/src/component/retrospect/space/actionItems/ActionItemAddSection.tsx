@@ -11,6 +11,8 @@ import { Retrospect } from "@/types/retrospect";
 import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
 import { ExtendedActionItemType } from "@/types/actionItem";
 import { useToast } from "@/hooks/useToast";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 type ActionItemAddSectionProps = {
   spaceId: string;
@@ -108,6 +110,7 @@ export default function ActionItemAddSection({ spaceId, retrospectId, onClose }:
               queryClient.invalidateQueries({ queryKey: ["getTeamActionItemList", spaceId] });
             }
 
+            trackEvent(GA_EVENTS.ACTION_ITEM.ADD_DONE);
             onClose();
           },
         },

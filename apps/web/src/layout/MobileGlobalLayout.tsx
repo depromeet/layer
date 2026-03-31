@@ -9,6 +9,7 @@ import { Modal } from "@/component/common/Modal";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.tsx";
 import { useBridge } from "@/lib/provider/bridge-provider";
 import { PATHS } from "@layer/shared";
+import { trackPageView } from "@/lib/google_analytics";
 
 const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
 const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
@@ -27,6 +28,11 @@ export default function MobileGlobalLayout() {
     } else {
       ChannelService.hideChannelButton();
     }
+  }, [location]);
+
+  // 페이지 이동 시 GA에 페이지뷰를 전송해요
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
   }, [location]);
 
   return (

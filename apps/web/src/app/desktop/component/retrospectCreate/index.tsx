@@ -1,4 +1,4 @@
-import { createContext, useCallback } from "react";
+import { createContext, useCallback, useEffect } from "react";
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { css } from "@emotion/react";
 import { useMultiStepForm } from "@/hooks/useMultiStepForm";
@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useToast } from "@/hooks/useToast";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS, GA_FUNNEL_LABELS } from "@/lib/google_analytics/events";
 
 const PAGE_STEPS = ["confirmTemplate", "mainInfo", "dueDate"] as const;
 const CUSTOM_TEMPLATE_STEPS = ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const;
@@ -69,10 +71,21 @@ export function RetrospectCreate() {
             tempTemplateId: "",
             saveTemplateId: false,
           }));
+
+          trackEvent(GA_EVENTS.RETROSPECT.ADD_COMPLETE);
         },
       },
     );
   }, [retroCreateData.deadline]);
+
+  // 회고 생성 퍼널 단계 변경 시 GA 이벤트를 전송해요
+  useEffect(() => {
+    trackEvent({
+      action: "retrospect_create_funnel_view",
+      category: "retrospect",
+      label: GA_FUNNEL_LABELS.RETROSPECT_CREATE[pageState.currentStep],
+    });
+  }, [pageState.currentStep]);
 
   return (
     <RetrospectCreateContext.Provider value={{ ...pageState, isMutatePending: isPending }}>

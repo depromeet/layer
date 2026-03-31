@@ -60,6 +60,8 @@ import { DesktopDateTimeInput } from "../../component/retrospectCreate/DesktopDa
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import TemplateListDetailItem from "../../component/retrospect/template/list/TemplateListDetailItem";
 import { PATHS } from "@layer/shared";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS, GA_FUNNEL_LABELS } from "@/lib/google_analytics/events";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
@@ -978,6 +980,7 @@ function CompleteCreateSpace() {
     closeModalDesktop();
     resetRetrospectInfo();
     resetSpaceInfo();
+    trackEvent(GA_EVENTS.SPACE.ADD_DONE);
   };
 
   useEffect(() => {
@@ -1063,7 +1066,7 @@ function CompleteCreateSpace() {
       )}
       <ButtonProvider>
         <ButtonProvider.Primary onClick={handleComplete} disabled={spaceData!.category === ProjectType.Individual ? false : !animate}>
-          다음
+          완료
         </ButtonProvider.Primary>
       </ButtonProvider>
     </div>
@@ -1139,6 +1142,15 @@ export default function AddSpacePage() {
     return true;
   })();
   const CurrentComponent = FLOW_COMPONENTS[flow][phase as keyof (typeof FLOW_COMPONENTS)[typeof flow]];
+
+  // 스페이스 생성 퍼널 단계 변경 시 GA 이벤트를 전송해요
+  useEffect(() => {
+    trackEvent({
+      action: "space_create_funnel_view",
+      category: "space",
+      label: GA_FUNNEL_LABELS.SPACE_CREATE[flow]?.[phase],
+    });
+  }, [flow, phase]);
 
   return (
     <PhaseContext.Provider

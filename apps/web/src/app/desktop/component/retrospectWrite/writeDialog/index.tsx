@@ -22,6 +22,8 @@ import { useTemporarySave } from "@/hooks/useTemporarySave";
 import { useSetAtom } from "jotai";
 import { isRetrospectModifiedAtom } from "@/store/retrospect/retrospectWrite";
 import { useBlocker } from "react-router-dom";
+import { trackEvent } from "@/lib/google_analytics";
+import { GA_EVENTS } from "@/lib/google_analytics/events";
 
 interface WriteDialogProps {
   isOverviewVisible: boolean;
@@ -172,6 +174,8 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
             answerLengths,
             averageAnswerLength: Math.round((answerLengths.reduce((acc, length) => acc + length, 0) / plainTextAnswers.length) * 100) / 100,
           });
+
+          trackEvent(GA_EVENTS.RETROSPECT.WRITE_SUBMIT_CONFIRM);
         },
       },
     );
