@@ -71,7 +71,7 @@ function SwiperSlideOnboardingImage({
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        padding-top: 6.6rem;
+        justify-content: center;
       `}
     >
       <div
