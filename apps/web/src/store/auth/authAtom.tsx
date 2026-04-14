@@ -6,6 +6,7 @@ type Auth = {
   email: string;
   memberRole: string;
   imageUrl: string;
+  memberSeq: number | null;
 };
 
 export const authAtom = atomWithStorage<Auth>("auth", {
@@ -14,4 +15,5 @@ export const authAtom = atomWithStorage<Auth>("auth", {
   email: "",
   memberRole: "",
   imageUrl: "",
+  memberSeq: null,
 });
