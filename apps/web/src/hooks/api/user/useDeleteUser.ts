@@ -34,7 +34,7 @@ export const useDeleteUser = () => {
       apiDeleteUser({ memberId, booleans, description }),
     onSuccess: () => {
       clearAuthCookies();
-      setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "" });
+      setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "", memberSeq: null });
       toast.success("계정 탈퇴에 성공했어요");
       void navigate(PATHS.login(), { type: "REPLACE" });
     },
