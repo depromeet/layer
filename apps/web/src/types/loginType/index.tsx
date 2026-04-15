@@ -59,7 +59,7 @@ export type AuthApiReturn = {
 export type LoginKakaoResult = { status: number; response: AuthResponse | null };
 
 export type MemberInfo = {
-  memberId: string;
+  memberId: number;
   name: string;
   email: string;
   memberRole: string;
