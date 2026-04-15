@@ -91,7 +91,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
           email: response.email,
           memberRole: response.memberRole,
           imageUrl: response.imageUrl,
-          memberSeq: null,
+          memberSeq: response.memberId,
         });
         setPeople(response.memberId.toString());
         setIsRestoring(false);
