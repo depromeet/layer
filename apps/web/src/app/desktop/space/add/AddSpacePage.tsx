@@ -495,6 +495,7 @@ function DetailRetrospectTemplateBranchFunnel() {
 
   const isFromConfirm = detailFrom === "confirm";
   const handleBack = () => {
+    console.log("??!", isFromConfirm);
     setDetailFrom("list");
     setFlow("INFO", isFromConfirm ? 4 : 2);
   };
