@@ -21,8 +21,10 @@ export function TemplateListTab<T extends string>({ tabs, curTab, selectTab, Tab
 
   return (
     <div
+      className="template-list-tab-container"
       css={[
         css`
+          width: 100%;
           position: sticky;
           top: 5.7rem;
           background-color: ${curBackgroundColor};
