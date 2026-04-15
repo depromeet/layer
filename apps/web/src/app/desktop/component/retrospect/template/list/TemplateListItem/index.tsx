@@ -11,7 +11,7 @@ import { TemplateListConform } from "../TemplateListConform";
 import { useSearchParams } from "react-router-dom";
 import { useApiPostTemplateChoiceListView } from "@/hooks/api/backoffice/useApiPostTemplateChoiceListView";
 
-type DesktopTemplateListItemProps = {
+export type DesktopTemplateListItemProps = {
   id: number;
   title: string;
   tag: string;

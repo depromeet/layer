@@ -8,8 +8,8 @@ export default function useDesktopBasicModal() {
   const [modalDataState, setModalDataState] = useAtom(desktopBasicModalState);
 
   const close = useCallback(() => {
-    setModalDataState({
-      ...modalDataState,
+    setModalDataState((prev) => ({
+      ...prev,
       isOpen: false,
       options: {
         type: "confirm",
@@ -21,12 +21,12 @@ export default function useDesktopBasicModal() {
         backButtonCallback: undefined,
         footerLeftCallback: undefined,
       },
-    });
-  }, [modalDataState, setModalDataState]);
+    }));
+  }, [setModalDataState]);
 
   const open = useCallback(
     ({ contents, title, onConfirm, onClose, overrideActionElements, options }: Omit<ModalType, "isOpen">) => {
-      setModalDataState({
+      setModalDataState((prev) => ({
         isOpen: true,
         title,
         contents,
@@ -34,10 +34,26 @@ export default function useDesktopBasicModal() {
         onClose,
         overrideActionElements,
         options: {
-          ...(modalDataState.options || {}),
+          ...(prev.options || {}),
           ...options,
         },
-      });
+      }));
+    },
+    [setModalDataState],
+  );
+
+  const updateState = useCallback(
+    (states: Partial<ModalType>) => {
+      const { options: updatedOptions, ...updatedState } = states;
+
+      setModalDataState((prev) => ({
+        ...prev,
+        ...updatedState,
+        options: {
+          ...prev.options,
+          ...updatedOptions,
+        },
+      }));
     },
     [setModalDataState],
   );
@@ -45,6 +61,7 @@ export default function useDesktopBasicModal() {
   return {
     open,
     close,
+    updateState,
     modalDataState,
   };
 }
