@@ -495,6 +495,7 @@ function DetailRetrospectTemplateBranchFunnel() {
 
   const isFromConfirm = detailFrom === "confirm";
   const handleBack = () => {
+    console.log("??!", isFromConfirm);
     setDetailFrom("list");
     setFlow("INFO", isFromConfirm ? 4 : 2);
   };
@@ -770,7 +771,7 @@ function SelectRetrospectTemplateFunnel() {
 
 // 4-1-a단계 퍼널 : 회고 템플릿 추천
 function TemplateRecommendFunnel() {
-  const { nextPhase, setDetailFrom, goBackToTemplateSelect, periodic, setPeriodic } = useContext(PhaseContext);
+  const { nextPhase, goBackToTemplateSelect, periodic, setPeriodic } = useContext(PhaseContext);
   const isSelected = periodic !== null;
 
   return (
@@ -800,14 +801,7 @@ function TemplateRecommendFunnel() {
         `}
         sort="horizontal"
       >
-        <ButtonProvider.Gray
-          onClick={() => {
-            setDetailFrom("confirm");
-            goBackToTemplateSelect();
-          }}
-        >
-          이전
-        </ButtonProvider.Gray>
+        <ButtonProvider.Gray onClick={goBackToTemplateSelect}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={nextPhase} disabled={!isSelected}>
           다음
         </ButtonProvider.Primary>
