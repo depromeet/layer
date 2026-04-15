@@ -28,7 +28,7 @@ import { createTemplateArr } from "@/utils/retrospect/createTemplateArr";
 import { TemplateKey } from "@/component/retrospect/template/card/template.const";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { TemplateCard as SwiperTemplateCard, TemplateCard } from "@/component/retrospect/template/card/TemplateCard";
+import { TemplateCard as SwiperTemplateCard } from "@/component/retrospect/template/card/TemplateCard";
 import { TemplateCard as SelectedTemplateCard } from "@/app/desktop/component/retrospect/template/card/TemplateCard";
 import { useGetCustomTemplate } from "@/hooks/api/template/useGetCustomTemplate";
 import { Tag } from "@/component/common/tag";
@@ -118,6 +118,7 @@ interface phaseContextType {
   // phase functions
   setFlow: (flow: flowType, phase?: number) => void;
   goBackToTemplateSelect: () => void;
+  goToLastPhaseOf: (targetFlow: flowType) => void;
   detailFrom: "list" | "confirm";
   setDetailFrom: Dispatch<SetStateAction<"list" | "confirm">>;
   isLastPhase: boolean;
@@ -169,6 +170,7 @@ const PhaseContext = createContext<phaseContextType>({
   // phase functions
   setFlow: () => {},
   goBackToTemplateSelect: () => {},
+  goToLastPhaseOf: () => {},
   detailFrom: "list",
   setDetailFrom: () => {},
   nextPhase: () => {},
@@ -626,16 +628,8 @@ function ConfirmRetrospectTemplateFunnel() {
 // 3단계 퍼널: 회고 템플릿 선택
 function SelectRetrospectTemplateFunnel() {
   const { openFunnelModal } = useFunnelModal();
-  const {
-    prevPhase,
-    nextPhase,
-    setFlow,
-    goBackToTemplateSelect,
-    title,
-    recommendTemplateType,
-    setSelectedRecommendTemplateId,
-    setRecommendTemplateType,
-  } = useContext(PhaseContext);
+  const { prevPhase, nextPhase, setFlow, title, recommendTemplateType, setSelectedRecommendTemplateId, setRecommendTemplateType } =
+    useContext(PhaseContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const isSelected = recommendTemplateType !== null;
   const { toast } = useToast();
@@ -1085,8 +1079,7 @@ function RecommendRetrospectTemplateConfirmFunnel() {
 
 // 6-1 단계 퍼널 : 회고 질문 생성 단계
 function CreateRetrospectQuestionFunnel() {
-  const { selectedRecommendTemplateId, setSelectedRecommendTemplate, goBackToTemplateSelect, nextPhase, questions, setQuestions } =
-    useContext(PhaseContext);
+  const { selectedRecommendTemplateId, setSelectedRecommendTemplate, goToLastPhaseOf, nextPhase, questions, setQuestions } = useContext(PhaseContext);
   const { data: customTemplateInfo, isSuccess: isSuccessGetCustomTemplateInfo } = useGetCustomTemplate(selectedRecommendTemplateId!);
   const { open: openDesktopModal } = useDesktopBasicModal();
   const { data: defaultTemplateInfo, isSuccess: isSuccessGetTemplateInfo } = useGetTemplateInfo({ templateId: selectedRecommendTemplateId! });
@@ -1189,7 +1182,7 @@ function CreateRetrospectQuestionFunnel() {
           padding: 0;
         `}
       >
-        <ButtonProvider.Gray onClick={goBackToTemplateSelect}>이전</ButtonProvider.Gray>
+        <ButtonProvider.Gray onClick={() => goToLastPhaseOf("INFO")}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={nextPhase}>진행하기</ButtonProvider.Primary>
       </ButtonProvider>
     </div>
@@ -1506,7 +1499,7 @@ export default function AddSpacePage() {
   };
 
   const FLOW_COMPONENTS =
-    branchLayout !== "A"
+    branchLayout === "A"
       ? DEFAULT_FUNNEL_FLOW
       : ({
           ...DEFAULT_FUNNEL_FLOW,
@@ -1592,10 +1585,13 @@ export default function AddSpacePage() {
           detailFrom,
           setDetailFrom,
           goBackToTemplateSelect: () => {
-            const A_BRANCH_INFO_FINAL_PREV = 2;
-            const B_BRANCH_INFO_FINAL_PREV = 4;
             setFlow("INFO");
-            setPhase(branchLayout === "A" ? A_BRANCH_INFO_FINAL_PREV : B_BRANCH_INFO_FINAL_PREV);
+            setPhase(2);
+          },
+          goToLastPhaseOf: (targetFlow: flowType) => {
+            const lastPhase = Object.keys(FLOW_COMPONENTS[targetFlow]).length - 1;
+            setFlow(targetFlow);
+            setPhase(lastPhase);
           },
           isVisibleProgressBar,
           setIsVisibleProgressBar,
