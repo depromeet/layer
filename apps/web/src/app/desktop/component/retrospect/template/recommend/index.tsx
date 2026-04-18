@@ -18,8 +18,8 @@ import { useMixpanel } from "@/lib/provider/mix-pannel-provider";
 import { useResetAtom } from "jotai/utils";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { RecommendSearch } from "./Search";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_FUNNEL_LABELS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_FUNNEL_LABELS } from "@/lib/google-analytics/events";
 import { branchLayoutAtom } from "@/store/auth/authAtom";
 import { TemplateList } from "../list";
 

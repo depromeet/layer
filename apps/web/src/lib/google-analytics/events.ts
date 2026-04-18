@@ -12,7 +12,7 @@ export const GA_EVENTS = {
       label: "스페이스_추가버튼_하단",
     },
     ADD_DONE: {
-      action: "space_add_dome",
+      action: "space_add_done",
       category: "space",
       label: "스페이스_생성완료버튼",
     },

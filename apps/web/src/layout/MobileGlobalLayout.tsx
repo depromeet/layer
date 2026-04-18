@@ -9,7 +9,7 @@ import { Modal } from "@/component/common/Modal";
 import { PreventExternalBrowser } from "@/helper/preventExternalBrowser.tsx";
 import { useBridge } from "@/lib/provider/bridge-provider";
 import { PATHS } from "@layer/shared";
-import { trackPageView } from "@/lib/google_analytics";
+import { trackPageView } from "@/lib/google-analytics";
 
 const siteId = import.meta.env.VITE_HOTJAR_KEY as number;
 const hotjarVersion = import.meta.env.VITE_HOTJAR_VERSION as number;
