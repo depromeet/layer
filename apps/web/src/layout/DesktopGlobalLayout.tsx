@@ -9,7 +9,7 @@ import ChannelService from "@/lib/channel-talk/service";
 import DesktopFunnelModal from "@/component/common/Modal/DesktopFunnelModal";
 import DesktopActionModal from "@/component/common/Modal/DesktopActionModal";
 import DesktopModal from "@/component/common/Modal/DesktopModal/DesktopModal";
-import { trackPageView } from "@/lib/google_analytics";
+import { trackPageView } from "@/lib/google-analytics";
 
 export default function DesktopGlobalLayout() {
   const location = useLocation();

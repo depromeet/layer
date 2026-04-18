@@ -13,8 +13,8 @@ import { ExtendedActionItemType } from "@/types/actionItem";
 import { useModal } from "@/hooks/useModal";
 import { useDeleteActionItemList } from "@/hooks/api/actionItem/useDeleteActionItemList";
 import { useToast } from "@/hooks/useToast";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_EVENTS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
 
 type ActionItem = {
   actionItemId: string;

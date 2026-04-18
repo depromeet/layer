@@ -22,14 +22,14 @@ export const usePostSignOut = () => {
     mutationFn: signOutFun,
     onSuccess: () => {
       clearAuthCookies();
-      setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "" }); // 상태 초기화
+      setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "", memberSeq: null }); // 상태 초기화
       void navigate(PATHS.login(), { type: "REPLACE" });
     },
     onError: (error) => {
       console.error(error);
       // API 실패해도 로컬 쿠키/상태 강제 정리
       clearAuthCookies();
-      setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "" });
+      setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "", memberSeq: null });
       void navigate(PATHS.login(), { type: "REPLACE" });
     },
   });
