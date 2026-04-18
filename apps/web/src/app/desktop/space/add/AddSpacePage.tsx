@@ -60,8 +60,8 @@ import { DesktopDateTimeInput } from "../../component/retrospectCreate/DesktopDa
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import TemplateListDetailItem from "../../component/retrospect/template/list/TemplateListDetailItem";
 import { PATHS } from "@layer/shared";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_EVENTS, GA_FUNNEL_LABELS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_EVENTS, GA_FUNNEL_LABELS } from "@/lib/google-analytics/events";
 import { branchLayoutAtom } from "@/store/auth/authAtom";
 import { TemplateListTab } from "../../component/retrospect/template/list/TemplateListTab";
 import { useTabs } from "@/hooks/useTabs";

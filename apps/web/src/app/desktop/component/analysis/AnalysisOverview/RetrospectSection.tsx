@@ -14,8 +14,8 @@ import { useFunnelModal } from "@/hooks/useFunnelModal";
 import { useActionModal } from "@/hooks/useActionModal";
 import { RetrospectCreate } from "../../retrospectCreate";
 import { TemplateChoice } from "../../retrospect/choice";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_EVENTS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
 
 interface RetrospectSectionProps {
   title: string;

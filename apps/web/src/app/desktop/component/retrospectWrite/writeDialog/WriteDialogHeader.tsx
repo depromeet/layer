@@ -8,8 +8,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { PhaseContext } from "..";
 import { useModal } from "@/hooks/useModal";
 import { useNavigation } from "@/component/common/LocalNavigationBar/context/NavigationContext";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_EVENTS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
 
 interface WriteDialogHeaderProps {
   isOverviewVisible: boolean;
