@@ -24,13 +24,18 @@ export const GA_EVENTS = {
     ADD: {
       action: "retrospect_add",
       category: "retrospect",
-      label: "회고_추가버튼",
+      label: "회고_추가",
     },
     // 회고 추가 완료 버튼 클릭 시
-    ADD_COMPLETE: {
+    ADD_COMPLETE_A_LAYOUT: {
       action: "retrospect_complete",
       category: "retrospect",
-      label: "회고_완료버튼",
+      label: "회고_추가_완료_A안",
+    },
+    ADD_COMPLETE_B_LAYOUT: {
+      action: "retrospect_complete",
+      category: "retrospect",
+      label: "회고_추가_완료_B안",
     },
     // 우상단 제출하기 버튼 (모달 오픈)
     WRITE_SUBMIT_OPEN: {
