@@ -15,6 +15,8 @@ import { useActionModal } from "@/hooks/useActionModal";
 import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 import TemplateListDetailItem from "../list/TemplateListDetailItem";
+import { branchLayoutAtom } from "@/store/auth/authAtom";
+import { TemplateList } from "../list";
 
 function RecommendDone() {
   const setRetrospectValue = useSetAtom(retrospectInitialState);
@@ -23,6 +25,7 @@ function RecommendDone() {
   const { data: templateData, isLoading } = useGetSimpleTemplateInfo(tempTemplateId);
   const { openFunnelModal } = useFunnelModal();
   const { openActionModal } = useActionModal();
+  const branchLayout = useAtomValue(branchLayoutAtom);
 
   if (isLoading) return <LoadingModal />;
 
@@ -48,10 +51,18 @@ function RecommendDone() {
   };
 
   const handleMoveToChangeTemplate = () => {
-    openActionModal({
-      title: "",
-      contents: <TemplateChoice />,
-    });
+    if (branchLayout === "A") {
+      openActionModal({
+        title: "",
+        contents: <TemplateChoice />,
+      });
+    } else {
+      openFunnelModal({
+        title: "템플릿 리스트",
+        step: "listTemplate",
+        contents: <TemplateList />,
+      });
+    }
   };
 
   const handleMoveToConfirmTemplate = () => {
