@@ -1320,6 +1320,7 @@ function CompleteCreateSpace() {
   const [animate, setAnimate] = useState(isCreatedIndividualSpace);
   const encryptedId = encryptId(spaceId!.toString());
   const navigate = useNavigate();
+  const branchLayout = useAtomValue(branchLayoutAtom);
 
   const handleShareKakao = async () => {
     shareKakaoWeb(
@@ -1343,7 +1344,7 @@ function CompleteCreateSpace() {
     closeModalDesktop();
     resetRetrospectInfo();
     resetSpaceInfo();
-    trackEvent(GA_EVENTS.SPACE.ADD_DONE);
+    branchLayout === "A" ? trackEvent(GA_EVENTS.SPACE.ADD_DONE_B_LAYOUT) : trackEvent(GA_EVENTS.SPACE.ADD_DONE_A_LAYOUT);
   };
 
   useEffect(() => {
