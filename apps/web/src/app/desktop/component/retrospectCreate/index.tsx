@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/useToast";
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import { trackEvent } from "@/lib/google-analytics";
 import { GA_EVENTS, GA_FUNNEL_LABELS } from "@/lib/google-analytics/events";
+import { branchLayoutAtom } from "@/store/auth/authAtom";
 
 const PAGE_STEPS = ["confirmTemplate", "mainInfo", "dueDate"] as const;
 const CUSTOM_TEMPLATE_STEPS = ["confirmDefaultTemplate", "editQuestions", "confirmEditTemplate"] as const;
@@ -36,6 +37,7 @@ export function RetrospectCreate() {
   const navigate = useNavigate();
   const { closeFunnelModal } = useFunnelModal();
   const { toast } = useToast();
+  const branchLayout = useAtomValue(branchLayoutAtom);
 
   const [retrospectValue, setRetrospectValue] = useAtom(retrospectInitialState);
   const spaceIdNumber = Number(retrospectValue.spaceId);
@@ -72,7 +74,7 @@ export function RetrospectCreate() {
             saveTemplateId: false,
           }));
 
-          trackEvent(GA_EVENTS.RETROSPECT.ADD_COMPLETE);
+          branchLayout === "A" ? trackEvent(GA_EVENTS.RETROSPECT.ADD_COMPLETE_A_LAYOUT) : trackEvent(GA_EVENTS.RETROSPECT.ADD_COMPLETE_B_LAYOUT);
         },
       },
     );
