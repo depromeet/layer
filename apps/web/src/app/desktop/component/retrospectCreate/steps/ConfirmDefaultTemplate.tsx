@@ -17,14 +17,19 @@ import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { RetrospectCreateContext } from "..";
 import { Tooltip } from "@/component/common/tip";
 import { useToast } from "@/hooks/useToast";
+import { branchLayoutAtom } from "@/store/auth/authAtom";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { TemplateList } from "../../retrospect/template/list";
 
 export function ConfirmDefaultTemplate() {
   const { templateId, saveTemplateId } = useAtomValue(retrospectInitialState);
   const { goNext } = useContext(RetrospectCreateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const { openActionModal } = useActionModal();
-  const { toast } = useToast();
+  const { openFunnelModal } = useFunnelModal();
   const [customTemplateTitle, setCustomTemplateTitle] = useState("");
+  const { toast } = useToast();
+  const branchLayout = useAtomValue(branchLayoutAtom);
 
   const titleRef = useRef<HTMLDivElement>(null);
 
@@ -55,10 +60,19 @@ export function ConfirmDefaultTemplate() {
   }, [questions, templateId, setRetroCreateData, retroCreateData.hasChangedOriginal]);
 
   const handleChangeTemplate = () => {
-    openActionModal({
-      title: "",
-      contents: <TemplateChoice />,
-    });
+    if (branchLayout === "A") {
+      openActionModal({
+        title: "",
+        contents: <TemplateChoice />,
+      });
+    } else {
+      // B안) 회고 생성 플로우
+      openFunnelModal({
+        title: "템플릿 리스트",
+        step: "listTemplate",
+        contents: <TemplateList />,
+      });
+    }
   };
 
   const handleTitleChange = (newTitle: string) => {
