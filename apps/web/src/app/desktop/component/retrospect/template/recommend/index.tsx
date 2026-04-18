@@ -1,6 +1,6 @@
 import { ProgressBar } from "@/component/common/ProgressBar";
 import { recommendTemplateState } from "@/store/retrospect/template/recommend/recommendAtom";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Periodic } from "./Periodic";
 import { Period } from "./Period";
 import { Purpose } from "./Purpose";
@@ -20,6 +20,8 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { RecommendSearch } from "./Search";
 import { trackEvent } from "@/lib/google_analytics";
 import { GA_FUNNEL_LABELS } from "@/lib/google_analytics/events";
+import { branchLayoutAtom } from "@/store/auth/authAtom";
+import { TemplateList } from "../list";
 
 const LAST_PAGE = 2;
 
@@ -32,6 +34,7 @@ export function TemplateRecommend() {
   const resetTemplateValue = useResetAtom(recommendTemplateState);
   const [isLoading, setIsLoading] = useState(false);
   const { track } = useMixpanel();
+  const branchLayout = useAtomValue(branchLayoutAtom);
 
   const onSubmit = async (recommendValue: RecommendTemplateType & { spaceId: string }) => {
     try {
@@ -116,7 +119,7 @@ export function TemplateRecommend() {
   };
 
   const handleMoveToPrev = () => {
-    if (templateValue.step === 0) {
+    if (templateValue.step === 0 && branchLayout === "A") {
       openFunnelModal({
         title: "",
         step: "retrospectCreate",
@@ -125,6 +128,14 @@ export function TemplateRecommend() {
       openActionModal({
         title: "",
         contents: <TemplateChoice />,
+      });
+      return;
+    }
+    if (templateValue.step === 0 && branchLayout === "B") {
+      openFunnelModal({
+        title: "템플릿 리스트",
+        step: "listTemplate",
+        contents: <TemplateList />,
       });
       return;
     }
