@@ -11,8 +11,8 @@ import { useApiGetSpacePrivate } from "@/hooks/api/space/useGetSpace.ts";
 import { ANIMATION } from "@/style/common/animation.ts";
 import { PATHS } from "@layer/shared";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_EVENTS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
 
 type UserInfoType = {
   isLogin: boolean;

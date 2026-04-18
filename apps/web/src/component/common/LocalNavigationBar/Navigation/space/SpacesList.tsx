@@ -17,8 +17,8 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { Portal } from "@/component/common/Portal";
 import { useApiPostSpacesImpression } from "@/hooks/api/backoffice/useApiPostSpacesImpression";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_EVENTS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
 
 interface SpacesListProps {
   currentTab: "전체" | "개인" | "팀";
