@@ -11,10 +11,15 @@ export const GA_EVENTS = {
       category: "space",
       label: "스페이스_추가버튼_하단",
     },
-    ADD_DONE: {
+    ADD_DONE_A_LAYOUT: {
       action: "space_add_done",
       category: "space",
-      label: "스페이스_생성완료버튼",
+      label: "스페이스_추가_완료_A인",
+    },
+    ADD_DONE_B_LAYOUT: {
+      action: "space_add_done",
+      category: "space",
+      label: "스페이스_추가_완료_B인",
     },
   },
 
