@@ -8,8 +8,8 @@ import ActionItemAddSection from "./ActionItemAddSection";
 import { useAtomValue } from "jotai";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { isSpaceLeader } from "@/utils/userUtil";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_EVENTS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
 
 type ActionItemCardProps = {
   spaceId: string;

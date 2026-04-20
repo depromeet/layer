@@ -1,7 +1,7 @@
 {
   "name": "@layer/web",
   "private": true,
-  "version": "2.0.7",
+  "version": "2.0.9",
   "type": "module",
   "scripts": {
     "dev": "vite",

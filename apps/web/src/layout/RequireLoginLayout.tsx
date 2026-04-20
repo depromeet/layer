@@ -36,7 +36,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
   useEffect(() => {
     const unsubscribe = onAuthExpired(() => {
       queryClient.clear();
-      setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "" });
+      setAuth({ isLogin: false, name: "", email: "", memberRole: "", imageUrl: "", memberSeq: null });
       redirectLogin();
     });
     return unsubscribe;
@@ -76,6 +76,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
             email: data.email,
             memberRole: data.memberRole,
             imageUrl: data.imageUrl,
+            memberSeq: data.memberId,
           });
           setPeople(data.memberId.toString());
           setIsRestoring(false);
@@ -90,6 +91,7 @@ export function RequireLoginLayout({ children }: RequireLoginProps) {
           email: response.email,
           memberRole: response.memberRole,
           imageUrl: response.imageUrl,
+          memberSeq: response.memberId,
         });
         setPeople(response.memberId.toString());
         setIsRestoring(false);

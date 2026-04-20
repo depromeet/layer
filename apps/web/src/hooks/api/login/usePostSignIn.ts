@@ -46,7 +46,14 @@ export const usePostSignIn = () => {
         Cookies.set(COOKIE_KEYS.memberId, data.memberId.toString(), AUTH_COOKIE_OPTIONS);
         Cookies.set(COOKIE_KEYS.accessToken, data.accessToken, ACCESS_TOKEN_COOKIE_OPTIONS);
         Cookies.set(COOKIE_KEYS.refreshToken, data.refreshToken, AUTH_COOKIE_OPTIONS);
-        setAuth({ isLogin: true, name: data.name, email: data.email, memberRole: data.memberRole, imageUrl: data.imageUrl });
+        setAuth({
+          isLogin: true,
+          name: data.name,
+          email: data.email,
+          memberRole: data.memberRole,
+          imageUrl: data.imageUrl,
+          memberSeq: data.memberId,
+        });
       }
 
       const prevPath = Cookies.get(COOKIE_KEYS.redirectPrevPathKey);

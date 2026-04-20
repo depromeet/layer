@@ -11,10 +11,15 @@ export const GA_EVENTS = {
       category: "space",
       label: "스페이스_추가버튼_하단",
     },
-    ADD_DONE: {
-      action: "space_add_dome",
+    ADD_DONE_A_LAYOUT: {
+      action: "space_add_done",
       category: "space",
-      label: "스페이스_생성완료버튼",
+      label: "스페이스_추가_완료_A인",
+    },
+    ADD_DONE_B_LAYOUT: {
+      action: "space_add_done",
+      category: "space",
+      label: "스페이스_추가_완료_B인",
     },
   },
 
@@ -24,13 +29,18 @@ export const GA_EVENTS = {
     ADD: {
       action: "retrospect_add",
       category: "retrospect",
-      label: "회고_추가버튼",
+      label: "회고_추가",
     },
     // 회고 추가 완료 버튼 클릭 시
-    ADD_COMPLETE: {
+    ADD_COMPLETE_A_LAYOUT: {
       action: "retrospect_complete",
       category: "retrospect",
-      label: "회고_완료버튼",
+      label: "회고_추가_완료_A안",
+    },
+    ADD_COMPLETE_B_LAYOUT: {
+      action: "retrospect_complete",
+      category: "retrospect",
+      label: "회고_추가_완료_B안",
     },
     // 우상단 제출하기 버튼 (모달 오픈)
     WRITE_SUBMIT_OPEN: {
