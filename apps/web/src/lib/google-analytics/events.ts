@@ -12,14 +12,14 @@ export const GA_EVENTS = {
       label: "스페이스_추가버튼_하단",
     },
     ADD_DONE_A_LAYOUT: {
-      action: "space_add_done",
+      action: "space_add_done_A",
       category: "space",
-      label: "스페이스_추가_완료_A인",
+      label: "스페이스_추가_완료_A안",
     },
     ADD_DONE_B_LAYOUT: {
-      action: "space_add_done",
+      action: "space_add_done_B",
       category: "space",
-      label: "스페이스_추가_완료_B인",
+      label: "스페이스_추가_완료_B안",
     },
   },
 
@@ -33,12 +33,12 @@ export const GA_EVENTS = {
     },
     // 회고 추가 완료 버튼 클릭 시
     ADD_COMPLETE_A_LAYOUT: {
-      action: "retrospect_complete",
+      action: "retrospect_complete_A",
       category: "retrospect",
       label: "회고_추가_완료_A안",
     },
     ADD_COMPLETE_B_LAYOUT: {
-      action: "retrospect_complete",
+      action: "retrospect_complete_B",
       category: "retrospect",
       label: "회고_추가_완료_B안",
     },
