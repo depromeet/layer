@@ -546,85 +546,6 @@ function DetailRetrospectTemplateBranchFunnel() {
   );
 }
 
-// 3단계 ㅡ 2 (B 테스트 퍼널) : 회고 템플릿 확정
-function ConfirmRetrospectTemplateFunnel() {
-  const { selectedRecommendTemplateId, setFlow, goBackToTemplateSelect, setDetailFrom } = useContext(PhaseContext);
-  if (!selectedRecommendTemplateId) return;
-  const { data: templateData } = useGetSimpleTemplateInfo(selectedRecommendTemplateId?.toString());
-  return (
-    <Fragment>
-      <Header title={`해당 템플릿으로\n회고를 진행할까요?`} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
-      <Spacing size={9} />
-      <div
-        css={css`
-          display: flex;
-          justify-content: center;
-        `}
-      >
-        <Tooltip>
-          <Tooltip.Trigger>
-            <div
-              css={css`
-                display: flex;
-                width: 45rem;
-                height: 20rem;
-                border-radius: 12px;
-                border: 0.15rem solid ${DESIGN_TOKEN_COLOR.gray300};
-                padding: 2.4rem 2rem;
-                cursor: pointer;
-              `}
-              onClick={() => {
-                setDetailFrom("confirm");
-                setFlow("INFO", 3);
-              }}
-            >
-              <div
-                css={css`
-                  display: flex;
-                  width: 100%;
-                  flex-direction: column;
-                `}
-              >
-                <Typography variant="S1"> {templateData.title} </Typography>
-                <Typography
-                  variant="B2"
-                  color="darkGrayText"
-                  css={css`
-                    width: fit-content;
-                    display: flex;
-                    padding: 0.6rem 1.2rem;
-                    box-sizing: border-box;
-                    justify-content: center;
-                    align-items: center;
-                    margin-top: auto;
-                    border-radius: 0.6rem;
-                    background: ${DESIGN_TOKEN_COLOR.gray100};
-                  `}
-                >
-                  {templateData.templateName}
-                </Typography>
-              </div>
-              <img src={templateData.imageUrl} />
-            </div>
-          </Tooltip.Trigger>
-          <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
-        </Tooltip>
-      </div>
-      <ButtonProvider>
-        <div
-          css={css`
-            display: flex;
-            gap: 0.8rem;
-          `}
-        >
-          <ButtonProvider.Gray onClick={goBackToTemplateSelect}>템플릿 변경</ButtonProvider.Gray>
-          <ButtonProvider.Primary onClick={() => setFlow("CREATE", 0)}>진행하기</ButtonProvider.Primary>
-        </div>
-      </ButtonProvider>
-    </Fragment>
-  );
-}
-
 // 3단계 퍼널: 회고 템플릿 선택
 function SelectRetrospectTemplateFunnel() {
   const { openFunnelModal } = useFunnelModal();
@@ -680,7 +601,7 @@ function SelectRetrospectTemplateFunnel() {
     if (selectedTemplateId) {
       setSelectedRecommendTemplateId(Number(selectedTemplateId));
       setSearchParams({});
-      setFlow("CREATE", 0);
+      nextPhase();
     }
   }, [searchParams]);
 
@@ -763,6 +684,85 @@ function SelectRetrospectTemplateFunnel() {
         <ButtonProvider.Primary disabled={!isSelected} onClick={handleMoveToCreateRetrospect}>
           다음
         </ButtonProvider.Primary>
+      </ButtonProvider>
+    </Fragment>
+  );
+}
+
+// 3단계 퍼널: 회고 템플릿 확정
+function ConfirmRetrospectTemplateFunnel() {
+  const { selectedRecommendTemplateId, setFlow, goBackToTemplateSelect, setDetailFrom } = useContext(PhaseContext);
+  if (!selectedRecommendTemplateId) return;
+  const { data: templateData } = useGetSimpleTemplateInfo(selectedRecommendTemplateId?.toString());
+  return (
+    <Fragment>
+      <Header title={`해당 템플릿으로\n회고를 진행할까요?`} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
+      <Spacing size={9} />
+      <div
+        css={css`
+          display: flex;
+          justify-content: center;
+        `}
+      >
+        <Tooltip>
+          <Tooltip.Trigger>
+            <div
+              css={css`
+                display: flex;
+                width: 45rem;
+                height: 20rem;
+                border-radius: 12px;
+                border: 0.15rem solid ${DESIGN_TOKEN_COLOR.gray300};
+                padding: 2.4rem 2rem;
+                cursor: pointer;
+              `}
+              onClick={() => {
+                setDetailFrom("confirm");
+                setFlow("INFO", 3);
+              }}
+            >
+              <div
+                css={css`
+                  display: flex;
+                  width: 100%;
+                  flex-direction: column;
+                `}
+              >
+                <Typography variant="S1"> {templateData.title} </Typography>
+                <Typography
+                  variant="B2"
+                  color="darkGrayText"
+                  css={css`
+                    width: fit-content;
+                    display: flex;
+                    padding: 0.6rem 1.2rem;
+                    box-sizing: border-box;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: auto;
+                    border-radius: 0.6rem;
+                    background: ${DESIGN_TOKEN_COLOR.gray100};
+                  `}
+                >
+                  {templateData.templateName}
+                </Typography>
+              </div>
+              <img src={templateData.imageUrl} />
+            </div>
+          </Tooltip.Trigger>
+          <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
+        </Tooltip>
+      </div>
+      <ButtonProvider>
+        <div
+          css={css`
+            display: flex;
+            gap: 0.8rem;
+          `}
+        >
+          <ButtonProvider.Gray onClick={goBackToTemplateSelect}>템플릿 변경</ButtonProvider.Gray>
+          <ButtonProvider.Primary onClick={() => setFlow("CREATE", 0)}>진행하기</ButtonProvider.Primary>
+        </div>
       </ButtonProvider>
     </Fragment>
   );
@@ -1473,6 +1473,7 @@ export default function AddSpacePage() {
       0: SelectSpaceTypeFunnel,
       1: InputSpaceInfoFunnel,
       2: SelectRetrospectTemplateFunnel,
+      3: ConfirmRetrospectTemplateFunnel,
     },
     RECOMMEND: {
       0: TemplateRecommendFunnel,
