@@ -44,10 +44,11 @@ export function TemplatePage() {
         isOnlyTemplateStyle={
           !isProvidedTemplateSet &&
           css`
-          #header {
+            #header {
               min-height: var(--app-bar-height);
               background-color: transparent;
-        `
+            }
+          `
         }
       >
         <TemplateLayout.Header

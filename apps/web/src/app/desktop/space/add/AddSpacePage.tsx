@@ -77,6 +77,8 @@ import { TemplateTip } from "../../component/retrospect/template/list/TemplateLi
 import { TemplateQuestion } from "../../component/retrospect/template/list/TemplateListDetailItem/TemplateQuestion";
 import { splitTemplateIntroduction } from "@/utils/retrospect/splitTemplateIntroduction";
 import { useGetSimpleTemplateInfo } from "@/hooks/api/template/useGetSimpleTemplateInfo";
+import { resolveFormTag } from "@/component/retrospect/template/list/DefaultTemplateListItem";
+import { useApiPostTemplateChoiceListView } from "@/hooks/api/backoffice/useApiPostTemplateChoiceListView";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
@@ -312,6 +314,8 @@ function SelectRetrospectTemplateBranchFunnel() {
   };
 
   function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateListItemProps) {
+    const { mutate: templateChoiceClickMutation } = useApiPostTemplateChoiceListView();
+
     return (
       <li
         css={css`
@@ -374,6 +378,7 @@ function SelectRetrospectTemplateBranchFunnel() {
           `}
           onClick={(event) => {
             event.stopPropagation();
+            templateChoiceClickMutation(resolveFormTag(tag));
             handleNextPhase({ id: id?.toString(), to: "result" });
           }}
         >
@@ -492,6 +497,7 @@ function DetailRetrospectTemplateBranchFunnel() {
   const { data } = useGetTemplateInfo({ templateId: selectedRecommendTemplateId! });
   const { heading, description } = splitTemplateIntroduction(data.introduction);
   const { updateState } = useDesktopBasicModal();
+  const { mutate: templateChoiceClickMutation } = useApiPostTemplateChoiceListView();
 
   const isFromConfirm = detailFrom === "confirm";
   const handleBack = () => {
@@ -539,7 +545,14 @@ function DetailRetrospectTemplateBranchFunnel() {
 
       {!isFromConfirm && (
         <ButtonProvider sort={"horizontal"}>
-          <ButtonProvider.Primary onClick={() => setFlow("INFO", 4)}>선택하기</ButtonProvider.Primary>
+          <ButtonProvider.Primary
+            onClick={() => {
+              setFlow("INFO", 4);
+              templateChoiceClickMutation(resolveFormTag(data.templateName));
+            }}
+          >
+            선택하기
+          </ButtonProvider.Primary>
         </ButtonProvider>
       )}
     </Fragment>
