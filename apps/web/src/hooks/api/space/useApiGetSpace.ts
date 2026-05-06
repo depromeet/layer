@@ -8,6 +8,7 @@ type SpaceResponse = {
   category: ProjectType;
   fieldList: FieldType[];
   formId: number | null;
+  formTag: string | null;
   id: number;
   introduction: string;
   memberCount: number;
