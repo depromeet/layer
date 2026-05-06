@@ -1,4 +1,5 @@
 import { api } from "@/api";
+import { TemplateChoiceFormTag } from "@/types/template";
 
 /**
  * @description 템플릿 추천 클릭 이벤트 통계를 서버에 전송합니다.
@@ -18,9 +19,12 @@ export const postTemplateClickListView = async () => {
 
 /**
  * @description 템플릿 리스트 보기 내에서 선택 이벤트 통계를 서버에 전송합니다.
+ * @param formTag - 사용자가 선택한 템플릿 태그 (예: KPT, FIVE_F 등)
  */
-export const postTemplateChoiceListView = async () => {
-  const response = await api.post("/stats/template/choice/list-view");
+export const postTemplateChoiceListView = async (formTag: TemplateChoiceFormTag) => {
+  const response = await api.post("/stats/template/choice/list-view", null, {
+    params: { formTag },
+  });
   return response.data;
 };
 
