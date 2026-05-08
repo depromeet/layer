@@ -77,8 +77,8 @@ import { TemplateTip } from "../../component/retrospect/template/list/TemplateLi
 import { TemplateQuestion } from "../../component/retrospect/template/list/TemplateListDetailItem/TemplateQuestion";
 import { splitTemplateIntroduction } from "@/utils/retrospect/splitTemplateIntroduction";
 import { useGetSimpleTemplateInfo } from "@/hooks/api/template/useGetSimpleTemplateInfo";
-import { resolveFormTag } from "@/component/retrospect/template/list/DefaultTemplateListItem";
 import { useApiPostTemplateChoiceListView } from "@/hooks/api/backoffice/useApiPostTemplateChoiceListView";
+import { resolveFormTag } from "@/utils/template/resolveFormTag";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
