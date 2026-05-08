@@ -8,7 +8,9 @@ import { Card } from "@/component/common/Card";
 import { Tag } from "@/component/common/tag";
 import { Typography } from "@/component/common/typography";
 import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture.tsx";
+import { useApiPostTemplateChoiceListView } from "@/hooks/api/backoffice/useApiPostTemplateChoiceListView";
 import { PATHS } from "@layer/shared";
+import { resolveFormTag } from "@/utils/template/resolveFormTag";
 
 type DefaultTemplateListItemProps = {
   id: number;
@@ -21,6 +23,7 @@ type DefaultTemplateListItemProps = {
 export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTemplateListItemProps) {
   const { spaceId, readOnly } = useContext(TemplateListPageContext);
   const navigate = useNavigate();
+  const { mutate: templateChoiceClickMutation } = useApiPostTemplateChoiceListView();
 
   const handleClickDetail = () => {
     navigate(PATHS.viewDetailTemplate(), {
@@ -65,6 +68,7 @@ export function DefaultTemplateListItem({ id, title, tag, imageUrl }: DefaultTem
             colorSchema={"outline"}
             onClick={(e) => {
               e.stopPropagation();
+              templateChoiceClickMutation(resolveFormTag(tag));
               navigate(PATHS.retrospectRecommendDone(), {
                 state: { spaceId, templateId: id },
               });
