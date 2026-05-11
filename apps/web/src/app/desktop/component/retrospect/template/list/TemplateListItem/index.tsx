@@ -10,8 +10,9 @@ import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { TemplateListConform } from "../TemplateListConform";
 import { useSearchParams } from "react-router-dom";
 import { useApiPostTemplateChoiceListView } from "@/hooks/api/backoffice/useApiPostTemplateChoiceListView";
+import { resolveFormTag } from "@/utils/template/resolveFormTag";
 
-type DesktopTemplateListItemProps = {
+export type DesktopTemplateListItemProps = {
   id: number;
   title: string;
   tag: string;
@@ -121,7 +122,7 @@ export function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateLi
               });
             }
 
-            templateChoiceClickMutation();
+            templateChoiceClickMutation(resolveFormTag(tag));
           }}
         >
           <Typography variant={"body12Bold"} color={"gray800"}>

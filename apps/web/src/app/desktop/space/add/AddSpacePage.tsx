@@ -2,7 +2,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { ButtonProvider, CategoryButton, FieldButton, IconButton } from "@/component/common/button";
+import { Button, ButtonProvider, CategoryButton, FieldButton, IconButton } from "@/component/common/button";
 import { Header, HeaderProvider } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
 import { IconType } from "@/component/common/Icon/Icon";
@@ -51,7 +51,7 @@ import { useApiGetUser } from "@/hooks/api/auth/useApiGetUser";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { encryptId } from "@/utils/space/cryptoKey";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { CREATE_RETROSPECT_INIT_ATOM, DEFAULT_QUESTIONS } from "@/store/retrospect/retrospectCreate";
 import { CREATE_SPACE_INIT_ATOM } from "@/store/space/spaceAtom";
 import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
@@ -60,8 +60,25 @@ import { DesktopDateTimeInput } from "../../component/retrospectCreate/DesktopDa
 import { queryClient } from "@/lib/tanstack-query/queryClient";
 import TemplateListDetailItem from "../../component/retrospect/template/list/TemplateListDetailItem";
 import { PATHS } from "@layer/shared";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_EVENTS, GA_FUNNEL_LABELS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_EVENTS, GA_FUNNEL_LABELS } from "@/lib/google-analytics/events";
+import { branchLayoutAtom } from "@/store/auth/authAtom";
+import { TemplateListTab } from "../../component/retrospect/template/list/TemplateListTab";
+import { useTabs } from "@/hooks/useTabs";
+import { TemplateListTabButton } from "../../component/retrospect/template/list/TemplateListTab/TemplateListTabButton";
+import { useGetDefaultTemplateList } from "@/hooks/api/template/useGetDefaultTemplateList";
+import { DesktopTemplateListItemProps } from "../../component/retrospect/template/list/TemplateListItem";
+import { formatTitle } from "@/utils/retrospect/formatTitle";
+import { DESIGN_SYSTEM_COLOR } from "@/style/variable";
+import { TemplateLottiePicture } from "@/component/template/TemplateLottiePicture";
+import { TemplateBasic } from "../../component/retrospect/template/list/TemplateListDetailItem/TemplateBasic";
+import { TemplatePurpose } from "../../component/retrospect/template/list/TemplateListDetailItem/TemplatePurpose";
+import { TemplateTip } from "../../component/retrospect/template/list/TemplateListDetailItem/TemplateTip";
+import { TemplateQuestion } from "../../component/retrospect/template/list/TemplateListDetailItem/TemplateQuestion";
+import { splitTemplateIntroduction } from "@/utils/retrospect/splitTemplateIntroduction";
+import { useGetSimpleTemplateInfo } from "@/hooks/api/template/useGetSimpleTemplateInfo";
+import { useApiPostTemplateChoiceListView } from "@/hooks/api/backoffice/useApiPostTemplateChoiceListView";
+import { resolveFormTag } from "@/utils/template/resolveFormTag";
 
 type flowType = "INFO" | "RECOMMEND" | "RECOMMEND_PROGRESS" | "CREATE" | "COMPLETE";
 type templateType = { id: number; title: string; imageUrl: string; templateName: string };
@@ -102,10 +119,16 @@ interface phaseContextType {
 
   // phase functions
   setFlow: (flow: flowType, phase?: number) => void;
+  goBackToTemplateSelect: () => void;
+  goToLastPhaseOf: (targetFlow: flowType) => void;
+  detailFrom: "list" | "confirm";
+  setDetailFrom: Dispatch<SetStateAction<"list" | "confirm">>;
   isLastPhase: boolean;
   isFirstPhase: boolean;
   nextPhase: () => void;
   prevPhase: () => void;
+  isVisibleProgressBar: boolean;
+  setIsVisibleProgressBar: Dispatch<SetStateAction<boolean>>;
 }
 
 // 각 단계에서 필요한 상태와 함수를 Context로 관리해요
@@ -124,6 +147,7 @@ const PhaseContext = createContext<phaseContextType>({
   spaceId: null,
   isLastPhase: false,
   isFirstPhase: true,
+  isVisibleProgressBar: true,
   selectedRecommendTemplate: null,
   selectedRecommendTemplateId: null,
   recommendTemplateList: [],
@@ -144,8 +168,13 @@ const PhaseContext = createContext<phaseContextType>({
   setRecommendTemplateType: () => {},
   setRecommendTemplateList: () => {},
   setSelectedCategory: () => {},
+  setIsVisibleProgressBar: () => {},
   // phase functions
   setFlow: () => {},
+  goBackToTemplateSelect: () => {},
+  goToLastPhaseOf: () => {},
+  detailFrom: "list",
+  setDetailFrom: () => {},
   nextPhase: () => {},
   prevPhase: () => {},
 });
@@ -262,6 +291,274 @@ function InputSpaceInfoFunnel() {
   );
 }
 
+// 3단계 (B 테스트 퍼널) : 회고 템플릿 선택
+function SelectRetrospectTemplateBranchFunnel() {
+  const DEFAULT_TAB = ["기본"] as const;
+  const { tabs, curTab, selectTab } = useTabs(DEFAULT_TAB);
+  const { data: templates } = useGetDefaultTemplateList();
+  const { nextPhase, setFlow, setSelectedRecommendTemplateId } = useContext(PhaseContext);
+
+  const NavigateRecommendTemplate = () => {
+    nextPhase();
+    setFlow("RECOMMEND", 0);
+  };
+
+  const handleNextPhase = ({ id, to }: { id: string; to: "result" | "detail" }) => {
+    setSelectedRecommendTemplateId(Number(id));
+    if (to === "detail") {
+      nextPhase();
+    }
+    if (to === "result") {
+      setFlow("INFO", 4);
+    }
+  };
+
+  function TemplateListItem({ id, title, tag, imageUrl }: DesktopTemplateListItemProps) {
+    const { mutate: templateChoiceClickMutation } = useApiPostTemplateChoiceListView();
+
+    return (
+      <li
+        css={css`
+          padding: 1.6rem;
+          border: 0.1rem solid ${DESIGN_SYSTEM_COLOR.grey100};
+          border-radius: 0.8rem;
+          background-color: #fff;
+          cursor: pointer;
+        `}
+        onClick={() => handleNextPhase({ id: id?.toString(), to: "detail" })}
+      >
+        <div
+          css={css`
+            display: flex;
+            margin-bottom: 1.6rem;
+          `}
+        >
+          <div
+            css={css`
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+            `}
+          >
+            {title.split("\n").map((title, index) => (
+              <div key={index}>
+                <Typography variant="subtitle14Bold">{title}</Typography>
+              </div>
+            ))}
+            <Tag
+              styles={css`
+                margin-top: 4.3rem;
+              `}
+              size="small"
+            >
+              {tag}
+            </Tag>
+          </div>
+          {imageUrl && (
+            <div
+              css={css`
+                display: flex;
+                width: 8.6rem;
+                aspect-ratio: 1/1;
+                margin-top: auto;
+              `}
+            >
+              <TemplateLottiePicture templateId={id} />
+            </div>
+          )}
+        </div>
+        <button
+          css={css`
+            width: 100%;
+            text-align: center;
+            padding: 0.8rem 2rem;
+            border-radius: 0.8rem;
+            border: 0.1rem solid #dfe3ea;
+          `}
+          onClick={(event) => {
+            event.stopPropagation();
+            templateChoiceClickMutation(resolveFormTag(tag));
+            handleNextPhase({ id: id?.toString(), to: "result" });
+          }}
+        >
+          <Typography variant={"body12Bold"} color={"gray800"}>
+            선택하기
+          </Typography>
+        </button>
+      </li>
+    );
+  }
+
+  return (
+    <Fragment>
+      <Header title={`원하는 회고 템플릿을\n선택해주세요`} />
+      <div
+        css={css`
+          height: 100%;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          row-gap: 1.2rem;
+
+          .template-list-tab-container {
+            background-color: #fff;
+            top: 0;
+          }
+        `}
+      >
+        <TemplateListTab tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TemplateListTabButton} />
+        <div
+          className="recommend-template-container"
+          css={css`
+            display: flex;
+            padding: 16px 18px 16px 16px;
+            align-items: center;
+            gap: 10px;
+            align-self: stretch;
+            border-radius: 8px;
+            border: 1px solid ${DESIGN_TOKEN_COLOR.gray200};
+            background: ${DESIGN_TOKEN_COLOR.gray00};
+          `}
+        >
+          <Icon icon="ic_stars" size={2.2} />
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              row-gap: 0.2rem;
+            `}
+          >
+            <Typography variant="B2_SEMIBOLD" color={"grey800"}>
+              회고 템플릿 추천
+            </Typography>
+            <Typography variant="CAPTION" color={"grey700"}>
+              어울리는 회고 템플릿이 궁금하다면 맞춤 추천을 받아보세요
+            </Typography>
+          </div>
+          <Button
+            css={css`
+              background: ${DESIGN_TOKEN_COLOR.gray200};
+              padding: 0.8rem 2rem;
+              width: fit-content;
+              height: auto;
+              border-radius: 0.8rem;
+              margin-left: auto;
+            `}
+          >
+            <Typography variant="CAPTION" onClick={NavigateRecommendTemplate}>
+              추천 받기
+            </Typography>
+          </Button>
+        </div>
+        <div
+          css={css`
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.2rem;
+            background-color: ${DESIGN_TOKEN_COLOR.gray200};
+            border-radius: 0.8rem;
+          `}
+        >
+          <Icon icon={"ic_info"} color={DESIGN_SYSTEM_COLOR.grey500} />
+          <Typography color={"gray600"} variant={"body12SemiBold"}>
+            카드를 클릭하면 자세한 내용을 확인할 수 있어요
+          </Typography>
+        </div>
+        <ul
+          css={css`
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+            margin-top: 2rem;
+            padding-bottom: 2.4rem;
+          `}
+        >
+          {templates.map((template) => (
+            <TemplateListItem
+              key={template.id}
+              id={template.id}
+              title={formatTitle(template.title, template.id)}
+              tag={template.templateName}
+              imageUrl={template.imageUrl}
+            />
+          ))}
+        </ul>
+      </div>
+    </Fragment>
+  );
+}
+
+// 3단계 ㅡ 1 (B 테스트 퍼널) : 회고 템플릿 상세 선택
+function DetailRetrospectTemplateBranchFunnel() {
+  const { setFlow, selectedRecommendTemplateId, setIsVisibleProgressBar, detailFrom, setDetailFrom } = useContext(PhaseContext);
+  const { tabs, curTab, selectTab } = useTabs(["기본", "질문구성"] as const);
+  const { data } = useGetTemplateInfo({ templateId: selectedRecommendTemplateId! });
+  const { heading, description } = splitTemplateIntroduction(data.introduction);
+  const { updateState } = useDesktopBasicModal();
+  const { mutate: templateChoiceClickMutation } = useApiPostTemplateChoiceListView();
+
+  const isFromConfirm = detailFrom === "confirm";
+  const handleBack = () => {
+    setDetailFrom("list");
+    setFlow("INFO", isFromConfirm ? 4 : 2);
+  };
+
+  useEffect(() => {
+    setIsVisibleProgressBar(false);
+    updateState({
+      title: data.title,
+      options: { needsBackButton: true, backButtonCallback: handleBack },
+    });
+    return () => {
+      setIsVisibleProgressBar(true);
+      updateState({
+        title: "",
+        options: { needsBackButton: false, backButtonCallback: undefined },
+      });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFromConfirm]);
+
+  return (
+    <Fragment>
+      <article
+        css={css`
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
+          height: 100%;
+
+          .template-list-tab-container {
+            top: 0;
+            padding-top: 0;
+          }
+        `}
+      >
+        <TemplateListTab tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TemplateListTabButton} />
+        <TemplateBasic templateId={selectedRecommendTemplateId!} heading={heading} description={description} imageUrl={data.templateImageUrl} />
+        <TemplatePurpose templatePurposeResponseList={data.templatePurposeResponseList} />
+        <TemplateTip tipTitle={data.tipTitle} tipDescription={data.tipDescription} />
+        <TemplateQuestion templateId={selectedRecommendTemplateId!} templateDetailQuestionList={data.templateDetailQuestionList} />
+      </article>
+
+      {!isFromConfirm && (
+        <ButtonProvider sort={"horizontal"}>
+          <ButtonProvider.Primary
+            onClick={() => {
+              setFlow("INFO", 4);
+              templateChoiceClickMutation(resolveFormTag(data.templateName));
+            }}
+          >
+            선택하기
+          </ButtonProvider.Primary>
+        </ButtonProvider>
+      )}
+    </Fragment>
+  );
+}
+
 // 3단계 퍼널: 회고 템플릿 선택
 function SelectRetrospectTemplateFunnel() {
   const { openFunnelModal } = useFunnelModal();
@@ -269,7 +566,6 @@ function SelectRetrospectTemplateFunnel() {
     useContext(PhaseContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const isSelected = recommendTemplateType !== null;
-
   const { toast } = useToast();
 
   const handleMoveToCreateRetrospect = () => {
@@ -318,7 +614,7 @@ function SelectRetrospectTemplateFunnel() {
     if (selectedTemplateId) {
       setSelectedRecommendTemplateId(Number(selectedTemplateId));
       setSearchParams({});
-      setFlow("CREATE", 0);
+      nextPhase();
     }
   }, [searchParams]);
 
@@ -406,9 +702,88 @@ function SelectRetrospectTemplateFunnel() {
   );
 }
 
+// 3단계 퍼널: 회고 템플릿 확정
+function ConfirmRetrospectTemplateFunnel() {
+  const { selectedRecommendTemplateId, setFlow, goBackToTemplateSelect, setDetailFrom } = useContext(PhaseContext);
+  if (!selectedRecommendTemplateId) return;
+  const { data: templateData } = useGetSimpleTemplateInfo(selectedRecommendTemplateId?.toString());
+  return (
+    <Fragment>
+      <Header title={`해당 템플릿으로\n회고를 진행할까요?`} contents="템플릿을 기반으로 질문을 커스텀 할 수 있어요" />
+      <Spacing size={9} />
+      <div
+        css={css`
+          display: flex;
+          justify-content: center;
+        `}
+      >
+        <Tooltip>
+          <Tooltip.Trigger>
+            <div
+              css={css`
+                display: flex;
+                width: 45rem;
+                height: 20rem;
+                border-radius: 12px;
+                border: 0.15rem solid ${DESIGN_TOKEN_COLOR.gray300};
+                padding: 2.4rem 2rem;
+                cursor: pointer;
+              `}
+              onClick={() => {
+                setDetailFrom("confirm");
+                setFlow("INFO", 3);
+              }}
+            >
+              <div
+                css={css`
+                  display: flex;
+                  width: 100%;
+                  flex-direction: column;
+                `}
+              >
+                <Typography variant="S1"> {templateData.title} </Typography>
+                <Typography
+                  variant="B2"
+                  color="darkGrayText"
+                  css={css`
+                    width: fit-content;
+                    display: flex;
+                    padding: 0.6rem 1.2rem;
+                    box-sizing: border-box;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: auto;
+                    border-radius: 0.6rem;
+                    background: ${DESIGN_TOKEN_COLOR.gray100};
+                  `}
+                >
+                  {templateData.templateName}
+                </Typography>
+              </div>
+              <img src={templateData.imageUrl} />
+            </div>
+          </Tooltip.Trigger>
+          <Tooltip.Content message="자세히 알고싶다면 카드를 클릭해보세요!" placement="top-start" offsetY={15} hideOnClick />
+        </Tooltip>
+      </div>
+      <ButtonProvider>
+        <div
+          css={css`
+            display: flex;
+            gap: 0.8rem;
+          `}
+        >
+          <ButtonProvider.Gray onClick={goBackToTemplateSelect}>템플릿 변경</ButtonProvider.Gray>
+          <ButtonProvider.Primary onClick={() => setFlow("CREATE", 0)}>진행하기</ButtonProvider.Primary>
+        </div>
+      </ButtonProvider>
+    </Fragment>
+  );
+}
+
 // 4-1-a단계 퍼널 : 회고 템플릿 추천
 function TemplateRecommendFunnel() {
-  const { nextPhase, setFlow, periodic, setPeriodic } = useContext(PhaseContext);
+  const { nextPhase, goBackToTemplateSelect, periodic, setPeriodic } = useContext(PhaseContext);
   const isSelected = periodic !== null;
 
   return (
@@ -438,7 +813,7 @@ function TemplateRecommendFunnel() {
         `}
         sort="horizontal"
       >
-        <ButtonProvider.Gray onClick={() => setFlow("INFO", 2)}>이전</ButtonProvider.Gray>
+        <ButtonProvider.Gray onClick={goBackToTemplateSelect}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={nextPhase} disabled={!isSelected}>
           다음
         </ButtonProvider.Primary>
@@ -651,7 +1026,7 @@ function TemplateSelectedRetrospectFunnel() {
 }
 // 5-2 단계 퍼널 : 템플릿 추천 완료 및 질문 선정 전 확정 단계
 function RecommendRetrospectTemplateConfirmFunnel() {
-  const { selectedRecommendTemplate, setFlow } = useContext(PhaseContext);
+  const { selectedRecommendTemplate, setFlow, goBackToTemplateSelect } = useContext(PhaseContext);
   const { openFunnelModal, closeFunnelModal } = useFunnelModal();
 
   // TODO: 추후에 퍼널에 종속되지 않는 템플릿 조회 페이지로 개발하기
@@ -701,7 +1076,7 @@ function RecommendRetrospectTemplateConfirmFunnel() {
           padding: 0;
         `}
       >
-        <ButtonProvider.Gray onClick={() => setFlow("INFO", 2)}>템플릿 변경</ButtonProvider.Gray>
+        <ButtonProvider.Gray onClick={goBackToTemplateSelect}>템플릿 변경</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={() => setFlow("CREATE", 0)}>진행하기</ButtonProvider.Primary>
       </ButtonProvider>
     </div>
@@ -710,7 +1085,7 @@ function RecommendRetrospectTemplateConfirmFunnel() {
 
 // 6-1 단계 퍼널 : 회고 질문 생성 단계
 function CreateRetrospectQuestionFunnel() {
-  const { selectedRecommendTemplateId, setSelectedRecommendTemplate, setFlow, nextPhase, questions, setQuestions } = useContext(PhaseContext);
+  const { selectedRecommendTemplateId, setSelectedRecommendTemplate, goToLastPhaseOf, nextPhase, questions, setQuestions } = useContext(PhaseContext);
   const { data: customTemplateInfo, isSuccess: isSuccessGetCustomTemplateInfo } = useGetCustomTemplate(selectedRecommendTemplateId!);
   const { open: openDesktopModal } = useDesktopBasicModal();
   const { data: defaultTemplateInfo, isSuccess: isSuccessGetTemplateInfo } = useGetTemplateInfo({ templateId: selectedRecommendTemplateId! });
@@ -813,7 +1188,7 @@ function CreateRetrospectQuestionFunnel() {
           padding: 0;
         `}
       >
-        <ButtonProvider.Gray onClick={() => setFlow("INFO", 2)}>이전</ButtonProvider.Gray>
+        <ButtonProvider.Gray onClick={() => goToLastPhaseOf("INFO")}>이전</ButtonProvider.Gray>
         <ButtonProvider.Primary onClick={nextPhase}>진행하기</ButtonProvider.Primary>
       </ButtonProvider>
     </div>
@@ -957,6 +1332,7 @@ function CompleteCreateSpace() {
   const [animate, setAnimate] = useState(isCreatedIndividualSpace);
   const encryptedId = encryptId(spaceId!.toString());
   const navigate = useNavigate();
+  const branchLayout = useAtomValue(branchLayoutAtom);
 
   const handleShareKakao = async () => {
     shareKakaoWeb(
@@ -980,7 +1356,7 @@ function CompleteCreateSpace() {
     closeModalDesktop();
     resetRetrospectInfo();
     resetSpaceInfo();
-    trackEvent(GA_EVENTS.SPACE.ADD_DONE);
+    branchLayout === "A" ? trackEvent(GA_EVENTS.SPACE.ADD_DONE_B_LAYOUT) : trackEvent(GA_EVENTS.SPACE.ADD_DONE_A_LAYOUT);
   };
 
   useEffect(() => {
@@ -1089,6 +1465,7 @@ export default function AddSpacePage() {
   const [selectedRecommendTemplateId, setSelectedRecommendTemplateId] = useAtom(CREATE_RETROSPECT_INIT_ATOM.curFormId);
   const [questions, setQuestions] = useAtom(CREATE_RETROSPECT_INIT_ATOM.questions);
   const [spaceId, setSpaceId] = useState<number | null>(null);
+  const [detailFrom, setDetailFrom] = useState<"list" | "confirm">("list");
   const [selectedRecommendTemplate, setSelectedRecommendTemplate] = useState<{
     id: number;
     title: string;
@@ -1102,12 +1479,14 @@ export default function AddSpacePage() {
       imageUrl: string;
     }[]
   >([]);
+  const branchLayout = useAtomValue(branchLayoutAtom);
 
-  const FLOW_COMPONENTS = {
+  const DEFAULT_FUNNEL_FLOW = {
     INFO: {
       0: SelectSpaceTypeFunnel,
       1: InputSpaceInfoFunnel,
       2: SelectRetrospectTemplateFunnel,
+      3: ConfirmRetrospectTemplateFunnel,
     },
     RECOMMEND: {
       0: TemplateRecommendFunnel,
@@ -1125,7 +1504,22 @@ export default function AddSpacePage() {
     COMPLETE: {
       0: CompleteCreateSpace,
     },
-  } as const;
+  };
+
+  const FLOW_COMPONENTS =
+    branchLayout === "A"
+      ? DEFAULT_FUNNEL_FLOW
+      : ({
+          ...DEFAULT_FUNNEL_FLOW,
+          INFO: {
+            0: SelectSpaceTypeFunnel,
+            1: InputSpaceInfoFunnel,
+            2: SelectRetrospectTemplateBranchFunnel,
+            3: DetailRetrospectTemplateBranchFunnel,
+            4: ConfirmRetrospectTemplateFunnel,
+          },
+        } as const);
+
   const TOTAL_PHASE = ((flow: flowType): number => {
     return Object.keys(FLOW_COMPONENTS[flow]).length;
   })(flow);
@@ -1136,11 +1530,11 @@ export default function AddSpacePage() {
   const nextPhase = () => setPhase((prev) => prev + 1);
   const prevPhase = () => setPhase((prev) => (prev < 1 ? prev : prev - 1));
 
-  const isVisibleProgressBar = (() => {
-    if (["COMPLETE", "RECOMMEND_PROGRESS"].includes(flow)) return false;
+  const [isVisibleProgressBar, setIsVisibleProgressBar] = useState(() => !["COMPLETE", "RECOMMEND_PROGRESS"].includes(flow));
 
-    return true;
-  })();
+  useEffect(() => {
+    setIsVisibleProgressBar(!["COMPLETE", "RECOMMEND_PROGRESS"].includes(flow));
+  }, [flow]);
   const CurrentComponent = FLOW_COMPONENTS[flow][phase as keyof (typeof FLOW_COMPONENTS)[typeof flow]];
 
   // 스페이스 생성 퍼널 단계 변경 시 GA 이벤트를 전송해요
@@ -1196,6 +1590,19 @@ export default function AddSpacePage() {
             setFlow(flow);
             setPhase(phase ?? 0);
           },
+          detailFrom,
+          setDetailFrom,
+          goBackToTemplateSelect: () => {
+            setFlow("INFO");
+            setPhase(2);
+          },
+          goToLastPhaseOf: (targetFlow: flowType) => {
+            const lastPhase = Object.keys(FLOW_COMPONENTS[targetFlow]).length - 1;
+            setFlow(targetFlow);
+            setPhase(lastPhase);
+          },
+          isVisibleProgressBar,
+          setIsVisibleProgressBar,
         } as phaseContextType
       }
     >

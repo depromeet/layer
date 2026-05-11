@@ -14,8 +14,13 @@ import { TemplateListItem } from "./TemplateListItem";
 import { TemplateListTab } from "./TemplateListTab";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useSearchParams } from "react-router-dom";
-import { trackEvent } from "@/lib/google_analytics";
-import { GA_EVENTS } from "@/lib/google_analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
+import { useAtomValue } from "jotai";
+import { branchLayoutAtom } from "@/store/auth/authAtom";
+import { Button } from "@/component/common/button";
+import { useFunnelModal } from "@/hooks/useFunnelModal";
+import { TemplateRecommend } from "../recommend";
 
 export const TemplateListPageContext = createContext<{
   spaceId: string;
@@ -25,12 +30,94 @@ export const TemplateListPageContext = createContext<{
   isLeader: false,
 });
 
+function InfoBanner() {
+  return (
+    <div
+      css={css`
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.8rem 1.2rem;
+        background-color: ${DESIGN_TOKEN_COLOR.gray200};
+        border-radius: 0.8rem;
+      `}
+    >
+      <Icon icon={"ic_info"} color={DESIGN_SYSTEM_COLOR.grey500} />
+      <Typography color={"gray600"} variant={"body12SemiBold"}>
+        카드를 클릭하면 자세한 내용을 확인할 수 있어요
+      </Typography>
+    </div>
+  );
+}
+
+// B안) 템플릿 추천 배너
+function RecommendBanner({ onClickRecommend }: { onClickRecommend: () => void }) {
+  return (
+    <div
+      css={css`
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 1.6rem 1.8rem 1.6rem 1.6rem;
+        border-radius: 0.8rem;
+        gap: 0.8rem;
+      `}
+    >
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+          gap: 1.2rem;
+        `}
+      >
+        <Icon
+          icon="ic_stars"
+          size={2.2}
+          css={css`
+            flex-shrink: 0;
+          `}
+        />
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            row-gap: 0.2rem;
+          `}
+        >
+          <Typography variant="subtitle14Bold" color={"gray800"}>
+            회고 템플릿 추천
+          </Typography>
+          <Typography variant="body12SemiBold" color={"gray700"}>
+            어울리는 회고 템플릿이 궁금하다면 맞춤 추천을 받아보세요
+          </Typography>
+        </div>
+      </div>
+      <Button
+        css={css`
+          background: ${DESIGN_TOKEN_COLOR.gray200};
+          width: fit-content;
+          height: auto;
+          flex-shrink: 0;
+          padding: 0.8rem 2rem;
+          border-radius: 0.8rem;
+        `}
+        onClick={onClickRecommend}
+      >
+        <Typography variant="body12Strong">추천 받기</Typography>
+      </Button>
+    </div>
+  );
+}
+
 export function TemplateList() {
   const { toast } = useToast();
   const isLeader = useRef(false);
   const params = useRequiredParams<{ spaceId?: string }>();
   const [searchParams] = useSearchParams();
   const spaceId = params.spaceId || searchParams.get("spaceId") || "";
+  const branchLayout = useAtomValue(branchLayoutAtom);
+  const { openFunnelModal } = useFunnelModal();
 
   const { data: templates } = useGetDefaultTemplateList();
 
@@ -56,6 +143,14 @@ export function TemplateList() {
     trackEvent(GA_EVENTS.RETROSPECT.FUNNEL_VIEW_LIST);
   }, []);
 
+  const handleClickRecommend = () => {
+    openFunnelModal({
+      title: "",
+      step: "recommendTemplate",
+      contents: <TemplateRecommend />,
+    });
+  };
+
   return (
     <>
       {/* ---------- 템플릿 탭 UI ---------- */}
@@ -69,27 +164,13 @@ export function TemplateList() {
         `}
       >
         <TemplateListPageContext.Provider value={{ spaceId, isLeader: isLeader.current }}>
-          <div
-            css={css`
-              display: flex;
-              align-items: center;
-              gap: 0.8rem;
-              padding: 0.8rem 1.2rem;
-              background-color: ${DESIGN_TOKEN_COLOR.gray200};
-              border-radius: 0.8rem;
-            `}
-          >
-            <Icon icon={"ic_info"} color={DESIGN_SYSTEM_COLOR.grey500} />
-            <Typography color={"gray600"} variant={"body12SemiBold"}>
-              카드를 클릭하면 자세한 내용을 확인할 수 있어요
-            </Typography>
-          </div>
+          {branchLayout === "A" ? <InfoBanner /> : <RecommendBanner onClickRecommend={handleClickRecommend} />}
           <ul
             css={css`
               display: grid;
               grid-template-columns: repeat(2, 1fr);
               gap: 1.2rem;
-              margin-top: 2rem;
+              margin-top: ${branchLayout === "A" ? "2rem" : "1.2rem"};
               padding-bottom: 2.4rem;
             `}
           >

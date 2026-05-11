@@ -4,7 +4,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { useGetSimpleTemplateInfo } from "@/hooks/api/template/useGetSimpleTemplateInfo";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { css } from "@emotion/react";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Tooltip } from "@/component/common/tip";
 import { ButtonProvider } from "@/component/common/button";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
@@ -13,6 +13,8 @@ import { useActionModal } from "@/hooks/useActionModal";
 import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 import { retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
+import { branchLayoutAtom } from "@/store/auth/authAtom";
+import { TemplateList } from ".";
 
 export function TemplateListConform() {
   const [retrospectValue, setRetrospectValue] = useAtom(retrospectInitialState);
@@ -21,14 +23,23 @@ export function TemplateListConform() {
   const { data: templateData, isLoading } = useGetSimpleTemplateInfo(retrospectValue.tempTemplateId);
   const { openFunnelModal } = useFunnelModal();
   const { openActionModal } = useActionModal();
+  const branchLayout = useAtomValue(branchLayoutAtom);
 
   if (isLoading) return <LoadingModal />;
 
   const handleMoveToChangeTemplate = () => {
-    openActionModal({
-      title: "",
-      contents: <TemplateChoice />,
-    });
+    if (branchLayout === "A") {
+      openActionModal({
+        title: "",
+        contents: <TemplateChoice />,
+      });
+    } else {
+      openFunnelModal({
+        title: "템플릿 리스트",
+        step: "listTemplate",
+        contents: <TemplateList />,
+      });
+    }
   };
 
   const handleMoveToConfirmTemplate = () => {

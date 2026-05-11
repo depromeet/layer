@@ -48,7 +48,7 @@ export default function RetroSpectSpacePage() {
         name: spaceData.name,
         introduction: spaceData.introduction,
         formId: spaceData.formId ?? prev?.formId ?? 0,
-        formTag: prev?.formTag ?? null,
+        formTag: spaceData.formTag ?? prev?.formTag ?? null,
         bannerUrl: spaceData.bannerUrl,
         memberCount: spaceData.memberCount,
         leader: spaceData.leader,
