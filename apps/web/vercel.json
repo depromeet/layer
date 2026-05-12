@@ -16,12 +16,8 @@
   "routes": [
     { "handle": "filesystem" },
     {
-      "src": "/space/join/(.*)",
-      "dest": "/server/server.cjs"
-    },
-    {
       "src": "/.*",
-      "dest": "/index.html"
+      "dest": "/server/server.cjs"
     }
   ]
 }

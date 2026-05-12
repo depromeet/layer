@@ -19,7 +19,9 @@ export default defineConfig(() => ({
     svgr(),
     Sitemap({
       hostname: "https://layerapp.io",
-      dynamicRoutes: ["/login", "/m/template"],
+      // 라우터(`apps/web/src/router/index.tsx`)의 공개 라우트와 일치해야 함
+      // 루트("/")는 hostname이 자동 포함하므로 dynamicRoutes에 명시하지 않음
+      dynamicRoutes: ["/login", "/template"],
       exclude: [
         "/desktop",
         "/desktop/**",
@@ -33,13 +35,17 @@ export default defineConfig(() => ({
         "/retrospect/**",
         "/space/create",
         "/space/create/**",
+        "/space/edit/**",
         "/goals",
         "/goals/**",
+        "/analysis",
         "/api/**",
       ],
       changefreq: "weekly",
       priority: 0.8,
       lastmod: new Date(),
+      // public/robots.txt를 직접 관리하므로 자동 생성 비활성화
+      generateRobotsTxt: false,
     }),
     VitePluginRadar({
       analytics: {
