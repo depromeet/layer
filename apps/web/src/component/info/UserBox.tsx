@@ -44,6 +44,11 @@ export function UserBox({ name, imgUrl }: UserBoxProps) {
           {imgUrl ? (
             <img
               src={imgUrl}
+              alt={`${name} 프로필`}
+              width={42}
+              height={42}
+              loading="eager"
+              decoding="async"
               css={css`
                 width: 4.2rem;
                 height: 4.2rem;

@@ -126,6 +126,42 @@ const STATIC_ROUTE_META = {
   "/staging": { noindex: true },
 };
 
+/**
+ * 라우터(`apps/web/src/router/index.tsx`)에 실제 정의된 경로 패턴 화이트리스트.
+ * 미매칭 시 catch-all에서 404 status를 반환해 Google "soft 404" 패널티를 방지.
+ *
+ * 라우터 변경 시 함께 갱신할 것.
+ */
+const KNOWN_ROUTE_PATTERNS = [
+  /^\/$/, // 홈
+  /^\/login$/,
+  /^\/template$/,
+  /^\/analysis$/,
+  /^\/goals(\/(more|edit))?$/,
+  /^\/write(\/complete)?$/,
+  /^\/staging$/,
+  /^\/setnickname\/(kakao|google|apple)$/,
+  /^\/space\/create(\/(done|next))?$/,
+  /^\/space\/edit\/[^/]+$/,
+  /^\/space\/join\/[^/]+$/,
+  /^\/space\/[^/]+(\/(templates|members(\/edit)?))?$/,
+  /^\/retrospect\/(new|complete|analysis)$/,
+  /^\/retrospect\/recommend(\/(search|done))?$/,
+  /^\/myinfo(\/(modify|userdeletion|notices|help|license|termsofservice|privacypolicy|feedback))?$/,
+  /^\/api\/auth\/oauth2\/(kakao|google)$/,
+  // 데스크탑
+  /^\/desktop$/,
+  /^\/desktop\/login$/,
+  /^\/desktop\/goals$/,
+  /^\/desktop\/space\/[^/]+$/,
+  /^\/desktop\/retrospect\/(analysis|write)$/,
+  /^\/desktop\/setnickname\/(kakao|google|apple)$/,
+];
+
+function isKnownRoute(reqPath) {
+  return KNOWN_ROUTE_PATTERNS.some((re) => re.test(reqPath));
+}
+
 const NOINDEX_PATH_PREFIXES = [
   "/myinfo/",
   "/write/",
@@ -252,28 +288,45 @@ app.get("/space/join/:id", async (req, res) => {
 
 app.get("*", (req, res) => {
   try {
+    const knownRoute = isKnownRoute(req.path);
     const routeMeta = resolveRouteMeta(req.path);
-    const isNoindex = !!routeMeta?.noindex;
+    // 미정의 라우트 → soft 404 방지를 위해 noindex + 404 status
+    const isNoindex = !!routeMeta?.noindex || !knownRoute;
     const cacheKind = isNoindex ? "static-noindex" : "static-public";
+    const cacheKey = knownRoute ? req.path : "__not_found__";
 
-    // 캐시 히트
-    if (META_CACHE.has(req.path)) {
+    // 캐시 히트 (정의된 라우트만)
+    if (knownRoute && META_CACHE.has(cacheKey)) {
       setCacheHeaders(res, cacheKind);
-      return res.send(META_CACHE.get(req.path));
+      return res.send(META_CACHE.get(cacheKey));
     }
 
     const html = readIndexHtml();
     const canonicalUrl = getCanonicalUrl(req.path);
 
-    const meta = isNoindex
-      ? { ...DEFAULT_META, ...routeMeta, url: canonicalUrl, noindex: true }
-      : { ...DEFAULT_META, ...(routeMeta || {}), url: canonicalUrl };
+    let meta;
+    if (!knownRoute) {
+      meta = {
+        title: "페이지를 찾을 수 없습니다 | Layer",
+        description: "요청하신 페이지가 존재하지 않거나 이동되었습니다.",
+        image: DEFAULT_OG_IMAGE,
+        url: canonicalUrl,
+        noindex: true,
+      };
+    } else if (isNoindex) {
+      meta = { ...DEFAULT_META, ...routeMeta, url: canonicalUrl, noindex: true };
+    } else {
+      meta = { ...DEFAULT_META, ...(routeMeta || {}), url: canonicalUrl };
+    }
 
     const result = injectMeta(html, meta);
 
-    setMetaCache(req.path, result);
+    if (knownRoute) {
+      setMetaCache(cacheKey, result);
+    }
     setCacheHeaders(res, cacheKind);
-    res.send(result);
+    // 미정의 경로는 명시적 404 status (SPA Error 컴포넌트가 본문 렌더)
+    res.status(knownRoute ? 200 : 404).send(result);
   } catch (err) {
     console.error("Error serving page:", err);
     const filePath = path.join(distPath, "index.html");

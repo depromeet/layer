@@ -63,6 +63,9 @@ export function TemplateCard({ name, tag, imgUrl, size = "default", onClick, rea
           >
             <img
               src={imgUrl}
+              alt="회고 템플릿 미리보기"
+              loading="lazy"
+              decoding="async"
               css={css`
                 mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
                 width: 60%;

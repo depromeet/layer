@@ -188,6 +188,10 @@ function MemberSelectionItem({ member, isSelected, onLeaderSelect, onMemberDelet
             <img
               src={member.avatar}
               alt={member.name}
+              width={32}
+              height={32}
+              loading="lazy"
+              decoding="async"
               css={css`
                 width: 100%;
                 height: 100%;

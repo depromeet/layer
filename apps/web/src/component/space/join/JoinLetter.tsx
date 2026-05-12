@@ -112,6 +112,11 @@ export function JoinLetter({ space, description, imgUrl, ...props }: JoinLetterP
           >
             <img
               src={imgUrl}
+              alt={`${space} 스페이스`}
+              width={68}
+              height={68}
+              loading="eager"
+              decoding="async"
               css={css`
                 width: 6.8rem;
                 height: 6.8rem;
