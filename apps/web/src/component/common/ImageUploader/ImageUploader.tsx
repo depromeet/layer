@@ -62,7 +62,15 @@ export const ImageUploader = ({ defaultImg, setImgFile, onChange }: ImageUploade
           }
         `}
       >
-        <img src={imgUrl || DefaultSpaceImgUrl} onError={(e) => (e.currentTarget.src = DefaultSpaceImgUrl)} alt="Preview" />
+        <img
+          src={imgUrl || DefaultSpaceImgUrl}
+          onError={(e) => (e.currentTarget.src = DefaultSpaceImgUrl)}
+          alt="이미지 미리보기"
+          width={isDesktop ? 120 : 180}
+          height={isDesktop ? 120 : 180}
+          loading="lazy"
+          decoding="async"
+        />
         <div
           css={css`
             position: absolute;

@@ -71,6 +71,11 @@ export function MembersItem({
             // FIXME: 추후에 Default Img 변경
             <img
               src={avatar || defaultUserImgUrl}
+              alt={`${name ?? "멤버"} 프로필`}
+              width={50}
+              height={50}
+              loading="lazy"
+              decoding="async"
               onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => (e.currentTarget.src = defaultUserImgUrl)}
               css={css`
                 width: 5rem;

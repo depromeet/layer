@@ -73,6 +73,11 @@ const ProfileButton = forwardRef<HTMLButtonElement, ProfileButtonProps>(({ name,
       {imageUrl ? (
         <img
           src={imageUrl}
+          alt="내 프로필"
+          width={24}
+          height={24}
+          loading="eager"
+          decoding="async"
           css={css`
             width: 2.4rem;
             height: 2.4rem;

@@ -49,6 +49,11 @@ const SpaceOverview = forwardRef<HTMLDivElement, SpaceOverviewProps>(
         >
           <img
             src={bannerUrl || spaceDefaultImg}
+            alt="스페이스 썸네일"
+            width={40}
+            height={40}
+            loading="lazy"
+            decoding="async"
             onError={(e) => {
               e.currentTarget.src = spaceDefaultImg;
             }}

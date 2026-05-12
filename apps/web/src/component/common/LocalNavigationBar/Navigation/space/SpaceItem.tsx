@@ -102,7 +102,11 @@ const SpaceButton = forwardRef<HTMLLIElement, SpaceButtonProps>(({ space, isColl
       >
         <img
           src={bannerUrl}
-          alt={`${name}Image`}
+          alt={`${name} 스페이스`}
+          width={36}
+          height={36}
+          loading="lazy"
+          decoding="async"
           onError={(e) => {
             e.currentTarget.src = spaceDefaultImg;
           }}

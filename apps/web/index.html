@@ -13,14 +13,14 @@
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
     />
     <title>성장하는 당신을 위한 회고 서비스, Layer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <!--
+      WCAG 1.4.4: 사용자 확대(pinch-to-zoom) 허용. 특정 화면에서 확대를 막아야 한다면
+      JS로 페이지 단위 동적 제어 권장 (모든 사용자에게 강제하지 말 것).
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
-    <meta
-      name="keywords"
-      content="회고, 회고록, retrospect, 회고 서비스, AI 분석, 템플릿, KPT, 5F, 성장, 팀 회고, 개인 회고, Layer, 레이어, 성장하는 사람들의 회고 모임, 메모어"
-    />
+    <meta name="description" content="회고 작성부터 AI 분석까지, Layer에서 KPT·5F 등 다양한 템플릿으로 개인·팀 회고를 시작해보세요." />
     <meta name="author" content="Layer Team" />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#009BFF" />
@@ -29,8 +29,9 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://layerapp.io/" />
     <meta property="og:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
-    <meta property="og:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
+    <meta property="og:description" content="회고 작성부터 AI 분석까지, Layer에서 KPT·5F 등 다양한 템플릿으로 개인·팀 회고를 시작해보세요." />
     <meta property="og:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
+    <meta property="og:image:alt" content="Layer — 성장하는 당신을 위한 회고 서비스" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="layer" />
@@ -39,8 +40,52 @@
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="성장하는 당신을 위한 회고 서비스, Layer" />
-    <meta name="twitter:description" content="편리한 회고 작성부터 AI 분석까지 Layer에서 함께해요!" />
+    <meta name="twitter:description" content="회고 작성부터 AI 분석까지, Layer에서 KPT·5F 등 다양한 템플릿으로 개인·팀 회고를 시작해보세요." />
     <meta name="twitter:image" content="https://kr.object.ncloudstorage.com/layer-bucket/og-image.png" />
+    <meta name="twitter:image:alt" content="Layer — 성장하는 당신을 위한 회고 서비스" />
+
+    <!-- Structured Data: Organization & WebSite -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://layerapp.io/#organization",
+            "name": "Layer",
+            "url": "https://layerapp.io/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://kr.object.ncloudstorage.com/layer-bucket/og-image.png",
+              "width": 1200,
+              "height": 630
+            },
+            "description": "회고 작성부터 AI 분석까지, Layer에서 KPT·5F 등 다양한 템플릿으로 개인·팀 회고를 시작해보세요.",
+            "sameAs": []
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://layerapp.io/#website",
+            "url": "https://layerapp.io/",
+            "name": "Layer",
+            "inLanguage": "ko-KR",
+            "publisher": { "@id": "https://layerapp.io/#organization" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "Layer",
+            "operatingSystem": "Web, iOS, Android",
+            "applicationCategory": "ProductivityApplication",
+            "url": "https://layerapp.io/",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "KRW"
+            }
+          }
+        ]
+      }
+    </script>
 
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>

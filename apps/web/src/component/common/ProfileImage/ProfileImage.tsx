@@ -37,6 +37,10 @@ export function ProfileImage({ src, alt = "프로필 이미지", size = 8, onCam
           <img
             src={src}
             alt={alt}
+            width={size * 10}
+            height={size * 10}
+            loading="eager"
+            decoding="async"
             css={css`
               width: 100%;
               height: 100%;
