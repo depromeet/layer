@@ -1,3 +1,29 @@
 User-agent: *
 Allow: /
-sitemap: https://layerapp.io/sitemap.xml
+
+# 인증 필요 / 개인 페이지 (모바일)
+Disallow: /myinfo
+Disallow: /write
+Disallow: /retrospect/new
+Disallow: /retrospect/recommend
+Disallow: /retrospect/analysis
+Disallow: /retrospect/complete
+Disallow: /space/create
+Disallow: /space/edit/
+Disallow: /setnickname/
+Disallow: /goals
+Disallow: /analysis
+Disallow: /api/
+Disallow: /staging
+
+# 인증 필요 / 개인 페이지 (데스크탑)
+Disallow: /desktop/myinfo
+Disallow: /desktop/write
+Disallow: /desktop/retrospect
+Disallow: /desktop/space/create
+Disallow: /desktop/space/edit/
+Disallow: /desktop/setnickname/
+Disallow: /desktop/goals
+Disallow: /desktop/analysis
+
+Sitemap: https://layerapp.io/sitemap.xml
