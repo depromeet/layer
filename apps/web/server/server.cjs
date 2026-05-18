@@ -4,22 +4,30 @@ const fs = require("fs");
 const path = require("path");
 const cheerio = require("cheerio");
 const axios = require("axios");
-const CryptoJS = require("crypto-js");  // crypto-js를 추가합니다.
+const CryptoJS = require("crypto-js");
+
+// SEO 라우트 정책 단일 소스 — vite.config.ts와 공유
+const {
+  BASE_URL,
+  DEFAULT_OG_IMAGE,
+  INVITE_OG_IMAGE,
+  NOINDEX_PATH_PREFIXES,
+} = require("../seo.config.cjs");
 
 const app = express();
 
-// 프로젝트 루트 경로에서 dist 폴더 제공
-const distPath = path.resolve(__dirname, "../dist"); // 절대 경로 사용
-
+// Vite 빌드 결과물(`dist/`)에서 정적 자산을 먼저 응답.
+// HTML 요청만 catch-all로 전달되어 cheerio 메타 인젝션을 거칩니다.
+const distPath = path.resolve(__dirname, "../dist");
 app.use(express.static(distPath));
 
+// AES 복호화 — `/space/join/:id`의 암호화된 space ID를 풀어 백엔드 조회에 사용
 const CRYPTO_KEY = process.env.VITE_CRYPTO_KEY;
 const VECTOR_KEY = process.env.VITE_VECTOR_KEY;
 
 const key = CryptoJS.enc.Utf8.parse(CRYPTO_KEY);
 const iv = CryptoJS.enc.Utf8.parse(VECTOR_KEY);
 
-// 복호화 함수 구현
 function decryptId(encryptedId) {
   const word_array = CryptoJS.enc.Base64.parse(encryptedId);
   const decoding = word_array.toString(CryptoJS.enc.Utf8);
@@ -30,10 +38,6 @@ function decryptId(encryptedId) {
   });
   return decrypted.toString(CryptoJS.enc.Utf8);
 }
-
-const BASE_URL = "https://layerapp.io";
-const DEFAULT_OG_IMAGE = "https://kr.object.ncloudstorage.com/layer-bucket/og-image.png";
-const INVITE_OG_IMAGE = "https://kr.object.ncloudstorage.com/layer-bucket/retrospectOG.png";
 
 /**
  * Injects SEO meta tags into HTML using Cheerio.
@@ -80,11 +84,15 @@ function injectMeta(html, { title, description, image, url, noindex }) {
 
 /**
  * 정적 라우트별 메타 정보.
- * key: req.path (Express에서 query string 제외된 경로)
- * 라우터 정의(`apps/web/src/router/index.tsx`)와 일치해야 함.
+ *
+ * key: `req.path` (query string 제외)
+ *
+ * 공개 페이지(인덱싱 허용) 엔트리만 명시합니다.
+ * 비공개 페이지는 `NOINDEX_PATH_PREFIXES` (seo.config.cjs)의 prefix 매칭으로 일괄 처리됩니다.
+ *
+ * @see apps/web/src/router/index.tsx  라우터 정의와 일치해야 함
  */
 const STATIC_ROUTE_META = {
-  // ── 공개 페이지 (인덱싱 허용)
   "/": {
     title: "성장하는 당신을 위한 회고 서비스, Layer",
     description:
@@ -101,6 +109,7 @@ const STATIC_ROUTE_META = {
     description: "KPT, 5F, Mad Sad Glad 등 검증된 회고 템플릿을 무료로 만나보세요.",
     image: DEFAULT_OG_IMAGE,
   },
+  // 데스크탑 진입점은 모바일과 동일 콘텐츠 — canonical은 `/desktop/x` → `/x`로 정규화됨
   "/desktop": {
     title: "성장하는 당신을 위한 회고 서비스, Layer",
     description:
@@ -112,18 +121,6 @@ const STATIC_ROUTE_META = {
     description: "카카오, 구글 계정으로 간편하게 Layer에 로그인하세요.",
     image: DEFAULT_OG_IMAGE,
   },
-
-  // ── 인증 필요 / 개인 페이지 (noindex)
-  "/myinfo": { noindex: true },
-  "/write": { noindex: true },
-  "/retrospect/new": { noindex: true },
-  "/retrospect/recommend": { noindex: true },
-  "/retrospect/analysis": { noindex: true },
-  "/retrospect/complete": { noindex: true },
-  "/space/create": { noindex: true },
-  "/goals": { noindex: true },
-  "/analysis": { noindex: true },
-  "/staging": { noindex: true },
 };
 
 /**
@@ -162,24 +159,7 @@ function isKnownRoute(reqPath) {
   return KNOWN_ROUTE_PATTERNS.some((re) => re.test(reqPath));
 }
 
-const NOINDEX_PATH_PREFIXES = [
-  "/myinfo/",
-  "/write/",
-  "/retrospect/recommend/",
-  "/space/edit/",
-  "/space/create/",
-  "/setnickname/",
-  "/goals/",
-  "/api/",
-  "/desktop/myinfo",
-  "/desktop/write",
-  "/desktop/retrospect",
-  "/desktop/space/create",
-  "/desktop/space/edit/",
-  "/desktop/setnickname/",
-  "/desktop/goals",
-  "/desktop/analysis",
-];
+// NOINDEX_PATH_PREFIXES는 seo.config.cjs에서 관리 (vite.config.ts의 sitemap exclude와 공유)
 
 const DEFAULT_META = {
   title: "성장하는 당신을 위한 회고 서비스, Layer",
@@ -248,6 +228,20 @@ function setCacheHeaders(res, kind) {
   }
 }
 
+/**
+ * 스페이스 초대 링크 — `/space/join/:id`.
+ *
+ * 이 라우트는 catch-all(`app.get("*")`)보다 먼저 등록되어 있어 noindex 정책의 **예외**입니다.
+ * `seo.config.cjs`의 `/space` prefix는 이 핸들러를 우회하지 못합니다 (Express 매칭 순서).
+ *
+ * 동작:
+ *   1. 암호화된 ID → AES 복호화 → space ID
+ *   2. 백엔드에서 리더·팀 이름 fetch
+ *   3. "{leader}님의 회고 초대장" 등 개인화된 OG 메타로 HTML 반환
+ *
+ * 이유: 카카오톡·X 등의 OG 봇이 이 URL을 직접 GET 했을 때 미리보기에
+ *       정확한 초대 정보가 노출되어야 하기 때문.
+ */
 app.get("/space/join/:id", async (req, res) => {
   const encryptedId = req.params.id;
   let html;
@@ -286,11 +280,21 @@ app.get("/space/join/:id", async (req, res) => {
   }
 });
 
+/**
+ * Catch-all 핸들러 — 정적 파일과 `/space/join/:id`를 제외한 모든 GET 요청.
+ *
+ * 의사결정:
+ *   1. KNOWN_ROUTE_PATTERNS 매칭 실패 → 404 status + noindex (soft 404 방지)
+ *   2. STATIC_ROUTE_META 정확 매칭 → 그 메타로 인덱싱
+ *   3. NOINDEX_PATH_PREFIXES startsWith 매칭 → DEFAULT 메타 + noindex
+ *   4. 그 외 known route → DEFAULT 메타로 인덱싱
+ *
+ * 메모리 캐시(`META_CACHE`)는 결정론적 경로(=정의된 라우트)에만 적용됩니다.
+ */
 app.get("*", (req, res) => {
   try {
     const knownRoute = isKnownRoute(req.path);
     const routeMeta = resolveRouteMeta(req.path);
-    // 미정의 라우트 → soft 404 방지를 위해 noindex + 404 status
     const isNoindex = !!routeMeta?.noindex || !knownRoute;
     const cacheKind = isNoindex ? "static-noindex" : "static-public";
     const cacheKey = knownRoute ? req.path : "__not_found__";

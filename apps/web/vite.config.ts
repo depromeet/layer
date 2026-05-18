@@ -7,6 +7,10 @@ import dotenv from "dotenv";
 import { VitePluginRadar } from "vite-plugin-radar";
 import { VitePWA } from "vite-plugin-pwa";
 
+// SEO 라우트 정책 단일 소스 — server/server.cjs와 공유
+// @ts-expect-error — CommonJS 모듈 (CJS↔ESM interop은 esbuild가 처리)
+import { INDEXABLE_ROUTES, SITEMAP_EXCLUDE } from "./seo.config.cjs";
+
 dotenv.config();
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
@@ -18,35 +22,15 @@ export default defineConfig(() => ({
       },
     }),
     svgr(),
+    // dynamicRoutes / exclude는 seo.config.cjs에서 관리 (server.cjs와 공유)
     Sitemap({
       hostname: "https://layerapp.io",
-      // 라우터(`apps/web/src/router/index.tsx`)의 공개 라우트와 일치해야 함
-      // 루트("/")는 hostname이 자동 포함하므로 dynamicRoutes에 명시하지 않음
-      dynamicRoutes: ["/login", "/template"],
-      exclude: [
-        "/desktop",
-        "/desktop/**",
-        "/staging",
-        "/setnickname/**",
-        "/myinfo",
-        "/myinfo/**",
-        "/write",
-        "/write/**",
-        "/retrospect",
-        "/retrospect/**",
-        "/space/create",
-        "/space/create/**",
-        "/space/edit/**",
-        "/goals",
-        "/goals/**",
-        "/analysis",
-        "/api/**",
-      ],
+      dynamicRoutes: INDEXABLE_ROUTES,
+      exclude: SITEMAP_EXCLUDE,
       changefreq: "weekly",
       priority: 0.8,
       lastmod: new Date(),
-      // public/robots.txt를 직접 관리하므로 자동 생성 비활성화
-      generateRobotsTxt: false,
+      generateRobotsTxt: false, // public/robots.txt를 직접 관리하므로 자동 생성 비활성화
     }),
     VitePluginRadar({
       analytics: process.env.VITE_GOOGLE_ANALYTICS ? { id: process.env.VITE_GOOGLE_ANALYTICS } : undefined,
