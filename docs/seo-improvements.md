@@ -113,15 +113,7 @@ Layer는 React SPA로 빌드되어 `dist/index.html` 한 장이 모든 라우트
 
 ## 4. 접근성 + 성능 (8d65efd4)
 
-### 4-1. Viewport pinch-to-zoom 복원
-
-**무엇** — `<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />` → `maximum-scale=1.0, user-scalable=0` 제거.
-
-**왜** — WCAG 1.4.4(텍스트 크기 조정 200%) 위반. 시력 약한 사용자가 확대를 못 함. 특정 화면에서 확대를 막아야 한다면 JS로 페이지 단위 동적 제어 권장.
-
-**근거** — 코드에 WCAG 1.4.4 주석으로 의도 명시 — 무지로 인한 회귀를 방지.
-
-### 4-2. 이미지 `alt` + 로딩 최적화
+### 4-1. 이미지 `alt` + 로딩 최적화
 
 **무엇** — 다수 `<img>`에 `alt` 텍스트 + `width/height` + `loading="eager"/lazy"` + `decoding="async"` 부여.
 
@@ -133,7 +125,7 @@ Layer는 React SPA로 빌드되어 `dist/index.html` 한 장이 모든 라우트
 
 **영향** — Lighthouse 접근성·성능 점수 동시 개선.
 
-### 4-3. 구조화 데이터 (JSON-LD)
+### 4-2. 구조화 데이터 (JSON-LD)
 
 **무엇** — `index.html`의 `<script type="application/ld+json">`에 Organization + WebSite + SoftwareApplication 스키마를 `@graph`로 연결.
 
