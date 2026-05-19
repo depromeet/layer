@@ -54,6 +54,47 @@ const SITEMAP_EXCLUDE = PRIVATE_ROUTE_PREFIXES.flatMap((p) => [p, `${p}/**`]);
 /** server.cjs의 `startsWith` 매칭용 prefix 목록. */
 const NOINDEX_PATH_PREFIXES = PRIVATE_ROUTE_PREFIXES;
 
+/**
+ * robots.txt의 `Disallow` 패턴.
+ *
+ * `PRIVATE_ROUTE_PREFIXES`와 별도로 관리하는 이유:
+ *   - robots.txt Disallow는 **크롤링 자체 차단** 신호 (강함)
+ *   - meta noindex는 **색인만 차단**, 크롤은 허용 (약함)
+ *
+ * 따라서 OG 미리보기를 위해 크롤이 필요한 경로(`/space/join/:id`)는
+ * 상위 prefix(`/space`)로 차단해서는 안 됩니다.
+ * 이 목록은 PRIVATE_ROUTE_PREFIXES보다 더 보수적인 sub-path 단위로 명시합니다.
+ *
+ * meta noindex만 적용되고 robots Disallow는 되지 않는 경로:
+ *   - `/space/:id` (private 스페이스 조회) — 크롤되어도 noindex 메타가 처리
+ *   - `/space/join/:id` (초대 링크) — OG 봇이 크롤해야 미리보기 동작
+ */
+const ROBOTS_DISALLOW_PREFIXES = [
+  // ── 모바일 인증/개인 페이지 ──
+  "/myinfo",
+  "/write",
+  "/retrospect/new",
+  "/retrospect/recommend",
+  "/retrospect/analysis",
+  "/retrospect/complete",
+  "/space/create",
+  "/space/edit/",
+  "/setnickname/",
+  "/goals",
+  "/analysis",
+  "/api/",
+  "/staging",
+  // ── 데스크탑 인증/개인 페이지 ──
+  "/desktop/myinfo",
+  "/desktop/write",
+  "/desktop/retrospect",
+  "/desktop/space/create",
+  "/desktop/space/edit/",
+  "/desktop/setnickname/",
+  "/desktop/goals",
+  "/desktop/analysis",
+];
+
 module.exports = {
   BASE_URL,
   DEFAULT_OG_IMAGE,
@@ -62,4 +103,5 @@ module.exports = {
   PRIVATE_ROUTE_PREFIXES,
   SITEMAP_EXCLUDE,
   NOINDEX_PATH_PREFIXES,
+  ROBOTS_DISALLOW_PREFIXES,
 };

@@ -1,7 +1,8 @@
+# 자동 생성됨 — 수정 시 apps/web/seo.config.cjs의 ROBOTS_DISALLOW_PREFIXES를 변경하세요.
+
 User-agent: *
 Allow: /
 
-# 인증 필요 / 개인 페이지 (모바일)
 Disallow: /myinfo
 Disallow: /write
 Disallow: /retrospect/new
@@ -15,8 +16,6 @@ Disallow: /goals
 Disallow: /analysis
 Disallow: /api/
 Disallow: /staging
-
-# 인증 필요 / 개인 페이지 (데스크탑)
 Disallow: /desktop/myinfo
 Disallow: /desktop/write
 Disallow: /desktop/retrospect

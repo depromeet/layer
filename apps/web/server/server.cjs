@@ -276,7 +276,18 @@ app.get("/space/join/:id", async (req, res) => {
     res.send(result);
   } catch (err) {
     console.error("Error processing space join page:", err.message);
-    return res.status(500).send("Failed to fetch space data.");
+    // 복호화 실패·백엔드 4xx/5xx → 404 + noindex 메타 + SPA 셸 반환.
+    // 봇은 "존재하지 않음"으로 인식해 재시도하지 않고,
+    // 사용자는 SPA가 마운트되어 자체 에러 화면을 렌더할 수 있습니다.
+    const fallback = injectMeta(html, {
+      title: "초대장을 찾을 수 없습니다 | Layer",
+      description: "이 회고 초대 링크는 만료되었거나 존재하지 않습니다.",
+      image: DEFAULT_OG_IMAGE,
+      url: getCanonicalUrl(req.path),
+      noindex: true,
+    });
+    setCacheHeaders(res, "static-noindex");
+    return res.status(404).send(fallback);
   }
 });
 

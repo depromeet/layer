@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import Sitemap from "vite-plugin-sitemap";
 import svgr from "vite-plugin-svgr";
+import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
 import { VitePluginRadar } from "vite-plugin-radar";
@@ -9,12 +10,38 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // SEO 라우트 정책 단일 소스 — server/server.cjs와 공유
 // @ts-expect-error — CommonJS 모듈 (CJS↔ESM interop은 esbuild가 처리)
-import { INDEXABLE_ROUTES, SITEMAP_EXCLUDE } from "./seo.config.cjs";
+import { INDEXABLE_ROUTES, SITEMAP_EXCLUDE, BASE_URL, ROBOTS_DISALLOW_PREFIXES } from "./seo.config.cjs";
 
 dotenv.config();
+
+/**
+ * `public/robots.txt`를 seo.config.cjs로부터 생성하는 Vite 플러그인.
+ * dev/build 진입 시 1회 실행되어 단일 소스와 robots.txt를 동기화합니다.
+ */
+const generateRobotsTxt = () => ({
+  name: "generate-robots-txt",
+  buildStart() {
+    const lines = [
+      "# 자동 생성됨 — 수정 시 apps/web/seo.config.cjs의 ROBOTS_DISALLOW_PREFIXES를 변경하세요.",
+      "",
+      "User-agent: *",
+      "Allow: /",
+      "",
+      ...ROBOTS_DISALLOW_PREFIXES.map((p: string) => `Disallow: ${p}`),
+      "",
+      `Sitemap: ${BASE_URL}/sitemap.xml`,
+      "",
+    ];
+    const outPath = path.resolve(__dirname, "public/robots.txt");
+    const next = lines.join("\n");
+    const prev = fs.existsSync(outPath) ? fs.readFileSync(outPath, "utf-8") : "";
+    if (prev !== next) fs.writeFileSync(outPath, next);
+  },
+});
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
   plugins: [
+    generateRobotsTxt(),
     react({
       jsxImportSource: "@emotion/react",
       babel: {
