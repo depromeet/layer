@@ -9,7 +9,6 @@ import { VitePluginRadar } from "vite-plugin-radar";
 import { VitePWA } from "vite-plugin-pwa";
 
 // SEO 라우트 정책 단일 소스 — server/server.cjs와 공유
-// @ts-expect-error — CommonJS 모듈 (CJS↔ESM interop은 esbuild가 처리)
 import { INDEXABLE_ROUTES, SITEMAP_EXCLUDE, BASE_URL, ROBOTS_DISALLOW_PREFIXES } from "./seo.config.cjs";
 
 dotenv.config();

@@ -14,6 +14,9 @@ const {
   NOINDEX_PATH_PREFIXES,
 } = require("../seo.config.cjs");
 
+// 라우트 정의 단일 소스 — src/router/index.tsx와 공유
+const { KNOWN_ROUTE_PATTERNS } = require("../routes.cjs");
+
 const app = express();
 
 // Vite 빌드 결과물(`dist/`)에서 정적 자산을 먼저 응답.
@@ -123,37 +126,7 @@ const STATIC_ROUTE_META = {
   },
 };
 
-/**
- * 라우터(`apps/web/src/router/index.tsx`)에 실제 정의된 경로 패턴 화이트리스트.
- * 미매칭 시 catch-all에서 404 status를 반환해 Google "soft 404" 패널티를 방지.
- *
- * 라우터 변경 시 함께 갱신할 것.
- */
-const KNOWN_ROUTE_PATTERNS = [
-  /^\/$/, // 홈
-  /^\/login$/,
-  /^\/template$/,
-  /^\/analysis$/,
-  /^\/goals(\/(more|edit))?$/,
-  /^\/write(\/complete)?$/,
-  /^\/staging$/,
-  /^\/setnickname\/(kakao|google|apple)$/,
-  /^\/space\/create(\/(done|next))?$/,
-  /^\/space\/edit\/[^/]+$/,
-  /^\/space\/join\/[^/]+$/,
-  /^\/space\/[^/]+(\/(templates|members(\/edit)?))?$/,
-  /^\/retrospect\/(new|complete|analysis)$/,
-  /^\/retrospect\/recommend(\/(search|done))?$/,
-  /^\/myinfo(\/(modify|userdeletion|notices|help|license|termsofservice|privacypolicy|feedback))?$/,
-  /^\/api\/auth\/oauth2\/(kakao|google)$/,
-  // 데스크탑
-  /^\/desktop$/,
-  /^\/desktop\/login$/,
-  /^\/desktop\/goals$/,
-  /^\/desktop\/space\/[^/]+$/,
-  /^\/desktop\/retrospect\/(analysis|write)$/,
-  /^\/desktop\/setnickname\/(kakao|google|apple)$/,
-];
+// KNOWN_ROUTE_PATTERNS는 routes.cjs에서 derive (src/router/index.tsx의 ROUTES와 단일 소스)
 
 function isKnownRoute(reqPath) {
   return KNOWN_ROUTE_PATTERNS.some((re) => re.test(reqPath));

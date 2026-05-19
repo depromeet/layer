@@ -13,6 +13,9 @@ import { getDeviceType, markDeviceTypeOnHtml } from "@/utils/deviceUtils";
 import { HomePage } from "@/app/desktop/home/HomePage";
 import { RetrospectViewPage } from "@/app/mobile/home/RetrospectViewPage";
 
+// 라우트 경로 단일 소스 — server/server.cjs와 공유
+import { ROUTES, toChildPath } from "../../routes.cjs";
+
 // 페이지 컴포넌트 lazy loading
 const lazyNamed = <T extends Record<string, any>>(factory: () => Promise<T>, name: keyof T) =>
   lazy(() => factory().then((m) => ({ default: m[name] as React.ComponentType<any> })));
@@ -91,17 +94,17 @@ const withSuspense = (element: React.ReactNode) => <Suspense fallback={null}>{el
 // 공통 라우트 (모바일/데스크탑 구분 없음)
 const commonRoutes: RouteChildren[] = [
   {
-    path: "api/auth/oauth2/kakao",
+    path: toChildPath(ROUTES.OAUTH_KAKAO),
     element: withSuspense(<KakaoLoginRedirection />),
     auth: false,
   },
   {
-    path: "api/auth/oauth2/google",
+    path: toChildPath(ROUTES.OAUTH_GOOGLE),
     element: withSuspense(<GoogleLoginRedirection />),
     auth: false,
   },
   {
-    path: "space/join/:id",
+    path: toChildPath(ROUTES.SPACE_JOIN),
     element: isDesktop ? withSuspense(<JoinDesktopSpacePage />) : withSuspense(<JoinMobileSpacePage />),
     auth: false,
   },
@@ -111,19 +114,19 @@ const commonRoutes: RouteChildren[] = [
 const deviceSpecificRoutes: RouteChildren[] = [
   // 홈 관련 라우트 - 모바일
   {
-    path: "",
+    path: toChildPath(ROUTES.ROOT),
     element: <HomeLayout />,
     children: [
       {
-        path: "",
+        path: toChildPath(ROUTES.ROOT),
         element: <RetrospectViewPage />,
       },
       {
-        path: "analysis",
+        path: toChildPath(ROUTES.ANALYSIS),
         element: withSuspense(<AnalysisViewPage />),
       },
       {
-        path: "goals",
+        path: toChildPath(ROUTES.GOALS),
         element: withSuspense(<GoalViewPage />),
       },
     ],
@@ -132,27 +135,27 @@ const deviceSpecificRoutes: RouteChildren[] = [
   },
   // 홈 관련 라우트 - 데스크탑
   {
-    path: "",
+    path: toChildPath(ROUTES.ROOT),
     element: <DesktopHomeLayout />,
     children: [
       {
-        path: "",
+        path: toChildPath(ROUTES.ROOT),
         element: <HomePage />,
       },
       {
-        path: "goals",
+        path: toChildPath(ROUTES.GOALS),
         element: <div>Desktop Goals</div>,
       },
       {
-        path: "space/:spaceId",
+        path: toChildPath(ROUTES.SPACE_VIEW),
         element: withSuspense(<RetroSpectSpacePage />),
       },
       {
-        path: "retrospect/analysis",
+        path: toChildPath(ROUTES.RETROSPECT_ANALYSIS),
         element: withSuspense(<AnalysisPage />),
       },
       {
-        path: "retrospect/write",
+        path: toChildPath(ROUTES.RETROSPECT_WRITE),
         element: withSuspense(<RetroSpectWritePage />),
       },
     ],
@@ -161,26 +164,26 @@ const deviceSpecificRoutes: RouteChildren[] = [
   },
   // 로그인 관련
   {
-    path: "login",
+    path: toChildPath(ROUTES.LOGIN),
     element: withSuspense(<LoginPage />),
     auth: false,
     deviceType: "mobile",
   },
   {
-    path: "login",
+    path: toChildPath(ROUTES.LOGIN),
     element: withSuspense(<DesktopLoginPage />),
     auth: false,
     deviceType: "desktop",
   },
   // 회고 작성 - 모바일
   {
-    path: "write",
+    path: toChildPath(ROUTES.WRITE),
     element: withSuspense(<RetrospectWritePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "write/complete",
+    path: toChildPath(ROUTES.WRITE_COMPLETE),
     element: withSuspense(<RetrospectWriteCompletePage />),
     auth: true,
     deviceType: "mobile",
@@ -188,7 +191,7 @@ const deviceSpecificRoutes: RouteChildren[] = [
 
   // 템플릿 - 모바일
   {
-    path: "template",
+    path: toChildPath(ROUTES.TEMPLATE),
     element: withSuspense(<TemplatePage />),
     auth: false,
     deviceType: "mobile",
@@ -196,21 +199,21 @@ const deviceSpecificRoutes: RouteChildren[] = [
 
   // 스테이징 - 모바일
   {
-    path: "staging",
+    path: toChildPath(ROUTES.STAGING),
     element: withSuspense(<Staging />),
     auth: false,
     deviceType: "mobile",
   },
   // 닉네임 설정 - 모바일
   {
-    path: "setnickname/:socialType",
+    path: toChildPath(ROUTES.SETNICKNAME),
     element: withSuspense(<SetNickNamePage />),
     auth: false,
     deviceType: "mobile",
   },
   // 닉네임 설정 - 데스크탑
   {
-    path: "setnickname/:socialType",
+    path: toChildPath(ROUTES.SETNICKNAME),
     element: withSuspense(<DesktopSetNickNamePage />),
     auth: false,
     deviceType: "desktop",
@@ -218,49 +221,49 @@ const deviceSpecificRoutes: RouteChildren[] = [
 
   // 스페이스 관련 - 모바일
   {
-    path: "space/create",
+    path: toChildPath(ROUTES.SPACE_CREATE),
     element: withSuspense(<CreateSpacePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "space/create/done",
+    path: toChildPath(ROUTES.SPACE_CREATE_DONE),
     element: withSuspense(<CreateDonePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "space/create/next",
+    path: toChildPath(ROUTES.SPACE_CREATE_NEXT),
     element: withSuspense(<CreateNextPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "space/edit/:id",
+    path: toChildPath(ROUTES.SPACE_EDIT),
     element: withSuspense(<SpaceEditPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "space/:spaceId",
+    path: toChildPath(ROUTES.SPACE_VIEW),
     element: withSuspense(<SpaceViewPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "space/:spaceId/templates",
+    path: toChildPath(ROUTES.SPACE_TEMPLATES),
     element: withSuspense(<TemplateListPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "space/:spaceId/members",
+    path: toChildPath(ROUTES.SPACE_MEMBERS),
     element: withSuspense(<MembersListPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "space/:spaceId/members/edit",
+    path: toChildPath(ROUTES.SPACE_MEMBERS_EDIT),
     element: withSuspense(<MembersEditListPage />),
     auth: true,
     deviceType: "mobile",
@@ -268,37 +271,37 @@ const deviceSpecificRoutes: RouteChildren[] = [
 
   // 회고 생성 - 모바일
   {
-    path: "retrospect/new",
+    path: toChildPath(ROUTES.RETROSPECT_NEW),
     element: withSuspense(<RetrospectCreate />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "retrospect/complete",
+    path: toChildPath(ROUTES.RETROSPECT_COMPLETE),
     element: withSuspense(<RetrospectCreateComplete />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "retrospect/recommend",
+    path: toChildPath(ROUTES.RETROSPECT_RECOMMEND),
     element: withSuspense(<RecommendTemplatePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "retrospect/recommend/search",
+    path: toChildPath(ROUTES.RETROSPECT_RECOMMEND_SEARCH),
     element: withSuspense(<RecommendSearch />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "retrospect/recommend/done",
+    path: toChildPath(ROUTES.RETROSPECT_RECOMMEND_DONE),
     element: withSuspense(<RecommendDonePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "retrospect/analysis",
+    path: toChildPath(ROUTES.RETROSPECT_ANALYSIS),
     element: withSuspense(<RetrospectAnalysisPage />),
     auth: true,
     deviceType: "mobile",
@@ -306,55 +309,55 @@ const deviceSpecificRoutes: RouteChildren[] = [
 
   // 내 정보 - 모바일
   {
-    path: "myinfo",
+    path: toChildPath(ROUTES.MYINFO),
     element: withSuspense(<MyInfo />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "myinfo/modify",
+    path: toChildPath(ROUTES.MYINFO_MODIFY),
     element: withSuspense(<ModifyMyInfo />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "myinfo/userdeletion",
+    path: toChildPath(ROUTES.MYINFO_USERDELETION),
     element: withSuspense(<UserDeletion />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "myinfo/notices",
+    path: toChildPath(ROUTES.MYINFO_NOTICES),
     element: withSuspense(<NoticePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "myinfo/help",
+    path: toChildPath(ROUTES.MYINFO_HELP),
     element: withSuspense(<HelpPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "myinfo/license",
+    path: toChildPath(ROUTES.MYINFO_LICENSE),
     element: withSuspense(<LicensePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "myinfo/termsofservice",
+    path: toChildPath(ROUTES.MYINFO_TERMSOFSERVICE),
     element: withSuspense(<TermsOfServicePage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "myinfo/privacypolicy",
+    path: toChildPath(ROUTES.MYINFO_PRIVACYPOLICY),
     element: withSuspense(<PrivacyPolicyPage />),
     auth: true,
     deviceType: "mobile",
   },
   {
-    path: "myinfo/feedback",
+    path: toChildPath(ROUTES.MYINFO_FEEDBACK),
     element: withSuspense(<FeedbackPage />),
     auth: true,
     deviceType: "mobile",
@@ -362,13 +365,13 @@ const deviceSpecificRoutes: RouteChildren[] = [
 
   // 목표/액션 아이템 - 모바일
   {
-    path: "goals/more",
+    path: toChildPath(ROUTES.GOALS_MORE),
     element: withSuspense(<ActionItemMorePage />),
     auth: false,
     deviceType: "mobile",
   },
   {
-    path: "goals/edit",
+    path: toChildPath(ROUTES.GOALS_EDIT),
     element: withSuspense(<ActionItemEditPage />),
     auth: false,
     deviceType: "mobile",

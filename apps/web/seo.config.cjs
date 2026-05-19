@@ -11,6 +11,8 @@
  * @see apps/web/src/router/index.tsx  실제 라우터 정의
  */
 
+const { ROUTES } = require("./routes.cjs");
+
 const BASE_URL = "https://layerapp.io";
 
 const DEFAULT_OG_IMAGE =
@@ -23,7 +25,7 @@ const INVITE_OG_IMAGE =
  * 공개 인덱싱 라우트 (sitemap dynamicRoutes).
  * 루트("/")는 sitemap hostname이 자동 포함하므로 생략합니다.
  */
-const INDEXABLE_ROUTES = ["/login", "/template"];
+const INDEXABLE_ROUTES = [ROUTES.LOGIN, ROUTES.TEMPLATE];
 
 /**
  * 비공개(noindex) 라우트 prefix.
