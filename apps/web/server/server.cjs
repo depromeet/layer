@@ -112,18 +112,6 @@ const STATIC_ROUTE_META = {
     description: "KPT, 5F, Mad Sad Glad 등 검증된 회고 템플릿을 무료로 만나보세요.",
     image: DEFAULT_OG_IMAGE,
   },
-  // 데스크탑 진입점은 모바일과 동일 콘텐츠 — canonical은 `/desktop/x` → `/x`로 정규화됨
-  "/desktop": {
-    title: "성장하는 당신을 위한 회고 서비스, Layer",
-    description:
-      "회고 작성부터 AI 분석까지, Layer에서 KPT·5F 등 다양한 템플릿으로 개인·팀 회고를 시작해보세요.",
-    image: DEFAULT_OG_IMAGE,
-  },
-  "/desktop/login": {
-    title: "로그인 | Layer",
-    description: "카카오, 구글 계정으로 간편하게 Layer에 로그인하세요.",
-    image: DEFAULT_OG_IMAGE,
-  },
 };
 
 // KNOWN_ROUTE_PATTERNS는 routes.cjs에서 derive (src/router/index.tsx의 ROUTES와 단일 소스)
@@ -147,8 +135,8 @@ function readIndexHtml() {
 }
 
 function getCanonicalUrl(reqPath) {
-  // /desktop prefix 정규화 + 끝 슬래시 제거
-  let canonicalPath = reqPath.replace(/^\/desktop/, '') || '/';
+  // 끝 슬래시 제거 (레거시 `/desktop/*`는 301 핸들러가 이미 정규 경로로 보냄)
+  let canonicalPath = reqPath || '/';
   if (canonicalPath.length > 1 && canonicalPath.endsWith('/')) {
     canonicalPath = canonicalPath.slice(0, -1);
   }
@@ -262,6 +250,21 @@ app.get("/space/join/:id", async (req, res) => {
     setCacheHeaders(res, "static-noindex");
     return res.status(404).send(fallback);
   }
+});
+
+/**
+ * 레거시 `/desktop/*` → `/*` 301 영구 이동.
+ *
+ * 적응형 통합으로 데스크톱도 `/`에 마운트되어 `/desktop` 네임스페이스가 폐지됨.
+ * 과거 북마크·외부 백링크·잔존 색인을 정규 URL로 영구 이동시켜
+ * (1) 사용자 404 방지 (2) 검색엔진에 정규화 신호 전달 (canonical보다 강한 301).
+ * catch-all(`app.get("*")`)보다 먼저 등록되어야 가로챌 수 있습니다.
+ */
+app.get(/^\/desktop(\/.*)?$/, (req, res) => {
+  const stripped = req.path.replace(/^\/desktop/, "") || "/";
+  const qIndex = req.originalUrl.indexOf("?");
+  const query = qIndex >= 0 ? req.originalUrl.slice(qIndex) : "";
+  res.redirect(301, `${stripped}${query}`);
 });
 
 /**

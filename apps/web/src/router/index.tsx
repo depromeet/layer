@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider, RouteObject, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, RouteObject, Navigate, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 
 import { Error } from "@/app/mobile/error/404";
@@ -13,8 +13,16 @@ import { getDeviceType, markDeviceTypeOnHtml } from "@/utils/deviceUtils";
 import { HomePage } from "@/app/desktop/home/HomePage";
 import { RetrospectViewPage } from "@/app/mobile/home/RetrospectViewPage";
 
-// 라우트 경로 단일 소스 — server/server.cjs와 공유
-import { ROUTES, toChildPath } from "../../routes.cjs";
+// 라우트 경로 SSOT — route-paths.json을 Node(routes.cjs)와 공유.
+// (routes.cjs를 직접 import하지 않는 이유: Vite가 로컬 소스 CJS를 ESM으로 변환하지 않아
+//  dev 서버에서 named export를 못 찾음. 순수 데이터인 경로 맵은 JSON으로 공유하면
+//  Node·Vite 모두 네이티브 지원.)
+import ROUTES from "../../route-paths.json";
+
+// routes.cjs의 toChildPath와 동일 — 브라우저는 CJS를 import할 수 없어 인라인.
+// 절대 경로 → React Router 자식 경로(앞 "/" 제거). 예: "/login" → "login", "/" → ""
+const toChildPath = (routePath: string): string =>
+  routePath.startsWith("/") ? routePath.slice(1) : routePath;
 
 // 페이지 컴포넌트 lazy loading
 const lazyNamed = <T extends Record<string, any>>(factory: () => Promise<T>, name: keyof T) =>
@@ -410,6 +418,17 @@ const createRouterChildren = (routes: RouteChildren[]) => {
   }));
 };
 
+/**
+ * 레거시 `/desktop/...` URL을 접두어를 제거한 정규 경로로 클라이언트 리다이렉트.
+ * 적응형 통합으로 데스크톱도 `/`에 마운트되므로, 과거 북마크·공유 링크 호환용.
+ * (봇·직접 진입용 301 영구 이동은 server/server.cjs에서 처리)
+ */
+const StripDesktopRedirect = () => {
+  const { pathname, search, hash } = useLocation();
+  const target = pathname.replace(/^\/desktop/, "") || "/";
+  return <Navigate to={`${target}${search}${hash}`} replace />;
+};
+
 const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
   const routes = getRoutesByDeviceType(layoutType);
   const routerChildren = createRouterChildren(routes);
@@ -417,8 +436,9 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
   if (layoutType === "mobile") {
     return createBrowserRouter([
       {
+        // 레거시 `/desktop/*` → 접두어 제거 후 정규 경로로 (적응형 통합)
         path: "/desktop/*",
-        element: <Navigate to="/" replace />,
+        element: <StripDesktopRedirect />,
       },
       {
         path: "/",
@@ -439,11 +459,12 @@ const router = ({ layoutType }: { layoutType: "mobile" | "desktop" }) => {
   } else {
     return createBrowserRouter([
       {
-        path: "/*",
-        element: <Navigate to="/desktop" replace />,
+        // 레거시 `/desktop/*` → 접두어 제거 후 정규 경로로 (하위호환)
+        path: "/desktop/*",
+        element: <StripDesktopRedirect />,
       },
       {
-        path: "/desktop",
+        path: "/",
         element: <DesktopGlobalLayout />,
         errorElement: <Error />,
         children: routerChildren,

@@ -11,83 +11,26 @@
  */
 
 /**
- * 명명 라우트 상수 (절대 경로 형태).
+ * 명명 라우트 상수 (절대 경로 형태). 경로 문자열 SSOT는 `route-paths.json`.
+ *
+ * JSON으로 분리한 이유: 이 CJS 파일을 브라우저(Vite)에서 직접 import하면
+ * Vite가 로컬 소스 CJS를 ESM으로 변환하지 않아 named export("ROUTES")를 못 찾습니다
+ * ("does not provide an export named 'ROUTES'"). 순수 데이터인 경로 맵을 JSON으로 두면
+ * Node(require)·Vite(import) 모두 네이티브로 지원합니다.
+ *   - src/router/index.tsx → `import ROUTES from "../../route-paths.json"`
+ *   - 이 파일(Node)        → require로 동일 데이터 사용 후 정규식 등 파생
+ *
  * 라우터에서 자식 경로로 사용할 때는 `toChildPath()`로 앞 슬래시를 제거합니다.
  */
-const ROUTES = {
-  // ── 공통 / 모바일 (mobile 레이아웃에서 reachable) ─────
-  ROOT: "/",
-  LOGIN: "/login",
-  TEMPLATE: "/template",
-  STAGING: "/staging",
-  ANALYSIS: "/analysis",
-
-  WRITE: "/write",
-  WRITE_COMPLETE: "/write/complete",
-
-  GOALS: "/goals",
-  GOALS_MORE: "/goals/more",
-  GOALS_EDIT: "/goals/edit",
-
-  SETNICKNAME: "/setnickname/:socialType",
-
-  // 스페이스
-  SPACE_CREATE: "/space/create",
-  SPACE_CREATE_DONE: "/space/create/done",
-  SPACE_CREATE_NEXT: "/space/create/next",
-  SPACE_EDIT: "/space/edit/:id",
-  SPACE_VIEW: "/space/:spaceId",
-  SPACE_TEMPLATES: "/space/:spaceId/templates",
-  SPACE_MEMBERS: "/space/:spaceId/members",
-  SPACE_MEMBERS_EDIT: "/space/:spaceId/members/edit",
-  SPACE_JOIN: "/space/join/:id",
-
-  // 회고
-  RETROSPECT_NEW: "/retrospect/new",
-  RETROSPECT_COMPLETE: "/retrospect/complete",
-  RETROSPECT_ANALYSIS: "/retrospect/analysis",
-  RETROSPECT_WRITE: "/retrospect/write",   // 데스크탑 레이아웃에서만 마운트되지만 상수로 명명
-  RETROSPECT_RECOMMEND: "/retrospect/recommend",
-  RETROSPECT_RECOMMEND_SEARCH: "/retrospect/recommend/search",
-  RETROSPECT_RECOMMEND_DONE: "/retrospect/recommend/done",
-
-  // 내 정보
-  MYINFO: "/myinfo",
-  MYINFO_MODIFY: "/myinfo/modify",
-  MYINFO_USERDELETION: "/myinfo/userdeletion",
-  MYINFO_NOTICES: "/myinfo/notices",
-  MYINFO_HELP: "/myinfo/help",
-  MYINFO_LICENSE: "/myinfo/license",
-  MYINFO_TERMSOFSERVICE: "/myinfo/termsofservice",
-  MYINFO_PRIVACYPOLICY: "/myinfo/privacypolicy",
-  MYINFO_FEEDBACK: "/myinfo/feedback",
-
-  // OAuth
-  OAUTH_KAKAO: "/api/auth/oauth2/kakao",
-  OAUTH_GOOGLE: "/api/auth/oauth2/google",
-};
+const ROUTES = require("./route-paths.json");
 
 /**
- * `/desktop` 접두사가 붙어 reachable한 라우트.
+ * 모든 reachable한 절대 경로 — server.cjs의 soft 404 화이트리스트.
  *
- * 동일한 상대 경로가 router/index.tsx의 deviceSpecificRoutes에서
- * `deviceType: "desktop"`으로 정의되어 있어 `/desktop` 마운트 포인트 아래에
- * 추가로 노출됩니다.
- *
- * 라우터에서 `deviceType: "desktop"` 라우트를 추가/제거할 때 이 목록도 갱신하세요.
+ * 데스크탑은 모바일과 동일하게 `/`에 마운트되므로 별도 `/desktop/*` 경로는 없습니다.
+ * 레거시 `/desktop/*`는 server.cjs의 301 핸들러가 가로채 catch-all에 도달하지 않습니다.
  */
-const DESKTOP_PATHS = [
-  "/desktop",
-  "/desktop/login",
-  "/desktop/goals",
-  "/desktop/space/:spaceId",
-  "/desktop/retrospect/analysis",
-  "/desktop/retrospect/write",
-  "/desktop/setnickname/:socialType",
-];
-
-/** 모든 reachable한 절대 경로 — server.cjs의 soft 404 화이트리스트. */
-const ALL_ABSOLUTE_PATHS = [...Object.values(ROUTES), ...DESKTOP_PATHS];
+const ALL_ABSOLUTE_PATHS = [...Object.values(ROUTES)];
 
 /**
  * React Router 경로 → 정규식.
@@ -120,7 +63,6 @@ const KNOWN_ROUTE_PATTERNS = ALL_ABSOLUTE_PATHS.map(routeToRegex);
 
 module.exports = {
   ROUTES,
-  DESKTOP_PATHS,
   ALL_ABSOLUTE_PATHS,
   KNOWN_ROUTE_PATTERNS,
   routeToRegex,

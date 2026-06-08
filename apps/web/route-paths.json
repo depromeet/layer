@@ -1,0 +1,47 @@
+{
+  "ROOT": "/",
+  "LOGIN": "/login",
+  "TEMPLATE": "/template",
+  "STAGING": "/staging",
+  "ANALYSIS": "/analysis",
+
+  "WRITE": "/write",
+  "WRITE_COMPLETE": "/write/complete",
+
+  "GOALS": "/goals",
+  "GOALS_MORE": "/goals/more",
+  "GOALS_EDIT": "/goals/edit",
+
+  "SETNICKNAME": "/setnickname/:socialType",
+
+  "SPACE_CREATE": "/space/create",
+  "SPACE_CREATE_DONE": "/space/create/done",
+  "SPACE_CREATE_NEXT": "/space/create/next",
+  "SPACE_EDIT": "/space/edit/:id",
+  "SPACE_VIEW": "/space/:spaceId",
+  "SPACE_TEMPLATES": "/space/:spaceId/templates",
+  "SPACE_MEMBERS": "/space/:spaceId/members",
+  "SPACE_MEMBERS_EDIT": "/space/:spaceId/members/edit",
+  "SPACE_JOIN": "/space/join/:id",
+
+  "RETROSPECT_NEW": "/retrospect/new",
+  "RETROSPECT_COMPLETE": "/retrospect/complete",
+  "RETROSPECT_ANALYSIS": "/retrospect/analysis",
+  "RETROSPECT_WRITE": "/retrospect/write",
+  "RETROSPECT_RECOMMEND": "/retrospect/recommend",
+  "RETROSPECT_RECOMMEND_SEARCH": "/retrospect/recommend/search",
+  "RETROSPECT_RECOMMEND_DONE": "/retrospect/recommend/done",
+
+  "MYINFO": "/myinfo",
+  "MYINFO_MODIFY": "/myinfo/modify",
+  "MYINFO_USERDELETION": "/myinfo/userdeletion",
+  "MYINFO_NOTICES": "/myinfo/notices",
+  "MYINFO_HELP": "/myinfo/help",
+  "MYINFO_LICENSE": "/myinfo/license",
+  "MYINFO_TERMSOFSERVICE": "/myinfo/termsofservice",
+  "MYINFO_PRIVACYPOLICY": "/myinfo/privacypolicy",
+  "MYINFO_FEEDBACK": "/myinfo/feedback",
+
+  "OAUTH_KAKAO": "/api/auth/oauth2/kakao",
+  "OAUTH_GOOGLE": "/api/auth/oauth2/google"
+}

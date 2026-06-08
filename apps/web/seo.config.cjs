@@ -47,7 +47,6 @@ const PRIVATE_ROUTE_PREFIXES = [
   "/setnickname",
   "/api",
   "/staging",
-  "/desktop",      // 데스크탑은 모바일과 동일 콘텐츠 → canonical 통일 (`/desktop/x` → `/x`)
 ];
 
 /** vite-plugin-sitemap의 `exclude` 형식 (glob). */
@@ -86,15 +85,6 @@ const ROBOTS_DISALLOW_PREFIXES = [
   "/analysis",
   "/api/",
   "/staging",
-  // ── 데스크탑 인증/개인 페이지 ──
-  "/desktop/myinfo",
-  "/desktop/write",
-  "/desktop/retrospect",
-  "/desktop/space/create",
-  "/desktop/space/edit/",
-  "/desktop/setnickname/",
-  "/desktop/goals",
-  "/desktop/analysis",
 ];
 
 module.exports = {

@@ -16,13 +16,5 @@ Disallow: /goals
 Disallow: /analysis
 Disallow: /api/
 Disallow: /staging
-Disallow: /desktop/myinfo
-Disallow: /desktop/write
-Disallow: /desktop/retrospect
-Disallow: /desktop/space/create
-Disallow: /desktop/space/edit/
-Disallow: /desktop/setnickname/
-Disallow: /desktop/goals
-Disallow: /desktop/analysis
 
 Sitemap: https://layerapp.io/sitemap.xml
