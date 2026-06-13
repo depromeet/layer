@@ -22,6 +22,12 @@ export type TeamActionItemType = {
   teamActionItemList: ExtendedActionItemType[];
 };
 
+export type PersonalActionItemListBySpaceType = {
+  spaceId: number;
+  spaceName: string;
+  personalActionItemList: ExtendedActionItemType[];
+};
+
 export type PersonalActionItemType = {
   retrospectId: number;
   retrospectTitle: string;
