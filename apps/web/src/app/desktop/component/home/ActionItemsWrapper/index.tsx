@@ -1,4 +1,4 @@
-import { COOKIE_KEYS } from "@/config/storage-keys";
+import { COOKIE_KEYS, LOCAL_STORAGE_KEYS } from "@/config/storage-keys";
 import Cookies from "js-cookie";
 
 import { Icon } from "@/component/common/Icon";
@@ -95,7 +95,7 @@ export default function ActionItemsWrapper() {
         `}
       >
         {/* ---------- 팀/개인 탭 + NEW 툴팁 ---------- */}
-        <Tooltip placement="right" defaultOpen>
+        <Tooltip placement="right" defaultOpen storageKey={LOCAL_STORAGE_KEYS.actionItemGoalTooltipSeen}>
           <Tooltip.Trigger>
             <div
               css={css`

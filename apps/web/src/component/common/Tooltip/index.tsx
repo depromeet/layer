@@ -24,21 +24,30 @@ interface TooltipContextType {
   contentRef: RefObject<HTMLDivElement>;
   placement?: TooltipPlacement;
   align?: TooltipAlign;
+  theme?: TooltipTheme;
   delay?: number;
 }
 
 type TooltipPlacement = "top" | "bottom" | "left" | "right";
 /** top/bottom placement에서 교차축(가로) 정렬. start면 트리거 왼쪽 모서리에 맞춰 오른쪽으로 펼쳐진다. */
 type TooltipAlign = "center" | "start" | "end";
+/** dark: 회색(gray900) 배경 + 파란 NEW 칩 / blue: 파란(blue600) 배경 + 흰색 NEW 칩 */
+type TooltipTheme = "dark" | "blue";
 
 interface TooltipProps {
   children: ReactNode;
   placement?: TooltipPlacement;
   align?: TooltipAlign;
+  theme?: TooltipTheme;
   delay?: number;
   disabled?: boolean;
   /** 마운트 시 기본으로 열어둔다 (안내/announcement 용도) */
   defaultOpen?: boolean;
+  /**
+   * defaultOpen 안내 툴팁을 "한 번만" 노출하기 위한 localStorage 키.
+   * 지정하면 최초 1회 표시 후 기록되어 이후에는 자동으로 열리지 않는다.
+   */
+  storageKey?: string;
 }
 
 interface TooltipTriggerProps {
@@ -66,8 +75,19 @@ const useTooltip = () => {
   return context;
 };
 
-const Tooltip = ({ children, placement = "top", align = "center", delay = 200, disabled = false, defaultOpen = false }: TooltipProps) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+const Tooltip = ({
+  children,
+  placement = "top",
+  align = "center",
+  theme = "dark",
+  delay = 200,
+  disabled = false,
+  defaultOpen = false,
+  storageKey,
+}: TooltipProps) => {
+  // storageKey가 있으면 "이미 본 적 있는지"를 localStorage에서 읽어 자동 노출 여부를 결정한다.
+  const hasSeen = storageKey != null && typeof window !== "undefined" && window.localStorage.getItem(storageKey) === "true";
+  const [isOpen, setIsOpen] = useState(defaultOpen && !hasSeen);
   const triggerRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<number | null>(null);
@@ -97,8 +117,16 @@ const Tooltip = ({ children, placement = "top", align = "center", delay = 200, d
     contentRef,
     placement,
     align,
+    theme,
     delay,
   };
+
+  // defaultOpen 안내 툴팁이 최초로 노출되면 기록하여 이후에는 자동으로 뜨지 않게 한다.
+  useEffect(() => {
+    if (defaultOpen && storageKey && typeof window !== "undefined" && !hasSeen) {
+      window.localStorage.setItem(storageKey, "true");
+    }
+  }, [defaultOpen, storageKey, hasSeen]);
 
   useEffect(() => {
     return () => {
@@ -154,12 +182,12 @@ const TooltipTrigger = ({ children, asChild = true }: TooltipTriggerProps) => {
 };
 
 // crossOffsetPx: top/bottom일 때 화살표를 콘텐츠 왼쪽 모서리 기준 몇 px 지점에 둘지. null이면 가운데(50%).
-const getArrowStyle = (placement: TooltipPlacement, crossOffsetPx: number | null = null): CSSProperties => {
+const getArrowStyle = (placement: TooltipPlacement, crossOffsetPx: number | null = null, theme: TooltipTheme = "dark"): CSSProperties => {
   const base: CSSProperties = {
     position: "absolute",
     width: "0.8rem",
     height: "0.8rem",
-    backgroundColor: DESIGN_TOKEN_COLOR.gray900,
+    backgroundColor: theme === "blue" ? DESIGN_TOKEN_COLOR.blue600 : DESIGN_TOKEN_COLOR.gray900,
     borderRadius: "0.1rem",
   };
 
@@ -179,7 +207,7 @@ const getArrowStyle = (placement: TooltipPlacement, crossOffsetPx: number | null
 };
 
 const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow = false }: TooltipContentProps) => {
-  const { isOpen, contentRef, triggerRef, placement = "top", align = "center" } = useTooltip();
+  const { isOpen, contentRef, triggerRef, placement = "top", align = "center", theme = "dark" } = useTooltip();
   const [style, setStyle] = useState<CSSProperties>({
     position: "absolute",
     top: 0,
@@ -196,7 +224,7 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
     const style: CSSProperties = {
       position: "absolute",
       zIndex: 9999,
-      backgroundColor: DESIGN_TOKEN_COLOR.gray900,
+      backgroundColor: theme === "blue" ? DESIGN_TOKEN_COLOR.blue600 : DESIGN_TOKEN_COLOR.gray900,
       color: "#FFFFFF",
       padding: "1rem 1.4rem",
       borderRadius: "0.8rem",
@@ -270,7 +298,7 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
     style.transform = `${baseTransform} ${isOpen ? "scale(1)" : "scale(0.95)"}`;
 
     return { content: style, arrowCross };
-  }, [isOpen, placement, align, sideOffset, tag, triggerRef]);
+  }, [isOpen, placement, align, theme, sideOffset, tag, triggerRef]);
 
   // * portal + absolute 위치라 레이아웃이 바뀌면 좌표가 틀어진다.
   // * 스크롤/리사이즈 및 콘텐츠 크기 변화(ResizeObserver)에 맞춰 위치를 다시 계산한다.
@@ -303,7 +331,7 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
 
   return createPortal(
     <div ref={contentRef} id="tooltip-content" role="tooltip" className={className} style={style}>
-      {arrow && <span style={getArrowStyle(placement, arrowCross)} />}
+      {arrow && <span style={getArrowStyle(placement, arrowCross, theme)} />}
       {tag != null && (
         <span
           style={{
@@ -314,10 +342,10 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
             flexShrink: 0,
             padding: "0.3rem 0.6rem",
             borderRadius: "999px",
-            border: "0.3rem solid rgba(108, 156, 250, 0.4)",
-            backgroundColor: DESIGN_TOKEN_COLOR.blue600,
+            border: theme === "blue" ? "0.3rem solid rgba(255, 255, 255, 0.2)" : "0.3rem solid rgba(108, 156, 250, 0.4)",
+            backgroundColor: theme === "blue" ? "#FFFFFF" : DESIGN_TOKEN_COLOR.blue600,
             backgroundClip: "padding-box",
-            color: "#FFFFFF",
+            color: theme === "blue" ? DESIGN_TOKEN_COLOR.blue600 : "#FFFFFF",
             fontSize: "1rem",
             fontWeight: 600,
             lineHeight: "normal",

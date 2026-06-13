@@ -45,7 +45,7 @@ export default function ActionItemsTab({ currentTab, handleCurrentTabClick }: Ac
               }
             `}
           >
-            <Typography variant="subtitle14SemiBold" color={tab === currentTab ? "gray900" : "gray500"}>
+            <Typography variant="subtitle14Bold" color={tab === currentTab ? "gray900" : "gray500"}>
               {tab}
             </Typography>
           </button>

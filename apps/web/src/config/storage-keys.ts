@@ -26,4 +26,6 @@ export const AUTH_COOKIE_OPTIONS = {
 export const LOCAL_STORAGE_KEYS = {
   utmParamsKey: "UTM_PARAMS",
   recentSocialLoginType: "RECENT_SOCIAL_LOGIN_TYPE",
+  /** 실행목표 팀/개인 NEW 안내 툴팁을 본 적 있는지 (한 번만 노출) */
+  actionItemGoalTooltipSeen: "ACTION_ITEM_GOAL_TOOLTIP_SEEN",
 } as const;
