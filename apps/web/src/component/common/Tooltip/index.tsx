@@ -23,14 +23,18 @@ interface TooltipContextType {
   triggerRef: RefObject<HTMLElement>;
   contentRef: RefObject<HTMLDivElement>;
   placement?: TooltipPlacement;
+  align?: TooltipAlign;
   delay?: number;
 }
 
 type TooltipPlacement = "top" | "bottom" | "left" | "right";
+/** top/bottom placement에서 교차축(가로) 정렬. start면 트리거 왼쪽 모서리에 맞춰 오른쪽으로 펼쳐진다. */
+type TooltipAlign = "center" | "start" | "end";
 
 interface TooltipProps {
   children: ReactNode;
   placement?: TooltipPlacement;
+  align?: TooltipAlign;
   delay?: number;
   disabled?: boolean;
   /** 마운트 시 기본으로 열어둔다 (안내/announcement 용도) */
@@ -62,7 +66,7 @@ const useTooltip = () => {
   return context;
 };
 
-const Tooltip = ({ children, placement = "top", delay = 200, disabled = false, defaultOpen = false }: TooltipProps) => {
+const Tooltip = ({ children, placement = "top", align = "center", delay = 200, disabled = false, defaultOpen = false }: TooltipProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const triggerRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -92,6 +96,7 @@ const Tooltip = ({ children, placement = "top", delay = 200, disabled = false, d
     triggerRef,
     contentRef,
     placement,
+    align,
     delay,
   };
 
@@ -148,7 +153,8 @@ const TooltipTrigger = ({ children, asChild = true }: TooltipTriggerProps) => {
   );
 };
 
-const getArrowStyle = (placement: TooltipPlacement): CSSProperties => {
+// crossOffsetPx: top/bottom일 때 화살표를 콘텐츠 왼쪽 모서리 기준 몇 px 지점에 둘지. null이면 가운데(50%).
+const getArrowStyle = (placement: TooltipPlacement, crossOffsetPx: number | null = null): CSSProperties => {
   const base: CSSProperties = {
     position: "absolute",
     width: "0.8rem",
@@ -157,11 +163,13 @@ const getArrowStyle = (placement: TooltipPlacement): CSSProperties => {
     borderRadius: "0.1rem",
   };
 
+  const horizontal = crossOffsetPx != null ? `${crossOffsetPx}px` : "50%";
+
   switch (placement) {
     case "top":
-      return { ...base, bottom: "-0.3rem", left: "50%", transform: "translateX(-50%) rotate(45deg)" };
+      return { ...base, bottom: "-0.3rem", left: horizontal, transform: "translateX(-50%) rotate(45deg)" };
     case "bottom":
-      return { ...base, top: "-0.3rem", left: "50%", transform: "translateX(-50%) rotate(45deg)" };
+      return { ...base, top: "-0.3rem", left: horizontal, transform: "translateX(-50%) rotate(45deg)" };
     case "left":
       return { ...base, right: "-0.3rem", top: "50%", transform: "translateY(-50%) rotate(45deg)" };
     case "right":
@@ -171,7 +179,7 @@ const getArrowStyle = (placement: TooltipPlacement): CSSProperties => {
 };
 
 const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow = false }: TooltipContentProps) => {
-  const { isOpen, contentRef, triggerRef, placement = "top" } = useTooltip();
+  const { isOpen, contentRef, triggerRef, placement = "top", align = "center" } = useTooltip();
   const [style, setStyle] = useState<CSSProperties>({
     position: "absolute",
     top: 0,
@@ -180,8 +188,10 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
     visibility: "hidden",
     pointerEvents: "none",
   });
+  // top/bottom + align !== center 일 때 화살표를 트리거 위/아래 중앙으로 보정하기 위한 가로 오프셋(px)
+  const [arrowCross, setArrowCross] = useState<number | null>(null);
 
-  const computeStyle = useCallback((): CSSProperties => {
+  const computeStyle = useCallback((): { content: CSSProperties; arrowCross: number | null } => {
     const trigger = triggerRef.current;
     const style: CSSProperties = {
       position: "absolute",
@@ -209,20 +219,41 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
     if (!trigger) {
       style.opacity = 0;
       style.visibility = "hidden";
-      return style;
+      return { content: style, arrowCross: null };
     }
 
     const triggerRect = trigger.getBoundingClientRect();
+    // top/bottom 가로 정렬: start면 트리거 왼쪽 모서리에 맞추고, end면 오른쪽 모서리에 맞춘다.
+    let arrowCross: number | null = null;
+    const horizontalAlign = () => {
+      switch (align) {
+        case "start":
+          style.left = triggerRect.left + window.scrollX;
+          arrowCross = triggerRect.width / 2;
+          return "";
+        case "end":
+          style.left = triggerRect.right + window.scrollX;
+          arrowCross = null;
+          return "translateX(-100%)";
+        case "center":
+        default:
+          style.left = triggerRect.left + triggerRect.width / 2 + window.scrollX;
+          arrowCross = null;
+          return "translateX(-50%)";
+      }
+    };
     const baseTransform = (() => {
       switch (placement) {
-        case "top":
-          style.left = triggerRect.left + triggerRect.width / 2 + window.scrollX;
+        case "top": {
+          const x = horizontalAlign();
           style.top = triggerRect.top - sideOffset + window.scrollY;
-          return "translateX(-50%) translateY(-100%)";
-        case "bottom":
-          style.left = triggerRect.left + triggerRect.width / 2 + window.scrollX;
+          return `${x} translateY(-100%)`;
+        }
+        case "bottom": {
+          const x = horizontalAlign();
           style.top = triggerRect.bottom + sideOffset + window.scrollY;
-          return "translateX(-50%)";
+          return x;
+        }
         case "left":
           style.left = triggerRect.left - sideOffset + window.scrollX;
           style.top = triggerRect.top + triggerRect.height / 2 + window.scrollY;
@@ -238,13 +269,17 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
 
     style.transform = `${baseTransform} ${isOpen ? "scale(1)" : "scale(0.95)"}`;
 
-    return style;
-  }, [isOpen, placement, sideOffset, tag, triggerRef]);
+    return { content: style, arrowCross };
+  }, [isOpen, placement, align, sideOffset, tag, triggerRef]);
 
   // * portal + absolute 위치라 레이아웃이 바뀌면 좌표가 틀어진다.
   // * 스크롤/리사이즈 및 콘텐츠 크기 변화(ResizeObserver)에 맞춰 위치를 다시 계산한다.
   useLayoutEffect(() => {
-    const update = () => setStyle(computeStyle());
+    const update = () => {
+      const { content, arrowCross } = computeStyle();
+      setStyle(content);
+      setArrowCross(arrowCross);
+    };
     update();
 
     if (!isOpen) return;
@@ -268,7 +303,7 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
 
   return createPortal(
     <div ref={contentRef} id="tooltip-content" role="tooltip" className={className} style={style}>
-      {arrow && <span style={getArrowStyle(placement)} />}
+      {arrow && <span style={getArrowStyle(placement, arrowCross)} />}
       {tag != null && (
         <span
           style={{
@@ -281,6 +316,7 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
             borderRadius: "999px",
             border: "0.3rem solid rgba(108, 156, 250, 0.4)",
             backgroundColor: DESIGN_TOKEN_COLOR.blue600,
+            backgroundClip: "padding-box",
             color: "#FFFFFF",
             fontSize: "1rem",
             fontWeight: 600,

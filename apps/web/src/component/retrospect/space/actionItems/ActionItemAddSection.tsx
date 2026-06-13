@@ -9,6 +9,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { Retrospect } from "@/types/retrospect";
 import { useApiPostActionItem } from "@/hooks/api/actionItem/useApiPostActionItem";
+import { useApiPostPersonalActionItem } from "@/hooks/api/actionItem/useApiPostPersonalActionItem";
 import { ExtendedActionItemType } from "@/types/actionItem";
 import { useToast } from "@/hooks/useToast";
 import { trackEvent } from "@/lib/google-analytics";
@@ -18,10 +19,13 @@ type ActionItemAddSectionProps = {
   spaceId: number;
   retrospectId: number;
   onClose: () => void;
+  variant?: "team" | "personal";
 };
 
-export default function ActionItemAddSection({ spaceId, retrospectId, onClose }: ActionItemAddSectionProps) {
+export default function ActionItemAddSection({ spaceId, retrospectId, onClose, variant = "team" }: ActionItemAddSectionProps) {
   const queryClient = useQueryClient();
+  const isPersonal = variant === "personal";
+  const actionItemQueryKey = isPersonal ? ["getPersonalActionItemListBySpace", spaceId] : ["getTeamActionItemList", spaceId];
 
   const { toast } = useToast();
   const { data: retrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
@@ -34,7 +38,9 @@ export default function ActionItemAddSection({ spaceId, retrospectId, onClose }:
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [isClosing, setIsClosing] = useState<boolean>(false);
 
-  const { mutate: createActionItem, isPending: isPendingCreateActionItem } = useApiPostActionItem();
+  const { mutate: createTeamActionItem, isPending: isPendingCreateTeamActionItem } = useApiPostActionItem();
+  const { mutate: createPersonalActionItem, isPending: isPendingCreatePersonalActionItem } = useApiPostPersonalActionItem();
+  const isPendingCreateActionItem = isPendingCreateTeamActionItem || isPendingCreatePersonalActionItem;
 
   const handleRetrospectSelect = (option: Retrospect) => {
     setSelectedRetrospect(option);
@@ -73,48 +79,49 @@ export default function ActionItemAddSection({ spaceId, retrospectId, onClose }:
   };
 
   const handleComplete = () => {
-    if (selectedRetrospect) {
-      createActionItem(
-        {
-          retrospectId: selectedRetrospect.retrospectId,
-          content,
-        },
-        {
-          onSuccess: async (response) => {
-            const previousData: { spaceId: number; spaceName: string; teamActionItemList: ExtendedActionItemType[] } | undefined =
-              await queryClient.getQueryData(["getTeamActionItemList", spaceId]);
+    if (!selectedRetrospect) return;
 
-            if (previousData) {
-              const newActionItem = {
-                actionItemId: response.data.actionItemId,
-                content: content,
+    const onSuccess = async (response: { data: { actionItemId: number } }) => {
+      const listField = isPersonal ? "personalActionItemList" : "teamActionItemList";
+      const previousData: { spaceId: number; spaceName: string; [key: string]: unknown } | undefined =
+        await queryClient.getQueryData(actionItemQueryKey);
+
+      const previousList = previousData?.[listField] as ExtendedActionItemType[] | undefined;
+
+      if (previousData && previousList) {
+        const newActionItem = {
+          actionItemId: response.data.actionItemId,
+          content: content,
+        };
+
+        const updatedData = {
+          ...previousData,
+          [listField]: previousList.map((retrospect) => {
+            if (retrospect.retrospectId === selectedRetrospect.retrospectId) {
+              return {
+                ...retrospect,
+                actionItemList: [...retrospect.actionItemList, newActionItem],
               };
-
-              const updatedData = {
-                ...previousData,
-                teamActionItemList: previousData.teamActionItemList.map((retrospect) => {
-                  if (retrospect.retrospectId === selectedRetrospect.retrospectId) {
-                    return {
-                      ...retrospect,
-                      actionItemList: [...retrospect.actionItemList, newActionItem],
-                    };
-                  }
-                  return retrospect;
-                }),
-              };
-
-              queryClient.setQueryData(["getTeamActionItemList", spaceId], updatedData);
-
-              toast.success("실행목표 추가가 완료되었어요!");
-            } else {
-              queryClient.invalidateQueries({ queryKey: ["getTeamActionItemList", spaceId] });
             }
+            return retrospect;
+          }),
+        };
 
-            trackEvent(GA_EVENTS.ACTION_ITEM.ADD_DONE);
-            onClose();
-          },
-        },
-      );
+        queryClient.setQueryData(actionItemQueryKey, updatedData);
+
+        toast.success("실행목표 추가가 완료되었어요!");
+      } else {
+        queryClient.invalidateQueries({ queryKey: actionItemQueryKey });
+      }
+
+      trackEvent(GA_EVENTS.ACTION_ITEM.ADD_DONE);
+      onClose();
+    };
+
+    if (isPersonal) {
+      createPersonalActionItem({ spaceId, retrospectId: selectedRetrospect.retrospectId, content }, { onSuccess });
+    } else {
+      createTeamActionItem({ retrospectId: selectedRetrospect.retrospectId, content }, { onSuccess });
     }
   };
 

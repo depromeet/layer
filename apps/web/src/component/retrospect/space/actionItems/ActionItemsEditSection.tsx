@@ -7,11 +7,13 @@ import { Typography } from "@/component/common/typography";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { css } from "@emotion/react";
 import { usePatchActionItemList } from "@/hooks/api/actionItem/usePatchActionItemList";
+import { usePatchPersonalActionItemList } from "@/hooks/api/actionItem/usePatchPersonalActionItemList";
 import { Button, ButtonProvider } from "@/component/common/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { ExtendedActionItemType } from "@/types/actionItem";
 import { useModal } from "@/hooks/useModal";
 import { useDeleteActionItemList } from "@/hooks/api/actionItem/useDeleteActionItemList";
+import { useDeletePersonalActionItemList } from "@/hooks/api/actionItem/useDeletePersonalActionItemList";
 import { useToast } from "@/hooks/useToast";
 import { trackEvent } from "@/lib/google-analytics";
 import { GA_EVENTS } from "@/lib/google-analytics/events";
@@ -27,12 +29,16 @@ type ActionItemsEditSectionProps = {
   retrospectId: number;
   todoList: ActionItem[];
   onClose: () => void;
+  variant?: "team" | "personal";
 };
 
 const INIT_TEMP_ID = -1;
 
-export default function ActionItemsEditSection({ spaceId, retrospectId, todoList, onClose }: ActionItemsEditSectionProps) {
+export default function ActionItemsEditSection({ spaceId, retrospectId, todoList, onClose, variant = "team" }: ActionItemsEditSectionProps) {
   const queryClient = useQueryClient();
+  const isPersonal = variant === "personal";
+  const actionItemQueryKey = isPersonal ? ["getPersonalActionItemListBySpace", spaceId] : ["getTeamActionItemList", spaceId];
+  const listField = isPersonal ? "personalActionItemList" : "teamActionItemList";
 
   const { toast } = useToast();
   const { open, close: closeModal } = useModal();
@@ -40,8 +46,12 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
   const [actionItems, setActionItems] = useState<ActionItem[]>(todoList);
   const [nextTempId, setNextTempId] = useState(INIT_TEMP_ID);
 
-  const { mutate: patchActionItem, isPending: isPendingPatchActionItem } = usePatchActionItemList();
-  const { mutate: deleteActionItem } = useDeleteActionItemList();
+  const { mutate: patchTeamActionItem, isPending: isPendingPatchTeamActionItem } = usePatchActionItemList();
+  const { mutate: patchPersonalActionItem, isPending: isPendingPatchPersonalActionItem } = usePatchPersonalActionItemList();
+  const { mutate: deleteTeamActionItem } = useDeleteActionItemList();
+  const { mutate: deletePersonalActionItem } = useDeletePersonalActionItemList();
+
+  const isPendingPatchActionItem = isPendingPatchTeamActionItem || isPendingPatchPersonalActionItem;
 
   /**
    * 리스트의 아이템 순서 변경
@@ -82,19 +92,22 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
       contents: "정말 삭제하시겠어요?",
       onClose: closeModal,
       onConfirm: () => {
+        const deleteActionItem = isPersonal ? deletePersonalActionItem : deleteTeamActionItem;
         deleteActionItem(
           { actionItemId: Number(id) },
           {
             onSuccess: async () => {
               setActionItems(actionItems.filter((item) => item.actionItemId !== id));
 
-              const previousData: { spaceId: string; spaceName: string; teamActionItemList: ExtendedActionItemType[] } | undefined =
-                await queryClient.getQueryData(["getTeamActionItemList", spaceId]);
+              const previousData: { spaceId: string; spaceName: string; [key: string]: unknown } | undefined =
+                await queryClient.getQueryData(actionItemQueryKey);
 
-              if (previousData) {
+              const previousList = previousData?.[listField] as ExtendedActionItemType[] | undefined;
+
+              if (previousData && previousList) {
                 const updatedData = {
                   ...previousData,
-                  teamActionItemList: previousData.teamActionItemList.map((retrospect) => {
+                  [listField]: previousList.map((retrospect) => {
                     if (retrospect.retrospectId === retrospectId) {
                       return {
                         ...retrospect,
@@ -105,7 +118,7 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
                   }),
                 };
 
-                queryClient.setQueryData(["getTeamActionItemList", spaceId], updatedData);
+                queryClient.setQueryData(actionItemQueryKey, updatedData);
               }
 
               toast.success("실행목표 삭제가 완료되었어요!");
@@ -163,19 +176,15 @@ export default function ActionItemsEditSection({ spaceId, retrospectId, todoList
         });
 
       await new Promise((resolve, reject) => {
-        patchActionItem(
-          {
-            retrospectId,
-            actionItems: requestItems,
-          },
-          {
-            onSuccess: resolve,
-            onError: reject,
-          },
-        );
+        const callbacks = { onSuccess: resolve, onError: reject };
+        if (isPersonal) {
+          patchPersonalActionItem({ spaceId, retrospectId, actionItems: requestItems }, callbacks);
+        } else {
+          patchTeamActionItem({ retrospectId, actionItems: requestItems }, callbacks);
+        }
       });
 
-      await queryClient.invalidateQueries({ queryKey: ["getTeamActionItemList", spaceId] });
+      await queryClient.invalidateQueries({ queryKey: actionItemQueryKey });
       toast.success("실행목표 편집이 완료되었어요!");
       trackEvent(GA_EVENTS.ACTION_ITEM.EDIT_DONE);
       onClose();
