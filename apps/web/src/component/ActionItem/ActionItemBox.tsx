@@ -12,6 +12,7 @@ import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { PATHS } from "@layer/shared";
 import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem.ts";
+import { useApiPostPersonalActionItem } from "@/hooks/api/actionItem/useApiPostPersonalActionItem.ts";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 import { useInput } from "@/hooks/useInput.ts";
 import { useToast } from "@/hooks/useToast.ts";
@@ -37,6 +38,10 @@ type ActionItemBoxProps = {
     retrospectTitle: string;
     status: "PROCEEDING" | "DONE";
   }[];
+  /** 개인 실행목표 카드 여부. true면 추가/편집을 개인 엔드포인트로 처리한다. */
+  isPersonal?: boolean;
+  /** 개인 실행목표 생성에 필요한 스페이스 ID */
+  spaceId?: number;
 };
 export default function ActionItemBox({
   id,
@@ -47,6 +52,8 @@ export default function ActionItemBox({
   description,
   retrospectInfo = [],
   emitDataRefetch,
+  isPersonal = false,
+  spaceId,
 }: ActionItemBoxProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isFading, setIsFading] = useState(false);
@@ -60,22 +67,26 @@ export default function ActionItemBox({
   const [retrospect, setRetrospect] = useState("");
   const [retrospectId, setRetrospectId] = useState(id);
   const { mutate, isPending } = useCreateActionItem();
+  const { mutate: createPersonal, isPending: isPersonalPending } = useApiPostPersonalActionItem();
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsFading(true); // 사라지는 애니메이션 시작
-        setTimeout(() => setIsVisible(false), 300); // 300ms 후에 메뉴를 숨김
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+  const handleAddSubmit = () => {
+    const onSuccess = () => {
+      emitDataRefetch && emitDataRefetch();
+      setRetrospect("");
+      resetInput();
+      toast.success("성공적으로 실행목표가 추가되었어요!");
+      closeBottomSheet();
     };
-  }, []);
+    const onError = () => toast.error("예기치못한 에러가 발생했어요");
+
+    if (isPersonal && spaceId != null) {
+      createPersonal({ spaceId, retrospectId: retrospectId as number, content: actionItemValue }, { onSuccess, onError });
+    } else {
+      mutate({ retrospectId: retrospectId as number, content: actionItemValue }, { onSuccess, onError });
+    }
+  };
 
   const handleClick = () => {
     if (isVisible) {
@@ -91,6 +102,20 @@ export default function ActionItemBox({
     setRetrospect(retrospectTitle);
     setRetrospectId(retrospectId);
   };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsFading(true); // 사라지는 애니메이션 시작
+        setTimeout(() => setIsVisible(false), 300); // 300ms 후에 메뉴를 숨김
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <Fragment>
@@ -117,27 +142,7 @@ export default function ActionItemBox({
                   padding-bottom: 0;
                 `}
               >
-                <Button
-                  isProgress={isPending}
-                  onClick={() => {
-                    mutate(
-                      { retrospectId: retrospectId as number, content: actionItemValue },
-                      {
-                        onSuccess: () => {
-                          emitDataRefetch && emitDataRefetch();
-                          setRetrospect("");
-                          resetInput();
-                          toast.success("성공적으로 실행목표가 추가되었어요!");
-                          closeBottomSheet();
-                        },
-                        onError: () => {
-                          toast.error("예기치못한 에러가 발생했어요");
-                        },
-                      },
-                    );
-                  }}
-                  disabled={!actionItemValue}
-                >
+                <Button isProgress={isPending || isPersonalPending} onClick={handleAddSubmit} disabled={!actionItemValue}>
                   추가하기
                 </Button>
               </ButtonProvider>
@@ -299,6 +304,8 @@ export default function ActionItemBox({
                     navigate(PATHS.goalsEdit(), {
                       state: {
                         data: selectedRetrospect,
+                        isPersonal,
+                        spaceId,
                       },
                     });
                   }}

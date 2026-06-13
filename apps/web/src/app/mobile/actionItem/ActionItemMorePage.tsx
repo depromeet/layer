@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
+import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { COOKIE_KEYS } from "@/config/storage-keys";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import { status } from "@/component/ActionItem/actionItem.const.ts";
@@ -13,6 +14,7 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { Spacing } from "@/component/common/Spacing";
 import { Typography } from "@/component/common/typography";
 import { useGetSpaceActionItemList } from "@/hooks/api/actionItem/useGetSpaceActionItemList.ts";
+import { useApiOptionsGetPersonalActionItemListBySpace } from "@/hooks/api/actionItem/useApiOptionsGetPersonalActionItemListBySpace.ts";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
@@ -31,9 +33,28 @@ export function ActionItemMorePage() {
   }));
   const SHEET_ID = "info";
   const isLeader = Number(memberId) === leaderId;
+
+  const [currentTab, setCurrentTab] = useState<"팀" | "개인">("팀");
+  const isTeam = currentTab === "팀";
+
+  // * 개인 실행목표는 개인 탭일 때만 조회한다.
+  const { data: personalData, isLoading: isPersonalLoading, refetch: refetchPersonal } = useQuery({
+    ...useApiOptionsGetPersonalActionItemListBySpace(spaceId),
+    enabled: !!spaceId && !isTeam,
+  });
+  const personalScaledData = personalData?.personalActionItemList.map((item) => ({
+    retrospectId: item.retrospectId,
+    retrospectTitle: item.retrospectTitle,
+    status: item.status,
+    actionItemList: item.actionItemList,
+  }));
+
+  // * 한 탭 안에서 진행 중(PROCEEDING) → 지난(DONE) 순으로 모두 표기한다.
+  const rawItems = isTeam ? data?.teamActionItemList : personalData?.personalActionItemList;
+  const sortedItems = [...(rawItems ?? [])].sort((a, b) => (a.status === status[0] ? 0 : 1) - (b.status === status[0] ? 0 : 1));
   return (
     <Fragment>
-      {isLoading && <LoadingModal />}
+      {(isTeam ? isLoading : isPersonalLoading) && <LoadingModal />}
       <BottomSheet
         id={"info"}
         title={"실행목표란?"}
@@ -74,6 +95,53 @@ export function ActionItemMorePage() {
           />
         }
       >
+        {/* ---------- 팀/개인 탭 ---------- */}
+        <div
+          css={css`
+            display: flex;
+            align-items: flex-end;
+            gap: 1.2rem;
+            padding-top: 0.5rem;
+          `}
+        >
+          {(["팀", "개인"] as const).map((tab) => {
+            const isActive = tab === currentTab;
+            return (
+              <button
+                key={tab}
+                onClick={() => setCurrentTab(tab)}
+                css={css`
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 0.6rem;
+                  padding: 0 0.4rem;
+                  background: none;
+                  border: none;
+                  cursor: pointer;
+                `}
+              >
+                <Typography
+                  variant="subtitle18SemiBold"
+                  color={isActive ? "gray900" : "gray500"}
+                  css={css`
+                    font-weight: 600;
+                  `}
+                >
+                  {tab}
+                </Typography>
+                <div
+                  css={css`
+                    width: 100%;
+                    height: 2px;
+                    background-color: ${isActive ? DESIGN_TOKEN_COLOR.gray900 : "transparent"};
+                  `}
+                />
+              </button>
+            );
+          })}
+        </div>
+
         <div
           css={css`
             display: flex;
@@ -82,7 +150,7 @@ export function ActionItemMorePage() {
             padding: 1.5rem 0;
           `}
         >
-          {data?.teamActionItemList?.map((item) => {
+          {sortedItems.map((item) => {
             return (
               <ActionItemBox
                 key={item.retrospectId}
@@ -90,9 +158,11 @@ export function ActionItemMorePage() {
                 inProgressYn={item.status === status[0]}
                 title={item.retrospectTitle}
                 contents={item.actionItemList}
-                retrospectInfo={scaledData}
-                emitDataRefetch={refetch}
-                readonly={!isLeader}
+                retrospectInfo={isTeam ? scaledData : personalScaledData}
+                emitDataRefetch={isTeam ? refetch : refetchPersonal}
+                readonly={isTeam ? !isLeader : false}
+                isPersonal={!isTeam}
+                spaceId={spaceId}
               />
             );
           })}

@@ -11,8 +11,11 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { Typography } from "@/component/common/typography";
 import { AddListItemButton } from "@/component/retrospectCreate/customTemplate/EditQuestions.tsx";
 import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem.ts";
+import { useApiPostPersonalActionItem } from "@/hooks/api/actionItem/useApiPostPersonalActionItem.ts";
 import { useDeleteActionItemList } from "@/hooks/api/actionItem/useDeleteActionItemList.ts";
+import { useDeletePersonalActionItemList } from "@/hooks/api/actionItem/useDeletePersonalActionItemList.ts";
 import { usePatchActionItemList } from "@/hooks/api/actionItem/usePatchActionItemList.ts";
+import { usePatchPersonalActionItemList } from "@/hooks/api/actionItem/usePatchPersonalActionItemList.ts";
 import { useModal } from "@/hooks/useModal.ts";
 import { useToast } from "@/hooks/useToast.ts";
 import { DualToneLayout } from "@/layout/DualToneLayout.tsx";
@@ -32,10 +35,17 @@ type retrospectInfoType = {
 export function ActionItemEditPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data: retrospectInfo } = location.state as { data: retrospectInfoType };
+  const {
+    data: retrospectInfo,
+    isPersonal = false,
+    spaceId,
+  } = location.state as { data: retrospectInfoType; isPersonal?: boolean; spaceId?: number };
   const { mutate: deleteActionItem, isPending: deleteActionItemPending } = useDeleteActionItemList();
+  const { mutate: deletePersonalActionItem, isPending: deletePersonalPending } = useDeletePersonalActionItemList();
   const { mutate: patchActionItem, isPending: patchActionItemPending } = usePatchActionItemList();
+  const { mutate: patchPersonalActionItem, isPending: patchPersonalPending } = usePatchPersonalActionItemList();
   const { mutate: createActionItem, isPending: createActionItemPending } = useCreateActionItem();
+  const { mutate: createPersonalActionItem, isPending: createPersonalPending } = useApiPostPersonalActionItem();
   const { open } = useModal();
   const { toast } = useToast();
 
@@ -55,16 +65,17 @@ export function ActionItemEditPage() {
         type: "confirm",
       },
       onConfirm: () => {
-        deleteActionItem(
-          { actionItemId: id },
-          {
-            onSuccess: () => {
-              setData(data.filter((item) => item.id !== id));
-              toast.success("성공적으로 삭제가 완료되었습니다.");
-            },
-            onError: () => toast.error("삭제 도중 에러가 발생했습니다."),
-          },
-        );
+        const onSuccess = () => {
+          setData(data.filter((item) => item.id !== id));
+          toast.success("성공적으로 삭제가 완료되었습니다.");
+        };
+        const onError = () => toast.error("삭제 도중 에러가 발생했습니다.");
+
+        if (isPersonal) {
+          deletePersonalActionItem({ actionItemId: id }, { onSuccess, onError });
+        } else {
+          deleteActionItem({ actionItemId: id }, { onSuccess, onError });
+        }
       },
     });
   };
@@ -92,37 +103,39 @@ export function ActionItemEditPage() {
 
   const handleAdd = () => {
     if (isLimit) return;
-    createActionItem(
-      { retrospectId: retrospectInfo.retrospectId, content: "" },
-      {
-        onSuccess: (res: AxiosResponse<{ actionItemId: number }>) => {
-          try {
-            setData([...data, { id: res.data.actionItemId, content: "" }]);
-          } catch {
-            toast.error("실행 목표 생성 과정에서 에러가 발생했어요!");
-          }
-        },
-      },
-    );
+    const onSuccess = (res: AxiosResponse<{ actionItemId: number }>) => {
+      try {
+        setData([...data, { id: res.data.actionItemId, content: "" }]);
+      } catch {
+        toast.error("실행 목표 생성 과정에서 에러가 발생했어요!");
+      }
+    };
+
+    if (isPersonal && spaceId != null) {
+      createPersonalActionItem({ spaceId, retrospectId: retrospectInfo.retrospectId, content: "" }, { onSuccess });
+    } else {
+      createActionItem({ retrospectId: retrospectInfo.retrospectId, content: "" }, { onSuccess });
+    }
   };
 
   const handleComplete = () => {
-    patchActionItem(
-      { retrospectId: retrospectInfo.retrospectId, actionItems: data },
-      {
-        onSuccess: () => {
-          toast.success("실행목표 편집이 완료되었어요!");
-          navigate(-1);
-        },
-        onError: () => toast.error("데이터를 수정하는데 오류가 발생했습니다."),
-      },
-    );
+    const onSuccess = () => {
+      toast.success("실행목표 편집이 완료되었어요!");
+      navigate(-1);
+    };
+    const onError = () => toast.error("데이터를 수정하는데 오류가 발생했습니다.");
+
+    if (isPersonal && spaceId != null) {
+      patchPersonalActionItem({ spaceId, retrospectId: retrospectInfo.retrospectId, actionItems: data }, { onSuccess, onError });
+    } else {
+      patchActionItem({ retrospectId: retrospectInfo.retrospectId, actionItems: data }, { onSuccess, onError });
+    }
   };
 
   return (
     <Fragment>
-      {createActionItemPending && <LoadingModal purpose={"실행 목표를 만드는 중입니다.."} />}
-      {deleteActionItemPending && <LoadingModal purpose={"데이터를 삭제하는 중..."} />}
+      {(createActionItemPending || createPersonalPending) && <LoadingModal purpose={"실행 목표를 만드는 중입니다.."} />}
+      {(deleteActionItemPending || deletePersonalPending) && <LoadingModal purpose={"데이터를 삭제하는 중..."} />}
       <DualToneLayout
         title={"실행목표 편집"}
         bottomTheme={"default"}
@@ -228,7 +241,7 @@ export function ActionItemEditPage() {
           </div>
         </div>
         <ButtonProvider>
-          <Button isProgress={patchActionItemPending} onClick={handleComplete}>
+          <Button isProgress={patchActionItemPending || patchPersonalPending} onClick={handleComplete}>
             완료
           </Button>
         </ButtonProvider>
