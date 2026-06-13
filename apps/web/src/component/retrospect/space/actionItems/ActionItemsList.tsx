@@ -6,23 +6,36 @@ import { Typography } from "@/component/common/typography";
 import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 import { useApiOptionsGetTeamActionItemList } from "@/hooks/api/actionItem/useApiOptionsGetTeamActionItemList";
+import { useApiOptionsGetPersonalActionItemListBySpace } from "@/hooks/api/actionItem/useApiOptionsGetPersonalActionItemListBySpace";
+import { ExtendedActionItemType } from "@/types/actionItem";
 
 import ActionItemCard from "./ActionItemCard";
 
 type ActionItemsListProps = {
-  currentTab: "진행 중" | "지난";
+  currentTab: "팀" | "개인";
 };
+
+// * 진행 중(PROCEEDING) → 지난(DONE) 순으로 정렬한다. (status가 같으면 API 반환 순서 유지)
+const STATUS_ORDER: Record<string, number> = { PROCEEDING: 0, DONE: 1 };
+const sortByStatus = (list: ExtendedActionItemType[]) =>
+  [...list].sort((a, b) => (STATUS_ORDER[a.status] ?? 99) - (STATUS_ORDER[b.status] ?? 99));
 
 export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
   const params = useParams();
   const spaceId = Number(params.spaceId);
+  const isTeam = currentTab === "팀";
 
-  // * 팀 실행목표 리스트 조회
-  const { data } = useQuery(useApiOptionsGetTeamActionItemList(spaceId));
+  const { data: teamData } = useQuery({
+    ...useApiOptionsGetTeamActionItemList(spaceId),
+    enabled: !!spaceId && isTeam,
+  });
+  const { data: personalData } = useQuery({
+    ...useApiOptionsGetPersonalActionItemListBySpace(spaceId),
+    enabled: !!spaceId && !isTeam,
+  });
 
-  const inProgressActionItems = data?.teamActionItemList.filter((goal) => goal.status === "PROCEEDING");
-  const doneActionItems = data?.teamActionItemList.filter((goal) => goal.status === "DONE");
-  const currentActionItems = currentTab === "진행 중" ? inProgressActionItems : doneActionItems;
+  const rawActionItems = isTeam ? teamData?.teamActionItemList : personalData?.personalActionItemList;
+  const currentActionItems = rawActionItems ? sortByStatus(rawActionItems) : undefined;
 
   return (
     <section
@@ -47,7 +60,7 @@ export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
         >
           <Icon icon="ic_folder" size={4.8} color={DESIGN_TOKEN_COLOR.gray500} />
           <Typography variant="body15Medium" color="gray500">
-            완료된 회고가 없어요
+            아직 실행목표가 없어요
           </Typography>
         </div>
       ) : (
@@ -64,8 +77,10 @@ export default function ActionItemsList({ currentTab }: ActionItemsListProps) {
                 spaceId={spaceId}
                 retrospectId={goal.retrospectId}
                 title={goal.retrospectTitle}
+                deadline={goal.deadline}
                 todoList={goal.actionItemList}
                 status={goal.status}
+                variant={isTeam ? "team" : "personal"}
               />
               {index < currentActionItems.length - 1 && (
                 <div

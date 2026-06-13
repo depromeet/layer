@@ -10,11 +10,11 @@ import ActionItemsList from "./ActionItemsList";
 import ActionItemsTooltip from "./ActionItemsTooltip";
 
 interface ActionItemsProps {
-  currentTab: "진행 중" | "지난";
+  currentTab: "팀" | "개인";
 }
 
 export default function ActionItems() {
-  const [currentTab, setCurrentTab] = useState<ActionItemsProps["currentTab"]>("진행 중");
+  const [currentTab, setCurrentTab] = useState<ActionItemsProps["currentTab"]>("팀");
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
 
   const handleCurrentTabClick = (tab: ActionItemsProps["currentTab"]) => {

@@ -20,6 +20,7 @@ type ActionItemManageToggleMenuProps = {
   }[];
   iconSize?: number;
   iconColor?: keyof typeof DESIGN_TOKEN_COLOR;
+  variant?: "team" | "personal";
 };
 
 export default function ActionItemManageToggleMenu({
@@ -28,6 +29,7 @@ export default function ActionItemManageToggleMenu({
   todoList,
   iconSize = 2,
   iconColor = "gray500",
+  variant = "team",
 }: ActionItemManageToggleMenuProps) {
   const { isShowMenu, showMenu, hideMenu } = useToggleMenu();
   const { open: openDesktopModal, close } = useDesktopBasicModal();
@@ -56,6 +58,7 @@ export default function ActionItemManageToggleMenu({
             content: item.content,
           }))}
           onClose={close}
+          variant={variant}
         />
       ),
       onClose: close,

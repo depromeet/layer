@@ -149,6 +149,7 @@ function List() {
                   spaceId={spaceId}
                   retrospectId={goal.retrospectId}
                   title={goal.retrospectTitle}
+                  deadline={goal.deadline}
                   todoList={goal.actionItemList}
                   status={goal.status}
                 />

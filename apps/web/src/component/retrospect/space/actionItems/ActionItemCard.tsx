@@ -10,32 +10,38 @@ import { currentSpaceState } from "@/store/space/spaceAtom";
 import { isSpaceLeader } from "@/utils/userUtil";
 import { trackEvent } from "@/lib/google-analytics";
 import { GA_EVENTS } from "@/lib/google-analytics/events";
+import { formatDateToString } from "@/utils/formatDate";
 
 type ActionItemCardProps = {
   spaceId: number;
   retrospectId: number;
   title: string;
+  deadline?: string;
   todoList: {
     actionItemId: number;
     content: string;
   }[];
   status: "PROCEEDING" | "DONE" | string;
+  variant?: "team" | "personal";
 };
 
 const STATUS_CONFIG = {
   PROCEEDING: {
     backgroundColor: DESIGN_TOKEN_COLOR.blue100,
     textColor: "blue600" as const,
-    label: "진행 중",
+    borderColor: "transparent",
+    label: "실행 중",
   },
   DONE: {
-    backgroundColor: DESIGN_TOKEN_COLOR.green100,
-    textColor: "green700" as const,
+    backgroundColor: "rgba(33, 35, 41, 0.1)",
+    textColor: "gray900" as const,
+    borderColor: DESIGN_TOKEN_COLOR.gray500,
     label: "완료",
   },
   DEFAULT: {
     backgroundColor: DESIGN_TOKEN_COLOR.gray100,
     textColor: "gray600" as const,
+    borderColor: "transparent",
     label: "미정",
   },
 };
@@ -46,19 +52,21 @@ const getStatusConfig = (status: string) => {
   return STATUS_CONFIG.DEFAULT;
 };
 
-export default function ActionItemCard({ spaceId, retrospectId, title, todoList, status }: ActionItemCardProps) {
+export default function ActionItemCard({ spaceId, retrospectId, title, deadline, todoList, status, variant = "team" }: ActionItemCardProps) {
   const currentSpace = useAtomValue(currentSpaceState);
   const { open: openDesktopModal, close } = useDesktopBasicModal();
 
   const { leader } = currentSpace || {};
   const isLeader = isSpaceLeader(leader?.id);
+  // * 개인 실행목표는 본인 항목이므로 리더 여부와 무관하게 본인이 관리할 수 있다.
+  const canManage = variant === "personal" ? true : isLeader;
 
   const statusStyle = getStatusConfig(status);
 
   const handleAddActionItem = () => {
     openDesktopModal({
       title: "실행목표 추가",
-      contents: <ActionItemAddSection spaceId={spaceId} retrospectId={retrospectId} onClose={close} />,
+      contents: <ActionItemAddSection spaceId={spaceId} retrospectId={retrospectId} onClose={close} variant={variant} />,
       onClose: close,
       options: {
         enableFooter: false,
@@ -96,6 +104,7 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
             height: 2.2rem;
             padding: 0.3rem 0.6rem;
             background-color: ${statusStyle.backgroundColor};
+            border: 1px solid ${statusStyle.borderColor};
             border-radius: 0.4rem;
           `}
         >
@@ -103,7 +112,7 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
             {statusStyle.label}
           </Typography>
         </div>
-        {isLeader && (
+        {canManage && (
           <div
             css={css`
               display: flex;
@@ -127,7 +136,7 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
                 `}
               />
             </button>
-            <ActionItemManageToggleMenu spaceId={spaceId} retrospectId={retrospectId} todoList={todoList} />
+            <ActionItemManageToggleMenu spaceId={spaceId} retrospectId={retrospectId} todoList={todoList} variant={variant} />
           </div>
         )}
       </div>
@@ -136,6 +145,19 @@ export default function ActionItemCard({ spaceId, retrospectId, title, todoList,
       <Typography variant="body15Bold" color="gray900">
         {title}
       </Typography>
+
+      {/* ---------- 날짜 ---------- */}
+      {deadline && (
+        <Typography
+          variant="body14Medium"
+          color="gray500"
+          css={css`
+            margin-top: 0.4rem;
+          `}
+        >
+          {formatDateToString(new Date(deadline), ".")}
+        </Typography>
+      )}
 
       {/* ---------- 할 일 목록 ----------*/}
       <div
