@@ -11,6 +11,7 @@ import {
   isValidElement,
   cloneElement,
   useEffect,
+  useLayoutEffect,
   ReactElement,
 } from "react";
 import { createPortal } from "react-dom";
@@ -32,6 +33,8 @@ interface TooltipProps {
   placement?: TooltipPlacement;
   delay?: number;
   disabled?: boolean;
+  /** 마운트 시 기본으로 열어둔다 (안내/announcement 용도) */
+  defaultOpen?: boolean;
 }
 
 interface TooltipTriggerProps {
@@ -43,6 +46,10 @@ interface TooltipContentProps {
   children: ReactNode;
   className?: string;
   sideOffset?: number;
+  /** 본문 앞에 붙는 칩(예: "NEW"). 문자열/노드 모두 가능 */
+  tag?: ReactNode;
+  /** placement 방향을 가리키는 꼬리(화살표) 노출 여부 */
+  arrow?: boolean;
 }
 
 const TooltipContext = createContext<TooltipContextType | null>(null);
@@ -55,8 +62,8 @@ const useTooltip = () => {
   return context;
 };
 
-const Tooltip = ({ children, placement = "top", delay = 200, disabled = false }: TooltipProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Tooltip = ({ children, placement = "top", delay = 200, disabled = false, defaultOpen = false }: TooltipProps) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const triggerRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<number | null>(null);
@@ -141,23 +148,47 @@ const TooltipTrigger = ({ children, asChild = true }: TooltipTriggerProps) => {
   );
 };
 
-const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipContentProps) => {
-  const { isOpen, contentRef, triggerRef, placement } = useTooltip();
+const getArrowStyle = (placement: TooltipPlacement): CSSProperties => {
+  const base: CSSProperties = {
+    position: "absolute",
+    width: "0.8rem",
+    height: "0.8rem",
+    backgroundColor: DESIGN_TOKEN_COLOR.gray900,
+    borderRadius: "0.1rem",
+  };
 
-  if (!triggerRef.current) {
-    return null;
+  switch (placement) {
+    case "top":
+      return { ...base, bottom: "-0.3rem", left: "50%", transform: "translateX(-50%) rotate(45deg)" };
+    case "bottom":
+      return { ...base, top: "-0.3rem", left: "50%", transform: "translateX(-50%) rotate(45deg)" };
+    case "left":
+      return { ...base, right: "-0.3rem", top: "50%", transform: "translateY(-50%) rotate(45deg)" };
+    case "right":
+    default:
+      return { ...base, left: "-0.3rem", top: "50%", transform: "translateY(-50%) rotate(45deg)" };
   }
+};
 
-  const getTooltipStyle = (): CSSProperties => {
-    if (!triggerRef.current) return {};
+const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow = false }: TooltipContentProps) => {
+  const { isOpen, contentRef, triggerRef, placement = "top" } = useTooltip();
+  const [style, setStyle] = useState<CSSProperties>({
+    position: "absolute",
+    top: 0,
+    left: 0,
+    opacity: 0,
+    visibility: "hidden",
+    pointerEvents: "none",
+  });
 
-    const triggerRect = triggerRef.current.getBoundingClientRect();
+  const computeStyle = useCallback((): CSSProperties => {
+    const trigger = triggerRef.current;
     const style: CSSProperties = {
       position: "absolute",
       zIndex: 9999,
       backgroundColor: DESIGN_TOKEN_COLOR.gray900,
       color: "#FFFFFF",
-      padding: "0.8rem 1.2rem",
+      padding: "1rem 1.4rem",
       borderRadius: "0.8rem",
       whiteSpace: "nowrap",
       border: "none",
@@ -169,6 +200,19 @@ const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipCo
       transformOrigin: "center",
     };
 
+    if (tag != null) {
+      style.display = "inline-flex";
+      style.alignItems = "center";
+      style.gap = "1rem";
+    }
+
+    if (!trigger) {
+      style.opacity = 0;
+      style.visibility = "hidden";
+      return style;
+    }
+
+    const triggerRect = trigger.getBoundingClientRect();
     const baseTransform = (() => {
       switch (placement) {
         case "top":
@@ -192,15 +236,62 @@ const TooltipContent = ({ children, className = "", sideOffset = 16 }: TooltipCo
       }
     })();
 
-    const scaleTransform = isOpen ? "scale(1)" : "scale(0.95)";
-    style.transform = `${baseTransform} ${scaleTransform}`;
+    style.transform = `${baseTransform} ${isOpen ? "scale(1)" : "scale(0.95)"}`;
 
     return style;
-  };
+  }, [isOpen, placement, sideOffset, tag, triggerRef]);
+
+  // * portal + absolute 위치라 레이아웃이 바뀌면 좌표가 틀어진다.
+  // * 스크롤/리사이즈 및 콘텐츠 크기 변화(ResizeObserver)에 맞춰 위치를 다시 계산한다.
+  useLayoutEffect(() => {
+    const update = () => setStyle(computeStyle());
+    update();
+
+    if (!isOpen) return;
+
+    window.addEventListener("scroll", update, true);
+    window.addEventListener("resize", update);
+
+    let resizeObserver: ResizeObserver | undefined;
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(update);
+      if (triggerRef.current) resizeObserver.observe(triggerRef.current);
+      resizeObserver.observe(document.body);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", update, true);
+      window.removeEventListener("resize", update);
+      resizeObserver?.disconnect();
+    };
+  }, [isOpen, computeStyle, triggerRef]);
 
   return createPortal(
-    <div ref={contentRef} id="tooltip-content" role="tooltip" className={className} style={getTooltipStyle()}>
-      {children}
+    <div ref={contentRef} id="tooltip-content" role="tooltip" className={className} style={style}>
+      {arrow && <span style={getArrowStyle(placement)} />}
+      {tag != null && (
+        <span
+          style={{
+            position: "relative",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            padding: "0.3rem 0.6rem",
+            borderRadius: "999px",
+            border: "0.3rem solid rgba(108, 156, 250, 0.4)",
+            backgroundColor: DESIGN_TOKEN_COLOR.blue600,
+            color: "#FFFFFF",
+            fontSize: "1rem",
+            fontWeight: 600,
+            lineHeight: "normal",
+            letterSpacing: "-0.01rem",
+          }}
+        >
+          {tag}
+        </span>
+      )}
+      <span style={{ position: "relative", fontSize: "1.2rem", fontWeight: 600, lineHeight: 1.4 }}>{children}</span>
     </div>,
     document.body,
   );
