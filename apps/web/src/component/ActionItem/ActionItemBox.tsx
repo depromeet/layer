@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ActionItemList } from "@/component/ActionItem/ActionItemList.tsx";
@@ -14,6 +14,7 @@ import { PATHS } from "@layer/shared";
 import { useCreateActionItem } from "@/hooks/api/actionItem/useCreateActionItem.ts";
 import { useApiPostPersonalActionItem } from "@/hooks/api/actionItem/useApiPostPersonalActionItem.ts";
 import { useBottomSheet } from "@/hooks/useBottomSheet.ts";
+import useClickOutside from "@/hooks/useClickOutside.ts";
 import { useInput } from "@/hooks/useInput.ts";
 import { useToast } from "@/hooks/useToast.ts";
 import { ANIMATION } from "@/style/common/animation.ts";
@@ -103,19 +104,10 @@ export default function ActionItemBox({
     setRetrospectId(retrospectId);
   };
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsFading(true); // 사라지는 애니메이션 시작
-        setTimeout(() => setIsVisible(false), 300); // 300ms 후에 메뉴를 숨김
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  useClickOutside(menuRef, () => {
+    setIsFading(true); // 사라지는 애니메이션 시작
+    setTimeout(() => setIsVisible(false), 300); // 300ms 후에 메뉴를 숨김
+  });
 
   return (
     <Fragment>

@@ -36,6 +36,8 @@ type ActionItemProps = {
   actionItemContent: string;
 };
 
+const MAX_VISIBLE_ACTION_ITEMS = 3;
+
 export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, leaderId, restrospectArr = [] }: ActionItemListViewProps) {
   const isCompleteRetrospect = restrospectArr.reduce((acc: SelectBoxType["data"], cur) => {
     if (cur.retrospectStatus === "DONE")
@@ -242,12 +244,12 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
               gap: 0.8rem;
             `}
           >
-            {currentActionList.slice(0, 3).map((actionItem, idx) => (
+            {currentActionList.slice(0, MAX_VISIBLE_ACTION_ITEMS).map((actionItem, idx) => (
               <ActionItem key={idx} actionItemContent={actionItem.content} />
             ))}
             {isTeam &&
               isLeader &&
-              Array.from({ length: 3 - currentActionList.length }).map((_, index) => (
+              Array.from({ length: MAX_VISIBLE_ACTION_ITEMS - currentActionList.length }).map((_, index) => (
                 <div key={`plus-${index}`} onClick={handleOpenBottomSheet}>
                   <PlusActionItem />
                 </div>

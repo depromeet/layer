@@ -40,6 +40,34 @@ export default function ActionItemsWrapper() {
 
   const currentGoals = isTeamTab ? teamGoals : personalGoals;
   const isPending = isTeamTab ? isTeamPending : isPersonalPending;
+  const isEmptyGoals = !currentGoals || currentGoals.length === 0;
+
+  const renderActionItems = () => {
+    if (isPending) {
+      return (
+        <div
+          css={css`
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          `}
+        >
+          <LoadingSpinner />
+        </div>
+      );
+    }
+
+    if (isEmptyGoals) {
+      return <ActionItemsWrapper.Onboarding />;
+    }
+
+    return currentGoals.map((actionItem, index) => (
+      <SwiperSlide key={`${actionItem.retrospectId}-${index}`}>
+        <ActionItemBox actionItem={actionItem} />
+      </SwiperSlide>
+    ));
+  };
 
   return (
     <article
@@ -200,7 +228,7 @@ export default function ActionItemsWrapper() {
               min-height: 22.8rem;
 
               .swiper-wrapper {
-                display: ${(currentGoals?.length ?? 0) === 0 ? "none" : "flex"};
+                display: ${isEmptyGoals ? "none" : "flex"};
                 align-items: stretch;
               }
 
@@ -211,26 +239,7 @@ export default function ActionItemsWrapper() {
               }
             `}
           >
-            {isPending ? (
-              <div
-                css={css`
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%);
-                `}
-              >
-                <LoadingSpinner />
-              </div>
-            ) : !currentGoals || currentGoals.length === 0 ? (
-              <ActionItemsWrapper.Onboarding />
-            ) : (
-              currentGoals.map((actionItem, index) => (
-                <SwiperSlide key={`${actionItem.retrospectId}-${index}`}>
-                  <ActionItemBox actionItem={actionItem} />
-                </SwiperSlide>
-              ))
-            )}
+            {renderActionItems()}
           </Swiper>
           <button ref={prevButtonRef} className="swiper-button-prev" />
           <button ref={nextButtonRef} className="swiper-button-next" />
