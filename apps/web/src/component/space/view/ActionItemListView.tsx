@@ -68,7 +68,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
   const isLoadingCurrentTab = !isTeam && isPersonalLoading;
 
   const { value: actionItemValue, handleInputChange } = useInput();
-  const { mutate } = useCreateActionItem();
+  const { mutate: createActionItemMutate } = useCreateActionItem();
   const { toast } = useToast();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
@@ -93,7 +93,7 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
       return;
     }
 
-    mutate(
+    createActionItemMutate(
       { retrospectId, content: actionItemValue },
       {
         onSuccess: async () => {

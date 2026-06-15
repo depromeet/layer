@@ -1,4 +1,4 @@
-import { UseQueryOptions } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 
 import { api } from "@/api";
 
@@ -21,13 +21,12 @@ const getRecentPersonalActionItemList = async (spaceId: number) => {
   return response.data;
 };
 
-export const useApiOptionsGetRecentPersonalActionList = (
-  spaceId?: number,
-): UseQueryOptions<RecentPersonalActionItemList, Error, RecentPersonalActionItemList, [string, number | undefined]> => ({
-  queryKey: ["getRecentPersonalActionItemList", spaceId],
-  queryFn: () => {
-    if (spaceId == null) throw new Error("spaceId is required");
-    return getRecentPersonalActionItemList(spaceId);
-  },
-  enabled: spaceId != null,
-});
+export const useApiOptionsGetRecentPersonalActionList = (spaceId?: number) =>
+  queryOptions({
+    queryKey: ["getRecentPersonalActionItemList", spaceId] as const,
+    queryFn: () => {
+      if (spaceId == null) throw new Error("spaceId is required");
+      return getRecentPersonalActionItemList(spaceId);
+    },
+    enabled: spaceId != null,
+  });

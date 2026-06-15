@@ -66,7 +66,7 @@ export default function ActionItemBox({
   const { value: actionItemValue, handleInputChange, resetInput } = useInput();
   const [retrospect, setRetrospect] = useState("");
   const [retrospectId, setRetrospectId] = useState(id);
-  const { mutate, isPending } = useCreateActionItem();
+  const { mutate: createActionItem, isPending: isActionItemPending } = useCreateActionItem();
   const { mutate: createPersonal, isPending: isPersonalPending } = useApiPostPersonalActionItem();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -84,7 +84,7 @@ export default function ActionItemBox({
     if (isPersonal && spaceId != null) {
       createPersonal({ spaceId, retrospectId: retrospectId as number, content: actionItemValue }, { onSuccess, onError });
     } else {
-      mutate({ retrospectId: retrospectId as number, content: actionItemValue }, { onSuccess, onError });
+      createActionItem({ retrospectId: retrospectId as number, content: actionItemValue }, { onSuccess, onError });
     }
   };
 
@@ -142,7 +142,7 @@ export default function ActionItemBox({
                   padding-bottom: 0;
                 `}
               >
-                <Button isProgress={isPending || isPersonalPending} onClick={handleAddSubmit} disabled={!actionItemValue}>
+                <Button isProgress={isActionItemPending || isPersonalPending} onClick={handleAddSubmit} disabled={!actionItemValue}>
                   추가하기
                 </Button>
               </ButtonProvider>

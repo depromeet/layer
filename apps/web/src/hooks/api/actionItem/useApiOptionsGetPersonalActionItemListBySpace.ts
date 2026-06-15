@@ -1,4 +1,4 @@
-import { UseQueryOptions } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 
 import { api } from "@/api";
 import { PersonalActionItemListBySpaceType } from "@/types/actionItem";
@@ -8,13 +8,12 @@ const getPersonalActionItemListBySpace = async (spaceId: number) => {
   return response.data;
 };
 
-export const useApiOptionsGetPersonalActionItemListBySpace = (
-  spaceId?: number,
-): UseQueryOptions<PersonalActionItemListBySpaceType, Error, PersonalActionItemListBySpaceType, [string, number | undefined]> => ({
-  queryKey: ["getPersonalActionItemListBySpace", spaceId],
-  queryFn: () => {
-    if (spaceId == null) throw new Error("spaceId is required");
-    return getPersonalActionItemListBySpace(spaceId);
-  },
-  enabled: spaceId != null,
-});
+export const useApiOptionsGetPersonalActionItemListBySpace = (spaceId?: number) =>
+  queryOptions({
+    queryKey: ["getPersonalActionItemListBySpace", spaceId] as const,
+    queryFn: () => {
+      if (spaceId == null) throw new Error("spaceId is required");
+      return getPersonalActionItemListBySpace(spaceId);
+    },
+    enabled: spaceId != null,
+  });
