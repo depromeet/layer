@@ -180,31 +180,37 @@ export default function ActionItemCard({ spaceId, retrospectId, title, deadline,
           `}
         >
           {todoList.length === 0 ? (
-            <button
-              css={css`
-                display: flex;
-                align-items: center;
-                gap: 0.8rem;
-              `}
-              onClick={handleAddActionItem}
-            >
-              <div
+            canManage ? (
+              <button
                 css={css`
-                  width: 1.2rem;
-                  height: 1.2rem;
-                  background-color: ${DESIGN_TOKEN_COLOR.gray100};
                   display: flex;
                   align-items: center;
-                  justify-content: center;
-                  border-radius: 0.4rem;
+                  gap: 0.8rem;
                 `}
+                onClick={handleAddActionItem}
               >
-                <Icon icon="ic_plus" size={0.8} color={DESIGN_TOKEN_COLOR.gray500} />
-              </div>
+                <div
+                  css={css`
+                    width: 1.2rem;
+                    height: 1.2rem;
+                    background-color: ${DESIGN_TOKEN_COLOR.gray100};
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 0.4rem;
+                  `}
+                >
+                  <Icon icon="ic_plus" size={0.8} color={DESIGN_TOKEN_COLOR.gray500} />
+                </div>
+                <Typography variant="body14Medium" color="gray500">
+                  실행목표 추가하기
+                </Typography>
+              </button>
+            ) : (
               <Typography variant="body14Medium" color="gray500">
-                실행목표 추가하기
+                등록된 실행목표가 없어요
               </Typography>
-            </button>
+            )
           ) : (
             todoList.map((todo) => (
               <div

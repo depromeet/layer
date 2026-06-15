@@ -65,6 +65,25 @@ interface TooltipContentProps {
   arrow?: boolean;
 }
 
+// localStorage는 프라이빗 모드/쿠키 차단 정책에서 접근 자체가 throw할 수 있어 안전하게 감싼다.
+const safeGetSeen = (storageKey?: string): boolean => {
+  if (!storageKey || typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(storageKey) === "true";
+  } catch {
+    return false;
+  }
+};
+
+const safeSetSeen = (storageKey?: string) => {
+  if (!storageKey || typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(storageKey, "true");
+  } catch {
+    // 저장 실패 시 무시한다 (안내 툴팁이 다음에 다시 떠도 무방).
+  }
+};
+
 const TooltipContext = createContext<TooltipContextType | null>(null);
 
 const useTooltip = () => {
@@ -86,7 +105,7 @@ const Tooltip = ({
   storageKey,
 }: TooltipProps) => {
   // storageKey가 있으면 "이미 본 적 있는지"를 localStorage에서 읽어 자동 노출 여부를 결정한다.
-  const hasSeen = storageKey != null && typeof window !== "undefined" && window.localStorage.getItem(storageKey) === "true";
+  const hasSeen = safeGetSeen(storageKey);
   const [isOpen, setIsOpen] = useState(defaultOpen && !hasSeen);
   const triggerRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -123,8 +142,8 @@ const Tooltip = ({
 
   // defaultOpen 안내 툴팁이 최초로 노출되면 기록하여 이후에는 자동으로 뜨지 않게 한다.
   useEffect(() => {
-    if (defaultOpen && storageKey && typeof window !== "undefined" && !hasSeen) {
-      window.localStorage.setItem(storageKey, "true");
+    if (defaultOpen && !hasSeen) {
+      safeSetSeen(storageKey);
     }
   }, [defaultOpen, storageKey, hasSeen]);
 

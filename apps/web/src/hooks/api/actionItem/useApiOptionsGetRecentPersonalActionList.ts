@@ -16,15 +16,18 @@ type RecentPersonalActionItemList = {
   personalActionItemList: RecentPersonalActionItem[];
 };
 
-const getRecentPersonalActionItemList = async (spaceId: number | undefined) => {
+const getRecentPersonalActionItemList = async (spaceId: number) => {
   const response = await api.get<RecentPersonalActionItemList>(`/api/action-item/personal/space/${spaceId}/recent`);
   return response.data;
 };
 
 export const useApiOptionsGetRecentPersonalActionList = (
   spaceId?: number,
-): UseQueryOptions<RecentPersonalActionItemList, Error, RecentPersonalActionItemList, [string, number]> => ({
-  queryKey: ["getRecentPersonalActionItemList", spaceId!],
-  queryFn: () => getRecentPersonalActionItemList(spaceId),
-  enabled: !!spaceId,
+): UseQueryOptions<RecentPersonalActionItemList, Error, RecentPersonalActionItemList, [string, number | undefined]> => ({
+  queryKey: ["getRecentPersonalActionItemList", spaceId],
+  queryFn: () => {
+    if (spaceId == null) throw new Error("spaceId is required");
+    return getRecentPersonalActionItemList(spaceId);
+  },
+  enabled: spaceId != null,
 });

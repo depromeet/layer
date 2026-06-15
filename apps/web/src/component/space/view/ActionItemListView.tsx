@@ -58,12 +58,14 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
   const isTeam = currentTab === "팀";
 
   // * 개인 실행목표(최근 회고 기준)는 개인 탭일 때만 조회한다.
-  const { data: personalData } = useQuery({
+  const { data: personalData, isLoading: isPersonalLoading } = useQuery({
     ...useApiOptionsGetRecentPersonalActionList(spaceId),
     enabled: !!spaceId && !isTeam,
   });
   const personalActionList = personalData?.personalActionItemList ?? [];
   const currentActionList = isTeam ? teamActionList : personalActionList;
+  // * 개인 탭은 비동기 조회라 응답 전 빈 상태가 먼저 노출되는 깜빡임을 막기 위해 로딩 분기를 둔다.
+  const isLoadingCurrentTab = !isTeam && isPersonalLoading;
 
   const { value: actionItemValue, handleInputChange } = useInput();
   const { mutate } = useCreateActionItem();
@@ -210,17 +212,27 @@ export function ActionItemListView({ isPossibleMake, teamActionList, spaceId, le
 
       <Spacing size={1.0} />
 
-      {currentActionList.length === 0 && (
+      {isLoadingCurrentTab ? (
         <>
           <Icon icon="icon_file_open" size="5.2rem" />
           <Spacing size={1.6} />
-          <Typography variant="body14Medium" color="gray600">
-            {isTeam ? (isPossibleMake ? "완료된 회고가 없어요" : "실행목표를 설정해보세요") : "아직 실행목표가 없어요"}
+          <Typography variant="body14Medium" color="gray500">
+            불러오는 중...
           </Typography>
         </>
+      ) : (
+        currentActionList.length === 0 && (
+          <>
+            <Icon icon="icon_file_open" size="5.2rem" />
+            <Spacing size={1.6} />
+            <Typography variant="body14Medium" color="gray600">
+              {isTeam ? (isPossibleMake ? "완료된 회고가 없어요" : "실행목표를 설정해보세요") : "아직 실행목표가 없어요"}
+            </Typography>
+          </>
+        )
       )}
 
-      {currentActionList.length !== 0 && (
+      {!isLoadingCurrentTab && currentActionList.length !== 0 && (
         <>
           <div
             css={css`
