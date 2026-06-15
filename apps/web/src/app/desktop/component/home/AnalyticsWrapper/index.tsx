@@ -115,6 +115,7 @@ export default function AnalyticsWrapper() {
           padding: 2.4rem 3.2rem;
           border-radius: 1.6rem;
           background-color: ${DESIGN_TOKEN_COLOR.gray00};
+          min-height: 20.26rem;
         `}
       >
         {renderContent()}
