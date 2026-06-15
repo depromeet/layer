@@ -14,6 +14,8 @@ export default defineConfig(() => ({
     react({
       jsxImportSource: "@emotion/react",
       babel: {
+        // React Compiler는 다른 Babel 변환보다 먼저 실행되어야 하므로 plugins 최상단에 둔다.
+        plugins: [["babel-plugin-react-compiler", {}]],
         presets: ["jotai/babel/preset"],
       },
     }),
