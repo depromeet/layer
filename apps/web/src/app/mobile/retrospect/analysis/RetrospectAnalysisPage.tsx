@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Fragment, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -8,7 +9,7 @@ import { AnalysisContainer } from "@/component/retrospect/analysis/Analysis";
 import { PersonalForm } from "@/component/retrospect/analysis/PersonalForm.tsx";
 import { QuestionForm } from "@/component/retrospect/analysis/QuestionForm.tsx";
 import { useGetAnalysisAnswer } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer.ts";
-import { useApiGetSpacePrivate } from "@/hooks/api/space/useGetSpace";
+import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
 import { useTabs } from "@/hooks/useTabs";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { EmptyList } from "@/component/common/empty";
@@ -30,15 +31,9 @@ export const RetrospectAnalysisPage = () => {
   const spaceId = Number(queryParams.get("spaceId"));
   const retrospectId = Number(queryParams.get("retrospectId"));
   const { data, isLoading } = useGetAnalysisAnswer({ spaceId: spaceId, retrospectId: retrospectId });
-  const { data: spaceInfo } = useApiGetSpacePrivate(spaceId);
-  let pendingPeopleCnt = 0;
-
-  if (spaceInfo && data) {
-    // TODO: 로직을 어떻게 픽스해야할지 서버 개발자들이랑 같이 이야기를 해보아야 함
-    // spaceInfo.memberCount : 스페이스에 들어와있는 멤버 수
-    // data.individuals.length : 현재 해당 회고에 대한 질문 답변 수
-    pendingPeopleCnt = spaceInfo.memberCount - data.individuals.length;
-  }
+  const { data: retrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
+  const retrospect = retrospects?.find((item) => item.retrospectId === retrospectId);
+  const pendingPeopleCnt = retrospect ? retrospect.totalCount - retrospect.writeCount : 0;
 
   useEffect(() => {
     if (defaultTab) {
