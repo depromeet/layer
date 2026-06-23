@@ -61,13 +61,17 @@ export function RetrospectCreate() {
       },
       {
         onSuccess: async () => {
+          // 사용자가 템플릿을 변경하거나, 회고를 생성할 때 변경된 정보가 있으면 스페이스 정보를 다시 가져옵니다.
           await queryClient.invalidateQueries({
-            queryKey: ["getSpaceInfo", String(spaceIdNumber)],
+            queryKey: ["getSpaceInfo", spaceIdNumber],
+          });
+          // 사용자가 회고를 추가했다면, 회고 리스트 조회를 다시 리패치합니다.
+          await queryClient.invalidateQueries({
+            queryKey: ["getRetrospects", spaceIdNumber],
           });
           navigate(PATHS.spaceDetail(String(spaceIdNumber)));
           closeFunnelModal();
           toast.success("회고가 생성되었어요!");
-
           setRetrospectValue((prev) => ({
             ...prev,
             tempTemplateId: null,
