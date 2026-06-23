@@ -6,7 +6,7 @@ import { useNavigation } from "../../context/NavigationContext";
 
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { PROJECT_CATEGORY_MAP } from "../../constants";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import AddSpacePage from "@/app/desktop/space/add/AddSpacePage";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
@@ -30,10 +30,14 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
   const currentCategory = PROJECT_CATEGORY_MAP[currentTab];
 
   const observerRef = useRef<HTMLDivElement>(null);
+  const addButtonSectionRef = useRef<HTMLElement>(null);
+  const [tooltipTop, setTooltipTop] = useState<number | null>(null);
 
   const { data: spaceData, hasNextPage, isPending, isFetchingNextPage, fetchNextPage } = useApiGetSpaceList(currentCategory);
 
   const spaces = spaceData?.pages.flatMap((page) => page.data) ?? [];
+
+  const showTooltip = spaces.length === 0;
 
   const { open: openDesktopModal } = useDesktopBasicModal();
   const { resetAll: resetRetrospectInfo } = useRetrospectCreateReset();
@@ -86,6 +90,34 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
     postSpacesImpression();
   }, []);
 
+  // 온보딩 툴팁을 "스페이스 추가" 버튼 바로 아래에 위치시킨다.
+  // 버튼은 Portal 밖에 있어 overflow에 가려지므로, 버튼 위치를 측정해 fixed 좌표로 전달한다.
+  useEffect(() => {
+    if (!showTooltip) return;
+
+    const section = addButtonSectionRef.current;
+    if (!section) return;
+
+    // 접힌 상태에서는 갭을 좁히고, 펼친 상태에서는 넓힌다.
+    const TOOLTIP_GAP = isCollapsed ? 4 : 14;
+    const updatePosition = () => {
+      const rect = section.getBoundingClientRect();
+      setTooltipTop(rect.bottom + TOOLTIP_GAP);
+    };
+
+    updatePosition();
+
+    // ResizeObserver로 접기/펼치기 애니메이션 중 버튼 위치 변화를 추적한다.
+    const resizeObserver = new ResizeObserver(updatePosition);
+    resizeObserver.observe(section);
+    window.addEventListener("resize", updatePosition);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, [showTooltip, isCollapsed, isPending]);
+
   if (isPending && !isFetchingNextPage) {
     return <LoadingSpinner />;
   }
@@ -108,6 +140,7 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
       ))}
 
       <section
+        ref={addButtonSectionRef}
         css={css`
           position: relative;
           width: 100%;
@@ -115,12 +148,12 @@ export default function SpacesList({ currentTab }: SpacesListProps) {
       >
         <SpaceAddButton onClick={handleOpenSpaceAdd} />
 
-        {spaces.length === 0 && (
+        {showTooltip && tooltipTop !== null && (
           <Portal id="tooltip-root">
             <div
               css={css`
                 position: fixed;
-                top: 31rem;
+                top: ${tooltipTop}px;
                 left: 2rem;
                 transform: ${isCollapsed ? "translateX(-50%)" : "none"};
                 background-color: ${DESIGN_TOKEN_COLOR.gray900};
