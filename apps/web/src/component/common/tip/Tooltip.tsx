@@ -104,7 +104,7 @@ function Content({
     }
   }, [context.hideTooltip, hideOnClick]);
 
-  const { styles, attributes } = usePopper(context.referenceEl, context.popperEl, {
+  const { styles, attributes, update } = usePopper(context.referenceEl, context.popperEl, {
     placement,
     modifiers: [
       {
@@ -116,6 +116,20 @@ function Content({
       ...modifiers,
     ],
   });
+
+  // 트리거 크기가 바뀌면(예: 사이드바 접기/펼치기) 툴팁 위치를 다시 계산한다.
+  // ex LNB가 접혔을 때와 펼쳤을 때, 높이가 다른 경우가 발생함.
+  useEffect(() => {
+    const referenceEl = context.referenceEl;
+    if (!referenceEl || !update || typeof ResizeObserver === "undefined") return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      update();
+    });
+    resizeObserver.observe(referenceEl);
+
+    return () => resizeObserver.disconnect();
+  }, [context.referenceEl, update]);
 
   const getArrowPosition = (placement: ContentProps["placement"]) => {
     const offsetY = -0.4;
