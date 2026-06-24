@@ -106,6 +106,9 @@ function Content({
 
   const { styles, attributes, update } = usePopper(context.referenceEl, context.popperEl, {
     placement,
+    // 포털(body)로 렌더되는 툴팁이 중첩 스크롤 컨테이너 안의 트리거를 따라갈 때
+    // absolute 전략은 스크롤마다 위치가 출렁인다. fixed(뷰포트 기준)로 두면 매끄럽게 따라온다.
+    strategy: "fixed",
     modifiers: [
       {
         name: "offset",
