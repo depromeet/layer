@@ -8,17 +8,17 @@ import { onboarding_home_1, onboarding_home_2, onboarding_home_3 } from "@/asset
 const ONBOARDING_STEPS = [
   {
     title: "스페이스 생성하기",
-    description: "회고를 모아둘 기본 공간을 만들어주세요.\n스페이스는 회고를 관리하고 저장하는 단위\n예요.",
+    description: "회고를 모아둘 기본 공간을 만들어주세요.\n스페이스는 회고를 관리하고 저장하는 단위예요.",
     Image: onboarding_home_1,
   },
   {
     title: "회고 생성하기",
-    description: "템플릿을 선택하고 회고를 시작해보세요.\n추천받기 기능을 사용하면 더 쉽게 선택할 수\n있어요.",
+    description: "템플릿을 선택하고 회고를 시작해보세요.\n추천받기 기능을 사용하면 더 쉽게 선택할 수 있어요.",
     Image: onboarding_home_2,
   },
   {
     title: "회고 작성 후 분석 내용 확인하기",
-    description: "회고를 마치고 인사이트를 확인해보세요.\n작성한 내용을 바탕으로 AI가 실행목표와\n분석을 제공해요.",
+    description: "회고를 마치고 인사이트를 확인해보세요.\n작성한 내용을 바탕으로 AI가 실행목표와 분석을 제공해요.",
     Image: onboarding_home_3,
   },
 ];
@@ -155,6 +155,7 @@ export default function Onboarding({ onClose }: { onClose: () => void }) {
                 color="gray600"
                 css={css`
                   white-space: pre-line;
+                  word-break: keep-all;
                   line-height: 2rem;
                 `}
               >
