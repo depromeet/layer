@@ -22,6 +22,19 @@ import ActionItemBox from "../ActionItemBox";
 
 const GOAL_TAB_LABELS = ["팀", "개인"] as const;
 
+const ONBOARDING_ITEMS = [
+  {
+    title: "4분기 회고",
+    meta: "분기별 회고 | 회고 마감일 2024.12.21",
+    actionItems: ["긴 회의시간 줄이기", "회의 후 내용 꼭 기록해두기", "'린 분석' 북 스터디 진행"],
+  },
+  {
+    title: "중간 발표 이후 회고",
+    meta: "기획 프로젝트 | 회고 마감일 2024.06.30",
+    actionItems: ["추가 인터뷰 진행", "기능 범위 확정하기", "리스크 관리 플랜 설정하기"],
+  },
+] as const;
+
 export default function ActionItemsWrapper() {
   const { tabs, curTab, selectTab } = useTabs(GOAL_TAB_LABELS);
   const memberId = Cookies.get(COOKIE_KEYS.memberId);
@@ -258,8 +271,9 @@ ActionItemsWrapper.Onboarding = function () {
       `}
     >
       <ActionItemsWrapper.OnboardingHint />
-      <ActionItemsWrapper.OnboardingItem />
-      <ActionItemsWrapper.OnboardingItem />
+      {ONBOARDING_ITEMS.map((item) => (
+        <ActionItemsWrapper.OnboardingItem key={item.title} {...item} />
+      ))}
     </section>
   );
 };
@@ -305,7 +319,15 @@ ActionItemsWrapper.OnboardingHint = function () {
   );
 };
 
-ActionItemsWrapper.OnboardingItem = function () {
+ActionItemsWrapper.OnboardingItem = function ({
+  title,
+  meta,
+  actionItems,
+}: {
+  title: string;
+  meta: string;
+  actionItems: readonly string[];
+}) {
   return (
     <article
       css={css`
@@ -333,7 +355,7 @@ ActionItemsWrapper.OnboardingItem = function () {
           `}
         >
           <Typography variant="title16Bold" color="gray900">
-            중간발표 이후 회고
+            {title}
           </Typography>
           <Typography
             variant="body14Medium"
@@ -344,7 +366,7 @@ ActionItemsWrapper.OnboardingItem = function () {
               white-space: nowrap;
             `}
           >
-            떡잎방범대 | 회고 마감일 2026.06.30
+            {meta}
           </Typography>
         </div>
         <div
@@ -379,24 +401,18 @@ ActionItemsWrapper.OnboardingItem = function () {
           }
         `}
       >
-        <li
-          css={css`
-            padding-left: 0.8rem;
-          `}
-        >
-          <Typography variant="body16Medium" color="gray900">
-            긴 회의 시간 줄이기
-          </Typography>
-        </li>
-        <li
-          css={css`
-            padding-left: 0.8rem;
-          `}
-        >
-          <Typography variant="body16Medium" color="gray900">
-            회의 후 내용 꼭 기록해두기
-          </Typography>
-        </li>
+        {actionItems.map((actionItem) => (
+          <li
+            key={actionItem}
+            css={css`
+              padding-left: 0.8rem;
+            `}
+          >
+            <Typography variant="body16Medium" color="gray900">
+              {actionItem}
+            </Typography>
+          </li>
+        ))}
       </ul>
     </article>
   );
