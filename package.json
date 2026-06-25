@@ -1,6 +1,6 @@
 {
   "name": "layer",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "private": true,
   "scripts": {
     "web": "pnpm -F @layer/web",
