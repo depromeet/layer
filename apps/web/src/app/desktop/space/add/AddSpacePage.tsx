@@ -52,7 +52,7 @@ import { LoadingModal } from "@/component/common/Modal/LoadingModal";
 import { encryptId } from "@/utils/space/cryptoKey";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { useAtom, useAtomValue } from "jotai";
-import { CREATE_RETROSPECT_INIT_ATOM, DEFAULT_QUESTIONS } from "@/store/retrospect/retrospectCreate";
+import { CREATE_RETROSPECT_INIT_ATOM, DEFAULT_QUESTIONS, retrospectCreateAtom } from "@/store/retrospect/retrospectCreate";
 import { CREATE_SPACE_INIT_ATOM } from "@/store/space/spaceAtom";
 import { useRetrospectCreateReset } from "@/hooks/store/useRetrospectCreateReset";
 import { useSpaceCreateReset } from "@/hooks/store/useSpaceCreateReset";
@@ -1199,6 +1199,7 @@ function CreateRetrospectQuestionFunnel() {
 function CreateRetrospectDeadlineFunnel() {
   const { questions, selectedRecommendTemplate, setSpaceId, deadLine, setDeadLine, title, description, selectedCategory, setFlow } =
     useContext(PhaseContext);
+  const { isNewForm, hasChangedOriginal } = useAtomValue(retrospectCreateAtom);
   const { selectedValue, isChecked, onChange } = useRadioButton();
   const { toast } = useToast();
   const { mutateAsync: postSpace } = useApiPostSpace();
@@ -1231,8 +1232,8 @@ function CreateRetrospectDeadlineFunnel() {
         introduction: "",
         questions: [...DEFAULT_QUESTIONS, ...questions],
         deadline: deadLine,
-        isNewForm: false,
-        hasChangedOriginal: false,
+        isNewForm,
+        hasChangedOriginal,
         curFormId: selectedRecommendTemplate!.id,
       } as RetrospectCreateReq;
       const res = await postRetrospect(
