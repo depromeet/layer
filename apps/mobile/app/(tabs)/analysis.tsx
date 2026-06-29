@@ -6,10 +6,7 @@ export default function LoginPage() {
   return (
     <WebViewLayout
       pathname="/analysis"
-      style={{
-        backgroundColor: "#F2F4F8",
-        paddingTop: insets.top,
-      }}
+      style={{ backgroundColor: "#F2F4F8", paddingTop: insets.top }}
     />
   );
 }

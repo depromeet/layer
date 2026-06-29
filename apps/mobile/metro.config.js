@@ -16,6 +16,12 @@ config.resolver.nodeModulesPaths = [
   path.resolve(monorepoRoot, "node_modules"),
 ];
 
+// 3. Force React to resolve from monorepo root only
+config.resolver.extraNodeModules = {
+  react: path.resolve(monorepoRoot, "node_modules/react"),
+  "react-dom": path.resolve(monorepoRoot, "node_modules/react-dom"),
+};
+
 config.transformer = {
   ...config.transformer,
   babelTransformerPath: require.resolve("react-native-svg-transformer"),

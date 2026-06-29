@@ -12,7 +12,10 @@ export interface SvgProps extends GProps, ViewProps {
   title?: string;
 }
 
-export const Logo = forwardRef(function LogoImpl(
+export const Logo = forwardRef<
+  React.ElementRef<typeof Svg>,
+  SvgProps
+>(function LogoImpl(
   {
     color1 = "#172031",
     color2 = "#6C9CFA",
@@ -27,6 +30,7 @@ export const Logo = forwardRef(function LogoImpl(
 
   return (
     <Svg
+      ref={ref}
       width={width}
       height={height}
       viewBox="0 0 120 120"
@@ -46,7 +50,10 @@ export const Logo = forwardRef(function LogoImpl(
   );
 });
 
-export const Text = forwardRef(({ ...props }: SvgProps, ref) => {
+export const Text = forwardRef<
+  React.ElementRef<typeof Svg>,
+  SvgProps
+>(({ ...props }: SvgProps, ref) => {
   return (
     <Svg
       // @ts-ignore

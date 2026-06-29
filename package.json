@@ -18,6 +18,10 @@
         "react-dom": "18 || 19",
         "@types/react": "18 || 19"
       }
+    },
+    "overrides": {
+      "react": "18.3.1",
+      "react-dom": "18.3.1"
     }
   },
   "devDependencies": {

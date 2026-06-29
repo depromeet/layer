@@ -13,7 +13,7 @@ import {
 import { Logo, Text } from "./logo";
 import Animated, {
   Easing,
-  FadeIn,
+  FadeOut,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -25,8 +25,6 @@ import Animated, {
 import * as NativeSplash from "expo-splash-screen";
 NativeSplash.preventAutoHideAsync();
 
-const AnimatedLogo = Animated.createAnimatedComponent(Logo);
-const AnimatedText = Animated.createAnimatedComponent(Text);
 const AnimatedView = Animated.createAnimatedComponent(View);
 
 export const SplashScreen = ({
@@ -56,10 +54,7 @@ export const SplashScreen = ({
     });
     mainScreenOpacity.value = withDelay(
       500,
-      withTiming(1, {
-        duration: 300,
-        easing: Easing.inOut(Easing.cubic),
-      })
+      withTiming(1, { duration: 300, easing: Easing.inOut(Easing.cubic) }),
     );
   }, [screenOpacity]);
 
@@ -73,19 +68,16 @@ export const SplashScreen = ({
         300,
         withTiming(
           0,
-          {
-            duration: 800,
-            easing: Easing.inOut(Easing.cubic),
-          },
-          async () => {}
-        )
-      )
+          { duration: 800, easing: Easing.inOut(Easing.cubic) },
+          async () => {},
+        ),
+      ),
     );
     logoScale.value = withSequence(
       withTiming(2, { duration: 700, easing: Easing.out(Easing.circle) }),
       withDelay(
         300,
-        withTiming(1, { duration: 800, easing: Easing.inOut(Easing.cubic) })
+        withTiming(1, { duration: 800, easing: Easing.inOut(Easing.cubic) }),
       ),
       withDelay(
         500,
@@ -94,8 +86,8 @@ export const SplashScreen = ({
           if (onAnimationComplete) {
             runOnJS(onAnimationComplete)();
           }
-        })
-      )
+        }),
+      ),
     );
     textOpacity.value = withDelay(1300, withTiming(1, { duration: 500 }));
   }, [logoPosition, logoScale, textOpacity, finalLogoPosition]);
@@ -111,17 +103,10 @@ export const SplashScreen = ({
   }, [isLoaded, animateLogo, onAnimationComplete]);
 
   const logoStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateX: logoPosition.value,
-      },
-      { scale: logoScale.value },
-    ],
+    transform: [{ translateX: logoPosition.value }, { scale: logoScale.value }],
   }));
 
-  const textStyle = useAnimatedStyle(() => ({
-    opacity: textOpacity.value,
-  }));
+  const textStyle = useAnimatedStyle(() => ({ opacity: textOpacity.value }));
 
   const screenStyle = useAnimatedStyle(() => ({
     opacity: screenOpacity.value,
@@ -134,7 +119,7 @@ export const SplashScreen = ({
       </AnimatedView>
       {!isAnimationComplete && (
         <AnimatedView
-          exiting={FadeIn.duration(500)}
+          exiting={FadeOut.duration(500)}
           style={[
             {
               position: "absolute",
@@ -151,36 +136,31 @@ export const SplashScreen = ({
           ]}
         >
           <AnimatedView style={[styles.content, screenStyle]}>
-            <AnimatedLogo
-              width={logoSize}
-              height={logoSize}
-              color1="#172031"
-              color2="#6C9CFA"
+            <Animated.View
               style={[
                 {
                   position: "relative",
-                  opacity: 1,
                   transform: [
-                    {
-                      translateY: Dimensions.get("screen").height * 0.5,
-                    },
+                    { translateY: Dimensions.get("screen").height * 0.5 },
                   ],
                 },
                 logoStyle,
                 screenStyle,
               ]}
-            />
-            <View>
-              <AnimatedText
-                style={[
-                  {
-                    marginLeft: 20,
-                    opacity: 0,
-                    height: textHeight,
-                  },
-                  textStyle,
-                ]}
+            >
+              <Logo
+                width={logoSize}
+                height={logoSize}
+                color1="#172031"
+                color2="#6C9CFA"
               />
+            </Animated.View>
+            <View>
+              <Animated.View
+                style={[{ marginLeft: 20, height: textHeight }, textStyle]}
+              >
+                <Text style={{ opacity: 1 }} />
+              </Animated.View>
             </View>
           </AnimatedView>
         </AnimatedView>
@@ -190,17 +170,13 @@ export const SplashScreen = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
   content: {
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "center",
   },
-  logo: {
-    position: "absolute",
-  },
+  logo: { position: "absolute" },
 });
 
 export default SplashScreen;

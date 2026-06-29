@@ -41,14 +41,12 @@ export const appBridge = bridge({
   },
 
   async sendShareToKakao(template: KakaoFeedTemplate) {
-    shareFeedTemplate({
-      template: template,
-    });
+    shareFeedTemplate({ template: template });
   },
 
   async navigate<T extends Path | -1>(
     path: T,
-    options?: T extends Path ? { type?: "PUSH" | "REPLACE" } : { route?: Path }
+    options?: T extends Path ? { type?: "PUSH" | "REPLACE" } : { route?: Path },
   ) {
     if (path === -1) {
       eventEmitter.emit("ROUTE_EVENT", {
