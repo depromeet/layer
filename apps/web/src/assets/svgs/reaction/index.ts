@@ -1,0 +1,11 @@
+export { default as amazing } from "./amazing.svg";
+export { default as anticipation } from "./anticipation.svg";
+export { default as appreciation } from "./anticipation.svg";
+export { default as asExpected } from "./as-expected.svg";
+export { default as best } from "./best.svg";
+export { default as cheerUp } from "./cheer-up.svg";
+export { default as growth } from "./growth.svg";
+export { default as itsOkay } from "./its-okay.svg";
+export { default as perfect } from "./perfect.svg";
+export { default as smilePlus } from "./smile-plus.svg";
+export { default as youCanDoIt } from "./you-can-do-it.svg";
