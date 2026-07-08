@@ -1,6 +1,6 @@
 import { css, SerializedStyles } from "@emotion/react";
 
-import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
+import { ReactionProps, ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
 import { getDeviceType } from "@/utils/deviceUtils";
 
 type DescriptiveTemplateProps =
@@ -8,11 +8,16 @@ type DescriptiveTemplateProps =
   | { question: string; name?: never; answer: string }
   | { question?: never; name?: never; answer: string };
 
-export function CDescriptiveTemplate({ name, question, answer, customCss }: DescriptiveTemplateProps & { customCss?: SerializedStyles }) {
+type CDescriptiveTemplateProps = DescriptiveTemplateProps & {
+  customCss?: SerializedStyles;
+  reactionProps?: ReactionProps;
+};
+
+export function CDescriptiveTemplate({ name, question, answer, customCss, reactionProps }: CDescriptiveTemplateProps) {
   const { isDesktop, isMobile } = getDeviceType();
 
   return (
-    <ResultContainer question={question} name={name} css={customCss}>
+    <ResultContainer question={question} name={name} customCss={customCss} reactionProps={reactionProps}>
       {/*  FIXME: SPACE 컴포넌트 넣기 */}
       <div
         css={css`
