@@ -17,10 +17,10 @@ export const ACCESS_TOKEN_COOKIE_OPTIONS = {
   expires: 1 / 24,
 };
 
-/** refreshToken / memberId 쿠키 옵션 (7일) */
+/** refreshToken / memberId 쿠키 옵션 (30일) */
 export const AUTH_COOKIE_OPTIONS = {
   ...BASE_COOKIE_OPTIONS,
-  expires: 7,
+  expires: 30,
 };
 
 export const LOCAL_STORAGE_KEYS = {
