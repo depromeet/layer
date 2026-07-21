@@ -4,14 +4,23 @@ import React, { Fragment, PropsWithChildren } from "react";
 import { Spacing } from "@/component/common/Spacing";
 import { Tag } from "@/component/common/tag";
 import { getDeviceType } from "@/utils/deviceUtils";
+import ReactionBlock from "@/component/retrospect/analysis/Reaction";
+
+export type ReactionProps = {
+  spaceId: number;
+  retrospectId: number;
+  answerId: number;
+  showEmptyTooltip?: boolean;
+};
 
 type ResultContainerProps = {
   question?: string;
   name?: string;
   customCss?: SerializedStyles;
+  reactionProps?: ReactionProps;
 } & Omit<React.HTMLAttributes<HTMLDivElement>, "type">;
 
-export function ResultContainer({ name, question, children, customCss, ...props }: PropsWithChildren<ResultContainerProps>) {
+export function ResultContainer({ name, question, children, customCss, reactionProps, ...props }: PropsWithChildren<ResultContainerProps>) {
   const { isDesktop } = getDeviceType();
 
   const noNameAndQuestion = !name && !question;
@@ -79,6 +88,7 @@ export function ResultContainer({ name, question, children, customCss, ...props 
       >
         {children}
       </div>
+      {reactionProps && <ReactionBlock {...reactionProps} />}
     </div>
   );
 }

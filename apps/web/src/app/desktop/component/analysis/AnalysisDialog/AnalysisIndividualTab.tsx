@@ -6,9 +6,10 @@ import { css } from "@emotion/react";
 
 type AnalysisIndividualTabProps = {
   individuals: IndividualsType[];
+  reactionProps: { spaceId: number; retrospectId: number } | null;
 };
 
-export default function AnalysisIndividualTab({ individuals }: AnalysisIndividualTabProps) {
+export default function AnalysisIndividualTab({ individuals, reactionProps }: AnalysisIndividualTabProps) {
   const renderQuestionComponent = (answer: IndividualsAnswersType, index: number) => {
     const { questionContent, questionType, answerContent } = answer;
 
@@ -19,6 +20,7 @@ export default function AnalysisIndividualTab({ individuals }: AnalysisIndividua
             key={index}
             question={questionContent}
             index={parseInt(answerContent)}
+            reactionProps={reactionProps ? { ...reactionProps, answerId: answer.answerId } : undefined}
             customCss={css`
               margin-top: 0;
             `}
@@ -30,6 +32,7 @@ export default function AnalysisIndividualTab({ individuals }: AnalysisIndividua
             key={index}
             question={questionContent}
             index={parseInt(answerContent)}
+            reactionProps={reactionProps ? { ...reactionProps, answerId: answer.answerId } : undefined}
             customCss={css`
               margin-top: 0;
             `}
@@ -41,6 +44,7 @@ export default function AnalysisIndividualTab({ individuals }: AnalysisIndividua
             key={index}
             question={questionContent}
             answer={answerContent}
+            reactionProps={reactionProps ? { ...reactionProps, answerId: answer.answerId } : undefined}
             customCss={css`
               margin-top: 0;
             `}

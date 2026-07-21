@@ -6,9 +6,10 @@ import { CAchievementTemplate, CDescriptiveTemplate, CSatisfactionTemplate } fro
 
 type AnalysisRetrospectTabProps = {
   analysisData: getAnalysisResponse;
+  reactionProps: { spaceId: number; retrospectId: number } | null;
 };
 
-export default function AnalysisRetrospectTab({ analysisData }: AnalysisRetrospectTabProps) {
+export default function AnalysisRetrospectTab({ analysisData, reactionProps }: AnalysisRetrospectTabProps) {
   const individual = analysisData.individuals[0];
 
   if (!individual) {
@@ -61,6 +62,9 @@ export default function AnalysisRetrospectTab({ analysisData }: AnalysisRetrospe
 
           <CSatisfactionTemplate
             index={satisfactionScore}
+            reactionProps={
+              satisfactionAnswer && reactionProps ? { ...reactionProps, answerId: satisfactionAnswer.answerId } : undefined
+            }
             customCss={css`
               height: 11rem;
             `}
@@ -83,6 +87,7 @@ export default function AnalysisRetrospectTab({ analysisData }: AnalysisRetrospe
 
           <CAchievementTemplate
             index={goalScore / 20}
+            reactionProps={goalAnswer && reactionProps ? { ...reactionProps, answerId: goalAnswer.answerId } : undefined}
             customCss={css`
               height: 11rem;
             `}
@@ -94,7 +99,7 @@ export default function AnalysisRetrospectTab({ analysisData }: AnalysisRetrospe
       <section>
         {textAnswers.map((answer, index) => (
           <article
-            key={index}
+            key={answer.answerId}
             css={css`
               flex-shrink: 0;
               width: 69.6rem;
@@ -108,7 +113,10 @@ export default function AnalysisRetrospectTab({ analysisData }: AnalysisRetrospe
               {index + 1}. {answer.questionContent}
             </Typography>
 
-            <CDescriptiveTemplate key={index} answer={answer.answerContent} />
+            <CDescriptiveTemplate
+              answer={answer.answerContent}
+              reactionProps={reactionProps ? { ...reactionProps, answerId: answer.answerId } : undefined}
+            />
           </article>
         ))}
       </section>

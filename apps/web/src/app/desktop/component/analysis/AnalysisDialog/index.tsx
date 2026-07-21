@@ -8,6 +8,7 @@ import { useGetAnalysisAnswer } from "@/hooks/api/retrospect/analysis/useGetAnal
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
+import { useGetRetrospectReactions } from "@/hooks/api/retrospect/reaction/useGetRetrospectReactions";
 
 export const TEAM_ANALYSIS_MENU_TABS = ["질문", "개별", "분석"] as const;
 export const PERSONAL_ANALYSIS_MENU_TABS = ["회고", "분석"] as const;
@@ -22,6 +23,7 @@ type AnalysisDialogProps = {
 
 export default function AnalysisDialog({ spaceId, retrospectId, isOverviewVisible, onToggleOverview }: AnalysisDialogProps) {
   const { data: analysisData, isPending: isPendingAnalysisData } = useGetAnalysisAnswer({ spaceId: spaceId, retrospectId: retrospectId });
+  const { isLoading: isLoadingReactions } = useGetRetrospectReactions({ spaceId, retrospectId });
   const { data: spaceInfo } = useQuery(useApiOptionsGetSpaceInfo(spaceId ?? undefined));
 
   const isPersonal = Boolean(analysisData?.individuals.length === 1 && spaceInfo?.category === "INDIVIDUAL");
@@ -31,12 +33,13 @@ export default function AnalysisDialog({ spaceId, retrospectId, isOverviewVisibl
   }, [isPersonal]);
 
   const [selectedTab, setSelectedTab] = useState<AnalysisTab>(initialTab);
+  const isLoading = isPendingAnalysisData || isLoadingReactions;
 
   const handleTabClick = (tab: AnalysisTab) => {
     setSelectedTab(tab);
   };
 
-  useEffect(() => {
+  useEffect(function syncSelectedTabWithAnalysisType() {
     const currentTabs = isPersonal ? PERSONAL_ANALYSIS_MENU_TABS : TEAM_ANALYSIS_MENU_TABS;
     if (!currentTabs.includes(selectedTab as any)) {
       setSelectedTab(currentTabs[0]);
@@ -66,9 +69,11 @@ export default function AnalysisDialog({ spaceId, retrospectId, isOverviewVisibl
         onToggleOverview={onToggleOverview}
       />
 
-      {isPendingAnalysisData && <LoadingSpinner />}
+      {isLoading && <LoadingSpinner />}
 
-      {!isPendingAnalysisData && analysisData && <AnalysisContent selectedTab={selectedTab} analysisData={analysisData} />}
+      {!isLoading && analysisData && (
+        <AnalysisContent selectedTab={selectedTab} analysisData={analysisData} spaceId={spaceId} retrospectId={retrospectId} />
+      )}
     </article>
   );
 }
