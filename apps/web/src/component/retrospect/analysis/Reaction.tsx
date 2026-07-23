@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { MouseEvent, useMemo, useRef } from "react";
+import { MouseEvent, useRef } from "react";
 
 import { BottomSheet } from "@/component/BottomSheet";
 import { Icon } from "@/component/common/Icon";
@@ -7,11 +7,15 @@ import type { IconType } from "@/component/common/Icon/Icon";
 import { Portal } from "@/component/common/Portal";
 import { ProfileImage } from "@/component/common/ProfileImage";
 import Tooltip from "@/component/common/Tooltip";
+import {
+  ReactionGroup,
+  ReactionOverlayState,
+  useReactionOverlay,
+} from "@/component/retrospect/analysis/useReactionOverlay";
 import { useApiGetUser } from "@/hooks/api/auth/useApiGetUser";
 import { useDeleteRetrospectReaction } from "@/hooks/api/retrospect/reaction/useDeleteRetrospectReaction";
 import { useGetRetrospectReactions } from "@/hooks/api/retrospect/reaction/useGetRetrospectReactions";
 import { usePostRetrospectReaction } from "@/hooks/api/retrospect/reaction/usePostRetrospectReaction";
-import { useReplaceRetrospectReaction } from "@/hooks/api/retrospect/reaction/useReplaceRetrospectReaction";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens";
 import { Z_INDEX } from "@/style/zIndex";
 import {
@@ -20,7 +24,6 @@ import {
   RetrospectReactionCode,
 } from "@/types/retrospectReaction";
 import { getDeviceType } from "@/utils/deviceUtils";
-import { ReactionGroup, ReactionOverlayState, useReactionOverlay } from "@/component/retrospect/analysis/useReactionOverlay";
 
 interface ReactionBlockProps {
   spaceId: number;
@@ -30,6 +33,10 @@ interface ReactionBlockProps {
 }
 
 const MAX_VISIBLE_REACTIONS = 3;
+const EMPTY_REACTIONS: RetrospectReaction[] = [];
+
+const getPendingReactionKey = (answerId: number, memberId: number, emojiCode: RetrospectReactionCode) =>
+  `${answerId}:${memberId}:${emojiCode}`;
 
 const REACTION_COLORS = {
   blue: DESIGN_TOKEN_COLOR.blue600,
@@ -38,14 +45,18 @@ const REACTION_COLORS = {
   red: DESIGN_TOKEN_COLOR.red400,
 } as const;
 
-export default function ReactionBlock({ spaceId, retrospectId, answerId, showEmptyTooltip = false }: ReactionBlockProps) {
+export default function ReactionBlock({
+  spaceId,
+  retrospectId,
+  answerId,
+  showEmptyTooltip = false,
+}: ReactionBlockProps) {
   const { isMobile } = getDeviceType();
   const { data, isSuccess } = useGetRetrospectReactions({ spaceId, retrospectId });
   const { data: currentUser } = useApiGetUser();
   const postReaction = usePostRetrospectReaction();
   const deleteReaction = useDeleteRetrospectReaction();
-  const replaceReaction = useReplaceRetrospectReaction();
-  const pendingCreateRef = useRef<Promise<void> | null>(null);
+  const pendingCreateRef = useRef(new Map<string, Promise<void>>());
   const {
     overlay,
     sheetId,
@@ -58,29 +69,30 @@ export default function ReactionBlock({ spaceId, retrospectId, answerId, showEmp
     openSelector,
   } = useReactionOverlay({ answerId, isMobile });
 
-  const answerReactions = data?.answerReactions.find((item) => item.answerId === answerId)?.reactions ?? [];
-  const reactionGroups = useMemo(
-    () =>
-      (Object.keys(RETROSPECT_REACTIONS) as RetrospectReactionCode[])
-        .map((code) => ({ code, reactions: answerReactions.filter((reaction) => reaction.emojiCode === code) }))
-        .filter((group) => group.reactions.length > 0),
-    [answerReactions],
+  const answerReactions =
+    data?.answerReactions.find((item) => item.answerId === answerId)?.reactions ?? EMPTY_REACTIONS;
+  const reactionGroups = (Object.keys(RETROSPECT_REACTIONS) as RetrospectReactionCode[])
+    .map((code) => ({ code, reactions: answerReactions.filter((reaction) => reaction.emojiCode === code) }))
+    .filter((group) => group.reactions.length > 0);
+  const selectedReactionCodes = new Set(
+    answerReactions
+      .filter((reaction) => reaction.memberId === currentUser.memberId)
+      .map((reaction) => reaction.emojiCode),
   );
-  const myReaction = answerReactions.find((reaction) => reaction.memberId === currentUser.memberId);
-  const selectedReactionCodes = new Set(myReaction ? [myReaction.emojiCode] : []);
   const visibleGroups = reactionGroups.slice(0, MAX_VISIBLE_REACTIONS);
   const hiddenGroups = reactionGroups.slice(MAX_VISIBLE_REACTIONS);
-  const isMutating = postReaction.isPending || deleteReaction.isPending || replaceReaction.isPending;
   const shouldShowEmptyTooltip =
     showEmptyTooltip && isSuccess && !data.answerReactions.some((item) => item.reactions.length > 0);
 
   const handleOpenSelector = (event: MouseEvent<HTMLButtonElement>) => {
-    if (isMutating) return;
     openSelector(event);
   };
 
   const handleCreate = (emojiCode: RetrospectReactionCode) => {
+    if (selectedReactionCodes.has(emojiCode)) return;
+
     closeOverlay();
+    const pendingReactionKey = getPendingReactionKey(answerId, currentUser.memberId, emojiCode);
     const mutationParams = {
       spaceId,
       retrospectId,
@@ -93,18 +105,20 @@ export default function ReactionBlock({ spaceId, retrospectId, answerId, showEmp
       },
     };
 
-    if (myReaction) {
-      replaceReaction.mutate({ ...mutationParams, previousReactionId: myReaction.retrospectReactionId });
-      return;
-    }
-
     const pendingCreate = postReaction.mutateAsync(mutationParams);
-    pendingCreateRef.current = pendingCreate;
+    pendingCreateRef.current.set(pendingReactionKey, pendingCreate);
     void pendingCreate
       .finally(() => {
-        if (pendingCreateRef.current === pendingCreate) pendingCreateRef.current = null;
+        if (pendingCreateRef.current.get(pendingReactionKey) === pendingCreate) {
+          pendingCreateRef.current.delete(pendingReactionKey);
+        }
       })
       .catch(() => undefined);
+  };
+
+  const getPendingCreate = (reaction: RetrospectReaction) => {
+    if (reaction.retrospectReactionId > 0) return null;
+    return pendingCreateRef.current.get(getPendingReactionKey(answerId, reaction.memberId, reaction.emojiCode)) ?? null;
   };
 
   const handleDelete = (reaction: RetrospectReaction) => {
@@ -115,7 +129,7 @@ export default function ReactionBlock({ spaceId, retrospectId, answerId, showEmp
       answerId,
       memberId: reaction.memberId,
       emojiCode: reaction.emojiCode,
-      pendingCreate: reaction.retrospectReactionId < 0 ? pendingCreateRef.current : null,
+      pendingCreate: getPendingCreate(reaction),
     });
     closeOverlay();
   };
@@ -125,7 +139,6 @@ export default function ReactionBlock({ spaceId, retrospectId, answerId, showEmp
       type="button"
       css={[chipStyle(false), addButtonStyle]}
       onClick={handleOpenSelector}
-      disabled={isMutating}
       aria-label="반응 추가"
     >
       <Icon icon="smilePlus" size={1.7} />
@@ -201,7 +214,6 @@ export default function ReactionBlock({ spaceId, retrospectId, answerId, showEmp
                 currentMemberId={currentUser.memberId}
                 onSelect={handleCreate}
                 onDelete={handleDelete}
-                disabled={isMutating}
               />
             </div>
           }
@@ -224,7 +236,6 @@ export default function ReactionBlock({ spaceId, retrospectId, answerId, showEmp
               currentMemberId={currentUser.memberId}
               onSelect={handleCreate}
               onDelete={handleDelete}
-              disabled={isMutating}
             />
           </div>
         </Portal>
@@ -233,14 +244,18 @@ export default function ReactionBlock({ spaceId, retrospectId, answerId, showEmp
   );
 }
 
-function ReactionChip({ group, selected, ...props }: { group: ReactionGroup; selected: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+function ReactionChip({
+  group,
+  selected,
+  ...props
+}: { group: ReactionGroup; selected: boolean } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const option = RETROSPECT_REACTIONS[group.code];
 
   return (
     <button type="button" css={chipStyle(selected)} {...props}>
       <span css={reactionLabelStyle(option.color)}>{option.label}</span>
       <Icon icon={option.icon as IconType} size={1.4} />
-      <span css={countStyle}>{group.reactions.length}</span>
+      {group.reactions.length > 1 && <span css={countStyle}>{group.reactions.length}</span>}
     </button>
   );
 }
@@ -251,30 +266,26 @@ function ReactionOverlayContent({
   currentMemberId,
   onSelect,
   onDelete,
-  disabled,
 }: {
   overlay: Exclude<ReactionOverlayState, null>;
   selectedCodes: Set<RetrospectReactionCode>;
   currentMemberId: number;
   onSelect: (code: RetrospectReactionCode) => void;
   onDelete: (reaction: RetrospectReaction) => void;
-  disabled: boolean;
 }) {
   if (overlay.type === "selector") {
-    return <ReactionSelector onSelect={onSelect} selectedCodes={selectedCodes} disabled={disabled} />;
+    return <ReactionSelector onSelect={onSelect} selectedCodes={selectedCodes} />;
   }
 
-  return <ReactionStatus groups={overlay.groups} currentMemberId={currentMemberId} onDelete={onDelete} disabled={disabled} />;
+  return <ReactionStatus groups={overlay.groups} currentMemberId={currentMemberId} onDelete={onDelete} />;
 }
 
 function ReactionSelector({
   onSelect,
   selectedCodes,
-  disabled,
 }: {
   onSelect: (code: RetrospectReactionCode) => void;
   selectedCodes: Set<RetrospectReactionCode>;
-  disabled: boolean;
 }) {
   return (
     <div
@@ -288,12 +299,16 @@ function ReactionSelector({
         }
       `}
     >
-      {(Object.entries(RETROSPECT_REACTIONS) as [RetrospectReactionCode, (typeof RETROSPECT_REACTIONS)[RetrospectReactionCode]][]).map(
-        ([code, option]) => (
+      {(
+        Object.entries(RETROSPECT_REACTIONS) as [
+          RetrospectReactionCode,
+          (typeof RETROSPECT_REACTIONS)[RetrospectReactionCode],
+        ][]
+      ).map(([code, option]) => (
           <button
             key={code}
             type="button"
-            disabled={disabled || selectedCodes.has(code)}
+            disabled={selectedCodes.has(code)}
             onClick={() => onSelect(code)}
             css={css`
               ${DESIGN_TOKEN_TEXT.body13Bold}
@@ -319,8 +334,7 @@ function ReactionSelector({
             {option.label}
             <Icon icon={option.icon as IconType} size={1.4} />
           </button>
-        ),
-      )}
+        ))}
     </div>
   );
 }
@@ -329,12 +343,10 @@ function ReactionStatus({
   groups,
   currentMemberId,
   onDelete,
-  disabled,
 }: {
   groups: ReactionGroup[];
   currentMemberId: number;
   onDelete: (reaction: RetrospectReaction) => void;
-  disabled: boolean;
 }) {
   return (
     <div
@@ -384,7 +396,6 @@ function ReactionStatus({
                 <button
                   type="button"
                   aria-label="내 반응 삭제"
-                  disabled={disabled && reaction.retrospectReactionId > 0}
                   onPointerDown={(event) => event.stopPropagation()}
                   onTouchStart={(event) => event.stopPropagation()}
                   onClick={(event) => {

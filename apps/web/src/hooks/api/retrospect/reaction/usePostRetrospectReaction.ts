@@ -2,12 +2,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/api";
 import {
+  addRetrospectReactionCache,
   createOptimisticReaction,
   invalidateRetrospectReactionCache,
   rollbackRetrospectReactionCache,
-  updateRetrospectReactionCache,
 } from "@/hooks/api/retrospect/reaction/reactionCache";
-import { RetrospectReactionCode, RetrospectReactionMember } from "@/types/retrospectReaction";
+import {
+  RetrospectReactionCode,
+  RetrospectReactionMember,
+  RetrospectReactionResponse,
+} from "@/types/retrospectReaction";
 
 type PostRetrospectReactionParams = {
   spaceId: number;
@@ -17,36 +21,42 @@ type PostRetrospectReactionParams = {
   member: RetrospectReactionMember;
 };
 
+type PostRetrospectReactionMutationParams = PostRetrospectReactionParams & {
+  previousReactions?: RetrospectReactionResponse;
+};
+
 export const usePostRetrospectReaction = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async ({ spaceId, retrospectId, answerId, emojiCode }: PostRetrospectReactionParams) => {
+  const mutation = useMutation({
+    mutationFn: async ({ spaceId, retrospectId, answerId, emojiCode }: PostRetrospectReactionMutationParams) => {
       await api.post(`/space/${spaceId}/retrospect/${retrospectId}/reaction`, { answerId, emojiCode });
     },
-    onMutate: async ({ spaceId, retrospectId, answerId, emojiCode, member }) => {
-      const optimisticReaction = createOptimisticReaction(emojiCode, member);
-      const context = updateRetrospectReactionCache(queryClient, { spaceId, retrospectId }, (current) => {
-        const answerReactions = current?.answerReactions ?? [];
-        const hasAnswer = answerReactions.some((item) => item.answerId === answerId);
-
-        return {
-          answerReactions: hasAnswer
-            ? answerReactions.map((item) =>
-                item.answerId === answerId ? { ...item, reactions: [...item.reactions, optimisticReaction] } : item,
-              )
-            : [...answerReactions, { answerId, reactions: [optimisticReaction] }],
-        };
-      });
-
-      await context.cancelQueries;
-      return context;
-    },
-    onError: (_, { spaceId, retrospectId }, context) => {
-      rollbackRetrospectReactionCache(queryClient, { spaceId, retrospectId }, context?.previousReactions);
+    onError: (_, { spaceId, retrospectId, previousReactions }) => {
+      rollbackRetrospectReactionCache(queryClient, { spaceId, retrospectId }, previousReactions);
     },
     onSettled: (_, __, { spaceId, retrospectId }) => {
       void invalidateRetrospectReactionCache(queryClient, { spaceId, retrospectId });
     },
   });
+
+  const applyOptimisticPost = (params: PostRetrospectReactionParams): PostRetrospectReactionMutationParams => {
+    const { spaceId, retrospectId, answerId, emojiCode, member } = params;
+    const optimisticReaction = createOptimisticReaction(emojiCode, member);
+    const { previousReactions } = addRetrospectReactionCache(
+      queryClient,
+      { spaceId, retrospectId },
+      { answerId, reaction: optimisticReaction },
+    );
+
+    return { ...params, previousReactions };
+  };
+
+  return {
+    ...mutation,
+    mutate: (params: PostRetrospectReactionParams, options?: Parameters<typeof mutation.mutate>[1]) =>
+      mutation.mutate(applyOptimisticPost(params), options),
+    mutateAsync: (params: PostRetrospectReactionParams, options?: Parameters<typeof mutation.mutateAsync>[1]) =>
+      mutation.mutateAsync(applyOptimisticPost(params), options),
+  };
 };
