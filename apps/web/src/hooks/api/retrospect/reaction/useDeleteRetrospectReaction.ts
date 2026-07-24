@@ -3,8 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api";
 import {
   invalidateRetrospectReactionCache,
+  removeRetrospectReactionCache,
   rollbackRetrospectReactionCache,
-  updateRetrospectReactionCache,
 } from "@/hooks/api/retrospect/reaction/reactionCache";
 import { retrospectReactionQueryKeys } from "@/hooks/api/retrospect/reaction/queryKeys";
 import { RetrospectReactionCode, RetrospectReactionResponse } from "@/types/retrospectReaction";
@@ -49,13 +49,14 @@ export const useDeleteRetrospectReaction = () => {
           { queryKey: retrospectReactionQueryKeys.list(spaceId, retrospectId) },
           { revert: false },
         );
-        const response = await api.get<RetrospectReactionResponse>(`/space/${spaceId}/retrospect/${retrospectId}/reaction`);
+        const response = await api.get<RetrospectReactionResponse>(
+          `/space/${spaceId}/retrospect/${retrospectId}/reaction`,
+        );
         reactionId =
           response.data.answerReactions
             .find((item) => item.answerId === answerId)
-            ?.reactions.find(
-              (reaction) => reaction.memberId === memberId && reaction.emojiCode === emojiCode,
-            )?.retrospectReactionId ?? reactionId;
+            ?.reactions.find((reaction) => reaction.memberId === memberId && reaction.emojiCode === emojiCode)
+            ?.retrospectReactionId ?? reactionId;
       }
 
       if (reactionId < 0) return;
@@ -71,20 +72,20 @@ export const useDeleteRetrospectReaction = () => {
 
   const applyOptimisticDelete = (params: DeleteRetrospectReactionParams): DeleteRetrospectReactionMutationParams => {
     const { spaceId, retrospectId, retrospectReactionId } = params;
-    const { previousReactions } = updateRetrospectReactionCache(queryClient, { spaceId, retrospectId }, (current) => ({
-      answerReactions:
-        current?.answerReactions.map((item) => ({
-          ...item,
-          reactions: item.reactions.filter((reaction) => reaction.retrospectReactionId !== retrospectReactionId),
-        })) ?? [],
-    }));
+    const { previousReactions } = removeRetrospectReactionCache(
+      queryClient,
+      { spaceId, retrospectId },
+      retrospectReactionId,
+    );
 
     return { ...params, previousReactions };
   };
 
   return {
     ...mutation,
-    mutate: (params: DeleteRetrospectReactionParams) => mutation.mutate(applyOptimisticDelete(params)),
-    mutateAsync: (params: DeleteRetrospectReactionParams) => mutation.mutateAsync(applyOptimisticDelete(params)),
+    mutate: (params: DeleteRetrospectReactionParams, options?: Parameters<typeof mutation.mutate>[1]) =>
+      mutation.mutate(applyOptimisticDelete(params), options),
+    mutateAsync: (params: DeleteRetrospectReactionParams, options?: Parameters<typeof mutation.mutateAsync>[1]) =>
+      mutation.mutateAsync(applyOptimisticDelete(params), options),
   };
 };

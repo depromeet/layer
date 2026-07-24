@@ -32,12 +32,45 @@ export const updateRetrospectReactionCache = (
   updater: (current: RetrospectReactionResponse | undefined) => RetrospectReactionResponse,
 ) => {
   const queryKey = retrospectReactionQueryKeys.list(spaceId, retrospectId);
-  const cancelQueries = queryClient.cancelQueries({ queryKey }, { revert: false });
+  void queryClient.cancelQueries({ queryKey }, { revert: false });
   const previousReactions = queryClient.getQueryData<RetrospectReactionResponse>(queryKey);
 
   queryClient.setQueryData<RetrospectReactionResponse>(queryKey, updater);
 
-  return { cancelQueries, previousReactions };
+  return { previousReactions };
+};
+
+export const addRetrospectReactionCache = (
+  queryClient: QueryClient,
+  ids: ReactionQueryIds,
+  { answerId, reaction }: { answerId: number; reaction: RetrospectReaction },
+) => {
+  return updateRetrospectReactionCache(queryClient, ids, (current) => {
+    const answerReactions = current?.answerReactions ?? [];
+    const hasAnswer = answerReactions.some((item) => item.answerId === answerId);
+
+    return {
+      answerReactions: hasAnswer
+        ? answerReactions.map((item) =>
+            item.answerId === answerId ? { ...item, reactions: [...item.reactions, reaction] } : item,
+          )
+        : [...answerReactions, { answerId, reactions: [reaction] }],
+    };
+  });
+};
+
+export const removeRetrospectReactionCache = (
+  queryClient: QueryClient,
+  ids: ReactionQueryIds,
+  retrospectReactionId: number,
+) => {
+  return updateRetrospectReactionCache(queryClient, ids, (current) => ({
+    answerReactions:
+      current?.answerReactions.map((item) => ({
+        ...item,
+        reactions: item.reactions.filter((reaction) => reaction.retrospectReactionId !== retrospectReactionId),
+      })) ?? [],
+  }));
 };
 
 export const rollbackRetrospectReactionCache = (
