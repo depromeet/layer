@@ -1,3 +1,20 @@
+# 자동 생성됨 — 수정 시 apps/web/seo.config.cjs의 ROBOTS_DISALLOW_PREFIXES를 변경하세요.
+
 User-agent: *
 Allow: /
-sitemap: https://layerapp.io/sitemap.xml
+
+Disallow: /myinfo
+Disallow: /write
+Disallow: /retrospect/new
+Disallow: /retrospect/recommend
+Disallow: /retrospect/analysis
+Disallow: /retrospect/complete
+Disallow: /space/create
+Disallow: /space/edit/
+Disallow: /setnickname/
+Disallow: /goals
+Disallow: /analysis
+Disallow: /api/
+Disallow: /staging
+
+Sitemap: https://layerapp.io/sitemap.xml
