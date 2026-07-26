@@ -40,7 +40,7 @@ import { Questions, RetrospectCreateReq } from "@/types/retrospectCreate";
 import { RadioButtonGroup } from "@/component/common/radioButton/RadioButtonGroup";
 import { useRadioButton } from "@/hooks/useRadioButton";
 import { Radio } from "@/component/common/radioButton";
-import Lottie from "lottie-react";
+import { Lottie } from "@/lib/lottie-react-compat";
 import CreateDone from "@/assets/lottie/space/create_done.json";
 import { useApiPostSpace } from "@/hooks/api/space/useApiPostSpace";
 import { usePostRetrospectCreate } from "@/hooks/api/retrospect/create/usePostRetrospectCreate";

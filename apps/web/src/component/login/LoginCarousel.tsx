@@ -1,7 +1,9 @@
 import { css } from "@emotion/react";
-import Lottie from "lottie-react";
 import { useState } from "react";
-import Slider from "react-slick";
+import * as ReactSlickNamespace from "react-slick";
+
+import { Lottie } from "@/lib/lottie-react-compat";
+import { resolveDefaultExport } from "@/lib/resolveDefaultExport";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -10,6 +12,8 @@ import animationData2 from "@/assets/lottie/login/login_carousel_2.json";
 import animationData3 from "@/assets/lottie/login/login_carousel_3.json";
 import animationData4 from "@/assets/lottie/login/login_carousel_4.json";
 import { Typography } from "@/component/common/typography";
+
+const Slider = resolveDefaultExport<typeof import("react-slick").default>(ReactSlickNamespace);
 
 function LoginCarousel() {
   const [activeSlide, setActiveSlide] = useState(0);
