@@ -12,7 +12,7 @@ import { Typography } from "@/component/common/typography";
 import { AccountSettingsModal } from "@/component/common/Modal/UserSetting/AccountSettingsModal";
 import { FeedbackModal } from "@/component/common/Modal/UserSetting/FeedbackModal";
 import { HelpModal } from "@/component/common/Modal/UserSetting/HelpModal";
-import { NotificationSettings } from "@/component/common/Modal/UserSetting/NotificationSettings";
+import { NotificationSettings } from "@/component/info";
 
 import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 import useClickOutside from "@/hooks/useClickOutside";
