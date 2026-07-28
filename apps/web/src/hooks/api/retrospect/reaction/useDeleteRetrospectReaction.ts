@@ -7,7 +7,10 @@ import {
   rollbackRetrospectReactionCache,
 } from "@/hooks/api/retrospect/reaction/reactionCache";
 import { retrospectReactionQueryKeys } from "@/hooks/api/retrospect/reaction/queryKeys";
-import { RetrospectReactionCode, RetrospectReactionResponse } from "@/types/retrospectReaction";
+import {
+  RetrospectReactionCode,
+  RetrospectReactionResponse,
+} from "@/types/retrospectReaction";
 
 type DeleteRetrospectReactionParams = {
   spaceId: number;
@@ -17,10 +20,6 @@ type DeleteRetrospectReactionParams = {
   memberId?: number;
   emojiCode?: RetrospectReactionCode;
   pendingCreate?: Promise<void> | null;
-};
-
-type DeleteRetrospectReactionMutationParams = DeleteRetrospectReactionParams & {
-  previousReactions?: RetrospectReactionResponse;
 };
 
 export const useDeleteRetrospectReaction = () => {
@@ -35,7 +34,7 @@ export const useDeleteRetrospectReaction = () => {
       memberId,
       emojiCode,
       pendingCreate,
-    }: DeleteRetrospectReactionMutationParams) => {
+    }: DeleteRetrospectReactionParams) => {
       let reactionId = retrospectReactionId;
 
       if (reactionId < 0) {
@@ -62,30 +61,50 @@ export const useDeleteRetrospectReaction = () => {
       if (reactionId < 0) return;
       await api.delete(`/space/${spaceId}/retrospect/${retrospectId}/reaction/${reactionId}`);
     },
-    onError: (_, { spaceId, retrospectId, previousReactions }) => {
-      rollbackRetrospectReactionCache(queryClient, { spaceId, retrospectId }, previousReactions);
-    },
     onSettled: (_, __, { spaceId, retrospectId }) => {
       void invalidateRetrospectReactionCache(queryClient, { spaceId, retrospectId });
     },
   });
 
-  const applyOptimisticDelete = (params: DeleteRetrospectReactionParams): DeleteRetrospectReactionMutationParams => {
+  const applyOptimisticDelete = (params: DeleteRetrospectReactionParams) => {
     const { spaceId, retrospectId, retrospectReactionId } = params;
-    const { previousReactions } = removeRetrospectReactionCache(
+    return removeRetrospectReactionCache(
       queryClient,
       { spaceId, retrospectId },
       retrospectReactionId,
     );
+  };
 
-    return { ...params, previousReactions };
+  const optimisticMutate = (params: DeleteRetrospectReactionParams, options?: Parameters<typeof mutation.mutate>[1]) => {
+    const { previousReactions } = applyOptimisticDelete(params);
+
+    mutation.mutate(params, {
+      ...options,
+      onError: (error, variables, context) => {
+        rollbackRetrospectReactionCache(queryClient, params, previousReactions);
+        options?.onError?.(error, variables, context);
+      },
+    });
+  };
+
+  const optimisticMutateAsync = async (
+    params: DeleteRetrospectReactionParams,
+    options?: Parameters<typeof mutation.mutateAsync>[1],
+  ) => {
+    const { previousReactions } = applyOptimisticDelete(params);
+
+    return mutation.mutateAsync(params, {
+      ...options,
+      onError: (error, variables, context) => {
+        rollbackRetrospectReactionCache(queryClient, params, previousReactions);
+        options?.onError?.(error, variables, context);
+      },
+    });
   };
 
   return {
     ...mutation,
-    mutate: (params: DeleteRetrospectReactionParams, options?: Parameters<typeof mutation.mutate>[1]) =>
-      mutation.mutate(applyOptimisticDelete(params), options),
-    mutateAsync: (params: DeleteRetrospectReactionParams, options?: Parameters<typeof mutation.mutateAsync>[1]) =>
-      mutation.mutateAsync(applyOptimisticDelete(params), options),
+    optimisticMutate,
+    optimisticMutateAsync,
   };
 };

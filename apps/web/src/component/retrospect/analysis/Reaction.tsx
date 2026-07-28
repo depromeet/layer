@@ -38,6 +38,38 @@ const EMPTY_REACTIONS: RetrospectReaction[] = [];
 const getPendingReactionKey = (answerId: number, memberId: number, emojiCode: RetrospectReactionCode) =>
   `${answerId}:${memberId}:${emojiCode}`;
 
+const getReactionGroups = (reactions: RetrospectReaction[]) => {
+  const groups: ReactionGroup[] = [];
+
+  for (const code of Object.keys(RETROSPECT_REACTIONS) as RetrospectReactionCode[]) {
+    const codeReactions: RetrospectReaction[] = [];
+
+    for (const reaction of reactions) {
+      if (reaction.emojiCode === code) {
+        codeReactions.push(reaction);
+      }
+    }
+
+    if (codeReactions.length > 0) {
+      groups.push({ code, reactions: codeReactions });
+    }
+  }
+
+  return groups;
+};
+
+const getSelectedReactionCodes = (reactions: RetrospectReaction[], memberId: number) => {
+  const codes = new Set<RetrospectReactionCode>();
+
+  for (const reaction of reactions) {
+    if (reaction.memberId === memberId) {
+      codes.add(reaction.emojiCode);
+    }
+  }
+
+  return codes;
+};
+
 const REACTION_COLORS = {
   blue: DESIGN_TOKEN_COLOR.blue600,
   purple: DESIGN_TOKEN_COLOR.purple600,
@@ -71,14 +103,8 @@ export default function ReactionBlock({
 
   const answerReactions =
     data?.answerReactions.find((item) => item.answerId === answerId)?.reactions ?? EMPTY_REACTIONS;
-  const reactionGroups = (Object.keys(RETROSPECT_REACTIONS) as RetrospectReactionCode[])
-    .map((code) => ({ code, reactions: answerReactions.filter((reaction) => reaction.emojiCode === code) }))
-    .filter((group) => group.reactions.length > 0);
-  const selectedReactionCodes = new Set(
-    answerReactions
-      .filter((reaction) => reaction.memberId === currentUser.memberId)
-      .map((reaction) => reaction.emojiCode),
-  );
+  const reactionGroups = getReactionGroups(answerReactions);
+  const selectedReactionCodes = getSelectedReactionCodes(answerReactions, currentUser.memberId);
   const visibleGroups = reactionGroups.slice(0, MAX_VISIBLE_REACTIONS);
   const hiddenGroups = reactionGroups.slice(MAX_VISIBLE_REACTIONS);
   const shouldShowEmptyTooltip =
@@ -105,7 +131,7 @@ export default function ReactionBlock({
       },
     };
 
-    const pendingCreate = postReaction.mutateAsync(mutationParams);
+    const pendingCreate = postReaction.optimisticMutateAsync(mutationParams);
     pendingCreateRef.current.set(pendingReactionKey, pendingCreate);
     void pendingCreate
       .finally(() => {
@@ -122,7 +148,7 @@ export default function ReactionBlock({
   };
 
   const handleDelete = (reaction: RetrospectReaction) => {
-    deleteReaction.mutate({
+    deleteReaction.optimisticMutate({
       spaceId,
       retrospectId,
       retrospectReactionId: reaction.retrospectReactionId,
@@ -170,10 +196,10 @@ export default function ReactionBlock({
         <button
           type="button"
           css={chipStyle(false)}
-          onMouseEnter={isMobile ? undefined : (event) => openStatus(event, hiddenGroups)}
+          onMouseEnter={isMobile ? undefined : (event) => openStatus(event, reactionGroups)}
           onMouseLeave={isMobile ? undefined : scheduleClose}
-          onClick={(event) => openStatus(event, hiddenGroups)}
-          aria-label={`반응 ${hiddenGroups.length}개 더 보기`}
+          onClick={(event) => openStatus(event, reactionGroups)}
+          aria-label="전체 반응 보기"
         >
           +{hiddenGroups.length}
         </button>
