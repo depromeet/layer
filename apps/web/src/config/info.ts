@@ -14,6 +14,7 @@ export type Info = {
   license: string;
   termsOfService: string;
   privacyPolicy: string;
+  marketingConsent: string;
 };
 
 export const info: Info = {
@@ -363,4 +364,6 @@ Layer(이하 ‘회사'라고 함)는 회사가 제공하고자 하는 서비스
 부칙
 제1조 본 방침은 2024.08.10.부터 시행됩니다.
     `,
+  // TODO: 마케팅 활용 및 광고 수신 동의 전문이 확정되면 교체 필요
+  marketingConsent: `마케팅 활용 및 광고 수신 동의 전문을 준비 중입니다.`,
 };
