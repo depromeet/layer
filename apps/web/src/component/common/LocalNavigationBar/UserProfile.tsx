@@ -12,6 +12,7 @@ import { Typography } from "@/component/common/typography";
 import { AccountSettingsModal } from "@/component/common/Modal/UserSetting/AccountSettingsModal";
 import { FeedbackModal } from "@/component/common/Modal/UserSetting/FeedbackModal";
 import { HelpModal } from "@/component/common/Modal/UserSetting/HelpModal";
+import { NotificationSettings } from "@/component/common/Modal/UserSetting/NotificationSettings";
 
 import { usePostSignOut } from "@/hooks/api/login/usePostSignOut";
 import useClickOutside from "@/hooks/useClickOutside";
@@ -20,6 +21,7 @@ import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 import { authAtom } from "@/store/auth/authAtom";
 import { useModal } from "@/hooks/useModal";
+import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 
 type ProfileButtonProps = {
   name: string;
@@ -110,6 +112,7 @@ export default function UserProfile() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const { open: openConfirmModal } = useModal();
+  const { open: openDesktopModal } = useDesktopBasicModal();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAccountSettingsModalOpen, setIsAccountSettingsModalOpen] = useState(false);
@@ -125,6 +128,15 @@ export default function UserProfile() {
 
   const handleAccountSettings = () => {
     setIsAccountSettingsModalOpen(true);
+    setIsDropdownOpen(false);
+  };
+
+  const handleNotificationSettings = () => {
+    openDesktopModal({
+      title: "알림 설정",
+      contents: <NotificationSettings />,
+      options: { enableFooter: false },
+    });
     setIsDropdownOpen(false);
   };
 
@@ -168,6 +180,7 @@ export default function UserProfile() {
           ref={dropdownRef}
           isOpen={isDropdownOpen}
           onAccountSettings={handleAccountSettings}
+          onNotificationSettings={handleNotificationSettings}
           onFeedback={handleFeedback}
           onHelp={handleHelp}
           onLogout={handleLogout}

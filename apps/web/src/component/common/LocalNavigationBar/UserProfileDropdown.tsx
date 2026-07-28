@@ -1,19 +1,23 @@
 import { Z_INDEX } from "@/style/zIndex";
 import { css } from "@emotion/react";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
+import { Icon } from "@/component/common/Icon";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
 
 type UserProfileDropdownProps = {
   isOpen: boolean;
   onAccountSettings: () => void;
+  onNotificationSettings: () => void;
   onFeedback: () => void;
   onHelp: () => void;
   onLogout: () => void;
 };
 
 export const UserProfileDropdown = forwardRef<HTMLDivElement, UserProfileDropdownProps>(
-  ({ isOpen, onAccountSettings, onFeedback, onHelp, onLogout }, ref) => {
+  ({ isOpen, onAccountSettings, onNotificationSettings, onFeedback, onHelp, onLogout }, ref) => {
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
     if (!isOpen) return null;
 
     return (
@@ -30,7 +34,6 @@ export const UserProfileDropdown = forwardRef<HTMLDivElement, UserProfileDropdow
           box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.1);
           margin-bottom: 0.8rem;
           z-index: ${Z_INDEX.navigation};
-          overflow: hidden;
           animation: slideUp 0.2s ease-out;
           min-width: 16.5rem;
 
@@ -46,7 +49,47 @@ export const UserProfileDropdown = forwardRef<HTMLDivElement, UserProfileDropdow
           }
         `}
       >
-        <DropdownItem onClick={onAccountSettings}>계정 설정</DropdownItem>
+        <div
+          onMouseEnter={() => setIsSettingsOpen(true)}
+          onMouseLeave={() => setIsSettingsOpen(false)}
+          css={css`
+            position: relative;
+          `}
+        >
+          <DropdownItem onClick={() => setIsSettingsOpen((prev) => !prev)}>
+            <span
+              css={css`
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+              `}
+            >
+              설정
+              <Icon icon="ic_next_chevron" size={1.6} color={DESIGN_TOKEN_COLOR.gray600} />
+            </span>
+          </DropdownItem>
+
+          {isSettingsOpen && (
+            <div
+              css={css`
+                position: absolute;
+                bottom: 0;
+                left: 100%;
+                margin-left: 0.4rem;
+                background: white;
+                border: 1px solid ${DESIGN_TOKEN_COLOR.gray200};
+                border-radius: 0.8rem;
+                box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                min-width: 16.5rem;
+              `}
+            >
+              <DropdownItem onClick={onAccountSettings}>계정 설정</DropdownItem>
+              <DropdownItem onClick={onNotificationSettings}>알림 설정</DropdownItem>
+            </div>
+          )}
+        </div>
         <DropdownItem onClick={onFeedback}>평가 및 피드백</DropdownItem>
         <DropdownItem onClick={onHelp}>도움말</DropdownItem>
         <DropdownItem onClick={onLogout}>로그아웃</DropdownItem>
