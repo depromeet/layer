@@ -8,24 +8,25 @@ import { info } from "@/config/info";
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import useDesktopBasicModal from "@/hooks/useDesktopBasicModal";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
+import { AgreementType } from "@/types/agreement";
 import { getDeviceType } from "@/utils/deviceUtils";
 
 const TERMS_SHEET_ID = "signUpTermsSheet";
 
 type SignUpTerm = {
-  id: string;
+  id: AgreementType;
   label: string;
   required: boolean;
   content: string;
 };
 
 const SIGN_UP_TERMS: SignUpTerm[] = [
-  { id: "termsOfService", label: "이용약관", required: true, content: info.termsOfService },
-  { id: "privacyPolicy", label: "개인정보 수집 및 이용", required: true, content: info.privacyPolicy },
-  { id: "marketing", label: "마케팅 활용 및 광고 수신", required: false, content: info.marketingConsent },
+  { id: "TERMS", label: "이용약관", required: true, content: info.termsOfService },
+  { id: "PRIVACY", label: "개인정보 수집 및 이용", required: true, content: info.privacyPolicy },
+  { id: "MARKETING", label: "마케팅 활용 및 광고 수신", required: false, content: info.marketingConsent },
 ];
 
-export const isRequiredTermsAgreed = (agreedIds: string[]) => SIGN_UP_TERMS.every((term) => !term.required || agreedIds.includes(term.id));
+export const isRequiredTermsAgreed = (agreedIds: AgreementType[]) => SIGN_UP_TERMS.every((term) => !term.required || agreedIds.includes(term.id));
 
 function CheckMark({ checked }: { checked: boolean }) {
   return (
@@ -65,8 +66,8 @@ function TermContent({ content }: { content: string }) {
 }
 
 type SignUpTermsAgreementProps = {
-  agreedIds: string[];
-  onChange: (agreedIds: string[]) => void;
+  agreedIds: AgreementType[];
+  onChange: (agreedIds: AgreementType[]) => void;
 };
 
 export function SignUpTermsAgreement({ agreedIds, onChange }: SignUpTermsAgreementProps) {
@@ -80,7 +81,7 @@ export function SignUpTermsAgreement({ agreedIds, onChange }: SignUpTermsAgreeme
 
   const toggleAll = () => onChange(isAllAgreed ? [] : SIGN_UP_TERMS.map((term) => term.id));
 
-  const toggleTerm = (id: string) => onChange(agreedIds.includes(id) ? agreedIds.filter((agreedId) => agreedId !== id) : [...agreedIds, id]);
+  const toggleTerm = (id: AgreementType) => onChange(agreedIds.includes(id) ? agreedIds.filter((agreedId) => agreedId !== id) : [...agreedIds, id]);
 
   const openTermContent = (term: SignUpTerm) => {
     if (isDesktop) {

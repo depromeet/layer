@@ -18,6 +18,9 @@ type PostSignUp = {
   accessToken: string;
   name: string;
   socialType: SocialLoginKind | undefined;
+  termsAgreed: boolean;
+  privacyAgreed: boolean;
+  marketingAgreed: boolean;
 };
 
 export const usePostSignUp = () => {
@@ -27,12 +30,15 @@ export const usePostSignUp = () => {
   const { mutate } = useApiJoinSpace();
   const { setPeople, track } = useMixpanel();
 
-  const signUpWithToken = async ({ accessToken, name, socialType }: PostSignUp): Promise<AuthResponse> => {
+  const signUpWithToken = async ({ accessToken, name, socialType, termsAgreed, privacyAgreed, marketingAgreed }: PostSignUp): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>(
       "/api/auth/sign-up",
       {
         socialType: socialType?.toUpperCase(),
         name: name,
+        termsAgreed,
+        privacyAgreed,
+        marketingAgreed,
       },
       {
         headers: {

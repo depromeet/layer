@@ -10,6 +10,7 @@ import { usePostSignUp } from "@/hooks/api/login/usePostSignUp";
 import { useInput } from "@/hooks/useInput";
 import { useRequiredParams } from "@/hooks/useRequiredParams";
 import { DefaultLayout } from "@/layout/DefaultLayout";
+import { AgreementType } from "@/types/agreement";
 import { SocialLoginKind } from "@/types/loginType";
 import { getDeviceType } from "@/utils/deviceUtils";
 import { css } from "@emotion/react";
@@ -22,12 +23,19 @@ export function SetNickName() {
   const { mutate: signUpMutation, isPending } = usePostSignUp();
   const { socialType } = useRequiredParams<{ socialType: SocialLoginKind }>();
 
-  const [agreedTermIds, setAgreedTermIds] = useState<string[]>([]);
+  const [agreedTermIds, setAgreedTermIds] = useState<AgreementType[]>([]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const accessToken = Cookies.get(`${socialType}AccessToken`) || "";
-    signUpMutation({ accessToken, name: nickName, socialType: socialType });
+    signUpMutation({
+      accessToken,
+      name: nickName,
+      socialType: socialType,
+      termsAgreed: agreedTermIds.includes("TERMS"),
+      privacyAgreed: agreedTermIds.includes("PRIVACY"),
+      marketingAgreed: agreedTermIds.includes("MARKETING"),
+    });
   };
 
   return (
