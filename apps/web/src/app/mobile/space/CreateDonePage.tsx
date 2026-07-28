@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import Lottie from "lottie-react";
+import { Lottie } from "@/lib/lottie-react-compat";
 import { Fragment, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 

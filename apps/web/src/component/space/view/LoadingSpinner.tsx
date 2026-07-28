@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import Lottie from "lottie-react";
+import { Lottie } from "@/lib/lottie-react-compat";
 
 import loading from "@/assets/lottie/retropsect/list/loading.json";
 
