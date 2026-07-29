@@ -7,11 +7,7 @@ import {
   invalidateRetrospectReactionCache,
   rollbackRetrospectReactionCache,
 } from "@/hooks/api/retrospect/reaction/reactionCache";
-import {
-  RetrospectReactionCode,
-  RetrospectReactionMember,
-  RetrospectReactionResponse,
-} from "@/types/retrospectReaction";
+import { RetrospectReactionCode, RetrospectReactionMember } from "@/types/retrospectReaction";
 
 type PostRetrospectReactionParams = {
   spaceId: number;
@@ -21,42 +17,58 @@ type PostRetrospectReactionParams = {
   member: RetrospectReactionMember;
 };
 
-type PostRetrospectReactionMutationParams = PostRetrospectReactionParams & {
-  previousReactions?: RetrospectReactionResponse;
-};
-
 export const usePostRetrospectReaction = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async ({ spaceId, retrospectId, answerId, emojiCode }: PostRetrospectReactionMutationParams) => {
+    mutationFn: async ({ spaceId, retrospectId, answerId, emojiCode }: PostRetrospectReactionParams) => {
       await api.post(`/space/${spaceId}/retrospect/${retrospectId}/reaction`, { answerId, emojiCode });
-    },
-    onError: (_, { spaceId, retrospectId, previousReactions }) => {
-      rollbackRetrospectReactionCache(queryClient, { spaceId, retrospectId }, previousReactions);
     },
     onSettled: (_, __, { spaceId, retrospectId }) => {
       void invalidateRetrospectReactionCache(queryClient, { spaceId, retrospectId });
     },
   });
 
-  const applyOptimisticPost = (params: PostRetrospectReactionParams): PostRetrospectReactionMutationParams => {
+  const applyOptimisticPost = (params: PostRetrospectReactionParams) => {
     const { spaceId, retrospectId, answerId, emojiCode, member } = params;
     const optimisticReaction = createOptimisticReaction(emojiCode, member);
-    const { previousReactions } = addRetrospectReactionCache(
+    return addRetrospectReactionCache(
       queryClient,
       { spaceId, retrospectId },
       { answerId, reaction: optimisticReaction },
     );
+  };
 
-    return { ...params, previousReactions };
+  const optimisticMutate = (params: PostRetrospectReactionParams, options?: Parameters<typeof mutation.mutate>[1]) => {
+    const { previousReactions } = applyOptimisticPost(params);
+
+    mutation.mutate(params, {
+      ...options,
+      onError: (error, variables, context) => {
+        rollbackRetrospectReactionCache(queryClient, params, previousReactions);
+        options?.onError?.(error, variables, context);
+      },
+    });
+  };
+
+  const optimisticMutateAsync = async (
+    params: PostRetrospectReactionParams,
+    options?: Parameters<typeof mutation.mutateAsync>[1],
+  ) => {
+    const { previousReactions } = applyOptimisticPost(params);
+
+    return mutation.mutateAsync(params, {
+      ...options,
+      onError: (error, variables, context) => {
+        rollbackRetrospectReactionCache(queryClient, params, previousReactions);
+        options?.onError?.(error, variables, context);
+      },
+    });
   };
 
   return {
     ...mutation,
-    mutate: (params: PostRetrospectReactionParams, options?: Parameters<typeof mutation.mutate>[1]) =>
-      mutation.mutate(applyOptimisticPost(params), options),
-    mutateAsync: (params: PostRetrospectReactionParams, options?: Parameters<typeof mutation.mutateAsync>[1]) =>
-      mutation.mutateAsync(applyOptimisticPost(params), options),
+    optimisticMutate,
+    optimisticMutateAsync,
   };
 };
