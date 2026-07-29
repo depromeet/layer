@@ -7,6 +7,7 @@ import { TabButton } from "@/component/common/tabs/TabButton";
 import { Tabs } from "@/component/common/tabs/Tabs";
 import { Typography } from "@/component/common/typography";
 import { GoMakeReviewButton, SpaceOverview } from "@/component/home";
+import { MarketingConsentPrompt } from "@/component/info";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { useApiGetSpaceList } from "@/hooks/api/space/useApiGetSpaceList";
 import { useTabs } from "@/hooks/useTabs";
@@ -72,6 +73,7 @@ export function RetrospectViewPage() {
       }
       RightComp={<UserProfileIcon />}
     >
+      <MarketingConsentPrompt />
       <Tabs tabs={tabs} curTab={curTab} selectTab={selectTab} TabComp={TabButton} fullWidth={false} />
       <GoMakeReviewButton onClick={goToCreateSpace} isTooltipVisible={isEmptySpaceList} />
       {isEmptySpaceList && <EmptySpaceList />}

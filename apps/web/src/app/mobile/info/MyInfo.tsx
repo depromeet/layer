@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { useAtom } from "jotai";
 
-import { UserBox, VersionBox, ServicePolicyBox, UserManageBox } from "@/component/info";
+import { UserBox, SettingBox, VersionBox, ServicePolicyBox, UserManageBox } from "@/component/info";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { authAtom } from "@/store/auth/authAtom";
 
@@ -17,6 +17,7 @@ export function MyInfo() {
         `}
       >
         <UserBox name={name} imgUrl={imageUrl} />
+        <SettingBox />
         <VersionBox />
         <ServicePolicyBox />
         <UserManageBox />
