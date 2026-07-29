@@ -408,7 +408,7 @@ Layer(이하 '회사')는 개인정보보호법 제22조 및 정보통신망 이
 
 제9조(문의처)
 본 동의와 관련한 문의는 아래로 연락해 주시기 바랍니다.
-📪 e-mail : gentlemonster77@likelion.org
+📪 e-mail : official.team.layer@gmail.com
 
 제10조(기타)
 본 동의서에서 정하지 아니한 사항은 회사의 이용약관 및 개인정보처리방침에 따릅니다.
