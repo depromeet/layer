@@ -3,7 +3,7 @@ import { usePopper } from "react-popper";
 
 import { useBottomSheet } from "@/hooks/useBottomSheet";
 import useClickOutside from "@/hooks/useClickOutside";
-import { RetrospectReaction } from "@/types/retrospectReaction";
+import { RetrospectReaction, RetrospectReactionCode } from "@/types/retrospectReaction";
 
 export type ReactionGroup = {
   code: RetrospectReaction["emojiCode"];
@@ -12,12 +12,16 @@ export type ReactionGroup = {
 
 export type ReactionOverlayState =
   | { type: "selector" }
-  | { type: "status"; groups: ReactionGroup[] }
+  | { type: "status"; codes: RetrospectReactionCode[]; keepOpenOnDelete?: boolean }
   | null;
 
 type UseReactionOverlayParams = {
   answerId: number;
   isMobile: boolean;
+};
+
+type OpenStatusOptions = {
+  keepOpenOnDelete?: boolean;
 };
 
 export const useReactionOverlay = ({ answerId, isMobile }: UseReactionOverlayParams) => {
@@ -88,14 +92,14 @@ export const useReactionOverlay = ({ answerId, isMobile }: UseReactionOverlayPar
     };
   }, []);
 
-  const openStatus = (event: MouseEvent<HTMLElement>, groups: ReactionGroup[]) => {
+  const openStatus = (event: MouseEvent<HTMLElement>, codes: RetrospectReactionCode[], options?: OpenStatusOptions) => {
     clearCloseTimer();
     if (isMobile) {
       openBottomSheet({ id: sheetId });
     } else {
       setReferenceElement(event.currentTarget);
     }
-    setOverlay({ type: "status", groups });
+    setOverlay({ type: "status", codes, keepOpenOnDelete: options?.keepOpenOnDelete });
   };
 
   const openSelector = (event: MouseEvent<HTMLButtonElement>) => {

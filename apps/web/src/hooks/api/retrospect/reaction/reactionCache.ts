@@ -52,7 +52,7 @@ export const addRetrospectReactionCache = (
     return {
       answerReactions: hasAnswer
         ? answerReactions.map((item) =>
-            item.answerId === answerId ? { ...item, reactions: [...item.reactions, reaction] } : item,
+            item.answerId === answerId ? { ...item, reactions: [reaction, ...item.reactions] } : item,
           )
         : [...answerReactions, { answerId, reactions: [reaction] }],
     };
