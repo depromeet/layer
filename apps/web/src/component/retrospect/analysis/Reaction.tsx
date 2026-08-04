@@ -38,21 +38,34 @@ const EMPTY_REACTIONS: RetrospectReaction[] = [];
 const getPendingReactionKey = (answerId: number, memberId: number, emojiCode: RetrospectReactionCode) =>
   `${answerId}:${memberId}:${emojiCode}`;
 
+const compareRecentReactionFirst = (reactionA: RetrospectReaction, reactionB: RetrospectReaction) => {
+  const reactionAId = reactionA.retrospectReactionId;
+  const reactionBId = reactionB.retrospectReactionId;
+  const isReactionAOptimistic = reactionAId < 0;
+  const isReactionBOptimistic = reactionBId < 0;
+
+  if (isReactionAOptimistic && isReactionBOptimistic) return reactionAId - reactionBId;
+  if (isReactionAOptimistic) return -1;
+  if (isReactionBOptimistic) return 1;
+
+  return reactionBId - reactionAId;
+};
+
 const getReactionGroups = (reactions: RetrospectReaction[]) => {
   const groups: ReactionGroup[] = [];
+  const groupMap = new Map<RetrospectReactionCode, ReactionGroup>();
 
-  for (const code of Object.keys(RETROSPECT_REACTIONS) as RetrospectReactionCode[]) {
-    const codeReactions: RetrospectReaction[] = [];
+  for (const reaction of reactions.toSorted(compareRecentReactionFirst)) {
+    const group = groupMap.get(reaction.emojiCode);
 
-    for (const reaction of reactions) {
-      if (reaction.emojiCode === code) {
-        codeReactions.push(reaction);
-      }
+    if (group) {
+      group.reactions.push(reaction);
+      continue;
     }
 
-    if (codeReactions.length > 0) {
-      groups.push({ code, reactions: codeReactions });
-    }
+    const newGroup = { code: reaction.emojiCode, reactions: [reaction] };
+    groupMap.set(reaction.emojiCode, newGroup);
+    groups.push(newGroup);
   }
 
   return groups;
@@ -68,6 +81,12 @@ const getSelectedReactionCodes = (reactions: RetrospectReaction[], memberId: num
   }
 
   return codes;
+};
+
+const getStatusGroups = (codes: RetrospectReactionCode[], reactionGroups: ReactionGroup[]) => {
+  const codeSet = new Set(codes);
+
+  return reactionGroups.filter((group) => codeSet.has(group.code));
 };
 
 const REACTION_COLORS = {
@@ -107,6 +126,7 @@ export default function ReactionBlock({
   const selectedReactionCodes = getSelectedReactionCodes(answerReactions, currentUser.memberId);
   const visibleGroups = reactionGroups.slice(0, MAX_VISIBLE_REACTIONS);
   const hiddenGroups = reactionGroups.slice(MAX_VISIBLE_REACTIONS);
+  const reactionGroupCodes = reactionGroups.map((group) => group.code);
   const shouldShowEmptyTooltip =
     showEmptyTooltip && isSuccess && !data.answerReactions.some((item) => item.reactions.length > 0);
 
@@ -157,7 +177,9 @@ export default function ReactionBlock({
       emojiCode: reaction.emojiCode,
       pendingCreate: getPendingCreate(reaction),
     });
-    closeOverlay();
+    if (overlay?.type !== "status" || !overlay.keepOpenOnDelete) {
+      closeOverlay();
+    }
   };
 
   const addReactionButton = (
@@ -186,9 +208,9 @@ export default function ReactionBlock({
           key={group.code}
           group={group}
           selected={group.reactions.some((reaction) => reaction.memberId === currentUser.memberId)}
-          onMouseEnter={isMobile ? undefined : (event) => openStatus(event, [group])}
+          onMouseEnter={isMobile ? undefined : (event) => openStatus(event, [group.code])}
           onMouseLeave={isMobile ? undefined : scheduleClose}
-          onClick={(event) => openStatus(event, [group])}
+          onClick={(event) => openStatus(event, [group.code])}
         />
       ))}
 
@@ -196,9 +218,13 @@ export default function ReactionBlock({
         <button
           type="button"
           css={chipStyle(false)}
-          onMouseEnter={isMobile ? undefined : (event) => openStatus(event, reactionGroups)}
+          onMouseEnter={
+            isMobile
+              ? undefined
+              : (event) => openStatus(event, reactionGroupCodes, { keepOpenOnDelete: true })
+          }
           onMouseLeave={isMobile ? undefined : scheduleClose}
-          onClick={(event) => openStatus(event, reactionGroups)}
+          onClick={(event) => openStatus(event, reactionGroupCodes, { keepOpenOnDelete: true })}
           aria-label="전체 반응 보기"
         >
           +{hiddenGroups.length}
@@ -236,6 +262,7 @@ export default function ReactionBlock({
             >
               <ReactionOverlayContent
                 overlay={overlay}
+                reactionGroups={reactionGroups}
                 selectedCodes={selectedReactionCodes}
                 currentMemberId={currentUser.memberId}
                 onSelect={handleCreate}
@@ -258,6 +285,7 @@ export default function ReactionBlock({
           >
             <ReactionOverlayContent
               overlay={overlay}
+              reactionGroups={reactionGroups}
               selectedCodes={selectedReactionCodes}
               currentMemberId={currentUser.memberId}
               onSelect={handleCreate}
@@ -288,12 +316,14 @@ function ReactionChip({
 
 function ReactionOverlayContent({
   overlay,
+  reactionGroups,
   selectedCodes,
   currentMemberId,
   onSelect,
   onDelete,
 }: {
   overlay: Exclude<ReactionOverlayState, null>;
+  reactionGroups: ReactionGroup[];
   selectedCodes: Set<RetrospectReactionCode>;
   currentMemberId: number;
   onSelect: (code: RetrospectReactionCode) => void;
@@ -303,7 +333,13 @@ function ReactionOverlayContent({
     return <ReactionSelector onSelect={onSelect} selectedCodes={selectedCodes} />;
   }
 
-  return <ReactionStatus groups={overlay.groups} currentMemberId={currentMemberId} onDelete={onDelete} />;
+  return (
+    <ReactionStatus
+      groups={getStatusGroups(overlay.codes, reactionGroups)}
+      currentMemberId={currentMemberId}
+      onDelete={onDelete}
+    />
+  );
 }
 
 function ReactionSelector({
