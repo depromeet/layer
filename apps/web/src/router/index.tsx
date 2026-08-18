@@ -32,6 +32,7 @@ const LicensePage = lazyNamed(() => import("@/app/mobile/info/LicensePage"), "Li
 const ModifyMyInfo = lazyNamed(() => import("@/app/mobile/info/ModifyMyInfo"), "ModifyMyInfo");
 const MyInfo = lazyNamed(() => import("@/app/mobile/info/MyInfo"), "MyInfo");
 const NoticePage = lazyNamed(() => import("@/app/mobile/info/NoticePage"), "NoticePage");
+const NotificationSettingsPage = lazyNamed(() => import("@/app/mobile/info/NotificationSettingsPage"), "NotificationSettingsPage");
 const PrivacyPolicyPage = lazyNamed(() => import("@/app/mobile/info/PrivacyPolicyPage"), "PrivacyPolicyPage");
 const TermsOfServicePage = lazyNamed(() => import("@/app/mobile/info/TermsOfServicePage"), "TermsOfServicePage");
 const UserDeletion = lazyNamed(() => import("@/app/mobile/info/UserDeletion"), "UserDeletion");
@@ -314,6 +315,12 @@ const deviceSpecificRoutes: RouteChildren[] = [
   {
     path: "myinfo/modify",
     element: withSuspense(<ModifyMyInfo />),
+    auth: true,
+    deviceType: "mobile",
+  },
+  {
+    path: "myinfo/notification",
+    element: withSuspense(<NotificationSettingsPage />),
     auth: true,
     deviceType: "mobile",
   },

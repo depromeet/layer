@@ -10,6 +10,7 @@ import { PersonalForm } from "@/component/retrospect/analysis/PersonalForm.tsx";
 import { QuestionForm } from "@/component/retrospect/analysis/QuestionForm.tsx";
 import { useGetAnalysisAnswer } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer.ts";
 import { useApiOptionsGetRetrospects } from "@/hooks/api/retrospect/useApiOptionsGetRetrospects";
+import { useGetRetrospectReactions } from "@/hooks/api/retrospect/reaction/useGetRetrospectReactions";
 import { useTabs } from "@/hooks/useTabs";
 import { DualToneLayout } from "@/layout/DualToneLayout";
 import { EmptyList } from "@/component/common/empty";
@@ -31,11 +32,12 @@ export const RetrospectAnalysisPage = () => {
   const spaceId = Number(queryParams.get("spaceId"));
   const retrospectId = Number(queryParams.get("retrospectId"));
   const { data, isLoading } = useGetAnalysisAnswer({ spaceId: spaceId, retrospectId: retrospectId });
+  const { isLoading: isLoadingReactions } = useGetRetrospectReactions({ spaceId, retrospectId });
   const { data: retrospects } = useQuery(useApiOptionsGetRetrospects(spaceId));
   const retrospect = retrospects?.find((item) => item.retrospectId === retrospectId);
   const pendingPeopleCnt = retrospect ? retrospect.totalCount - retrospect.writeCount : 0;
 
-  useEffect(() => {
+  useEffect(function selectDefaultAnalysisTab() {
     if (defaultTab) {
       selectTab(defaultTab);
     }
@@ -51,7 +53,7 @@ export const RetrospectAnalysisPage = () => {
         </Fragment>
       }
     >
-      {isLoading ? (
+      {isLoading || isLoadingReactions ? (
         <LoadingModal />
       ) : !data || data.individuals.length === 0 ? (
         <EmptyList icon={"ic_clock"} message={"제출된 회고가 없어요"} />

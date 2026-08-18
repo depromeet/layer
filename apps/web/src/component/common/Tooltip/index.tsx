@@ -27,6 +27,7 @@ interface TooltipContextType {
   align?: TooltipAlign;
   theme?: TooltipTheme;
   delay?: number;
+  triggerEvents: boolean;
 }
 
 type TooltipPlacement = "top" | "bottom" | "left" | "right";
@@ -49,6 +50,10 @@ interface TooltipProps {
    * 지정하면 최초 1회 표시 후 기록되어 이후에는 자동으로 열리지 않는다.
    */
   storageKey?: string;
+  /** false면 hover/focus/click으로 열림 상태를 변경하지 않는다. */
+  triggerEvents?: boolean;
+  /** 열린 뒤 자동으로 닫히는 시간(ms). 지정하지 않으면 자동으로 닫히지 않는다. */
+  autoHideDuration?: number;
 }
 
 interface TooltipTriggerProps {
@@ -104,6 +109,8 @@ const Tooltip = ({
   disabled = false,
   defaultOpen = false,
   storageKey,
+  triggerEvents = true,
+  autoHideDuration,
 }: TooltipProps) => {
   // storageKey가 있으면 "이미 본 적 있는지"를 localStorage에서 읽어 자동 노출 여부를 결정한다.
   const hasSeen = safeGetSeen(storageKey);
@@ -139,17 +146,27 @@ const Tooltip = ({
     align,
     theme,
     delay,
+    triggerEvents,
   };
 
   // defaultOpen 안내 툴팁이 최초로 노출되면 기록하여 이후에는 자동으로 뜨지 않게 한다.
-  useEffect(() => {
+  useEffect(function markDefaultTooltipAsSeen() {
     if (defaultOpen && !hasSeen) {
       safeSetSeen(storageKey);
     }
   }, [defaultOpen, storageKey, hasSeen]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(function autoHideOpenTooltip() {
+    if (!isOpen || autoHideDuration == null) return;
+
+    const timer = window.setTimeout(() => setIsOpen(false), autoHideDuration);
+    return function clearAutoHideTimer() {
+      window.clearTimeout(timer);
+    };
+  }, [autoHideDuration, isOpen]);
+
+  useEffect(function clearDelayedOpenTimerOnUnmount() {
+    return function clearDelayedOpenTimer() {
       if (timeoutRef.current !== null) {
         clearTimeout(timeoutRef.current);
       }
@@ -160,7 +177,7 @@ const Tooltip = ({
 };
 
 const TooltipTrigger = ({ children, asChild = true }: TooltipTriggerProps) => {
-  const { open, close, triggerRef } = useTooltip();
+  const { open, close, triggerRef, triggerEvents } = useTooltip();
 
   const handleMouseEnter = () => open();
   const handleMouseLeave = () => close();
@@ -173,16 +190,16 @@ const TooltipTrigger = ({ children, asChild = true }: TooltipTriggerProps) => {
     const child = children as ReactElement<any>;
     return cloneElement(child, {
       ref: triggerRef,
-      onMouseEnter: handleMouseEnter,
-      onMouseLeave: handleMouseLeave,
-      onFocus: handleFocus,
-      onBlur: handleBlur,
+      onMouseEnter: triggerEvents ? handleMouseEnter : child.props.onMouseEnter,
+      onMouseLeave: triggerEvents ? handleMouseLeave : child.props.onMouseLeave,
+      onFocus: triggerEvents ? handleFocus : child.props.onFocus,
+      onBlur: triggerEvents ? handleBlur : child.props.onBlur,
       onClick: (e: any) => {
         if (child.props.onClick) {
           child.props.onClick(e);
         }
 
-        handleClick();
+        if (triggerEvents) handleClick();
       },
     });
   }
@@ -190,11 +207,11 @@ const TooltipTrigger = ({ children, asChild = true }: TooltipTriggerProps) => {
   return (
     <span
       ref={triggerRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onClick={handleClick}
+      onMouseEnter={triggerEvents ? handleMouseEnter : undefined}
+      onMouseLeave={triggerEvents ? handleMouseLeave : undefined}
+      onFocus={triggerEvents ? handleFocus : undefined}
+      onBlur={triggerEvents ? handleBlur : undefined}
+      onClick={triggerEvents ? handleClick : undefined}
     >
       {children}
     </span>
@@ -322,29 +339,29 @@ const TooltipContent = ({ children, className = "", sideOffset = 16, tag, arrow 
 
   // * portal + absolute 위치라 레이아웃이 바뀌면 좌표가 틀어진다.
   // * 스크롤/리사이즈 및 콘텐츠 크기 변화(ResizeObserver)에 맞춰 위치를 다시 계산한다.
-  useLayoutEffect(() => {
-    const update = () => {
+  useLayoutEffect(function syncTooltipPosition() {
+    const updateTooltipPosition = () => {
       const { content, arrowCross } = computeStyle();
       setStyle(content);
       setArrowCross(arrowCross);
     };
-    update();
+    updateTooltipPosition();
 
     if (!isOpen) return;
 
-    window.addEventListener("scroll", update, true);
-    window.addEventListener("resize", update);
+    window.addEventListener("scroll", updateTooltipPosition, true);
+    window.addEventListener("resize", updateTooltipPosition);
 
     let resizeObserver: ResizeObserver | undefined;
     if (typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(update);
+      resizeObserver = new ResizeObserver(updateTooltipPosition);
       if (triggerRef.current) resizeObserver.observe(triggerRef.current);
       resizeObserver.observe(document.body);
     }
 
-    return () => {
-      window.removeEventListener("scroll", update, true);
-      window.removeEventListener("resize", update);
+    return function stopSyncingTooltipPosition() {
+      window.removeEventListener("scroll", updateTooltipPosition, true);
+      window.removeEventListener("resize", updateTooltipPosition);
       resizeObserver?.disconnect();
     };
   }, [isOpen, computeStyle, triggerRef]);

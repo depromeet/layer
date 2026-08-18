@@ -9,7 +9,7 @@ import { PATHS } from "@layer/shared";
 import { useApiGetSpace } from "@/hooks/api/space/useApiGetSpace";
 import { DefaultLayout } from "@/layout/DefaultLayout";
 import { ProjectType } from "@/types/space";
-import Lottie from "lottie-react";
+import { Lottie } from "@/lib/lottie-react-compat";
 import Recommend from "@/assets/lottie/space/recommend.json";
 
 export function CreateNextPage() {

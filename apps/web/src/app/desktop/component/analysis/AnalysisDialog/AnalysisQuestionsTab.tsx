@@ -6,58 +6,74 @@ import { css } from "@emotion/react";
 
 type AnalysisQuestionsTabProps = {
   questions: QuestionsType[];
+  reactionProps: { spaceId: number; retrospectId: number } | null;
 };
 
-export default function AnalysisQuestionsTab({ questions }: AnalysisQuestionsTabProps) {
-  const renderQuestionComponent = (question: QuestionsType) => {
-    const { questionType, answers } = question;
+function QuestionAnswers({
+  question,
+  questionIndex,
+  reactionProps,
+}: { question: QuestionsType; questionIndex: number } & Pick<AnalysisQuestionsTabProps, "reactionProps">) {
+  const { questionType, answers } = question;
 
-    return answers.map((answer: AnswersType, index: number) => {
-      const { name, answerContent } = answer;
+  return (
+    <>
+      {answers.map((answer: AnswersType, index: number) => {
+        const { name, answerContent } = answer;
 
-      switch (questionType) {
-        case "number":
-          return (
-            <CSatisfactionTemplate
-              key={index}
-              name={name}
-              index={parseInt(answerContent)}
-              customCss={css`
-                margin-top: 0;
-                min-height: initial;
-              `}
-            />
-          );
-        case "range":
-          return (
-            <CAchievementTemplate
-              key={index}
-              name={name}
-              index={parseInt(answerContent)}
-              customCss={css`
-                margin-top: 0;
-                min-height: initial;
-              `}
-            />
-          );
-        case "plain_text":
-          return (
-            <CDescriptiveTemplate
-              key={index}
-              name={name}
-              answer={answerContent}
-              customCss={css`
-                margin-top: 0;
-                min-height: initial;
-              `}
-            />
-          );
-        default:
-          return null;
-      }
-    });
-  };
+        const answerReactionProps = reactionProps
+          ? { ...reactionProps, answerId: answer.answerId, showEmptyTooltip: questionIndex === 0 && index === 0 }
+          : undefined;
 
+        switch (questionType) {
+          case "number":
+            return (
+              <CSatisfactionTemplate
+                key={answer.answerId}
+                name={name}
+                index={parseInt(answerContent)}
+                reactionProps={answerReactionProps}
+                customCss={css`
+                  margin-top: 0;
+                  min-height: initial;
+                `}
+              />
+            );
+          case "range":
+            return (
+              <CAchievementTemplate
+                key={answer.answerId}
+                name={name}
+                index={parseInt(answerContent)}
+                reactionProps={answerReactionProps}
+                customCss={css`
+                  margin-top: 0;
+                  min-height: initial;
+                `}
+              />
+            );
+          case "plain_text":
+            return (
+              <CDescriptiveTemplate
+                key={answer.answerId}
+                name={name}
+                answer={answerContent}
+                reactionProps={answerReactionProps}
+                customCss={css`
+                  margin-top: 0;
+                  min-height: initial;
+                `}
+              />
+            );
+          default:
+            return null;
+        }
+      })}
+    </>
+  );
+}
+
+export default function AnalysisQuestionsTab({ questions, reactionProps }: AnalysisQuestionsTabProps) {
   if (!questions || questions.length === 0) {
     return (
       <section
@@ -120,7 +136,7 @@ export default function AnalysisQuestionsTab({ questions }: AnalysisQuestionsTab
               scroll-snap-type: y mandatory;
             `}
           >
-            {renderQuestionComponent(question)}
+            <QuestionAnswers question={question} questionIndex={questionIndex} reactionProps={reactionProps} />
           </article>
         </article>
       ))}

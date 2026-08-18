@@ -6,6 +6,7 @@ import { Typography } from "@/component/common/typography";
 import { ResultControlTab } from "@/component/retrospect/analysis/ResultControlTab.tsx";
 import { CAchievementTemplate, CDescriptiveTemplate, CSatisfactionTemplate } from "@/component/write/template/complete";
 import { getAnalysisResponse } from "@/hooks/api/retrospect/analysis/useGetAnalysisAnswer.ts";
+import { useSearchParams } from "react-router-dom";
 
 type ResultContainerProps = {
   data: getAnalysisResponse;
@@ -16,6 +17,10 @@ type ResultContainerProps = {
 };
 
 export function ResultContainer({ type = "question", data, page, handleDecrement, handleIncrement }: ResultContainerProps) {
+  const [searchParams] = useSearchParams();
+  const spaceId = Number(searchParams.get("spaceId"));
+  const retrospectId = Number(searchParams.get("retrospectId"));
+  const getReactionProps = (answerId: number, showEmptyTooltip = false) => ({ spaceId, retrospectId, answerId, showEmptyTooltip });
   const lastPage = data ? (type === "question" ? data?.questions?.length : data?.individuals?.length) : 1;
   if (page < 0) page = 0;
   if (page > lastPage) page = lastPage;
@@ -43,9 +48,27 @@ export function ResultContainer({ type = "question", data, page, handleDecrement
                   <Fragment key={index}>
                     {
                       {
-                        number: <CSatisfactionTemplate name={item.name} index={parseInt(item.answerContent)} />,
-                        range: <CAchievementTemplate name={item.name} index={parseInt(item.answerContent)} />,
-                        plain_text: <CDescriptiveTemplate name={item.name} answer={item.answerContent} />,
+                        number: (
+                          <CSatisfactionTemplate
+                            name={item.name}
+                            index={parseInt(item.answerContent)}
+                            reactionProps={getReactionProps(item.answerId, page === 0 && index === 0)}
+                          />
+                        ),
+                        range: (
+                          <CAchievementTemplate
+                            name={item.name}
+                            index={parseInt(item.answerContent)}
+                            reactionProps={getReactionProps(item.answerId, page === 0 && index === 0)}
+                          />
+                        ),
+                        plain_text: (
+                          <CDescriptiveTemplate
+                            name={item.name}
+                            answer={item.answerContent}
+                            reactionProps={getReactionProps(item.answerId, page === 0 && index === 0)}
+                          />
+                        ),
                         combobox: null,
                         card: null,
                         markdown: null,
@@ -71,9 +94,27 @@ export function ResultContainer({ type = "question", data, page, handleDecrement
                   <Fragment key={index}>
                     {
                       {
-                        number: <CSatisfactionTemplate question={item.questionContent} index={parseInt(item.answerContent)} />,
-                        range: <CAchievementTemplate question={item.questionContent} index={parseInt(item.answerContent)} />,
-                        plain_text: <CDescriptiveTemplate question={item.questionContent} answer={item.answerContent} />,
+                        number: (
+                          <CSatisfactionTemplate
+                            question={item.questionContent}
+                            index={parseInt(item.answerContent)}
+                            reactionProps={getReactionProps(item.answerId)}
+                          />
+                        ),
+                        range: (
+                          <CAchievementTemplate
+                            question={item.questionContent}
+                            index={parseInt(item.answerContent)}
+                            reactionProps={getReactionProps(item.answerId)}
+                          />
+                        ),
+                        plain_text: (
+                          <CDescriptiveTemplate
+                            question={item.questionContent}
+                            answer={item.answerContent}
+                            reactionProps={getReactionProps(item.answerId)}
+                          />
+                        ),
                         combobox: null,
                         card: null,
                         markdown: null,

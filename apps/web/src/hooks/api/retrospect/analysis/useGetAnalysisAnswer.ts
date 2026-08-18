@@ -11,12 +11,14 @@ type getAnalysisAnswer = {
 };
 
 export interface IndividualsAnswersType {
+  answerId: number;
   answerContent: string;
   questionContent: string;
   questionType: string;
 }
 
 export interface AnswersType {
+  answerId: number;
   name: string;
   answerContent: string;
 }

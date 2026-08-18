@@ -1,6 +1,6 @@
 import { Z_INDEX } from "@/style/zIndex";
 import { css, keyframes } from "@emotion/react";
-import Lottie from "lottie-react";
+import { Lottie } from "@/lib/lottie-react-compat";
 import { Fragment, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
