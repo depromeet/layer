@@ -20,7 +20,11 @@ export default defineConfig(() => ({
       },
     }),
     svgr(),
-    Sitemap({ hostname: "https://layerapp.io" }),
+    Sitemap({
+      hostname: "https://www.layerapp.io",
+      // 기본값(true)이면 public/robots.txt를 dist에서 덮어쓰므로 robots.txt는 public에서 직접 관리
+      generateRobotsTxt: false,
+    }),
     VitePluginRadar({
       analytics: process.env.VITE_GOOGLE_ANALYTICS ? { id: process.env.VITE_GOOGLE_ANALYTICS } : undefined,
     }),
