@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-sitemap: https://layerapp.io/sitemap.xml
+
+Sitemap: https://www.layerapp.io/sitemap.xml
