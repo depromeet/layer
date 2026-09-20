@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /api/
-Disallow: /staging
 
 Sitemap: https://www.layerapp.io/sitemap.xml
