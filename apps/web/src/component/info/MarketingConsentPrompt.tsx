@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 import { api } from "@/api";
 import { Typography } from "@/component/common/typography";
+import { info } from "@/config/info";
 import { userQueryKeys } from "@/hooks/api/user/queryKeys";
 import { useModal } from "@/hooks/useModal";
 import { useToast } from "@/hooks/useToast";
@@ -14,7 +15,7 @@ import { getDeviceType } from "@/utils/deviceUtils";
 const DELIVERED_INFORMATION = ["기타 주요 공지", "업데이트 소식 및 이벤트"];
 const DELIVERY_METHODS = ["이메일"];
 
-function PromptContents() {
+function PromptContents({ onOpenTerms }: { onOpenTerms: () => void }) {
   const { isDesktop } = getDeviceType();
 
   /* 알림 설정 진입 경로가 데스크탑은 프로필 드롭다운, 모바일은 마이페이지라 문구가 달라요. */
@@ -54,8 +55,12 @@ function PromptContents() {
             white-space: pre-line;
           `}
         >
-          <span
+          <button
+            type="button"
+            onClick={onOpenTerms}
             css={css`
+              font: inherit;
+              color: inherit;
               text-decoration-line: underline;
               text-decoration-style: solid;
               text-decoration-skip-ink: none;
@@ -63,7 +68,7 @@ function PromptContents() {
             `}
           >
             마케팅 활용 및 광고 수신
-          </span>
+          </button>
           {` 설정은\n‘${settingsEntryPoint} > 설정 > 알림 설정’에서 변경 가능합니다.`}
         </Typography>
       </div>
@@ -106,6 +111,42 @@ function PromptSection({ title, items }: { title: string; items: string[] }) {
   );
 }
 
+function TermsContents() {
+  return (
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        row-gap: 1.6rem;
+        padding-inline: 1.2rem;
+        text-align: left;
+      `}
+    >
+      <Typography variant="title18Bold" color="gray900">
+        마케팅 활용 및 광고 수신
+      </Typography>
+      <div
+        css={css`
+          max-height: 28rem;
+          overflow-y: auto;
+        `}
+      >
+        <Typography
+          variant="body16Medium"
+          color="gray800"
+          css={css`
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+          `}
+        >
+          {info.marketingConsent}
+        </Typography>
+      </div>
+    </div>
+  );
+}
+
 /**
  * 마케팅 동의를 아직 한 번도 응답하지 않았거나 거절 후 재요청 주기가 지난 회원에게 동의 여부를 물어봐요.
  * 재요청 주기 판단은 서버가 하고, 프론트는 홈 진입 시 결과만 확인해요.
@@ -139,17 +180,35 @@ export function MarketingConsentPrompt() {
     },
   });
 
+  /**
+   * (임시) 전문은 별도 모달을 겹치는 대신 같은 모달 안에서 뷰만 바꿔요.
+   * 모달 딤이 바텀시트/데스크탑 모달보다 위에 있어서 겹쳐 띄울 수 없거든요.
+   */
+  function openTerms() {
+    open({
+      title: "",
+      contents: <TermsContents />,
+      options: { type: "alert", buttonText: ["확인"], autoClose: false },
+      onClose: undefined,
+      onConfirm: openPrompt,
+    });
+  }
+
+  function openPrompt() {
+    open({
+      title: "",
+      contents: <PromptContents onOpenTerms={openTerms} />,
+      options: { type: "confirm", buttonText: ["다음에", "동의하기"], autoClose: true },
+      onClose: () => patchMarketingAgreement({ agreed: false }),
+      onConfirm: () => patchMarketingAgreement({ agreed: true }),
+    });
+  }
+
   useEffect(() => {
     if (!data?.promptRequired || hasPromptedRef.current) return;
 
     hasPromptedRef.current = true;
-    open({
-      title: "",
-      contents: <PromptContents />,
-      options: { buttonText: ["다음에", "동의하기"] },
-      onClose: () => patchMarketingAgreement({ agreed: false }),
-      onConfirm: () => patchMarketingAgreement({ agreed: true }),
-    });
+    openPrompt();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.promptRequired]);
 
