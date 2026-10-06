@@ -224,6 +224,7 @@ export default function ActionItemCard({ spaceId, retrospectId, title, deadline,
                     border-radius: 50%;
                     background-color: ${DESIGN_TOKEN_COLOR.gray400};
                     flex-shrink: 0;
+                    margin-top: 0.8rem;
                   `}
                 />
                 <Typography
