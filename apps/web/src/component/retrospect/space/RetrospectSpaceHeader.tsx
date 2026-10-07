@@ -15,6 +15,8 @@ import { useQueries } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { TemplateList } from "@/app/desktop/component/retrospect/template/list";
 import { useSearchParams } from "react-router-dom";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
 
 export default function RetrospectSpaceHeader() {
   const { openFunnelModal } = useFunnelModal();
@@ -39,6 +41,7 @@ export default function RetrospectSpaceHeader() {
         templateId: spaceInfo.formId,
       }));
 
+      trackEvent(GA_EVENTS.RETROSPECT.ADD);
       openFunnelModal({
         title: "",
         step: "retrospectCreate",

@@ -7,6 +7,8 @@ import AnalyticsWrapper from "../component/home/AnalyticsWrapper";
 import Onboarding from "../component/home/Onboarding";
 import { useFirstTimeUser } from "../component/home/Onboarding/useFirstTimeUser";
 
+import { MarketingConsentPrompt } from "@/component/info";
+
 export function HomePage() {
   const { isFirstTimeUser, dismiss: dismissFirstTimeUser } = useFirstTimeUser();
 
@@ -20,6 +22,9 @@ export function HomePage() {
         min-width: 92.8rem;
       `}
     >
+      {/* ---------- 마케팅 수신 동의 재요청 ---------- */}
+      <MarketingConsentPrompt />
+
       {/* ---------- 헤더 ---------- */}
       <HomePageHeader />
 

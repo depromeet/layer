@@ -35,6 +35,7 @@ export const createPaths = () => {
       `${prefix}/space/${spaceId}/members` as const,
     myInfo: () => `${prefix}/myinfo` as const,
     myInfoModify: () => `${prefix}/myinfo/modify` as const,
+    notificationSettings: () => `${prefix}/myinfo/notification` as const,
     userDeletion: () => `${prefix}/myinfo/userdeletion` as const,
     notices: () => `${prefix}/myinfo/notices` as const,
     help: () => `${prefix}/myinfo/help` as const,
@@ -45,7 +46,7 @@ export const createPaths = () => {
     retrospectAnalysis: (
       spaceId: string,
       retrospectId: number,
-      title?: string
+      title?: string,
     ) => {
       const baseUrl = `${prefix}/retrospect/analysis?spaceId=${spaceId}&retrospectId=${retrospectId}`;
       return title ? `${baseUrl}&title=${encodeURIComponent(title)}` : baseUrl;
@@ -54,7 +55,7 @@ export const createPaths = () => {
       spaceId: string,
       retrospectId: number,
       title?: string,
-      introduction?: string
+      introduction?: string,
     ) => {
       let baseurl = `${prefix}/retrospect/write?spaceId=${spaceId}&retrospectId=${retrospectId}`;
       if (title) baseurl += `&title=${encodeURIComponent(title)}`;

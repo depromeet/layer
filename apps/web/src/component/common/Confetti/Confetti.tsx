@@ -1,7 +1,11 @@
 import { Z_INDEX } from "@/style/zIndex";
 import { Fragment, useCallback, useEffect, useRef } from "react";
-import ReactCanvasConfetti from "react-canvas-confetti";
+import * as ReactCanvasConfettiNamespace from "react-canvas-confetti";
 import { type IProps } from "react-canvas-confetti";
+
+import { resolveDefaultExport } from "@/lib/resolveDefaultExport";
+
+const ReactCanvasConfetti = resolveDefaultExport<typeof import("react-canvas-confetti").default>(ReactCanvasConfettiNamespace);
 
 const canvasStyles = {
   position: "absolute",

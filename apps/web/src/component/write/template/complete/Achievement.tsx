@@ -1,17 +1,18 @@
 import { css } from "@emotion/react";
 import type { SerializedStyles } from "@emotion/react";
 
-import { ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
+import { ReactionProps, ResultContainer } from "@/component/write/template/complete/ResultContainer.tsx";
 import { ACHIEVEMENT_COLOR_DEFAULT_COLOR } from "@/component/write/template/template.const.ts";
 import { DESIGN_TOKEN_COLOR, DESIGN_TOKEN_TEXT } from "@/style/designTokens.ts";
 import { getDeviceType } from "@/utils/deviceUtils";
 
+type BaseProgressBarProps = { index: number; customCss?: SerializedStyles; reactionProps?: ReactionProps };
 type ProgressBarProps =
-  | { name: string; question?: never; index: number; customCss?: SerializedStyles }
-  | { question: string; name?: never; index: number; customCss?: SerializedStyles }
-  | { question?: never; name?: never; index: number; customCss?: SerializedStyles };
+  | ({ name: string; question?: never } & BaseProgressBarProps)
+  | ({ question: string; name?: never } & BaseProgressBarProps)
+  | ({ question?: never; name?: never } & BaseProgressBarProps);
 
-export function CAchievementTemplate({ name, question, index: AchivementIdx = -1, customCss }: ProgressBarProps) {
+export function CAchievementTemplate({ name, question, index: AchivementIdx = -1, customCss, reactionProps }: ProgressBarProps) {
   const { isDesktop } = getDeviceType();
 
   const noNameAndQuestion = !name && !question;
@@ -42,6 +43,7 @@ export function CAchievementTemplate({ name, question, index: AchivementIdx = -1
     <ResultContainer
       question={question}
       name={name}
+      reactionProps={reactionProps}
       customCss={css`
         #line,
         #space {

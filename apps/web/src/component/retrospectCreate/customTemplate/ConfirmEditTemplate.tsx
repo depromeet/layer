@@ -24,15 +24,15 @@ type QuestionsListProps = {
 };
 
 export function ConfirmEditTemplate({ goNext, goPrev }: QuestionsListProps) {
-  const { tag: originalTag } = useContext(TemplateContext);
+  const { title: originalTitle, tag: originalTag } = useContext(TemplateContext);
   const [retroCreateData, setRetroCreateData] = useAtom(retrospectCreateAtom);
   const tag = useMemo(() => {
     if (retroCreateData.hasChangedOriginal) {
-      return originalTag;
+      return "CUSTOM";
     }
-    return "커스텀";
+    return originalTag;
   }, [retroCreateData.hasChangedOriginal, originalTag]);
-  const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName);
+  const { value: title, handleInputChange: handleTitleChange } = useInput(retroCreateData.formName || originalTitle || "커스텀 템플릿");
   const titleInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const { track } = useMixpanel();

@@ -137,14 +137,22 @@ export default defineConfig(() => ({
         warn(warning);
       },
       output: {
-        manualChunks: {
-          "vendor-react": ["react", "react-dom", "react-router-dom"],
-          "vendor-query": ["@tanstack/react-query"],
-          "vendor-emotion": ["@emotion/react", "@emotion/styled"],
-          "vendor-motion": ["framer-motion"],
-          "vendor-dnd": ["@hello-pangea/dnd"],
-          "vendor-swiper": ["swiper"],
-          "vendor-lottie": ["lottie-react"],
+        // Rolldown(Vite 8 기본 번들러)은 manualChunks의 객체 형태를 지원하지 않아 함수 형태로 변환
+        manualChunks: (id: string) => {
+          const vendorChunks: Record<string, string[]> = {
+            "vendor-react": ["react", "react-dom", "react-router-dom"],
+            "vendor-query": ["@tanstack/react-query"],
+            "vendor-emotion": ["@emotion/react", "@emotion/styled"],
+            "vendor-motion": ["framer-motion"],
+            "vendor-dnd": ["@hello-pangea/dnd"],
+            "vendor-swiper": ["swiper"],
+            "vendor-lottie": ["lottie-react"],
+          };
+          for (const [chunkName, packages] of Object.entries(vendorChunks)) {
+            if (packages.some((pkg) => id.includes(`/node_modules/${pkg}/`))) {
+              return chunkName;
+            }
+          }
         },
       },
     },
@@ -155,5 +163,8 @@ export default defineConfig(() => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    // 모노레포 pnpm 스토어에 apps/mobile의 react(18.2.0)가 함께 존재해,
+    // swiper처럼 react peer dependency를 선언하지 않은 패키지가 잘못된 버전으로 resolve되는 것을 방지
+    dedupe: ["react", "react-dom"],
   },
 }));

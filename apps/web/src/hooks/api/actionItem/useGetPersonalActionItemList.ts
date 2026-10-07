@@ -14,7 +14,7 @@ export const useGetPersonalActionItemList = <TData = PersonalActionItemListType>
   options,
 }: {
   options?: Omit<UseQueryOptions<PersonalActionItemListType, Error, TData>, "queryKey" | "queryFn">;
-}) => {
+} = {}) => {
   const getPersonalActionItemList = () => {
     const res = api.get<PersonalActionItemListType>("/api/action-item/personal/member").then((res) => res.data);
     return res;

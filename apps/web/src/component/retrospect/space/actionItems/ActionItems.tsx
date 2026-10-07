@@ -89,6 +89,10 @@ export default function ActionItems() {
           flex-direction: column;
           overflow-y: auto;
           overflow-x: hidden;
+
+          ::-webkit-scrollbar {
+            display: block;
+          }
         `}
       >
         <ActionItemsList currentTab={currentTab} />

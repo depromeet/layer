@@ -15,19 +15,35 @@ import { useGetActionItemList } from "@/hooks/api/actionItem/useGetActionItemLis
 import { useTabs } from "@/hooks/useTabs.ts";
 import { DefaultLayout } from "@/layout/DefaultLayout.tsx";
 import { formatOnlyDate } from "@/utils/date";
+import { useGetPersonalActionItemList } from "@/hooks/api/actionItem/useGetPersonalActionItemList";
 
 export function GoalViewPage() {
-  const { tabs, curTab, selectTab } = useTabs(["실행중", "지난"] as const);
+  const { tabs, curTab, selectTab } = useTabs(["팀", "개인"] as const);
   const memberId = Cookies.get(COOKIE_KEYS.memberId);
-  const { data, isLoading } = useGetActionItemList({ memberId: Number(memberId) });
-  const filteredItems = data?.actionItems?.filter(
-    (item) => (curTab === tabs[0] && item.status === status[0]) || (curTab === tabs[1] && item.status === status[1]),
-  );
-  const hasNonEmptyActionItems = filteredItems?.some((item) => item.actionItemList && item.actionItemList.length > 0);
+
+  const isTeamTab = curTab === "팀";
+  const isPersonalTab = curTab === "개인";
+
+  // 개인 목표
+  const { data: personalGoal, isLoading: isLoadingPersonalGoal } = useGetPersonalActionItemList({
+    options: { enabled: !!memberId && isPersonalTab, select: (data) => data.actionItems },
+  });
+  // 팀 목표
+  const { data: teamGoal, isLoading: isLoadingTeamGoal } = useGetActionItemList({
+    memberId: Number(memberId),
+    options: { enabled: !!memberId && isTeamTab, select: (data) => data.actionItems },
+  });
+
+  const filteredItem = (() => {
+    if (isPersonalTab) return { data: personalGoal ?? [], loading: isLoadingPersonalGoal };
+    return { data: teamGoal ?? [], loading: isLoadingTeamGoal };
+  })();
+
+  const hasNonEmptyActionItems = filteredItem?.data?.length > 0;
 
   return (
     <Fragment>
-      {isLoading && <LoadingModal />}
+      {filteredItem.loading && <LoadingModal />}
       <DefaultLayout
         theme="gray"
         height="6.4rem"
@@ -51,7 +67,7 @@ export function GoalViewPage() {
           `}
         >
           {hasNonEmptyActionItems
-            ? filteredItems?.map((item) =>
+            ? filteredItem?.data?.map((item) =>
                 item.actionItemList.length ? (
                   <ActionItemBox
                     key={item.retrospectId}
@@ -66,7 +82,7 @@ export function GoalViewPage() {
                   />
                 ) : null,
               )
-            : !isLoading && <NotActionItemBoxData />}
+            : !filteredItem?.loading && <NotActionItemBoxData />}
         </div>
       </DefaultLayout>
     </Fragment>

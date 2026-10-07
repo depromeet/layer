@@ -78,15 +78,20 @@ export function Modal() {
               text-align: center;
             `}
           >
-            <HeaderProvider
-              onlyContainerStyle={css`
-                row-gap: 1.2rem;
-                padding-bottom: 0.8rem;
-              `}
-            >
-              <HeaderProvider.Subject contents={modalDataState.title} type="modal" />
-              <HeaderProvider.Description contents={modalDataState.contents} />
-            </HeaderProvider>
+            {/* contents가 문자열이 아니면 제목까지 포함해 호출부가 직접 그린 것으로 보고 그대로 렌더해요. */}
+            {typeof modalDataState.contents === "string" ? (
+              <HeaderProvider
+                onlyContainerStyle={css`
+                  row-gap: 1.2rem;
+                  padding-bottom: 0.8rem;
+                `}
+              >
+                <HeaderProvider.Subject contents={modalDataState.title} type="modal" />
+                <HeaderProvider.Description contents={modalDataState.contents} />
+              </HeaderProvider>
+            ) : (
+              modalDataState.contents
+            )}
             {modalDataState.overrideActionElements ?? (
               <div
                 css={css`

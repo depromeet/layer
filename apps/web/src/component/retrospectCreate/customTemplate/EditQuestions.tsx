@@ -75,6 +75,7 @@ export function EditQuestions({ goNext, goPrev }: EditQuestionsProps) {
       isNewForm: isEdited,
       hasChangedOriginal: !isDefaultExtended,
       questions: newQuestions,
+      formName: !isDefaultExtended ? "커스텀 템플릿" : prev.formName,
     }));
   };
 

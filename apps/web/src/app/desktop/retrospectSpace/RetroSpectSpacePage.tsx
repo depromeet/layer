@@ -101,7 +101,12 @@ export default function RetroSpectSpacePage() {
           display: none;
           gap: 2.4rem;
           flex: 1;
-          overflow-y: auto;
+          overflow-x: auto;
+          overflow-y: hidden;
+
+          ::-webkit-scrollbar {
+            display: block;
+          }
 
           @media (max-width: 979px) {
             display: flex;
@@ -113,6 +118,8 @@ export default function RetroSpectSpacePage() {
             display: flex;
             flex-direction: column;
             gap: 4rem;
+            min-width: 64.6rem;
+            min-height: 0;
           `}
         >
           <InProgressRetrospects />

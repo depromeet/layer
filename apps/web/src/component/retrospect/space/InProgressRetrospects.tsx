@@ -12,12 +12,12 @@ import RetrospectCard from "@/app/desktop/component/home/RetrospectCard";
 import { LoadingSpinner } from "@/component/space/view/LoadingSpinner";
 import { useSetAtom } from "jotai";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
-import { useModal } from "@/hooks/useModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
-import { useActionModal } from "@/hooks/useActionModal";
 import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
-import { TemplateChoice } from "@/app/desktop/component/retrospect/choice";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
+import { isSpaceLeader } from "@/utils/userUtil";
 
 export default function InProgressRetrospects() {
   const { spaceId: rawSpaceId } = useParams();
@@ -28,10 +28,9 @@ export default function InProgressRetrospects() {
 
   // * 스페이스 정보 조회
   const { data: spaceInfo } = useQuery(useApiOptionsGetSpaceInfo(spaceId));
+  const isLeader = isSpaceLeader(spaceInfo?.leader.id);
 
-  const { open } = useModal();
   const { openFunnelModal } = useFunnelModal();
-  const { openActionModal } = useActionModal();
 
   const setRetrospectValue = useSetAtom(retrospectInitialState);
 
@@ -45,25 +44,11 @@ export default function InProgressRetrospects() {
         templateId: spaceInfo.formId,
       }));
 
-      open({
-        title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
-        contents: "",
-        options: {
-          buttonText: ["재설정", "진행하기"],
-        },
-        onConfirm: () => {
-          openFunnelModal({
-            title: "",
-            step: "retrospectCreate",
-            contents: <RetrospectCreate />,
-          });
-        },
-        onClose: () => {
-          openActionModal({
-            title: "",
-            contents: <TemplateChoice />,
-          });
-        },
+      trackEvent(GA_EVENTS.RETROSPECT.ADD);
+      openFunnelModal({
+        title: "",
+        step: "retrospectCreate",
+        contents: <RetrospectCreate />,
       });
     }
   };
@@ -123,17 +108,19 @@ export default function InProgressRetrospects() {
           >
             {"진행 중인 회고가 비어있어요\n회고를 작성해 보세요!"}
           </Typography>
-          <button
-            css={css`
-              padding: 0.8rem 1.2rem;
-              border-radius: 0.8rem;
-              border: 1px solid ${DESIGN_TOKEN_COLOR.gray400};
-              color: ${DESIGN_TOKEN_COLOR.gray700};
-            `}
-            onClick={handleRetrospectCreate}
-          >
-            회고 추가하기
-          </button>
+          {isLeader && (
+            <button
+              css={css`
+                padding: 0.8rem 1.2rem;
+                border-radius: 0.8rem;
+                border: 1px solid ${DESIGN_TOKEN_COLOR.gray400};
+                color: ${DESIGN_TOKEN_COLOR.gray700};
+              `}
+              onClick={handleRetrospectCreate}
+            >
+              회고 추가하기
+            </button>
+          )}
         </div>
       ) : (
         <div
@@ -146,6 +133,10 @@ export default function InProgressRetrospects() {
             overflow-y: auto;
             overflow-x: hidden;
             padding-bottom: 2rem;
+
+            ::-webkit-scrollbar {
+              display: block;
+            }
           `}
         >
           {proceedingRetrospects.map((retrospect) => (

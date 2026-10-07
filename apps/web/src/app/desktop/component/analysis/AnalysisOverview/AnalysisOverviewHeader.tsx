@@ -2,9 +2,7 @@ import { Icon } from "@/component/common/Icon";
 import { Typography } from "@/component/common/typography";
 import SpaceManageToggleMenu from "@/component/space/edit/SpaceManageToggleMenu";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
-import { useActionModal } from "@/hooks/useActionModal";
 import { useFunnelModal } from "@/hooks/useFunnelModal";
-import { useModal } from "@/hooks/useModal";
 import { retrospectInitialState } from "@/store/retrospect/retrospectInitial";
 import { currentSpaceState } from "@/store/space/spaceAtom";
 import { DESIGN_TOKEN_COLOR } from "@/style/designTokens";
@@ -13,17 +11,16 @@ import { css } from "@emotion/react";
 import { useQuery } from "@tanstack/react-query";
 import { useAtomValue, useSetAtom } from "jotai";
 import { RetrospectCreate } from "../../retrospectCreate";
-import { TemplateChoice } from "../../retrospect/choice";
 import { TemplateList } from "../../retrospect/template/list";
 import MemberManagement from "@/component/retrospect/space/members/MemberManagement";
 import { useState } from "react";
 import ActionItems from "./ActionItems";
 import { useTemporarySave } from "@/hooks/useTemporarySave";
+import { GA_EVENTS } from "@/lib/google-analytics/events";
+import { trackEvent } from "@/lib/google-analytics";
 
 export default function AnalysisOverviewHeader() {
-  const { open } = useModal();
   const { openFunnelModal } = useFunnelModal();
-  const { openActionModal } = useActionModal();
 
   // 실행목표 토글 상태
   const [actionItemToggle, setActionItemToggle] = useState(false);
@@ -51,25 +48,11 @@ export default function AnalysisOverviewHeader() {
         templateId: spaceInfo.formId,
       }));
 
-      open({
-        title: "전에 진행했던 템플릿이 있어요!\n계속 진행하시겠어요?",
-        contents: "",
-        options: {
-          buttonText: ["재설정", "진행하기"],
-        },
-        onConfirm: () => {
-          openFunnelModal({
-            title: "",
-            step: "retrospectCreate",
-            contents: <RetrospectCreate />,
-          });
-        },
-        onClose: () => {
-          openActionModal({
-            title: "",
-            contents: <TemplateChoice />,
-          });
-        },
+      trackEvent(GA_EVENTS.RETROSPECT.ADD);
+      openFunnelModal({
+        title: "",
+        step: "retrospectCreate",
+        contents: <RetrospectCreate />,
       });
     }
   };

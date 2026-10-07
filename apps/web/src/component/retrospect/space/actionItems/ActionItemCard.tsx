@@ -170,10 +170,6 @@ export default function ActionItemCard({ spaceId, retrospectId, title, deadline,
           variant="body12SemiBold"
           color="gray800"
           css={css`
-            display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
@@ -217,7 +213,7 @@ export default function ActionItemCard({ spaceId, retrospectId, title, deadline,
                 key={todo.actionItemId}
                 css={css`
                   display: flex;
-                  align-items: center;
+                  align-items: flex-start;
                   gap: 0.6rem;
                 `}
               >
@@ -228,9 +224,16 @@ export default function ActionItemCard({ spaceId, retrospectId, title, deadline,
                     border-radius: 50%;
                     background-color: ${DESIGN_TOKEN_COLOR.gray400};
                     flex-shrink: 0;
+                    margin-top: 0.8rem;
                   `}
                 />
-                <Typography variant="body14Medium" color="gray900">
+                <Typography
+                  variant="body14Medium"
+                  color="gray900"
+                  css={css`
+                    overflow-wrap: anywhere;
+                  `}
+                >
                   {todo.content}
                 </Typography>
               </div>

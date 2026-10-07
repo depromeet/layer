@@ -1,4 +1,4 @@
-import Lottie from "lottie-react";
+import { Lottie } from "@/lib/lottie-react-compat";
 import { Fragment } from "react";
 
 import { F, KPT, MadSadGlad, PMI, SSC, Untitled } from "@/assets/imgs/template";

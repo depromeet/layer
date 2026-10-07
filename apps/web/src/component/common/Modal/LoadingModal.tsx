@@ -1,10 +1,10 @@
 import { Z_INDEX } from "@/style/zIndex";
 import { css } from "@emotion/react";
-import Lottie from "lottie-react";
 import { useEffect } from "react";
 
 import loading from "@/assets/lottie/modal/loading/loading.json";
 import { Portal } from "@/component/common/Portal";
+import { Lottie } from "@/lib/lottie-react-compat";
 import { useBridge } from "@/lib/provider/bridge-provider";
 import { ANIMATION } from "@/style/common/animation.ts";
 
