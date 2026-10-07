@@ -73,7 +73,7 @@ export function QuestionsOverview({ isAnswerFilled, hasChanges, onSaveTemporary,
         {/* -------- 질문 리스트 UI------- */}
         <ul
           css={css`
-            padding: 0 0.8rem 0.8rem;
+            padding: 0.8rem;
             flex: 1;
             overflow-y: auto;
             min-height: 0;

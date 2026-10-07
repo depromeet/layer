@@ -133,6 +133,10 @@ export default function InProgressRetrospects() {
             overflow-y: auto;
             overflow-x: hidden;
             padding-bottom: 2rem;
+
+            ::-webkit-scrollbar {
+              display: block;
+            }
           `}
         >
           {proceedingRetrospects.map((retrospect) => (
