@@ -17,6 +17,7 @@ import { RetrospectCreate } from "@/app/desktop/component/retrospectCreate";
 import { useApiOptionsGetSpaceInfo } from "@/hooks/api/space/useApiOptionsGetSpaceInfo";
 import { GA_EVENTS } from "@/lib/google-analytics/events";
 import { trackEvent } from "@/lib/google-analytics";
+import { isSpaceLeader } from "@/utils/userUtil";
 
 export default function InProgressRetrospects() {
   const { spaceId: rawSpaceId } = useParams();
@@ -27,6 +28,7 @@ export default function InProgressRetrospects() {
 
   // * 스페이스 정보 조회
   const { data: spaceInfo } = useQuery(useApiOptionsGetSpaceInfo(spaceId));
+  const isLeader = isSpaceLeader(spaceInfo?.leader.id);
 
   const { openFunnelModal } = useFunnelModal();
 
@@ -106,17 +108,19 @@ export default function InProgressRetrospects() {
           >
             {"진행 중인 회고가 비어있어요\n회고를 작성해 보세요!"}
           </Typography>
-          <button
-            css={css`
-              padding: 0.8rem 1.2rem;
-              border-radius: 0.8rem;
-              border: 1px solid ${DESIGN_TOKEN_COLOR.gray400};
-              color: ${DESIGN_TOKEN_COLOR.gray700};
-            `}
-            onClick={handleRetrospectCreate}
-          >
-            회고 추가하기
-          </button>
+          {isLeader && (
+            <button
+              css={css`
+                padding: 0.8rem 1.2rem;
+                border-radius: 0.8rem;
+                border: 1px solid ${DESIGN_TOKEN_COLOR.gray400};
+                color: ${DESIGN_TOKEN_COLOR.gray700};
+              `}
+              onClick={handleRetrospectCreate}
+            >
+              회고 추가하기
+            </button>
+          )}
         </div>
       ) : (
         <div
@@ -129,6 +133,10 @@ export default function InProgressRetrospects() {
             overflow-y: auto;
             overflow-x: hidden;
             padding-bottom: 2rem;
+
+            ::-webkit-scrollbar {
+              display: block;
+            }
           `}
         >
           {proceedingRetrospects.map((retrospect) => (
