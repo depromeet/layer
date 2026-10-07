@@ -7,6 +7,7 @@ import { AdvanceQuestionsNum, PhaseContext } from "@/app/mobile/write/Retrospect
 import { Button, ButtonProvider } from "@/component/common/button";
 import { HeaderProvider } from "@/component/common/header";
 import { Icon } from "@/component/common/Icon";
+import { KakaoAdFit } from "@/component/common/KakaoAdFit";
 import { LoadingModal } from "@/component/common/Modal/LoadingModal.tsx";
 import { Portal } from "@/component/common/Portal";
 import { ItemsButton } from "@/component/write/ItemsButton";
@@ -444,6 +445,8 @@ export function Write() {
             </Fragment>
           )}
         </div>
+
+        <KakaoAdFit />
 
         <ButtonProvider sort={"horizontal"}>
           {isComplete ? (
