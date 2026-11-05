@@ -22,6 +22,7 @@ import { useTemporarySave } from "@/hooks/useTemporarySave";
 import { useSetAtom } from "jotai";
 import { isRetrospectModifiedAtom } from "@/store/retrospect/retrospectWrite";
 import { useBlocker } from "react-router-dom";
+import { Beforeunload } from "react-beforeunload";
 import { trackEvent } from "@/lib/google-analytics";
 import { GA_EVENTS } from "@/lib/google-analytics/events";
 
@@ -295,6 +296,7 @@ export function WriteDialog({ isOverviewVisible, handleToggleOverview }: WriteDi
     <>
       {renderLoadingModal()}
       {renderModal()}
+      {hasChanges() && <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />}
       <div
         css={css`
           display: flex;

@@ -263,7 +263,7 @@ export function Write() {
     <Fragment>
       {renderLoadingModal()}
       {renderModal()}
-      <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />
+      {hasChanges() && <Beforeunload onBeforeunload={(event: BeforeUnloadEvent) => event.preventDefault()} />}
       <DefaultLayout
         theme={isComplete ? "gray" : "default"}
         RightComp={
