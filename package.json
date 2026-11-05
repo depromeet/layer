@@ -5,11 +5,13 @@
   "scripts": {
     "web": "pnpm -F @layer/web",
     "app": "pnpm -F @layer/mobile",
+    "landing": "pnpm -F @layer/landing",
     "dev": "pnpm -r --parallel run dev",
     "lint": "pnpm -r --parallel run lint",
     "build": "pnpm -r --parallel run build",
     "build:app": "pnpm build --filter=\"...{./apps/app}\"",
     "build:web": "pnpm build --filter=\"...{./apps/web}\"",
+    "build:landing": "pnpm build --filter=\"...{./apps/landing}\"",
     "version:patch": "lerna version patch --no-git-tag-version",
     "version:minor": "lerna version minor --no-git-tag-version",
     "version:major": "lerna version major --no-git-tag-version"
