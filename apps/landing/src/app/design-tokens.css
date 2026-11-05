@@ -1,0 +1,43 @@
+/* Layer web designTokens.ts values, adapted from its 10px rem base to 16px.
+   Keep the landing independent of the authenticated app's Emotion runtime. */
+:root {
+  --layer-gray-00: #ffffff;
+  --layer-gray-100: #f2f4f8;
+  --layer-gray-200: #edf0f4;
+  --layer-gray-300: #dfe3ea;
+  --layer-gray-700: #666b75;
+  --layer-gray-800: #454952;
+  --layer-gray-900: #212329;
+  --layer-blue-50: #f1f6ff;
+  --layer-blue-100: #e9f0ff;
+  --layer-blue-600: #6c9cfa;
+  --layer-blue-700: #415e96;
+  --layer-blue-800: #2b3e64;
+  --layer-green-100: #e2fcf0;
+  --layer-purple-100: #f6f5fe;
+  --layer-purple-700: #544d94;
+
+  /* Display is landing-only; headings and body follow Layer's current scale. */
+  --text-display: 2.5rem;
+  --text-heading: 1.75rem;
+  --text-subheading: 1.5rem;
+  --text-title: 1.25rem;
+  --text-body: 1rem;
+  --text-body-small: 0.875rem;
+  --text-caption: 0.75rem;
+  --radius-control: 0.75rem;
+  --radius-surface: 1rem;
+  --space-section: 5rem;
+  --space-layout: 2rem;
+  --shadow-surface: 0 4px 12px rgb(6 8 12 / 4%);
+}
+@media (max-width: 700px) {
+  :root {
+    --text-display: 2rem;
+    --text-heading: 1.5rem;
+    --text-subheading: 1.25rem;
+    --text-title: 1.125rem;
+    --space-section: 3.5rem;
+    --space-layout: 1.25rem;
+  }
+}
